@@ -371,7 +371,7 @@ void debuglogger(int component, int level, const DeviceInfo * info, const string
 				
 		// print the formatted message in color
 		if (log_method & LOG_METHOD_VT100)
-			printf("%c[%d;%dm%s%c[%d;%dm%s\n%c[0;%dm", ESC, ATTR_BRIGHT, COLOR_BLACK, context.c_str(), ESC, level_to_attrib(level), level_to_color(level), content.c_str(), ESC, COLOR_WHITE);
+			printf("%c[%d;%dm%s%c[%d;%dm%s\n%c[%dm", ESC, ATTR_BRIGHT, COLOR_BLACK, context.c_str(), ESC, level_to_attrib(level), level_to_color(level), content.c_str(), ESC, ATTR_RESET);
 		
 		// syslog the message
 		if (log_method & LOG_METHOD_SYSLOG)
