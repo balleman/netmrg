@@ -176,19 +176,6 @@ struct RRDInfo
 #include <netmrg-misc.cc>
 
 
-// file_exists
-// 
-// evaluates to true if filename specifies an existing file
-
-int file_exists(string filename)
-{
-	struct stat file_stat;
-
-	stat(filename.c_str(), &file_stat);
-
-	return S_ISREG(file_stat.st_mode);
-}
-
 // rrd_cmd
 //
 // issues a command to RRDTOOL via the RRDTOOL pipe, and logs it
@@ -573,6 +560,21 @@ string expand_parameters(DeviceInfo info, string input)
 	return input;
 }
 
+string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
+{
+	string test_result = "U";
+	
+	switch(info.test_id)
+	{
+		case 1:		test_result = count_file_lines(info);	
+				break;
+
+		default:	debuglogger(DEBUG_MONITOR, &info, "Unknown Internal Test (" + inttostr(info.test_id) + ")");
+	}
+
+	return test_result;
+}
+
 string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 {
         MYSQL           test_mysql;
@@ -749,6 +751,9 @@ void process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
                 case  3:        info.curr_val = process_sql_monitor(info, mysql);
                                 break;
 
+		case  4:	info.curr_val = process_internal_monitor(info, mysql);
+				break;
+
 		default:	{
 					debuglogger(DEBUG_MONITOR, &info, "Unknown test type (" +
 						inttostr(info.test_type) + ").");
@@ -851,10 +856,10 @@ void process_sub_device(DeviceInfo info, MYSQL *mysql)
 	{
 		mysql_row = mysql_fetch_row(mysql_res);
 
-		info.monitor_id = strtoint(mysql_row[9]);
-		info.test_type  = strtoint(mysql_row[5]);
-		info.test_id	= strtoint(mysql_row[6]);
-		info.test_params= mysql_row[7];
+		info.monitor_id		= strtoint(mysql_row[9]);
+		info.test_type  	= strtoint(mysql_row[5]);
+		info.test_id		= strtoint(mysql_row[6]);
+		info.test_params	= mysql_row[7];
 
 		if (mysql_row[8] != NULL)
 		{

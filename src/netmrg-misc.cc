@@ -18,7 +18,9 @@ long long int get_snmp_uptime(DeviceInfo info)
                 strcpy(unparsed,uptime.c_str());
                 parsed = strtok(unparsed, "()");
                 return strtoint(string(parsed));
-        } else {
+        }
+	else
+	{
                 return 0;
         }
 
@@ -42,44 +44,3 @@ void snmp_recache(int device_id)
         system(command.c_str());
 
 } // end snmp_recache
-
-// get_snmp_index_value - translate info into index using lookup table
-string get_snmp_index_value(string table, string index, string type, string value, string device)
-{
-
-        MYSQL mysql;
-        MYSQL_RES *res;
-        MYSQL_ROW row;
-        string query, ret;
-        char temp[250];
-        ret = "-1";
-pthread_mutex_lock(&mysql_lock);
-    if (!(mysql_connect(&mysql,"localhost","netmrgwrite","netmrgwrite")))
-        exiterr(1);
-pthread_mutex_unlock(&mysql_lock);
-    if (mysql_select_db(&mysql,"netmrg"))
-        exiterr(2);
-        query = "SELECT " + index + " FROM " + table + " WHERE dev_id=";
-        query += device;
-        query += " AND ";
-        query += type;
-        query += "=\"";
-        query += value;
-        query += "\"";
-        if (!(mysql_query(&mysql,query.c_str()))) {
-            if (res = mysql_store_result(&mysql)) {
-
-                                        row = mysql_fetch_row(res);
-                                if (mysql_num_rows(res) > 0) {
-                                        ret = row[0];
-                                        }
-                                        mysql_free_result(res);
-
-                                        }
-                                        }
-
-            mysql_close(&mysql);
-                return ret;
-
-}
-

@@ -261,14 +261,18 @@ function get_short_monitor_name($mon_id)
 	switch($mon_row["test_type"])
 	{
 		case 1:
-			$test_query = "SELECT name FROM tests_script WHERE id = " . $mon_row["test_id"];
+			$test_query = "SELECT name FROM tests_script   WHERE id = " . $mon_row["test_id"];
 			break;
 		case 2:
-			$test_query = "SELECT name FROM tests_snmp   WHERE id = " . $mon_row["test_id"];
+			$test_query = "SELECT name FROM tests_snmp     WHERE id = " . $mon_row["test_id"];
 			break;
 		case 3:
-			$test_query = "SELECT name FROM tests_sql    WHERE id = " . $mon_row["test_id"];
+			$test_query = "SELECT name FROM tests_sql      WHERE id = " . $mon_row["test_id"];
 			break;
+		case 4:
+			$test_query = "SELECT name FROM tests_internal WHERE id = " . $mon_row["test_id"];
+			break;
+
 	} // end switch test type
 
 	$test_row = mysql_fetch_array(do_query($test_query));
