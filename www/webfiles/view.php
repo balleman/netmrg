@@ -11,7 +11,10 @@
 
 
 require_once("../include/config.php");
-view_check_auth($_REQUEST["object_id"], $_REQUEST["object_type"]);
+if (isset($_REQUEST["object_id"]) && isset($_REQUEST["object_type"]))
+{
+	view_check_auth($_REQUEST["object_id"], $_REQUEST["object_type"]);
+}
 
 $slideshow = false;
 
@@ -114,6 +117,8 @@ if (!empty($_REQUEST["action"]))
 			$_REQUEST["object_type"] = $myr["object_type"];
 			$_REQUEST["object_id"] = $myr["object_id"];
 			$_REQUEST["slide"] = 0;
+			header("Location: {$_SERVER['PHP_SELF']}?action=slideshow&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&slide={$_REQUEST['slide']}");
+			exit(0);
 		}
 		$slideshow = true;
 		unset($_REQUEST['action']);
