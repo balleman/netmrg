@@ -89,6 +89,7 @@ if (!empty($pagename)) {
 	</td>
 </tr>
 </table>
+<small><br></small>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
 	<td class="empty" valign="top"><img src="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/img/trans.gif" width="4" height="1" alt="trans gif"></td>

@@ -26,7 +26,8 @@ monitors.php:
   add javascript check so you can't enter a minimum < maximum
 format.php
   no more $custom_add_link!
-
+ability for user to change their own password
+a device's type can affect the list of tests that can be performed on it
 
 == silfreed ==
 design public website
@@ -55,9 +56,9 @@ fast-fourier transforms for what data 'should look like'
 themes/skins for UI and graphs
   - I'd like to see a neon theme ;)
 distributed netmrg
-  - have other netmrg installs that can report back to a master install that 
+  - have other netmrg installs that can report back to a master install that
     maintains all the rrd files.
   - how to delegate tasks: have the master keep a list of tasks for the slaves,
-    and have the slaves get them periodically?  this will require the 
+    and have the slaves get them periodically?  this will require the
     installations to be named
 
