@@ -214,7 +214,7 @@ function display()
 			$apply_template_link = "&nbsp;" . 
 				formatted_link("Apply Template To...", "{$_SERVER['PHP_SELF']}?action=applytemplates&graph[$graph_id]=on");
 			$apply_template_link_multi = "&nbsp;&nbsp;" .
-				'&lt;<a class="editheaderlink" onclick="document.form.action.value="applytemplates";document.form.submit();" href="#">Apply Templates</a>&gt;';
+				'&lt;<a class="editheaderlink" onclick="document.form.action.value=\'applytemplates\';document.form.submit();" href="#">Apply Templates</a>&gt;';
 		}
 		else
 		{
