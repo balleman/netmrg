@@ -260,9 +260,21 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	make_edit_checkbox("Show Maximum Value", "show_maximum", isin($ds_row["stats"], "MAXIMUM"));
 	make_edit_checkbox("Show Only Integers", "show_integer", isin($ds_row["stats"], "INTEGER"));
 	make_edit_checkbox("Show Sums",		 "show_sums",    isin($ds_row["stats"], "SUMS"));
-	make_edit_group("Advanced");
-	make_edit_text("Start Time", "start_time", "20", "20", $ds_row["start_time"]);
-	make_edit_text("End Time", "end_time", "20", "20", $ds_row["end_time"]);
+	if (!empty($_REQUEST["showadvanced"]))
+	{
+		make_edit_group("Advanced");
+		make_edit_text("Start Time", "start_time", "20", "20", $ds_row["start_time"]);
+		make_edit_text("End Time", "end_time", "20", "20", $ds_row["end_time"]);
+	} // end if we want advanced options shown
+	else
+	{
+		$graphlink = 'graph_items.php?showadvanced=true';
+		if (!empty($_SERVER["QUERY_STRING"]))
+		{
+			$graphlink .= '&'.$_SERVER["QUERY_STRING"];
+		} // end if query string not empty
+		make_edit_group('<a class="editheaderlink" href="'.$graphlink.'">[Show Advanced]</a>');
+	} // end if no advanced options
 
 	make_edit_hidden("action", "doedit");
 	make_edit_hidden("graph_id", $ds_row["graph_id"]);
