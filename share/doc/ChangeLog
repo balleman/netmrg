@@ -1,3 +1,6 @@
+2003.12.13  v0.10  balleman
+  - bug#0000127 - unauthorized users can view/edit on test_*.php pages
+
 2003.12.05  v0.10  balleman
   - rework slideshow/view.php to implement many enhancements
 
