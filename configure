@@ -2886,6 +2886,8 @@ echo "$as_me: error: $ac_sub_configure failed for $ac_dir" >&2;}
 fi
 
 
+perl subst etc/cron.d-netmrg
+perl subst etc/init.d-netmrg
 perl subst etc/netmrg.conf
 perl subst etc/netmrg.xml
 perl subst src/include/netmrg.h

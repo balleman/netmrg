@@ -167,7 +167,7 @@ netmrg_share_bindstats_DATA = contrib/bindstats/dnsstats*
 
 # options to install files in the share/doc directory
 netmrg_share_docdir = $(datadir)/doc/$(PACKAGE)-$(VERSION)
-netmrg_share_doc_DATA = INSTALL README share/doc/*.sgml share/doc/ChangeLog share/doc/LICENSE share/doc/TODO share/doc/txt/netmrg.txt share/doc/txt/INSTALL share/doc/txt/RELEASE-NOTES share/doc/txt/UPGRADE
+netmrg_share_doc_DATA = INSTALL README share/doc/*.sgml share/doc/ChangeLog share/doc/LICENSE share/doc/TODO share/doc/txt/netmrg.txt share/doc/txt/INSTALL share/doc/txt/RELEASE-NOTES share/doc/txt/UPGRADE etc/cron.d-netmrg etc/init.d-netmrg
 
 # html documentation
 netmrg_share_htmldir = $(datadir)/doc/$(PACKAGE)-$(VERSION)/html
