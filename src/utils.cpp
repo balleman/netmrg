@@ -12,6 +12,7 @@
 #include <sys/types.h>
 
 #include "utils.h"
+#include "db.h"
 
 // file_exists
 //
@@ -52,7 +53,6 @@ string token_replace(string &source, string token, string value)
 	}
 
 	return source;
-
 }
 
 // u_string - cast a string into a u_char array
@@ -193,26 +193,19 @@ string count_file_lines(DeviceInfo info)
 	return inttostr(linecount);
 }
 
-void U_to_NULL(string *input)
+void U_to_NULL(string & input)
 {
-	if ((*input) == "U")
+	if (input == "U")
 	{
-		(*input) = "NULL";
+		input = "NULL";
 	}
 	else
 	{
-		(*input) = string("'") + (*input) + string("'");
+		input = string("'") + db_escape(input) + string("'");
 	}
 }
 
 uint worstof(uint a, uint b)
 {
-	if (a > b)
-	{
-		return a;
-	}
-	else
-	{
-		return b;
-	}
+	return (a > b) ? a : b;
 }

@@ -290,12 +290,23 @@ void external_snmp_recache(int device_id, int type)
 	MYSQL_ROW	mysql_row;
 	DeviceInfo	info;
 
-	db_connect(&mysql);
+	if (!db_connect(&mysql))
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Critical: Master database connection failed.");
+		exit(3);
+	}
+	
 	info.device_id = device_id;
 
 	mysql_res = db_query(&mysql, &info, "SELECT ip, snmp_read_community, snmp_enabled FROM devices WHERE id=" + inttostr(device_id));
 	mysql_row = mysql_fetch_row(mysql_res);
 
+	if (mysql_row == NULL)
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, &info, "Device does not exist.");
+		exit(1);
+	}
+	
 	if (strtoint(mysql_row[2]) != 1)
 	{
 		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, &info, "Can't recache a device without SNMP.");

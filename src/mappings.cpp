@@ -28,7 +28,7 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 	{
 		string ifIndex = (*current).value;
 		string ifName  = snmp_get(*info, "ifName."  + ifIndex);
-		string ifDescr = snmp_get(*info, "ifDescr." + ifIndex);			U_to_NULL(&ifDescr);
+		string ifDescr = snmp_get(*info, "ifDescr." + ifIndex);
 		// use CatOS port name in place of ifAlias
 		string ifAlias;
 		if (catos)
@@ -49,23 +49,25 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 		{
 			ifAlias = snmp_get(*info, "ifAlias." + ifIndex);
 		}
-		U_to_NULL(&ifAlias);
-		U_to_NULL(&ifName);
+		U_to_NULL(ifAlias);
+		U_to_NULL(ifName);
+		U_to_NULL(ifDescr);
 		string ifType  = snmp_get(*info, "ifType."  + ifIndex);
-		string ifMAC   = snmp_get(*info, "ifPhysAddress." + ifIndex);           U_to_NULL(&ifMAC);
+		string ifMAC   = snmp_get(*info, "ifPhysAddress." + ifIndex);
+		U_to_NULL(ifMAC);
 		string ifOperStatus  = snmp_get(*info, "ifOperStatus."  + ifIndex);
 		string ifAdminStatus = snmp_get(*info, "ifAdminStatus." + ifIndex);
 
 		db_update(mysql, info, string("INSERT INTO snmp_interface_cache SET ")  +
-			"dev_id = " 		+ inttostr((*info).device_id) 	+ ", "  +
-			"ifIndex = '"		+ ifIndex 			+ "', " +
-			"ifName = "			+ ifName			+ ", "  +
-			"ifDescr = "		+ ifDescr			+ ", "  +
-			"ifAlias = "		+ ifAlias			+ ", "  +
-			"ifType = '"		+ ifType			+ "', " +
-			"ifMAC = "			+ ifMAC				+ ", "  +
-			"ifOperStatus = '" 	+ ifOperStatus		+ "', " +
-			"ifAdminStatus = '" + ifAdminStatus		+ "'");
+			"dev_id = " 		+ inttostr((*info).device_id)		+ ", "  +
+			"ifIndex = '"		+ ifIndex							+ "', " +
+			"ifName = "			+ ifName							+ ", "  +
+			"ifDescr = "		+ ifDescr							+ ", "  +
+			"ifAlias = "		+ ifAlias							+ ", "  +
+			"ifType = '"		+ ifType							+ "', " +
+			"ifMAC = "			+ ifMAC								+ ", "  +
+			"ifOperStatus = '" 	+ ifOperStatus						+ "', " +
+			"ifAdminStatus = '" + ifAdminStatus						+ "'");
 
 	}
 
@@ -93,8 +95,8 @@ void do_snmp_disk_recache(DeviceInfo *info, MYSQL *mysql)
 	for (list<SNMPPair>::iterator current = ifIndexList.begin(); current != ifIndexList.end(); current++)
 	{
 		string dskIndex  = (*current).value;
-		string dskPath   = snmp_get(*info, "dskPath."   + dskIndex);	U_to_NULL(&dskPath);
-		string dskDevice = snmp_get(*info, "dskDevice." + dskIndex);	U_to_NULL(&dskDevice);
+		string dskPath   = snmp_get(*info, "dskPath."   + dskIndex);	U_to_NULL(dskPath);
+		string dskDevice = snmp_get(*info, "dskDevice." + dskIndex);	U_to_NULL(dskDevice);
 
 		db_update(mysql, info, string("INSERT INTO snmp_disk_cache SET ")  +
 			"dev_id = " 		+ inttostr((*info).device_id) 	+ ", "  +
