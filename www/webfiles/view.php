@@ -64,7 +64,7 @@ if (!empty($_REQUEST["action"]))
 	elseif ($_REQUEST["action"] == "move")
 	{
 		$query = do_query("
-			SELECT 	graph_id, pos
+			SELECT 	id, pos
 			FROM 	view
 			WHERE 	object_id={$_REQUEST['object_id']}
 			AND 	object_type='{$_REQUEST['object_type']}'
@@ -79,8 +79,8 @@ if (!empty($_REQUEST["action"]))
 				if (($_REQUEST['id'] - 1) == $i)
 				{
 					$next_row = mysql_fetch_array($query);
-					do_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND graph_id = {$row['graph_id']}");
-					do_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND graph_id = {$next_row['graph_id']}");
+					do_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$row['id']}");
+					do_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$next_row['id']}");
 					break;
 				}
 			}
@@ -89,8 +89,8 @@ if (!empty($_REQUEST["action"]))
 				if ($_REQUEST['id'] == $i)
 				{
 					$next_row = mysql_fetch_array($query);
-					do_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND graph_id = {$row['graph_id']}");
-					do_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND graph_id = {$next_row['graph_id']}");
+					do_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$row['id']}");
+					do_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$next_row['id']}");
 					break;
 				}
 			}
