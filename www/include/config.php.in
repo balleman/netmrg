@@ -31,12 +31,12 @@ $GLOBALS["netmrg"]["dbwritepass"]       = "netmrgwrite";
 // Path Config
 $GLOBALS["netmrg"]["rrdtool"]           = "/usr/bin/rrdtool";
 $GLOBALS["netmrg"]["rrdroot"]           = "@prefix@/var/lib/netmrg/rrd";
-$GLOBALS["netmrg"]["fileroot"]          = "@prefix@/var/www/netmrg";
+$GLOBALS["netmrg"]["fileroot"]          = "@prefix@/var/www/netmrg/";
 $GLOBALS["netmrg"]["binary"]            = "@exec_prefix@/bin/netmrg-gatherer";
 $GLOBALS["netmrg"]["webhost"]           = "http://localhost";
 $GLOBALS["netmrg"]["webroot"]           = "/netmrg";
 $GLOBALS["netmrg"]["staticimagedir"]    = "{$GLOBALS['netmrg']['webroot']}/img";
-$GLOBALS["netmrg"]["imagebasedir"]      = "{$GLOBALS['netmrg']['fileroot']}/images/default";
+$GLOBALS["netmrg"]["imagebasedir"]      = "{$GLOBALS['netmrg']['fileroot']}/webfiles/images/default";
 
 // Authentication Config
 $GLOBALS["netmrg"]["externalAuth"]      = false;
