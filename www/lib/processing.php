@@ -694,13 +694,19 @@ function duplicate_response($rsp_id, $new_parent = "event_id")
 
 function delete_group($group_id)
 {
-
-	// delete the graph
+	// get group info
+	$grp_info_handle = db_query("SELECT * FROM groups WHERE id='$group_id'");
+	$grp_info = db_fetch_array($grp_info_handle);
+	
+	// reparent children groups
+	db_query("UPDATE groups SET parent_id = '{$grp_info['parent_id']}' WHERE parent_id = '$group_id'");
+	
+	// delete the group
 	db_query("DELETE FROM groups WHERE id='$group_id'");
-
+	
 	// delete the associated graphs
 	db_query("DELETE FROM view WHERE object_type='group' AND object_id='$group_id'");
-
+	
 	// get devices in this group
 	$devs_in_grp_handle = db_query("SELECT dev_id FROM dev_parents WHERE grp_id='$group_id'");
 	$devs_in_grp = array();
