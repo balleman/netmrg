@@ -370,14 +370,14 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 		string ifOperStatus  = snmp_get(*info, "ifOperStatus."  + ifIndex);
 		string ifAdminStatus = snmp_get(*info, "ifAdminStatus." + ifIndex);
 
-		db_update(mysql, info, string("INSERT INTO snmp_interface_cache SET ") +
-			"dev_id = " 		+ inttostr((*info).device_id) 	+ ", " +
+		db_update(mysql, info, string("INSERT INTO snmp_interface_cache SET ")  +
+			"dev_id = " 		+ inttostr((*info).device_id) 	+ ", "  +
 			"ifIndex = '"		+ ifIndex 			+ "', " +
-			"ifName = "		+ ifName			+ ", " +
-			"ifDescr = "		+ ifDescr			+ ", " +
-			"ifAlias = "		+ ifAlias			+ ", " +
+			"ifName = "		+ ifName			+ ", "  +
+			"ifDescr = "		+ ifDescr			+ ", "  +
+			"ifAlias = "		+ ifAlias			+ ", "  +
 			"ifSpeed = '"		+ ifSpeed			+ "', " +
-			"ifMAC = "		+ ifMAC				+ ", " +
+			"ifMAC = "		+ ifMAC				+ ", "  +
 			"ifOperStatus = '" 	+ ifOperStatus			+ "', " +
 			"ifAdminStatus = '" 	+ ifAdminStatus			+ "'");
 
@@ -385,14 +385,14 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 
 	list<SNMPPair> ifIPList = snmp_walk(*info, "ipAdEntIfIndex");
 	ifIPList = snmp_trim_rootoid(ifIPList, ".1.3.6.1.2.1.4.20.1.2.");
-	
+
         for (list<SNMPPair>::iterator current = ifIPList.begin(); current != ifIPList.end(); current++)
 	{
 	 	string ip 	= (*current).oid;
 		string ifIndex	= (*current).value;
-		
+
 		db_update(mysql, info, string("UPDATE snmp_interface_cache SET ifIP = '") +
-			ip + "' WHERE dev_id=" + inttostr((*info).device_id) + 
+			ip + "' WHERE dev_id=" + inttostr((*info).device_id) +
 			" AND ifIndex=" + ifIndex);
 	}
 }
@@ -558,31 +558,37 @@ void setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 
 		if ((*current).name == "ifIndex")
 		{
-			index = "if_index";
+			index = "ifIndex";
                 	break;
 		}
 		else
 		if ((*current).name == "ifName")
 		{
-			index = "if_name";
+			index = "ifName";
 			break;
 		}
 		else
 		if ((*current).name == "ifDescr")
 		{
-			index = "if_desc";
+			index = "ifDescr";
 			break;
 		}
 		else
 		if ((*current).name == "ifAlias")
 		{
-			index = "if_alias";
+			index = "ifAlias";
 			break;
 		}
 		else
 		if ((*current).name == "ifIP")
 		{
-			index = "if_ip";
+			index = "ifIP";
+			break;
+		}
+		else
+		if ((*current).name == "ifMAC")
+		{
+			index = "ifMAC";
 			break;
 		}
 
@@ -595,7 +601,7 @@ void setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 	else
 	{
                 string query =
-		string("SELECT if_index, if_name, if_ip, if_desc, if_alias FROM snmp_cache WHERE dev_id=") +
+		string("SELECT ifIndex, ifName, ifIP, ifDescr, ifAlias, ifMAC FROM snmp_interface_cache WHERE dev_id=") +
 		inttostr((*info).device_id) + string(" AND ") + index + "=\"" + value + "\"";
 
                 mysql_res = db_query(mysql, info, query);
@@ -604,27 +610,27 @@ void setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 		{
 		        mysql_row = mysql_fetch_row(mysql_res);
 
-		        if ((mysql_row[0] != NULL) && (index != "if_index"))
+		        if ((mysql_row[0] != NULL) && (index != "ifIndex"))
 		        {
         		        (*info).parameters.push_front(ValuePair("ifIndex", mysql_row[0]));
 		        }
 
-		        if ((mysql_row[1] != NULL) && (index != "if_name"))
+		        if ((mysql_row[1] != NULL) && (index != "ifName"))
 		        {
         		        (*info).parameters.push_front(ValuePair("ifName", mysql_row[1]));
 		        }
 
-		        if ((mysql_row[2] != NULL) && (index != "if_ip"))
+		        if ((mysql_row[2] != NULL) && (index != "ifIP"))
 		        {
         		        (*info).parameters.push_front(ValuePair("ifIP", mysql_row[2]));
 		        }
 
-		        if ((mysql_row[3] != NULL) && (index != "if_desc"))
+		        if ((mysql_row[3] != NULL) && (index != "ifDescr"))
 		        {
         		        (*info).parameters.push_front(ValuePair("ifDescr", mysql_row[3]));
 		        }
 
-		        if ((mysql_row[4] != NULL) && (index != "if_alias"))
+		        if ((mysql_row[4] != NULL) && (index != "ifAlias"))
 		        {
         		        (*info).parameters.push_front(ValuePair("ifAlias", mysql_row[4]));
 		        }
