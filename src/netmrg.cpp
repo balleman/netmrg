@@ -306,7 +306,7 @@ int main(int argc, char **argv)
 {
 	int option_char;
 	load_settings_default();
-	load_settings_file(CONFIG_FILE);
+	//load_settings_file(CONFIG_FILE);
 
 	while ((option_char = getopt(argc, argv, "hvqi:d:c:l:H:D:u:p:t:C:")) != EOF)
 		switch (option_char)
