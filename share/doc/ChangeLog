@@ -1,5 +1,6 @@
 2003.07.14  v0.8  silfreed
   - posted beta.netmrg.net to be live at www.netmrg.net
+  - added makecvssnap to create cvs snapshots
 
 2003.07.07  v0.8  silfreed
   - bug#0000005: where id != '$grp_id' should do the trick

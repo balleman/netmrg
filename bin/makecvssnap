@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# makecvssnap
+#
+# gets the latest cvs tree and tars it up as $date
+#
+
+progname="netmrg"
+version=`date +'%Y.%m.%d'`
+this="$progname-$version"
+tmpdir="/tmp"
+pkgdir="/tmp"
+
+cd $pkgdir
+
+rm -rf $progname
+rm -f $this.tar.gz
+
+cvs -Q -d :pserver:anonymous@cvs.netmrg.net:/var/cvsroot co -r HEAD $progname
+tar czf $this.tar.gz $progname
+
+rm -rf $progname
+mv -f $this.tar.gz $pkgdir
+
