@@ -1,0 +1,3 @@
+# run NetMRG every 5 minutes if enabled
+*/5 * * * netmrg bash -c "if [ -f /var/lock/subsys/netmrg ]; then /usr/bin/netmrg_cron.sh; fi"
+

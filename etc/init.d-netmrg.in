@@ -1,0 +1,71 @@
+#!/bin/bash
+#
+# NetMRG        This shell script enables the running of NetMRG via cron
+#
+# Author:       Douglas E. Warner <silfreed@netmrg.net>
+#
+# chkconfig:	- 50 01
+#
+# description:  Enable NetMRG run via cron
+# processname:  netmrg
+# config: /etc/netmrg/netmrg.xml
+#
+
+# source function library
+. /etc/rc.d/init.d/functions
+
+prog="netmrg"
+lockfile="/var/lock/subsys/$prog"
+
+RETVAL=0
+
+start() {
+	echo -n $"Enabling NetMRG run via cron: "
+	touch "$lockfile" && success || failure
+	RETVAL=$?
+	echo
+}
+
+stop() {
+	echo -n $"Disabling NetMRG run via cron: "
+	rm -f "$lockfile" && success || failure
+	RETVAL=$?
+	echo
+}
+
+restart() {
+	stop
+	start
+}
+
+case "$1" in
+  start)
+	start
+	;;
+  stop) 
+	stop
+	;;
+  restart|force-reload)
+	restart
+	;;
+  reload)
+	;;
+  condrestart)
+	[ -f "$lockfile" ] && restart
+	;;
+  status)
+	if [ -f $lockfile ]; then
+		echo $"NetMRG run via cron is enabled."
+		RETVAL=0
+	else
+		echo $"NetMRG run via cron is disabled."
+		RETVAL=3
+	fi
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|status|restart|reload|force-reload|condrestart}"
+	exit 1
+esac
+
+exit $RETVAL
+
