@@ -74,14 +74,43 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 	// clear cache for this device
 	db_update(mysql, info, "DELETE FROM snmp_interface_cache WHERE dev_id=" + inttostr((*info).device_id));
 
+	// this is a hack to see if we're on a CatOS platform
+	string sysdescr = snmp_get(*info, "system.sysDescr.0");
+	bool catos = false;
+	if (sysdescr.find("WS-C") != string::npos)
+		catos = true;
+
 	list<SNMPPair> ifIndexList = snmp_walk(*info, "ifIndex");
 
 	for (list<SNMPPair>::iterator current = ifIndexList.begin(); current != ifIndexList.end(); current++)
 	{
 		string ifIndex = (*current).value;
-		string ifName  = snmp_get(*info, "ifName."  + ifIndex);			U_to_NULL(&ifName);
+		string ifName  = snmp_get(*info, "ifName."  + ifIndex);
 		string ifDescr = snmp_get(*info, "ifDescr." + ifIndex);			U_to_NULL(&ifDescr);
-		string ifAlias = snmp_get(*info, "ifAlias." + ifIndex);			U_to_NULL(&ifAlias);
+		// use CatOS port name in place of ifAlias
+		string ifAlias;
+		if (catos)
+		{
+			// CatOS port names are indexed by slot and port, not by ifIndex
+			int slash_pos = ifName.find("/");
+			int slot = strtoint(ifName.substr(0, slash_pos));
+			int port = strtoint(ifName.substr(slash_pos +  1, ifName.length() - 1));
+			//debuglogger(DEBUG_SNMP, info, "'" + ifName + "', " + inttostr(slash_pos) + ", " + inttostr(slot) + ", " + inttostr(port));
+			if ( (slot != 0) && (port != 0) )
+			{
+				ifAlias = snmp_get(*info, ".1.3.6.1.4.1.9.5.1.4.1.1.4." + inttostr(slot) + "." + inttostr(port));
+				ifAlias.erase(0, 1);
+				ifAlias.erase(ifAlias.length() - 1, 1);
+			}
+			
+		
+		}
+		else
+		{
+			ifAlias = snmp_get(*info, "ifAlias." + ifIndex);
+		}
+		U_to_NULL(&ifAlias);
+		U_to_NULL(&ifName);
 		string ifType  = snmp_get(*info, "ifType."  + ifIndex);
 		string ifMAC   = snmp_get(*info, "ifPhysAddress." + ifIndex);           U_to_NULL(&ifMAC);
 		string ifOperStatus  = snmp_get(*info, "ifOperStatus."  + ifIndex);
