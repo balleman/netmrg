@@ -10,85 +10,63 @@
 use strict;
 
 
-## variables
-my $cvs = 'cvs -d :pserver:anonymous@cvs.netmrg.net:/var/cvsroot';
-my %cvsfiles = (
-	"netmrg.sgml"   => "netmrg/share/doc/netmrg.sgml",
-	"netmrg.dsl"    => "netmrg/share/doc/netmrg.dsl",
-	"netmrgdoc.css" => "netmrg/share/doc/netmrgdoc.css",
-	"netmrg-logo-small.png"  => "netmrg/share/doc/netmrg-logo-small.png",
-	"netmrg-logo-medium.png" => "netmrg/share/doc/netmrg-logo-medium.png",
+### variables ###
+our $baseurl = 'http://svn.netmrg.net';
+our %docfiles = (
+	"netmrg.sgml"   => "share/doc/netmrg.sgml",
+	"netmrg.dsl"    => "share/doc/netmrg.dsl",
+	"netmrgdoc.css" => "share/doc/netmrgdoc.css",
+	"netmrg-logo-small.png"  => "share/doc/netmrg-logo-small.png",
+	"netmrg-logo-medium.png" => "share/doc/netmrg-logo-medium.png",
 );
+our $updatever = "trunk";
 my $docfolder = "/tmp";
-my @versions = ();
 
 
-## forward declairations
-sub GetTags();
+
+### forward declairations ###
 
 
-## main
-@versions = GetTags();
-foreach my $ver (@versions)
+### main ###
+
+# accept a new version via command line
+$updatever = $ARGV[0] if ($ARGV[0] && $ARGV[0] ne "");
+
+
+# figure out our pretty version (for directory name)
+my $prettyver = $updatever;
+if ($updatever eq "trunk")
 {
-	# make sure our doc directory exists
-	my $curdir = "$docfolder/$ver";
-	`rm -rf $curdir` if ( -d $curdir);
-	mkdir ($curdir);
-
-	# co each cvs file
-	for my $shortdocfile (keys(%cvsfiles))
-	{
-		my $docfile = $cvsfiles{$shortdocfile};
-		my $doccontents = `$cvs co -p -r $ver -p $docfile 2> /dev/null`;
-		open (DOC, ">$curdir/$shortdocfile");
-		print DOC $doccontents;
-		close (DOC);
-	} # end foreach cvs file
-
-	# run docbook2html on the file
-	if (-s "$curdir/netmrg.dsl")
-	{
-		`docbook2html -d $curdir/netmrg.dsl#html $curdir/netmrg.sgml -o $curdir`;
-	}
-	else
-	{
-		`docbook2html $curdir/netmrg.sgml -o $curdir`;
-		symlink("$curdir/book1.html", "$curdir/index.html");
-	}
-	
-	if ($ver eq "HEAD")
-	{
-		`rm -rf "$docfolder/CVSHEAD"`;
-		rename("$docfolder/$ver", "$docfolder/CVSHEAD");
-	} # end if head
-	elsif ($ver =~ /^netmrg-(\d+)\_(\S+)/)
-	{
-		`rm -rf "$docfolder/NetMRG-$1.$2"`;
-		rename("$docfolder/$ver", "$docfolder/NetMRG-$1.$2");
-	} # end if ver looks like netmrg-0_10
-} # end foreach version
-
-
-## subroutines
-
-##
-# GetTags();
-#
-sub GetTags()
+	$prettyver = "Trunk";
+} # end if trunk
+elsif ($updatever =~ /netmrg-(\d+)_(\d+\w+?)(_(\d+\w+?))?/)
 {
-	my @tags = ("HEAD");
-	my @rlog = split(/\n/, `$cvs rlog netmrg/share/doc/netmrg.sgml`);
-	my $symnames = 0;
-	
-	foreach my $line (@rlog)
-	{
-		$symnames = 1 if ($line =~ /symbolic names/);
-		last if ($line =~ /keyword sub/);
-		push(@tags, $1) if ($symnames && $line =~ /^\s+(.*?):.*$/);
-	} # end foreach line
+	$prettyver =~ s/netmrg/NetMRG/;
+	$prettyver =~ s/_/\./g;
+} # end if netmrg-(version)
+else
+{
+	exit(1);
+} # end if something else we don't recognize
 
-	return @tags;
-} # end GetTags();
 
+# make sure our doc directory exists
+my $docdir = "$docfolder/$prettyver";
+`rm -rf $docdir` if ( -d $docdir);
+mkdir ($docdir);
+
+
+# co each doc file
+for my $shortdocfile (keys(%docfiles))
+{
+	my $midurl = ($updatever eq "trunk" ? $updatever : "branches/$updatever");
+	my $docfile = $docfiles{$shortdocfile};
+	my $doccontents = `svn cat $baseurl/$midurl/$docfile 2> /dev/null`;
+	open (DOC, ">$docdir/$shortdocfile");
+	print DOC $doccontents;
+	close (DOC);
+} # end foreach file
+
+# run docbook2html on the file
+`docbook2html -d $docdir/netmrg.dsl#html $docdir/netmrg.sgml -o $docdir`;
 

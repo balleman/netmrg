@@ -2,6 +2,7 @@
   - merging silbranch from r1104:1125
   - bug#0000381: Update source tree items that use cvs to make things happen
   - bug#0000379: Snapshots need to be made of the source trees
+  - bug#0000380: Documentation needs auto-generated from source tree 
 
 2005.02.22  v0.18.2  silfreed
   - updated lists.netmrg.net to phpBB 2.0.12

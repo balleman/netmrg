@@ -86,6 +86,7 @@ version bump in:
 generate new template database
 update docs w/ release notes
 generate new docs
+  makedoctree <branch name>: makedoctree netmrg-0_18_2
 test tutorial
 test upgrade from previous version
 branch CVS (ex: netmrg-0_10)
