@@ -461,8 +461,8 @@ make any changes to your installation.
 	of web-based services, only needing to set up application-specific permissions in each application.
 	</para>
 	<para>
-	To enable external authentication, edit <filename>config.php</filename> and set 
-	<computeroutput>externalAuth</computeroutput> to <computeroutput>true</computeroutput>.
+	To enable external authentication, edit <filename>netmrg.xml</filename> and set 
+	<computeroutput>externalAuth</computeroutput> to <userinput>true</userinput>.
 	</para>
 </chapter>
 <chapter>
