@@ -1,6 +1,7 @@
 2004.05.21  v0.16cvs  silfreed
   - bug#0000203 - when submitting a group 0 (root) on users.php, there was a notice
   - default error reporting should be warnings and errors
+  - version bump to 0.16cvs
 
 2004.05.20  v0.15cvs  balleman
   - doc updates for grpdev_list

@@ -69,7 +69,8 @@ $dbupdates = array(
 "ALTER TABLE user ADD CONSTRAINT UNIQUE user (user);"
 	), // end 0.13
 	"0.14" => array(), // end 0.14
-	"0.15" => array() // end 0.15
+	"0.15" => array(), // end 0.15
+	"0.16cvs" => array() // end 0.16cvs
 ); // end $dbupdates;
 
 // check what to do
