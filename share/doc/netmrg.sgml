@@ -195,7 +195,7 @@ Event are met, the appropriate response is performed.
 	<para>Specific instructions to satisfy dependencies for certain platforms are presented below.  They should be used more as suggestions, not necessarily step-by-step instructions.  You may need to do more than what is listed, or much less, depending on the options you selected when installing your operating system.</para>
 	<itemizedlist>
 		<listitem>
-			<para><ulink url="http://www.redhat.com/"><application>Red Had Linux</application></ulink></para>
+			<para><ulink url="http://www.redhat.com/"><application>Red Hat Linux</application></ulink></para>
 			<itemizedlist>
 				<listitem><para>In order to satisfy the libstdc++ requirement, Redhat 8.0 or above is required.  NetMRG may not be stable on older versions of libstdc++.</para></listitem>
 				<listitem>
