@@ -1,7 +1,6 @@
 == showstoppers for 0.9 ==
 graph templating
 device duplication
-responses
 more detailed INSTALL
 more detailed README
 Usage information (description of every page)
@@ -48,7 +47,6 @@ make svg images for most actions
 
 == balleman ==
 graph templates
-make responses work
 netmrg.cc
   more comprehensive way of setting debug levels needed
   

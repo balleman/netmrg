@@ -239,6 +239,25 @@ void do_snmp_disk_recache(DeviceInfo *info, MYSQL *mysql)
 
 void process_responses(DeviceInfo info, MYSQL *mysql)
 {
+        MYSQL_RES	*mysql_res;
+	MYSQL_ROW	mysql_row;
+
+	string query = 	string("SELECT	notifications.command, responses.parameters, responses.id ") 	+
+			string("FROM	responses, notifications ")			+
+			string("WHERE	responses.event_id=") + inttostr(info.event_id) + " " +
+			string("AND	responses.notification_id=notifications.id");
+
+	mysql_res = db_query(mysql, &info, query);
+
+	for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
+	{
+		mysql_row = mysql_fetch_row(mysql_res);
+		info.response_id = strtoint(mysql_row[2]);
+		string command = string(mysql_row[0]) + " " + string(mysql_row[1]);
+		debuglogger(DEBUG_RESPONSE, &info, "Running Response: " + command);
+		system(command.c_str());
+	}
+
 }
 
 uint process_condition(DeviceInfo info, long long int compare_value, int value_type, int condition)
@@ -335,9 +354,9 @@ uint process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_sta
 		{
 			db_update(mysql, &info, "UPDATE events SET last_triggered=UNIX_TIMESTAMP(NOW()), last_status=1 WHERE id=" + inttostr(info.event_id));
 			db_update(mysql, &info, "INSERT INTO event_log SET date=UNIX_TIMESTAMP(NOW()), time_since_last_change=UNIX_TIMESTAMP(NOW())-" + inttostr(last_triggered) + ", event_id=" + inttostr(info.event_id));
-		}
 
-		process_responses(info, mysql);
+			process_responses(info, mysql);
+		}
 
 		return 1;
 	}

@@ -17,12 +17,10 @@
 
 */
 
-#define DS_APP_DONT_FIX_PDUS 0
-
-#include <ucd-snmp/ucd-snmp-config.h>
-#include <ucd-snmp/ucd-snmp-includes.h>
-#include <ucd-snmp/system.h>
-#include <ucd-snmp/mib.h>
+#include <net-snmp/net-snmp-config.h>
+#include <net-snmp/net-snmp-includes.h>
+#include <net-snmp/config_api.h>
+#include <net-snmp/mib_api.h>
 
 #include "utils.h"
 #include "locks.h"
@@ -35,8 +33,9 @@ void snmp_init()
 	SOCK_STARTUP;
 	struct snmp_session session;
 	snmp_sess_init(&session);
-	ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_OIDS);
-	ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_ENUM);
+	
+	netsnmp_ds_set_int(NETSNMP_DS_LIBRARY_ID, NETSNMP_DS_LIB_OID_OUTPUT_FORMAT, NETSNMP_OID_OUTPUT_NUMERIC);
+	netsnmp_ds_set_boolean(NETSNMP_DS_LIBRARY_ID, NETSNMP_DS_LIB_PRINT_NUMERIC_ENUM, 1);
 }
 
 void snmp_cleanup()
@@ -47,8 +46,15 @@ void snmp_cleanup()
 
 string snmp_value(string input)
 {
-	input = input.erase(0, input.find(":",0) + 1);
-	input = input.erase(0, input.find("=",0) + 1);
+	//uint size = input.length() + 1;
+
+	//while (input.length() < size)
+	//{
+	//	size  = input.length();
+		input = input.erase(0, input.find(":",0) + 1);
+		input = input.erase(0, input.find("=",0) + 1);
+	//}
+
 	input = token_replace(input, " ", "");
 
 	return input;
@@ -65,7 +71,7 @@ string snmp_result(variable_list *vars)
 {
 	u_char         *buf = NULL;
 	size_t          buf_len = 256, out_len = 0;
-	
+
 	buf = (u_char *) calloc(buf_len, 1);
 	sprint_realloc_variable(&buf, &buf_len, &out_len, 1, vars->name, vars->name_length, vars);
 	string result = (char *)buf;
