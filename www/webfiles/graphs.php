@@ -163,7 +163,7 @@ function display()
 		}
 
 		make_display_item("editfield".(($graph_count-1)%2),
-			array("text" => $graph_row["title"], "href" => "graph_items.php?graph_id=$graph_id"),
+			array("text" => $graph_row["name"], "href" => "graph_items.php?graph_id=$graph_id"),
 			array("text" => formatted_link("View", "enclose_graph.php?type=custom&id=" . $graph_row["id"]) . "&nbsp;" .
 				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"]) . $apply_template_link),
 			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .

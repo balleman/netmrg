@@ -52,7 +52,7 @@ if ($_REQUEST["action"] == "doedit")
 
 	$_REQUEST['color'] = db_escape_string($_REQUEST['color']);
 	$_REQUEST['label'] = db_escape_string($_REQUEST['label']);
-	$_REQUEST['multiplier'] = $_REQUEST['multiplier'] * 1;
+	$_REQUEST['multiplier'] = db_escape_string($_REQUEST['multiplier']);
 	
 	$graph_ds_query = "$pre graph_ds
 		SET mon_id='{$_REQUEST['mon_id']}', color='{$_REQUEST['color']}', 
@@ -121,7 +121,7 @@ if (empty($_REQUEST["action"]))
 	GLOBAL $RRDTOOL_ITEM_TYPES;
 
 	// Change databases if necessary and then display list
-	begin_page("graph_items.php", "Graph Item");
+	begin_page("graph_items.php", "Graph Items");
 
 	js_confirm_dialog("del", "Are you sure you want to delete graph item ", "?", "{$_SERVER['PHP_SELF']}?action=dodelete&graph_id={$_REQUEST['graph_id']}&id=");
 
@@ -139,7 +139,7 @@ if (empty($_REQUEST["action"]))
 	$ds_total = db_num_rows($ds_results);
 	
 ?>
-	<img align="center" src="get_graph.php?type=custom&id=<?php echo $_REQUEST["graph_id"]; ?>"><br>
+	<img align="center" src="get_graph.php?type=custom&id=<?php echo $_REQUEST["graph_id"]; ?>"><br><br>
 <?php
 	make_display_table("Graph Items", "{$_SERVER['PHP_SELF']}?action=add&graph_id={$_REQUEST['graph_id']}&edit_monitor=1&position=" . ($ds_total + 1),
 		array("text" => "Label"),
