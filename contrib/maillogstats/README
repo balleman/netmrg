@@ -21,5 +21,25 @@ ml:3:respawn:/usr/local/bin/maillogfilter/maillogfilter /var/log/maillog-pipe.lo
 
 make sure you setup your mysql database with the table in maillog.mysql.
 
+To setup the NetMRG side of things, you'll need to add an SQL test.  The test
+I commonly use uses this query (be sure to fill in the rest of the info):
+SELECT %parameters% FROM maillogstats.stats WHERE hostname = '%mailloghost%'
+
+Then, I create a sub-device for the device that I want to monitor with a 
+parameter named 'mailloghost' and the hostname that shows up in your tables.
+When you add your monitors to this sub-device, add a parameters field for each 
+column you want to graph, I usually add a monitor for each of the following 
+columns as parameters:
+connect
+received
+delivered
+forwarded
+deferred
+bounced
+rejected
+
+Next, you'll want to create a template graph out of these using whatever colors, 
+etc that you want (see http://demo.netmrg.net/ for an example).
+
 If you experience any problems, be sure to demand your money back.
 
