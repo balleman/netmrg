@@ -73,9 +73,9 @@ function display()
 			array("text" => $grp_row["name"], "href" => $grp_href),
 			array("text" => $grp_row["comment"]),
 			array("text" => formatted_link("View",
-				"view.php?action=view&object_type=group&object_id={$grp_row['id']}") . "&nbsp;" .
-				formatted_link("Edit", "groups.php?action=edit&grp_id=$grp_id&parent_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
-				formatted_link("Delete", "javascript:del_grp('" . addslashes($grp_row["name"]) . "', '" . $grp_row["id"] . "')"))
+				"view.php?action=view&object_type=group&object_id={$grp_row['id']}", "", "view") . "&nbsp;" .
+				formatted_link("Edit", "groups.php?action=edit&grp_id=$grp_id&parent_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}", "", "edit") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del_grp('" . addslashes($grp_row["name"]) . "', '" . $grp_row["id"] . "')", "", "delete"))
 		); // end make_display_item();
 		$count++;
 	} // end while groups
@@ -156,10 +156,10 @@ function display()
 			array("text" => $dev_row["name"], "href" => "sub_devices.php?dev_id=$dev_id&tripid={$_REQUEST['tripid']}"),
 			array("text" => $availability),
 			array("text" => $links),
-			array("text" => formatted_link("View", "view.php?action=view&object_type=device&object_id=$dev_id") . "&nbsp;" .
-				formatted_link("Duplicate", "devices.php?action=duplicate&dev_id=$dev_id&grp_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
-				formatted_link("Edit", "devices.php?action=edit&dev_id=$dev_id&grp_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
-				formatted_link("Delete", "javascript:del_dev('" . addslashes($dev_row["name"]) . "', '" . $dev_row["id"] . "')"))
+			array("text" => formatted_link("View", "view.php?action=view&object_type=device&object_id=$dev_id", "", "view") . "&nbsp;" .
+				formatted_link("Duplicate", "devices.php?action=duplicate&dev_id=$dev_id&grp_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}", "", "duplicate") . "&nbsp;" .
+				formatted_link("Edit", "devices.php?action=edit&dev_id=$dev_id&grp_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}", "", "edit") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del_dev('" . addslashes($dev_row["name"]) . "', '" . $dev_row["id"] . "')", "", "delete"))
 		); // end make_display_item();
 		$count++;
 	} // end while devices

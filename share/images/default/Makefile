@@ -4,9 +4,13 @@ BATIK = batik-rasterizer
 FILES = status-unknown-trig.svg status-unknown-untrig.svg status-good-trig.svg status-good-untrig.svg status-warning-trig.svg status-warning-untrig.svg status-critical-trig.svg status-critical-untrig.svg viewgraph-on.svg viewgraph-off.svg
 
 all : $(FILES)
+	@$(BATIK) -h 15 applytemplate.svg
 	@$(BATIK) -h 15 edit.svg
+	@$(BATIK) -h 15 delete.svg
 	@$(BATIK) -h 15 disk.svg
+	@$(BATIK) -h 15 duplicate.svg
 	@$(BATIK) -h 15 slideshow.svg
+	@$(BATIK) -h 15 view.svg
 	@$(BATIK) -h 15 viewgraph-on.svg
 	@$(BATIK) -h 15 viewgraph-off.svg
 	@$(BATIK) -h 35 -d netmrg-logo-small.png netmrg-logo.svg

@@ -268,14 +268,23 @@ function get_image_by_name($img_name)
 	switch ($img_name)
 	{
 		// graphics
+		case "applytemplate" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['applytemplate']}";
+			break;
 		case "edit" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['edit']}";
 			break;
 		case "logo" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['logo']}";
 			break;
+		case "delete" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['delete']}";
+			break;
 		case "disk" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['disk']}";
+			break;
+		case "duplicate" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['duplicate']}";
 			break;
 		case "arrow-up" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow-up']}";
@@ -303,6 +312,9 @@ function get_image_by_name($img_name)
 			break;
 		case "slideshow" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['slideshow']}";
+			break;
+		case "view" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['view']}";
 			break;
 		case "viewgraph-on" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['viewgraph-on']}";

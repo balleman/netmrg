@@ -87,8 +87,8 @@ function do_display()
 		make_display_item("editfield".($i%2),
 			array("checkboxname" => "condition", "checkboxid" => $row['id']),
 			array("text" => $condition_name),
-			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}&tripid={$_REQUEST['tripid']}$nologic") . "&nbsp;" .
-				formatted_link("Delete", "javascript:del('" . $condition_name . "','" . $row['id'] . "')"))
+			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}&tripid={$_REQUEST['tripid']}$nologic", "", "edit") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('" . $condition_name . "','" . $row['id'] . "')", "", "delete"))
 		); // end make_display_item();
 	}
 	make_checkbox_command("", 4,

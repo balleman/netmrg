@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   id="svg660"
+   sodipodi:version="0.34"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="500pt"
+   height="500pt"
+   xml:space="preserve"
+   sodipodi:docbase="/home/silfreed"
+   sodipodi:docname="/home/silfreed/applytemplate.svg"><defs
+   id="defs662"><linearGradient
+   id="linearGradient675"><stop
+   style="stop-color:#3f3fc7;stop-opacity:1;"
+   offset="0"
+   id="stop676" /><stop
+   style="stop-color:#ffffff;stop-opacity:1;"
+   offset="1"
+   id="stop677" /></linearGradient><linearGradient
+   id="linearGradient665"><stop
+   style="stop-color:#ffb700;stop-opacity:1;"
+   offset="0"
+   id="stop666" /><stop
+   style="stop-color:#ffffff;stop-opacity:1;"
+   offset="1"
+   id="stop667" /></linearGradient><linearGradient
+   xlink:href="#linearGradient665"
+   id="linearGradient668"
+   x1="0.54629636"
+   y1="0.5390625"
+   x2="1.16666687"
+   y2="0.8828125" /><linearGradient
+   xlink:href="#linearGradient675"
+   id="linearGradient674"
+   x1="0.31249923"
+   y1="0.3359375"
+   x2="1.0703125"
+   y2="0.9609375" /></defs><sodipodi:namedview
+   id="base"
+   showgrid="true" /><path
+   style="font-size:12;fill:url(#linearGradient668);fill-rule:evenodd;stroke:#333333;stroke-opacity:1;stroke-width:6.25;stroke-dasharray:none;"
+   d="M 11.25 611.25 L 515 611.25 L 268.75 10 L 11.25 611.25 z "
+   id="path664"
+   sodipodi:nodetypes="cccc" /><path
+   style="font-size:12;fill:url(#linearGradient674);fill-rule:evenodd;fill-opacity:1;stroke:none;stroke-opacity:1;"
+   d="M 436.4256 186.25 L 436.4256 561.25 L 607.5 376.8492 L 436.4256 186.25 z M 176.25 302.469 L 176.25 458.9773 L 436.4256 458.9773 L 436.4256 302.469 L 176.25 302.469 z "
+   id="path673"
+   sodipodi:nodetypes="ccccccccc" /></svg>

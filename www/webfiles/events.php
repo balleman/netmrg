@@ -78,8 +78,8 @@ function do_display()
 			array("text" => $GLOBALS['SITUATIONS'][$row['situation']]),
 			array("text" => $triggered),
 			array("text" => formatted_link("Modify Conditions", "conditions.php?event_id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
-				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
-				formatted_link("Delete", "javascript:del('" . addslashes($row['name']) . "','" . $row['id'] . "')"))
+				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}&tripid={$_REQUEST['tripid']}", "", "edit") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('" . addslashes($row['name']) . "','" . $row['id'] . "')", "", "delete"))
 		); // end make_display_item();
 		$rowcount++;
 	} // end while rows left

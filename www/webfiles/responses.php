@@ -66,8 +66,8 @@ function display_list()
 			array("checkboxname" => "response", "checkboxid" => $row['id']),
 			array("text" => $row['name']),
 			array("text" => $row['parameters']),
-			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
-				formatted_link("Delete", "javascript:del('{$row['name']}','{$row['id']}')"))
+			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}&tripid={$_REQUEST['tripid']}", "", "edit") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('{$row['name']}','{$row['id']}')", "", "delete"))
 		); // end make_display_item();
 		$rowcount++;
 	}

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   id="svg625"
+   sodipodi:version="0.34"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="750pt"
+   height="500pt"
+   xml:space="preserve"
+   sodipodi:docbase="/home/silfreed"
+   sodipodi:docname="/home/silfreed/duplicate.svg"><defs
+   id="defs627"><linearGradient
+   id="linearGradient655"><stop
+   style="stop-color:#000;stop-opacity:1;"
+   offset="0"
+   id="stop656" /><stop
+   style="stop-color:#fff;stop-opacity:1;"
+   offset="1"
+   id="stop657" /></linearGradient><linearGradient
+   xlink:href="#linearGradient655"
+   id="linearGradient658" /></defs><sodipodi:namedview
+   id="base"
+   showgrid="true" /><rect
+   style="font-size:12;fill:#3f3fbf;fill-rule:evenodd;stroke:#333333;stroke-width:14.49743;fill-opacity:1;"
+   id="rect629"
+   width="562.499817"
+   height="562.5"
+   x="13.7499962"
+   y="13.7499301" /><rect
+   style="font-size:12;fill:#3f3fbf;fill-rule:evenodd;stroke:#333333;stroke-width:14.49743;fill-opacity:0.6641;"
+   id="rect659"
+   width="562.499817"
+   height="562.5"
+   x="361.25"
+   y="51.2499313" /><path
+   style="font-size:12;fill:#ff8400;fill-rule:evenodd;stroke-width:6.25;stroke:none;stroke-opacity:1;"
+   d="M 362.3855 120.7009 L 247.6717 264.7892 L 418.5646 392.4886 L 524.5283 248.4003 L 362.3855 120.7009 z M 605.7842 137.9526 L 345.2167 492.2819 L 648.7396 441.7874 L 605.7842 137.9526 z "
+   id="path654"
+   sodipodi:nodetypes="ccccccccc" /></svg>

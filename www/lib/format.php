@@ -1045,38 +1045,58 @@ function color_block($color)
 	return "<b class='colorbox' style='border:thin solid black;background-color:$color'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
 }
 
-function cond_formatted_link($enabled, $text, $link = "", $caption = "")
+function cond_formatted_link($enabled, $text, $link = "", $caption = "", $img = "")
 {
 	if ($enabled)
 	{
-		return formatted_link($text, $link, $caption);
+		return formatted_link($text, $link, $caption, $img);
 	}
 	else
 	{
-		return formatted_link_disabled($text);
+		return formatted_link_disabled($text, $img);
 	}
 }
 
-function formatted_link($text, $link, $caption = "")
+function formatted_link($text, $link, $caption = "", $img = "")
 {
-
 	$text = space_to_nbsp($text);
+	$returnstr = "";
 
-	if ($caption != "")
+	if (!empty($img))
 	{
-		return "&lt;<a href=\"$link\" title=\"$caption\">$text</a>&gt;";
-	}
+		$titletext = $text;
+		$titletext .= empty($caption) ? "" : " - $caption";
+
+		$returnstr = '<a href="'.$link.'">';
+		$returnstr .= '<img src="'.get_image_by_name($img).'" border="0" title="'.$titletext.'"alt="'.$titletext.'" />';
+		$returnstr .= '</a>';
+	} # end if image
 	else
 	{
-		return "&lt;<a href=\"$link\">$text</a>&gt;";
-	}
+		$returnstr = '&lt;<a href="'.$link.'"';
+		if (!empty($caption))
+		{
+			$returnstr .= ' title="'.$caption.'"';
+		} # end if caption
+		$returnstr .= '>'.$text.'</a>&gt;';
+	} # no image
 
+	return $returnstr;
 } // end formatted_link
 
-function formatted_link_disabled($text)
+function formatted_link_disabled($text, $img = "")
 {
-	return "&lt;$text&gt;";
+	$returnstr = "";
+	if (!empty($img))
+	{
+		$returnstr = '<img src="'.get_image_by_name($img).'" border="0" alt="'.$text.'" />';
+	} # end if image
+	else
+	{
+		$returnstr = "&lt;$text&gt;";
+	} # end if no image
 
+	return $returnstr;
 }  // end formatted_link_disabled
 
 function image_link($img_name, $title, $link)
