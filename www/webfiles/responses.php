@@ -140,7 +140,7 @@ function do_delete()
 			delete_response($key);
 		}
 	}
-	else
+	else if(isset($_REQUEST["id"]))
 	{
 		delete_response($_REQUEST['id']);
 	}

@@ -1,3 +1,6 @@
+2004.10.12  v0.17  keb
+  - bug#0000292 - checkbox delete gives errors in responses.php
+
 2004.10.08  v0.17  silfreed
   - bug#0000310 - need more graphics; started
 
