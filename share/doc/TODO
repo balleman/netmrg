@@ -1,3 +1,14 @@
+== showstoppers for 0.80.0 ==
+device_tree.php
+  - can't navigate monitors yet
+
+
+== before going public ==
+get new netmrg monitoring something (duo)
+find a bug/todo tracking system
+find a mailing list/message board
+
+
 == global ==
 prevent a group being its own parent (during editing)
 page titles should reflect where you're at
@@ -8,8 +19,6 @@ ability to go 'up' a level when browsing 'Groups' et al
 snmp_cache_view.php:
   "Make Graph" needs overhauled
 view page should reflect status information
-device_tree.php
-  - can't navigate monitors yet
 
 
 == silfreed ==
@@ -37,10 +46,6 @@ netmrg.cc
 mon_responses.php
   javascript delete action
 
-== before going public ==
-get new netmrg monitoring something (duo)
-find a bug/todo tracking system
-find a mailing list/message board
 
 == far-away features ==
 customized 'view' page
