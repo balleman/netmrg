@@ -274,6 +274,8 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 			$graphlink .= '&'.$_SERVER["QUERY_STRING"];
 		} // end if query string not empty
 		make_edit_group('<a class="editheaderlink" href="'.$graphlink.'">[Show Advanced]</a>');
+		make_edit_hidden("start_time", $ds_row["start_time"]);
+		make_edit_hidden("end_time", $ds_row["end_time"]);
 	} // end if no advanced options
 
 	make_edit_hidden("action", "doedit");
