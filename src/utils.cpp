@@ -539,7 +539,7 @@ string remove_nonnumerics(string input)
 	string temp;
 	for (string::size_type pos = 0; pos < input.length(); pos++)
 	{
-		if (isdigit(input[pos]) || (input[pos] == '.'))
+		if (isdigit(input[pos]) || (input[pos] == '.') || (input[pos] == '-'))
 			temp += input[pos];
 	}
 	return temp;
