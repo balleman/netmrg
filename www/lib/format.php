@@ -638,20 +638,10 @@ function make_edit_select_from_table($header, $name, $table_name, $selected, $se
 	{
 		make_edit_select_option($value, $key, ($key == $selected));
 	} // end while we have array list
-
-	$item_results = db_query("SELECT * FROM $table_name WHERE $where ORDER BY name,id");
-	$item_total = db_num_rows($item_results);
-
-	for ($item_count = 1; $item_count <= $item_total; ++$item_count)
-	{
-		$item_row  = db_fetch_array($item_results);
-		$item_name = $item_row["name"];
-		$item_id   = $item_row["id"];
-		$item_selected = ($item_id == $selected);
-
-		make_edit_select_option($item_name, $item_id, $item_selected);
-	} // end for
-
+	
+	// Draw Select Options from SQL table
+	DrawSelectOptionsFromSQL($table_name, $selected, $select_options="", $where="1");
+	
 	// loop through things to put @ the end of the select box
 	while (list($key, $value) = each($end_array_list))
 	{
@@ -660,6 +650,32 @@ function make_edit_select_from_table($header, $name, $table_name, $selected, $se
 
 	make_edit_select_end();
 } // end make_edit_select_end
+
+
+/**
+* Creates a select options with items named by the table's name field, and id'd by tables id field
+*
+* $table_name = mysql table field
+* $selected = row id to be selected (if any)
+* $select_options = things like javascript that apply to this select box
+* $where = where clause for query
+*/
+function DrawSelectOptionsFromSQL($table_name, $selected, $select_options="", $where="1")
+{
+	$item_results = db_query("SELECT * FROM $table_name WHERE $where ORDER BY name,id");
+	$item_total = db_num_rows($item_results);
+	
+	for ($item_count = 1; $item_count <= $item_total; ++$item_count)
+	{
+		$item_row  = db_fetch_array($item_results);
+		$item_name = $item_row["name"];
+		$item_id   = $item_row["id"];
+		$item_selected = ($item_id == $selected);
+		
+		make_edit_select_option($item_name, $item_id, $item_selected);
+	} // end for
+} // end DrawSelectOptionsFromSQL();
+
 
 /**
 * Makes edit control from an array
