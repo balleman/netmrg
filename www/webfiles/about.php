@@ -21,11 +21,7 @@ begin_page();
 
 <br><br>
 <div align="center">
-<a href="http://netmrg.net/">
-<font size="6" color="#000080"><b>NetMRG</b></font>
-</a>
-<br>
-
+<a href="http://netmrg.net/"><font size="6" color="#000080"><b>NetMRG</b></font></a><br>
 <big>
 <b>The Network Monitoring, Reporting, and Graphing Tool</b>
 <br><br>
