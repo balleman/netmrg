@@ -1,14 +1,35 @@
 == global ==
+netmrg.cc
+  most (all?) output from netmrg.cc should be debug output
+bug in database has 'Root' group in mon_devices having ID 1 (not 0)
+recache.php
+  A couple notices in snmp_caching.php on line 115
 deleting a device doesn't delete the dev_parents entries
+ability to go 'up' a level when browsing 'Groups' et al
+snmp_cache_view.php:
+  clicking 'graph item' next to interfaces (ie, eth0) doesn't 
+  link it with the device
+sub_devices.php: 
+  can't delete sub devices
 make custom_graphs.php delete action a javascript
-deleting a monitor doesn't work
+monitors.php:
+  deleting a monitor doesn't work
+  add javascript check so you can't enter a minimum < maximum
+sub_dev_param.php:
+  Notice: Undefined variable: sub_dev_id in /var/www/netmrg/www/sub_dev_param.php on line 25
+  DB_ERROR: Couldn't execute query:
+  SELECT name, value FROM sub_dev_variables WHERE sub_dev_id=
+  You have an error in your SQL syntax near '' at line 1
 page titles should reflect where you're at
 "show summed" support in custom_graphs.php
 redo custom_graphs.php to use unified add/edit code
 fix move-up/move-down in views and graph-items
 view page should reflect status information
+add support for 'unfiled' montiors (should only be things that were put 
+  in the database incorrectly)
 
 == silfreed ==
+move 'company' to config.php and use it in the header
 fix everything so register_globals can be off
 get auth w/ php sessions to work
   - include check for REMOTE_ADDR
