@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.21 $)
+AC_REVISION($Revision: 1.22 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -343,7 +343,7 @@ AC_CHECK_LIB(netsnmp, snmp_timeout,
 
 if test "$HAVE_NET_SNMP" = "no"; then
   AC_CHECK_LIB(snmp, snmp_timeout,,
-	AC_MSG_ERROR(Cannot find UCD-SNMP libraries))
+	AC_MSG_ERROR(Cannot find UCD-SNMP libraries),[-ldes])
 fi
 
 AC_CONFIG_FILES(Makefile)
