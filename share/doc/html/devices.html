@@ -1,0 +1,576 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>Devices</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.76b+
+"><LINK
+REL="HOME"
+TITLE="The NetMRG Reference"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Web Interface Descriptions"
+HREF="webpagedesc.html"><LINK
+REL="PREVIOUS"
+TITLE="Groups"
+HREF="groups.html"><LINK
+REL="NEXT"
+TITLE="Sub Devices"
+HREF="sub-devices.html"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The NetMRG Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="groups.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="sub-devices.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><H1
+><A
+NAME="DEVICES"
+></A
+>Devices</H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN642"
+></A
+><H2
+>Name</H2
+>Devices&nbsp;--&nbsp;A container for a collection of sub-devices</DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN645"
+></A
+><H2
+>Description</H2
+><DIV
+CLASS="REFSECT2"
+><A
+NAME="AEN647"
+></A
+><H3
+>List</H3
+><P
+>List of devices in a group; this is the default view when you click on a group name.</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Name</B
+></TT
+> - click on the name of the device to view the sub devices contained in it</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>SNMP Options</B
+></TT
+></P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>View Interface Cache</B
+></TT
+> - views a list of cached interfaces (interfaces and values that NetMRG knows about)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Recache Interfaces</B
+></TT
+> - recache the interface list (to get new ifAliases or new interfaces, for example)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>View Disk Cache</B
+></TT
+> - views a list of cached disks (disks and their values that NetMRG knows about)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Recache Disks</B
+></TT
+> - recache the list of disks (to get new disks or paths, for example)</P
+></LI
+></UL
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Add</B
+></TT
+> - add a new device or an existing device to this group</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>View</B
+></TT
+> - views graphs assocated with this device and allows you to edit what graphs are associated with the device</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Edit</B
+></TT
+> - edits parameters of a device</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Delete</B
+></TT
+> - deletes the device all sub-devices, monitors, etc underneath it</P
+></LI
+></UL
+></DIV
+><DIV
+CLASS="REFSECT2"
+><A
+NAME="AEN682"
+></A
+><H3
+>Add</H3
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Create a new device</B
+></TT
+> - creates a new device in the current group</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Add an existing device to this group</B
+></TT
+> - puts a link to an existing device in this group (does not copy it, just refers to it; they are the same device</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Device</B
+></TT
+> - Name of the device to add to this group</P
+></LI
+></UL
+></LI
+></UL
+></DIV
+><DIV
+CLASS="REFSECT2"
+><A
+NAME="AEN695"
+></A
+><H3
+>Edit</H3
+><P
+>Edit info about a device</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Name</B
+></TT
+> - Name of a device; commonly the hostname</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>IP or Hostname</B
+></TT
+> - IP address of the device, or hostname (must be resolvable by the monitoring box)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Device Type</B
+></TT
+> - type of device (currently not used)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Disabled</B
+></TT
+> - don't gather data for this box</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>This device uses SNMP</B
+></TT
+> - whether this device is SNMP Queriable</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>SNMP Read Community</B
+></TT
+> - The SNMPv1 community string for this device</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Do not cache interface mappings</B
+></TT
+> - Recache interfaces on every gather (in case indexes for interfaces change often)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Clear interface cache when interface count changes</B
+></TT
+> - An easier option to make the gatherer recache interfaces when the interface count changes (like when you add or remove a card from a router)</P
+></LI
+></UL
+></DIV
+><DIV
+CLASS="REFSECT2"
+><A
+NAME="AEN723"
+></A
+><H3
+>SNMP Cache View</H3
+><P
+>List of cached values for a device</P
+><DIV
+CLASS="REFSECT3"
+><A
+NAME="AEN726"
+></A
+><H4
+>Interface Cache</H4
+><P
+>List of Interfaces NetMRG knows about</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Index</B
+></TT
+> - SNMP ifIndex</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Status</B
+></TT
+> - SNMP ifAdminStatus/ifOperStatus</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Name</B
+></TT
+> - SNMP ifName</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Description</B
+></TT
+> - SNMP ifDescr</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Alias</B
+></TT
+> - SNMP ifAlias (commonly the 'description' field on routers and switches)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>IP Address</B
+></TT
+> - IP address of this interface</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>MAC Address</B
+></TT
+> - MAC address of this interface</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>View</B
+></TT
+> - View the graph for this interface (if monitored)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Monitors</B
+></TT
+> - View the monitors for this interface (if monitored)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Monitor/Graph</B
+></TT
+> - Choose to graph this interface (adds an interface subdevice based on ifDescr, adds monitors for ifInOctets, ifOutOctets, and ifInErrors for the subdevice, and assocates a graph with the device)</P
+></LI
+></UL
+></DIV
+><DIV
+CLASS="REFSECT3"
+><A
+NAME="AEN760"
+></A
+><H4
+>Disk Cache</H4
+><P
+>List of Disks NetMRG knows about</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Index</B
+></TT
+> - SNMP dskIndex</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Device</B
+></TT
+> - SNMP dskDevice</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Path</B
+></TT
+> - SNMP dskPath</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>View</B
+></TT
+> - View the graph for this disk (if monitored)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Monitors</B
+></TT
+> - View the monitors for this disk (if monitored)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Monitor/Graph</B
+></TT
+> - Choose to graph this disk (adds a disk subdevice based on dskPath, adds monitors for KB Used and KB Available for the subdevice, and assocates a graph with the device)</P
+></LI
+></UL
+></DIV
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="groups.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="sub-devices.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Groups</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="webpagedesc.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Sub Devices</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

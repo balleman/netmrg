@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+# makedocs
+#
+# makes docs and puts them in our doc dir
+# and in the root dir for text files
+#
+
+
+#HTML
+echo "Building HTML docs"
+docbook2html -d share/doc/netmrg.dsl#html -o share/doc/html share/doc/netmrg.sgml
+echo
+
+#MAN
+echo "Building MAN pages"
+docbook2man -d share/doc/netmrg.dsl#print -o share/doc/man share/doc/netmrg.sgml
+mv share/doc/man/*.1 share/doc/man/man1
+find share/doc/man -type f -maxdepth 1 -exec rm -f {} \;
+echo
+
+#TXT
+echo "Building TXT files"
+docbook2html -d share/doc/netmrg.dsl#html2txt -o share/doc/txt share/doc/netmrg.sgml
+txtfiles="install.html revisions.html upgrade.html"
+for i in $txtfiles ; do
+	links -dump share/doc/txt/$i | grep -v '   Link:' > share/doc/txt/$i.txt
+done
+rm -f share/doc/txt/*.html
+mv share/doc/txt/install.html.txt share/doc/txt/INSTALL
+cp share/doc/txt/INSTALL INSTALL
+mv share/doc/txt/revisions.html.txt share/doc/txt/RELEASE-NOTES
+cp share/doc/txt/RELEASE-NOTES RELEASE-NOTES
+mv share/doc/txt/upgrade.html.txt share/doc/txt/UPGRADE
+cp share/doc/txt/UPGRADE UPGRADE
+echo
+
+#README
+echo "Building README"
+docbook2txt -d share/doc/netmrg.dsl#html -o share/doc/txt share/doc/netmrg.sgml
+cp share/doc/txt/netmrg.txt README
+echo
+

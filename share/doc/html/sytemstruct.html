@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>System Structure</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.76b+
+"><LINK
+REL="HOME"
+TITLE="The NetMRG Reference"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Concepts"
+HREF="concepts.html"><LINK
+REL="PREVIOUS"
+TITLE="Concepts"
+HREF="concepts.html"><LINK
+REL="NEXT"
+TITLE="Monitoring and Reporting Concepts"
+HREF="monitorconcepts.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The NetMRG Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="concepts.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="monitorconcepts.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="SYTEMSTRUCT"
+></A
+>Chapter 3. System Structure</H1
+><P
+>The components of NetMRG.
+		<P
+></P
+><UL
+><LI
+><P
+>Gatherer</P
+><P
+>The Gatherer is a multi-threaded C++ program that interacts with the Database and RRDTOOL to gather and store data.  The program is run by cron, or another scheduling system of your choice, on five minute intervals.</P
+></LI
+><LI
+><P
+>Web Interface</P
+><P
+>The Web Interface consists of several PHP scripts, static HTML files and images, as well as CSS for formatting.  It interacts with the Database for the storage of configuration data and with RRDTOOL for the rendering of graphs for presentation.</P
+></LI
+><LI
+><P
+>Database</P
+><P
+>The Database is a relational database running on <A
+HREF="http://www.mysql.com/"
+TARGET="_top"
+><TT
+CLASS="APPLICATION"
+>MySQL</TT
+></A
+>.  It is utilized by the Web Interface and the Gatherer.</P
+></LI
+><LI
+><P
+>RRDTOOL</P
+><P
+><A
+HREF="http://www.rrdtool.org/"
+TARGET="_top"
+><TT
+CLASS="APPLICATION"
+>RRDTOOL</TT
+></A
+> is a graphing system based upon round-robin databases (RRDs).  It is used for both storing data into the databases and creating graphs using the databases.</P
+></LI
+><LI
+><P
+>RRDs</P
+><P
+>RRDs are the round-robin databases used by RRDTOOL.  They are individual files that are writable by the Gatherer and readable by the Web Interface.</P
+></LI
+></UL
+>
+	</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="concepts.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="monitorconcepts.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Concepts</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="concepts.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Monitoring and Reporting Concepts</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

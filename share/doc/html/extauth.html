@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>External Authentication</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.76b+
+"><LINK
+REL="HOME"
+TITLE="The NetMRG Reference"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Feature Guide"
+HREF="featureguide.html"><LINK
+REL="PREVIOUS"
+TITLE="Feature Guide"
+HREF="featureguide.html"><LINK
+REL="NEXT"
+TITLE="Workday Highlighting"
+HREF="highlight.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The NetMRG Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="featureguide.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="highlight.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="EXTAUTH"
+></A
+>Chapter 11. External Authentication</H1
+><P
+>	NetMRG handles authentication internally by default, checking passwords against 
+	its own database.  It is possible for NetMRG to use other systems for username/password 
+	authentication.  This is accomplished by handing off the authentication task to the HTTP server.
+	</P
+><DIV
+CLASS="NOTE"
+><P
+></P
+><TABLE
+CLASS="NOTE"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="./stylesheet-images/note.gif"
+HSPACE="5"
+ALT="Note"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>	You must still create accounts in NetMRG for each user when using external authentication in order
+	to assign them permissions and rights.
+	</P
+></TD
+></TR
+></TABLE
+></DIV
+><P
+>	Details on methods of authentication using the <A
+HREF="http://www.apache.org/"
+TARGET="_top"
+><TT
+CLASS="APPLICATION"
+>Apache</TT
+>
+	 web server</A
+> are available <A
+HREF="http://httpd.apache.org/docs-2.0/howto/auth.html"
+TARGET="_top"
+>here</A
+>.  
+	There are add-on modules for <TT
+CLASS="APPLICATION"
+>Apache</TT
+> that allow for various authentication mechanisms, 
+	including LDAP and custom database authentication systems.  Using <TT
+CLASS="APPLICATION"
+>Apache</TT
+>-based 
+	authentication, it is possible for an organization to maintain users and passwords in one location for a variety
+	of web-based services, only needing to set up application-specific permissions in each application.
+	</P
+><P
+>	To enable external authentication, edit <TT
+CLASS="FILENAME"
+>netmrg.xml</TT
+> and set 
+	<TT
+CLASS="COMPUTEROUTPUT"
+>externalAuth</TT
+> to <TT
+CLASS="USERINPUT"
+><B
+>true</B
+></TT
+>.
+	</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="featureguide.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="highlight.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Feature Guide</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="featureguide.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Workday Highlighting</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

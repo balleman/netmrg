@@ -1,0 +1,469 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>netmrg-gatherer</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.76b+
+"><LINK
+REL="HOME"
+TITLE="The NetMRG Reference"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Manual Pages"
+HREF="manpage.html"><LINK
+REL="PREVIOUS"
+TITLE="Manual Pages"
+HREF="manpage.html"><LINK
+REL="NEXT"
+TITLE="Web Interface Descriptions"
+HREF="webpagedesc.html"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The NetMRG Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="manpage.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="webpagedesc.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><H1
+><A
+NAME="NETMRG-GATHERER"
+></A
+>netmrg-gatherer</H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN459"
+></A
+><H2
+>Name</H2
+>netmrg-gatherer&nbsp;--&nbsp;Gathers data from devices.</DIV
+><DIV
+CLASS="REFSYNOPSISDIV"
+><A
+NAME="AEN462"
+></A
+><H2
+>Synopsis</H2
+><P
+><B
+CLASS="COMMAND"
+>/usr/local/bin/netmrg-gatherer</B
+> [OPTIONS]</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN466"
+></A
+><H2
+>Description</H2
+><P
+>				<B
+CLASS="COMMAND"
+>netmrg-gatherer</B
+> performs tests on all enabled hosts in NetMRG.  It will store results in RRD files using RRDTOOL(1) and perform actions in response to events.
+			</P
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><P
+><B
+>Global Options</B
+></P
+><DL
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-h</TT
+> </P
+></DT
+><DD
+><P
+>Displays usage information and exits.</P
+></DD
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-v</TT
+> </P
+></DT
+><DD
+><P
+>Displays software version and exits.</P
+></DD
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-t</TT
+> <TT
+CLASS="REPLACEABLE"
+><I
+>num threads</I
+></TT
+> </P
+></DT
+><DD
+><P
+>Run no more than the specified number of threads simultaneously.</P
+></DD
+></DL
+></DIV
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><P
+><B
+>Debugging / Verbosity Options</B
+></P
+><DL
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-l</TT
+> <TT
+CLASS="REPLACEABLE"
+><I
+>level mask</I
+></TT
+> </P
+></DT
+><DD
+><P
+>Only outputs messages that match the specified level mask.</P
+></DD
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-c</TT
+> <TT
+CLASS="REPLACEABLE"
+><I
+>component mask</I
+></TT
+> </P
+></DT
+><DD
+><P
+>Only outputs messages that match the specified component mask.</P
+></DD
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-q</TT
+> </P
+></DT
+><DD
+><P
+>Quiet.  Silences all output.  This is the same as specifying <TT
+CLASS="OPTION"
+>-l0 -c0</TT
+></P
+></DD
+></DL
+></DIV
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><P
+><B
+>Configuration File Options</B
+></P
+><DL
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-C</TT
+> <TT
+CLASS="REPLACEABLE"
+><I
+>config file</I
+></TT
+> </P
+></DT
+><DD
+><P
+>Uses the specified XML configuration file.</P
+></DD
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-K</TT
+> <TT
+CLASS="REPLACEABLE"
+><I
+>config file</I
+></TT
+> </P
+></DT
+><DD
+><P
+>Parses the specified XML configuration file and exits.</P
+></DD
+></DL
+></DIV
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><P
+><B
+>Database Options</B
+></P
+><DL
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-H</TT
+> <TT
+CLASS="REPLACEABLE"
+><I
+>host</I
+></TT
+> </P
+></DT
+><DD
+><P
+>Uses the specified host name for connecting to the database.</P
+></DD
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-D</TT
+> <TT
+CLASS="REPLACEABLE"
+><I
+>database</I
+></TT
+> </P
+></DT
+><DD
+><P
+>Uses the specified database name.</P
+></DD
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-u</TT
+> <TT
+CLASS="REPLACEABLE"
+><I
+>user name</I
+></TT
+> </P
+></DT
+><DD
+><P
+>Uses the specified user name for connecting to the database.</P
+></DD
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-p</TT
+>  [<TT
+CLASS="REPLACEABLE"
+><I
+>password</I
+></TT
+>] </P
+></DT
+><DD
+><P
+>Uses the specified password for connecting to the database.  If no password is specified, the user is prompted to enter one.</P
+></DD
+></DL
+></DIV
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><P
+><B
+>Recaching Options</B
+></P
+><DL
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-i</TT
+> <TT
+CLASS="REPLACEABLE"
+><I
+>device id</I
+></TT
+> </P
+></DT
+><DD
+><P
+>Performs an interface recache on the specified device.</P
+></DD
+><DT
+><P
+> <TT
+CLASS="OPTION"
+>-d</TT
+> <TT
+CLASS="REPLACEABLE"
+><I
+>device id</I
+></TT
+> </P
+></DT
+><DD
+><P
+>Performs a disk recache on the specified device.</P
+></DD
+></DL
+></DIV
+><DIV
+CLASS="NOTE"
+><P
+></P
+><TABLE
+CLASS="NOTE"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="./stylesheet-images/note.gif"
+HSPACE="5"
+ALT="Note"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>Recaching options are intended for use by the web interface.  These options should not be generally used by end users.</P
+></TD
+></TR
+></TABLE
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="manpage.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="webpagedesc.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Manual Pages</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="manpage.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Web Interface Descriptions</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

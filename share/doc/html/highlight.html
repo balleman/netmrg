@@ -1,0 +1,258 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>Workday Highlighting</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.76b+
+"><LINK
+REL="HOME"
+TITLE="The NetMRG Reference"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Feature Guide"
+HREF="featureguide.html"><LINK
+REL="PREVIOUS"
+TITLE="External Authentication"
+HREF="extauth.html"><LINK
+REL="NEXT"
+TITLE="Reference"
+HREF="reference.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>The NetMRG Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="extauth.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="reference.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="HIGHLIGHT"
+></A
+>Chapter 12. Workday Highlighting</H1
+><P
+>Shading specific time periods on a graph is possible using <TT
+CLASS="APPLICATION"
+>NetMRG</TT
+>.  Typically this is used for highlighting
+			the workday or SLA distinctions based on time of day.  The following steps will walk you through the setup
+			of workday highlighting on a graph.
+	</P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>Add a new Graph Item.</P
+></LI
+><LI
+><P
+>Select <TT
+CLASS="GUILABEL"
+><B
+>Show Advanced</B
+></TT
+>.</P
+></LI
+><LI
+><P
+>Leave the title of the item blank if you want it to be omitted on the legend, otherwise enter a label such as "Business Hours."</P
+></LI
+><LI
+><P
+>Set the <TT
+CLASS="GUILABEL"
+><B
+>Item Type</B
+></TT
+> to <TT
+CLASS="GUILABEL"
+><B
+>Area</B
+></TT
+>.</P
+></LI
+><LI
+><P
+>Select a color for the highlighting.</P
+></LI
+><LI
+><P
+>Select <TT
+CLASS="GUILABEL"
+><B
+>Fixed Value</B
+></TT
+> in the <TT
+CLASS="GUILABEL"
+><B
+>Monitor</B
+></TT
+> drop-down.</P
+></LI
+><LI
+><P
+>Type in "INF" as the fixed value.  This allows the graph item to take on an infinite height, which is rendered by filling the background.</P
+></LI
+><LI
+><P
+>Unselect all checkboxes under <TT
+CLASS="GUILABEL"
+><B
+>Legend</B
+></TT
+>.</P
+></LI
+><LI
+><P
+>Enter start and stop times in their respective text boxes.  Times should be prefixed with a plus
+		sign ('+') and be consistent with <A
+HREF="http://www.gnu.org/manual/tar-1.12/html_chapter/tar_7.html"
+TARGET="_top"
+>GNU Date Input Formats</A
+>.
+		An example would be <TT
+CLASS="COMPUTEROUTPUT"
+>+9am</TT
+> for a start time and <TT
+CLASS="COMPUTEROUTPUT"
+>+5pm</TT
+> 
+		for an end time, to highlight the "typical" business day.</P
+></LI
+><LI
+><P
+>Click <TT
+CLASS="GUILABEL"
+><B
+>Save Changes</B
+></TT
+> and observe the colored rectangle cover a lot of the data on your graph.</P
+></LI
+><LI
+><P
+>Click <TT
+CLASS="GUILABEL"
+><B
+>Move Up</B
+></TT
+> beside your new graph item until it reaches the top of the list.  
+		<I
+CLASS="EMPHASIS"
+>You now have a graph with workday highlighting!</I
+></P
+></LI
+></OL
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="extauth.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="reference.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>External Authentication</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="featureguide.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Reference</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>
