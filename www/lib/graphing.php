@@ -95,7 +95,7 @@ function monitor_graph_command($id, $start_time, $end_time)
 {
 
 	return($GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time .
-			" --title=\"" . get_monitor_name($id) . " (#" . $id . ")\"  --imgformat PNG -g " .
+			" --title=\"" . get_monitor_name($id) . " (#" . $id . ")\"  --imgformat PNG -g -w 575 -h 100 " .
 			"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $id . ".rrd:mon_" . $id . ":AVERAGE " .
 			"AREA:data1#151590");
 
