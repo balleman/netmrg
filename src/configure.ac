@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.23 $)
+AC_REVISION($Revision: 1.24 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -350,4 +350,6 @@ fi
 
 AC_CONFIG_FILES(Makefile)
 AC_OUTPUT
+
+perl ../subst include/config.h
 

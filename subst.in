@@ -28,6 +28,7 @@ while (my $f = shift @ARGV) {
 		s|\@datadir\@|@datadir@|g;
 		s|\@sbindir\@|@sbindir@|g;
 		s|\@bindir\@|@bindir@|g;
+		s|define PACKAGE|define NETMRG_PACKAGE|; # work around autoconf stupidity
 		s|\$\{exec_prefix\}|@exec_prefix@|g; # must be next to last
 		s|\$\{prefix\}|@prefix@|g; # must be last
 		print OUT $_;
