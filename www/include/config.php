@@ -10,6 +10,7 @@
 
 /***** GLOBAL SETTINGS *****/ 
 error_reporting(E_ALL);
+//set_magic_quotes_runtime(0);
 //error_reporting(E_WARNING | E_ERROR);
 
 /***** CONFIG *****/

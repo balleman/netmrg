@@ -393,7 +393,9 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 
                 mutex_lock(lkMySQL);
 
-	        if (!(mysql_connect(&test_mysql,mysql_row[0],mysql_row[1],mysql_row[2])))
+		mysql_init(&test_mysql);
+
+	        if (!(mysql_real_connect(&test_mysql,mysql_row[0],mysql_row[1],mysql_row[2], NULL, 0, NULL, 0)))
 	        {
         		mutex_unlock(lkMySQL);
                         debuglogger(DEBUG_GATHERER, &info, "Test MySQL Connection Failure.");
@@ -413,8 +415,21 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 				else
 				{
 					test_row = mysql_fetch_row(test_res);
-					//debuglogger(DEBUG_GATHERER, &info, "Res: " + string(test_row[0]));
-					value = string(test_row[strtoint(mysql_row[4])]);
+					if (test_row != NULL)
+					{
+						if (test_row[strtoint(mysql_row[4])] != NULL)
+						{
+							value = string(test_row[strtoint(mysql_row[4])]);
+						}
+						else
+						{
+							debuglogger(DEBUG_GATHERER, &info, "Selected column is NULL.");
+						}
+					}
+					else
+					{
+						debuglogger(DEBUG_GATHERER, &info, "There are no rows.");
+					}
 					mysql_free_result(test_res);
 					mysql_close(&test_mysql);
 				}
@@ -529,6 +544,8 @@ string process_snmp_monitor(DeviceInfo info, MYSQL *mysql)
 uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 {
 	debuglogger(DEBUG_MONITOR, &info, "Starting Monitor.");
+	
+	info.parameters.push_front(ValuePair("parameters", info.test_params));
 
 	switch (info.test_type)
 	{
@@ -847,6 +864,7 @@ void process_device(int dev_id)
 		{
 			// we need to recache.
 			do_snmp_interface_recache(&info, &mysql);
+			do_snmp_disk_recache(&info, &mysql);
 		}
 
 	} // end snmp-enabled
@@ -872,6 +890,8 @@ void *child(void * arg)
 
 	int device_id = *(int *) arg;
 
+	mysql_thread_init();
+
 	process_device(device_id);
 
 	mutex_lock(lkActiveThreads);
@@ -879,6 +899,8 @@ void *child(void * arg)
 	mutex_unlock(lkActiveThreads);
 
 	debuglogger(DEBUG_THREAD, NULL, "Thread Ended.");
+
+	mysql_thread_end();
 
 	pthread_exit(0);
 

@@ -20,18 +20,16 @@
 void db_connect(MYSQL *connection)
 {
 	mutex_lock(lkMySQL);
+	
+	mysql_init(connection);
 
-	if (!(mysql_connect(connection, MYSQL_HOST, MYSQL_USER, MYSQL_PASS)))
+	if (!(mysql_real_connect(connection, MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB, 0, NULL, 0)))
 	{
 		debuglogger(DEBUG_MYSQL, NULL, "MySQL Connection Failure.");
 	}
 
 	mutex_unlock(lkMySQL);
 
-	if (mysql_select_db(connection, MYSQL_DB))
-	{
-		debuglogger(DEBUG_MYSQL, NULL, "MySQL Database Selection Failure.");
-	}
 }
 
 // db_query

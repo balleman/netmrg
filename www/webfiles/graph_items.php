@@ -110,7 +110,7 @@ if ($_REQUEST["action"] == "move")
 if ($_REQUEST["action"] == "dodelete")
 {
 	check_auth(2);
-	delete_ds($id);
+	delete_ds($_REQUEST['id']);
 	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
 	exit(0);
 
