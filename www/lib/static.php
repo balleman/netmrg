@@ -155,6 +155,11 @@ $SNMP_VERSIONS = array(
 			3	=>	"SNMPv3"*/
 			);
 
+$SCRIPT_DATA_TYPES = array(
+			1	=>	"Error Code",
+			2	=>	"Standard Out"
+			);
+
 
 // Return the path to an image based on the internal name of the image.
 function get_image_by_name($img_name)

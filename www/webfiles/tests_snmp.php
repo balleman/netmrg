@@ -41,9 +41,9 @@ if ($action == "doedit")
 		$db_end = "WHERE id={$_REQUEST["test_id"]}";
 	}
 
-	$_REQUEST['test_name'] = db_escape_string($_REQUEST['test_name']);
-	$_REQUEST['test_oid'] = db_escape_string($_REQUEST['test_oid']);
-	
+	$_REQUEST['test_name'] = db_escape_string(fix_magic_quotes($_REQUEST['test_name']));
+	$_REQUEST['test_oid'] = db_escape_string(fix_magic_quotes($_REQUEST['test_oid']));
+
 	db_update("$db_cmd tests_snmp SET name=\"{$_REQUEST["test_name"]}\", oid=\"{$_REQUEST["test_oid"]}\", dev_type={$_REQUEST["dev_type"]} $db_end");
 } // done editing
 
@@ -56,7 +56,7 @@ if ($action == "dodelete")
 
 // Display a list
 
-make_display_table("SNMP Tests", "", 
+make_display_table("SNMP Tests", "",
 	array("text" => "Name"),
 	array("text" => "OID")
 ); // end make_display_table();
@@ -70,10 +70,10 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 	$test_row = db_fetch_array($test_results);
 
 	make_display_item("editfield".(($test_count-1)%2),
-		array("text" => $test_row["name"]),
-		array("text" => $test_row["oid"]),
+		array("text" => htmlspecialchars($test_row["name"])),
+		array("text" => htmlspecialchars($test_row["oid"])),
 		array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&test_id=" . $test_row["id"]) . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('" . addslashes($test_row["name"]) . "', '" . $test_row["id"] . "')"))
+			formatted_link("Delete", "javascript:del('" . addslashes(htmlspecialchars($test_row["name"])) . "', '" . $test_row["id"] . "')"))
 	); // end make_display_item();
 } // end tests
 
@@ -95,8 +95,8 @@ if (($action == "edit") || ($action == "add"))
 	$test_row = db_fetch_array($test_results);
 
 	make_edit_table("Edit SNMP Test");
-	make_edit_text("Name:","test_name","25","50",$test_row["name"]);
-	make_edit_text("SNMP OID:","test_oid","75","200",$test_row["oid"]);
+	make_edit_text("Name:", "test_name", "25", "50", htmlspecialchars($test_row["name"]));
+	make_edit_text("SNMP OID:", "test_oid", "75", "200", htmlspecialchars($test_row["oid"]));
 	make_edit_select_from_table("For use with this device:","dev_type","dev_types",$test_row["dev_type"]);
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("test_id",$_REQUEST["test_id"]);
