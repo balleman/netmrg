@@ -1679,7 +1679,7 @@ fi
 subdirs="$subdirs src"
 
 
-                                                  ac_config_files="$ac_config_files Makefile www/Makefile etc/netmrg.conf src/include/netmrg.h www/include/config.php"
+                                                            ac_config_files="$ac_config_files Makefile www/Makefile etc/netmrg.conf etc/netmrg.xml src/include/netmrg.h www/include/config.php"
 
 
 cat >confcache <<\_ACEOF
@@ -2235,6 +2235,7 @@ do
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
   "www/Makefile" ) CONFIG_FILES="$CONFIG_FILES www/Makefile" ;;
   "etc/netmrg.conf" ) CONFIG_FILES="$CONFIG_FILES etc/netmrg.conf" ;;
+  "etc/netmrg.xml" ) CONFIG_FILES="$CONFIG_FILES etc/netmrg.xml" ;;
   "src/include/netmrg.h" ) CONFIG_FILES="$CONFIG_FILES src/include/netmrg.h" ;;
   "www/include/config.php" ) CONFIG_FILES="$CONFIG_FILES www/include/config.php" ;;
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5

@@ -11,7 +11,7 @@ bin_SCRIPTS = bin/*.pl bin/*.sh
 
 # options to install files in the etc directory
 netmrg_etcdir=$(sysconfdir)
-netmrg_etc_DATA = etc/netmrg.xml
+netmrg_etc_DATA = etc/netmrg.xml etc/netmrg.conf
 
 # options to install files in the share/images directory
 netmrg_share_imagesdir=$(pkgdatadir)/images

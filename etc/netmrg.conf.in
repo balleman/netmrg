@@ -1,0 +1,8 @@
+Alias /netmrg "@prefix@/var/www/netmrg/webfiles"
+<Directory "@prefix@/var/www/netmrg/webfiles">
+    Options Indexes
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+</Directory>
+
