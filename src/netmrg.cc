@@ -22,7 +22,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <unistd.h>
-#include <mysql.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <string>
@@ -44,7 +43,7 @@ int active_threads = 0;
 #include "utils.h"
 #include "locks.h"
 #include "snmp.h"
-#include <netmrg-db.cc>
+#include "db.h"
 #include <netmrg-misc.cc>
 
 
@@ -144,65 +143,6 @@ void update_monitor_rrd(DeviceInfo info, RRDInfo rrd)
 	update_rrd(info, rrd);
 }
 
-// db_connect
-//
-// make a new MySQL connection to the NetMRG database
-
-MYSQL db_connect(MYSQL connection)
-{
-	mutex_lock(lkMySQL);
-
-	if (!(mysql_connect(&connection, MYSQL_HOST, MYSQL_USER, MYSQL_PASS)))
-	{
-		debuglogger(DEBUG_MYSQL, NULL, "MySQL Connection Failure.");
-		pthread_exit(NULL);
-	}
-	
-	mutex_unlock(lkMySQL);
-
-	if (mysql_select_db(&connection, MYSQL_DB))
-	{
-		debuglogger(DEBUG_MYSQL, NULL, "MySQL Database Selection Failure.");
-		pthread_exit(NULL);
-	}
-
-	return connection;
-}
-
-// db_query
-//
-// perform a MySQL query and return the results
-
-MYSQL_RES *db_query(MYSQL *mysql, DeviceInfo *info, string query)
-{
-	MYSQL_RES *mysql_res;
-
-	if (mysql_query(mysql, query.c_str()))
-	{
-		debuglogger(DEBUG_MYSQL, info, "MySQL Query Failed (" + query + ")");
-		pthread_exit(NULL);
-	}
-
-	if (!(mysql_res = mysql_store_result(mysql)))
-	{
-		debuglogger(DEBUG_MYSQL, info, "MySQL Store Result failed.");
-		pthread_exit(NULL);
-	}
-
-	return mysql_res;
-}
-
-// db_update
-//
-// query the database, but disregard the results and log any failure
-
-void db_update(MYSQL *mysql, DeviceInfo *info, string query)
-{
-	if (mysql_query(mysql, query.c_str()))
-	{
-		debuglogger(DEBUG_MYSQL, info, "MySQL Query Failed (" + query + ")");
-	}
-}
 
 // update_monitor_db
 //
@@ -1020,7 +960,7 @@ void process_device(int dev_id)
 	// connect to db, get info for this device
 
 	debuglogger(DEBUG_DEVICE, &info, "Starting device thread.");
-	mysql = db_connect(mysql);
+	db_connect(&mysql);
 	debuglogger(DEBUG_DEVICE, &info, "MySQL connection established.");
 
 	string query = 	string("SELECT ") 		+
@@ -1193,7 +1133,7 @@ void run_netmrg()
 
 	// open mysql connection for initial queries
 
-	mysql = db_connect(mysql);
+	db_connect(&mysql);
 
 	// request list of devices to process
 
@@ -1342,7 +1282,7 @@ void external_snmp_recache(int device_id, int type)
 	MYSQL_ROW	mysql_row;
         DeviceInfo	info;
 
-	mysql = db_connect(mysql);
+	db_connect(&mysql);
 	info.device_id = device_id;
 
 	mysql_res = db_query(&mysql, &info, "SELECT ip, snmp_read_community, snmp_enabled FROM mon_devices WHERE id=" + inttostr(device_id));
