@@ -3,6 +3,7 @@
   - bug#0000093 - download page needs 'binary release' support and
       'prettied up'
   - bug#0000094 - screenshots needs ordered by most recent release first
+  - bug#0000082 - make netmrg_cron.sh use /bin/sh
 
 2003.11.16  v0.10  balleman
   - bug#0000091 - monitor parameter escaping issues
