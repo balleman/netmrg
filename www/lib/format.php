@@ -617,7 +617,7 @@ function make_edit_text($header, $name, $size, $maxlength, $value)
 function make_edit_color($header, $name, $value)
 {
 
-        ?>
+	?>
 
 	<tr><td class="editfield0">
 
@@ -637,19 +637,19 @@ function make_edit_color($header, $name, $value)
 
 function make_edit_password($header, $name, $size, $maxlength, $value, $options = "")
 {
-        // Creates a form text edit control
-        ?>
+	// Creates a form text edit control
+	?>
 
-        <tr <?php print($options); ?>>
+	<tr <?php print($options); ?>>
 	<td class="editfield0">
 
-        <b><?php print($header) ?></b><br>
+	<b><?php print($header) ?></b><br>
 
-        <input type="password" name="<?php print($name) ?>" size="<?php print($size) ?>" maxlength="<?php print($maxlength) ?>" value="<?php print($value); ?>"><br><br>
+	<input type="password" name="<?php print($name) ?>" size="<?php print($size) ?>" maxlength="<?php print($maxlength) ?>" value="<?php print($value); ?>"><br><br>
 
-        </td></tr>
+	</td></tr>
 
-        <?php
+	<?php
 
 } // end make_edit_password
 
@@ -674,7 +674,7 @@ function make_edit_submit_button()
 	<tr><td class="editfield0" align="right">
 
 	<input type="submit" name="Submit" value="Save Changes">
-        <input type="button" name="Cancel" value="Cancel Changes" OnClick="history.back(1);">
+	<input type="button" name="Cancel" value="Cancel Changes" OnClick="history.back(1);">
 
 	</td></tr>
 
@@ -765,7 +765,7 @@ function make_edit_select_subdevice($subdev_id_cur, $prepended_array = array())
 	FROM	sub_devices
 
 	LEFT JOIN devices ON sub_devices.dev_id=devices.id
-	
+
 	ORDER BY dev_name, sub_name, id
 
         ");
@@ -823,9 +823,21 @@ function formatted_link($text, $link, $caption = "")
 
 function formatted_link_disabled($text)
 {
-	return "&lt;$text&gt;";  
+	return "&lt;$text&gt;";
 
 }  // end formatted_link_disabled
+
+function image_link($img_name, $title, $link)
+{
+	$returnval = '<a href="' . $link . '">';
+	$returnval .= '<img src="'.get_image_by_name("$img_name").'" width="15" height="15" border="0" alt="' . $title . '" title="' . $title . '" align="middle" />'."</a>\n";
+	return $returnval;
+}
+
+function image_link_disabled($img_name, $title)
+{
+	return '<img src="'.get_image_by_name($img_name . "-disabled").'" width="15" height="15" border="0" alt="' . $title . '" title="' . $title . '" align="middle" />'."\n";
+}
 
 function js_confirm_dialog($function_name, $before = "", $after = "", $url_base = "")
 {

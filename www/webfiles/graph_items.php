@@ -159,20 +159,20 @@ if (empty($_REQUEST["action"]))
 
 		if ($ds_count == 0)
 		{
-			$move_up = formatted_link_disabled("Move Up");
+			$move_up = image_link_disabled("arrow-up", "Move Up");
 		}
 		else
 		{
-			$move_up = formatted_link("Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&graph_id={$_REQUEST['graph_id']}&id=$ds_count");
+			$move_up = image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&graph_id={$_REQUEST['graph_id']}&id=$ds_count");
 		}
 
 		if ($ds_count == ($ds_total - 1))
 		{
-			$move_down = formatted_link_disabled("Move Down");
+			$move_down = image_link_disabled("arrow-down", "Move Down");
 		}
 		else
 		{
-			$move_down = formatted_link("Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&graph_id={$_REQUEST['graph_id']}&id=$ds_count");
+			$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&graph_id={$_REQUEST['graph_id']}&id=$ds_count");
 		}
 
 		make_display_item("editfield".($ds_count%2),

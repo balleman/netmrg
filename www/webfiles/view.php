@@ -275,22 +275,20 @@ if (empty($_REQUEST["action"]))
 		{
 			if ($i == 0)
 			{
-				$move_up = '<img src="'.get_image_by_name("arrow-up-disabled").'" width="15" height="15" border="0" alt="Move Up" title="Move Up" align="middle" />'."\n";
+				$move_up = image_link_disabled("arrow-up", "Move Up");
 			}
 			else
 			{
-				$move_up = '<a href="'."{$_SERVER['PHP_SELF']}?action=move&direction=up&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id=$i".'">';
-				$move_up .= '<img src="'.get_image_by_name("arrow-up").'" width="15" height="15" border="0" alt="Move Up" title="Move Up" align="middle" />'."</a>\n";
+				$move_up = image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id=$i");
 			}
 
 			if ($i == ($num - 1))
 			{
-				$move_down = '<img src="'.get_image_by_name("arrow-down-disabled").'" width="15" height="15" border="0" alt="Move Down" title="Move Down" align="middle" />'."\n";
+				$move_down = image_link_disabled("arrow-down", "Move Down");
 			}
 			else
 			{
-				$move_down = '<a href="'."{$_SERVER['PHP_SELF']}?action=move&direction=down&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id=$i".'">';
-				$move_down .= '<img src="'.get_image_by_name("arrow-down").'" width="15" height="15" border="0" alt="Move Down" title="Move Down" align="middle" />'."</a>\n";
+				$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id=$i");
 			}
 
 			$row = db_fetch_array($view_result);
