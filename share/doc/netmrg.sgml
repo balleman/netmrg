@@ -754,7 +754,7 @@ will be automatically updated to the latest version that has all updates applied
 		</refnamediv>
 		<refsynopsisdiv>
 			<cmdsynopsis>
-				<command>/usr/local/bin/netmrg-gatherer</command>
+				<command>netmrg-gatherer</command>
 				<arg choice="opt">OPTIONS</arg>
 			</cmdsynopsis>
 		</refsynopsisdiv>
