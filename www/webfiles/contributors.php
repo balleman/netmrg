@@ -26,7 +26,7 @@ begin_page("contributors.php", "Contributors");
     application of autoconf and portability features to this project.<br />
 Ryabkov (Rojer) Deomid has contributed many patches, fixing bugs that 
     are difficult to reproduce.<br />
-</ br>
+<br />
 
 <h5>Suggestions and Comments</h5>
 <a href="http://home.raxnet.net/">Ian Berry</a>, the main developer 
