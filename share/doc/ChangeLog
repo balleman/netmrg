@@ -1,5 +1,5 @@
 2004.08.24  v0.17cvs  silfreed
-  - bug#0000257 - doing a delayed insert for dynamic variables lowers mysl overhead
+  - bug#0000257 - doing a delayed insert for dynamic variables lowers mysql overhead
 
 2004.08.21  v0.17cvs  balleman
   - bug#0000241 - setting for syslog facility
