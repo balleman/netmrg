@@ -22,18 +22,46 @@ if (empty($_REQUEST["action"])) $_REQUEST["action"] = "";
 
 switch ($_REQUEST["action"])
 {
-	case "list":		check_auth(2);
-	case "view":		do_view();			break;
+	case "list":
+		check_auth(2);
+	case "view":
+		do_view();
+		break;
+	
 	case "edit":
-	case "add":			display_edit();		break;
-	case "slideshow":	do_slideshow();		break;
-	case "doadd":		do_add();			break;
-	case "doedit":		do_edit();			break;
-	case "dodelete":	do_delete();		break;
-	case "move":		do_move();			break;
-	default:			display_error();
-}
+	case "add":
+		check_auth(2);
+		display_edit();
+		break;
+	
+	case "slideshow":
+		do_slideshow();
+		break;
+	
+	case "doadd":
+		do_add();
+		break;
+	
+	case "doedit":
+		do_edit();
+		break;
+	
+	case "dodelete":
+		do_delete();
+		break;
+	
+	case "move":
+		do_move();
+		break;
+	
+	default:
+		display_error();
+		break;
+} // end switch action
 
+
+
+/***** FUNCTIONS *****/
 function display_error()
 {
 	begin_page("view.php", "View");
@@ -43,7 +71,6 @@ function display_error()
 
 function display_edit()
 {
-	check_auth(2);
 	begin_page("view.php", "Edit View Item");
 
 	switch ($_REQUEST["action"])
@@ -150,18 +177,18 @@ function do_delete()
 function do_move()
 {
 	check_auth(2);
-
+	
 	$query = db_query("
 		SELECT 	id, pos
 		FROM 	view
 		WHERE 	object_id={$_REQUEST['object_id']}
 		AND 	object_type='{$_REQUEST['object_type']}'
 		ORDER BY pos");
-
+	
 	for ($i = 0; $i < db_num_rows($query); $i++)
 	{
 		$row = db_fetch_array($query);
-
+	
 		if ($_REQUEST['direction'] == "up")
 		{
 			if (($_REQUEST['id'] - 1) == $i)

@@ -783,8 +783,11 @@ function delete_subdevice($subdev_id)
 
 function delete_monitor($monitor_id)
 {
+	// check things that depend on this
+	// * custom graphs
+	// * template graphs
 	db_update("DELETE FROM monitors WHERE id=$monitor_id");
-
+	
 	$events_handle = db_query("SELECT id FROM events WHERE mon_id=$monitor_id");
 	while ($event_row = db_fetch_array($events_handle))
 	{

@@ -12,76 +12,40 @@
 require_once("../include/config.php");
 check_auth(1);
 
-
-function redirect()
-{
-	header("Location: monitors.php?sub_dev_id={$_REQUEST['sub_dev_id']}");
-} // end redirect()
-
-
-function do_edit()
-{
-	check_auth(2);
-
-	if ($_REQUEST["mon_id"] == 0)
-	{
-		$db_cmd = "INSERT INTO";
-		$db_end = "";
-	}
-	else
-	{
-		$db_cmd = "UPDATE";
-		$db_end = "WHERE id='{$_REQUEST['mon_id']}'";
-	}
-
-	if ($_REQUEST["min_val"] == "U") { $_REQUEST["min_val"] = "NULL"; }
-	if ($_REQUEST["max_val"] == "U") { $_REQUEST["max_val"] = "NULL"; }
-
-
-	db_update("$db_cmd monitors SET
-		sub_dev_id='{$_REQUEST['sub_dev_id']}',
-		test_type='{$_REQUEST['test_type']}',
-		test_id='{$_REQUEST['test_id']}',
-		test_params='" . db_escape_string(fix_magic_quotes($_REQUEST['test_params'])) ."',
-		data_type='{$_REQUEST['data_type']}',
-		min_val={$_REQUEST['min_val']},
-		max_val={$_REQUEST['max_val']},
-		tuned=0 $db_end");
-
-} // end do_edit()
-
-
-function do_delete()
-{
-	check_auth(2);
-	delete_monitor($_REQUEST["mon_id"]);
-} // end do_delete()
-
-
+// set default action
 if (empty($_REQUEST["action"]))
 {
-	do_list();
-}
-else if ($_REQUEST["action"] == "doedit")
+	$_REQUEST["action"] = "list";
+} // end if no action
+
+switch($_REQUEST["action"])
 {
-	do_edit();
-	redirect();
-}
-else if ($_REQUEST["action"] == "dodelete")
-{
-	do_delete();
-	redirect();
-}
-else if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
-{
-	edit();
-}
-else
-{
-	do_list();
-} // end if action
+	case "doedit":
+		check_auth(2);
+		do_edit();
+		redirect();
+		break;
+	
+	case "dodelete":
+		check_auth(2);
+		do_delete();
+		redirect();
+		break;
+	
+	case "edit":
+	case "add":
+		edit();
+		break;
+	
+	default:
+	case "list":
+		do_list();
+		break;
+} // end switch action
 
 
+
+/***** FUNCTIONS *****/
 function do_list()
 {
 	begin_page("monitor.php", "Monitors", 1);
@@ -170,9 +134,8 @@ function do_list()
 
 function edit()
 {
-
 	begin_page("monitor.php", "Monitors");
-
+	
 	// if we're editing a monitor
 	if ($_REQUEST["action"] == "edit")
 	{
@@ -183,7 +146,7 @@ function edit()
 	{
 		make_edit_table("Add Monitor", "return validateform();");
 	} // end else add
-
+	
 	// if we're editing a monitor
 	if ($_REQUEST["action"] == "edit")
 	{
@@ -201,7 +164,7 @@ function edit()
 			WHERE monitors.id='{$_REQUEST['mon_id']}'
 			");
 		$mon_row = db_fetch_array($mon_results);
-
+	
 	} // end if editing a monitor
 	// if we're adding a monitor
 	else
@@ -222,7 +185,7 @@ function edit()
 		$mon_row["test_params"] = "";
 		$_REQUEST["mon_id"] = 0;
 	} // end if adding a monitor
-
+	
 	// TODO
 	if (isset($_REQUEST["sub_dev_id"]))
 	{
@@ -233,12 +196,12 @@ function edit()
 	{
 		$dev_thingy = "";
 	}
-
+	
 	make_edit_group("General Parameters");
-
+	
 	echo "
 		<script type='text/javascript'>
-
+		
 		function redisplay(selectedIndex)
 		{
 			window.location = '{$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&action={$_REQUEST['action']}" . $dev_thingy . "&type=' + selectedIndex;
@@ -267,7 +230,7 @@ function edit()
 		}
 		</script>
 		";
-
+	
 	// if we've been passed a test type
 	if (!empty($_REQUEST["type"]))
 	{
@@ -280,7 +243,7 @@ function edit()
 	} // end if no test type
 	GLOBAL $TEST_TYPES;
 	make_edit_select_from_array("Monitoring Type:", "test_type", $TEST_TYPES, $mon_row["test_type"], "onChange='redisplay(form.test_type.options[selectedIndex].value);'");
-
+	
 	if ($mon_row["test_type"] == 1)
 	{
 		make_edit_group("Script Options");
@@ -293,7 +256,7 @@ function edit()
 			make_edit_select_from_table("Script Test:", "test_id", "tests_script", $mon_row["test_id"]);
 		} // end if editing
 	}
-
+	
 	if ($mon_row["test_type"] == 2)
 	{
 		make_edit_group("SNMP Options");
@@ -306,7 +269,7 @@ function edit()
 			make_edit_select_from_table("SNMP Test:", "test_id", "tests_snmp", $mon_row["test_id"]);
 		} // end if editing
 	}
-
+	
 	if ($mon_row["test_type"] == 3)
 	{
 		make_edit_group("SQL Options");
@@ -319,7 +282,7 @@ function edit()
 			make_edit_select_from_table("SQL Test:", "test_id", "tests_sql", $mon_row["test_id"]);
 		} // end if editing
 	}
-
+	
 	if ($mon_row["test_type"] == 4)
 	{
 		make_edit_group("Internal Test Options");
@@ -332,13 +295,13 @@ function edit()
 			make_edit_select_from_table("Internal Test:", "test_id", "tests_internal", $mon_row["test_id"]);
 		} // end if editing
 	}
-
+	
 	make_edit_text("Parameters:", "test_params", 50, 100, htmlspecialchars($mon_row["test_params"]));
-
+	
 	make_edit_group("Graphing Options");
-
+	
 	make_edit_select_from_table("Data Type:", "data_type", "data_types", $mon_row["data_type"]);
-
+	
 	if ($mon_row["min_val"] == "")
 	{
 	        $mon_row["min_val"] = "U";
@@ -355,16 +318,56 @@ function edit()
 	
 	make_edit_label('[<a href="javascript:make_min_undefined();">make minimum undefined</a>]
 		[<a href="javascript:make_max_undefined();">make maximum undefined</a>]');
-
+	
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("mon_id",$_REQUEST["mon_id"]);
 	make_edit_hidden("sub_dev_id",$_REQUEST["sub_dev_id"]);
-
+	
 	make_edit_submit_button();
 	make_edit_end();
-
+	
 	end_page();
-
 } // end edit();
+
+function redirect()
+{
+	header("Location: monitors.php?sub_dev_id={$_REQUEST['sub_dev_id']}");
+} // end redirect()
+
+
+function do_edit()
+{
+	if ($_REQUEST["mon_id"] == 0)
+	{
+		$db_cmd = "INSERT INTO";
+		$db_end = "";
+	}
+	else
+	{
+		$db_cmd = "UPDATE";
+		$db_end = "WHERE id='{$_REQUEST['mon_id']}'";
+	}
+	
+	if ($_REQUEST["min_val"] == "U") { $_REQUEST["min_val"] = "NULL"; }
+	if ($_REQUEST["max_val"] == "U") { $_REQUEST["max_val"] = "NULL"; }
+	
+	
+	db_update("$db_cmd monitors SET
+		sub_dev_id='{$_REQUEST['sub_dev_id']}',
+		test_type='{$_REQUEST['test_type']}',
+		test_id='{$_REQUEST['test_id']}',
+		test_params='" . db_escape_string(fix_magic_quotes($_REQUEST['test_params'])) ."',
+		data_type='{$_REQUEST['data_type']}',
+		min_val={$_REQUEST['min_val']},
+		max_val={$_REQUEST['max_val']},
+		tuned=0 $db_end");
+	
+} // end do_edit()
+
+
+function do_delete()
+{
+	delete_monitor($_REQUEST["mon_id"]);
+} // end do_delete()
 
 ?>
