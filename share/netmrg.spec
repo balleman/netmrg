@@ -1,4 +1,4 @@
-%define _prefix      /
+%define _prefix      
 %define _exec_prefix /usr
 
 Summary: Network Monitoring package using PHP, MySQL, and RRDtool
