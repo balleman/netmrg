@@ -155,6 +155,7 @@ function view_disk_cache()
 	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
 	<input type="hidden" name="action" value="">
 	<input type="hidden" name="dev_id" value="<?php echo $_REQUEST["dev_id"]; ?>">
+	<input type="hidden" name="tripid" value="<?php echo $_REQUEST["tripid"]; ?>">
 <?php
 	make_plain_display_table("$dev_name - Disk Cache",
 		"", "",
@@ -236,6 +237,7 @@ function view_interface_cache()
 	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
 	<input type="hidden" name="action" value="">
 	<input type="hidden" name="dev_id" value="<?php echo $_REQUEST["dev_id"]; ?>">
+	<input type="hidden" name="tripid" value="<?php echo $_REQUEST["tripid"]; ?>">
 <?php
 	make_plain_display_table("$dev_name - Interface Cache",
 		"", "",

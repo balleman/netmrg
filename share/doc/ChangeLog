@@ -1,3 +1,6 @@
+2004.03.17  v0.15cvs  dwarner
+  - fixed tripid bug in snmp_cache_view for 'Monitor/Graph All Checked'
+
 2004.03.17  v0.14  dwarner
   - version bump to 0.15cvs
 
