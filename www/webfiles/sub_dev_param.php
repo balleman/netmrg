@@ -10,13 +10,15 @@
 
 
 require_once("../include/config.php");
+check_auth(1);
 
 if (empty($_REQUEST["action"]))
 {
 	// Display the list of sub-devices for a particular device.
 
-	check_auth(1);
 	begin_page("sub_dev_param.php", "Sub Device Parameters");
+	js_confirm_dialog("del", "Are you sure you want to delete subdevice parameter ", "", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&name=");
+
 
 	$results = db_query("SELECT name, value FROM sub_dev_variables WHERE type='static' AND sub_dev_id={$_REQUEST['sub_dev_id']}");
 
@@ -33,7 +35,7 @@ if (empty($_REQUEST["action"]))
 			array("text" => $row["name"]),
 			array("text" => $row["value"]),
 			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&sub_dev_id={$_REQUEST['sub_dev_id']}&name=" . $row["name"]) . "&nbsp;" . 
-				formatted_link("Delete", ""), "")
+				formatted_link("Delete", "javascript:del('{$row['name']}', '{$row['name']}')"), "")
 		); // end make_display_item();
 	}
 
@@ -44,6 +46,7 @@ if (empty($_REQUEST["action"]))
 
 elseif ($_REQUEST["action"] == "doedit")
 {
+	check_auth(2);
         if ($_REQUEST["type"] == "add")
 	{
 		$db_cmd = "INSERT INTO";
@@ -97,6 +100,13 @@ elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	make_edit_end();
 	end_page();
 
+}
+
+elseif ($_REQUEST["action"] == "dodelete")
+{
+	check_auth(2);
+	db_update("DELETE FROM sub_dev_variables WHERE sub_dev_id={$_REQUEST['sub_dev_id']} AND name='{$_REQUEST['name']}' AND type='static'");
+	header("Location: " . $_SERVER["PHP_SELF"] . "?sub_dev_id={$_REQUEST['sub_dev_id']}");
 }
 
 
