@@ -93,13 +93,13 @@ function make_interface_graph($dev_id, $index)
 		$index_type = "ifIndex";
 	}
 	
-	$index_value = $r_snmp[$index_type];
+	$index_value = db_escape_string($r_snmp[$index_type]);
 	
 	// create the subdevice
 	db_update("INSERT INTO sub_devices SET dev_id='$dev_id', type=2, name='$index_value'");
 	$sd_id = db_insert_id();
-	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='$index_type', value='$index_value'");
-	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='ifIndex', value='$index', type='dynamic'");
+	db_update("INSERT INTO sub_dev_variables SET sub_dev_id='$sd_id', name='$index_type', value='$index_value'");
+	db_update("INSERT INTO sub_dev_variables SET sub_dev_id='$sd_id', name='ifIndex', value='$index', type='dynamic'");
 
 	// add monitors and associate template
 	apply_template($sd_id, $_REQUEST["graph_template_id"]);
@@ -117,24 +117,24 @@ function make_disk_graph($dev_id, $index)
 	if (isset($r_snmp["disk_path"]) && !empty($r_snmp["disk_path"]))
 	{
 		$index_type = "dskPath";
-		$index_value = $r_snmp["disk_path"];
+		$index_value = db_escape_string($r_snmp["disk_path"]);
 	}
 	elseif (isset($r_snmp["disk_device"]) && !empty($r_snmp["disk_device"]))
 	{
 		$index_type = "dskDevice";
-		$index_value = $r_snmp["disk_device"];
+		$index_value = db_escape_string($r_snmp["disk_device"]);
 	}
 	else
 	{
 		$index_type = "dskIndex";
-		$index_value = $r_snmp["disk_index"];
+		$index_value = db_escape_string($r_snmp["disk_index"]);
 	}
 
 	// create the subdevice
 	db_update("INSERT INTO sub_devices SET dev_id='$dev_id', type=3, name='$index_value'");
 	$sd_id = db_insert_id();
-	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='$index_type', value='$index_value'");
-	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='dskIndex', value='$index', type='dynamic'");
+	db_update("INSERT INTO sub_dev_variables SET sub_dev_id='$sd_id', name='$index_type', value='$index_value'");
+	db_update("INSERT INTO sub_dev_variables SET sub_dev_id='$sd_id', name='dskIndex', value='$index', type='dynamic'");
 
 	// add monitors and associate template
 	apply_template($sd_id, $GLOBALS["netmrg"]["disktemplateid"]);

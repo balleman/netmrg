@@ -1,3 +1,6 @@
+2004.11.04  v0.18.1  silfreed
+  - bug#0000329 - escaping problems in snmp_cache_view.php
+
 2004.10.24  v0.17  keb
   - bug#0000318 - CVS build fails due to unknown function llround
 
