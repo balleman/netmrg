@@ -1,3 +1,6 @@
+2005.01.16  v0.18.2  balleman
+  - bug#0000375 - Gatherer can crash with certain versions of net-snmp against broken agents
+
 2004.12.20  v0.18.2  keb
   - bug#0000369 - 'Delete' under device groups fails with no device selected
   - bug#0000376 - devices.php: break statement missing

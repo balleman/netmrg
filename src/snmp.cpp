@@ -199,6 +199,9 @@ string snmp_get(DeviceInfo info, string oidstring)
 		snmp_add_null_var(pdu, anOID, anOID_len);
 
 		status = snmp_sess_synch_response(info.snmp_sess_p, pdu, &response);
+		
+		if (response == NULL)
+			status = STAT_ERROR;
 
 		/*
 		* Process the response.
@@ -305,6 +308,10 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 		snmp_add_null_var(pdu, name, name_length);
 
 		status = snmp_sess_synch_response(info.snmp_sess_p, pdu, &response);
+		
+		if (response == NULL)
+			status = STAT_ERROR;
+		
 		if (status == STAT_SUCCESS)
 		{
 			if (response->errstat == SNMP_ERR_NOERROR)
