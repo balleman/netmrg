@@ -15,8 +15,8 @@ check_auth($PERMIT["ReadAll"]);
 switch ($_REQUEST['action'])
 {
 	case 'doedit':			doedit();			break;
-	case 'move_up':			move("up");				break;
-	case 'move_down':		move("down");				break;
+	case 'move_up':			move("up");			break;
+	case 'move_down':		move("down");		break;
 	case 'dodelete':
 	case 'multidodelete':	dodelete();			break;
 	case 'duplicate':
@@ -250,11 +250,20 @@ function display()
 		{
 			$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move_down&graph_id={$_REQUEST['graph_id']}&id=$id");
 		}
+		
+		if (($ds_row['type'] == 5) && ($ds_count == 0))
+		{
+			$item_type = "STACK (using as AREA)";
+		}
+		else
+		{
+			$item_type = $RRDTOOL_ITEM_TYPES[$ds_row["type"]];
+		}
 
 		make_display_item("editfield".($ds_count%2),
 			array("checkboxname" => "graph_items", "checkboxid" => $id),
 			array("text" => $ds_row["label"]),
-			array("text" => color_block($ds_row["color"]) . "&nbsp;&nbsp;" . $RRDTOOL_ITEM_TYPES[$ds_row["type"]]),
+			array("text" => color_block($ds_row["color"]) . "&nbsp;&nbsp;" . $item_type),
 			array("text" => 
 				formatted_link("View", "enclose_graph.php?type=custom_item&id=" . $ds_row["id"], "", "view") . 
 				formatted_link("Duplicate", "{$_SERVER['PHP_SELF']}?action=duplicate&id=$id&graph_id={$_REQUEST['graph_id']}", "", "duplicate") . 

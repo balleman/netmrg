@@ -233,6 +233,13 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 	{
 
 		$ds_row = db_fetch_array($ds_results);
+		
+		// work around those using STACKs at the bottom of a graph
+		if (($ds_row['type'] == 5) && ($ds_count == 1))
+		{
+			$ds_row['type'] = 4;
+		}
+		
 		$ds_row["type"] = $GLOBALS["RRDTOOL_ITEM_TYPES"][$ds_row["type"]];
 
 		if ($single_ds && ($ds_row["type"] == "STACK"))
