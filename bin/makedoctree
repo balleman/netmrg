@@ -1,0 +1,69 @@
+#!/usr/bin/perl
+#
+# makedoctree
+#
+# makes a directory of all documentation versions
+#
+
+
+## libraries
+use strict;
+
+
+## variables
+my $cvs = 'cvs -d :pserver:anonymous@cvs.netmrg.net:/var/cvsroot';
+my $docfile = "netmrg/share/doc/netmrg.sgml";
+my $shortdocfile = "netmrg.sgml";
+my $docfolder = "/tmp";
+my @versions = ();
+
+
+## forward declairations
+sub GetTags();
+
+
+## main
+@versions = GetTags();
+foreach my $ver (@versions)
+{
+	# make sure our doc directory exists
+	my $curdir = "$docfolder/$ver";
+	`rm -rf $curdir` if ( -d $curdir);
+	mkdir ($curdir);
+
+	# get the version specified
+	my $doccontents = `$cvs co -p -r $ver $docfile 2> /dev/null`;
+	open (DOC, ">$curdir/$shortdocfile");
+	print DOC $doccontents;
+	close (DOC);
+
+	# run docbook2html on the file
+	`docbook2html $curdir/$shortdocfile -o $curdir`;
+	symlink("$curdir/book1.html", "$curdir/index.html");
+} # end foreach version
+
+
+## subroutines
+
+##
+# GetTags();
+#
+sub GetTags()
+{
+	my @tags = ("HEAD");
+	my $rlog = `$cvs rlog $docfile`;
+	
+	if ($rlog =~ /symbolic names:\n(\s+.*\n)+/m)
+	{
+		my $rlogtags = $1;
+		my @lines = split(/\n/, $rlogtags);
+		foreach my $line (@lines)
+		{
+			push(@tags, $1) if ($rlogtags =~ /^\s+(.*?):.*$/);
+		} # end foreach tag in the rlog
+	} # end if symbolic names
+
+	return @tags;
+} # end GetTags();
+
+
