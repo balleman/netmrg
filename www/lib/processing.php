@@ -452,6 +452,26 @@ function GetNumAssocItems($object_type, $object_id)
 
 
 /**
+* GetGroupParents($group_id);
+*
+* returns all the groups parent group ids
+*/
+function GetGroupParents($group_id)
+{
+	$group_arr = array();
+	$group_item = $group_id;
+	
+	while ($group_item != 0)
+	{
+		$group_item = db_fetch_cell("SELECT parent_id FROM groups WHERE id = '$group_item'");
+		array_push($group_arr, $group_item);
+	} // end while more parents
+	
+	return $group_arr;
+} // end GetGroupParents();
+
+
+/**
 * GetDeviceGroups($device_id);
 *
 * returns the groups that this device is in as an array
@@ -471,8 +491,9 @@ function GetDeviceGroups($device_id)
 	while ($r = mysql_fetch_array($db_result))
 	{
 		array_push($group_arr, $r["group_id"]);
+		$group_arr = array_merge($group_arr, GetGroupParents($r["group_id"]));
 	} // end while we have results
-
+	
 	return $group_arr;
 } // end GetDeviceGroups();
 
@@ -498,8 +519,9 @@ function GetSubdeviceGroups($subdevice_id)
 	while ($r = mysql_fetch_array($db_result))
 	{
 		array_push($group_arr, $r["group_id"]);
+		$group_arr = array_merge($group_arr, GetGroupParents($r["group_id"]));
 	} // end while we have results
-
+	
 	return $group_arr;
 } // end GetSubdeviceGroups();
 
@@ -526,8 +548,9 @@ function GetMonitorGroups($monitor_id)
 	while ($r = mysql_fetch_array($db_result))
 	{
 		array_push($group_arr, $r["group_id"]);
+		$group_arr = array_merge($group_arr, GetGroupParents($r["group_id"]));
 	} // end while we have results
-
+	
 	return $group_arr;
 } // end GetMonitorGroups();
 
@@ -558,7 +581,7 @@ function GetCustomGraphGroups($customgraph_id)
 			array_push($group_arr, GetDeviceGroups($r["object_id"]));
 		} // end if device id, get groups
 	} // end while we have results
-
+	
 	return $group_arr;
 } // end GetCustomGraphGroups();
 

@@ -1,5 +1,7 @@
 2004.05.24  v0.16cvs  silfreed
   - bug#0000197 - SVO users can't see custom graphs
+  - bug#0000204 - SVO users can't see devices in subgroups when they're
+    granted permissions for the parent group
 
 2004.05.21  v0.16cvs  silfreed
   - bug#0000203 - when submitting a group 0 (root) on users.php, there was a notice
