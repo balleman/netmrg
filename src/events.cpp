@@ -9,6 +9,7 @@
 
 #include "events.h"
 #include "utils.h"
+#include "settings.h"
 
 uint process_events(DeviceInfo info, MYSQL *mysql)
 {
@@ -154,6 +155,8 @@ void process_responses(DeviceInfo info, MYSQL *mysql)
 		mysql_row = mysql_fetch_row(mysql_res);
 		info.response_id = strtoint(mysql_row[2]);
 		string command = string(mysql_row[0]) + " " + string(mysql_row[1]);
+		if (command[0] != '/')
+			command = get_setting(setPathLibexec) + "/" + command;
 		debuglogger(DEBUG_RESPONSE, LEVEL_INFO, &info, "Running Response: " + command);
 		system(command.c_str());
 	}

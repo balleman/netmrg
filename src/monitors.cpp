@@ -14,6 +14,7 @@
 #include "rrd.h"
 #include "locks.h"
 #include "events.h"
+#include "settings.h"
 
 string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 {
@@ -128,6 +129,8 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 	if (mysql_row[0] != NULL)
 	{
 		string command = expand_parameters(info, string(mysql_row[0]) + " " + info.test_params);
+		if (command[0] != '/')
+			command = get_setting(setPathLibexec) + "/" + command;
 
 		debuglogger(DEBUG_GATHERER, LEVEL_INFO, &info, "Sending '" + command + "' to shell.");
 
