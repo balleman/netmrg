@@ -2,7 +2,7 @@
 
 # options to install files in the www directory
 netmrg_wwwdir=$(localstatedir)/www/$(PACKAGE)
-nobase_netmrg_www_DATA = ./*
+nobase_netmrg_www_DATA = include lib webfiles
 
 # override the default netmrg_www install
 install-nobase_netmrg_wwwDATA: $(nobase_netmrg_www_DATA)
