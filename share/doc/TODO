@@ -32,17 +32,18 @@ when looking at a device's graphs, you should be able to click next to it
 
 
 == silfreed ==
-design public website
+public website
+  - flesh out content
 CSS-ificiation
   - sub-pages need redone (ick)
 custom image directories
   - spec file in that directory
     * key-value pairs for inclusion for (almost) every <img /> tag
   - select image directory from config.php
-make icons for links on various pages
 make netmrg xhtml compliant
-make svg images for most actions
-  - view edit interfaces disks status (red yellow green blue)
+make icons for links on various pages
+  - make svg images for most actions
+    * view edit interfaces disks status (red yellow green blue)
 
 
 == balleman ==
