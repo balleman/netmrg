@@ -185,6 +185,46 @@ function DrawGroupNavHistory($type, $id)
 			$_SESSION["netmrgsess"]["grpnav"]["event"] = "";
 	} // end if type
 	
+	// for each type, add the history to an array
+	$hist = array();
+	switch ($type)
+	{
+		case "event" : 
+			$t = ' : ';
+			if ($type != "event") $t .= '<a href="responses.php?event_id='.$_SESSION["netmrgsess"]["grpnav"]["event"].'">';
+			$t .= get_event_name($_SESSION["netmrgsess"]["grpnav"]["event"]);
+			if ($type != "event") $t .= "</a>\n";
+			array_push($hist, $t);
+
+		case "monitor" :
+			$t = ' : ';
+			if ($type != "monitor") $t .= '<a href="events.php?mon_id='.$_SESSION["netmrgsess"]["grpnav"]["monitor"].'">';
+			$t .= get_short_monitor_name($_SESSION["netmrgsess"]["grpnav"]["monitor"]);
+			if ($type != "monitor") $t .= "</a>\n";
+			array_push($hist, $t);
+
+		case "sub_device" :
+			$t = ' : ';
+			if ($type != "sub_device") $t .= '<a href="monitors.php?sub_dev_id='.$_SESSION["netmrgsess"]["grpnav"]["sub_device"].'">';
+			$t .= get_sub_device_name($_SESSION["netmrgsess"]["grpnav"]["sub_device"]);
+			if ($type != "sub_device") $t .= "</a>\n";
+			array_push($hist, $t);
+
+		case "device" :
+			$t = ' : ';
+			if ($type != "device") $t .= '<a href="sub_devices.php?dev_id='.$_SESSION["netmrgsess"]["grpnav"]["device"].'">';
+			$t .= get_device_name($_SESSION["netmrgsess"]["grpnav"]["device"]);
+			if ($type != "device") $t .= "</a>\n";
+			array_push($hist, $t);
+
+		case "group" :
+			$t = ' : ';
+			if ($type != "group") $t .= '<a href="devices.php?grp_id='.$_SESSION["netmrgsess"]["grpnav"]["group"].'">';
+			$t .= get_group_name($_SESSION["netmrgsess"]["grpnav"]["group"]);
+			if ($type != "group") $t .= "</a>\n";
+			array_push($hist, $t);
+	} // end switch type
+	
 	// assign the id to the type
 	$_SESSION["netmrgsess"]["grpnav"][$type] = $id;
 	
@@ -194,41 +234,11 @@ function DrawGroupNavHistory($type, $id)
 		History : 
         <a href="groups.php">All Groups</a>
 <?php
-	if (!empty($_SESSION["netmrgsess"]["grpnav"]["group"]))
+	// loop through the history backwards
+	for($i = count($hist)-1; $i >= 0; $i--)
 	{
-		echo ' : ';
-		if ($type != "group") echo '<a href="devices.php?grp_id='.$_SESSION["netmrgsess"]["grpnav"]["group"].'">';
-		echo get_group_name($_SESSION["netmrgsess"]["grpnav"]["group"]);
-		if ($type != "group") echo "</a>\n";
-	} // end if ! empty group
-	if (!empty($_SESSION["netmrgsess"]["grpnav"]["device"]))
-	{
-		echo ' : ';
-		if ($type != "device") echo '<a href="sub_devices.php?dev_id='.$_SESSION["netmrgsess"]["grpnav"]["device"].'">';
-		echo get_device_name($_SESSION["netmrgsess"]["grpnav"]["device"]);
-		if ($type != "device") echo "</a>\n";
-	} // end if ! empty device
-	if (!empty($_SESSION["netmrgsess"]["grpnav"]["sub_device"]))
-	{
-		echo ' : ';
-		if ($type != "sub_device") echo '<a href="monitors.php?sub_dev_id='.$_SESSION["netmrgsess"]["grpnav"]["sub_device"].'">';
-		echo get_sub_device_name($_SESSION["netmrgsess"]["grpnav"]["sub_device"]);
-		if ($type != "sub_device") echo "</a>\n";
-	} // end if ! empty sub_device
-	if (!empty($_SESSION["netmrgsess"]["grpnav"]["monitor"]))
-	{
-		echo ' : ';
-		if ($type != "monitor") echo '<a href="events.php?mon_id='.$_SESSION["netmrgsess"]["grpnav"]["monitor"].'">';
-		echo get_short_monitor_name($_SESSION["netmrgsess"]["grpnav"]["monitor"]);
-		if ($type != "monitor") echo "</a>\n";
-	} // end if ! empty monitor
-	if (!empty($_SESSION["netmrgsess"]["grpnav"]["event"]))
-	{
-		echo ' : ';
-		if ($type != "event") echo '<a href="responses.php?event_id='.$_SESSION["netmrgsess"]["grpnav"]["event"].'">';
-		echo get_event_name($_SESSION["netmrgsess"]["grpnav"]["event"]);
-		if ($type != "event") echo "</a>\n";
-	} // end if ! empty event
+		echo $hist[$i];
+	} // end for history
 ?>
 	</td></tr>
 	</table>
