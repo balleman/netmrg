@@ -8,7 +8,7 @@
 	<paths>
 		<rrdtool>@RRDTOOL@</rrdtool>
 		<lockfile>@prefix@/var/log/netmrg/lockfile</lockfile>
-		<runtimefile>@prefix@/var/log/netmrg/runtime</lockfile>
+		<runtimefile>@prefix@/var/log/netmrg/runtime</runtimefile>
 		<libexec>@prefix@/libexec/netmrg/</libexec>
 	</paths>
 	<threads>
