@@ -1,3 +1,6 @@
+2004.03.26  v0.15cvs  keb
+  - bug#0000179 - specify rrdtool location to configure
+
 2004.03.17  v0.15cvs  dwarner
   - fixed tripid bug in snmp_cache_view for 'Monitor/Graph All Checked'
 
