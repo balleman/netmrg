@@ -8,6 +8,7 @@
 $imagepackname = "default";
 $GLOBALS["netmrg"]["imagedir"] = "{$GLOBALS['netmrg']['webroot']}/images/$imagepackname";
 $GLOBALS["netmrg"]["imagespec"] = array(
+	"edit" => "edit.png",
 	"logo" => "netmrg-logo-small.png",
 	"disk" => "disk.png",
 	"arrow-up" => "arrow-up.png",
