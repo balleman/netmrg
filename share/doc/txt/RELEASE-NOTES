@@ -1,6 +1,15 @@
 
                           Chapter 2. Revision History
 
+     * 0.13
+
+       2003.12.19
+
+       Minor Bugfixes and Feature Enhancements; slide show ordering, previous
+       slide, resume slide show, better formatting of 'sums', errors on view
+       editing, fixes to permissions checking, and an occassional segfault in
+       the gatherer was fixed.
+
      * 0.12
 
        2003.12.15
