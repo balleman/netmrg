@@ -17,10 +17,11 @@ function format_time_elapsed($num_secs)
 	$the_secs = $num_secs;
 	$new_secs = $num_secs % 86400;
 	$days = ($num_secs - $new_secs) / 86400;
-	if ($days > 10000) {
-				return "Never";
-				exit;
-			   }
+	if ($days > 10000)
+	{
+		return "Never";
+		exit;
+	}
 	$num_secs = $new_secs;
 	$new_secs = $num_secs % 3600;
 	$hours = ($num_secs - $new_secs) / 3600;
@@ -37,7 +38,9 @@ function format_time_elapsed($num_secs)
 		}
 
         	$res .= sprintf("%02d:%02d:%02d",$hours,$mins,$new_secs);
-	} else {
+	}
+	else
+	{
 		$res .= "Unavailable";
 	}
 
@@ -157,7 +160,10 @@ function get_group_status($grp_id)
 		while ($grp_row = mysql_fetch_array($grp_results))
 		{
 			$grp_status = get_group_status($grp_row["id"]);
-			if (($grp_status > $status) && ($dev_status != 4)) { $status = $grp_status; }
+			if (($grp_status > $status) && ($dev_status != 4))
+			{
+				$status = $grp_status;
+			}
 		} // end while rows left
 
 		$dev_results = do_query("SELECT dev_id FROM dev_parents WHERE grp_id=$grp_id");
@@ -166,7 +172,10 @@ function get_group_status($grp_id)
 		while ($dev_row = mysql_fetch_array($dev_results))
 		{
 			$dev_status = get_device_status($dev_row["dev_id"]);
-			if (($dev_status > $status) && ($dev_status != 4)) { $status = $dev_status; }
+			if (($dev_status > $status) && ($dev_status != 4))
+			{
+				$status = $dev_status;
+			}
 		} // end for
 
 		$GLOBALS["state_group_" . $grp_id] = $status;
@@ -333,7 +342,7 @@ function delete_monitor($monitor_id)
 {
 	do_update("DELETE FROM monitors WHERE id=$monitor_id");
 
-	$events_handle = do_query("SELECT id FROM mon_events WHERE monitors_id=$monitor_id");
+	$events_handle = do_query("SELECT id FROM events WHERE mon_id=$monitor_id");
 	for ($i = 0; $i < mysql_num_rows($events_handle); $i++)
 	{
 		$event_row = mysql_fetch_array($events_handle);
@@ -345,7 +354,8 @@ function delete_monitor($monitor_id)
 function delete_event($event_id)
 {
 
-	do_update("DELETE FROM mon_events WHERE id=$event_id");
+	do_update("DELETE FROM events WHERE id=$event_id");
+	do_update("DELETE FROM conditions WHERE event_id=$event_id");
 
 	$responses_handle = do_query("SELECT id FROM mon_responses WHERE events_id=$event_id");
 

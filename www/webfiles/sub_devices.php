@@ -91,8 +91,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 
 	make_edit_table("Sub-Device Properties");
 	make_edit_text("Name:", "name", 40, 80, $row["name"]);
-	GLOBAL $SUB_DEVICE_TYPES;
-	make_edit_select_from_array("Sub-Device Type:", "type", $SUB_DEVICE_TYPES, $row["type"]);
+	make_edit_select_from_array("Sub-Device Type:", "type", $GLOBALS['SUB_DEVICE_TYPES'], $row["type"]);
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("sub_dev_id", $_REQUEST["sub_dev_id"]);
 	make_edit_hidden("dev_id", $_REQUEST["dev_id"]);

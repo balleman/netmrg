@@ -88,8 +88,7 @@ function do_list()
 	begin_page("monitor.php", "Monitors");
 
 	js_confirm_dialog("del", "Are you sure you want to delete monitor ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&mon_id=");
-	global $custom_add_link;
-	$custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}";
+	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}";
 	make_display_table("Monitors for " . get_sub_device_name($_REQUEST["sub_dev_id"]),"Test","", "Data", "", "Graph","");
 
 	$mon_results = do_query("SELECT * FROM monitors WHERE sub_dev_id={$_REQUEST['sub_dev_id']}");
@@ -109,7 +108,7 @@ function do_list()
 			$graph = "Not Graphed";
 		} // end if data type
 
-		if ($mon_row["delta_time"] == 0)
+		if ((!isset($mon_row['delta_time'])) || ($mon_row["delta_time"] == 0))
 		{
 			$rate_of_change = "";
 		}
@@ -117,8 +116,18 @@ function do_list()
 		{
 			$rate_of_change = sanitize_number($mon_row["delta_val"] / $mon_row["delta_time"],2);
 		} // end if delta
+		
+		if (!isset($mon_row['last_val']))
+		{
+			$mon_row['last_val'] = "";
+		}
+		
+		if (!isset($mon_row['last_time']))
+		{
+			$mon_row['last_time'] = "";
+		}
 
- 		$data = '<table border="0" cellpadding="2" cellspacing="2" align="left" width="100%" height="100%">
+		$data = '<table border="0" cellpadding="2" cellspacing="2" align="left" width="100%" height="100%">
 			<tr>
 				<td bgcolor="#eeeeee" width="50%">Value</td>
 				<td>'. sanitize_number($mon_row["last_val"]) .'</td>
