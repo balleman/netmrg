@@ -541,17 +541,22 @@ function GetMonitorGroups($monitor_id)
 function GetCustomGraphGroups($customgraph_id)
 {
 	$db_result = db_query("
-		SELECT object_id AS group_id
+		SELECT object_id, object_type
 		FROM view
-		WHERE object_type = 'group'
-		AND type = 'graph'
-		AND graph_id = '$customgraph_id'
-		GROUP BY group_id");
+		WHERE type = 'graph'
+		AND graph_id = '$customgraph_id'");
 
 	$group_arr = array();
 	while ($r = mysql_fetch_array($db_result))
 	{
-		array_push($group_arr, $r["group_id"]);
+		if ($r["object_type"] == "group")
+		{
+			array_push($group_arr, $r["object_id"]);
+		} // end if group id, push it on
+		else if ($r["object_type"] == "device")
+		{
+			array_push($group_arr, GetDeviceGroups($r["object_id"]));
+		} // end if device id, get groups
 	} // end while we have results
 
 	return $group_arr;

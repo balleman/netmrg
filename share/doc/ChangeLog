@@ -1,3 +1,6 @@
+2004.05.24  v0.16cvs  silfreed
+  - bug#0000197 - SVO users can't see custom graphs
+
 2004.05.21  v0.16cvs  silfreed
   - bug#0000203 - when submitting a group 0 (root) on users.php, there was a notice
   - default error reporting should be warnings and errors
