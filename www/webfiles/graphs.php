@@ -213,10 +213,13 @@ function display()
 		{
 			$apply_template_link = "&nbsp;" . 
 				formatted_link("Apply Template To...", "{$_SERVER['PHP_SELF']}?action=applytemplates&graph[$graph_id]=on");
+			$apply_template_link_multi = "&nbsp;&nbsp;" .
+				'&lt;<a class="editheaderlink" onclick="document.form.action.value="applytemplates";document.form.submit();" href="#">Apply Templates</a>&gt;';
 		}
 		else
 		{
 			$apply_template_link = "";
+			$apply_template_link_multi = "";
 		}
 
 		make_display_item("editfield".(($graph_count-1)%2),
@@ -235,8 +238,7 @@ function display()
 		&lt;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked graphs ?')){document.form.submit();}" href="#">Delete All Checked</a>&gt;
 		&nbsp;&nbsp;
 		&lt;<a class="editheaderlink" onclick="document.form.action.value='multiduplicate';document.form.submit();" href="#">Duplicate All Checked</a>&gt;
-		&nbsp;&nbsp;
-		&lt;<a class="editheaderlink" onclick="document.form.action.value='applytemplates';document.form.submit();" href="#">Apply Templates</a>&gt;
+		<?php echo $apply_template_link_multi; ?>
 	</td>
 </tr>
 <?php
