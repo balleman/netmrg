@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.1 $)
+AC_REVISION($Revision: 1.2 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -54,7 +54,7 @@ CPPFLAGS="$CPPFLAGS -I$mysql_include_dir"
 AC_ARG_WITH(snmp-include-dir,
 	AC_HELP_STRING(
 		[--with-snmp-include-dir],
-		[SNMP include base directory (auto-detects net/ucd-snmp) [[/usr/(local/)include]]]),
+		[SNMP include base directory [[/usr/(local/)include]]]),
 	[snmp_inc_base_dir=$withval])
 
 AC_ARG_WITH(snmp-lib-dir,
@@ -144,7 +144,7 @@ if test "x$snmp_inc_base_dir" != "x"; then
     test -f $snmp_inc_base_dir/$i/net-snmp-config.h && SNMP_INCDIR=$snmp_inc_base_dir/$i
   done
 else
-  for i in /usr/include /usr/local/include; do
+  for i in /usr/local/include /usr/include; do
     test -f $i/snmp.h && SNMP_INCDIR=$i
     test -f $i/ucd-snmp/snmp.h && SNMP_INCDIR=$i/ucd-snmp
     test -f $i/net-snmp/net-snmp-config.h && SNMP_INCDIR=$i/net-snmp
@@ -159,7 +159,7 @@ if test "x$snmp_lib_dir" != "x"; then
   test -f $snmp_lib_dir/libsnmp.a -o -f $snmp_lib_dir/libsnmp.so && SNMP_LIBDIR=$snmp_lib_dir
   test -f $snmp_lib_dir/libnetsnmp.a -o -f $snmp_lib_dir/libnetsnmp.so && SNMP_LIBDIR=$snmp_lib_dir
 else
-  for i in /usr/lib /usr/local/lib; do
+  for i in /usr/local/lib /usr/lib; do
     test -f $i/libsnmp.a -o -f $i/libsnmp.so && SNMP_LIBDIR=$i
     test -f $i/libnetsnmp.a -o -f $i/libnetsnmp.so && SNMP_LIBDIR=$i
   done
