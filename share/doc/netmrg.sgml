@@ -222,10 +222,18 @@ NetMRG does not need superuser permissions to run, therefore we will setup a use
 		<listitem>
 			<para>Setup crontab</para>
 			<para>
-You can setup the crontab entries in two places: either edit /etc/crontab,
-or run 'crontab -e' as root. For 'crontab -e', use an entry similar to this:
+You can setup the crontab entries in two places: either edit <filename>/etc/crontab</filename>,
+or run <command>crontab -e</command> as the netmrg user. For 'crontab -e', use an 
+entry similar to this:
 			</para>
-			<programlisting>*/5 * * * * /usr/local/bin/netmrg_cron.sh</programlisting>
+<programlisting>su netmrg
+*/5 * * * * /usr/local/bin/netmrg_cron.sh
+exit</programlisting>
+			<para>
+To edit the master crontab, edit <filename>/etc/crontab</filename> and add a line 
+similar to this:
+			</para>
+<programlisting>*/5 * * * * netmrg /usr/local/bin/netmrg_cron.sh</programlisting>
 		</listitem>
 		<listitem>
 			<para>

@@ -282,10 +282,17 @@
     7. Setup crontab
 
        You can setup the crontab entries in two places: either edit
-       /etc/crontab, or run 'crontab -e' as root. For 'crontab -e', use an
-       entry similar to this:
+       /etc/crontab, or run crontab -e as the netmrg user. For 'crontab -e',
+       use an entry similar to this:
 
+       su netmrg                                                       
        */5 * * * * /usr/local/bin/netmrg_cron.sh                       
+       exit                                                            
+
+       To edit the master crontab, edit /etc/crontab and add a line similar
+       to this:
+
+       */5 * * * * netmrg /usr/local/bin/netmrg_cron.sh                
 
     8. Point your web browser at your install, and start graphing things! The
        default login is admin and the default password is nimda. Point your
