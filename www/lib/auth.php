@@ -84,7 +84,6 @@ function check_auth($level)
 	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
 		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=invalid");
-		exit;
 
 	} // end if they aren't logged in
 
@@ -92,7 +91,6 @@ function check_auth($level)
 	else if (get_permit() < $level)
 	{
 		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
-		exit;
 
 	} // end if they don't have enough permissions
 
@@ -146,7 +144,7 @@ function ResetAuth()
 */
 function get_permit()
 {
-	if (!empty($_SESSION["netmrgsess"]["username"]) && !empty($_SESSION["netmrgsess"]["password"]))
+	if (IsLoggedIn())
 	{
 		$sql = "SELECT permit FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrgsess"]["password"]."',pass)";
 		$handle = do_query($sql);

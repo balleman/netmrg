@@ -24,7 +24,7 @@ function display_menu()
 			array("name" => "Notifications", "link" => "mon_notify.php", "descr" => "", "authLevelRequired" => 2)
 		),
 		"Reporting" => array(
-			array("name" => "Device Tree", "link" => "last_status.php", "descr" => "", "authLevelRequired" => 1),
+			array("name" => "Device Tree", "link" => "device_tree.php", "descr" => "", "authLevelRequired" => 1),
 			array("name" => "Event Log", "link" => "event_log.php", "descr" => "Display a list of the most recent events.", "authLevelRequired" => 1)
 		),
 		"Graphing" => array(
