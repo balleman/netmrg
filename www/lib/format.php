@@ -40,17 +40,8 @@ function space_to_nbsp($input)
 */
 function begin_page($pagename = "", $prettyname = "", $refresh = 0)
 {
-	// Define the initial formating for the page
-	global $menu_id, $menu_stat, $user_name;
-
-	if (isset($menu_id))
-	{
-        	// If there is a change to the menu, apply it
-        	change_menu_status($menu_id, $menu_stat);
-	} // end if
-
-	?>
-<?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
+echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
+?>
 <!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -75,7 +66,8 @@ function begin_page($pagename = "", $prettyname = "", $refresh = 0)
 </head>
 <body>
 <?php
-if (!empty($pagename)) {
+if (!empty($pagename))
+{
 ?>
 <!-- <?php echo $pagename; ?> -->
 <?php
@@ -83,7 +75,7 @@ if (!empty($pagename)) {
 ?>
 <table class="titletable" cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
-	<td class="main" rowspan="2" width="30">
+	<td class="logo" rowspan="2" width="35">
 		<img src="<?php echo get_image_by_name("logo"); ?>" alt="logo" border="0">
 	</td>
 	<td class="title_name" rowspan="2" width="100%">
@@ -241,10 +233,29 @@ function make_display_item($style = "editfield0")
 		$curitem = func_get_arg($item_num);
 ?>
 		<td class="<?php echo $style ?>">
-		<a class="<?php echo $style ?>" href="<?php 
-		if (!empty($curitem["href"])) { echo $curitem["href"]; } else { echo "#"; } ?>"><?php
-		if (!empty($curitem["text"])) { echo $curitem["text"]; } else { echo "&nbsp;"; }
-		?></a>
+<?php
+		if (!empty($curitem["href"]))
+		{
+?>
+		<a class="<?php echo $style ?>" href="<?php echo $curitem["href"]; ?>">
+<?php
+		} // end if href
+		
+		if (!empty($curitem["text"]))
+		{
+			echo $curitem["text"];
+		} // end if text
+		else
+		{
+			echo "&nbsp;";
+		} // end if no text
+		if (!empty($curitem["href"]))
+		{
+?>
+		</a>
+<?php
+		} // end if href
+?>
 		</td>
 <?php
 	} // end for

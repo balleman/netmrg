@@ -49,7 +49,26 @@ TD.menu
 	padding-bottom: 3px;
 }
 
-.title_name, A.title_name, A:visited.title_name
+.logo
+{
+	background-color : #6699CC;
+	color : black;
+	font-family : sans-serif;
+	font-size : 1px;
+	padding-top : 2px;
+	padding-left : 3px;
+}
+
+.title_name
+{
+	background-color : #6699CC;
+	color : black;
+	font-family : sans-serif;
+	font-size : 32px;
+	font-weight : bold;
+}
+
+A.title_name, A:visited.title_name
 {
 	background-color : #6699CC;
 	color : black;

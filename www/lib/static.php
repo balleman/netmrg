@@ -109,9 +109,6 @@ $INTERFACE_TYPE = array(
 			);
 
 
-
-
-
 $MENU = array(
 	"Monitoring" => array(
 		array("name" => "Groups", "link" => "groups.php", "descr" => "", "authLevelRequired" => 1),
