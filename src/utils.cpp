@@ -218,3 +218,15 @@ void U_to_NULL(string *input)
 		(*input) = string("'") + (*input) + string("'");
 	}
 }
+
+uint worstof(uint a, uint b)
+{
+	if (a > b)
+	{
+		return a;
+	}
+	else
+	{
+		return b;
+	}
+}

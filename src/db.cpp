@@ -51,7 +51,7 @@ MYSQL_RES *db_query(MYSQL *mysql, DeviceInfo *info, string query)
 	{
 		debuglogger(DEBUG_MYSQL, info, "MySQL Store Result failed.");
 	}
-
+	
 	return mysql_res;
 }
 

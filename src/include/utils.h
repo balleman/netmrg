@@ -38,6 +38,7 @@ long long int 	strtoint(string string_to_convert);
 string			inttopadstr(int integer, int padlen);
 string			count_file_lines(DeviceInfo info);
 void 			U_to_NULL(string *input);
+uint			worstof(uint a, uint b);
 
 // debugging functions
 int			get_debug_level();
