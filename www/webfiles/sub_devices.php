@@ -19,7 +19,7 @@ if (!isset($_REQUEST["action"]))
 	begin_page("sub_devices.php", "Sub Device");
 	js_confirm_dialog("del", "Are you sure you want to delete subdevice ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&dev_id={$_REQUEST['dev_id']}&sub_dev_id=");
 
-	$results = do_query("SELECT name, id, type FROM sub_devices WHERE sub_devices.dev_id={$_REQUEST['dev_id']}");
+	$results = do_query("SELECT name, id, type FROM sub_devices WHERE sub_devices.dev_id={$_REQUEST['dev_id']} ORDER BY name");
 
 	$custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&dev_id={$_REQUEST['dev_id']}";
 	make_display_table("Sub-Devices for " . get_device_name($_REQUEST["dev_id"]), "Sub-Devices", "", "Type", "");

@@ -163,9 +163,18 @@ function view_interface_cache()
 	for ($i = 0; $i < mysql_num_rows($handle); $i++)
 	{
 		$row = mysql_fetch_array($handle);
-		$status  = $GLOBALS['INTERFACE_STATUS'][$row['ifAdminStatus']] . "/";
-		$status .= $GLOBALS['INTERFACE_STATUS'][$row['ifOperStatus']] . " ";
-		$status .= $GLOBALS['INTERFACE_TYPE'][$row['ifType']];
+		if (isset($row['ifAdminStatus']))
+		{
+			$status  = $GLOBALS['INTERFACE_STATUS'][$row['ifAdminStatus']] . "/";
+		}
+		if (isset($row['ifOperStatus']))
+		{
+			$status .= $GLOBALS['INTERFACE_STATUS'][$row['ifOperStatus']] . " ";
+		}
+		if (isset($row['ifType']))
+		{
+			$status .= $GLOBALS['INTERFACE_TYPE'][$row['ifType']];
+		}
 		make_display_item(
 			$row["ifIndex"],	"",
 			$status, 		"",
