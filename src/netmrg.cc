@@ -379,7 +379,7 @@ uint process_events(DeviceInfo info, MYSQL *mysql)
 	return status;
 }
 
-void setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
+int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 {
 
         // This function examines the parameters for the subdevice and determines if any
@@ -392,6 +392,8 @@ void setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 
 	MYSQL_RES       *mysql_res;
 	MYSQL_ROW       mysql_row;
+
+	int		retval	= 0;
 
 	for (list<ValuePair>::iterator current = (*info).parameters.begin(); current != (*info).parameters.end(); current++)
 	{
@@ -438,6 +440,7 @@ void setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 	if (index == "")
 	{
 		debuglogger(DEBUG_SUBDEVICE, info, "Interface subdevice has no interface parameters.");
+		retval = -1;
 	}
 	else
 	{
@@ -479,15 +482,18 @@ void setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 		else
 		{
 		        debuglogger(DEBUG_SUBDEVICE, info, "Interface index not found.");
+			retval = -2;
 		}
 
 	 	mysql_free_result(mysql_res);
 
 	}
+	
+	return retval;
 
 }
 
-void setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
+int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 {
 	// just like setup_interface_parameters, but for disks instead
 
@@ -496,6 +502,8 @@ void setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 
 	MYSQL_RES       *mysql_res;
 	MYSQL_ROW       mysql_row;
+
+	int		retval	= 0;
 
 	for (list<ValuePair>::iterator current = (*info).parameters.begin(); current != (*info).parameters.end(); current++)
 	{
@@ -524,6 +532,7 @@ void setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 	if (index == "")
 	{
 		debuglogger(DEBUG_SUBDEVICE, info, "Disk subdevice has no disk parameters.");
+		retval = -1;
 	}
 	else
 	{
@@ -556,12 +565,14 @@ void setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 		else
 		{
 		        debuglogger(DEBUG_SUBDEVICE, info, "Disk index not found.");
+			retval = -2;
 		}
 
 	 	mysql_free_result(mysql_res);
 
 	}
-
+         
+	return retval;
 }
 
 // expand_parameters
@@ -816,6 +827,8 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 	MYSQL_ROW	mysql_row;
 	uint		status = 0;
 
+	int		subdev_status = 0;
+
 	debuglogger(DEBUG_SUBDEVICE, &info, "Starting Subdevice.");
 
 
@@ -841,16 +854,23 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 	{
 		case 1:			break; // group
 
-		case 2:			setup_interface_parameters(&info, mysql);
+		case 2:			subdev_status = setup_interface_parameters(&info, mysql);
 					break; // interface
 
-		case 3:			setup_disk_parameters(&info, mysql);
+		case 3:			subdev_status = setup_disk_parameters(&info, mysql);
 					break; // disk
 
 		default:                debuglogger(DEBUG_SUBDEVICE, &info, "Unknown subdevice type (" +
 					inttostr(info.subdevice_type) + ")");
+					subdev_status = -3;
 
 	}  // end subdevice type switch
+	
+	if (subdev_status < 0)
+	{
+		debuglogger(DEBUG_SUBDEVICE, &info, "Subdevice aborted due to previous errors.");
+		return 0;
+	}
 
 	// query the monitors for this subdevice
 
