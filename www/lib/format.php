@@ -740,4 +740,47 @@ function js_color_dialog()
 	<?php
 } // end js_color_dialog();
 
+
+/**
+* DisplayErrors($errors)
+*
+* display array of errors
+*/
+function DisplayErrors($errors)
+{
+	if (count($errors) > 0)
+	{
+		echo "<div>The following errors were encountered:</div>";
+		// foreach error
+		foreach ($errors as $error)
+		{
+			echo '<div class="error-text">'."\n";
+			echo $error;
+			echo "</div>\n";
+		} // end foreach error
+	} // end if we have errors
+} // end DisplayErrors();
+
+
+/**
+* DisplayResults($Results)
+*
+* display array of results
+*/
+function DisplayResults($results)
+{
+	if (count($results) > 0)
+	{
+		echo "<div>The following results occured:</div>";
+		// foreach error
+		foreach ($results as $result)
+		{
+			echo '<div class="result-text">'."\n";
+			echo $result;
+			echo "</div>\n";
+		} // end foreach result
+	} // end if we have results
+} // end DisplayResults();
+
+
 ?>

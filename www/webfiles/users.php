@@ -28,6 +28,17 @@ if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($a
 
 if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 {
+	// verify password change
+	if (!empty($_REQUEST["pass"]))
+	{
+		if ($_REQUEST["pass"] != $_REQUEST["vpass"])
+		{
+			begin_page("users.php", "User Management - Error");
+			echo "<div>Error: your passwords don't match; please go back and try again</div>";
+			end_page();
+			exit(0);
+		} // end if pass doesn't match vpass
+	} // end if pass
 
 	if ($_REQUEST["user_id"] == 0)
 	{
@@ -96,7 +107,9 @@ for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 		array("text" => $user_row["fullname"]),
 		array("text" => $GLOBALS['PERMIT_TYPES'][$user_row['permit']]),
 		array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&user_id=$user_id") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('".addslashes($user_row['user'])."', '{$user_row['id']}')"))
+			formatted_link("Prefs", "user_prefs.php?uid=$user_id") . "&nbsp;" .
+			formatted_link("Delete", "javascript:del('".addslashes($user_row['user'])."', '{$user_row['id']}')")
+			)
 	); // end make_display_item();
 
 } // end users
@@ -128,6 +141,7 @@ if (!empty($action) && ($action == "edit" || $action == "add"))
 	make_edit_text("User ID:", "user", "25", "50", $user_row["user"]);
 	make_edit_text("Full Name", "fullname", "25", "75", $user_row["fullname"]);
 	make_edit_password("Password:", "pass", "25", "50", "");
+	make_edit_password("Verify Password:", "vpass", "25", "50", "");
 	make_edit_select_from_array("Permit Type:", "permit", $GLOBALS['PERMIT_TYPES'], $user_row["permit"]);
 	make_edit_select_from_table("Group:", "group_id", "groups", $user_row["group_id"], "", array(0 => "-Root-"));
 	make_edit_hidden("action", "doedit");

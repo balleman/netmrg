@@ -271,6 +271,16 @@ A.editfield1, A:visited.editfield1
 	color : red;
 }
 
+.error-text
+{
+	color : red;
+}
+
+.result-text
+{
+	color : #00D000;
+}
+
 .empty
 {
 	font-family : sans-serif;

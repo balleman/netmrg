@@ -1,3 +1,7 @@
+2003.09.08  v0.10pre1  silfreed
+  - bug#0000031: added a 'user_prefs.php' page as well as a whole new system
+      of writing frontend pages
+
 2003.08.31  v0.10pre1  silfreed
   - bug#0000024: the 'next' link shouldn't always work now
   - bug#0000027: when adding a monitor, it won't select the first item in the

@@ -506,6 +506,20 @@ function GetCustomGraphGroups($customgraph_id)
 } // end GetCustomGraphGroups();
 
 
+/**
+* GetUsername($uid)
+*
+* returns the username for a uid
+*/
+function GetUsername($uid)
+{
+	$sql = "SELECT user FROM user WHERE id='$uid'";
+	$handle = db_query($sql);
+	$row = db_fetch_array($handle);
+	return $row["user"];
+} // end GetUsername();
+
+
 
 // Recursive Deletion Section (for orphan prevention if nothing else)
 

@@ -290,6 +290,25 @@ function get_permit()
 } // end get_permit()
 
 /**
+* GetUserID()
+*
+* gets the user id of the logged in user
+*/
+function GetUserID()
+{
+	if (IsLoggedIn())
+	{
+		$sql = "SELECT id FROM user WHERE user='" . $_SESSION["netmrgsess"]["username"] . "'";
+		$handle = db_query($sql);
+		$row = db_fetch_array($handle);
+		return $row["id"];
+	} // end IsLoggedIn
+	
+	return false;
+} // end GetUserID()
+
+
+/**
 * get_group_id()
 *
 * gets the group id of the logged in user

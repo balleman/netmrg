@@ -134,6 +134,7 @@ $MENU = array(
 	),
 	"Admin" => array(
 		array("name" => "Users", "link" => "users.php", "descr" => "User Management", "authLevelRequired" => 3),
+		array("name" => "Prefs", "link" => "user_prefs.php", "descr" => "Personal Preferences", "authLevelRequired" => 0),
 		array("name" => "Logout", "link" => "logout.php", "descr" => "End your NetMRG Session.", "authLevelRequired" => 0)
 	),
 	"Help" => array(
