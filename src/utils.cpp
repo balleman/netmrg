@@ -1,9 +1,17 @@
-/*
+/********************************************
+* NetMRG Integrator
+*
+* utils.cpp
+* NetMRG Gatherer Utilities Library
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-   NetMRG Utilities
-   Copyright 2001-2002 Brady Alleman, All Rights Reserved.
+#include <string>
+#include <sys/stat.h>
+#include <sys/types.h>
 
-*/
+#include "utils.h"
 
 // file_exists
 //
@@ -35,7 +43,7 @@ string stripnl(string input)
 
 } // end stripnl
 
-// keyword_replace - replace a keyword with a value throughout a string
+// token_replace - replace a token with a value throughout a string
 string token_replace(string &source, string token, string value)
 {
 	long int i;
@@ -100,27 +108,13 @@ string inttopadstr(int integer, int padlen)
 // 8 - Detailed Gatherer (scripts, snmp, sql)
 // 9 - Detailed mysql
 //
-
-#define DEBUG_GLOBAL		1
-#define	DEBUG_THREAD		2
-#define DEBUG_DEVICE		4
-#define DEBUG_SUBDEVICE		8
-#define DEBUG_MONITOR		16
-#define DEBUG_EVENT		32
-#define DEBUG_RESPONSE		64
-#define DEBUG_RRD		128
-#define DEBUG_SNMP		256
-#define DEBUG_GATHERER		512
-#define DEBUG_MYSQL		1024
-
-// Debugging Options
-int debug_level = DEBUG_GLOBAL + DEBUG_THREAD + DEBUG_DEVICE + DEBUG_SUBDEVICE + DEBUG_MONITOR +
-			DEBUG_EVENT + DEBUG_RESPONSE + DEBUG_RRD + DEBUG_SNMP + DEBUG_GATHERER + DEBUG_MYSQL;
-
+// Header contains constants.
 
 
 void debuglogger(int level, DeviceInfo *info_in, string message)
 {
+	extern int debug_levels;
+
 	DeviceInfo info;
 
 	if (info_in != NULL)
@@ -128,7 +122,7 @@ void debuglogger(int level, DeviceInfo *info_in, string message)
 		info = *info_in;
 	}
 
-	if (debug_level && level)
+	if (debug_levels && level)
 	{
 
 		string tempmsg = "";

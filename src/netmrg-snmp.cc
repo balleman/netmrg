@@ -10,6 +10,8 @@
 
 #define DS_APP_DONT_FIX_PDUS 0
 
+extern int debug_levels;
+
 void snmp_init()
 {
 	debuglogger(DEBUG_GLOBAL + DEBUG_SNMP, NULL, "Initializing SNMP library.");
@@ -52,7 +54,7 @@ string snmp_result(variable_list *vars)
 	sprint_realloc_variable(&buf, &buf_len, &out_len, 1, vars->name, vars->name_length, vars);
 	string result = (char *)buf;
 	free(buf);
-	
+
 	return result;
 }
 

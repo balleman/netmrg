@@ -1,6 +1,15 @@
+/********************************************
+* NetMRG Integrator
+*
+* netmrg.cpp
+* NetMRG Gatherer
+*
+* see doc/LICENSE for copyright information
+********************************************/
+
 /*
-   
-   NetMRG Monitoring Procedure 
+
+   NetMRG Monitoring Procedure
    Copyright 2001-2002 Brady Alleman, All Rights Reserved.
 
    MySQL examples from http://mysql.turbolift.com/mysql/chapter4.php3
@@ -28,20 +37,7 @@
 
 using namespace std;
 
-#define NETMRG_ROOT 		"/var/www/netmrg/"
-#define RRDTOOL 		"/usr/bin/rrdtool - "
-
-#define NTHREADS 		8 			// number of simultaneous threads
-#define THREAD_SLEEP 		150000			// number of microseconds between thread checks
-
-// MySQL Credentials
-#define MYSQL_HOST		"localhost"
-#define MYSQL_USER		"netmrgwrite"
-#define MYSQL_PASS		"netmrgwrite"
-#define MYSQL_DB		"netmrg"
-
-// Define the command that distributes reports
-#define DISTRIB_CMD "/var/www/netmrg/bin/distrib.sh"
+#include "config.h"
 
 // RRDTOOL Pipe
 FILE *rrdtool_pipe;
@@ -54,123 +50,18 @@ pthread_mutex_t mysql_lock 		= PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t snmp_lock 		= PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t rrdtool_lock 		= PTHREAD_MUTEX_INITIALIZER;
 
-// structs
-
-// ValuePair
-//
-// Used to store a name and value for a parameter used in
-// to expand parameters beforing being passed to external
-// scripts or used as part of a query.
-
-struct ValuePair
-{
-        string name;
-	string value;
-
-	ValuePair(string setname, string setvalue)
-	{
-		name 	= setname;
-		value   = setvalue;
-	}
-};
-
-// DeviceInfo
-//
-// Used to provide any subroutine working on a device or
-// a component of one with all information necessary.
-// This allows the information to be added to in only this
-// location and where it is needed, not as a parameter
-// in all interim functions.
-
-struct DeviceInfo
-{
-	int device_id;
-	int subdevice_id;
-	int monitor_id;
-	int event_id;
-	int response_id;
-
-	uint status;
-
-	uint snmp_avoid;
-	uint snmp_recache;
-	uint snmp_ifnumber;
-	long long int snmp_uptime;
-
-	uint subdevice_type;
-
-	int test_type;
-	int test_id;
-
-	string name;
-       	string ip;
-	string snmp_read_community;
-	string test_params;
-	string curr_val;
-	string last_val;
-	string delta_val;
-
-	list<ValuePair> parameters;
-
-	DeviceInfo()
-	{
-		device_id 		= -1;
-		subdevice_id		= -1;
-		monitor_id		= -1;
-		event_id		= -1;
-		response_id		= -1;
-
-		status			=  0;
-
-		snmp_avoid		=  0;
-		snmp_recache		=  0;
-		snmp_ifnumber		=  0;
-		snmp_uptime		=  0;
-
-		subdevice_type		=  0;
-
-		test_type		= -1;
-		test_id			= -1;
-		//test_params		= "";
-
-		curr_val		= "U";
-		last_val		= "U";
-		delta_val		= "U";
-
-	}
-};
-
-// RRDInfo
-//
-// Provides the information needed for creating
-// or updating an RRD file.
-
-struct RRDInfo
-{
-	string max_val;
-	string min_val;
-
-	int tuned;
-
-	string value;
-
-	string data_type;
-
-	RRDInfo()
-	{
-		max_val 	= "U";
-		min_val 	= "U";
-		tuned   	=   0;
-		data_type 	= "";
-	}
-};
-
-
 // Include the NetMRG Libraries
-#include <netmrg-utils.cc>
+#include "types.h"
+#include "utils.h"
+
+// we need debug_levels here
+extern int debug_levels;
+
 #include <netmrg-snmp.cc>
 #include <netmrg-db.cc>
 #include <netmrg-misc.cc>
+
+
 
 
 // rrd_cmd
@@ -345,7 +236,7 @@ void update_monitor_db(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 
 
 	db_update(mysql, &info, "UPDATE monitors SET tuned=1, last_val=" + info.curr_val +
-		", delta_val=" + info.delta_val + 
+		", delta_val=" + info.delta_val +
 		", delta_time=UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(last_time), "+
 		"last_time=NOW(), status=" + inttostr(info.status) +
 		" WHERE id=" + inttostr(info.monitor_id));
@@ -1245,7 +1136,7 @@ void process_device(int dev_id)
 	db_update(&mysql, &info, "UPDATE mon_devices SET status=" + inttostr(status) + " WHERE id=" + inttostr(dev_id));
 
 	mysql_close(&mysql);
-	
+
 	debuglogger(DEBUG_DEVICE, &info, "Ending device thread.");
 
 
@@ -1306,7 +1197,7 @@ void run_netmrg()
 	// RRDTOOL command pipe setup
 	debuglogger(DEBUG_GLOBAL + DEBUG_RRD, NULL, "Initializing RRDTOOL pipe.");
 	string rrdtool = RRDTOOL;
-	if (!(debug_level && DEBUG_RRD))
+	if (!(debug_levels && DEBUG_RRD))
 		rrdtool = rrdtool + " >/dev/null";
 	rrdtool_pipe = popen(rrdtool.c_str(), "w");
 	// sets buffering to one line
@@ -1502,7 +1393,7 @@ int main(int argc, char **argv)
 		{
 			case 'h': show_usage(); exit(0); break;
 			case 'v': show_version(); exit(0); break;
-			case 'q': debug_level = 0; break;
+			case 'q': debug_levels = 0; break;
 			case 'i': external_snmp_recache(strtoint(optarg), 1); exit(0); break;
 			case 'd': external_snmp_recache(strtoint(optarg), 2); exit(0); break;
 		}
