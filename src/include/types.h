@@ -115,6 +115,8 @@ struct DeviceInfo
 		snmp_timeout	= 1000000;
 		snmp_retries	= 4;
 		snmp_port		= 161;
+
+		snmp_sess_p		= NULL;
 	}
 };
 
