@@ -65,7 +65,7 @@ else
 	{
 		$_COOKIE["netmrgDevTree"]["monitor"] = array();
 	} // end if monitor not empty
-}
+} // end else some cookies
 
 // if we need to do something
 if (!empty($_REQUEST["action"]))
