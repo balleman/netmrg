@@ -4,6 +4,23 @@
 ---------------------------------------------------------
 -- Server version	4.0.13
 
+
+--
+-- Table structure for table 'versioninfo'
+--
+
+CREATE TABLE versioninfo (
+	module varchar(64) NOT NULL,
+	version varchar(16) NOT NULL
+);
+
+--
+-- Dumping data for table 'versioninfo'
+--
+
+INSERT INTO versioninfo VALUES ('Main', '0.10pre1');
+
+
 --
 -- Table structure for table 'conditions'
 --
