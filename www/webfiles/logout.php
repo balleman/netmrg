@@ -2,14 +2,17 @@
 /********************************************
 * NetMRG Integrator
 *
-* index.php
-* Site Index Page
+* logout.php
+* Site Logout Page
 *
 * see doc/LICENSE for copyright information
 ********************************************/
 
 
 require_once("../include/config.php");
-header("Location: login.php");
+
+
+ResetAuth();
+header("Location: {$GLOBALS['netmrg']['webroot']}/login.php");
 
 ?>

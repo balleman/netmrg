@@ -1,22 +1,104 @@
-<?
+<?php
+/********************************************
+* NetMRG Integrator
+*
+* stat.php
+* Static Data Integration Module
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Static Data Integration Module             #
-#           stat.php                                   #
-#                                                      #
-#     Copyright (C) 2001 Brady Alleman.                #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
-require_once("/var/www/netmrg/lib/database.php");
+/***** CONSTANTS *****/
+$ALIGN_ARRAY = array(
+			1	=>	"Left",
+			2	=>	"Right",
+			3	=>	"Right Split");
+
+$RRDTOOL_ITEM_TYPES = array(
+
+			1	=>	"LINE1",
+			2	=>	"LINE2",
+			3	=>	"LINE3",
+			4	=>	"AREA",
+			5	=>	"STACK");
+
+$TEST_TYPES = array(
+			1	=>	"Script",
+			2	=>	"SNMP",
+			3	=>	"SQL",
+			4	=>	"Internal");
+
+$PERMIT_TYPES = array(
+			0	=>	"Single View Only",
+			1	=>	"Read All",
+			2	=>	"Read/Write",
+			3	=>	"Read/Write/User Admin");
+
+$SUB_DEVICE_TYPES = array(
+			1	=>	"Group",
+			2	=>	"Interface",
+			3	=>	"Disk");
+
+$TRIGGER_TYPES = array(
+			1	=>	"On Change",
+			2	=>	"Never (disabled)");
+
+$SITUATIONS = array(
+			0	=>	"Disabled",
+			1	=>	"Normal",
+			2	=>	"Warning",
+			3	=>	"Critical");
+
+$LOGIC_CONDITIONS = array(
+			0	=>	"AND",
+			1	=>	"OR");
+
+$CONDITIONS = array(
+			0	=>	"&lt;",
+			1	=>	"=",
+			2	=>	"&gt;",
+			3	=>	"&le;",
+			4	=>	"&ne;",
+			5	=>	"&ge;");
+
+$VALUE_TYPES = array(
+			0	=>	"Current Value",
+			1	=>	"Delta Value",
+			2	=>	"Rate of Change");
+
+$MENU = array(
+	"Monitoring" => array(
+		array("name" => "Groups", "link" => "mon_groups.php", "descr" => "", "authLevelRequired" => 1),
+		array("name" => "Device Types", "link" => "mon_device_types.php", "descr" => "", "authLevelRequired" => 2),
+		array("name" => "Notifications", "link" => "mon_notify.php", "descr" => "", "authLevelRequired" => 2)
+	),
+	"Reporting" => array(
+		array("name" => "Device Tree", "link" => "device_tree.php", "descr" => "", "authLevelRequired" => 1),
+		array("name" => "Event Log", "link" => "event_log.php", "descr" => "Display a list of the most recent events.", "authLevelRequired" => 1)
+	),
+	"Graphing" => array(
+		array("name" => "Custom Graphs", "link" => "custom_graphs.php", "descr" => "", "authLevelRequired" => 1)
+	),
+	"Tests" => array(
+		array("name" => "Scripts", "link" => "tests_script.php", "descr" => "External Programs", "authLevelRequired" => 2),
+		array("name" => "SNMP", "link" => "tests_snmp.php", "descr" => "SNMP Queries", "authLevelRequired" => 2),
+		array("name" => "SQL", "link" => "tests_sql.php", "descr" => "Database Queries", "authLevelRequired" => 2)
+	),
+	"Admin" => array(
+		array("name" => "Users", "link" => "users.php", "descr" => "User Management", "authLevelRequired" => 3),
+		array("name" => "Logout", "link" => "logout.php", "descr" => "End your NetMRG Session.", "authLevelRequired" => 0)
+	),
+	"Help" => array(
+		array("name" => "About", "link" => "about.php", "descr" => "", "authLevelRequired" => 0)
+	)
+); // end $MENU
+
+
+
 
 // Return the path to an image based on the internal name of the image.
-function get_image_by_name($img_name) 
+function get_image_by_name($img_name)
 {
 	$image = "";
 	$dir   = "img";
@@ -47,14 +129,13 @@ function get_image_by_name($img_name)
 	}
 
 	return $image;
-
 } // end get_image_by_name
 
 
 $alt_color = 0;
 
-function get_color_by_name($color_name) {
-
+function get_color_by_name($color_name)
+{
 	GLOBAL $alt_color;
 
 	$color = "#FFFFFF";
@@ -86,30 +167,7 @@ function get_color_by_name($color_name) {
 	}
 
 	return $color;
-
-
-} # end get_color_by_name
-
-function get_path_by_name($path_name)
-{
-	# Return the path of the specified object
-
-	$query_handle = do_query("SELECT * FROM static_paths WHERE name=\"$path_name\"");
-	$row = mysql_fetch_array($query_handle);
-
-	return $row["path"];
-
-} # end get_path_by_name
-
-function netmrg_root() 
-{
-	return get_path_by_name("root");
-}
-
-function get_site_name()
-{
-	return "TreehouseTechnologies";
-}
+} // end get_color_by_name
 
 
 ?>

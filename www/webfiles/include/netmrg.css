@@ -1,0 +1,189 @@
+A, A:visited
+{
+	color : #0000B0;
+	text-decoration: none;
+}
+
+A:hover, A:active
+{
+	color : #FF8C00;
+	text-decoration: underline;
+}
+
+BODY
+{
+	background-color : #EAEAEA;
+	color : black;
+	font-family: sans-serif;
+	font-size: 10px;
+	margin: 0px;
+	border: 0px;
+}
+
+TABLE, TR, TD
+{
+	font-family: sans-serif;
+	font-size: 10px;
+}
+
+TR.title, TD.title
+{
+	height: 50px;
+}
+
+TABLE.full, TR.full, TD.full
+{
+	height: 100%;
+	width: 100%;
+}
+
+TD.menu 
+{
+	font-family: sans-serif;
+	font-size: 12px;
+	width: 125px;
+}
+
+.titletable
+{
+	padding-bottom: 3px;
+}
+
+.title_name
+{
+	background-color : navy;
+	color : #EAEAEA;
+	font-family : sans-serif;
+	font-size : 24px;
+	font-weight : bold;
+	padding-left: 3px;
+	padding-top: 2px;
+	padding-bottom: 1px;
+}
+
+A.title_name, A:visited.title_name
+{
+	background-color : navy;
+	color : #EAEAEA;
+	font-family : sans-serif;
+	font-size : 24px;
+	font-weight : bold;
+	text-decoration : none;
+}
+
+A:hover.title_name, A:active.title_name
+{
+	background-color : navy;
+	color : #FF8C00;
+	font-family : sans-serif;
+	font-size : 24px;
+	font-weight : bold;
+	text-decoration : underline;
+}
+
+.company
+{
+	background-color : navy;
+	color : #EAEAEA;
+	font-family : sans-serif;
+	font-size : 16px
+	font-weight : bold;
+	padding-right: 5px;
+}
+
+A.company, A:visited.company
+{
+	background-color : navy;
+	color : #EAEAEA;
+	font-family : sans-serif;
+	font-size : 16px;
+	font-weight : bold;
+	text-decoration : none;
+}
+
+A:hover.company, A:active.company
+{
+	background-color : navy;
+	color : #FF8C00;
+	font-family : sans-serif;
+	font-size : 16px;
+	font-weight : bold;
+	text-decoration : underline;
+}
+
+.logindata
+{
+	background-color : navy;
+	color : #EAEAEA;
+	font-family : sans-serif;
+	font-size : 10px;
+	padding-bottom: 4px;
+}
+
+.loggedouttext
+{
+	background-color : navy;
+	color : #E00000;
+	font-family : sans-serif;
+	font-size : 10px;
+}
+
+.loggedintext
+{
+	background-color : navy;
+	color : #EAEAEA;
+	font-family : sans-serif;
+	font-size : 10px;
+}
+
+.loggedinuser
+{
+	background-color : navy;
+	color : #00D000;
+	font-family : sans-serif;
+	font-size : 10px;
+}
+
+.menutable
+{
+	border-right: 1px solid #002000;
+	border-left: 1px solid #002000;
+	border-bottom: 1px solid #002000;
+}
+
+.menuhead
+{
+	background-color : #005000;
+	color : #D0D0D0;
+	font-family : sans-serif;
+	font-size : 12px;
+	font-weight : bold;
+	width: 125px;
+	border-top : 1px solid #002000;
+	border-bottom : 1px solid #002000;
+	padding-left: 3px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+}
+
+.menuitem
+{
+	background-color : #D0D0D0;
+	color : #0000B0;
+	width: 125px;
+	font-family : sans-serif;
+	font-size : 12px;
+	padding-left: 3px;
+}
+
+.error
+{
+	color : red;
+}
+
+.empty
+{
+	font-family : sans-serif;
+	font-size : 0px;
+}
+

@@ -1,50 +1,58 @@
-<?
+<?php
+/********************************************
+* NetMRG Integrator
+*
+* menu.php
+* Menu Display Module
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Menu Display Module                        #
-#           menu.php                                   #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
-
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/database.php");
 
 function display_menu()
 {
+	global $MENU;
 
-	$menu_q = do_query("SELECT * FROM menu WHERE state=0 ORDER BY groupid,priority");
+	echo '<table class="menutable" cellpadding="0" cellspacing="0" border="0">'."\n";
 	
-	echo("<table border='1' width='100%' cellpadding='2' class='Menu' ");
-	echo("bgcolor='" . get_color_by_name("menu_background") . "'>");
-	
-	for ($i = 0; $i < mysql_num_rows($menu_q); $i++)
+	while (list($menuname, $menuitems) = each($MENU))
 	{
-		$menu_row = mysql_fetch_array($menu_q);
-		
-		if ($menu_row["priority"] == 0)
+		// foreach menu item
+		$item_output = "";
+		foreach ($menuitems as $menuitem)
 		{
-			if ($i != 0)
+			if (get_permit() >= $menuitem["authLevelRequired"])
 			{
-				echo("</td></tr>");
-			}
-			echo("<tr><td class='menu' bgcolor='" . get_color_by_name("edit_main_header") . "'>");
-			echo("<font color='" . get_color_by_name("edit_main_header_text") . "'><strong>");
-			echo($menu_row["label"] . "</strong></font></td></tr><tr><td class='menu'>");
-		} else {
-			echo("<a href='" . $menu_row["link"] . "' name='" . $menu_row["caption"] . "'>");
-			echo($menu_row["label"] . "</a><br>");
-		}
-	}
-	echo("</td></tr></table>");
+				$item_output .= '<tr><td class="menuitem">'."\n";
+				$item_output .= '<a class="menuitem" href="'. $menuitem["link"] .'" name="'. $menuitem["descr"] .'">';
+				$item_output .= $menuitem["name"];
+				$item_output .= "</a><br />\n";
+				$item_output .= "</td></tr>\n";
+			} // end if we have enough permissions to view this link
+		} // end foreach menu item
 
-}
-		
+		// if we had some item output (ie, we had auth to view at least ONE item in this submenu)
+		if (!empty($item_output))
+		{
+			// output the head
+			echo '<tr><td class="menuhead">'."\n";
+			echo $menuname;
+			echo "</td></tr>\n";
+
+			// echo the items
+			echo $item_output;
+
+			// echo the bottom part
+			echo '<tr><td class="menuitem">'."\n";
+			echo "<br />\n";
+			echo "</td></tr>\n";
+		} // end if item output wasn't empty
+
+	} // end while we still have menu items
+
+	echo "</table>\n";
+
+} // end display_menu();
+
 
 ?>

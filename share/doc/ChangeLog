@@ -1,0 +1,49 @@
+0.8  2003.01.15  silfreed
+  - implemented external http auth support (untested)
+
+
+0.8  2003.01.13  silfreed
+  - updated copyright info on every .php page to refer to doc/LICENSE
+  - new versioning/changelog scheme
+
+
+0.8  2003.01.12  silfreed
+  - wrote device_tree.php (based on last_status.php)
+  - auth code much more complete
+    * will logout a user if they've been logged in too long
+    * will logout a user if they're from a new IP
+    * implemented on every page
+  - menu.php updated to use static array (in stat.php)
+    * includes support for displaying links based on auth levels
+
+
+== versions before 2002.11.19 didn't have a date assocated with them ==
+0.79.3a
+  - CVS-ification
+  - continue rewrite of C++ code
+  - extensive use of CSS
+  - update of all web pages to work with 'register_globals' off
+    * this requires PHP 4.1+
+  - use php long start tags instead of short ones
+  - C++ code supports net-snmp library
+
+0.79.2a
+  - reconstruction of C++ code
+
+0.79.1a
+  - sub-devices and database restructuring.
+  - menu and title bar redesign
+
+0.79.0a
+  - First version with a change log.
+  - alternating table row colors
+  - numeric sorting of if_index in snmp_cache
+  - working multiple simultaneous pthreads
+  - tiered deletion (facilitating orphan prevention)
+  - make color selections static
+  - allow for nested groups
+  - removed cookie expiration for device tree
+  - fixed some major inefficiencies in the device tree
+  - popup color chooser
+  - javascript-based delete confirmation
+

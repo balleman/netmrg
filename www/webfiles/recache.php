@@ -1,18 +1,32 @@
-<? 
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
-require_once(netmrg_root() . "lib/snmp_caching.php");
-require_once(netmrg_root() . "lib/database.php");
+<?php 
+/********************************************
+* NetMRG Integrator
+*
+* recache.php
+* SNMP recaching script
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-$handle = do_query("SELECT * FROM mon_devices WHERE id=$dev_id");
+require_once("../include/config.php");
+
+$handle = do_query("SELECT * FROM mon_devices WHERE id={$_REQUEST['dev_id']}");
 $row = mysql_fetch_array($handle);
-begin_page(2);
+begin_page("recache.php", "SNMP Recache");
+
 echo "<PRE>";
-if ($type == "disk") {
+
+if (!empty($_REQUEST["type"]) && $_REQUEST["type"] == "disk")
+{
 	cache_disks($row);
-	} else {
+}
+else
+{
 	cache_device($row);
-	}
+} // end if type
+
 echo "</PRE>";
+
 end_page();
+
 ?>

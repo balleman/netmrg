@@ -1,0 +1,63 @@
+== showstoppers for 0.9 ==
+graph templating
+device duplication
+responses
+new snmp cacher
+more detailed INSTALL
+more detailed README
+'makedist' script
+
+
+== before going public ==
+website
+get new netmrg monitoring something (duo)
+find a bug/todo tracking system
+find a mailing list/message board
+
+
+== global ==
+device duplication
+prevent a group being its own parent (during editing)
+page titles should reflect where you're at
+recache.php
+  A couple notices in snmp_caching.php on line 115
+  c++ify?
+ability to go 'up' a level when browsing 'Groups' et al
+snmp_cache_view.php:
+  "Make Graph" needs overhauled
+view page should reflect status information
+monitors.php:
+  add javascript check so you can't enter a minimum < maximum
+format.php
+  no more $custom_add_link!
+
+
+== silfreed ==
+design public website
+research bugzilla & alternatives
+  - bug tracking
+  - todo tracking
+research message board/mailing list
+  - searchable archives
+  - thread view
+CSS-ificiation
+  - sub-pages need redone (ick)
+
+
+== balleman ==
+graph templates
+make responses work
+snmp cacher rewrite
+netmrg.cc
+  more comprehensive way of setting debug levels needed
+mon_responses.php
+  javascript delete action
+
+
+== far-away features ==
+customized 'view' page
+  - if one graph shown, ability to zoom in on a area (custom min/max)
+  - on the main view page, select boxes to pick which graphs you would like to see
+    (makes it easier to compare some graphs)
+  - ability to move graphs up/down despite their original ordering (session fun)
+  - nestable conditions for events
