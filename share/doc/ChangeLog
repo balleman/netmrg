@@ -1,3 +1,6 @@
+2003.10.18  v0.10  silfreed
+  - bug#0000077 - deleting a device from a group deleted that device completely
+
 2003.10.14  v0.10  balleman
   - bug#0000064 - SNMPv2c support
   - bug#0000066 - specify SNMP port support

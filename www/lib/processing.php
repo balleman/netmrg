@@ -577,29 +577,36 @@ function delete_group($group_id)
 } // end delete_group();
 
 
-function delete_device($device_id)
+function delete_device($device_id, $group_id)
 {
-	// delete the device
-	db_update("DELETE FROM devices WHERE id=$device_id");
-
-	// remove the interface for the device
-	db_update("DELETE FROM snmp_interface_cache WHERE dev_id=$device_id");
-
-	// remove the disk cache for the device
-	db_update("DELETE FROM snmp_disk_cache WHERE dev_id=$device_id");
-
-	// remove associated graphs
-	db_update("DELETE FROM view WHERE object_type='device' AND object_id=$device_id");
-
-	// remove group associations
-	db_update("DELETE FROM dev_parents WHERE dev_id=$device_id");
-
-	$subdev_handle = db_query("SELECT id FROM sub_devices WHERE dev_id=$device_id");
-
-	while ($subdev_row = db_fetch_array($subdev_handle))
+	// 'unparent' the device
+	db_update("DELETE FROM dev_parents WHERE dev_id = '$device_id' AND grp_id = '$group_id'");
+	
+	/** If this device is not part of any groups anymore, finish deleting it **/
+	$dev_parent_res = db_query("SELECT count(*) AS count FROM dev_parents WHERE dev_id = '$device_id'");
+	$dev_parent_row = db_fetch_array($dev_parent_res);
+	
+	if ($dev_parent_row["count"] == 0)
 	{
-		delete_subdevice($subdev_row["id"]);
-	}
+		// delete the device
+		db_update("DELETE FROM devices WHERE id = '$device_id'");
+		
+		// remove the interface for the device
+		db_update("DELETE FROM snmp_interface_cache WHERE dev_id = '$device_id'");
+		
+		// remove the disk cache for the device
+		db_update("DELETE FROM snmp_disk_cache WHERE dev_id = '$device_id'");
+		
+		// remove associated graphs
+		db_update("DELETE FROM view WHERE object_type='device' AND object_id = '$device_id'");
+		
+		$subdev_handle = db_query("SELECT id FROM sub_devices WHERE dev_id = '$device_id'");
+		
+		while ($subdev_row = db_fetch_array($subdev_handle))
+		{
+			delete_subdevice($subdev_row["id"]);
+		}
+	} // end if no parents left for device
 } // end delete_device();
 
 

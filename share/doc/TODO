@@ -1,5 +1,4 @@
-== Requirements for 0.10 ==
-all trivial bugs
+== Requirements for 1.0 ==
 bug#38 - inline docs
 bug#55 - Solaris support
 bug#56 - MRTG conf importer
@@ -13,19 +12,17 @@ snmp_cache_view.php:
   need a "Graph All" feature
   depends on: checkbox/group actions
 page titles should reflect where you're at
-view page should reflect status information
-  (based on status of monitors of graphs)
+  - names of devices, etc
 user preferences
   themes
 a device's type can affect the list of tests that can be performed on it
 when looking at a device's graphs, you should be able to click next to it
   and follow it to the next device (if applicable)
-ensure proper escaping in all queries
 
 
 == silfreed ==
 public website
-  - add news section
+  - add (dynamic) news section
 checkboxes on most pages - provide for massive deletes, duplications, etc
 make netmrg xhtml compliant
 make icons for links on various pages

@@ -72,7 +72,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "dodelete")
 	{
 		check_auth(2);
-		delete_device($_REQUEST["dev_id"]);
+		delete_device($_REQUEST["dev_id"], $_REQUEST["grp_id"]);
 		header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
 		exit();
 	} // done deleting
