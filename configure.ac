@@ -138,6 +138,7 @@ AC_ARG_ENABLE(warnings,
 
 
 ### Checks for libraries.
+AC_CHECK_LIB(intl, bindtextdomain)
 AC_CHECK_LIB(dl, dlopen)
 AC_CHECK_LIB(z, compress)
 AC_CHECK_LIB(pthread, pthread_create,
