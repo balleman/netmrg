@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.22 $)
+AC_REVISION($Revision: 1.23 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -82,7 +82,9 @@ case $host_alias in
 *linux*)
     AC_DEFINE(HAVE_LONG_LONG_SCANF, 1, scanf supports long long);;
 *freebsd*)
-    CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+    CPPFLAGS="$CPPFLAGS -I/usr/local/include";;
+*openbsd*)
+    LIBS="-ldes $LIBS";;
 esac
 
 
@@ -343,7 +345,7 @@ AC_CHECK_LIB(netsnmp, snmp_timeout,
 
 if test "$HAVE_NET_SNMP" = "no"; then
   AC_CHECK_LIB(snmp, snmp_timeout,,
-	AC_MSG_ERROR(Cannot find UCD-SNMP libraries),[-ldes])
+	AC_MSG_ERROR(Cannot find UCD-SNMP libraries))
 fi
 
 AC_CONFIG_FILES(Makefile)
