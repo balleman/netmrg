@@ -68,23 +68,32 @@ function make_graph()
 	}
 }
 
+function int_column_unique($dev_id, $column)
+{
+	$q = db_query("SELECT DISTINCT $column FROM snmp_interface_cache WHERE dev_id='$dev_id'");
+	$distinct = db_num_rows($q);
+	$q = db_query("SELECT $column FROM snmp_interface_cache WHERE dev_id='$dev_id'");
+	$overall = db_num_rows($q);
+	return ( $distinct == $overall );
+}
+
 function make_interface_graph($dev_id, $index)
 {
 	check_auth($PERMIT["ReadWrite"]);
-
+	
 	// get snmp index data
 	$q_snmp = db_query("SELECT * FROM snmp_interface_cache WHERE dev_id='$dev_id' AND ifIndex='$index'");
 	$r_snmp = db_fetch_array($q_snmp);
 
-	if (isset($r_snmp["ifName"]) && !empty($r_snmp["ifName"]))
+	if (isset($r_snmp["ifName"]) && !empty($r_snmp["ifName"]) && int_column_unique($dev_id, "ifName"))
 	{
 		$index_type = "ifName";
 	}
-	elseif (isset($r_snmp["ifDescr"]) && !empty($r_snmp["ifDescr"]))
+	elseif (isset($r_snmp["ifDescr"]) && !empty($r_snmp["ifDescr"]) && int_column_unique($dev_id, "ifDescr"))
 	{
 		$index_type = "ifDescr";
 	}
-	elseif (isset($r_snmp["ifIP"]) && !empty($r_snmp["ifIP"]))
+	elseif (isset($r_snmp["ifIP"]) && !empty($r_snmp["ifIP"]) && int_column_unique($dev_id, "ifIP"))
 	{
 		$index_type = "ifIP";
 	}
