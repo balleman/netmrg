@@ -11,10 +11,11 @@ cvsver=`echo $version | sed -e 's/\./_/g'`
 this="$progname-$version"
 pkgdir="/tmp"
 
-cd $pkgdir
+rm -rf $pkgdir/$this/
+rm -f $pkgdir/$this.tar.gz
+rm -f $pkgdir/$this.tar.bz2
 
-rm -rf $this/
-rm -f $this.tar.gz
+svn export http://svn.$progname.net/branches/$progname-$cvsver $pkgdir/$this
+tar -C $pkgdir -czf $pkgdir/$this.tar.gz  $this
+tar -C $pkgdir -cjf $pkgdir/$this.tar.bz2 $this
 
-cvs export -r $progname"-"$cvsver -d $this $progname
-tar czf $this.tar.gz $this
