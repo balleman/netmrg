@@ -57,8 +57,12 @@ foreach my $ver (@versions)
 		symlink("$curdir/book1.html", "$curdir/index.html");
 	}
 	
-	rename("$docfolder/$ver", "$docfolder/CVS") if ($ver eq "HEAD");
-	if ($ver =~ /^netmrg-(\d+)\_(\S+)/)
+	if ($ver eq "HEAD")
+	{
+		`rm -rf "$docfolder/CVSHEAD"`;
+		rename("$docfolder/$ver", "$docfolder/CVSHEAD");
+	} # end if head
+	elsif ($ver =~ /^netmrg-(\d+)\_(\S+)/)
 	{
 		`rm -rf "$docfolder/NetMRG-$1.$2"`;
 		rename("$docfolder/$ver", "$docfolder/NetMRG-$1.$2");
