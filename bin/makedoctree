@@ -54,6 +54,7 @@ foreach my $ver (@versions)
 	else
 	{
 		`docbook2html $curdir/$shortdocfile -o $curdir`;
+		symlink("$curdir/book1.html", "$curdir/index.html");
 	}
 } # end foreach version
 
