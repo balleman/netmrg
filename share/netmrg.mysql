@@ -212,7 +212,7 @@ INSERT INTO graphs VALUES (3,'%dev_name% - TCP Connections','',575,100,'Connecti
 INSERT INTO graphs VALUES (4,'%dev_name% - Logged In Users','',575,100,'Users','template');
 INSERT INTO graphs VALUES (5,'%dev_name% - System Processes','',575,100,'Processes','template');
 INSERT INTO graphs VALUES (6,'%dev_name% - Available Memory','',575,100,'Bytes','template');
-INSERT INTO graphs VALUES (7,'%dev_name% - %ifName% - %ifAlias%','Interface: %ifDescr%%n       IP: %ifIP%',575,100,'bytes / sec','template');
+INSERT INTO graphs VALUES (7,'%dev_name% - %ifDescr%','Interface: %ifDescr%%n       IP: %ifIP%',575,100,'bytes / sec','template');
 INSERT INTO graphs VALUES (8,'%dev_name% - %dskPath%','',575,100,'Bytes','template');
 
 --
