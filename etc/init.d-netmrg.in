@@ -15,7 +15,7 @@
 . /etc/rc.d/init.d/functions
 
 prog="netmrg"
-lockfile="/var/lock/subsys/$prog"
+lockfile="@localstatedir@/lock/subsys/$prog"
 
 RETVAL=0
 
