@@ -1,6 +1,7 @@
 2004.08.31  v0.17cvs  silfreed
   - bug#0000248 - notifications.php has escaping issues
   - bug#0000261 - breadcrumbs break when you traverse multiple groups
+  - bug#0000099, bug#0000100 - checkboxes on grpnav_list, devices, groups
 
 2004.08.30  v0.17cvs  keb
   - use global permit values for disabled users and the PERMIT_TYPES array

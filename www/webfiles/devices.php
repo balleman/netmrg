@@ -29,6 +29,14 @@ switch ($_REQUEST["action"])
 		dodelete();
 		break;
 		
+	case "deletemulti" :
+		check_auth($PERMIT["ReadWrite"]);
+		foreach ($_REQUEST["dev_id"] as $key => $val)
+		{
+			delete_device($key, $_REQUEST["grp_id"]);
+		} // end foreach group, delete
+		display();
+	
 	case "doaddtogrp":
 		doaddtogrp();
 		break;
@@ -211,6 +219,12 @@ function displayedit()
 
 } // end if edit
 
+
+function display()
+{
+	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}&tripid={$_REQUEST['tripid']}");
+	exit();
+} // end display();
 
 ?>
 

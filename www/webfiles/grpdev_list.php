@@ -40,6 +40,8 @@ function display()
 	DrawGroupNavHistory("group", $_REQUEST["parent_id"]);
 	js_confirm_dialog("del_grp", "Are you sure you want to delete group ", " and all associated items?", "groups.php?action=delete&tripid={$_REQUEST['tripid']}&parent_id={$_REQUEST['parent_id']}&grp_id=");
 	js_confirm_dialog("del_dev", "Are you sure you want to delete device ", " and all associated items?", "devices.php?action=delete&tripid={$_REQUEST['tripid']}&grp_id={$_REQUEST['parent_id']}&dev_id=");
+	js_checkbox_utils("grp");
+	js_checkbox_utils("dev");
 	
 	/*** GROUP LIST ***/
 	$grp_results = db_query(
@@ -48,7 +50,12 @@ function display()
 		WHERE parent_id = '{$_REQUEST['parent_id']}' 
 		ORDER BY name ASC");
 	
+	echo '<form action="groups.php" method="post" name="grpform">'."\n";
+	echo '<input type="hidden" name="tripid" value="'.$_REQUEST['tripid'].'">'."\n";
+	echo '<input type="hidden" name="parent_id" value="'.$_REQUEST['parent_id'].'">'."\n";
+	echo '<input type="hidden" name="action" value="">'."\n";
 	make_display_table("Device Groups", "groups.php?action=add&parent_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}",
+		array("text" => checkbox_toolbar("grp")),
 		array("text" => "Name"),
 		array("text" => "Comment")
 	); // end make_display_table();
@@ -61,6 +68,7 @@ function display()
 		$grp_href = (db_fetch_cell("SELECT count(*) FROM groups WHERE parent_id = '{$_REQUEST['parent_id']}'") > 0) ? "grpdev_list.php?parent_id=$grp_id&tripid={$_REQUEST['tripid']}" : "#";
 		
 		make_display_item("editfield".($count%2),
+			array("checkboxname" => "grp_id", "checkboxid" => $grp_row['id']),
 			array("text" => $grp_row["name"], "href" => $grp_href),
 			array("text" => $grp_row["comment"]),
 			array("text" => formatted_link("View",
@@ -70,9 +78,15 @@ function display()
 		); // end make_display_item();
 		$count++;
 	} // end while groups
+	echo "<tr>\n";
+	echo '<td colspan="4" class="editheader" nowrap="nowrap">'."\n";
+	echo '<a class="editheaderlink" onclick="document.grpform.action.value=\'deletemulti\';javascript:if(window.confirm(\'Are you sure you want to delete the checked groups?\')){document.grpform.submit();}" href="#">Delete All Checked</a>'."\n";
+	echo "</td>\n";
+	echo "</tr>\n";
 	make_status_line("group", $count);
 ?>
 </table>
+</form>
 <br />
 <?php
 	/*** END GROUPS ***/
@@ -95,7 +109,12 @@ function display()
 		GROUP BY devices.id
 		ORDER BY name ASC");
 	
+	echo '<form action="devices.php" method="post" name="devform">'."\n";
+	echo '<input type="hidden" name="tripid" value="'.$_REQUEST['tripid'].'">'."\n";
+	echo '<input type="hidden" name="grp_id" value="'.$_REQUEST['parent_id'].'">'."\n";
+	echo '<input type="hidden" name="action" value="">'."\n";
 	make_display_table($title, $addlink,
+		array("text" => checkbox_toolbar("dev")),
 		array("text" => "Name"),
 		array("text" => "SNMP Options")
 	);
@@ -115,6 +134,7 @@ function display()
 			"recache.php?dev_id=$dev_id&type=disk&tripid={$_REQUEST['tripid']}");
 		
 		make_display_item("editfield".($count%2),
+			array("checkboxname" => "dev_id", "checkboxid" => $dev_row['id']),
 			array("text" => $dev_row["name"], "href" => "sub_devices.php?dev_id=$dev_id&tripid={$_REQUEST['tripid']}"),
 			array("text" => $links),
 			array("text" => formatted_link("View", "view.php?action=view&object_type=device&object_id=$dev_id") . "&nbsp;" .
@@ -124,9 +144,15 @@ function display()
 		); // end make_display_item();
 		$count++;
 	} // end while devices
+	echo "<tr>\n";
+	echo '<td colspan="5" class="editheader" nowrap="nowrap">'."\n";
+	echo '<a class="editheaderlink" onclick="document.devform.action.value=\'deletemulti\';javascript:if(window.confirm(\'Are you sure you want to delete the checked devices?\')){document.devform.submit();}" href="#">Delete All Checked</a>'."\n";
+	echo "</td>\n";
+	echo "</tr>\n";
 	make_status_line("device", $count);
 ?>
 </table>
+</form>
 <br />
 <?php
 	} // end if no parents, do do groups

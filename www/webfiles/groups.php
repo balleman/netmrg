@@ -50,6 +50,13 @@ switch ($_REQUEST["action"])
 		display();
 		break;
 		
+	case "deletemulti" :
+		check_auth($PERMIT["ReadWrite"]);
+		foreach ($_REQUEST["grp_id"] as $key => $val)
+		{
+			delete_group($key);
+		} // end foreach group, delete
+		display();
 } // end what to do
 
 

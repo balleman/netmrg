@@ -1035,29 +1035,29 @@ function js_confirm_dialog($function_name, $before = "", $after = "", $url_base 
 
 }
 
-function js_checkbox_utils()
+function js_checkbox_utils($prefix="")
 {
 
 ?>
 	<script type="text/javascript">
-		function checkbox_utils(method)
+		function <?php echo $prefix; ?>checkbox_utils(method)
 		{
-			for (i = 0; i < document.form.elements.length; i++)
+			for (i = 0; i < document.<?php echo $prefix; ?>form.elements.length; i++)
 			{
-				if ( (document.form.elements[i].type == 'checkbox') && (document.form.elements[i].disabled == false) )
+				if ( (document.<?php echo $prefix; ?>form.elements[i].type == 'checkbox') && (document.<?php echo $prefix; ?>form.elements[i].disabled == false) )
 				{
 					if (method == 0)
 					{
-						document.form.elements[i].checked = false;
+						document.<?php echo $prefix; ?>form.elements[i].checked = false;
 					}
 					else if (method == 1)
 					{
-						document.form.elements[i].checked = true;
+						document.<?php echo $prefix; ?>form.elements[i].checked = true;
 					}
 					else
 					{
-						document.form.elements[i].checked =
-							! document.form.elements[i].checked;
+						document.<?php echo $prefix; ?>form.elements[i].checked =
+							! document.<?php echo $prefix; ?>form.elements[i].checked;
 					}
 				}
 			}
@@ -1067,12 +1067,12 @@ function js_checkbox_utils()
 
 }
 
-function checkbox_toolbar()
+function checkbox_toolbar($prefix="")
 {
 	return
-		'<a href="#" class="editheaderlink" title="all" onClick="checkbox_utils(1);">[*]</a> ' .
-		'<a href="#" class="editheaderlink" title="none" onClick="checkbox_utils(0);">[0]</a> ' .
-		'<a href="#" class="editheaderlink" title="invert" onClick="checkbox_utils(-1);">[-]</a>';
+		'<a href="#" class="editheaderlink" title="all" onClick="'.$prefix.'checkbox_utils(1);">[*]</a> ' .
+		'<a href="#" class="editheaderlink" title="none" onClick="'.$prefix.'checkbox_utils(0);">[0]</a> ' .
+		'<a href="#" class="editheaderlink" title="invert" onClick="'.$prefix.'checkbox_utils(-1);">[-]</a>';
 }
 
 function js_color_dialog()
