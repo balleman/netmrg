@@ -1,0 +1,39 @@
+ideal cvs tree
+  migration
+    bin
+    cmd -> libexec
+    dat -> var/log
+    db -> share/
+    doc -> share/doc
+    images -> share/images
+    include -> www/include
+    lib -> www/lib
+    rrd -> var/lib/rrd
+    src
+    www -> var/webfiles
+  ends up like
+    bin
+    etc
+    libexec
+    share
+      /doc
+      /images
+    src
+      /include
+    www
+      /include
+      /lib
+      /webfiles
+    var
+      /log
+      /lib
+ideal install
+  $(EPREFIX)/bin (netmrg-gatherer)
+  $(EPREFIX)/etc (netmrg.conf)
+  $(EPREFIX)/libexec (tests)
+  $(EPREFIX)/share/netmrg (images, db)
+  $(EPREFIX)/share/doc/netmrg (docs)
+  $(PREFIX)/var/www/netmrg (include, lib, webfiles)
+  $(PREFIX)/var/lib/netmrg (rrd)
+  $(PREFIX)/var/log/netmrg (lockfile)
+

@@ -1,22 +1,16 @@
-== showstoppers for 0.9 ==
+== global ==
 device duplication
-more detailed INSTALL
-more detailed README
-Usage information (description of every page)
-'makedist' script
+documentation
+  Usage information (description of every page)
 snmp_cache_view.php:
   need a "Graph All" feature
   depends on: checkbox/group actions
-
-
-== before going public ==
-get new netmrg monitoring something (duo)
-
-
-== global ==
 page titles should reflect where you're at
-view page should reflect status information (based on status of monitors of graphs)
-ability for user to change their own password
+view page should reflect status information
+  (based on status of monitors of graphs)
+user preferences
+  ability for user to change their own password
+  themes
 a device's type can affect the list of tests that can be performed on it
 when looking at a device's graphs, you should be able to click next to it
   and follow it to the next device (if applicable)
@@ -64,9 +58,6 @@ get a real directory tree
 == silfreed ==
 public website
   - add news section
-  - link to documentation
-    * auto checkout latest documentation - better yet, version the documentation
-      and link to the most recent
 ability to go 'up' a level when browsing 'Groups' et al
 checkboxes on most pages - provide for massive deletes, duplications, etc
 make netmrg xhtml compliant
@@ -80,6 +71,7 @@ gatherer
   XML-based configuration
 web/graphing
   HRULE capability
+
 
 == far-away features ==
 customized 'view' page
