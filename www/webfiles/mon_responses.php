@@ -15,42 +15,56 @@
 
 require_once("../include/config.php");
 check_auth(1);
-begin_page();
+begin_page("mon_responses.php", "Responses");
+
+
+if (!empty($_REQUEST["action"]))
+{
+	$action = $_REQUEST["action"];
+}
+else
+{
+	$action = "";
+	unset($action);
+} // end if action defined or not
+
 
 if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
 {
 # Change databases if necessary and then display list
 
-if ($action == "doadd")
+if (!empty($action) && $action == "doadd")
 {
-	do_update("INSERT INTO mon_responses SET events_id=$event_id, notify_id=$notify_id, cmd_params='$cmd_params'");
+	do_update("INSERT INTO mon_responses SET events_id='{$_REQUEST['event_id']}', 
+		notify_id='{$_REQUEST['notify_id']}', cmd_params='{$_REQUEST['cmd_params']}'");
 } # done adding
 
-if ($action == "doedit")
+if (!empty($action) && $action == "doedit")
 {
-	do_update("UPDATE mon_responses SET events_id=$event_id, notify_id=$notify_id, cmd_params='$cmd_params' WHERE id=$response_id");
+	do_update("UPDATE mon_responses SET events_id='{$_REQUEST['event_id']}', 
+		notify_id='{$_REQUEST['notify_id']}', cmd_params='{$_REQUEST['cmd_params']}' 
+		WHERE id='{$_REQUEST['response_id']}'");
 } # done editing
 
-if ($action == "dodelete")
+if (!empty($action) && $action == "dodelete")
 {
-	do_update("DELETE FROM mon_responses WHERE id=$response_id");
+	do_update("DELETE FROM mon_responses WHERE id='{$_REQUEST['response_id']}'");
 } # done deleting
 
-
 # Display a list
-
 make_display_table("Event Responses","Event","","Notification Method","","Command Parameters","");
 
-
 $responses_results = do_query("
-SELECT mon_responses.id, mon_devices.name as dev_name, mon_test.name as test_name, 
-mon_notify.name as notify_name, mon_events.result as result, mon_responses.cmd_params, 
-mon_events.condition as condition
-FROM mon_responses LEFT JOIN mon_events ON mon_responses.events_id=mon_events.id
-LEFT JOIN mon_monitors ON mon_events.monitors_id=mon_monitors.id
-LEFT JOIN mon_notify ON mon_responses.notify_id=mon_notify.id
-LEFT JOIN mon_test ON mon_monitors.test_id=mon_test.id 
-LEFT JOIN mon_devices ON mon_monitors.device_id=mon_devices.id");
+	SELECT mon_responses.id, mon_devices.name as dev_name, 
+	mon_test.name as test_name, mon_notify.name as notify_name, 
+	mon_events.result as result, mon_responses.cmd_params, 
+	mon_events.condition as condition
+	FROM mon_responses 
+	LEFT JOIN mon_events ON mon_responses.events_id=mon_events.id
+	LEFT JOIN mon_monitors ON mon_events.monitors_id=mon_monitors.id
+	LEFT JOIN mon_notify ON mon_responses.notify_id=mon_notify.id
+	LEFT JOIN mon_test ON mon_monitors.test_id=mon_test.id 
+	LEFT JOIN mon_devices ON mon_monitors.device_id=mon_devices.id");
 $responses_total = mysql_num_rows($responses_results);
 
 # For each device
@@ -83,8 +97,8 @@ for ($responses_count = 1; $responses_count <= $responses_total; ++$responses_co
 	make_display_item($responses_row["dev_name"] . " (" . $responses_row["test_name"] . " $operator " . $responses_row["result"] . ")","",
 		$responses_row["notify_name"], "",
 		$responses_row["cmd_params"], "",
-		"Edit", "$SCRIPT_NAME?action=edit&response_id=$response_id",
-		"Delete", "$SCRIPT_NAME?action=delete&response_id=$response_id");
+		"Edit", "{$_SERVER['PHP_SELF']}?action=edit&response_id=$response_id",
+		"Delete", "{$_SERVER['PHP_SELF']}?action=delete&response_id=$response_id");
 
 } # end devices
 
@@ -93,14 +107,14 @@ for ($responses_count = 1; $responses_count <= $responses_total; ++$responses_co
 <?
 } # End if no action
 
-if ($action == "add")
+if (!empty($action) && $action == "add")
 {
 # Display editing screen
 
 ?>
 <font size="4" color="#800000">Add Response</font><br><br>
 Event:<br>
-<form action="<? print("$SCRIPT_NAME"); ?>" method="post">
+<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post">
 <select name="event_id">
 <?
 
@@ -151,14 +165,14 @@ You may use the keywords %dev_name, %ip, %test_name, and %test_result in your co
 <?
 } # End editing screen
 
-if ($action == "edit")
+if (!empty($action) && $action == "edit")
 {
 # Display editing screen
 
 ?>
 <font size="4" color="#800000">Edit Response</font><br><br>
 Event:<br>
-<form action="<? print("$SCRIPT_NAME"); ?>" method="post">
+<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post">
 <select name="event_id" >
 <?
 
@@ -224,7 +238,7 @@ You may use the keywords %dev_name, %ip, %test_name, and %test_result in your co
 </form>
 <?} # End editing screen
 
-if ($action == "delete")
+if (!empty($action) && $action == "delete")
 {
 # Display delete confirmation
 ?>
@@ -232,12 +246,12 @@ if ($action == "delete")
 
 Are you sure you want to delete this monitor?
 
-<form action="<? print("$SCRIPT_NAME"); ?>" method="post">
+<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post">
 <input type="submit" value="Yes">
 <input type="hidden" name="response_id" value="<? print("$response_id"); ?>">
 <input type="hidden" name="action" value="dodelete">
 </form>
-<form action="<? print("$SCRIPT_NAME"); ?>" method="post">
+<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post">
 <input type="submit" value="No">
 </form>
 
