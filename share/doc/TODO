@@ -1,3 +1,10 @@
+== Requirements for 0.10 ==
+all trivial bugs
+bug#38 - inline docs
+bug#55 - Solaris support
+bug#56 - MRTG conf importer
+bug#57 - checkboxes
+
 == global ==
 device duplication
 documentation
