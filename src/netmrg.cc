@@ -1236,11 +1236,7 @@ void run_netmrg()
 	fclose(lockfile);
 
 	// SNMP library initialization
-	debuglogger(DEBUG_GLOBAL + DEBUG_SNMP, NULL, "Initializing SNMP library.");
-	init_snmp("snmpapp");
-	SOCK_STARTUP;
-	struct snmp_session Session;
-	snmp_sess_init(&Session);
+	snmp_init();
 
 	// RRDTOOL command pipe setup
 	debuglogger(DEBUG_GLOBAL + DEBUG_RRD, NULL, "Initializing RRDTOOL pipe.");
@@ -1365,8 +1361,7 @@ void run_netmrg()
 	debuglogger(DEBUG_GLOBAL, NULL, "Closed RRDTOOL pipe.");
 
 	// clean up SNMP
-	SOCK_CLEANUP;
-	debuglogger(DEBUG_GLOBAL, NULL, "Cleaned up SNMP.");
+        snmp_cleanup();
 
 	// determine runtime and store it
 	long int run_time = time( NULL ) - start_time;
@@ -1398,14 +1393,21 @@ void show_usage()
 void try_snmpwalk()
 {
 	DeviceInfo info;
-	
+	list<SNMPPair> results;
+
 	info.ip = "127.0.0.1";
 	info.snmp_read_community = "public";
 
-	init_snmp("snmpapp");
-	SOCK_STARTUP;
-	snmp_walk(info, "sysdescr");
-	SOCK_CLEANUP;
+	snmp_init();
+	results = snmp_walk(info, "ifDescr");
+	snmp_cleanup();
+	
+	results = snmp_trim_rootoid(results, ".1.3.6.1.2.1.2.2.1.2.");
+
+	for (list<SNMPPair>::iterator current = results.begin(); current != results.end(); current++)
+	{
+		debuglogger(DEBUG_SNMP, &info, (*current).oid + " " + (*current).value);
+	}
 }
 
 // main - the body of the program

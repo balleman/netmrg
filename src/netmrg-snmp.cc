@@ -2,13 +2,45 @@
 
    NetMRG SNMP Functions
    Copyright 2001-2002 Brady Alleman, All Rights Reserved.
-   
+
    Much of this code was originally part of net-snmp's application and
-   example code.  
+   example code.
 
 */
 
 #define DS_APP_DONT_FIX_PDUS 0
+
+void snmp_init()
+{
+	debuglogger(DEBUG_GLOBAL + DEBUG_SNMP, NULL, "Initializing SNMP library.");
+	init_snmp("snmpapp");
+	SOCK_STARTUP;
+	struct snmp_session session;
+	snmp_sess_init(&session);
+	ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_OIDS);
+}
+
+void snmp_cleanup()
+{
+	SOCK_CLEANUP;
+	debuglogger(DEBUG_GLOBAL + DEBUG_SNMP, NULL, "Cleaned up SNMP.");
+}
+
+string snmp_value(string input)
+{
+	input = input.erase(0, input.find(":",0) + 1);
+	input = input.erase(0, input.find("=",0) + 1);
+	input = token_replace(input, " ", "");
+
+	return input;
+}
+
+string snmp_oid(string input)
+{
+	input = input.erase(input.find(" ",0), input.length());
+	
+	return input;
+}
 
 // snmpget - perform an snmpget on a host using the provided information
 string snmpget(DeviceInfo info, string oidstring)
@@ -90,9 +122,7 @@ string snmpget(DeviceInfo info, string oidstring)
 			vars = response->variables;
 			snprint_value(temp, sizeof(temp), vars->name, vars->name_length, vars);
 			result = temp;
-			result = result.erase(0, result.find(":",0) + 1);
-			result = result.erase(0, result.find("=",0) + 1);
-			result = token_replace(result, " ", "");
+                        result = snmp_value(result);
                 }
 		else
 		{
@@ -115,16 +145,24 @@ struct SNMPPair
 	string  oid;
 	string  value;
 
-	SNMPPair(int setoid, string setvalue)
+	SNMPPair(string setoid, string setvalue)
 	{
 		oid   = setoid;
 		value = setvalue;
 	}
 };
 
-int numprinted = 0;
+list<SNMPPair> snmp_trim_rootoid(list<SNMPPair> input, string rootoid)
+{
+	for (list<SNMPPair>::iterator current = input.begin(); current != input.end(); current++)
+	{
+		(*current).oid = token_replace((*current).oid, rootoid, "");
+	}
+	
+	return input;
+}
 
-void snmp_walk(DeviceInfo info, string oidstring)
+list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 {
 
 	struct snmp_session	session;
@@ -135,11 +173,11 @@ void snmp_walk(DeviceInfo info, string oidstring)
 	size_t			name_length = MAX_OID_LEN;
 	oid			root[MAX_OID_LEN];
 	size_t			rootlen = MAX_OID_LEN;
-	int			count;
 	int			running;
 	int			status;
 	int			check;
 	int			exitval = 0;
+	list<SNMPPair>		results;
 
 	snmp_sess_init(&session);
 
@@ -163,7 +201,6 @@ void snmp_walk(DeviceInfo info, string oidstring)
 	if (ss == NULL)
 	{
 		debuglogger(DEBUG_SNMP, &info, "SNMP Session Failure.");
-		// error
 	}
 
         char tempoid[128];
@@ -171,7 +208,6 @@ void snmp_walk(DeviceInfo info, string oidstring)
 	if (!snmp_parse_oid(tempoid, root, &rootlen))
 	{
 		debuglogger(DEBUG_SNMP, &info, string("SNMP OID Parse Failure (") + tempoid + ")");
-		//return(string("U"));
 	}
 
 	memmove(name, root, rootlen * sizeof(oid));
@@ -196,11 +232,15 @@ void snmp_walk(DeviceInfo info, string oidstring)
 						running = 0;
 						continue;
 					}
-					numprinted++;
-					print_variable(vars->name, vars->name_length, vars);
-					if ((vars->type != SNMP_ENDOFMIBVIEW) &&
-						(vars->type != SNMP_NOSUCHOBJECT) &&
-						(vars->type != SNMP_NOSUCHINSTANCE))
+					u_char         *buf = NULL;
+					size_t          buf_len = 256, out_len = 0;
+					buf = (u_char *) calloc(buf_len, 1);
+					sprint_realloc_variable(&buf, &buf_len, &out_len, 1, vars->name, vars->name_length, vars);					string result = (char *)buf;
+					free(buf);
+					debuglogger(DEBUG_SNMP, &info, "OID: '" + snmp_oid(result) + "' VALUE: '" + snmp_value(result) + "'");
+                                        results.push_front(SNMPPair(snmp_oid(result), snmp_value(result)));
+
+					if ((vars->type != SNMP_ENDOFMIBVIEW) && (vars->type != SNMP_NOSUCHOBJECT) && (vars->type != SNMP_NOSUCHINSTANCE))
 					{
 			                        if (check && snmp_oid_compare(name, name_length, vars->name, vars->name_length) >= 0)
 						{
@@ -251,7 +291,7 @@ void snmp_walk(DeviceInfo info, string oidstring)
 
 	snmp_sess_close(ss);
 
-	//return exitval;
+	return results;
 }
 
 
