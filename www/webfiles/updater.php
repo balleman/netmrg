@@ -82,7 +82,8 @@ $dbupdates = array(
 "INSERT INTO tests_internal VALUES (3,'UCD CPU Load (user + system)');",
 "INSERT INTO tests_internal VALUES (4,'Windows Disk Usage (percent)');",
 "INSERT INTO tests_internal VALUES (5,'UCD Swap Usage (percent)');",
-"INSERT INTO tests_internal VALUES (6,'Read Value from File');"
+"INSERT INTO tests_internal VALUES (6,'Read Value from File');",
+"ALTER TABLE `user` ADD `disabled` TINYINT DEFAULT '0' NOT NULL;"
 ), // end 0.16
 	"0.17" => array()  // end 0.17
 ); // end $dbupdates;
