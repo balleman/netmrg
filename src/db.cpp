@@ -24,7 +24,6 @@ void db_connect(MYSQL *connection)
 	if (!(mysql_connect(connection, MYSQL_HOST, MYSQL_USER, MYSQL_PASS)))
 	{
 		debuglogger(DEBUG_MYSQL, NULL, "MySQL Connection Failure.");
-		pthread_exit(NULL);
 	}
 
 	mutex_unlock(lkMySQL);
@@ -32,7 +31,6 @@ void db_connect(MYSQL *connection)
 	if (mysql_select_db(connection, MYSQL_DB))
 	{
 		debuglogger(DEBUG_MYSQL, NULL, "MySQL Database Selection Failure.");
-		pthread_exit(NULL);
 	}
 }
 
@@ -47,13 +45,11 @@ MYSQL_RES *db_query(MYSQL *mysql, DeviceInfo *info, string query)
 	if (mysql_query(mysql, query.c_str()))
 	{
 		debuglogger(DEBUG_MYSQL, info, "MySQL Query Failed (" + query + ")");
-		pthread_exit(NULL);
 	}
 
 	if (!(mysql_res = mysql_store_result(mysql)))
 	{
 		debuglogger(DEBUG_MYSQL, info, "MySQL Store Result failed.");
-		pthread_exit(NULL);
 	}
 
 	return mysql_res;

@@ -803,7 +803,7 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 	}
 
 	uint status = process_events(info, mysql);
-        
+
 	info.status = status;
 	update_monitor_db(info, mysql, rrd);
 
@@ -1103,6 +1103,9 @@ void run_netmrg()
 	string			temp_string;
 
 	start_time = time( NULL );
+	
+	setlinebuf(stdout);
+
 	debuglogger(DEBUG_GLOBAL, NULL, "NetMRG starting.");
 	debuglogger(DEBUG_GLOBAL, NULL, "Start time is " + inttostr(start_time));
 
@@ -1208,6 +1211,7 @@ void run_netmrg()
 	mysql_free_result(mysql_res);
 
 	// generate change of status report
+	/*
 	mysql_res = db_query(&mysql, NULL,
 			string("SELECT date, dev_name, situation, event_text, since_last_change ") +
 			string("FROM event_log WHERE date >= ") +
@@ -1232,6 +1236,7 @@ void run_netmrg()
 
 	// free report results
 	mysql_free_result(mysql_res);
+	*/
 
 	delete [] threads;
 	delete [] ids;
@@ -1262,7 +1267,7 @@ void run_netmrg()
 void show_version()
 {
 	printf("\nNetMRG Data Gatherer\n");
-	printf("Version 0.79.3a\n\n");
+	printf("Version %s\n\n", NETMRG_VERSION);
 }
 
 void show_usage()
