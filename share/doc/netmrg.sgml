@@ -116,7 +116,23 @@ Event are met, the appropriate response is performed.
 	<title>Installation Proceedure</title>
 	<orderedlist>
 		<listitem>
-			<para>untar to some directory like /var/www/ (it will untar into a 'netmrg' directory)</para>
+			<para>untar to some directory like /tmp/ (it will untar into a 'netmrg' directory)</para>
+			<programlisting>
+cd /tmp
+wget http://www.netmrg.net/download/release/netmrg.tar.gz
+tar xzvf netmrg.tar.gz
+			</programlisting>
+		</listitem>
+		<listitem>
+			<para>
+				<command>cd</command> into the directory made by your 
+				<command>tar</command> command and type the following:
+			</para>
+			<programlisting>
+				./configure
+				make
+				make install
+			</programlisting>
 		</listitem>
 		<listitem>
 			<para>modify you apache config to alias /netmrg to /var/www/netmrg/www</para>
