@@ -3,6 +3,10 @@
   - bug#0000066 - specify SNMP port support
   - bug#0000068 - specify SNMP timeout support
 
+2003.10.12  v0.10  keb
+  - always check /usr/local/include for libraries in FreeBSD
+  - fix typo in src/configure when detecting xml2 libraries
+
 2003.10.12  v0.10  balleman
   - bug#0000073 - nav error in sub_dev_params
   - bug#0000076 - show template name when applying
