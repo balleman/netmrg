@@ -75,7 +75,7 @@ string inttostr(long long int int_to_convert)
 // strtoint - converts a string to an integer
 long long int strtoint(string string_to_convert)
 {
-	return strtoq(string_to_convert.c_str(), NULL, 10);
+	return strtoll(string_to_convert.c_str(), NULL, 10);
 } // end strtoint
 
 // inttopadstr - converts a string to an integer, adding 0s to pad to a given length
