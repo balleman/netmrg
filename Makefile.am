@@ -17,6 +17,10 @@ netmrg_share_images_DATA = share/images/default/*.svg
 netmrg_share_dbdir=$(pkgdatadir)/db
 netmrg_share_db_DATA = share/netmrg.mysql
 
+# options to install files in the share/contrib directory
+netmrg_share_bindstatsdir=$(pkgdatadir)/contrib/bindstats
+netmrg_share_bindstats_DATA = contrib/bindstats/dnsstats*
+
 # options to install files in the share/doc directory
 netmrg_share_docdir=$(datadir)/doc/$(PACKAGE)-$(VERSION)
 netmrg_share_doc_DATA = INSTALL README share/doc/*.sgml share/doc/ChangeLog share/doc/LICENSE share/doc/TODO share/doc/txt/netmrg.txt share/doc/txt/INSTALL share/doc/txt/RELEASE-NOTES share/doc/txt/UPGRADE
