@@ -3,6 +3,8 @@
   - bug#0000197 - SVO user can't see custom graphs
   - arbitrary user can't delete/duplicate subdevices
   - added titles to checkbox thingies
+  - bug#0000159 - adding select box to choose your template for interface cache
+  - fixed bug where you couldn't delete items on the view page w/ % signs
 
 2004.05.18  v0.15cvs  balleman
   - bug#0000195 - notifications.php errors

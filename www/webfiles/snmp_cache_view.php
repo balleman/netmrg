@@ -102,7 +102,7 @@ function make_interface_graph($dev_id, $index)
 	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='ifIndex', value='$index', type='dynamic'");
 
 	// add monitors and associate template
-	apply_template($sd_id, $GLOBALS["netmrg"]["traffictemplateid"]);
+	apply_template($sd_id, $_REQUEST["graph_template_id"]);
 
 }
 
@@ -148,8 +148,8 @@ function view_disk_cache()
 	$query = "SELECT * FROM snmp_disk_cache WHERE dev_id={$_REQUEST['dev_id']} ORDER BY disk_index";
 	$dev_name = get_device_name($_REQUEST['dev_id']);
 
-	js_checkbox_utils();
 	begin_page("snmp_cache_view.php", "$dev_name - Disk Cache");
+	js_checkbox_utils();
 	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 
 ?>
@@ -231,8 +231,8 @@ function view_interface_cache()
 
 	$dev_name = get_device_name($_REQUEST['dev_id']);
 
-	js_checkbox_utils();
 	begin_page("snmp_cache_view.php", "$dev_name - Interface Cache");
+	js_checkbox_utils();
 	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 
 ?>
@@ -240,6 +240,8 @@ function view_interface_cache()
 	<input type="hidden" name="action" value="">
 	<input type="hidden" name="dev_id" value="<?php echo $_REQUEST["dev_id"]; ?>">
 	<input type="hidden" name="tripid" value="<?php echo $_REQUEST["tripid"]; ?>">
+	<input type="hidden" name="type" value="interface">
+	<input type="hidden" name="index" value="">
 <?php
 	make_plain_display_table("$dev_name - Interface Cache",
 		checkbox_toolbar(), "",
@@ -293,7 +295,7 @@ function view_interface_cache()
 			$links .= "&nbsp";
 			$links .= formatted_link_disabled("Monitors");
 			$links .= "&nbsp;";
-			$links .= formatted_link("Monitor/Graph", "snmp_cache_view.php?action=graph&type=interface&dev_id=" . $row["dev_id"] . "&index=" . $row["ifIndex"] . "&tripid={$_REQUEST['tripid']}");
+			$links .= '&lt;<a  onclick="document.form.action.value=\'graph\';document.form.index.value=\''.$row["ifIndex"].'\';document.form.submit();" href="#">Monitor/Graph</a>&gt;';
 		}
 
 		make_display_item("editfield".($i%2),
@@ -308,9 +310,16 @@ function view_interface_cache()
 			array("text" => $links)
 		); // end make_display_item();
 	} // end for each row
-	echo('<tr><td colspan="9" class="editheader" nowrap="nowrap"><a class="editheaderlink" onclick="document.form.action.value=\'graphmultiint\';document.form.submit();" href="#">Monitor/Graph All Checked</a></td></tr>'."\n");
-	echo("</table>\n");
-	echo("</form>\n");
+	echo "<tr>\n";
+	echo '<td colspan="5" class="editheader" nowrap="nowrap"><a class="editheaderlink" onclick="document.form.action.value=\'graphmultiint\';document.form.submit();" href="#">Monitor/Graph All Checked</a></td>';
+	echo '<td colspan="4" class="editheader" nowrap="nowrap" align="right">'."\n";
+	echo '<select name="graph_template_id">'."\n";
+	DrawSelectOptionsFromSQL("graphs", $GLOBALS["netmrg"]["traffictemplateid"]);
+	echo "</select>\n";
+	echo "</td>\n";
+	echo "</tr>\n";
+	echo "</table>\n";
+	echo "</form>\n";
 	end_page();
 }
 ?>
