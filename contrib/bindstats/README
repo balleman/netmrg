@@ -1,0 +1,73 @@
+==== dnsstats v0.1 ====
+Usage: dnsstats [(-i|--input) (<file>|STDIN)] [(-o|--ouput) <file>]
+    [(-h|--hostname) <hostname>] [(-r|--hostnamere) <hostname regex>]
+
+  --input       specify the file to read in or STDIN if input is on
+                the command line
+                [STDIN]
+  --output      specify the file to write the apache log file to
+  --hostname    needed when log is a named query log - specifies the host to
+                log stats for in the database and to use as the 'host' in the
+                apache log
+  --hostnamere  regex for the hostnames to match
+
+
+This program takes a syslog feed or named query log in, and puts some nifty 
+stats back out.
+You'll need to make a fifo (`mkfifo /var/log/querylog-pipe.log` - probably 
+`chmod 600 /var/log/querylog-pipe.log` also), and send your syslog feed to it; 
+with a line similar to this:
+--- syslog.conf start ---
+local3.info               |/var/log/named/querylog-pipe.log
+--- syslog.conf stop  ---
+
+You'll also need to setup Bind to send its query logs to syslog, so add something
+similar to this to you named.conf:
+--- named.conf start ---
+logging {
+        channel query_log {
+                syslog local3;
+                severity info;
+                print-category yes;
+                print-time yes;
+        };
+        category queries { query_log; };
+};
+--- named.conf stop  ---
+
+And you'll have to toggle query logging on using rndc:
+$ rndc querylog
+$ rndc status
+
+It's very useful to put this into your inittab, with a line similar to this:
+--- inittab start ---
+ds:3:respawn:/usr/local/bin/bindstats/dnsstats -i /var/log/named/querylog-pipe.log -o /dev/null -r '^localhost$'
+--- inittab stop  ---
+
+make sure you setup your mysql database with the table in dnsstats.mysql.
+
+To setup the NetMRG side of things, you'll need to add an SQL test.  The test
+I commonly use uses this query (be sure to fill in the rest of the info):
+
+SELECT counter FROM dnsstats.dnsstats WHERE host = "%dnshost%" AND type = "%parameters%"
+
+Then, I create a sub-device for the device that I want to monitor with a 
+parameter named 'dnshost' and the hostname that shows up in your tables.
+When you add your monitors to this sub-device, add a parameters field for each 
+type of stat you want to monitor; I usually monitor these, but there are many more:
+IN A
+IN MX
+IN PTR
+IN TXT
+IN A6
+IN AAAA
+IN SOA
+IN SRV
+IN LOC
+IN AXFR
+
+Next, you'll want to create a template graph out of these using whatever colors, 
+etc that you want (see http://demo.netmrg.net/ for an example).
+
+If you experience any problems, be sure to demand your money back.
+
