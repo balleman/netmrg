@@ -41,10 +41,15 @@ $PERMIT_TYPES = array(
 			2	=>	"Read/Write",
 			3	=>	"Read/Write/User Admin");
 
+$SUB_DEVICE_TYPES = array(
+			1	=>	"Group",
+			2	=>	"Interface",
+			3	=>	"Disk");
+
 
 
 // Return the path to an image based on the internal name of the image.
-function get_image_by_name($img_name) 
+function get_image_by_name($img_name)
 {
 	$image = "";
 	$dir   = "img";

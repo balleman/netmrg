@@ -19,7 +19,7 @@ check_auth(1);
 
 function redirect()
 {
-	header("Location: {$GLOBALS['netmrg']['webroot']}/monitors.php?sub_dev_id={$_REQUEST['sub_dev_id']}");
+	header("Location: monitors.php?sub_dev_id={$_REQUEST['sub_dev_id']}");
 } // end redirect()
 
 
