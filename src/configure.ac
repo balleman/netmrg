@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.9 $)
+AC_REVISION($Revision: 1.10 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -125,6 +125,7 @@ if test "x$MYSQL_LIBS" = "x"; then
 	old_LDFLAGS="$LDFLAGS"
 	for try in /usr/lib /usr/lib/mysql /usr/local/lib /usr/local/mysql/lib /usr/local/lib/mysql $mysql_lib_dir; do
 		LDFLAGS="$old_LDFLAGS -L$try"
+		unset ac_cv_lib_mysqlclient_mysql_init
 		AC_CHECK_LIB(mysqlclient, mysql_init,
 			MYSQL_LIBS="-L$try -lmysqlclient",
 			MYSQL_LIBS=
@@ -155,7 +156,8 @@ AC_CHECK_HEADERS( \
 	cstdlib \
 	string \
 	list \
-	unistd.h
+	unistd.h \
+	getopt.h
 )
 
 ## Determine MySQL include path
