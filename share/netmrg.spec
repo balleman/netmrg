@@ -13,8 +13,13 @@ Source0: netmrg-%{version}.tar.gz
 #Patch1: 
 URL: http://www.netmrg.net
 BuildRoot: %{_tmppath}/%{name}-root
-Requires: php, php-mysql, mysql, webserver, rrdtool, libxml2, net-snmp
-BuildRequires: mysql-devel, libxml2-devel, net-snmp-devel
+Requires: php, php-mysql, mysql, webserver, rrdtool, libxml2
+BuildRequires: mysql-devel, libxml2-devel
+%{!?_with_ucd:Requires: net-snmp}
+%{!?_with_ucd:BuildRequires: net-snmp-devel}
+%{?_with_ucd:Requires: ucd-snmp}
+%{?_with_ucd:BuildRequires: ucd-snmp-devel}
+
 
 %description
 NetMRG is a tool for network monitoring, reporting, and graphing. Based 
@@ -77,6 +82,9 @@ fi
 %{_libexecdir}/*
 
 %changelog
+* Sat May 19 2004 Kevin Bonner <keb@pa.net>
+- added build option '--with ucd' to allow building on older RH boxes
+
 * Fri May 28 2004 Douglas E. Warner <silfreed@netmrg.net>
 - added new init and cron scripts
 
