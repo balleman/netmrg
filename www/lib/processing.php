@@ -633,17 +633,17 @@ function duplicate_device($dev_id)
 	db_query("CREATE TEMPORARY TABLE tmpdev 
 		SELECT id, name, ip, snmp_read_community, dev_type, snmp_recache_method, 
 			disabled, snmp_avoided, snmp_uptime, snmp_ifnumber, snmp_version, snmp_timeout, 
-			snmp_retries, snmp_port 
+			snmp_retries, snmp_port, no_snmp_uptime_check
 			FROM devices
 			WHERE id='$dev_id'");
 	db_query("
 		INSERT INTO devices
 		(name, ip, snmp_read_community, dev_type, snmp_recache_method, disabled,  
 			snmp_avoided, snmp_uptime, snmp_ifnumber, snmp_version, snmp_timeout, 
-			snmp_retries, snmp_port)
+			snmp_retries, snmp_port, no_snmp_uptime_check)
 		SELECT concat(name, ' (duplicate)'), ip, snmp_read_community, dev_type, snmp_recache_method, 
 			disabled, snmp_avoided, snmp_uptime, snmp_ifnumber, snmp_version, snmp_timeout, 
-			snmp_retries, snmp_port 
+			snmp_retries, snmp_port, no_snmp_uptime_check 
 			FROM tmpdev
 			WHERE id='$dev_id'");
 	$new_dev_id = db_insert_id();
