@@ -97,6 +97,34 @@ function make_graph()
 	} // end if graph
 }
 
+function view_disk_cache()
+{
+	check_auth(1);
+	$query = "SELECT * FROM snmp_disk_cache WHERE dev_id={$_REQUEST['dev_id']} ORDER BY disk_index";
+	$dev_name = get_device_name($_REQUEST['dev_id']);
+	
+        begin_page("snmp_cache_view.php", "$dev_name - Disk Cache");
+	
+	make_plain_display_table("$dev_name - Disk Cache",
+		"Index", "",
+		"Device", "",
+		"Path", "");
+	
+	$handle = do_query($query);
+	
+	for ($i = 0; $i < mysql_num_rows($handle); $i++)
+	{                   
+		$row = mysql_fetch_array($handle);
+                make_display_item(
+			$row['disk_index'], "",
+			$row['disk_device'], "",
+			$row['disk_path'], "");
+	}
+	
+	echo("</table>");
+	end_page();
+}
+
 function view_interface_cache()
 {
 	check_auth(1);
@@ -135,7 +163,7 @@ function view_interface_cache()
 	for ($i = 0; $i < mysql_num_rows($handle); $i++)
 	{
 		$row = mysql_fetch_array($handle);
-		$status =  $GLOBALS['INTERFACE_STATUS'][$row['ifAdminStatus']] . "/";
+		$status  = $GLOBALS['INTERFACE_STATUS'][$row['ifAdminStatus']] . "/";
 		$status .= $GLOBALS['INTERFACE_STATUS'][$row['ifOperStatus']] . " ";
 		$status .= $GLOBALS['INTERFACE_TYPE'][$row['ifType']];
 		make_display_item(

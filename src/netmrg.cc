@@ -397,6 +397,29 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 	}
 }
 
+void do_snmp_disk_recache(DeviceInfo *info, MYSQL *mysql)
+{
+	// clear cache for this device
+        db_update(mysql, info, "DELETE FROM snmp_disk_cache WHERE dev_id=" + inttostr((*info).device_id));
+
+	list<SNMPPair> ifIndexList = snmp_walk(*info, "dskIndex");
+
+	for (list<SNMPPair>::iterator current = ifIndexList.begin(); current != ifIndexList.end(); current++)
+	{
+		string dskIndex  = (*current).value;
+		string dskPath   = snmp_get(*info, "dskPath."   + dskIndex);	U_to_NULL(&dskPath);
+		string dskDevice = snmp_get(*info, "dskDevice." + dskIndex);	U_to_NULL(&dskDevice);
+
+		db_update(mysql, info, string("INSERT INTO snmp_disk_cache SET ")  +
+			"dev_id = " 		+ inttostr((*info).device_id) 	+ ", "  +
+			"disk_index  = "	+ dskIndex 			+ ", "  +
+			"disk_device = "	+ dskDevice			+ ", " +
+			"disk_path   = "	+ dskPath);
+	}
+
+}
+
+
 void process_responses(DeviceInfo info, MYSQL *mysql)
 {
 }
@@ -1433,7 +1456,7 @@ void show_usage()
 	printf("\n");
 }
 
-void external_interface_recache(int device_id)
+void external_snmp_recache(int device_id, int type)
 {
 	MYSQL 		mysql;
 	MYSQL_RES	*mysql_res;
@@ -1448,7 +1471,7 @@ void external_interface_recache(int device_id)
 
 	if (strtoint(mysql_row[2]) != 1)
 	{
-		debuglogger(DEBUG_GLOBAL, &info, "Can't recache interfaces on a device without SNMP.");
+		debuglogger(DEBUG_GLOBAL, &info, "Can't recache a device without SNMP.");
 		exit(1);
 	}
 
@@ -1458,7 +1481,11 @@ void external_interface_recache(int device_id)
 	mysql_free_result(mysql_res);
 
 	snmp_init();
-	do_snmp_interface_recache(&info, &mysql);
+	switch (type)
+	{
+		case 1: do_snmp_interface_recache(&info, &mysql); break;
+		case 2: do_snmp_disk_recache(&info, &mysql); break;
+	}
 	snmp_cleanup();
 
 	mysql_close(&mysql);
@@ -1470,13 +1497,14 @@ int main(int argc, char **argv)
 {
 	int option_char;
 
-	while ((option_char = getopt (argc, argv, "hvqi:")) != EOF)
+	while ((option_char = getopt (argc, argv, "hvqi:d:")) != EOF)
 		switch (option_char)
 		{
 			case 'h': show_usage(); exit(0); break;
 			case 'v': show_version(); exit(0); break;
 			case 'q': debug_level = 0; break;
-			case 'i': external_interface_recache(strtoint(optarg)); exit(0); break;
+			case 'i': external_snmp_recache(strtoint(optarg), 1); exit(0); break;
+			case 'd': external_snmp_recache(strtoint(optarg), 2); exit(0); break;
 		}
 
 	run_netmrg();

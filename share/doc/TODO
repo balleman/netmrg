@@ -2,7 +2,6 @@
 graph templating
 device duplication
 responses
-new snmp cacher
 more detailed INSTALL
 more detailed README
 Usage information (description of every page)
@@ -18,9 +17,6 @@ get new netmrg monitoring something (duo)
 device duplication
 prevent a group being its own parent (during editing)
 page titles should reflect where you're at
-recache.php
-  A couple notices in snmp_caching.php on line 115
-  c++ify?
 ability to go 'up' a level when browsing 'Groups' et al
 snmp_cache_view.php:
   "Make Graph" needs overhauled
@@ -40,7 +36,6 @@ CSS-ificiation
 == balleman ==
 graph templates
 make responses work
-snmp cacher rewrite
 netmrg.cc
   more comprehensive way of setting debug levels needed
 mon_responses.php
