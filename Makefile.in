@@ -38,7 +38,8 @@ POST_UNINSTALL = :
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/subst.in \
-	$(top_srcdir)/bin/netmrg_cron.sh.in $(top_srcdir)/configure \
+	$(top_srcdir)/bin/netmrg_cron.sh.in \
+	$(top_srcdir)/bin/rrdedit.in $(top_srcdir)/configure \
 	$(top_srcdir)/src/include/netmrg.h.in \
 	$(top_srcdir)/www/include/config.php.in INSTALL config.guess \
 	config.sub depcomp install-sh missing mkinstalldirs
@@ -49,8 +50,8 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_CLEAN_FILES = subst bin/netmrg_cron.sh src/include/netmrg.h \
-	www/include/config.php
+CONFIG_CLEAN_FILES = subst bin/netmrg_cron.sh bin/rrdedit \
+	src/include/netmrg.h www/include/config.php
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(netmrg_libexecdir)" "$(DESTDIR)$(netmrg_man1dir)" "$(DESTDIR)$(netmrg_share_dbdir)" "$(DESTDIR)$(netmrg_share_docdir)" "$(DESTDIR)$(netmrg_share_htmldir)" "$(DESTDIR)$(netmrg_share_imagesdir)" "$(DESTDIR)$(netmrg_var_libdir)" "$(DESTDIR)$(netmrg_var_logdir)"
 binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
 netmrg_libexecSCRIPT_INSTALL = $(INSTALL_SCRIPT)
@@ -149,7 +150,7 @@ netmrg_libexecdir = $(libexecdir)/$(PACKAGE)
 netmrg_libexec_SCRIPTS = libexec/*.php libexec/*.pl
 
 # options to install files in the bin directory
-bin_SCRIPTS = bin/*.pl bin/*.sh
+bin_SCRIPTS = bin/*.pl bin/*.sh bin/rrdedit
 
 # options to install files in the share/images directory
 netmrg_share_imagesdir = $(pkgdatadir)/images
@@ -217,6 +218,8 @@ $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 subst: $(top_builddir)/config.status $(srcdir)/subst.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 bin/netmrg_cron.sh: $(top_builddir)/config.status $(top_srcdir)/bin/netmrg_cron.sh.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
+bin/rrdedit: $(top_builddir)/config.status $(top_srcdir)/bin/rrdedit.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 src/include/netmrg.h: $(top_builddir)/config.status $(top_srcdir)/src/include/netmrg.h.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@

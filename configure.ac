@@ -16,7 +16,7 @@ if test "x$exec_prefix" = "xNONE"; then
 	ac_configure_args="$ac_configure_args --exec-prefix=$exec_prefix"
 fi
 
-AC_REVISION($Revision: 1.23 $)
+AC_REVISION($Revision: 1.24 $)
 AM_INIT_AUTOMAKE
 AC_PROG_MAKE_SET
 
@@ -40,6 +40,7 @@ AC_CONFIG_FILES( \
 	Makefile \
 	subst \
 	bin/netmrg_cron.sh \
+	bin/rrdedit \
 	etc/Makefile \
 	etc/netmrg.conf \
 	etc/netmrg.xml \
