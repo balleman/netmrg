@@ -328,11 +328,10 @@ function delete_group($group_id)
 
 	$devices_handle = do_query("SELECT id FROM mon_devices WHERE group_id=$group_id");
 
-	for ($i = 0; $i < mysql_num_rows($devices_handle); $i++)
-	{
+	for ($i = 0; $i < mysql_num_rows($devices_handle); $i++) {
 	        $device_row = mysql_fetch_array($devices_handle);
 	        delete_device($device_row["id"]);
-        }
+	}
 }
 
 function delete_device($device_id)
@@ -353,11 +352,10 @@ function delete_device($device_id)
 
 	$monitors_handle = do_query("SELECT id FROM mon_monitors WHERE device_id=$device_id");
 
-	for ($i = 0; $i < mysql_num_rows($monitors_handle); $i++)
-	{
+	for ($i = 0; $i < mysql_num_rows($monitors_handle); $i++) {
 	        $monitor_row = mysql_fetch_array($monitors_handle);
 	        delete_monitor($monitor_row["id"]);
-        }
+	}
 }
 
 function delete_monitor($monitor_id)
