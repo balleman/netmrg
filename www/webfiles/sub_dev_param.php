@@ -35,7 +35,7 @@ if (empty($_REQUEST["action"]))
 			array("text" => $row["name"]),
 			array("text" => $row["value"]),
 			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}&name=" . $row["name"]) . "&nbsp;" . 
-				formatted_link("Delete", "javascript:del('".addslashes(htmlspecialchars($row['name']))."}', '".addslashes(htmlspecialchars($row['name']))."')"), "")
+				formatted_link("Delete", "javascript:del('".addslashes(htmlspecialchars($row['name']))."', '".addslashes(htmlspecialchars($row['name']))."')"), "")
 		); // end make_display_item();
 	}
 
