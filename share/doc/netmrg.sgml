@@ -486,6 +486,30 @@ their NetMRG administrator.
 	<computeroutput>externalAuth</computeroutput> to <userinput>true</userinput>.
 	</para>
 </chapter>
+<chapter id="highlight">
+	<title>Workday Highlighting</title>
+	<para>Shading specific time periods on a graph is possible using <application>NetMRG</application>.  Typically this is used for highlighting
+			the workday or SLA distinctions based on time of day.  The following steps will walk you through the setup
+			of workday highlighting on a graph.
+	</para>
+	<orderedlist>
+		<listitem><para>Add a new Graph Item.</para></listitem>
+		<listitem><para>Select <guilabel>Show Advanced</guilabel>.</para></listitem>
+		<listitem><para>Leave the title of the item blank if you want it to be omitted on the legend, otherwise enter a label such as "Business Hours."</para></listitem>
+		<listitem><para>Set the <guilabel>Item Type</guilabel> to <guilabel>Area</guilabel>.</para></listitem>
+		<listitem><para>Select a color for the highlighting.</para></listitem>
+		<listitem><para>Select <guilabel>Fixed Value</guilabel> in the <guilabel>Monitor</guilabel> drop-down.</para></listitem>
+		<listitem><para>Type in "INF" as the fixed value.  This allows the graph item to take on an infinite height, which is rendered by filling the background.</para></listitem>
+		<listitem><para>Unselect all checkboxes under <guilabel>Legend</guilabel>.</para></listitem>
+		<listitem><para>Enter start and stop times in their respective text boxes.  Times should be prefixed with a plus
+		sign ('+') and be consistent with <ulink url="http://www.gnu.org/manual/tar-1.12/html_chapter/tar_7.html">GNU Date Input Formats</ulink>.
+		An example would be <computeroutput>+9am</computeroutput> for a start time and <computeroutput>+5pm</computeroutput> 
+		for an end time, to highlight the "typical" business day.</para></listitem>
+		<listitem><para>Click <guilabel>Save Changes</guilabel> and observe the colored rectangle cover a lot of the data on your graph.</para></listitem>
+		<listitem><para>Click <guilabel>Move Up</guilabel> beside your new graph item until it reaches the top of the list.  
+		<emphasis>You now have a graph with workday highlighting!</emphasis></para></listitem>
+	</orderedlist>
+</chapter>
 </part>
 <part>
 <title>Reference</title>
