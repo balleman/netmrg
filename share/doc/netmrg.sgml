@@ -43,12 +43,66 @@
 <chapter>
 	<title>Monitoring and Reporting Concepts</title>
 	<itemizedlist>
-		<listitem><para>Groups</para><para>Groups are organizational containers used in NetMRG.  They are capable of containing Devices, as well as having a View associated with them.  As they are strictly organizational, the Web Interface is the only component to utilize them.  They are ignored by the Gatherer.</para></listitem>
-		<listitem><para>Devices</para><para>Devices can be thought of as any physical device on your network that will be monitored.  They may also be used organizationally to group Monitors that are not associated directly to any physcial host.  Devices may have, but are not required to have, IP addresses, SNMP community strings, and so forth.  Data gathering for Devices may be explicitly disabled.  Devices contain Sub-Devices.</para></listitem>
-		<listitem><para>Sub-Devices</para><para>Sub-Devices are discrete entities on a Device.  Examples of these are network interfaces, disk drives, and so forth.  Sub-Devices may have parameters or variables associated with them for identification purposes.  For example, a web server has a network interface designated "eth0."  In NetMRG, the server would have a network interface Sub-Device which would have a variable of "ifDescr" set to "eth0."  Sub-Devices contain Monitors.</para></listitem>
-		<listitem><para>Monitors</para><para>Monitors represent discrete monitorable quantities.  The Gatherer performs the Monitor's Test upon the Monitor's Sub-Device.  The result is then stored in a RRD.  Monitors are also associated with Graph Items.  If NetMRG is being used to track events, a Monitor may also contain Events.</para></listitem>
-		<listitem><para>Tests</para><para>Tests are data gathering operations associated with Monitors.  There are four types of tests:  Scripts, SNMP Queries, SQL Queries, and Internal tests.  Script tests call a script and use either its return code or its output as data.  SNMP Tests perform a SNMP GET operation against a device using a supplied OID.  SQL Tests perform a MySQL query and use a value from a returned row as data.  Internal tests are frequently used tests built into the Gatherer.  They typically start as Script Tests but are integrated for the sake of efficiency.</para></listitem>
-		<listitem><para>Events</para><para>Events contain a group of Conditions and Responses.  If the Conditions of an Event are met, the appropriate response is performed.</para></listitem>
+		<listitem>
+			<para>Groups</para>
+			<para>
+Groups are organizational containers used in NetMRG.  They are capable of 
+containing Devices, as well as having a View associated with them.  As they 
+are strictly organizational, the Web Interface is the only component to 
+utilize them.  They are ignored by the Gatherer.
+			</para>
+		</listitem>
+		<listitem>
+			<para>Devices</para>
+			<para>
+Devices can be thought of as any physical device on your network that will 
+be monitored.  They may also be used organizationally to group Monitors 
+that are not associated directly to any physcial host.  Devices may have, 
+but are not required to have, IP addresses, SNMP community strings, and so 
+forth.  Data gathering for Devices may be explicitly disabled.  Devices 
+contain Sub-Devices.
+			</para>
+		</listitem>
+		<listitem>
+			<para>Sub-Devices</para>
+			<para>
+Sub-Devices are discrete entities on a Device.  Examples of these are network 
+interfaces, disk drives, and so forth.  Sub-Devices may have parameters or 
+variables associated with them for identification purposes.  For example, a 
+web server has a network interface designated "eth0."  In NetMRG, the server 
+would have a network interface Sub-Device which would have a variable of 
+"ifDescr" set to "eth0."  Sub-Devices contain Monitors.
+			</para>
+		</listitem>
+		<listitem>
+			<para>Monitors</para>
+			<para>
+Monitors represent discrete monitorable quantities.  The Gatherer performs the 
+Monitor's Test upon the Monitor's Sub-Device.  The result is then stored in a 
+RRD.  Monitors are also associated with Graph Items.  If NetMRG is being used 
+to track events, a Monitor may also contain Events.
+			</para>
+		</listitem>
+		<listitem>
+			<para>Tests</para>
+			<para>
+Tests are data gathering operations associated with Monitors.  There are four 
+types of tests:  Scripts, SNMP Queries, SQL Queries, and Internal tests.  
+Script tests call a script and use either its return code or its output as 
+data.  SNMP Tests perform a SNMP GET operation against a device using a 
+supplied OID.  SQL Tests perform a MySQL query and use a value from a returned 
+row as data.  Internal tests are frequently used tests built into the Gatherer.  
+They typically start as Script Tests but are integrated for the sake of 
+efficiency.
+			</para>
+		</listitem>
+		<listitem>
+			<para>Events</para>
+			<para>
+Events contain a group of Conditions and Responses.  If the Conditions of an 
+Event are met, the appropriate response is performed.
+			</para>
+		</listitem>
 	</itemizedlist>
 </chapter>
 <chapter>
@@ -57,6 +111,61 @@
 		<listitem><para>Graphs</para><para>Graphs are the abstraction of a single chart generated by NetMRG using <ulink url="http://www.rrdtool.org/"><application>RRDTOOL</application></ulink>.  Graphs have properties such as sizes, a title, and vertical labels.  They also contain a set of Graph Items which represent the separate pieces of data graphed.</para><itemizedlist><listitem><para>Custom Graphs</para><para>Custom graphs have "absolute" referencing of data to be displayed.  They are typically used for graphs that are applicable in only one instance, such as a stack graph of all Internet links on your network.</para></listitem><listitem><para>Templated Graphs</para><para>Template Graphs have "relative" references to data.  They are used for graphs such as CPU load on a server or traffic on a network interface.  They are applicable in many instances.  The use of templates allows you to create one graph for a set of variables on a Sub-Device and then apply that same graph to other Sub-Devices for graphs formatted identically.  This allows considerable savings of time as there is no need to create a Custom Graph for each instance of a graph.</para></listitem></itemizedlist></listitem>
 		<listitem><para>Graph Items</para><para>Graph Items represent data on a graph.  They can represent areas, lines, and stacks on Graphs.  Each Graph Item is linked to a Monitor for dynamic data or given a static value.  Options for Graph Items include type (such as line, area, stack), color, value (either static or dynamic based on a Monitor), and legend options.</para></listitem>
 	</itemizedlist>
+</chapter>
+<chapter>
+	<title>Installation Proceedure</title>
+	<orderedlist>
+		<listitem>
+			<para>untar to some directory like /var/www/ (it will untar into a 'netmrg' directory)</para>
+		</listitem>
+		<listitem>
+			<para>modify you apache config to alias /netmrg to /var/www/netmrg/www</para>
+			<programlisting>
+Alias /netmrg "/var/www/netmrg/www"
+			</programlisting>
+		</listitem>
+		<listitem>
+			<para>setup the database</para>
+			<programlisting>
+mysqladmin create netmrg
+mysql netmrg < netmrg.mysql
+mysql
+> grant select on netmrg.* to netmrgread@localhost identified by 'netmrgread';
+> grant all on netmrg.* to netmrgwrite@localhost identified by 'netmrgwrite';
+			</programlisting>
+		</listitem>
+		<listitem>
+			<para>add a user for yourself</para>
+			<programlisting>
+mysql netmrg
+> INSERT INT user SET
+> user = "admin", pass = encrypt("pass", md5("pass")),
+> permit = 3, view_type = 0, view_id = 19, fullname = "Administrator";
+			</programlisting>
+		</listitem>
+		<listitem>
+			<para>compile NetMRG</para>
+			<para>cd into the src directory for your installation (usually /var/www/netmrg/src)</para>
+		</listitem>
+		<listitem>
+			<para>setup crontab</para>
+			<para>
+You can setup the crontab entries in two places: either edit /etc/crontab,
+or run 'crontab -e' as root. For 'crontab -e', use an entry similar to this:
+			</para>
+			<programlisting>
+*/5 * * * * /var/www/netmrg/src/netmrg > /var/www/netmrg/dat/output 2> /var/www/netmrg/dat/errors
+			</programlisting>
+		</listitem>
+		<listitem>
+			<para>
+point your web browser at your install, and start graphing things!
+Your installation will be what you setup in the second step.  It will commonly be
+something similar to http://yourhost.com/netmrg/
+Login with the username and password you setup in step 4.
+			</para>
+		</listitem>
+	</orderedlist>
 </chapter>
 <appendix>
 	<title>Contact Information</title>
