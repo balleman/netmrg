@@ -1,6 +1,6 @@
 2003.08.29  v0.10pre1  balleman
-  ALTER TABLE `graphs` ADD `title` VARCHAR( 100 ) NOT NULL AFTER `name` ;
-  ALTER TABLE `graph_ds` CHANGE `multiplier` `multiplier` VARCHAR( 100 ) DEFAULT '1' NOT NULL 
+  ALTER TABLE `graphs` ADD `title` VARCHAR( 100 ) NOT NULL AFTER `name`;
+  ALTER TABLE `graph_ds` CHANGE `multiplier` `multiplier` VARCHAR( 100 ) DEFAULT '1' NOT NULL;
 
 2003.08.05  v0.10pre1  balleman
   ALTER TABLE snmp_interface_cache ADD COLUMN ifSpeed int(11) NOT NULL;
