@@ -210,7 +210,7 @@ function DrawGroupNavHistory($type, $id)
 	// default trip id
 	if (empty($_REQUEST["tripid"]))
 	{
-		srand();
+		srand(make_seed());
 		$_REQUEST["tripid"] = md5(time()*rand());
 	} // end if no trip id
 	$tripid = $_REQUEST["tripid"];

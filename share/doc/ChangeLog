@@ -2,6 +2,7 @@
   - bug#0000186 - default view add custom graph db error
   - bug#0000181 - undefined index dev_type in test_script.php
   - bug#0000175 - in_array() can't take an array as needle in PHP < 4.2.0
+  - bug#0000174 - srand() needs seeded in php < 4.2.0
 
 2004.05.06  v0.15cvs  balleman
   - bug#0000188 - Select All/None/Invert for checkboxes
