@@ -42,10 +42,6 @@ these pages don't do auth
 
 
 == balleman ==
-clean up UI for templates
-make template rendering more efficient
-audit queries for use of index
-  - gatherer done, web portion needs gone over
 netmrg.cc
   more comprehensive way of setting debug levels needed
 

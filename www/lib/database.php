@@ -12,6 +12,7 @@
 // Obtain data from a table
 function db_query($query_string)
 {
+	//echo("\n\n~~~ " . $query_string . " ~~~\n\n");
 	mysql_connect($GLOBALS["netmrg"]["dbhost"], $GLOBALS["netmrg"]["dbreaduser"], $GLOBALS["netmrg"]["dbreadpass"]) or 
 		die("<b>DB_ERROR:</b>: Cannot connect to the database server.");
 	mysql_select_db($GLOBALS["netmrg"]["dbname"]) or 

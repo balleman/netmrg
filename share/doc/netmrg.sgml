@@ -1,0 +1,37 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN">
+<book>
+<bookinfo>
+	<title>The NetMRG Reference</title>
+	<authorgroup>
+		<author>
+			<firstname>Brady</firstname>
+			<surname>Alleman</surname>	
+		</author>
+		<author>
+			<firstname>Douglas</firstname>
+			<othername>E.</othername>
+			<surname>Warner</surname>
+		</author>
+	</authorgroup>
+	<pubdate>2003</pubdate>
+	<copyright>
+		<year>2003</year>
+		<holder>Brady Alleman and Douglas E. Warner</holder>
+	</copyright>
+	<legalnotice>
+		<para>Our license for the document goes here. --FIXME--</para>
+	</legalnotice>
+</bookinfo>
+<toc></toc>
+<preface>
+	<title>Introduction</title>
+	<para>Welcome to NetMRG!  NetMRG is a database-driven network monitoring and graphing tool for use on Linux systems.  It offers an intuitive web-based configuration, customized monitoring capabilities for unusual situations, a fast multi-threaded polling application, and brilliant graphs rendered by <ulink url="http://www.rrdtool.org/"><Application>RRDTOOL</Application></ulink>.</para>
+	<para>This document aims to guide you swiftly through the installation and configuration of NetMRG, as well as act as a reference for those with existing installations.  We hope that you find it useful.</para>
+</preface>
+<appendix>
+	<title>Database Structure</title>
+	<para>NetMRG's database structure is wonderful...</para>
+</appendix>
+
+
+</book>

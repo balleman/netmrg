@@ -234,16 +234,11 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 
 	// *** Padded Length Calculation
 	$padded_length = 5;
-	$ds_results = db_query("SELECT graph_ds.label FROM graph_ds WHERE graph_ds.graph_id=$id");
-	$ds_total = db_num_rows($ds_results);
-
-	for ($ds_count = 1; $ds_count <= $ds_total; $ds_count++)
+	$ds_results = db_query("SELECT max(length(graph_ds.label)) as maxlen FROM graph_ds WHERE graph_ds.graph_id=$id");
+	$ds_row = mysql_fetch_array($ds_results);
+	if (!empty($ds_row['maxlen']) && $padded_length < $ds_row['maxlen'])
 	{
-		$ds_row = db_fetch_array($ds_results);
-		if (strlen($ds_row["label"]) > $padded_length)
-		{
-			$padded_length = strlen($ds_row["label"]);
-		}
+		$padded_length = $ds_row['maxlen'];
 	}
 	// ***
 
