@@ -7,25 +7,15 @@ recache.php
 ability to go 'up' a level when browsing 'Groups' et al
 snmp_cache_view.php:
   "Make Graph" needs overhauled
-monitors.php:
-  add javascript check so you can't enter a minimum < maximum
 view page should reflect status information
-add support for 'unfiled' devices (should only be things that were put
-  in the database incorrectly)
 last_status.php:
   DB_ERROR: Couldn't execute query:
   SELECT mon_monitors.id, mon_test.name as test_name, mon_devices.ip AS ip, mon_test.cmd AS cmd, mon_monitors.params AS params, mon_devices.name AS dev_name, mon_test.name as test_name FROM mon_monitors LEFT JOIN mon_test ON mon_monitors.test_id=mon_test.id LEFT JOIN mon_devices ON mon_monitors.device_id=mon_devices.id WHERE mon_monitors.device_id=5
   Table 'netmrg.mon_test' doesn't exist
-mon_responses.php
-  javascript delete action
-format.php
-  no more $custom_add_link!
-users.php
-  javascript delete action
 
 
 == silfreed ==
-research bugtraq & alternatives
+research bugzilla & alternatives
   - bug tracking
   - todo tracking
 research message board/mailing list
@@ -39,10 +29,15 @@ get auth w/ php sessions to work
   - set a standard for auth checks
     * think a combination of IsLoggedIn and check_auth would be good
     * what exactly are the different auth levels?
-      - single view - "?"
+      - single view - "only 'view' a subtree"
       - read all - "read"
-      - read/write - "?"
+      - read/write - ""
       - read/write/user manage - "admin"
+monitors.php:
+  add javascript check so you can't enter a minimum < maximum
+format.php
+  no more $custom_add_link!
+
 
 == balleman ==
 graph templates
@@ -50,6 +45,10 @@ make events/responses work again
 snmp cacher rewrite
 netmrg.cc
   more comprehensive way of setting debug levels needed
+mon_responses.php
+  javascript delete action
+users.php
+  javascript delete action
 
 == before going public ==
 get new netmrg monitoring something (duo)
@@ -63,4 +62,4 @@ customized 'view' page
   - on the main view page, select boxes to pick which graphs you would like to see
     (makes it easier to compare some graphs)
   - ability to move graphs up/down despite their original ordering (session fun)
-
+  - nestable conditions for events
