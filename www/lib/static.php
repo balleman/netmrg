@@ -90,6 +90,7 @@ $TEST_TYPES = array(
 			4	=>	"Internal");
 
 $PERMIT_TYPES = array(
+			-1	=>	"Disabled",
 			0	=>	"Single View Only",
 			1	=>	"Read All",
 			2	=>	"Read/Write",

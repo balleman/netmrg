@@ -132,7 +132,7 @@ for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 		array("checkboxname" => "user", "checkboxid" => $user_id),
 		array("text" => $user_row["user"]),
 		array("text" => $user_row["fullname"]),
-		array("text" => (get_permit($user_row["user"])<0) ? 'Disabled' : $GLOBALS['PERMIT_TYPES'][$user_row['permit']]),
+		array("text" => $GLOBALS['PERMIT_TYPES'][get_permit($user_row['user'])]),
 		array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&user_id=$user_id") . "&nbsp;" .
 			formatted_link("Prefs", "user_prefs.php?uid=$user_id") . "&nbsp;" .
 			formatted_link("Delete", "javascript:del('".addslashes($user_row['user'])."', '{$user_row['id']}')")
