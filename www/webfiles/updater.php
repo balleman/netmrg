@@ -47,8 +47,7 @@ $dbupdates = array(
 "INSERT INTO user_prefs (uid, module, pref, value) SELECT id, 'SlideShow', 'AutoScroll', 1 FROM user;"
 	), // end 0.10
 	"0.12" => array(), // end 0.12
-	"0.13" => array(), // end 0.13
-	"0.14" => array(
+	"0.13" => array(
 "ALTER TABLE `devices` ADD `snmp_recache_method` SMALLINT DEFAULT '0' NOT NULL AFTER `dev_type`;",
 "UPDATE devices SET snmp_recache_method = 4 WHERE snmp_recache = 1;",
 "UPDATE devices SET snmp_recache_method = 3 WHERE snmp_recache = 0 AND snmp_check_ifnumber = 1;",
@@ -68,7 +67,8 @@ $dbupdates = array(
     INDEX ( `dev_id` ), INDEX ( `subdev_id` ) , INDEX( `mon_id` ));",
 "ALTER TABLE user DROP INDEX user;",
 "ALTER TABLE user ADD CONSTRAINT UNIQUE user (user);"
-	) // end 0.14
+	), // end 0.13
+	"0.14" => array() // end 0.14
 ); // end $dbupdates;
 
 // check what to do
