@@ -26,6 +26,7 @@ bool vt100_compatible()
 	if (!strncasecmp(term, "linux", 5)) return true;
 	if (!strncasecmp(term, "xterm", 5)) return true;
 	if (!strncasecmp(term, "vt", 2))	return true;
+	return false;
 }
 
 // file_exists
@@ -171,6 +172,7 @@ int level_to_priority(int level)
 		case LEVEL_NOTICE:		return LOG_NOTICE;
 		case LEVEL_INFO:		return LOG_INFO;
 		case LEVEL_DEBUG:		return LOG_DEBUG;
+		default:				return LOG_INFO;
 	}
 }
 
@@ -186,6 +188,7 @@ int level_to_color(int level)
 		case LEVEL_NOTICE:		return COLOR_CYAN;
 		case LEVEL_INFO:		return COLOR_WHITE;
 		case LEVEL_DEBUG:		return COLOR_GREEN;
+		default:				return COLOR_WHITE;
 	}
 }
 
