@@ -157,6 +157,63 @@ function isin($haystack, $needle)
 	return is_integer(strpos($haystack, $needle));
 }
 
+function compare_interface_names($a, $b)
+{
+	$astuff = preg_split("~([-/\. ])~", strtolower(trim($a)), 0, PREG_SPLIT_DELIM_CAPTURE);
+	$bstuff = preg_split("~([-/\. ])~", strtolower(trim($b)), 0, PREG_SPLIT_DELIM_CAPTURE);
+	for ($i = 0; $i < max(count($astuff), count($bstuff)); $i++)
+	{
+		if (isset($astuff[$i]))
+		{
+			if (isset($bstuff[$i]))
+			{
+				if ($astuff[$i] != $bstuff[$i])
+				{
+					if (is_numeric($astuff[$i]) && (is_numeric($bstuff[$i])))
+					{
+						return $astuff[$i] - $bstuff[$i];
+					}
+					else
+					{
+						return strcmp($astuff[$i], $bstuff[$i]);
+					}
+				}
+			}
+			else
+			{
+				return 1;
+			}
+		}
+		else
+		{
+			return -1;
+		}
+	}
+	return 0;
+}
+
+function compare_mac_addresses($a, $b)
+{
+	$astuff = explode(":", $a);
+	$bstuff = explode(":", $b);
+	for ($i = 0; $i < 6; $i++) if (strlen($astuff[$i]) == 1) { $astuff[$i] = "0" . $astuff[$i]; }
+	for ($i = 0; $i < 6; $i++) if (strlen($bstuff[$i]) == 1) { $bstuff[$i] = "0" . $bstuff[$i]; }
+	$a1 = implode("", $astuff);
+	$b1 = implode("", $bstuff);
+	return strcmp($a1, $b1);
+}
+
+function compare_ip_addresses($a, $b)
+{
+	$astuff = explode(".", $a);
+	$bstuff = explode(".", $b);
+	for ($i = 0; $i < 4; $i++) while (strlen($astuff[$i]) != 3) { $astuff[$i] = "0" . $astuff[$i]; }
+	for ($i = 0; $i < 4; $i++) while (strlen($bstuff[$i]) != 3) { $bstuff[$i] = "0" . $bstuff[$i]; }
+	$a1 = implode("", $astuff);
+	$b1 = implode("", $bstuff);
+	return strcmp($a1, $b1);
+}
+
 /**
 * simple_math_parse($input)
 *

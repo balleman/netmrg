@@ -35,8 +35,20 @@ function dodisplay()
 	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 	js_confirm_dialog("del", "Are you sure you want to delete subdevice ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}&sub_dev_id=");
 
-	$results = db_query("SELECT name, id, type FROM sub_devices WHERE sub_devices.dev_id={$_REQUEST['dev_id']} ORDER BY name");
-
+	$results = db_query("SELECT name, id, type FROM sub_devices WHERE sub_devices.dev_id={$_REQUEST['dev_id']}");
+	$rows = array();
+	while ($row = db_fetch_array($results))
+	{
+		array_push($rows, $row);
+	}
+	
+	function mysort($a, $b)
+	{
+		return compare_interface_names($a['name'], $b['name']);
+	}
+	
+	usort($rows, mysort);
+	
 	make_display_table("Sub-Devices for " . get_device_name($_REQUEST["dev_id"]),
 		"{$_SERVER['PHP_SELF']}?action=add&dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}",
 		array("text" => "Sub-Devices"),
@@ -47,7 +59,7 @@ function dodisplay()
 
 	for ($i = 0; $i < db_num_rows($results); $i++)
 	{
-		$row = db_fetch_array($results);
+		$row = $rows[$i];
 		make_display_item("editfield".($i%2),
 			array("text" => $row["name"], "href" => "monitors.php?sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}"),
 			array("text" => $SUB_DEVICE_TYPES[$row["type"]]),

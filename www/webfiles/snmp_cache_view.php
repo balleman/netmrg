@@ -226,50 +226,10 @@ function view_interface_cache()
 		switch($ob)
 		{
 			case "ifName":
-			case "ifDescr":	$astuff = preg_split("~([-/\. ])~", trim($a[$ob]), 0, PREG_SPLIT_DELIM_CAPTURE);
-							$bstuff = preg_split("~([-/\. ])~", trim($b[$ob]), 0, PREG_SPLIT_DELIM_CAPTURE);
-							for ($i = 0; $i < max(count($astuff), count($bstuff)); $i++)
-							{
-								if (isset($astuff[$i]))
-								{
-									if (isset($bstuff[$i]))
-									{
-										if ($astuff[$i] != $bstuff[$i])
-										{
-											if (is_numeric($astuff[$i]) && (is_numeric($bstuff[$i])))
-											{
-												return $astuff[$i] - $bstuff[$i];
-											}
-											else
-											{
-												return strcmp($astuff[$i], $bstuff[$i]);
-											}
-										}
-									}
-									else
-									{
-										return 1;
-									}
-								}
-								else
-								{
-									return -1;
-								}
-							}
-							return 0;
-			
+			case "ifDescr":	return compare_interface_names($a[$ob], $b[$ob]);
 			case "ifAlias": return strcmp($a['ifAlias'], $b['ifAlias']);
-			
-			case "ifIP": 	return ip2long($a['ifIP']) - ip2long($b['ifIP']);
-			
-			case "ifMAC":	$astuff = explode(":", $a['ifMAC']);
-							$bstuff = explode(":", $b['ifMAC']);
-							for ($i = 0; $i < 6; $i++) if (strlen($astuff[$i]) == 1) { $astuff[$i] = "0" . $astuff[$i]; }
-							for ($i = 0; $i < 6; $i++) if (strlen($bstuff[$i]) == 1) { $bstuff[$i] = "0" . $bstuff[$i]; }
-							$a1 = implode("", $astuff);
-							$b1 = implode("", $bstuff);
-							return strcmp($a1, $b1);
-			
+			case "ifIP": 	return compare_ip_addresses($a['ifIP'], $b['ifIP']);
+			case "ifMAC":	return compare_mac_addresses($a['ifMAC'], $b['ifMAC']);
 			default: 		return ($a['ifIndex'] - $b['ifIndex']);
 		}
 	}

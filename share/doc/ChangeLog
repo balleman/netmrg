@@ -1,6 +1,7 @@
 2004.08.24  v0.17cvs  balleman
   - bug#0000258 - "Previous Value" should be available when processing conditions
   - bug#0000232 - correctly order cisco names on snmp interface cache page
+  - bug#0000231 - make subdevice page sorting aware of cisco names
   
 2004.08.24  v0.17cvs  silfreed
   - bug#0000257 - doing a delayed insert for dynamic variables lowers mysql overhead
