@@ -29,7 +29,7 @@ function db_query($query_string)
 {
 	$query_result = mysql_query($query_string, $GLOBALS["netmrg"]["dbconn"]);
 	// if there was an error, handle it
-	if (mysql_errno($GLOBALS["netmrg"]["dbconn"])
+	if (mysql_errno($GLOBALS["netmrg"]["dbconn"]))
 	{
 		if ($GLOBALS["netmrg"]["dbdebug"])
 		{
