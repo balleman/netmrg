@@ -8,7 +8,7 @@
 #define DS_APP_DONT_FIX_PDUS 0
 
 // snmpget - perform an snmpget on a host using the provided information
-string snmpget(DeviceInfo info, string oidstring) 
+string snmpget(DeviceInfo info, string oidstring)
 {
 	struct	snmp_session session;
 	void 	*sessp;
@@ -52,8 +52,8 @@ string snmpget(DeviceInfo info, string oidstring)
 	{
 		debuglogger(DEBUG_SNMP, &info, string("SNMP Query Error."));
 		return(string("U"));
-	} 
-	else 
+	}
+	else
 	{
 
 	/*
@@ -65,7 +65,7 @@ string snmpget(DeviceInfo info, string oidstring)
 	if (!snmp_parse_oid(tempname, anOID, &anOID_len))
        	{
 		return(string("U"));
-	} 
+	}
 	else
         snmp_add_null_var(pdu, anOID, anOID_len);
 
@@ -74,10 +74,10 @@ string snmpget(DeviceInfo info, string oidstring)
 	/*
 	* Process the response.
 	*/
-	
+
 	if (status == STAT_SUCCESS && response->errstat == SNMP_ERR_NOERROR)
 	{
-		
+
 	/*
 	* SUCCESS: Print the result variables
 	*/
@@ -90,8 +90,8 @@ string snmpget(DeviceInfo info, string oidstring)
 			result = result.erase(0, result.find(":",0) + 1);
 			result = result.erase(0, result.find("=",0) + 1);
 			result = token_replace(result, " ", "");
-                } 
-		else 
+                }
+		else
 		{
                 	result = string("U");
                 }
@@ -105,6 +105,183 @@ string snmpget(DeviceInfo info, string oidstring)
 
 	return result;
 	}
+}
+
+struct SNMPPair
+{
+	int 	index;
+	string  value;
+
+	SNMPPair(int setindex, string setvalue)
+	{
+		index = setindex;
+		value = setvalue;
+	}
+};
+
+int numprinted = 0;
+
+void snmp_get_and_print(netsnmp_session * ss, oid * theoid, size_t theoid_len)
+{
+    netsnmp_pdu    *pdu, *response;
+    netsnmp_variable_list *vars;
+    int             status;
+
+    pdu = snmp_pdu_create(SNMP_MSG_GET);
+    snmp_add_null_var(pdu, theoid, theoid_len);
+
+    status = snmp_synch_response(ss, pdu, &response);
+    if (status == STAT_SUCCESS && response->errstat == SNMP_ERR_NOERROR) {
+        for (vars = response->variables; vars; vars = vars->next_variable) {
+            numprinted++;
+            print_variable(vars->name, vars->name_length, vars);
+        }
+    }
+    if (response) {
+        snmp_free_pdu(response);
+    }
+}
+
+void snmp_walk()
+{
+
+    netsnmp_session session, *ss;
+    netsnmp_pdu    *pdu, *response;
+    netsnmp_variable_list *vars;
+    int             arg;
+    oid             name[MAX_OID_LEN];
+    size_t          name_length;
+    oid             root[MAX_OID_LEN];
+    size_t          rootlen;
+    int             count;
+    int             running;
+    int             status;
+    int             check;
+    int             exitval = 0;
+
+    pthread_mutex_lock(&snmp_lock);
+    ss = snmp_open(&session);
+    pthread_mutex_unlock(&snmp_lock);
+
+    if (ss == NULL)
+    {
+    	// error
+    }
+
+    /*
+     * get first object to start walk
+     */
+    memmove(name, root, rootlen * sizeof(oid));
+    name_length = rootlen;
+
+    running = 1;
+
+    while (running) {
+        /*
+         * create PDU for GETNEXT request and add object name to request
+         */
+        pdu = snmp_pdu_create(SNMP_MSG_GETNEXT);
+        snmp_add_null_var(pdu, name, name_length);
+
+        /*
+         * do the request
+         */
+        status = snmp_synch_response(ss, pdu, &response);
+        if (status == STAT_SUCCESS) {
+            if (response->errstat == SNMP_ERR_NOERROR) {
+                /*
+                 * check resulting variables
+                 */
+                for (vars = response->variables; vars;
+                     vars = vars->next_variable) {
+                    if ((vars->name_length < rootlen)
+                        || (memcmp(root, vars->name, rootlen * sizeof(oid))
+                            != 0)) {
+                        /*
+                         * not part of this subtree
+                         */
+                        running = 0;
+                        continue;
+                    }
+                    numprinted++;
+                    print_variable(vars->name, vars->name_length, vars);
+                    if ((vars->type != SNMP_ENDOFMIBVIEW) &&
+                        (vars->type != SNMP_NOSUCHOBJECT) &&
+                        (vars->type != SNMP_NOSUCHINSTANCE)) {
+                        /*
+                         * not an exception value
+                         */
+                        if (check
+                            && snmp_oid_compare(name, name_length,
+                                                vars->name,
+                                                vars->name_length) >= 0) {
+                            fprintf(stderr, "Error: OID not increasing: ");
+                            fprint_objid(stderr, name, name_length);
+                            fprintf(stderr, " >= ");
+                            fprint_objid(stderr, vars->name,
+                                         vars->name_length);
+                            fprintf(stderr, "\n");
+                            running = 0;
+                            exitval = 1;
+                        }
+                        memmove((char *) name, (char *) vars->name,
+                                vars->name_length * sizeof(oid));
+                        name_length = vars->name_length;
+                    } else
+                        /*
+                         * an exception value, so stop
+                         */
+                        running = 0;
+                }
+            } else {
+                /*
+                 * error in response, print it
+                 */
+                running = 0;
+                if (response->errstat == SNMP_ERR_NOSUCHNAME) {
+                    printf("End of MIB\n");
+                } else {
+                    fprintf(stderr, "Error in packet.\nReason: %s\n",
+                            snmp_errstring(response->errstat));
+                    if (response->errindex != 0) {
+                        fprintf(stderr, "Failed object: ");
+                        for (count = 1, vars = response->variables;
+                             vars && count != response->errindex;
+                             vars = vars->next_variable, count++)
+                            /*EMPTY*/;
+                        if (vars)
+                            fprint_objid(stderr, vars->name,
+                                         vars->name_length);
+                        fprintf(stderr, "\n");
+                    }
+                    exitval = 2;
+                }
+            }
+        } else if (status == STAT_TIMEOUT) {
+            fprintf(stderr, "Timeout: No Response from %s\n",
+                    session.peername);
+            running = 0;
+            exitval = 1;
+        } else {                /* status == STAT_ERROR */
+            snmp_sess_perror("snmpwalk", ss);
+            running = 0;
+            exitval = 1;
+        }
+        if (response)
+            snmp_free_pdu(response);
+    }
+
+    if (numprinted == 0 && status == STAT_SUCCESS) {
+        /*
+         * no printed successful results, which may mean we were
+         * pointed at an only existing instance.  Attempt a GET, just
+         * for get measure.
+         */
+        snmp_get_and_print(ss, root, rootlen);
+    }
+    snmp_close(ss);
+
+   //return exitval;
 }
 
 
