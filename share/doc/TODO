@@ -25,7 +25,7 @@ get a real directory tree
   ideal cvs tree
     migration
       bin
-      cmd -> ??
+      cmd -> libexec
       dat -> var/log
       db -> share/
       doc -> share/doc
@@ -37,6 +37,7 @@ get a real directory tree
       www -> var/webfiles
     ends up like
       bin
+      libexec
       share
         /doc
         /images
@@ -50,7 +51,7 @@ get a real directory tree
         /log
         /lib
   ideal install
-    $(PREFIX)/bin (netmrg-gatherer)
+    $(EPREFIX)/bin (netmrg-gatherer)
     $(PREFIX)/share/netmrg (images, db)
     $(PREFIX)/share/doc/netmrg (docs)
     $(PREFIX)/var/netmrg (include, lib, webfiles)
