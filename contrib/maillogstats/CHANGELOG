@@ -1,0 +1,21 @@
+2004.07.15  silfreed
+  - changed name from 'maillogfilter' to 'maillogstats'
+
+2004.06.23 dwarner
+  updated imap connection logging
+
+2004.03.30 dwarner
+  added `connect` column to table
+  renamed `postfix` table to `stats`
+  add support for imap/postfix/tpop3d connections
+
+2003.07.03 dwarner
+  'from=<' counts too many things for Received; trying 'message-id=<' instead
+
+2002.11.21 dwarner
+  wrap counters manually by doing this:
+    if ($i > pow(2, 31)) { $i = $i - pow(2,31); }
+  add mailscanner processing
+  OutputCounters()
+    - change to a 'REPLACE INTO'
+

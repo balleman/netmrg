@@ -1,0 +1,441 @@
+#!/usr/bin/php -q
+<?
+/*  maillogstats
+ *
+ *  parses filter from pipe and puts counters in certain files
+ *
+ *  Author: Douglas E. Warner <silfreed@silfreed.net>
+ */
+
+
+
+/********** Config **********/
+//error_reporting(E_ALL);
+error_reporting(E_WARNING | E_ERROR);
+set_time_limit(0);
+
+// make a new $CFG object
+class object {};
+$CFG = new object;
+
+$CFG->dbhost = "localhost";
+$CFG->dbuser = "maillog";
+$CFG->dbpass = "maillog";
+$CFG->dbname = "maillog";
+
+$CFG->errorlog = "/var/log/maillogerror";
+
+## check arguments
+if ($argc == 2 && ($argv[1] == '-h' || $argv[1] == '-?' || $argv[1] == '--help')) {
+	Usage();
+	exit();
+} // end if not enough command line args
+
+/*  the stats array will look like this:
+ *  array("host" => array(
+ *      "connect" => value,
+ *      "received" => value,
+ *      "delivered" => value,
+ *      "forwarded" => value,
+ *      "deferred" => value,
+ *      "bounced" => value,
+ *      "rejected" => value,
+ *      "rbld" => value,
+ *      "spamcount" => value,
+ *      "spamscore" => value,
+ *      "viri" => value
+ *  ));
+ *  where host is the hostname and the array is all counters
+ */
+$stats = array();
+
+// a counter for the number of relevant mail log lines parsed
+$mailloglines = 0;
+
+// after how many lines should we flush the counters
+$flushnumlines = 50;
+
+// connect to mysql
+mysql_connect($CFG->dbhost, $CFG->dbuser, $CFG->dbpass)
+	or die("ERROR: cannot connect to server\n");
+mysql_select_db($CFG->dbname)
+	or die("ERROR: cannot connect to database\n");
+
+
+
+/********** Core **********/
+if ($argc == 1) {
+	$logfile = "php://stdin";	// set the logfile as stdin
+} elseif ($argc == 2) {
+	$logfile = $argv[1];		// set the logfile as the second parameter
+} // end which logfile to use
+
+// initializes the $stats array w/ any old counter values that exist
+CheckOldCounters($stats);
+
+// try to open the file
+$logptr = fopen($logfile, "r");
+if (!$logptr) {
+	Error("ERROR: File Not Found '$logfile'");
+	exit();
+} // end if file not found
+
+// lets do some parsing!
+while (!feof ($logptr)) {
+	$line = fgets($logptr, 4096);
+	
+	// if this line is about postfix, do stuff w/ it
+	if (preg_match("/postfix/", $line)) {
+		$mailloglines++;
+		$linehalves = preg_split("/\[\d*\]: /U", $line);
+		// $basicinfo will have the following:
+		// month, day, time, host, "postfix"
+		$basicinfo = split("[ ]+", $linehalves[0]);
+		$statusinfo = $linehalves[1];
+		unset($linehalves);
+		
+		// check to see if the $basicinfo section has
+		// the correct # of items in it
+		if (count($basicinfo) != 5) {
+			Error("POSTFIX: $line");
+		} else {
+			if (!HostInStats($basicinfo[3], $stats)) {
+				AddHostToStats($basicinfo[3], $stats);
+				Error("POSTFIX ADDHOST: $line");
+			} // end if host in stats or not
+			PostfixStats($basicinfo[3], $statusinfo, $stats);
+			
+		} // end if line is okay
+
+	} else if(preg_match("/MailScanner/", $line)) {
+		$mailloglines++;
+		$linehalves = preg_split("/\[\d*\]: /U", $line);
+		// $basicinfo will have the following:
+		// month, day, time, host, "MailScanner"
+		$basicinfo = split("[ ]+", $linehalves[0]);
+		$statusinfo = $linehalves[1];
+		unset($linehalves);
+		
+		// check to see if the $basicinfo section has
+		// the correct # of items in it
+		if (count($basicinfo) != 5) {
+			Error("MAILSCANNER: $line");
+		} else {
+			if (!HostInStats($basicinfo[3], $stats)) {
+				AddHostToStats($basicinfo[3], $stats);
+				Error("MAILSCANNER ADDHOST: $line");
+			} // end if host in stats or not
+			MailScannerStats($basicinfo[3], $statusinfo, $stats);
+			
+		} // end if line is okay
+
+	// if imap log line
+	} else if(preg_match("/imapd/", $line)) {
+		$mailloglines++;
+		$linehalves = preg_split("/imapd: /U", $line);
+		// $basicinfo will have the following:
+		// month, day, time, host, "MailScanner"
+		$basicinfo = split("[ ]+", $linehalves[0]);
+		$statusinfo = $linehalves[1];
+		unset($linehalves);
+		
+		// check to see if the $basicinfo section has
+		// the correct # of items in it
+		if (count($basicinfo) != 5) {
+			Error("IMAPD: $line");
+		} else {
+			if (!HostInStats($basicinfo[3], $stats)) {
+				AddHostToStats($basicinfo[3], $stats);
+				Error("IMAPD ADDHOST: $line");
+			} // end if host in stats or not
+			ImapScannerStats($basicinfo[3], $statusinfo, $stats);
+			
+		} // end if line is okay
+		
+	// if tpop3d log line
+	} else if(preg_match("/tpop3d/", $line)) {
+		$mailloglines++;
+		$linehalves = preg_split("/\[\d*\]: /U", $line);
+		// $basicinfo will have the following:
+		// month, day, time, host, "MailScanner"
+		$basicinfo = split("[ ]+", $linehalves[0]);
+		$statusinfo = $linehalves[1];
+		unset($linehalves);
+		
+		// check to see if the $basicinfo section has
+		// the correct # of items in it
+		if (count($basicinfo) != 5) {
+			Error("TPOP3D: $line");
+		} else {
+			if (!HostInStats($basicinfo[3], $stats)) {
+				AddHostToStats($basicinfo[3], $stats);
+				Error("TPOP3D ADDHOST: $line");
+			} // end if host in stats or not
+			tpop3dScannerStats($basicinfo[3], $statusinfo, $stats);
+			
+		} // end if line is okay
+		
+	} // end if line is relevant
+
+	// if we've seen enough log lines, flush them
+	if ($mailloglines % $flushnumlines == 0) {
+		OutputAllStats($stats);
+	} // end if it's time to output stats
+
+} // end for each line in maillog
+fclose ($logptr);
+
+OutputAllStats($stats);
+exit();
+
+
+
+/********** FUNCTIONS **********/
+
+
+/* Usage();  output how to use this script
+ */
+function Usage()
+{
+	echo "\n";
+	echo "== maillogstats   filters a syslog maillog ==\n";
+	echo "     into separate counter files for hosts ==\n";
+	echo "\n";
+	echo "  Usage:  maillogstats <logname>\n";
+	echo "          | maillogstats";
+	echo "\n";
+	echo "  -? | -h | --help  :  this message\n";
+	echo "\n";
+	echo "\n";
+}
+
+
+/* Error($errortext);  outputs $errortext to stderr 
+ */
+function Error($errortext)
+{
+	error_log($errortext."\n\n", 3, "/dev/stderr");
+}
+
+
+/* OutputCounters($host);  outputs all the counters for a host to their own file
+ */
+function OutputCounters($hostname, $counters)
+{
+	global $CFG;
+	
+	// if counters are too big, wrap them around
+	reset($counters);
+	while (next($counters)) {
+		$countertype = key($counters);
+		$maxval = pow(2, 31);
+	    if ($counters[$countertype] > $maxval) {
+			$counters[$countertype] = $counters[$countertype] - $maxval;
+		} // end if coutner is too big
+	} // end while still keys
+	reset($counters);
+
+	// replace data in db
+	$host_query = "REPLACE INTO stats SET 
+		hostname = '$hostname', 
+		connect = '{$counters['connect']}', 
+		received = '{$counters['received']}', 
+		delivered = '{$counters['delivered']}', 
+		forwarded = '{$counters['forwarded']}', 
+		deferred = '{$counters['deferred']}', 
+		bounced = '{$counters['bounced']}', 
+		rejected = '{$counters['rejected']}', 
+		rbld = '{$counters['rbld']}', 
+		spamcount = '{$counters['spamcount']}',
+		spamscore = '{$counters['spamscore']}', 
+		viri = '{$counters['viri']}'";
+
+	$host_result = mysql_query($host_query) or
+		die("ERROR: cannot perform query\n$host_query\n\n");
+	
+} // end OutputCounters();
+
+
+/* OutputAllStats($stats); write all the files for each host
+ */
+function OutputAllStats($stats)
+{
+	while (list($key, $val) = each($stats)) {
+		OutputCounters($key, $val);
+	} // end for each host in array
+} // end OutputAllStats();
+
+
+/* CheckOldCounters($stats);  reads in counter values that have already 
+ *                      been set to initialize the stats variable
+ */
+function CheckOldCounters(&$stats)
+{
+	global $CFG;
+
+	// check if host exists
+	$host_query = "SELECT * FROM stats";
+	$host_result = mysql_query($host_query) or 
+		die("ERROR: cannot perform query\n$host_query\n\n");
+
+	while ($r = mysql_fetch_array($host_result)) {
+		$stats[$r['hostname']] = array(
+			"connect" => $r['connect'],
+			"received" => $r['received'],
+			"delivered" => $r['delivered'],
+			"forwarded" => $r['forwarded'],
+			"deferred" => $r['deferred'],
+			"bounced" => $r['bounced'],
+			"rejected" => $r['rejected'],
+			"rbld" => $r['rbld'],
+			"spamcount" => $r['spamcount'],
+			"spamscore" => $r['spamscore'],
+			"viri" => $r['viri']
+		); // end of array
+	} // end while each result
+
+} // end CheckOldCounters();
+
+
+/* HostInStats($hostname, $stats);  check to see if we're already 
+ * keeping stats on a host
+ */
+function HostInStats($hostname, $stats)
+{
+	global $CFG;
+	
+	while (list($key, $val) = each($stats)) {
+		if ($hostname == $key) {
+			return true;
+		} // end if key == hostname
+	} // end for each host in array
+	
+	return false;
+} // end HostInStats();
+
+
+/* AddHostToStats($hostname, &$stats); initializes array for host in stats
+ */
+function AddHostToStats($hostname, &$stats)
+{
+	global $CFG;
+
+	$stats[$hostname] = array(
+		"connect" => 0,
+		"received" => 0,
+		"delivered" => 0,
+		"forwarded" => 0,
+		"deferred" => 0,
+		"bounced" => 0,
+		"rejected" => 0,
+		"rbld" => 0,
+		"spamcount" => 0,
+		"spamscore" => 0,
+		"viri" => 0
+	); // end of array
+} // end AddHostToStats();
+
+
+/* PostfixStats($hostname, $statusinfo, &$stats); increment the correct counter
+ */
+function PostfixStats($hostname, $statusinfo, &$stats)
+{
+	global $CFG;
+
+	// mail was rbl'd
+	if (eregi("reject:", $statusinfo) &&
+		eregi("blocked", $statusinfo)) {
+		$stats[$hostname]["rbld"]++;
+		$stats[$hostname]["rejected"]++;
+	
+	// mail was rejected
+	} elseif (eregi("reject:", $statusinfo)) {
+		$stats[$hostname]["rejected"]++;
+	
+	// mail was accepted
+	} elseif (eregi("message-id=<", $statusinfo)) {
+		$stats[$hostname]["received"]++;
+
+	// mail was forwarded
+	} elseif (eregi("forwarded as", $statusinfo)) {
+		$stats[$hostname]["forwarded"]++;
+
+	// mail was sent
+	} elseif (eregi("status=sent", $statusinfo)) {
+		$stats[$hostname]["delivered"]++;
+
+	// mail was deferred (can't deliver)
+	} elseif (eregi("status=deferred", $statusinfo)) {
+		$stats[$hostname]["deferred"]++;
+
+	// mail was bounded (no local user)
+	} elseif (eregi("status=bounced", $statusinfo)) {
+		$stats[$hostname]["bounced"]++;
+
+	} // end bounced
+
+	// connection from client
+    // Mar 30 11:19:21 mx02 postfix/smtpd[15978]: connect from 69.37.28.78.adsl.snet.net[69.37.28.78]
+	else if (preg_match("/connect from/", $statusinfo))
+	{
+		$stats[$hostname]["connect"]++;
+	} // end connection
+
+} // end PostfixStats();
+
+
+/* MailScannerStats($hostname, $statusinfo, &$stats); increment the correct counter
+ */
+function MailScannerStats($hostname, $statusinfo, &$stats)
+{
+	global $CFG;
+
+	// mail was spam
+	// Message 3D65D1870 from 193.111.199.194 (excite.com)  is spam according to SpamAssassin (score=19.5, required 6, ALL_CAP_PORN, BEST_PORN, BIG_FONT, CTYPE_JUST_HTML, DATE_IN_FUTURE_06_12, FAKED_UNDISC_RECIPS, FREE_PORN, HTML_FONT_COLOR_CYAN, HTML_FONT_COLOR_GREEN, HTML_FONT_COLOR_YELLOW, INVALID_DATE_TZ_ABSURD, LINES_OF_YELLING, MANY_EXCLAMATIONS, MIME_LONG_LINE_QP, NORMAL_HTTP_TO_IP, SPAM_PHRASE_03_05, SUBJ_FREE_CAP, SUBJ_HAS_SPACES, TO_HAS_SPACES, WEIRD_PORT)
+	if (preg_match("/from [\d\.]*.*SpamAssassin \(score=([\d\.]*),/", $statusinfo, $matches)) {
+		$stats[$hostname]["spamcount"]++;
+		$stats[$hostname]["spamscore"] += $matches[1];
+	
+	// mail had a virus
+	// Virus Scanning: Found 1 viruses
+	} else if (preg_match("/Virus Scanning: Found (\d+) viruses/", $statusinfo, $matches)) {
+		$stats[$hostname]["viri"] += $matches[1];
+
+	} // end if (what is this log)
+
+} // end MailScannerStats();
+
+
+/* ImapScannerStats($hostname, $statusinfo, &$stats); increment the correct counter
+ */
+function ImapScannerStats($hostname, $statusinfo, &$stats)
+{
+	global $CFG;
+
+	// connection
+	// Jun 23 09:50:46 imap0 imapd: LOGIN, user=zlove@va.net, ip=[::ffff:205.166.61.177], protocol=IMAP
+	if (preg_match("/LOGIN, user=/", $statusinfo, $matches))
+	{
+		$stats[$hostname]["connect"]++;
+	} // end connection
+
+} // end ImapScannerStats();
+
+
+/* tpop3dScannerStats($hostname, $statusinfo, &$stats); increment the correct counter
+ */
+function tpop3dScannerStats($hostname, $statusinfo, &$stats)
+{
+	global $CFG;
+
+	// connection
+	// Mar 30 11:14:56 pop0 tpop3d[4811]: authcontext_new_user_pass: began session for `obslaw7' with mysql; uid 8, gid 12
+	if (preg_match("/authcontext_new_user_pass: began session for/", $statusinfo, $matches))
+	{
+		$stats[$hostname]["connect"]++;
+	} // end connection
+
+} // end tpop3dScannerStats();
+
+
+?>

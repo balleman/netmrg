@@ -1,0 +1,25 @@
+== maillogstat   filters a syslog maillog ==
+==  into separate counter files for hosts ==
+  Usage:  maillogfilter.php <logname>
+          | maillogfilter.php
+  -? | -h | --help  :  this message
+
+
+This program takes a maillog syslog feed in, and puts some nifty stats back out.
+You'll need to make a fifo (`mkfifo /var/log/maillog-pipe.log` - probably 
+`chmod 600 /var/log/maillog-pipe.log` also), and send your syslog feed to it; 
+with a line similar to this:
+--- syslog.conf start ---
+mail.*                 |/var/log/maillog-pipe.log
+--- syslog.conf stop  ---
+
+It's very useful to put this into your inittab, with a line similar to this:
+--- inittab start ---
+# maillog stats
+ml:3:respawn:/usr/local/bin/maillogfilter/maillogfilter /var/log/maillog-pipe.log
+--- inittab stop  ---
+
+make sure you setup your mysql database with the table in maillog.mysql.
+
+If you experience any problems, be sure to demand your money back.
+

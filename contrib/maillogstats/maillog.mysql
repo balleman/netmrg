@@ -1,0 +1,26 @@
+-- MySQL dump 9.10
+--
+-- Host: localhost    Database: maillog
+-- ------------------------------------------------------
+-- Server version	4.0.17-Max
+
+--
+-- Table structure for table `stats`
+--
+
+CREATE TABLE stats (
+  hostname varchar(128) NOT NULL default '',
+  connect int(11) default NULL,
+  received int(11) default NULL,
+  delivered int(11) default NULL,
+  forwarded int(11) default NULL,
+  deferred int(11) default NULL,
+  bounced int(11) default NULL,
+  rejected int(11) default NULL,
+  rbld int(11) default NULL,
+  spamcount int(11) default NULL,
+  spamscore int(11) default NULL,
+  viri int(11) default NULL,
+  PRIMARY KEY  (hostname)
+) TYPE=MyISAM;
+
