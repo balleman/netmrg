@@ -27,7 +27,7 @@ class PHP_timer {
         // call the jointime() function and pass it the output of the microtime() function
         //  as an argument
         $markertime = $this->jointime(microtime());
-        // $ae (stands for Array Elements) will contain the number of elements
+        // $ae (stands for Array Elements) will contain the number of elements 
         // currently in the $points array
         $ae = count($this->points);
         // store the timestamp and the descriptive name in the array
@@ -52,11 +52,11 @@ class PHP_timer {
     // this function simply give the difference in seconds betwen the start of the script and
     // the end of the script
     function showtime() {
-        echo bcsub($this->points[count($this->points)-1][0],$this->points[0][0],6);
+        return round( (($this->points[count($this->points)-1][0]) - ($this->points[0][0])), 6);
     }
     // end function showtime()
     
-    // this function displays all of the information that was collected during the
+    // this function displays all of the information that was collected during the 
     // course of the script
     function debug() {
         echo "Script execution debug information:";
@@ -78,10 +78,13 @@ class PHP_timer {
             echo "<td>".$this->points[$i][0]."</td>";
             echo "<td>";
             // write out the difference between this row and the previous row
-            echo bcsub($this->points[$i][0],$this->points[$i-1][0],6);
+            echo round( ($this->points[$i][0] - $this->points[$i-1][0]), 6);
             echo "</td>";
             echo "</tr>\n";
         }
+        echo '<tr><td colspan="2">Start to Stop</td>'."\n";
+        echo '<td>'.round( ($this->points[count($this->points)-1][0] - $this->points[0][0]), 6)."</td>\n";
+        echo "</tr>\n";
         echo "</table>";
     }
     // end function debug()
