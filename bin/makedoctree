@@ -77,7 +77,7 @@ foreach my $ver (@versions)
 sub GetTags()
 {
 	my @tags = ("HEAD");
-	my @rlog = split(/\n/, `$cvs rlog netmrg.sgml`);
+	my @rlog = split(/\n/, `$cvs rlog share/doc/netmrg.sgml`);
 	my $symnames = 0;
 	
 	foreach my $line (@rlog)
