@@ -1,3 +1,8 @@
+2003.07.28  v0.8  silfreed
+  - lots of doc upgrades
+  - makedoctree addition to make docs for the website
+  - version bump to 0.10pre1
+
 2003.07.17  v0.8  silfreed
   - fixing directory paths
   - bug#0000014: fixed static paths for lockfile and runtime netmrg.cpp
