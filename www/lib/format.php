@@ -278,10 +278,8 @@ function make_table_tag()
 function make_edit_table($title)
 {
 	// Makes a table for editing data
-
-	global $SCRIPT_NAME;
-
-	?><form action="<? print("$SCRIPT_NAME"); ?>" method="post" name="editform">
+	?>
+	<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post" name="editform">
 
 	<? make_table_tag(); ?>
 
