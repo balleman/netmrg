@@ -80,6 +80,7 @@ void run_netmrg()
 	MYSQL_ROW		mysql_row;
 	time_t			start_time;
 	FILE			*lockfile;
+	FILE			*runtime;
 	long int		num_rows	= 0;
 	pthread_t*		threads		= NULL;
 	int*			ids			= NULL;
@@ -92,7 +93,7 @@ void run_netmrg()
 	debuglogger(DEBUG_GLOBAL, LEVEL_NOTICE, NULL, "NetMRG starting.");
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Start time is " + inttostr(start_time));
 
-	if (file_exists("/var/www/netmrg/dat/lockfile"))
+	if (file_exists(LOCKFILE))
 	{
 		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Critical:  Lockfile exists.  Is another NetMRG running?");
 		exit(254);
@@ -100,7 +101,7 @@ void run_netmrg()
 
 	// create lockfile
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Creating Lockfile.");
-	if ((lockfile = fopen("/var/www/netmrg/dat/lockfile","w+")) != NULL)
+	if ((lockfile = fopen(LOCKFILE,"w+")) != NULL)
 	{
 		fprintf(lockfile, "%ld", (long int) start_time);
 		fclose(lockfile);
@@ -212,12 +213,12 @@ void run_netmrg()
 	// determine runtime and store it
 	long int run_time = time( NULL ) - start_time;
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Runtime: " + inttostr(run_time));
-	lockfile = fopen("/var/www/netmrg/dat/runtime","w+");
-	fprintf(lockfile, "%ld", run_time);
-	fclose(lockfile);
+	runtime = fopen(RUNTIME_FILE,"w+");
+	fprintf(runtime, "%ld", run_time);
+	fclose(runtime);
 
 	// remove lock file
-	unlink("/var/www/netmrg/dat/lockfile");
+	unlink(LOCKFILE);
 }
 
 void show_version()
