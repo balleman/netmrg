@@ -154,7 +154,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 		
 	// initial definition
 	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time . $boundary . " --title \"" . $graph_row["title"] . "\" -w " .
-			$graph_row["width"] . " -h " . $graph_row["height"] . " -v \"" . $graph_row["vert_label"] .
+			$graph_row["width"] . " -h " . $graph_row["height"] . " -b " . $graph_row["base"] . " -v \"" . $graph_row["vert_label"] .
 			"\" --imgformat PNG $options";
 
 

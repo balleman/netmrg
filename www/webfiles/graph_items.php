@@ -131,7 +131,7 @@ if (empty($_REQUEST["action"]))
 	$ds_results = db_query("
 		SELECT
 		graph_ds.label		AS label,
-		graph_ds.id		AS id,
+		graph_ds.id			AS id,
 		graph_ds.position	AS pos,
 		graph_ds.type		AS type,
 		graph_ds.color		AS color

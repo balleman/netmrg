@@ -1,3 +1,6 @@
+2003.09.13  v0.10pre1  balleman
+  ALTER TABLE `graphs` ADD `base` INT DEFAULT '1000' NOT NULL ;
+
 2003.09.06  v0.10pre1  balleman
   ALTER TABLE `graph_ds` ADD `start_time` VARCHAR( 20 ) NOT NULL ;
   ALTER TABLE `graph_ds` ADD `end_time` VARCHAR( 20 ) NOT NULL ;

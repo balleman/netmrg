@@ -50,7 +50,8 @@ function doedit()
 			title=\"" . db_escape_string($_REQUEST['graph_title']) . "\",
 			comment=\"" . db_escape_string($_REQUEST['graph_comment']) . "\",
 			width=\"{$_REQUEST['width']}\", height=\"{$_REQUEST['height']}\",
-			vert_label=\"" . db_escape_string($_REQUEST['vert_label']) . "\" $where");
+			vert_label=\"" . db_escape_string($_REQUEST['vert_label']) . "\",
+			base={$_REQUEST['base']} $where");
 
 	header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
 	exit(0);
@@ -194,6 +195,7 @@ function edit()
 		$graph_row["width"] = 575;
 		$graph_row["height"] = 100;
 		$graph_row["vert_label"] = "";
+		$graph_row["base"] = 1000;
 	}
 
 	make_edit_table("Edit Graph");
@@ -203,6 +205,8 @@ function edit()
 	make_edit_text("Vertical Label:", "vert_label", "50", "100", $graph_row["vert_label"]);
 	make_edit_text("Width:", "width", "4", "4", $graph_row["width"]);
 	make_edit_text("Height:", "height", "4", "4", $graph_row["height"]);
+	make_edit_group("Advanced");
+	make_edit_text("Base Value:", "base", "4", "6", $graph_row["base"]);
 
 	if ($_REQUEST["action"] == "edit")
 	{
