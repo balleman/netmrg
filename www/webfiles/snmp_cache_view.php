@@ -212,23 +212,70 @@ function view_disk_cache()
 function view_interface_cache()
 {
 	check_auth(1);
-	$query = "SELECT * FROM snmp_interface_cache snmp ";
-	$sort_href = "{$_SERVER['PHP_SELF']}?action=view&type=interface&";
-	if (isset($_REQUEST["dev_id"]))
+	$sort_href = "{$_SERVER['PHP_SELF']}?action=view&type=interface&dev_id={$_REQUEST['dev_id']}&order_by";
+	$handle = db_query("SELECT * FROM snmp_interface_cache snmp WHERE snmp.dev_id={$_REQUEST['dev_id']}");
+	$results = array();
+	while ($row = db_fetch_array($handle))
 	{
-		$query .= " WHERE snmp.dev_id={$_REQUEST['dev_id']} ";
-		$sort_href .= "dev_id={$_REQUEST['dev_id']}&";
+		array_push($results, $row);
 	}
-	$sort_href .= "order_by";
-	if (isset($_REQUEST['order_by']))
+	
+	function sortme($a, $b)
 	{
-		$query .= " ORDER BY {$_REQUEST['order_by']}";
+		$ob = $_REQUEST['order_by'];
+		switch($ob)
+		{
+			case "ifName":
+			case "ifDescr":	$astuff = preg_split("~([-/\. ])~", trim($a[$ob]), 0, PREG_SPLIT_DELIM_CAPTURE);
+							$bstuff = preg_split("~([-/\. ])~", trim($b[$ob]), 0, PREG_SPLIT_DELIM_CAPTURE);
+							for ($i = 0; $i < max(count($astuff), count($bstuff)); $i++)
+							{
+								if (isset($astuff[$i]))
+								{
+									if (isset($bstuff[$i]))
+									{
+										if ($astuff[$i] != $bstuff[$i])
+										{
+											if (is_numeric($astuff[$i]) && (is_numeric($bstuff[$i])))
+											{
+												return $astuff[$i] - $bstuff[$i];
+											}
+											else
+											{
+												return strcmp($astuff[$i], $bstuff[$i]);
+											}
+										}
+									}
+									else
+									{
+										return 1;
+									}
+								}
+								else
+								{
+									return -1;
+								}
+							}
+							return 0;
+			
+			case "ifAlias": return strcmp($a['ifAlias'], $b['ifAlias']);
+			
+			case "ifIP": 	return ip2long($a['ifIP']) - ip2long($b['ifIP']);
+			
+			case "ifMAC":	$astuff = explode(":", $a['ifMAC']);
+							$bstuff = explode(":", $b['ifMAC']);
+							for ($i = 0; $i < 6; $i++) if (strlen($astuff[$i]) == 1) { $astuff[$i] = "0" . $astuff[$i]; }
+							for ($i = 0; $i < 6; $i++) if (strlen($bstuff[$i]) == 1) { $bstuff[$i] = "0" . $bstuff[$i]; }
+							$a1 = implode("", $astuff);
+							$b1 = implode("", $bstuff);
+							return strcmp($a1, $b1);
+			
+			default: 		return ($a['ifIndex'] - $b['ifIndex']);
+		}
 	}
-	else
-	{
-		$query .= " ORDER BY ifIndex";
-	}
-
+	
+	usort($results, sortme);
+			
 	$dev_name = get_device_name($_REQUEST['dev_id']);
 
 	begin_page("snmp_cache_view.php", "$dev_name - Interface Cache");
@@ -254,10 +301,9 @@ function view_interface_cache()
 		"MAC Address",  "$sort_href=ifMAC",
 		"","");
 
-	$handle = db_query($query);
-	for ($i = 0; $i < db_num_rows($handle); $i++)
+	for ($i = 0; $i < count($results); $i++)
 	{
-		$row = db_fetch_array($handle);
+		$row = $results[$i];
 		$status = "";
 		if (isset($row['ifAdminStatus']))
 		{
