@@ -20,6 +20,10 @@
 #
 #+++++++++++++++++++++++++++++++++++++++++++++
 
+function space_to_nbsp($input)
+{
+	return str_replace(" ", "&nbsp;", $input);
+}
 
 function begin_page($pagename = "", $prettyname = "")
 {
@@ -56,39 +60,37 @@ if (!empty($pagename)) {
 <?php
 } // end if there's a pagename, output it
 ?>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<table class="titletable" cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
-	<td class="title_name" valign="top" rowspan="2">
+	<td class="title_name" valign="top" rowspan="2" width="100%">
 		<a href="<?php echo $GLOBALS["netmrg"]["webhost"].$GLOBALS["netmrg"]["webroot"]; ?>" class="title_name">
 		<?php echo $GLOBALS["netmrg"]["name"]; ?>
 		</a>
 	</td>
 	<td class="company" align="right" valign="top">
 		<a href="<?php echo $GLOBALS["netmrg"]["companylink"]; ?>" class="company">
-		<?php echo $GLOBALS["netmrg"]["company"]; ?>
+		<?php echo(space_to_nbsp($GLOBALS["netmrg"]["company"])); ?>
 		</a>
 	</td>
 </tr>
 <tr>
-	<td class="logindata" align="right" valign="bottom">
+	<td class="logindata" align="left" valign="bottom">
 	<?php
 		if (IsLoggedIn())
 		{
-			echo '<span class="loggedintext">Logged in as </span>';
+			echo '<span class="loggedintext">Logged&nbsp;in&nbsp;as&nbsp;</span>';
 			echo '<span class="loggedinuser">';
-			echo $_SESSION["netmrgsess"]["username"];
+			echo(space_to_nbsp($_SESSION["netmrgsess"]["username"]));
 			echo "</span>\n";
 		}
 		else
 		{
-			echo '<span class="loggedouttext">Not Logged In</span>'."\n";
+			echo '<span class="loggedouttext">Not&nbsp;Logged&nbsp;In</span>'."\n";
 		} // end if logged in or not
 	?>
 	</td>
 </tr>
 </table>
-<br>
-
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
 	<td class="empty" valign="top"><img src="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/img/trans.gif" width="4" height="1" alt="trans gif"></td>
