@@ -126,9 +126,9 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 	{
 		$fields = array($graph_row['title'], $graph_row['vert_label'], $graph_row['comment']);
 		$fields = expand_parameters($fields, $_REQUEST['subdev_id']);
-		$graph_row['title'] 		= $fields[0];
-		$graph_row['vert_label'] 	= $fields[1];
-		$graph_row['comment'] 		= $fields[2];
+		$graph_row['title'] 		= addslashes($fields[0]);
+		$graph_row['vert_label'] 	= addslashes($fields[1]);
+		$graph_row['comment'] 		= addslashes($fields[2]);
 	}
 
 	if (isset($_REQUEST['start']))
