@@ -97,10 +97,10 @@ $TEST_TYPES = array(
 			4	=>	"Internal");
 
 $PERMIT_TYPES = array(
-			0	=>	"Single View Only",
-			1	=>	"Read All",
-			2	=>	"Read/Write",
-			3	=>	"Read/Write/User Admin");
+			$PERMIT["SingleViewOnly"]	=>	"Single View Only",
+			$PERMIT["ReadAll"]		=>	"Read All",
+			$PERMIT["ReadWrite"]		=>	"Read/Write",
+			$PERMIT["Admin"]		=>	"Read/Write/User Admin");
 
 $SUB_DEVICE_TYPES = array(
 			1	=>	"Group",
