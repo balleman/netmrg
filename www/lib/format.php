@@ -1001,9 +1001,9 @@ function js_checkbox_utils()
 function checkbox_toolbar()
 {
 	return
-		"<a href='#' class='editheaderlink' onClick='checkbox_utils(1);'>[*]</a> " .
-		"<a href='#' class='editheaderlink' onClick='checkbox_utils(0);'>[0]</a> " .
-		"<a href='#' class='editheaderlink' onClick='checkbox_utils(-1);'>[-]</a>";
+		'<a href="#" class="editheaderlink" title="all" onClick="checkbox_utils(1);">[*]</a> ' .
+		'<a href="#" class="editheaderlink" title="none" onClick="checkbox_utils(0);">[0]</a> ' .
+		'<a href="#" class="editheaderlink" title="invert" onClick="checkbox_utils(-1);">[-]</a>';
 }
 
 function js_color_dialog()
