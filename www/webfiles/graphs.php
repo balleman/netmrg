@@ -46,12 +46,23 @@ function doedit()
 		$command = "UPDATE";
 		$where = "WHERE id={$_REQUEST['graph_id']}";
 	}
+	
+	$options = "";
+
+	if (isset($_REQUEST["options_nolegend"]))
+		$options .= "nolegend,";
+
+	if (isset($_REQUEST["options_logarithmic"]))
+		$options .= "logarithmic,";
+
+	$options = substr($options, 0, -1);
+	
 	db_update("$command graphs SET name=\"" . db_escape_string($_REQUEST['graph_name']) . "\",
 			title=\"" . db_escape_string($_REQUEST['graph_title']) . "\",
 			comment=\"" . db_escape_string($_REQUEST['graph_comment']) . "\",
 			width=\"{$_REQUEST['width']}\", height=\"{$_REQUEST['height']}\",
 			vert_label=\"" . db_escape_string($_REQUEST['vert_label']) . "\",
-			base={$_REQUEST['base']} $where");
+			base={$_REQUEST['base']}, options=\"$options\" $where");
 
 	header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
 	exit(0);
@@ -207,6 +218,8 @@ function edit()
 	make_edit_text("Height:", "height", "4", "4", $graph_row["height"]);
 	make_edit_group("Advanced");
 	make_edit_text("Base Value:", "base", "4", "6", $graph_row["base"]);
+	make_edit_checkbox("Hide Legend", "options_nolegend", isin($graph_row["options"], "nolegend"));
+	make_edit_checkbox("Use Logarithmic Scaling", "options_logarithmic", isin($graph_row["options"], "logarithmic"));
 
 	if ($_REQUEST["action"] == "edit")
 	{

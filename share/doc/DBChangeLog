@@ -1,4 +1,5 @@
 2003.09.13  v0.10pre1  balleman
+  ALTER TABLE `graphs` ADD `options` SET( 'nolegend', 'logarithmic' ) NOT NULL ;
   ALTER TABLE `graphs` ADD `base` INT DEFAULT '1000' NOT NULL ;
 
 2003.09.06  v0.10pre1  balleman

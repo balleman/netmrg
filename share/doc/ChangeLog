@@ -1,5 +1,7 @@
 2003.09.13  v0.10pre1  balleman
   - bug#0000042: --base support on graphs
+  - bug#0000043: support logarithmic display (-o)
+  - support legend hiding (-g)
 
 2003.09.12  v0.10pre1  silfreed
   - bug#0000041: add navigational history to the top of pages underneath 'Groups'
