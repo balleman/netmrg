@@ -11,6 +11,8 @@
 #define NETMRG_UTILS
 
 #include "types.h"
+#include <cstdio>
+#include <cstdlib>
 
 using std::string;
 

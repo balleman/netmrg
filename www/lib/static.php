@@ -85,6 +85,7 @@ $INTERFACE_TYPE = array(
 			22	=>	"PTP Serial",
 			23	=>	"PPP",
 			24	=>	"Loopback",
+			28	=>	"SLIP",
 			32	=>	"Frame Relay",
 			37	=>	"ATM",
 			39	=>	"SDH",
@@ -92,8 +93,10 @@ $INTERFACE_TYPE = array(
 			46	=>	"HSSI",
 			47	=>	"HIPPI",
 			49	=>	"AAL5",
+			53	=>	"Virtual",
 			71	=>	"802.11",
-			107	=>	"IMA"
+			107	=>	"IMA",
+			117	=>	"Gigabit Ethernet"
 			);
 
 
