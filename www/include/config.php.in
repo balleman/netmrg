@@ -26,6 +26,7 @@ $GLOBALS["netmrg"]["xmlfile"]           = "@sysconfdir@/netmrg.xml";
 
 // Authentication Config
 $GLOBALS["netmrg"]["authTimeout"]       = 86400; // 24hr * 60min * 60sec
+$GLOBALS["netmrg"]["defaultMapUser"]    = "NETMRG_DEFAULT_MAP";
 
 // Template Config
 $GLOBALS["netmrg"]["traffictemplateid"] = 7;

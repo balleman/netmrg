@@ -1,3 +1,6 @@
+2004.10.07  v0.17  silfreed
+  - bug#0000240 - default permissions for external auth users
+
 2004.10.05  v0.17  balleman
   - bug#0000282 - SNMP uptime should be displayed in a nice format
 

@@ -100,7 +100,7 @@ if (!empty($pagename))
 		{
 			echo '<span class="loggedintext">Logged&nbsp;in&nbsp;as&nbsp;</span>';
 			echo '<span class="loggedinuser">';
-			echo(space_to_nbsp($_SESSION["netmrgsess"]["username"]));
+			echo(space_to_nbsp($_SESSION["netmrgsess"]["prettyname"]));
 			echo "</span>\n";
 		}
 		else

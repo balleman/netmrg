@@ -27,6 +27,7 @@ if (empty($_REQUEST["uid"]))
 // check that user is the same as the one they want to edit
 // or we're an admin
 if ($_SESSION["netmrgsess"]["permit"] != 3
+	&& $_REQUEST["uid"] !== false 
 	&& GetUserID() != $_REQUEST["uid"])
 {
 	header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");

@@ -70,7 +70,9 @@ function check_user_pass($user, $pass)
 function IsLoggedIn()
 {
 	if ((
-			($GLOBALS["netmrg"]["externalAuth"] && check_user($_SESSION["netmrgsess"]["username"]))
+			($GLOBALS["netmrg"]["externalAuth"] 
+			&& (check_user($_SESSION["netmrgsess"]["username"])
+				|| check_user($GLOBALS["netmrg"]["defaultMapUser"])))
 			||
 			(!$GLOBALS["netmrg"]["externalAuth"]
 			&& check_user_pass($_SESSION["netmrgsess"]["username"], $_SESSION["netmrgsess"]["password"]))
@@ -315,7 +317,7 @@ function GetUserID()
 		$sql = "SELECT id FROM user WHERE user='" . $_SESSION["netmrgsess"]["username"] . "'";
 		$handle = db_query($sql);
 		$row = db_fetch_array($handle);
-		return $row["id"];
+		return empty($row["id"]) ? false : $row["id"];
 	} // end IsLoggedIn
 	
 	return false;
@@ -326,12 +328,17 @@ function GetUserID()
 * get_group_id()
 *
 * gets the group id of the logged in user
+* $user = the username of get info on
 */
-function get_group_id()
+function get_group_id($user = "")
 {
+	if (empty($user))
+	{
+		$user = $_SESSION["netmrgsess"]["username"];
+	} // end if no user set
 	if (IsLoggedIn())
 	{
-		$sql = "SELECT group_id FROM user WHERE user='" . $_SESSION["netmrgsess"]["username"] . "'";
+		$sql = "SELECT group_id FROM user WHERE user='$user'";
 		$handle = db_query($sql);
 		$row = db_fetch_array($handle);
 		return $row["group_id"];
@@ -350,9 +357,6 @@ function get_group_id()
 */
 function view_redirect()
 {
-	$sql = "SELECT * FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."'";
-	$handle = db_query($sql);
-	$row = db_fetch_array($handle);
 	if (empty($_SESSION["netmrgsess"]["redir"]) || ($_SESSION["netmrgsess"]["permit"] == 0))
 	{
 		header("Location: {$GLOBALS['netmrg']['webroot']}/device_tree.php");
