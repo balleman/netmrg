@@ -167,7 +167,16 @@ begin_page("device_tree.php", "Device Tree", 1);
 
 $rowcount = 0;
 draw_group($_SESSION["netmrgsess"]["group_id"], 0, $rowcount, true);
+?>
+</table>
+<?php
+end_page();
+?>
 
+
+<?php
+
+/***** FUCTIONS *****/
 function draw_group($grp_id, $depth, &$rowcount, $init = false)
 {
 	// for each group
@@ -484,10 +493,4 @@ make_nbsp($depth * 4) .
 	} // end while each group
 
 } // end draw_group()
-?>
-
-
-</table>
-<?php
-end_page();
 ?>
