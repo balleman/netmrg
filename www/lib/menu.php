@@ -19,7 +19,7 @@ function display_menu()
 
 	$menu_q = do_query("SELECT * FROM menu WHERE state=0 ORDER BY groupid,priority");
 	
-	echo '<table cellpadding="0" cellspacing="0" border="0">'."\n";
+	echo '<table class="menutable" cellpadding="0" cellspacing="0" border="0">'."\n";
 	
 	for ($i = 0; $i < mysql_num_rows($menu_q); $i++)
 	{

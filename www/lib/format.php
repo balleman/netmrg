@@ -70,7 +70,7 @@ if (!empty($pagename)) {
 	</td>
 </tr>
 <tr>
-	<td class="loggedintext" align="right" valign="bottom">
+	<td class="logindata" align="right" valign="bottom">
 	<?php
 		if (IsLoggedIn())
 		{
