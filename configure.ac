@@ -16,11 +16,16 @@ if test "x$exec_prefix" = "xNONE"; then
 	ac_configure_args="$ac_configure_args --exec-prefix=$exec_prefix"
 fi
 
-AC_REVISION($Revision: 1.20 $)
+AC_REVISION($Revision: 1.21 $)
 AM_INIT_AUTOMAKE
 AC_PROG_MAKE_SET
 
-AC_PATH_PROG(RRDTOOL, rrdtool)
+AC_ARG_WITH(rrdtool,
+        AC_HELP_STRING(
+                [--with-rrdtool=PROGRAM],
+                [location of the rrdtool binary]),
+        [rrdtool_prog=$withval])
+AC_PATH_PROG(RRDTOOL, rrdtool, $rrdtool_prog)
 
 if test "x$RRDTOOL" = "x"; then
 	AC_MSG_ERROR([Couldn't find rrdtool. Please verify that it is installed.])
