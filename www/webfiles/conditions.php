@@ -39,7 +39,7 @@ function do_display()
 	check_auth(1);
 	begin_page();
 
-	$query = do_query("SELECT * FROM conditions WHERE event_id = {$_REQUEST['event_id']}");
+	$query = do_query("SELECT * FROM conditions WHERE event_id = {$_REQUEST['event_id']} ORDER BY id");
 	$rows = mysql_num_rows($query);
 	if ($rows == 0)
 	{

@@ -356,8 +356,83 @@ void update_monitor_db(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 
 }
 
-void process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_status)
+uint process_condition(DeviceInfo info, long long int compare_value, int value_type, int condition)
 {
+	long long int actual_value;
+
+	switch (value_type)
+	{
+		case 0:	if (info.curr_val == "U")
+				return 0;
+			actual_value = strtoint(info.curr_val);
+			break;
+
+		case 1: if (info.delta_val == "U")
+				return 0;
+			actual_value = strtoint(info.delta_val);
+			break;
+
+		case 3: break;		// rate of change: not yet implemented
+	}
+
+	switch (condition)
+	{
+		case 0:	if (actual_value < compare_value)
+				return 1;
+			break;
+
+		case 1: if (actual_value == compare_value)
+				return 1;
+			break;
+
+		case 2: if (actual_value > compare_value)
+				return 1;
+			break;
+
+		case 3: if (actual_value <= compare_value)
+				return 1;
+			break;
+
+		case 4: if (actual_value != compare_value)
+				return 1;
+			break;
+
+		case 5: if (actual_value >= compare_value)
+				return 1;
+			break;
+	}
+	
+	return 0;
+}
+
+void process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_status, int situation)
+{
+	MYSQL_RES	*mysql_res;
+	MYSQL_ROW	mysql_row;
+	uint		status;
+
+	string query = "SELECT value, value_type, condition, logic_condition FROM conditions WHERE event_id=" + inttostr(info.event_id) + " ORDER BY id";
+	mysql_res = db_query(mysql, &info, query);
+
+	for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
+	{
+		mysql_row = mysql_fetch_row(mysql_res);
+
+		if (i == 0)
+		{
+			status = process_condition(info, strtoint(mysql_row[0]), strtoint(mysql_row[1]), strtoint(mysql_row[2]));
+		}
+		else
+		{
+			switch (strtoint(mysql_row[3]))
+			{
+				case 0:	status = status && process_condition(info, strtoint(mysql_row[0]), strtoint(mysql_row[1]), strtoint(mysql_row[2]));
+					break;
+				case 1:	status = status || process_condition(info, strtoint(mysql_row[0]), strtoint(mysql_row[1]), strtoint(mysql_row[2]));
+					break;
+			}
+		}
+	}
 }
 
 void process_events(DeviceInfo info, MYSQL *mysql)
@@ -365,14 +440,14 @@ void process_events(DeviceInfo info, MYSQL *mysql)
 	MYSQL_RES 	*mysql_res;
 	MYSQL_ROW 	mysql_row;
 
-	string query = "SELECT id, trigger_type, last_status FROM events WHERE mon_id=" + inttostr(info.monitor_id) + " AND trigger_type < 3";
+	string query = "SELECT id, trigger_type, last_status, situation FROM events WHERE mon_id=" + inttostr(info.monitor_id) + " AND trigger_type < 3";
 	mysql_res = db_query(mysql, &info, query);
 
         for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
 	{
 		mysql_row = mysql_fetch_row(mysql_res);
 		info.event_id = strtoint(mysql_row[0]);
-		process_event(info, mysql, strtoint(mysql_row[1]), strtoint(mysql_row[2]));
+		process_event(info, mysql, strtoint(mysql_row[1]), strtoint(mysql_row[2]), strtoint(mysql_row[3]));
 	}
 
 	mysql_free_result(mysql_res);
