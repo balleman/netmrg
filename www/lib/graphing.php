@@ -125,9 +125,9 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 
 	if ($templated)
 	{	
-		$fields = array($graph_row['name'], $graph_row['vert_label'], $graph_row['comment']);
+		$fields = array($graph_row['title'], $graph_row['vert_label'], $graph_row['comment']);
 		$fields = expand_parameters($fields, $_REQUEST['subdev_id']);
-		$graph_row['name'] 			= $fields[0];
+		$graph_row['title'] 			= $fields[0];
 		$graph_row['vert_label'] 	= $fields[1];
 		$graph_row['comment'] 		= $fields[2];
 	}
@@ -153,7 +153,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 	}
 		
 	// initial definition
-	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time . $boundary . " --title \"" . $graph_row["name"] . "\" -w " .
+	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time . $boundary . " --title \"" . $graph_row["title"] . "\" -w " .
 			$graph_row["width"] . " -h " . $graph_row["height"] . " -v \"" . $graph_row["vert_label"] .
 			"\" --imgformat PNG $options";
 
@@ -212,6 +212,9 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 
 			if ($ds_row["multiplier"] != 1)
 			{
+				$fields = expand_parameters(array($ds_row["multiplier"]), $_REQUEST['subdev_id']);
+				$ds_row["multiplier"] = $fields[0];
+				$ds_row["multiplier"] = simple_math_parse($ds_row["multiplier"]);
 				$command .= "CDEF:data" . $ds_count . "=raw_data" . $ds_count . "," . $ds_row["multiplier"] . ",* ";
 				$command .= "CDEF:data" . $ds_count . "l=raw_data" . $ds_count . "l," . $ds_row["multiplier"] . ",* ";
 				$command .= "CDEF:data" . $ds_count . "m=raw_data" . $ds_count . "m," . $ds_row["multiplier"] . ",* ";
@@ -220,6 +223,9 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 		// Data is from a fixed value
 		elseif ($ds_row['mon_id'] == -1)
 		{
+			$fields = expand_parameters(array($ds_row["multiplier"]), $_REQUEST['subdev_id']);
+			$ds_row["multiplier"] = $fields[0];
+			$ds_row["multiplier"] = simple_math_parse($ds_row["multiplier"]);
 			$command .= "CDEF:data" . $ds_count . "=zero,UN,1,1,IF," . $ds_row["multiplier"] . ",* ";
 			$command .= "CDEF:data" . $ds_count . "l=zero,UN,1,1,IF," . $ds_row["multiplier"] . ",* ";
 			$command .= "CDEF:data" . $ds_count . "m=zero,UN,1,1,IF," . $ds_row["multiplier"] . ",* ";

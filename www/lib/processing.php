@@ -142,6 +142,27 @@ function isin($haystack, $needle)
 	return is_integer(strpos($haystack, $needle));
 }
 
+/**
+* simple_math_parse($input)
+*
+* $input - string to be parsed
+*
+* use eval to do math if everything looks safe. 
+* 
+*
+*/
+
+function simple_math_parse($input)
+{
+	$val = 1;
+	if (!preg_match("/[^012345467890.\/*-+]/", $input))
+	{
+		eval("\$val = $input;");
+	}
+	return $val;
+}
+
+
 // RRD Support Functions
 
 /**
