@@ -147,6 +147,7 @@ function view_check_auth($object_id, $object_type)
 	{
 		case "group" :
 			array_push($object_id_groups, $object_id);
+			$object_id_groups = GetGroupParents($object_id);
 			break;
 
 		case "device" :
