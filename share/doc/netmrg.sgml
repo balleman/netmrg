@@ -591,7 +591,7 @@ their NetMRG administrator.
 	<title>Interface and Disk Cache Tutorial</title>
 	<para>The Interface and Disk Cache (that is available next to your device names under the <guilabel>Groups</guilabel> menu) are quick tools for setting up interfaces and disk graphs on your devices.</para>
 	<para>These caches provide useful mechanisms for indexing disks and interfaces.  For example, commonly you want to graph your interfaces by their ifName (interface name) which is commonly something like 'Se2/1'.  Doing a lookup each time you gather data would be very time-consuming, so the cache allows you monitor an interface by using it's name, and NetMRG will do the mapping to the correct ifIndex.  NetMRG will do the same thing for disks</para>
-	<orderedlist>
+	<itemizedlist>
 		<listitem>
 			<para>The options from next to your device are as follows</para>
 			<orderedlist>
@@ -609,8 +609,6 @@ their NetMRG administrator.
 				</listitem>
 			</orderedlist>
 		</listitem>
-	</orderedlist>
-	<orderedlist>
 		<listitem>
 			<para>Inside the Interface Cache</para>
 			<orderedlist>
@@ -631,8 +629,6 @@ their NetMRG administrator.
 				</listitem>
 			</orderedlist>
 		</listitem>
-	</orderedlist>
-	<orderedlist>
 		<listitem>
 			<para>Inside the Disk Cache</para>
 			<orderedlist>
@@ -641,7 +637,7 @@ their NetMRG administrator.
 				</listitem>
 			</orderedlist>
 		</listitem>
-	</orderedlist>
+	</itemizedlist>
 </chapter></part>
 
 <part id="featureguide">
