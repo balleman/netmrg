@@ -742,6 +742,23 @@ function make_edit_text($header, $name, $size, $maxlength, $value)
 
 } // end make_edit_text
 
+function make_edit_textarea($header, $name, $rows, $columns, $value)
+{
+	// Creates a form text edit control
+	?>
+
+	<tr><td class="editfield0">
+
+	<b><?php print($header) ?></b><br />
+
+	<textarea name="<?php print($name) ?>" rows="<?php print($rows) ?>" cols="<?php print($columns) ?>"><?php print($value); ?></textarea><br><br>
+
+	</td></tr>
+
+	<?php
+
+} // end make_edit_text
+
 function make_edit_color($header, $name, $value)
 {
 
