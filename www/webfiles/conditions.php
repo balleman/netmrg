@@ -177,9 +177,9 @@ function do_delete()
 			db_update("DELETE FROM conditions WHERE id = '$key'");
 		}
 	}
-	else
+	else if(isset($_REQUEST["id"]))
 	{
-		db_update("DELETE FROM conditions WHERE id = {$_REQUEST['id']}");
+		db_update("DELETE FROM conditions WHERE id = '{$_REQUEST['id']}'");
 	}
 	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");
 } // end do_delete();
