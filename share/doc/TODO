@@ -80,16 +80,16 @@ generate new template database
 generate new docs
 test tutorial
 test upgrade from previous version
-tag CVS (ex: netmrg-0_10)
+branch CVS (ex: netmrg-0_10)
 build tarball
   - upload to devel, maybe release
-for !devel releases, build RPM from tarball
+for non-devel releases, build RPM from tarball
 update docs on www.netmrg.net
 update demo.netmrg.net
 announce on www.netmrg.net
 announce on lists.netmrg.net
 announce on freshmeat.net
-upload to sourceforge.net
+notify other package maintainers
 
 == for committing autoconf changes ==
 # commit any changes to Makefile.am's
@@ -98,6 +98,6 @@ cvs commit -f aclocal.m4 Makefile.in etc/Makefile.in www/Makefile.in \
   var/Makefile.in var/lib/Makefile.in var/lib/rrd/Makefile.in \
   src/Makefile.in src/include/config.h.in configure
 
-== tagging cvs ==
-cvs tag -r HEAD netmrg-0_17
+== branching cvs ==
+cvs tag -b -r HEAD netmrg-0_17
 
