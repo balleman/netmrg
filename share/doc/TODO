@@ -20,6 +20,7 @@ page titles should reflect where you're at
 ability to go 'up' a level when browsing 'Groups' et al
 snmp_cache_view.php:
   "Make Graph" needs overhauled
+  need a "Graph All" feature
 view page should reflect status information
 monitors.php:
   add javascript check so you can't enter a minimum < maximum
@@ -31,6 +32,7 @@ format.php
 design public website
 CSS-ificiation
   - sub-pages need redone (ick)
+make icons for links on various pages
 
 
 == balleman ==
@@ -50,4 +52,6 @@ customized 'view' page
   - ability to move graphs up/down despite their original ordering (session fun)
   - nestable conditions for events
 fast-fourier transforms for what data 'should look like'
+themes/skins for UI and graphs
+  - I'd like to see a neon theme ;)
 
