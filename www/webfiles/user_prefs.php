@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth(1);
+check_auth(0);
 
 // check default action
 if (empty($_REQUEST['action']))
