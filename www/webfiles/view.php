@@ -193,9 +193,13 @@ if (empty($_REQUEST["action"]))
 			switch ($row['type'])
 			{
 				case 'graph':
-				case 'template':
 				$name = $row['name'];
 				$extra_options = formatted_link("Edit Graph", "graph_items.php?graph_id={$row['graph_id']}");
+				break;
+				
+				case 'template':
+				$name = expand_parameters($row['name'], $row['subdev_id']);
+				$extra_options = formatted_link("Edit Template", "graph_items.php?graph_id={$row['graph_id']}");
 				break;
 				
 				case 'separator':

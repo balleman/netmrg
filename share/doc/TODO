@@ -45,15 +45,12 @@ these pages don't do auth
 clean up UI for templates
 make template rendering more efficient
 audit queries for use of index
+  - gatherer done, web portion needs gone over
 netmrg.cc
   more comprehensive way of setting debug levels needed
-snmp_cache_view.php:
-  need a "Graph All" feature
-enclose_graph.php needs rewritten from the ground up
 
 == far-away features ==
 customized 'view' page
-  - if one graph shown, ability to zoom in on a area (custom min/max)
   - on the main view page, select boxes to pick which graphs you would like to see
     (makes it easier to compare some graphs)
   - ability to move graphs up/down despite their original ordering (session fun)

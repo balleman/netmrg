@@ -36,7 +36,7 @@ function dereference_templated_monitor($mon_id, $subdev_id)
 }
 
 
-function get_graph_command($type, $id, $hist, $togglelegend)
+function get_graph_command($type, $id, $hist)
 {
 
 	// Determine the time domain of the graph
@@ -83,8 +83,8 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 	{
 		case "mon":			return monitor_graph_command($id, $start_time, $end_time);
 		case "tinymon":		return tiny_monitor_graph_command($id, $start_time, $end_time);
-		case "custom":		return custom_graph_command($id, $start_time, $end_time, $togglelegend, $break_time, $sum_label, $sum_time, false);
-		case "template":	return custom_graph_command($id, $start_time, $end_time, $togglelegend, $break_time, $sum_label, $sum_time, true);
+		case "custom":		return custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, false);
+		case "template":	return custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, true);
 	}
 
 }
@@ -193,28 +193,41 @@ function tiny_monitor_graph_command($id, $start_time, $end_time)
 
 	}*/
 
-function custom_graph_command($id, $start_time, $end_time, $togglelegend, $break_time, $sum_label, $sum_time, $templated)
+function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, $templated)
 {
 	$options = "";
 
 	$graph_results = db_query("SELECT * FROM graphs WHERE id=$id");
 	$graph_row = db_fetch_array($graph_results);
 
-	//if ($togglelegend == 1) { $graph_row["show_legend"] = (1 - $graph_row["show_legend"]); }
-	//if ($graph_row["show_legend"] == 0) { $options = "-g "; }
-	
-	
 	if ($templated)
 	{	
 		$graph_row['name'] = expand_parameters($graph_row['name'], $_REQUEST['subdev_id']);
 		$graph_row['vert_label'] = expand_parameters($graph_row['vert_label'], $_REQUEST['subdev_id']);
 		$graph_row['comment'] = expand_parameters($graph_row['comment'], $_REQUEST['subdev_id']);
 	}
-	
-	
 
+	if (isset($_REQUEST['start']))
+	{
+		$start_time = $_REQUEST['start'];
+	}
+	
+	if (isset($_REQUEST['end']))
+	{
+		$end_time = $_REQUEST['end'];
+	}
+	
+	if (isset($_REQUEST['min']) && isset($_REQUEST['max']) && ($_REQUEST['max'] > $_REQUEST['min']))
+	{
+		$boundary = " -r -l {$_REQUEST['min']} -u {$_REQUEST['max']}";
+	}
+	else
+	{
+		$boundary = " --alt-autoscale-max";
+	}
+		
 	// initial definition
-	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time . " --alt-autoscale-max --title \"" . $graph_row["name"] . "\" -w " .
+	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time . $boundary . " --title \"" . $graph_row["name"] . "\" -w " .
 			$graph_row["width"] . " -h " . $graph_row["height"] . " -v \"" . $graph_row["vert_label"] .
 			"\" --imgformat PNG $options";
 

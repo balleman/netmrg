@@ -209,32 +209,37 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 
 		if (mysql_num_rows(mysql_res) > 0)
 		{
-		        mysql_row = mysql_fetch_row(mysql_res);
+			mysql_row = mysql_fetch_row(mysql_res);
 
-		        if ((mysql_row[0] != NULL) && (index != "ifIndex"))
-		        {
-        		        info->parameters.push_front(ValuePair("ifIndex", mysql_row[0]));
-		        }
+			if ((mysql_row[0] != NULL) && (index != "ifIndex"))
+			{
+				info->parameters.push_front(ValuePair("ifIndex", mysql_row[0]));
+			}
 
-		        if ((mysql_row[1] != NULL) && (index != "ifName"))
-		        {
-        		        info->parameters.push_front(ValuePair("ifName", mysql_row[1]));
-		        }
+			if ((mysql_row[1] != NULL) && (index != "ifName"))
+			{
+				info->parameters.push_front(ValuePair("ifName", mysql_row[1]));
+			}
 
-		        if ((mysql_row[2] != NULL) && (index != "ifIP"))
-		        {
-        		        info->parameters.push_front(ValuePair("ifIP", mysql_row[2]));
-		        }
+			if ((mysql_row[2] != NULL) && (index != "ifIP"))
+			{
+				info->parameters.push_front(ValuePair("ifIP", mysql_row[2]));
+			}
 
-		        if ((mysql_row[3] != NULL) && (index != "ifDescr"))
-		        {
-        		        info->parameters.push_front(ValuePair("ifDescr", mysql_row[3]));
-		        }
+			if ((mysql_row[3] != NULL) && (index != "ifDescr"))
+			{
+				info->parameters.push_front(ValuePair("ifDescr", mysql_row[3]));
+			}
 
-		        if ((mysql_row[4] != NULL) && (index != "ifAlias"))
-		        {
-        		        info->parameters.push_front(ValuePair("ifAlias", mysql_row[4]));
-		        }
+			if ((mysql_row[4] != NULL) && (index != "ifAlias"))
+			{
+				info->parameters.push_front(ValuePair("ifAlias", mysql_row[4]));
+			}
+
+			if ((mysql_row[5] != NULL) && (index != "ifMAC"))
+			{
+				info->parameters.push_front(ValuePair("ifMAC", mysql_row[5]));
+			}
 		}
 		else
 		{

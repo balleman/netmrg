@@ -13,132 +13,111 @@
 
 
 require_once("../include/config.php");
-	
-if ($_REQUEST["type"] == 'template')
+
+if (!isset($_REQUEST['action']))
 {
-	$template = "subdev_id={$_REQUEST['subdev_id']}&";
-}
-else
-{
-	$template = "";
+	$_REQUEST['action'] = "";
 }
 
-if (!isset($_REQUEST['togglelegend']))
+begin_page("enclose_graph.php", "Graph", 1);
+
+switch ($_REQUEST['action'])
 {
-	$_REQUEST['togglelegend'] = 0;
+	case 'children':	show_children();	break;
+	case 'history':		show_history();		break;
+	case 'advanced':	show_advanced();	break;
+	default:			show();
 }
 
-function tailer()
+function template()
 {
-	GLOBAL $template;
-
-
-	if (empty($_REQUEST["togglelegend"]))
+	if ($_REQUEST['type'] == "template")
 	{
-		$_REQUEST["togglelegend"] = 0;
-	}
-	
-	if (empty($_REQUEST["hist"]))
-	{
-		$_REQUEST["hist"] = 0;
-	}
-	
-	if (empty($_REQUEST["show_children"]))
-	{
-		$_REQUEST["show_children"] = 0;
-	}
-
-
-	$toggle = 1 - $_REQUEST["togglelegend"];
-	$newhist = 1 - $_REQUEST["hist"];
-	$new_show_children = 1 - $_REQUEST["show_children"];
-	?>
-	<div align="right">
-	<br>
-	<a href="<?php print($_SERVER["PHP_SELF"]); ?>?<?php print($template);?>type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=<?php print($newhist) ?>&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>&show_children=<?php print($_REQUEST["show_children"]) ?>">Toggle History</a><br>
-	<a href="<?php print($_SERVER["PHP_SELF"]); ?>?<?php print($template);?>type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=<?php print($_REQUEST["hist"]) ?>&togglelegend=<?php print($toggle) ?>&show_children=<?php print($_REQUEST["show_children"]) ?>">Toggle Legend</a><br>
-	<?php
-	if ($_REQUEST["type"] == "custom")
-	{
-	?>
-	<a href="<?php print($_SERVER["PHP_SELF"]); ?>?<?php print($template);?>type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=<?php print($_REQUEST["hist"]) ?>&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>&show_children=<?php print($new_show_children) ?>">Toggle Children</a><br>
-	<?php
-	}
-	?>
-	<Br>
-	<a href="javascript:history.back(1)">Back</a>
-	</div>
-	<?php
-
-} // end tailer
-
-function show_a_graph()
-{
-
-	GLOBAL $template;
-	GLOBAL $_REQUEST;
-	
-
-	if (empty($_REQUEST["hist"]) || ($_REQUEST["hist"] == 0))
-	{
-		?>
-		<div align="center">
-		<img src="get_graph.php?<?php print($template);?>type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>">
-		</div>
-		<?php
-
-		if (!empty($_REQUEST["show_source"]))
-		{
-			print("<pre>" . get_graph_command($_REQUEST['type'], $_REQUEST['id'], 0, $_REQUEST['togglelegend'], $_REQUEST['type'] == "template") . "</pre>");
-		}
+		return "subdev_id={$_REQUEST['subdev_id']}&";
 	}
 	else
 	{
-
-		?>
-		<div align="center">
-		<img src="get_graph.php?<?php print($template);?>type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=0&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>">
-		<img src="get_graph.php?<?php print($template);?>type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=1&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>">
-		<img src="get_graph.php?<?php print($template);?>type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=2&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>">
-		<img src="get_graph.php?<?php print($template);?>type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=3&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>">
-		</div>
-        	<?php
-
-	} // end if
-
-} // end show_a_graph
-
-begin_page("enclose_graph.php", "Graph", 1);
-show_a_graph();
-
-if ((!empty($_REQUEST["show_children"])) && ($_REQUEST["show_children"] == 1))
-{
-	$query = db_query("SELECT * FROM graph_ds WHERE graph_id={$_REQUEST["id"]} ORDER BY position,id ");
-	$count = db_num_rows($query);
-	$old_id = $_REQUEST["id"];
-	for ($i = 0; $i < $count; $i++)
-	{
-		$row = db_fetch_array($query);
-
-		if ($row["use_alt"] == 0)
-		{
-			$_REQUEST["type"] = "custom_ds";
-			$_REQUEST["id"] = $row["id"];
-		}
-		else
-		{
-			$_REQUEST["type"] = "custom";
-			$_REQUEST["id"] = $row["alt_graph_id"];
-		}
-
-		show_a_graph();
+		return "";
 	}
-
-	$_REQUEST["type"] = "custom";
-	$_REQUEST["id"] = $old_id;
 }
 
-tailer();
+function show()
+{
+		$opts = template() . "type={$_REQUEST['type']}&id={$_REQUEST['id']}";
+		
+		echo('<div align="center">');
+		echo('<img src="get_graph.php?' . $opts . '"></div><br>');
+		echo('<a href="enclose_graph.php?' . $opts . '&action=history">Show History</a><br>');
+		if ($_REQUEST['type'] == 'template' || $_REQUEST['type'] == 'custom')
+		{
+			//echo('<a href="enclose_graph.php?' . $opts . '&action=children">Show Children</a><br>');
+		}
+		echo('<a href="enclose_graph.php?' . $opts . '&action=advanced">Advanced</a><br>');
+}
+
+function show_history()
+{
+	$opts = template() . "type={$_REQUEST['type']}&id={$_REQUEST['id']}";
+
+	echo('<div align="center">');
+	echo('<img src="get_graph.php?' . $opts . '&hist=0"><br>');
+	echo('<img src="get_graph.php?' . $opts . '&hist=1"><br>');
+	echo('<img src="get_graph.php?' . $opts . '&hist=2"><br>');
+	echo('<img src="get_graph.php?' . $opts . '&hist=3"><br>');
+	echo('</div><br>');
+	echo('<a href="enclose_graph.php?' . $opts . '&action=show">Normal View</a><br>');
+}
+
+function show_children()
+{
+	$opts = template() . "type={$_REQUEST['type']}&id={$_REQUEST['id']}";
+	
+	echo('<a href="enclose_graph.php?' . $opts . '&action=show">Normal View</a><br>');
+}
+
+function show_advanced()
+{
+	if (!isset($_REQUEST['start']))
+	{
+		$_REQUEST['start'] = "-86400";
+	}
+	if (!isset($_REQUEST['end']))
+	{
+		$_REQUEST['end'] = "-360";
+	}
+	if (!isset($_REQUEST['min']))
+	{
+		$_REQUEST['min'] = "0";
+	}
+	if (!isset($_REQUEST['max']))
+	{
+		$_REQUEST['max'] = "0";
+	}
+		
+	$opts = template() . "type={$_REQUEST['type']}&id={$_REQUEST['id']}&start={$_REQUEST['start']}&";
+	$opts .= "end={$_REQUEST['end']}&min={$_REQUEST['min']}&max={$_REQUEST['max']}";
+
+	echo('<div align="center">');
+	echo('<img src="get_graph.php?' . $opts . '"></div><br>');
+	
+	echo('<form action="enclose_graph.php" method="get">');
+	make_edit_hidden("action", "advanced");
+	make_edit_hidden("type", $_REQUEST['type']);
+	make_edit_hidden("id", $_REQUEST['id']);
+	if ($_REQUEST['type'] == "template")
+	{
+		make_edit_hidden("subdev_id", $_REQUEST['subdev_id']);
+	}
+
+	echo('Start: <input type="text" name="start" value="' . $_REQUEST['start'] . '" size="6">&nbsp;');
+	echo('End: <input type="text" name="end" value="' . $_REQUEST['end'] . '" size="6">&nbsp;');
+	echo('Max: <input type="text" name="max" value="' . $_REQUEST['max'] . '" size="6">&nbsp;');
+	echo('Min: <input type="text" name="min" value="' . $_REQUEST['min'] . '" size="6">&nbsp;&nbsp;');
+	echo('<input type="submit" name="submit" value="Render"><br>');
+	echo('</form>');
+	echo('<a href="enclose_graph.php?' . $opts . '&action=show">Normal View</a><br>');
+}
+
 end_page();
 
 ?>

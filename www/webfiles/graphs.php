@@ -12,9 +12,28 @@
 require_once("../include/config.php");
 check_auth(1);
 
-if (empty($_REQUEST["action"])) { $_REQUEST["action"] = ""; }
+if (!isset($_REQUEST['action']))
+{
+	$_REQUEST['action'] = "";
+}
 
-if ($_REQUEST["action"] == "doedit")
+switch ($_REQUEST['action'])
+{
+	case 'doedit':			doedit();			break;
+	case 'dodelete':		dodelete();			break;
+	case 'duplicate':		duplicate();		break;
+	case 'edit':			edit();				break;
+	case 'add':				edit();				break;
+	case 'applytemplate':	applytemplate();	break;
+	case 'doapplytemplate': doapplytemplate();	break;
+	default:				display();
+}
+
+end_page();
+
+// end main, begin functions:
+
+function doedit()
 {
 	check_auth(2);
 	if (empty($_REQUEST["graph_id"]))
@@ -27,27 +46,28 @@ if ($_REQUEST["action"] == "doedit")
 		$command = "UPDATE";
 		$where = "WHERE id={$_REQUEST['graph_id']}";
 	}
-	db_update("$command graphs SET name=\"{$_REQUEST['graph_name']}\",
-			comment=\"{$_REQUEST['graph_comment']}\",
-			width={$_REQUEST['width']}, height={$_REQUEST['height']},
-			vert_label=\"{$_REQUEST['vert_label']}\" $where");
+	db_update("$command graphs SET name=\"" . db_escape_string($_REQUEST['graph_name']) . "\",
+			comment=\"" . db_escape_string($_REQUEST['graph_comment']) . "\",
+			width=\"{$_REQUEST['width']}\", height=\"{$_REQUEST['height']}\",
+			vert_label=\"" . db_escape_string($_REQUEST['vert_label']) . "\" $where");
 
 	header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
 	exit(0);
 
-} // done editing
+} // end doedit()
 
-if ($_REQUEST["action"] == "dodelete")
+function dodelete()
 {
 	check_auth(2);
 	delete_graph($_REQUEST["graph_id"]);
 
 	header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
 	exit(0);
-} // done deleting
+} // end dodelete()
 
-if ($_REQUEST["action"] == "duplicate")
+function duplicate()
 {
+	check_auth(2);
 	$graph_handle = db_query("SELECT * FROM graphs WHERE id={$_REQUEST["id"]}");
 	$graph_row    = db_fetch_array($graph_handle);
 	db_update("INSERT INTO graphs SET name='" . db_escape_string($graph_row['name']) . " (duplicate)', " . 
@@ -73,12 +93,36 @@ if ($_REQUEST["action"] == "duplicate")
 		"multiplier={$ds_row['multiplier']}");
 	} // end for each ds
 
-	header("Location: {$_SERVER["PHP_SELF"]}?type={$graph_row['type']}");
+	header("Location: {$_SERVER['PHP_SELF']}?type={$graph_row['type']}");
 	exit(0);
-} // done duplicating.
+} // end duplicate()
 
-if (empty($_REQUEST["action"]))
+function applytemplate()
 {
+	check_auth(2);
+	begin_page("graphs.php", "Apply Template");
+	make_edit_table("Apply Template");
+	make_edit_select_subdevice(-1);
+	make_edit_hidden("action", "doapplytemplate");
+	make_edit_hidden("id", $_REQUEST['id']);
+	make_edit_submit_button();
+	make_edit_end();
+} // end applytemplate()
+
+function doapplytemplate()
+{
+	check_auth(2);
+	apply_template($_REQUEST['subdev_id'], $_REQUEST['id']);
+	header("Location: {$_SERVER['PHP_SELF']}?type=template");
+	exit(0);
+} // end doapplytemplate()
+
+function display()
+{
+	if (empty($_REQUEST['type']))
+	{
+		$_REQUEST['type'] = "custom";
+	}
 	begin_page("graphs.php", ucfirst($_REQUEST['type']) . " Graphs");
 	js_confirm_dialog("del", "Are you sure you want to delete graph ", "?", "{$_SERVER['PHP_SELF']}?action=dodelete&type={$_REQUEST['type']}&graph_id=");
 	make_display_table(ucfirst($_REQUEST['type']) . " Graphs", "graphs.php?action=add&type={$_REQUEST['type']}", 
@@ -106,12 +150,21 @@ if (empty($_REQUEST["action"]))
 		$graph_row = db_fetch_array($graph_results);
 		$graph_id  = $graph_row["id"];
 		$temp_comment = str_replace("%n","<br>",$graph_row["comment"]);
+		if ($graph_row['type'] == "template")
+		{
+			$apply_template_link = "&nbsp;" . 
+				formatted_link("Apply Template To...", "{$_SERVER['PHP_SELF']}?action=applytemplate&id=$graph_id");
+		}
+		else
+		{
+			$apply_template_link = "";
+		}
 
 		make_display_item("editfield".(($graph_count-1)%2),
 			array("text" => $graph_row["name"], "href" => "graph_items.php?graph_id=$graph_id"),
 			array("text" => $temp_comment, "href" => ""),
 			array("text" => formatted_link("View", "enclose_graph.php?type=custom&id=" . $graph_row["id"]) . "&nbsp;" .
-				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"])),
+				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"]) . $apply_template_link),
 			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('" . addslashes($graph_row['name']) . "', '$graph_id')"))
 		); // end make_display_item();
@@ -119,9 +172,9 @@ if (empty($_REQUEST["action"]))
 
 ?></table><?php
 
-} // end no action
+} // end display()
 
-if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
+function edit()
 {
 	// Display editing screen
 	check_auth(2);
@@ -169,8 +222,6 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	make_edit_submit_button();
 	make_edit_end();
 
-} // End editing screen
-
-end_page();
+} // end edit()
 
 ?>

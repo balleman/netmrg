@@ -1,3 +1,8 @@
+2003.05.15  v0.8  balleman
+  - enclose_graph.php reworked
+    - capability for 'zooming' on both axes
+  - ability to apply arbitrary templates
+
 2003.05.08  v0.8  balleman
   - abstract all mysql_* calls to db_* calls
   - db_escape_string deployed where seemingly useful
