@@ -20,8 +20,7 @@
 int file_exists(string filename)
 {
 	struct stat file_stat;
-	stat(filename.c_str(), &file_stat);
-	return S_ISREG(file_stat.st_mode);
+	return !(stat(filename.c_str(), &file_stat));
 }
 
 // stripnl - given a string, return a string without new line at the end

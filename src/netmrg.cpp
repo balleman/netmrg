@@ -907,8 +907,8 @@ void run_netmrg()
 
 	if (file_exists("/var/www/netmrg/dat/lockfile"))
        	{
-		//printf("ERROR:  My lockfile exists!  Is another netmrg running?\n  If not, remove the lockfile and try again\n");
-		//exit(254);
+		printf("ERROR:  My lockfile exists!  Is another netmrg running?\n  If not, remove the lockfile and try again\n");
+		exit(254);
 	}
 
 	// create lockfile
