@@ -21,6 +21,7 @@ switch ($_REQUEST['action'])
 {
 	case 'doedit':			doedit();			break;
 	case 'dodelete':		dodelete();			break;
+	case 'multidodelete':		dodelete();			break;
 	case 'duplicate':		duplicate();		break;
 	case 'edit':			edit();				break;
 	case 'add':				edit();				break;
@@ -80,7 +81,18 @@ function doedit()
 function dodelete()
 {
 	check_auth(2);
-	delete_graph($_REQUEST["graph_id"]);
+	
+	if (isset($_REQUEST["graph"]))
+	{
+		while (list($key,$value) = each($_REQUEST["graph"]))
+		{
+			delete_graph($key);
+		}
+	}
+	elseif (isset($_REQUEST["graph_id"]))
+	{
+		delete_graph($_REQUEST["graph_id"]);
+	}
 
 	header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
 	exit(0);
@@ -126,8 +138,15 @@ function display()
 		$_REQUEST['type'] = "custom";
 	}
 	begin_page("graphs.php", ucfirst($_REQUEST['type']) . " Graphs");
+	js_checkbox_utils();
 	js_confirm_dialog("del", "Are you sure you want to delete graph ", "?", "{$_SERVER['PHP_SELF']}?action=dodelete&type={$_REQUEST['type']}&graph_id=");
+	?>
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+	<input type="hidden" name="action" value="">
+	<input type="hidden" name="type" value="<?php echo $_REQUEST['type']; ?>">
+	<?php
 	make_display_table(ucfirst($_REQUEST['type']) . " Graphs", "graphs.php?action=add&type={$_REQUEST['type']}", 
+		array("text" => checkbox_toolbar()),
 		array("text" => "Name"),
 		array()
 	); // end make_display_table();
@@ -161,6 +180,7 @@ function display()
 		}
 
 		make_display_item("editfield".(($graph_count-1)%2),
+			array("checkboxname" => "graph", "checkboxid" => $graph_id),
 			array("text" => $graph_row["name"], "href" => "graph_items.php?graph_id=$graph_id"),
 			array("text" => formatted_link("View", "enclose_graph.php?type=custom&id=" . $graph_row["id"]) . "&nbsp;" .
 				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"]) . $apply_template_link),
@@ -169,7 +189,15 @@ function display()
 		); // end make_display_item();
 	} // end graphs
 
-?></table><?php
+?>
+<tr>
+	<td colspan="5" class="editheader" nowrap="nowrap">
+		<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked graphs ?')){document.form.submit();}" href="#">Delete All Checked</a>
+	</td>
+</tr>
+</table>
+</form>
+<?php
 
 } // end display()
 
