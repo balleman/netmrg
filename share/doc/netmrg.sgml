@@ -41,6 +41,11 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
 SOFTWARE.
 		</para>
+		<para>
+All product names are property of their respective owners.  Such names are used 
+for identification purposes only and are not indicative of endorsement by or of 
+any company, organization, product, or platform.
+		</para>
 	</legalnotice>
 </bookinfo>
 <toc></toc>
@@ -143,6 +148,39 @@ Event are met, the appropriate response is performed.
 		<listitem><para><ulink url="http://xmlsoft.org/"><application>Libxml2</application></ulink>, Version >= 2.30</para></listitem>
 		<listitem><para><ulink url="http://gcc.gnu.org/libstdc++/"><application>Libstdc++</application></ulink>, Version >= 3.2</para><para>Versions earlier than this may compile just fine, but may experience runtime issues.  Specifically, we experienced software crashes on an SMP machine running version 2.96 that were resolved by upgrading to 3.2.</para></listitem>
 		<listitem><para><ulink url="http://net-snmp.sf.net/"><application>NET/UCD-SNMP</application></ulink>, Version >= 4.2.2</para></listitem>
+	</itemizedlist>
+</chapter>
+<chapter>
+	<title>Satisfying Requirements</title>
+	<para>Specific instructions to satisfy dependencies for certain platforms are presented below.  They should be used more as suggestions, not necessarily step-by-step instructions.  You may need to do more than what is listed, or much less, depending on the options you selected when installing your operating system.</para>
+	<itemizedlist>
+		<listitem>
+			<para><ulink url="http://www.redhat.com/"><application>Red Had Linux</application></ulink></para>
+			<itemizedlist>
+				<listitem><para>In order to satisfy the libstdc++ requirement, Redhat 8.0 or above is required.  NetMRG may not be stable on older versions of libstdc++.</para></listitem>
+				<listitem>
+					<para>Install the following RPMs from your Red Hat installation media:</para>
+					<itemizedlist>
+						<listitem><para><filename>httpd</filename></para></listitem>
+						<listitem><para><filename>php</filename></para></listitem>
+						<listitem><para><filename>php-mysql</filename></para></listitem>
+						<listitem><para>*mysql*</para></listitem>
+						<listitem><para><filename>libxml2</filename></para></listitem>
+						<listitem><para><filename>libxml2-devel</filename></para></listitem>
+						<listitem><para><filename>net-snmp</filename></para></listitem>
+						<listitem><para><filename>net-snmp-devel</filename></para></listitem>
+						<listitem><para><filename>net-snmp-utils</filename></para></listitem>
+					</itemizedlist>
+				</listitem>
+				<listitem>
+					<para>Installing <application>RRDTOOL</application></para>
+					<itemizedlist>
+						<listitem><para>Download an <application>RRDTOOL</application> RPM from <ulink url="http://www.freshrpms.net/">http://www.freshrpms.net/</ulink></para></listitem>
+						<listitem><para>OR Download the <application>RRDTOOL</application> source from <ulink url="http://www.rrdtool.org/">http://www.rrdtool.org/</ulink> and compile it.</para></listitem>
+					</itemizedlist>
+				</listitem>
+			</itemizedlist>
+		</listitem>
 	</itemizedlist>
 </chapter>
 <chapter>
@@ -393,6 +431,10 @@ and please change your password!
 				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-v</option></arg></cmdsynopsis></term>
 					<listitem><para>Displays software version and exits.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-t</option> <replaceable>num threads</replaceable></arg></cmdsynopsis></term>
+					<listitem><para>Run no more than the specified number of threads simultaneously.</para></listitem>
 				</varlistentry>
 			</variablelist>
 			<variablelist>
