@@ -14,6 +14,8 @@
 
 @SET_MAKE@
 
+# These settings are pulled into Makefile.in by automake
+
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
 VPATH = @srcdir@
@@ -35,8 +37,9 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_triplet = @host@
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
+	$(top_srcdir)/Make.inc
 subdir = var/lib/rrd
-DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -135,6 +138,10 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
+AM_MAKEFLAGS = \
+	` test "$(VERBOSE)" = "1" && echo $(ECHO_N) "" \
+	|| echo $(ECHO_N) "-s" `
+
 SUFFIXES = .rrd .xml
 RRDS = zero.rrd
 
@@ -145,7 +152,7 @@ all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .rrd .xml
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(top_srcdir)/Make.inc $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -191,6 +198,7 @@ CTAGS:
 
 
 distdir: $(DISTFILES)
+	$(mkdir_p) $(distdir)/../../..
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -300,6 +308,7 @@ uninstall-am: uninstall-info-am uninstall-netmrg_var_libDATA
 	pdf-am ps ps-am uninstall uninstall-am uninstall-info-am \
 	uninstall-netmrg_var_libDATA
 
+@SET_MAKE@
 
 .xml.rrd :
 	@echo "  RRD    $@"
