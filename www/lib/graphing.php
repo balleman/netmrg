@@ -21,11 +21,11 @@ function dereference_templated_monitor($mon_id, $subdev_id)
 	if ($mon_id > 0)
 	{
 	
-		$query	= do_query("SELECT test_id, test_type, test_params FROM monitors WHERE id=$mon_id");
-		$row	= mysql_fetch_array($query);
+		$query	= db_query("SELECT test_id, test_type, test_params FROM monitors WHERE id=$mon_id");
+		$row	= db_fetch_array($query);
 
-		$query2	= do_query("SELECT id FROM monitors WHERE sub_dev_id=$subdev_id AND test_id={$row['test_id']} AND test_type={$row['test_type']} AND test_params='{$row['test_params']}'");
-		$row2   = mysql_fetch_array($query2);
+		$query2	= db_query("SELECT id FROM monitors WHERE sub_dev_id=$subdev_id AND test_id={$row['test_id']} AND test_type={$row['test_type']} AND test_params='{$row['test_params']}'");
+		$row2   = db_fetch_array($query2);
 	
 		return $row2["id"];
 	}
@@ -111,7 +111,7 @@ function tiny_monitor_graph_command($id, $start_time, $end_time)
 	if ($type == "custom_ds")
 	{
 
-		$results = do_query("
+		$results = db_query("
 		SELECT
 		graph_ds.src_id AS src_id,
 		graph_ds.type AS type,
@@ -128,7 +128,7 @@ function tiny_monitor_graph_command($id, $start_time, $end_time)
 		FROM graph_ds
 		LEFT JOIN graphs ON graph_ds.graph_id=graphs.id
 		WHERE graph_ds.id=$id");
-		$row = mysql_fetch_array($results);
+		$row = db_fetch_array($results);
 
 		GLOBAL $RRDTOOL_ITEM_TYPES;
 		$row["type"] = $RRDTOOL_ITEM_TYPES[$row["type"]];
@@ -197,8 +197,8 @@ function custom_graph_command($id, $start_time, $end_time, $togglelegend, $break
 {
 	$options = "";
 
-	$graph_results = do_query("SELECT * FROM graphs WHERE id=$id");
-	$graph_row = mysql_fetch_array($graph_results);
+	$graph_results = db_query("SELECT * FROM graphs WHERE id=$id");
+	$graph_row = db_fetch_array($graph_results);
 
 	//if ($togglelegend == 1) { $graph_row["show_legend"] = (1 - $graph_row["show_legend"]); }
 	//if ($graph_row["show_legend"] == 0) { $options = "-g "; }
@@ -221,12 +221,12 @@ function custom_graph_command($id, $start_time, $end_time, $togglelegend, $break
 
 	// *** Padded Length Calculation
 	$padded_length = 5;
-	$ds_results = do_query("SELECT graph_ds.label FROM graph_ds WHERE graph_ds.graph_id=$id");
-	$ds_total = mysql_num_rows($ds_results);
+	$ds_results = db_query("SELECT graph_ds.label FROM graph_ds WHERE graph_ds.graph_id=$id");
+	$ds_total = db_num_rows($ds_results);
 
 	for ($ds_count = 1; $ds_count <= $ds_total; $ds_count++)
 	{
-		$ds_row = mysql_fetch_array($ds_results);
+		$ds_row = db_fetch_array($ds_results);
 		if (strlen($ds_row["label"]) > $padded_length)
 		{
 			$padded_length = strlen($ds_row["label"]);
@@ -234,8 +234,8 @@ function custom_graph_command($id, $start_time, $end_time, $togglelegend, $break
 	}
 	// ***
 
-	$ds_results = do_query("SELECT * FROM graph_ds WHERE graph_ds.graph_id=$id ORDER BY position, id");
-	$ds_total = mysql_num_rows($ds_results);
+	$ds_results = db_query("SELECT * FROM graph_ds WHERE graph_ds.graph_id=$id ORDER BY position, id");
+	$ds_total = db_num_rows($ds_results);
 
 	$CDEF_A = "zero,UN,0,0,IF";
 	$CDEF_L = "zero,UN,0,0,IF";
@@ -246,7 +246,7 @@ function custom_graph_command($id, $start_time, $end_time, $togglelegend, $break
 	for ($ds_count = 1; $ds_count <= $ds_total; $ds_count++)
 	{
 
-		$ds_row = mysql_fetch_array($ds_results);
+		$ds_row = db_fetch_array($ds_results);
 		$ds_row["type"] = $GLOBALS["RRDTOOL_ITEM_TYPES"][$ds_row["type"]];
 		
 		if ($templated)

@@ -27,7 +27,7 @@ if ($_REQUEST["action"] == "doedit")
 		$command = "UPDATE";
 		$where = "WHERE id={$_REQUEST['graph_id']}";
 	}
-	do_update("$command graphs SET name=\"{$_REQUEST['graph_name']}\",
+	db_update("$command graphs SET name=\"{$_REQUEST['graph_name']}\",
 			comment=\"{$_REQUEST['graph_comment']}\",
 			width={$_REQUEST['width']}, height={$_REQUEST['height']},
 			vert_label=\"{$_REQUEST['vert_label']}\" $where");
@@ -48,25 +48,25 @@ if ($_REQUEST["action"] == "dodelete")
 
 if ($_REQUEST["action"] == "duplicate")
 {
-	$graph_handle = do_query("SELECT * FROM graphs WHERE id={$_REQUEST["id"]}");
-	$graph_row    = mysql_fetch_array($graph_handle);
-	do_update("INSERT INTO graphs SET name='" . mysql_escape_string($graph_row['name']) . " (duplicate)', " . 
-	"comment='" . mysql_escape_string($graph_row['comment']) . "', " .
+	$graph_handle = db_query("SELECT * FROM graphs WHERE id={$_REQUEST["id"]}");
+	$graph_row    = db_fetch_array($graph_handle);
+	db_update("INSERT INTO graphs SET name='" . db_escape_string($graph_row['name']) . " (duplicate)', " . 
+	"comment='" . db_escape_string($graph_row['comment']) . "', " .
 	"width={$graph_row['width']}, height={$graph_row['height']}, " .
-	"vert_label='" . mysql_escape_string($graph_row['vert_label']) . "', " .
+	"vert_label='" . db_escape_string($graph_row['vert_label']) . "', " .
 	"type='{$graph_row['type']}'");
 
-	$new_id = mysql_insert_id();
+	$new_id = db_insert_id();
 
-	$ds_handle = do_query("SELECT * FROM graph_ds WHERE graph_id='{$_REQUEST['id']}'");
-	for ($i = 0; $i < mysql_num_rows($ds_handle); $i++)
+	$ds_handle = db_query("SELECT * FROM graph_ds WHERE graph_id='{$_REQUEST['id']}'");
+	for ($i = 0; $i < db_num_rows($ds_handle); $i++)
 	{
-		$ds_row = mysql_fetch_array($ds_handle);
-		do_update("INSERT INTO graph_ds SET graph_id=$new_id, " .
+		$ds_row = db_fetch_array($ds_handle);
+		db_update("INSERT INTO graph_ds SET graph_id=$new_id, " .
 		"mon_id={$ds_row['mon_id']}, " . 
-		"color='" . mysql_escape_string($ds_row['color']) . "', " .
+		"color='" . db_escape_string($ds_row['color']) . "', " .
 		"type={$ds_row['type']}, " .
-		"label='" . mysql_escape_string($ds_row['label']) . "', " .
+		"label='" . db_escape_string($ds_row['label']) . "', " .
 		"alignment={$ds_row['alignment']}, " .
 		"stats='{$ds_row['stats']}', " .
 		"position={$ds_row['position']}, " .
@@ -98,12 +98,12 @@ if (empty($_REQUEST["action"]))
 		$query .= " ORDER BY name";
 	} // end if order_by
 
-	$graph_results = do_query($query);
-	$graph_total = mysql_num_rows($graph_results);
+	$graph_results = db_query($query);
+	$graph_total = db_num_rows($graph_results);
 
 	for ($graph_count = 1; $graph_count <= $graph_total; ++$graph_count)
 	{
-		$graph_row = mysql_fetch_array($graph_results);
+		$graph_row = db_fetch_array($graph_results);
 		$graph_id  = $graph_row["id"];
 		$temp_comment = str_replace("%n","<br>",$graph_row["comment"]);
 
@@ -129,8 +129,8 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 
 	if ($_REQUEST["action"] == "edit")
 	{
-		$graph_results = do_query("SELECT * FROM graphs WHERE id={$_REQUEST["graph_id"]}");
-		$graph_row = mysql_fetch_array($graph_results);
+		$graph_results = db_query("SELECT * FROM graphs WHERE id={$_REQUEST["graph_id"]}");
+		$graph_row = db_fetch_array($graph_results);
 	}
 	else
 	{

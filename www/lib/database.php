@@ -10,7 +10,7 @@
 
 
 // Obtain data from a table
-function do_query($query_string)
+function db_query($query_string)
 {
 	mysql_connect($GLOBALS["netmrg"]["dbhost"], $GLOBALS["netmrg"]["dbreaduser"], $GLOBALS["netmrg"]["dbreadpass"]) or 
 		die("<b>DB_ERROR:</b>: Cannot connect to the database server.");
@@ -20,11 +20,11 @@ function do_query($query_string)
 		die("<b>DB_ERROR:</b> Couldn't execute query:<br>\n$query_string<br>\n".mysql_error());
 
 	return $query_result;
-} // end do_query
+} // end db_query
 
 
-// Update data in table
-function do_update($query_string)
+// Update/Insert data in table
+function db_update($query_string)
 {
 	mysql_connect($GLOBALS["netmrg"]["dbhost"], $GLOBALS["netmrg"]["dbwriteuser"], $GLOBALS["netmrg"]["dbwritepass"]) or 
 		die("<b>DB_ERROR:</b>: Cannot connect to the database server.");
@@ -35,7 +35,32 @@ function do_update($query_string)
 
 	return $query_result;
 
-} // end do_update
+} // end db_update
+
+// fetch data from a query
+function db_fetch_array($q_handle)
+{
+	return mysql_fetch_array($q_handle);
+} // end db_fetch_array()
+
+// number of rows returned in a query
+function db_num_rows($q_handle)
+{
+	return mysql_num_rows($q_handle);
+} // end db_num_rows()
+
+// escape data in query
+function db_escape_string($string)
+{
+	return mysql_escape_string($string);
+} // end db_escape()
+
+// last insert id
+function db_insert_id()
+{
+	return mysql_insert_id();
+} // end db_insert_id()
+
 
 
 ?>

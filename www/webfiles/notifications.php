@@ -46,7 +46,7 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 			$db_end = "WHERE id='{$_REQUEST['id']}'";
 		}
 		if (empty($_REQUEST["disabled"])) { $_REQUEST["disabled"] = ""; }
-		do_update("$db_cmd notifications SET name='{$_REQUEST['name']}',
+		db_update("$db_cmd notifications SET name='{$_REQUEST['name']}',
 			command='{$_REQUEST['command']}', disabled='{$_REQUEST['disabled']}'
 			$db_end");
 
@@ -57,7 +57,7 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 
 if (!empty($action) && $action == "dodelete")
 {
-	do_update("DELETE FROM notifications WHERE id='{$_REQUEST['id']}'");
+	db_update("DELETE FROM notifications WHERE id='{$_REQUEST['id']}'");
 	header("Location: {$_SERVER['PHP_SELF']}");
 	exit(0);
 } // done deleting
@@ -68,12 +68,12 @@ make_display_table("Notifications", "",
 	array("text" => "Command")
 ); // end make_display_table();
 
-$res = do_query("SELECT * FROM notifications");
+$res = db_query("SELECT * FROM notifications");
 
 // For each notification
-for ($i = 0; $i < mysql_num_rows($res); $i++)
+for ($i = 0; $i < db_num_rows($res); $i++)
 {
-	$row = mysql_fetch_array($res);
+	$row = db_fetch_array($res);
 
 	make_display_item("editfield".($i%2),
 		array("text" => $row["name"]),
@@ -101,8 +101,8 @@ if (!empty($action) && ($action == "edit" || $action == "add"))
 		$id = $_REQUEST["id"];
 	} // end if add
 
-	$res = do_query("SELECT * FROM notifications WHERE id=$id");
-	$row = mysql_fetch_array($res);
+	$res = db_query("SELECT * FROM notifications WHERE id=$id");
+	$row = db_fetch_array($res);
 
 	make_edit_table("Edit Notificiation Method");
 	make_edit_text("Name:", "name", "50", "100", $row["name"]);

@@ -34,7 +34,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 			if (!isset($_REQUEST["disabled"])) { $_REQUEST["disabled"] = 0; }
 			if (!isset($_REQUEST["snmp_check_ifnumber"])) { $_REQUEST["snmp_check_ifnumber"] = 0; }
 	        if (!isset($_REQUEST["snmp_enabled"])) { $_REQUEST["snmp_enabled"] = 0; }
-			do_update("$db_cmd devices SET 
+			db_update("$db_cmd devices SET 
 				name='{$_REQUEST['dev_name']}',
 				ip='{$_REQUEST['dev_ip']}',
 				snmp_read_community='{$_REQUEST['snmp_read_community']}', 
@@ -47,7 +47,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 
 			if ($_REQUEST["dev_id"] == 0)
 			{
-				do_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id=" . mysql_insert_id());
+				db_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id=" . db_insert_id());
 			} // end if dev+id = 0
 		} // done editing
 	} // end if we editing
@@ -55,7 +55,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doaddtogrp")
 	{
 		check_auth(2);
-		do_update("INSERT INTO dev_parents SET grp_id=$grp_id, dev_id=$dev_id");
+		db_update("INSERT INTO dev_parents SET grp_id=$grp_id, dev_id=$dev_id");
 	} // end if we're adding to a group
 
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "dodelete")
@@ -69,8 +69,8 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	$addlink = "";
 	if (isset($_REQUEST["grp_id"]))
 	{
-		$group_results = do_query("SELECT * FROM groups WHERE id={$_REQUEST['grp_id']}");
-		$group_array = mysql_fetch_array($group_results);
+		$group_results = db_query("SELECT * FROM groups WHERE id={$_REQUEST['grp_id']}");
+		$group_array = db_fetch_array($group_results);
 
 		$title = "Monitored Devices in Group '" . $group_array["name"] . "'";
 
@@ -93,7 +93,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 
 	if (!(isset($_REQUEST["grp_id"])))
 	{
-		$dev_results = do_query("
+		$dev_results = db_query("
 			SELECT devices.name AS name, devices.ip, devices.id
 			FROM devices
 			ORDER BY $orderby");
@@ -101,7 +101,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	}
 	else
 	{
-		$dev_results = do_query("
+		$dev_results = db_query("
 			SELECT devices.name AS name, devices.ip, devices.id, devices.snmp_enabled,  
 				count(snmp.ifIndex) AS interface_count, count(disk.disk_index) AS disk_count
 			FROM dev_parents
@@ -114,12 +114,12 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 
 	} // end if we have group id or not
 
-	$dev_total = mysql_num_rows($dev_results);
+	$dev_total = db_num_rows($dev_results);
 
 	// For each device
 	for ($dev_count = 1; $dev_count <= $dev_total; ++$dev_count)
 	{
-		$dev_row = mysql_fetch_array($dev_results);
+		$dev_row = db_fetch_array($dev_results);
 		$dev_id  = $dev_row["id"];
 		$links   = 
 		cond_formatted_link($dev_row["interface_count"] > 0, "View Interface Cache", 
@@ -187,8 +187,8 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	} // end if device id
 
 	$dev_select = "SELECT * FROM devices WHERE id=$dev_id";
-	$dev_results = do_query($dev_select);
-	$dev_row = mysql_fetch_array($dev_results);
+	$dev_results = db_query($dev_select);
+	$dev_row = db_fetch_array($dev_results);
 	$dev_name = $dev_row["name"];
 	$dev_ip = $dev_row["ip"];
 	if ($_REQUEST["action"] == "addnew")

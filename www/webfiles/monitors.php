@@ -38,7 +38,7 @@ function do_edit()
 	if ($_REQUEST["max_val"] == "U") { $_REQUEST["max_val"] = "NULL"; }
 
 
-	do_update("$db_cmd monitors SET
+	db_update("$db_cmd monitors SET
 		sub_dev_id='{$_REQUEST['sub_dev_id']}',
 		test_type='{$_REQUEST['test_type']}',
 		test_id='{$_REQUEST['test_id']}',
@@ -94,12 +94,12 @@ function do_list()
 		array("text" => "Graph")
 	); // end make_display_table();
 
-	$mon_results = do_query("SELECT * FROM monitors WHERE sub_dev_id={$_REQUEST['sub_dev_id']}");
-	$mon_total = mysql_num_rows($mon_results);
+	$mon_results = db_query("SELECT * FROM monitors WHERE sub_dev_id={$_REQUEST['sub_dev_id']}");
+	$mon_total = db_num_rows($mon_results);
 
 	for ($mon_count = 0; $mon_count < $mon_total; $mon_count++)
 	{
-		$mon_row = mysql_fetch_array($mon_results);
+		$mon_row = db_fetch_array($mon_results);
 		$mon_id  = $mon_row[0];
 
 		if ($mon_row["data_type"] != -1)
@@ -179,7 +179,7 @@ function edit()
 
 	if ($_REQUEST["action"] == "edit")
 	{
-		$mon_results = do_query("
+		$mon_results = db_query("
 			SELECT
 			monitors.id                     AS id,
 			monitors.sub_dev_id             AS sub_dev_id,
@@ -192,7 +192,7 @@ function edit()
 			FROM monitors
 			WHERE monitors.id='{$_REQUEST['mon_id']}'
 			");
-		$mon_row = mysql_fetch_array($mon_results);
+		$mon_row = db_fetch_array($mon_results);
 
 	}
 	else

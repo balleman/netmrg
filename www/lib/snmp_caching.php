@@ -11,15 +11,15 @@
 
 function is_cached($dev_id)
 {
-	$h = do_query("SELECT dev_id FROM snmp_cache WHERE dev_id=$dev_id");
-	return mysql_num_rows($h);
+	$h = db_query("SELECT dev_id FROM snmp_cache WHERE dev_id=$dev_id");
+	return db_num_rows($h);
 } // end is_cached
 
 
 function is_disk_cached($dev_id)
 {
-	$h = do_query("SELECT dev_id FROM snmp_disk_cache WHERE dev_id=$dev_id");
-	return mysql_num_rows($h);
+	$h = db_query("SELECT dev_id FROM snmp_disk_cache WHERE dev_id=$dev_id");
+	return db_num_rows($h);
 } // end is_cached
 
 
@@ -66,7 +66,7 @@ function cache_device($dev_row)
 	$dev_ip = $dev_row["ip"];
 
 	// delete the old cache
-	do_update("DELETE FROM snmp_cache WHERE dev_id=$dev_id");
+	db_update("DELETE FROM snmp_cache WHERE dev_id=$dev_id");
 
 	// get a new cache
 	echo("Beginning SNMP-caching of Device: " . $dev_row["name"] . "\n");
@@ -102,7 +102,7 @@ function cache_device($dev_row)
 		echo "Descr: " . $if_desc . "\n";
 		echo "Alias: " . $if_alias . "\n\n";
 
-		do_update("
+		db_update("
 			INSERT INTO snmp_cache SET
 			dev_id=$dev_id,
 			if_index=$if_index,
@@ -119,8 +119,8 @@ function cache_device($dev_row)
 function ensure_cached($dev_id)
 {
 	if (is_cached($dev_id) < 1) {
-		$h = do_query("SELECT * FROM mon_devices WHERE id=$dev_id");
-		$row = mysql_fetch_array($h);
+		$h = db_query("SELECT * FROM mon_devices WHERE id=$dev_id");
+		$row = db_fetch_array($h);
 		cache_device($row);
 	} // end if device is cached
 } // end ensure_cached;
@@ -130,7 +130,7 @@ function cache_disks($dev_row)
 {
 	$dev_id = $dev_row["id"];
 	$dev_ip = $dev_row["ip"];
-	do_update("DELETE FROM snmp_disk_cache WHERE dev_id=$dev_id");
+	db_update("DELETE FROM snmp_disk_cache WHERE dev_id=$dev_id");
 	echo("Beginning disk-caching of Device: " . $dev_row["name"] . "\n");
 	$community = $dev_row["snmp_read_community"];
 	echo("SNMP-walking dskIndex...\n");
@@ -152,7 +152,7 @@ function cache_disks($dev_row)
 		echo "Path  : " . $dsk_path . "\n";
 		echo "Device: " . $dsk_device . "\n";
 
-		do_update("
+		db_update("
 			INSERT INTO snmp_disk_cache SET
 			dev_id=$dev_id,
 			disk_index=$dsk_index,
@@ -165,8 +165,8 @@ function cache_disks($dev_row)
 function ensure_disk_cached($dev_id)
 {
 	if (is_disk_cached($dev_id) < 1) {
-		$h = do_query("SELECT * FROM mon_devices WHERE id=$dev_id");
-		$row = mysql_fetch_array($h);
+		$h = db_query("SELECT * FROM mon_devices WHERE id=$dev_id");
+		$row = db_fetch_array($h);
 		cache_device($row);
 	} // end if disk is cached
 } // end ensure_disk_cached;

@@ -41,12 +41,12 @@ if ($action == "doedit")
 		$db_end = "WHERE id={$_REQUEST["test_id"]}";
 	}
 
-	do_update("$db_cmd tests_snmp SET name=\"{$_REQUEST["test_name"]}\", oid=\"{$_REQUEST["test_oid"]}\", dev_type={$_REQUEST["dev_type"]} $db_end");
+	db_update("$db_cmd tests_snmp SET name=\"{$_REQUEST["test_name"]}\", oid=\"{$_REQUEST["test_oid"]}\", dev_type={$_REQUEST["dev_type"]} $db_end");
 } // done editing
 
 if ($action == "dodelete")
 {
-	do_update("DELETE FROM tests_snmp WHERE id={$_REQUEST["test_id"]}");
+	db_update("DELETE FROM tests_snmp WHERE id={$_REQUEST["test_id"]}");
 
 } // done deleting
 
@@ -58,13 +58,13 @@ make_display_table("SNMP Tests", "",
 	array("text" => "OID")
 ); // end make_display_table();
 
-$test_results = do_query("SELECT * FROM tests_snmp ORDER BY name");
-$test_total = mysql_num_rows($test_results);
+$test_results = db_query("SELECT * FROM tests_snmp ORDER BY name");
+$test_total = db_num_rows($test_results);
 
 // For each test
 for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 {
-	$test_row = mysql_fetch_array($test_results);
+	$test_row = db_fetch_array($test_results);
 
 	make_display_item("editfield".(($test_count-1)%2),
 		array("text" => $test_row["name"]),
@@ -88,8 +88,8 @@ if (($action == "edit") || ($action == "add"))
 		$_REQUEST["test_id"] = 0;
 	}
 
-	$test_results = do_query("SELECT * FROM tests_snmp WHERE id={$_REQUEST["test_id"]}");
-	$test_row = mysql_fetch_array($test_results);
+	$test_results = db_query("SELECT * FROM tests_snmp WHERE id={$_REQUEST["test_id"]}");
+	$test_row = db_fetch_array($test_results);
 
 	make_edit_table("Edit SNMP Test");
 	make_edit_text("Name:","test_name","25","50",$test_row["name"]);

@@ -61,11 +61,11 @@ if (isset($order_by))
 begin_page("event_log.php", "Event Log", 1);
 
 make_plain_display_table("Event Log", "Date/Time", "#", "Time Since Last Change", "#" , "Event", "#");
-$handle = do_query($query);
-$num = mysql_num_rows($handle);
+$handle = db_query($query);
+$num = db_num_rows($handle);
 for ($i = 0; $i < $num; $i++)
 {
-	$row = mysql_fetch_array($handle);
+	$row = db_fetch_array($handle);
 	make_display_item("editfield".($i%2),
 		array("text" => date("Y/m/d H:i:s",$row["date"])),
 		array("text" => format_time_elapsed($row["time_since_last_change"])),

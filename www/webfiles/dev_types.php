@@ -29,13 +29,13 @@ check_auth(2);
 			$db_cmd = "UPDATE";
 			$db_end = "WHERE id={$_REQUEST['id']}";
 		} // end if id is 0 or not
-		do_update("$db_cmd dev_types SET name='{$_REQUEST['name']}', comment='{$_REQUEST['comment']}' $db_end");
+		db_update("$db_cmd dev_types SET name='{$_REQUEST['name']}', comment='{$_REQUEST['comment']}' $db_end");
 	} // done editing
 
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "dodelete")
 	{
 		check_auth(2);
-		do_update("DELETE FROM dev_types WHERE id={$_REQUEST['id']}");
+		db_update("DELETE FROM dev_types WHERE id={$_REQUEST['id']}");
 	} // done deleting
 
 
@@ -56,13 +56,13 @@ check_auth(2);
 		$orderby = $_REQUEST["orderby"];
 	} // end if orderby
 
-	$grp_results = do_query("SELECT * FROM dev_types ORDER BY $orderby");
-	$grp_total = mysql_num_rows($grp_results);
+	$grp_results = db_query("SELECT * FROM dev_types ORDER BY $orderby");
+	$grp_total = db_num_rows($grp_results);
 
 	# For each group
 	for ($grp_count = 1; $grp_count <= $grp_total; ++$grp_count)
 	{ 
-		$row = mysql_fetch_array($grp_results);
+		$row = db_fetch_array($grp_results);
 		$id  = $row["id"];
 
 		make_display_item("editfield".(($grp_count-1)%2),
@@ -92,8 +92,8 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 		$id = $_REQUEST["id"];
 	} // end if id
 
-	$grp_results = do_query("SELECT * FROM dev_types WHERE id=$id");
-	$row = mysql_fetch_array($grp_results);
+	$grp_results = db_query("SELECT * FROM dev_types WHERE id=$id");
+	$row = db_fetch_array($grp_results);
 	$name = $row["name"];
 	$comment = $row["comment"];
 

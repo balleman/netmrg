@@ -113,12 +113,12 @@ show_a_graph();
 
 if ((!empty($_REQUEST["show_children"])) && ($_REQUEST["show_children"] == 1))
 {
-	$query = do_query("SELECT * FROM graph_ds WHERE graph_id={$_REQUEST["id"]} ORDER BY position,id ");
-	$count = mysql_num_rows($query);
+	$query = db_query("SELECT * FROM graph_ds WHERE graph_id={$_REQUEST["id"]} ORDER BY position,id ");
+	$count = db_num_rows($query);
 	$old_id = $_REQUEST["id"];
 	for ($i = 0; $i < $count; $i++)
 	{
-		$row = mysql_fetch_array($query);
+		$row = db_fetch_array($query);
 
 		if ($row["use_alt"] == 0)
 		{

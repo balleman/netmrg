@@ -49,7 +49,7 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 		$pass_cmd = "";
 	}
 
-	do_update("$db_cmd user SET user='{$_REQUEST['user']}',
+	db_update("$db_cmd user SET user='{$_REQUEST['user']}',
 		fullname='{$_REQUEST['fullname']}', $pass_cmd
 		permit='{$_REQUEST['permit']}', group_id='{$_REQUEST['group_id']}' $db_end");
 		
@@ -59,7 +59,7 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 
 if (!empty($action) && $action == "dodelete")
 {
-	do_update("DELETE FROM user WHERE id='{$_REQUEST['user_id']}'");
+	db_update("DELETE FROM user WHERE id='{$_REQUEST['user_id']}'");
 	header("Location: {$_SERVER['PHP_SELF']}");
 	exit(0);
 
@@ -75,16 +75,16 @@ make_display_table("Users", "",
 	array("text" => "Permissions")
 ); // end make_display_table();
 
-$user_results = do_query("SELECT * FROM user ORDER BY user.user");
+$user_results = db_query("SELECT * FROM user ORDER BY user.user");
 
-$user_total = mysql_num_rows($user_results);
+$user_total = db_num_rows($user_results);
 
 js_confirm_dialog("del", "Are you sure you want to delete user ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&user_id=");
 
 // For each user
 for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 {
-	$user_row = mysql_fetch_array($user_results);
+	$user_row = db_fetch_array($user_results);
 	$user_id  = $user_row["id"];
 
 	make_display_item("editfield".(($user_count-1)%2),
@@ -117,8 +117,8 @@ if (!empty($action) && ($action == "edit" || $action == "add"))
 		$user_id = $_REQUEST["user_id"];
 	} // end if add or not
 
-	$user_results = do_query("SELECT * FROM user WHERE id=$user_id");
-	$user_row = mysql_fetch_array($user_results);
+	$user_results = db_query("SELECT * FROM user WHERE id=$user_id");
+	$user_row = db_fetch_array($user_results);
 
 	make_edit_table("Edit User");
 	make_edit_text("User ID:", "user", "25", "50", $user_row["user"]);

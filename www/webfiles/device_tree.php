@@ -165,16 +165,16 @@ begin_page("device_tree.php", "Device Tree", 1);
 
 <?php
 
-$q = do_query("SELECT group_id FROM user WHERE user = '{$_SESSION["netmrgsess"]["username"]}'");
-$r = mysql_fetch_array($q);
+$q = db_query("SELECT group_id FROM user WHERE user = '{$_SESSION["netmrgsess"]["username"]}'");
+$r = db_fetch_array($q);
 $rowcount = 0;
 draw_group($r["group_id"], 0, $rowcount);
 
 function draw_group($grp_id, $depth, &$rowcount)
 {
 	// for each group
-	$grp_results = do_query("SELECT * FROM groups WHERE parent_id=$grp_id ORDER BY name");
-	while ($grp_row = mysql_fetch_array($grp_results))
+	$grp_results = db_query("SELECT * FROM groups WHERE parent_id=$grp_id ORDER BY name");
+	while ($grp_row = db_fetch_array($grp_results))
 	{
 		$grp_id = $grp_row["id"];
 		$grp_action = "";
@@ -206,14 +206,14 @@ function draw_group($grp_id, $depth, &$rowcount)
 		if (in_array($grp_id, $_COOKIE["netmrgDevTree"]["group"]))
 		{
 			draw_group($grp_id, $depth + 1, $rowcount);
-			$dev_results = do_query("
+			$dev_results = db_query("
 				SELECT dev_parents.dev_id AS id, devices.name AS name, devices.status AS status
 				FROM dev_parents
 				LEFT JOIN devices ON dev_parents.dev_id=devices.id
 				WHERE grp_id = '$grp_id'
 				ORDER BY name");
 			// while we still have devices
-			while ($dev_row = mysql_fetch_array($dev_results))
+			while ($dev_row = db_fetch_array($dev_results))
 			{
 				$device_id = $dev_row["id"];
 				$device_action = "";
@@ -243,10 +243,10 @@ function draw_group($grp_id, $depth, &$rowcount)
 				// if this device is expanded, show the subdevices
 				if (in_array($device_id, $_COOKIE["netmrgDevTree"]["device"]))
 				{
-					$subdev_results = do_query("
+					$subdev_results = db_query("
 					SELECT id, name, status FROM sub_devices WHERE dev_id={$dev_row['id']} ORDER BY type, name");
 
-					while ($subdev_row = mysql_fetch_array($subdev_results))
+					while ($subdev_row = db_fetch_array($subdev_results))
 					{
 						$subdev_id = $subdev_row["id"];
 						$subdev_action = "";
@@ -277,10 +277,10 @@ function draw_group($grp_id, $depth, &$rowcount)
 						if (in_array($subdev_id, $_COOKIE["netmrgDevTree"]["subdevice"]))
 						{
 
-							$mon_results = do_query("SELECT id, status FROM monitors WHERE sub_dev_id={$subdev_row['id']}");
+							$mon_results = db_query("SELECT id, status FROM monitors WHERE sub_dev_id={$subdev_row['id']}");
 
 							// while we have monitors
-							while ($mon_row = mysql_fetch_array($mon_results))
+							while ($mon_row = db_fetch_array($mon_results))
 							{
 								$mon_id = $mon_row["id"];
 								$monitor_action = "";
@@ -311,13 +311,13 @@ function draw_group($grp_id, $depth, &$rowcount)
 								// if this monitor is expanded, show the events
 								if (in_array($mon_id, $_COOKIE["netmrgDevTree"]["monitor"]))
 								{
-								$event_results = do_query("SELECT * FROM events WHERE mon_id=$mon_id");
-									$event_total = mysql_num_rows($event_results);
+								$event_results = db_query("SELECT * FROM events WHERE mon_id=$mon_id");
+									$event_total = db_num_rows($event_results);
 
 									// For each event
 									for ($event_count = 1; $event_count <= $event_total; ++$event_count)
 									{
-										$event_row = mysql_fetch_array($event_results);
+										$event_row = db_fetch_array($event_results);
 										$event_id = $event_row["id"];
 										$color = get_color_from_situation($event_row["situation"]);
 

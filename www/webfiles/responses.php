@@ -42,12 +42,12 @@ function display_list()
 		array("text" => "Parameters")
 	);
 
-	$res = do_query("	SELECT responses.id, notifications.name, responses.parameters
+	$res = db_query("	SELECT responses.id, notifications.name, responses.parameters
 				FROM responses, notifications
 				WHERE responses.notification_id=notifications.id
 				AND event_id={$_REQUEST['event_id']}");
 	$rowcount = 0;
-	while ($row = mysql_fetch_array($res))
+	while ($row = db_fetch_array($res))
 	{
 		make_display_item("editfield".($rowcount%2),
 			array("text" => $row['name']),
@@ -72,8 +72,8 @@ function display_edit()
 	}
 	else
 	{
-		$res = do_query("SELECT * FROM responses WHERE id={$_REQUEST['id']}");
-		$row = mysql_fetch_array($res);
+		$res = db_query("SELECT * FROM responses WHERE id={$_REQUEST['id']}");
+		$row = db_fetch_array($res);
 	}
 
 	begin_page("responses.php", "Responses");
@@ -103,7 +103,7 @@ function do_edit()
 		$post = "WHERE id = {$_REQUEST['id']}";
 	}
 
-        do_update("$pre responses SET notification_id = '{$_REQUEST['notification_id']}', parameters ='{$_REQUEST['parameters']}' $post");
+        db_update("$pre responses SET notification_id = '{$_REQUEST['notification_id']}', parameters ='{$_REQUEST['parameters']}' $post");
 
         header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}");
 }

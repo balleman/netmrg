@@ -51,12 +51,12 @@ if ($action == "doedit")
 		$db_end = "WHERE id={$_REQUEST["test_id"]}";
 	}
 
-	do_update("$db_cmd tests_script SET name=\"{$_REQUEST["test_name"]}\", cmd=\"{$_REQUEST["test_cmd"]}\", data_type={$_REQUEST["data_type"]}, dev_type={$_REQUEST["dev_type"]} $db_end");
+	db_update("$db_cmd tests_script SET name=\"{$_REQUEST["test_name"]}\", cmd=\"{$_REQUEST["test_cmd"]}\", data_type={$_REQUEST["data_type"]}, dev_type={$_REQUEST["dev_type"]} $db_end");
 } // done editing
 
 if ($action == "dodelete")
 {
-        do_update("DELETE FROM tests_script WHERE id={$_REQUEST["test_id"]}");
+        db_update("DELETE FROM tests_script WHERE id={$_REQUEST["test_id"]}");
 
 } // done deleting
 
@@ -69,7 +69,7 @@ make_display_table("Script Tests", "",
 	array("text" => "Data Type")
 ); // end make_display_table();
 
-$test_results = do_query("
+$test_results = db_query("
 	SELECT  id,
 	name,
 	cmd,
@@ -78,12 +78,12 @@ $test_results = do_query("
 	ORDER BY name
 "); // end test_results
 
-$test_total = mysql_num_rows($test_results);
+$test_total = db_num_rows($test_results);
 
 for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 {
 
-        $test_row = mysql_fetch_array($test_results);
+        $test_row = db_fetch_array($test_results);
         $test_id  = $test_row["id"];
 
         make_display_item("editfield".(($test_count-1)%2),
@@ -110,8 +110,8 @@ if (($action == "edit") || ($action == "add"))
 		$_REQUEST["test_id"] = 0;
 	}
 
-	$test_results = do_query("SELECT * FROM tests_script WHERE id={$_REQUEST["test_id"]}");
-	$test_row = mysql_fetch_array($test_results);
+	$test_results = db_query("SELECT * FROM tests_script WHERE id={$_REQUEST["test_id"]}");
+	$test_row = db_fetch_array($test_results);
 	$test_name = $test_row["name"];
 	$test_cmd = $test_row["cmd"];
 

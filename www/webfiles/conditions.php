@@ -44,8 +44,8 @@ function do_display()
 	check_auth(1);
 	begin_page("conditions.php", "Conditions");
 
-	$query = do_query("SELECT * FROM conditions WHERE event_id = {$_REQUEST['event_id']} ORDER BY id");
-	$rows = mysql_num_rows($query);
+	$query = db_query("SELECT * FROM conditions WHERE event_id = {$_REQUEST['event_id']} ORDER BY id");
+	$rows = db_num_rows($query);
 	if ($rows == 0)
 	{
 		$nologic = "&nologic=1";
@@ -62,7 +62,7 @@ function do_display()
 
 	for ($i = 0; $i < $rows; $i++)
 	{
-		$row = mysql_fetch_array($query);
+		$row = db_fetch_array($query);
 		$condition_name = $GLOBALS['VALUE_TYPES'][$row['value_type']] . "&nbsp;" . $GLOBALS['CONDITIONS'][$row['condition']] . "&nbsp;" . $row['value'];
 		if ($i != 0)
 		{
@@ -102,8 +102,8 @@ function display_edit()
 	}
 	else
 	{
-		$query = do_query("SELECT * FROM conditions WHERE id={$_REQUEST['id']}");
-		$row   = mysql_fetch_array($query);
+		$query = db_query("SELECT * FROM conditions WHERE id={$_REQUEST['id']}");
+		$row   = db_fetch_array($query);
 	}
 
 	make_edit_table("Edit Condition");
@@ -143,7 +143,7 @@ function do_edit()
 		$post = "WHERE id = {$_REQUEST['id']}";
 	}
 
-        do_update("$pre conditions SET logic_condition={$_REQUEST['logic_condition']}, value_type={$_REQUEST['value_type']}, condition={$_REQUEST['condition']}, value={$_REQUEST['value']} $post");
+        db_update("$pre conditions SET logic_condition={$_REQUEST['logic_condition']}, value_type={$_REQUEST['value_type']}, condition={$_REQUEST['condition']}, value={$_REQUEST['value']} $post");
 
         header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}");
 } // end do_edit();
@@ -153,7 +153,7 @@ function do_delete()
 {
 	check_auth(2);
 
-        do_update("DELETE FROM conditions WHERE id = {$_REQUEST['id']}");
+        db_update("DELETE FROM conditions WHERE id = {$_REQUEST['id']}");
 
 	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}");
 } // end do_delete();

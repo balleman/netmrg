@@ -21,7 +21,7 @@ if (!empty($_REQUEST["action"]))
 	{
 		$_REQUEST['graph_id'] = (($_REQUEST['type'] == 'graph') ? $_REQUEST['graph_id_custom'] : $_REQUEST['graph_id_template']);
 	
-		do_update("INSERT INTO view SET
+		db_update("INSERT INTO view SET
 			object_id={$_REQUEST['object_id']},
 			object_type='{$_REQUEST['object_type']}',
 			graph_id={$_REQUEST['graph_id']},
@@ -37,7 +37,7 @@ if (!empty($_REQUEST["action"]))
 	{
 		$_REQUEST['graph_id'] = (($_REQUEST['type'] == 'graph') ? $_REQUEST['graph_id_custom'] : $_REQUEST['graph_id_template']);
 	
-		do_update("UPDATE view SET 
+		db_update("UPDATE view SET 
 			graph_id={$_REQUEST['graph_id']},
 			type='{$_REQUEST['type']}',
 			separator_text='{$_REQUEST['separator_text']}',
@@ -49,14 +49,14 @@ if (!empty($_REQUEST["action"]))
 	}
 	elseif ($_REQUEST["action"] == "dodelete")
 	{
-		$q = do_query("SELECT pos FROM view WHERE id=" . $_REQUEST["id"]);
-		$r = mysql_fetch_array($q);
+		$q = db_query("SELECT pos FROM view WHERE id=" . $_REQUEST["id"]);
+		$r = db_fetch_array($q);
 
 		$pos = $r["pos"];
 
-		do_update("DELETE FROM view WHERE id=" . $_REQUEST['id']);
+		db_update("DELETE FROM view WHERE id=" . $_REQUEST['id']);
 
-		do_update("UPDATE view SET pos = pos - 1
+		db_update("UPDATE view SET pos = pos - 1
 			WHERE object_id=" . $_REQUEST["object_id"] . "
 			AND object_type='" . $_REQUEST["object_type"] . "'
 			AND pos > " . $pos);
@@ -66,24 +66,24 @@ if (!empty($_REQUEST["action"]))
 	}
 	elseif ($_REQUEST["action"] == "move")
 	{
-		$query = do_query("
+		$query = db_query("
 			SELECT 	id, pos
 			FROM 	view
 			WHERE 	object_id={$_REQUEST['object_id']}
 			AND 	object_type='{$_REQUEST['object_type']}'
 			ORDER BY pos");
 
-		for ($i = 0; $i < mysql_num_rows($query); $i++)
+		for ($i = 0; $i < db_num_rows($query); $i++)
 		{
-			$row = mysql_fetch_array($query);
+			$row = db_fetch_array($query);
 
 			if ($_REQUEST['direction'] == "up")
 			{
 				if (($_REQUEST['id'] - 1) == $i)
 				{
-					$next_row = mysql_fetch_array($query);
-					do_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$row['id']}");
-					do_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$next_row['id']}");
+					$next_row = db_fetch_array($query);
+					db_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$row['id']}");
+					db_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$next_row['id']}");
 					break;
 				}
 			}
@@ -91,9 +91,9 @@ if (!empty($_REQUEST["action"]))
 			{
 				if ($_REQUEST['id'] == $i)
 				{
-					$next_row = mysql_fetch_array($query);
-					do_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$row['id']}");
-					do_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$next_row['id']}");
+					$next_row = db_fetch_array($query);
+					db_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$row['id']}");
+					db_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$next_row['id']}");
 					break;
 				}
 			}
@@ -118,8 +118,8 @@ if (empty($_REQUEST["action"]))
 	  	 AND 		object_id={$_REQUEST['object_id']}
 	 	 ORDER BY 	pos";
 
-	$view_result = do_query($view_select);
-	$num = mysql_num_rows($view_result);
+	$view_result = db_query($view_select);
+	$num = db_num_rows($view_result);
 
 	if (!isset($_REQUEST['edit']) || ($_REQUEST['edit'] == 0))
 	{
@@ -128,7 +128,7 @@ if (empty($_REQUEST["action"]))
 
 		for ($i = 0; $i < $num; $i++)
 		{
-			$row = mysql_fetch_array($view_result);
+			$row = db_fetch_array($view_result);
 
 			switch ($row['type'])
 			{
@@ -188,7 +188,7 @@ if (empty($_REQUEST["action"]))
 				$move_down = formatted_link("Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id=$i");
 			}
 
-			$row = mysql_fetch_array($view_result);
+			$row = db_fetch_array($view_result);
 
 			switch ($row['type'])
 			{
@@ -240,8 +240,8 @@ if (!empty($_REQUEST["action"]))
 			break;
 
 			case "edit":
-			$q = do_query("SELECT * FROM view WHERE id={$_REQUEST['id']}");
-			$row = mysql_fetch_array($q);
+			$q = db_query("SELECT * FROM view WHERE id={$_REQUEST['id']}");
+			$row = db_fetch_array($q);
 			break;
 		}
 

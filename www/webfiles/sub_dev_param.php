@@ -18,7 +18,7 @@ if (empty($_REQUEST["action"]))
 	check_auth(1);
 	begin_page("sub_dev_param.php", "Sub Device Parameters");
 
-	$results = do_query("SELECT name, value FROM sub_dev_variables WHERE type='static' AND sub_dev_id={$_REQUEST['sub_dev_id']}");
+	$results = db_query("SELECT name, value FROM sub_dev_variables WHERE type='static' AND sub_dev_id={$_REQUEST['sub_dev_id']}");
 
 	make_display_table("Parameters for " . get_sub_device_name($_REQUEST["sub_dev_id"]), 
 		"{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}",
@@ -26,9 +26,9 @@ if (empty($_REQUEST["action"]))
 		array("text" => "Value")
 	); // end make_display_table();
 
-	for ($i = 0; $i < mysql_num_rows($results); $i++)
+	for ($i = 0; $i < db_num_rows($results); $i++)
 	{
-		$row = mysql_fetch_array($results);
+		$row = db_fetch_array($results);
 		make_display_item("editfield".($i%2),
 			array("text" => $row["name"]),
 			array("text" => $row["value"]),
@@ -55,7 +55,7 @@ elseif ($_REQUEST["action"] == "doedit")
 		$db_end = "WHERE name=\"{$_REQUEST['oldname']}\" AND sub_dev_id={$_REQUEST['sub_dev_id']}";
 	}
 
-	do_update("$db_cmd sub_dev_variables SET
+	db_update("$db_cmd sub_dev_variables SET
                         name=\"{$_REQUEST['name']}\",
 			value=\"{$_REQUEST['value']}\",
 			sub_dev_id={$_REQUEST['sub_dev_id']}
@@ -72,10 +72,10 @@ elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 
 	if ($_REQUEST["action"] == "edit")
 	{
-		$query = do_query("SELECT * FROM sub_dev_variables WHERE sub_dev_id = {$_REQUEST['sub_dev_id']} AND name = \"{$_REQUEST['name']}\"");
-		if (mysql_num_rows($query) > 0)
+		$query = db_query("SELECT * FROM sub_dev_variables WHERE sub_dev_id = {$_REQUEST['sub_dev_id']} AND name = \"{$_REQUEST['name']}\"");
+		if (db_num_rows($query) > 0)
 		{
-			$row   = mysql_fetch_array($query);
+			$row   = db_fetch_array($query);
 			make_edit_hidden("oldname", $row['name']);
 		}
 	}

@@ -67,17 +67,17 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 	} // end if parent id
 
 	$grp_select = "SELECT * FROM groups WHERE parent_id=$parent_id ORDER BY $orderby";
-	$grp_results = do_query($grp_select);
-	$grp_total = mysql_num_rows($grp_results);
+	$grp_results = db_query($grp_select);
+	$grp_total = db_num_rows($grp_results);
 
 	// For each group
 	for ($grp_count = 1; $grp_count <= $grp_total; ++$grp_count)
 	{
-		$grp_row = mysql_fetch_array($grp_results);
+		$grp_row = db_fetch_array($grp_results);
 		$grp_id  = $grp_row["id"];
 
-		$child_query = do_query("SELECT id FROM groups WHERE parent_id=$grp_id");
-		if (mysql_num_rows($child_query) > 0)
+		$child_query = db_query("SELECT id FROM groups WHERE parent_id=$grp_id");
+		if (db_num_rows($child_query) > 0)
 		{
 			$group_link = "groups.php?parent_id=$grp_id";
 		}
@@ -114,8 +114,8 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 		$grp_id = $_REQUEST["grp_id"];
 	} // end if this is an add, no parent group
 
-	$grp_results = do_query("SELECT * FROM groups WHERE id=$grp_id");
-	$grp_row = mysql_fetch_array($grp_results);
+	$grp_results = db_query("SELECT * FROM groups WHERE id=$grp_id");
+	$grp_row = db_fetch_array($grp_results);
 	$grp_name = $grp_row["name"];
 	$grp_comment = $grp_row["comment"];
 

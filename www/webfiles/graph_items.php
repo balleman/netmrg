@@ -56,7 +56,7 @@ if ($_REQUEST["action"] == "doedit")
 		 label='{$_REQUEST['label']}', alignment='{$_REQUEST['alignment']}', 
 		 stats='$stats', position='{$_REQUEST['position']}', multiplier='{$_REQUEST['multiplier']}'
 		 $post";
-	do_update($graph_ds_query);
+	db_update($graph_ds_query);
 
 	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
 	exit(0);
@@ -66,23 +66,23 @@ if ($_REQUEST["action"] == "doedit")
 if ($_REQUEST["action"] == "move")
 {
 	// do moving
-	$query = do_query("
+	$query = db_query("
 		SELECT id, position
 		FROM graph_ds
 		WHERE graph_id={$_REQUEST['graph_id']}
 		ORDER BY position
 		");
-	for ($ds_count = 0; $ds_count < mysql_num_rows($query); $ds_count++)
+	for ($ds_count = 0; $ds_count < db_num_rows($query); $ds_count++)
 	{
-		$row = mysql_fetch_array($query);
+		$row = db_fetch_array($query);
 
 		if ($_REQUEST["direction"] == "up")
 		{
 			if (($_REQUEST["id"] - 1) == $ds_count)
 			{
-				$next_row = mysql_fetch_array($query);
-				do_update("UPDATE graph_ds SET position = {$next_row['position']} WHERE id = {$row['id']}");
-				do_update("UPDATE graph_ds SET position = {$row['position']} WHERE id = {$next_row['id']}");
+				$next_row = db_fetch_array($query);
+				db_update("UPDATE graph_ds SET position = {$next_row['position']} WHERE id = {$row['id']}");
+				db_update("UPDATE graph_ds SET position = {$row['position']} WHERE id = {$next_row['id']}");
 				break;
 			}
 		}
@@ -90,9 +90,9 @@ if ($_REQUEST["action"] == "move")
 		{
                 	if ($_REQUEST["id"] == $ds_count)
 			{
-				$next_row = mysql_fetch_array($query);
-				do_update("UPDATE graph_ds SET position = {$next_row['position']} WHERE id = {$row['id']}");
-				do_update("UPDATE graph_ds SET position = {$row['position']} WHERE id = {$next_row['id']}");
+				$next_row = db_fetch_array($query);
+				db_update("UPDATE graph_ds SET position = {$next_row['position']} WHERE id = {$row['id']}");
+				db_update("UPDATE graph_ds SET position = {$row['position']} WHERE id = {$next_row['id']}");
 				break;
 			}
 		}
@@ -121,7 +121,7 @@ if (empty($_REQUEST["action"]))
 
 	js_confirm_dialog("del", "Are you sure you want to delete graph item ", "?", "{$_SERVER['PHP_SELF']}?action=dodelete&graph_id={$_REQUEST['graph_id']}&id=");
 
-	$ds_results = do_query("
+	$ds_results = db_query("
 		SELECT
 		graph_ds.label		AS label,
 		graph_ds.id		AS id,
@@ -132,7 +132,7 @@ if (empty($_REQUEST["action"]))
 		WHERE graph_ds.graph_id={$_REQUEST['graph_id']}
 		ORDER BY position, id");
 	
-	$ds_total = mysql_num_rows($ds_results);
+	$ds_total = db_num_rows($ds_results);
 	
 ?>
 	<img align="center" src="get_graph.php?type=custom&id=<?php echo $_REQUEST["graph_id"]; ?>"><br>
@@ -147,7 +147,7 @@ if (empty($_REQUEST["action"]))
 	{
 		// For each graph item
 
-		$ds_row = mysql_fetch_array($ds_results);
+		$ds_row = db_fetch_array($ds_results);
 		$id  = $ds_row["id"];
 
 		if ($ds_count == 0)
@@ -205,8 +205,8 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
         }
 	else
 	{
-		$ds_results = do_query("SELECT * FROM graph_ds WHERE id={$_REQUEST['id']}");
-	        $ds_row = mysql_fetch_array($ds_results);
+		$ds_results = db_query("SELECT * FROM graph_ds WHERE id={$_REQUEST['id']}");
+	        $ds_row = db_fetch_array($ds_results);
 	}
 
 	$ds_row["graph_id"] = $_REQUEST["graph_id"];

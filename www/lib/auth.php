@@ -20,8 +20,8 @@ function check_user_pass($user, $pass)
 {
 	$auth_valid = false;
 	$auth_select = "SELECT 1 FROM user WHERE user='$user' AND pass=ENCRYPT('$pass', pass)";
-	$auth_result = do_query($auth_select);
-	if (mysql_num_rows($auth_result) > 0)
+	$auth_result = db_query($auth_select);
+	if (db_num_rows($auth_result) > 0)
 	{
 		$auth_valid = true;
 	}
@@ -67,8 +67,8 @@ function IsLoggedIn()
 */
 function get_full_name($user)
 {
-	$q = do_query("SELECT fullname FROM user WHERE user='$user'");
-	$r = mysql_fetch_array($q);
+	$q = db_query("SELECT fullname FROM user WHERE user='$user'");
+	$r = db_fetch_array($q);
 	return $r["fullname"];
 } // end get_full_name()
 
@@ -108,8 +108,8 @@ function check_auth($level)
 function view_check_auth($pos_id, $pos_id_type)
 {
 	check_auth(0);
-	$handle = do_query("SELECT * FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrgsess"]["password"]."',pass)");
-	$row = mysql_fetch_array($handle);
+	$handle = db_query("SELECT * FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrgsess"]["password"]."',pass)");
+	$row = db_fetch_array($handle);
 	if (!(($row["view_id"] == $pos_id && $row["view_type"] == $pos_id_type) || get_permit() > 0))
 	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
@@ -149,8 +149,8 @@ function get_permit()
 	if (IsLoggedIn())
 	{
 		$sql = "SELECT permit FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrgsess"]["password"]."',pass)";
-		$handle = do_query($sql);
-		$row = mysql_fetch_array($handle);
+		$handle = db_query($sql);
+		$row = db_fetch_array($handle);
 		return $row["permit"];
 	} // end if there is somebody logged in, get their permissions
 
@@ -168,8 +168,8 @@ function get_permit()
 function view_redirect()
 {
 	$sql = "SELECT * FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrgsess"]["password"]."',pass)";
-	$handle = do_query($sql);
-	$row = mysql_fetch_array($handle);
+	$handle = db_query($sql);
+	$row = db_fetch_array($handle);
 	if (empty($_SESSION["netmrgsess"]["redir"]) || (get_permit() == 0))
 	{
 		header("Location: {$GLOBALS['netmrg']['webroot']}/device_tree.php");

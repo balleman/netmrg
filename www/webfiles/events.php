@@ -17,8 +17,8 @@ if (isset($_REQUEST['action']))
 	switch ($_REQUEST['action'])
 	{
 		case "edit":		display_edit(); 	break;
-		case "add":		display_edit(); 	break;
-		case "doedit":		do_edit(); 		break;
+		case "add":			display_edit(); 	break;
+		case "doedit":		do_edit(); 			break;
 		case "dodelete":	do_delete(); 		break;
 	}
 }
@@ -44,10 +44,10 @@ function do_display()
 		array("text" => "Status")
 	); // end make_display_table();
 
-	$query = do_query("SELECT * FROM events WHERE mon_id = {$_REQUEST['mon_id']}");
+	$query = db_query("SELECT * FROM events WHERE mon_id = {$_REQUEST['mon_id']}");
 
 	$rowcount = 0;
-	while (($row = mysql_fetch_array($query)) != NULL)
+	while (($row = db_fetch_array($query)) != NULL)
 	{
 		if ($row['last_status'] == 1)
 		{
@@ -92,8 +92,8 @@ function display_edit()
 	}
 	else
 	{
-		$query = do_query("SELECT * FROM events WHERE id={$_REQUEST['id']}");
-		$row   = mysql_fetch_array($query);
+		$query = db_query("SELECT * FROM events WHERE id={$_REQUEST['id']}");
+		$row   = db_fetch_array($query);
 	}
 
 	make_edit_table("Edit Event");
@@ -124,7 +124,7 @@ function do_edit()
 		$post = "WHERE id = {$_REQUEST['id']}";
 	}
 
-        do_update("$pre events SET name = '{$_REQUEST['name']}', trigger_type={$_REQUEST['trigger_type']}, situation={$_REQUEST['situation']} $post");
+        db_update("$pre events SET name = '{$_REQUEST['name']}', trigger_type={$_REQUEST['trigger_type']}, situation={$_REQUEST['situation']} $post");
 
         header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}");
 }

@@ -410,12 +410,12 @@ function make_edit_select_from_table($header, $name, $table_name, $selected, $se
 		make_edit_select_option($value, $key, ($key == $selected));
 	} // end while we have array list
 
-	$item_results = do_query("SELECT * FROM $table_name WHERE $where ORDER BY name,id");
-	$item_total = mysql_num_rows($item_results);
+	$item_results = db_query("SELECT * FROM $table_name WHERE $where ORDER BY name,id");
+	$item_total = db_num_rows($item_results);
 
 	for ($item_count = 1; $item_count <= $item_total; ++$item_count)
 	{
-		$item_row  = mysql_fetch_array($item_results);
+		$item_row  = db_fetch_array($item_results);
 		$item_name = $item_row["name"];
 		$item_id   = $item_row["id"];
 		$item_selected = ($item_id == $selected);
@@ -589,7 +589,7 @@ function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 	} // end while we have array list
 
 
-	$mon_results = do_query("
+	$mon_results = db_query("
 	SELECT	monitors.id			AS id,
 			devices.name		AS dev_name,
 			sub_devices.name	AS sub_name
@@ -603,12 +603,12 @@ function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 
         ");
 
-        $mon_total = mysql_num_rows($mon_results);
+        $mon_total = db_num_rows($mon_results);
 
 	for ($mon_count = 1; $mon_count <= $mon_total; ++$mon_count)
 	{
 
-		$mon_row = mysql_fetch_array($mon_results);
+		$mon_row = db_fetch_array($mon_results);
 		$mon_id = $mon_row["id"];
 		$mon_name = get_monitor_name($mon_id);
 	        make_edit_select_option($mon_name, $mon_id, $mon_id_cur == $mon_id);
@@ -633,7 +633,7 @@ function make_edit_select_subdevice($subdev_id_cur, $prepended_array = array())
 	} // end while we have array list
 
 
-	$subdev_results = do_query("
+	$subdev_results = db_query("
 	SELECT	devices.name AS dev_name,
 			sub_devices.name AS sub_name,
 			sub_devices.id AS id
@@ -646,12 +646,12 @@ function make_edit_select_subdevice($subdev_id_cur, $prepended_array = array())
 
         ");
 
-	$subdev_total = mysql_num_rows($subdev_results);
+	$subdev_total = db_num_rows($subdev_results);
 
 	for ($subdev_count = 1; $subdev_count <= $subdev_total; ++$subdev_count)
 	{
 
-		$subdev_row = mysql_fetch_array($subdev_results);
+		$subdev_row = db_fetch_array($subdev_results);
 		$subdev_id = $subdev_row["id"];
 		$subdev_name = get_sub_device_name($subdev_id);
 	        make_edit_select_option($subdev_name, $subdev_id, $subdev_id_cur == $subdev_id);

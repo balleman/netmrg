@@ -30,8 +30,8 @@ function make_graph()
 	check_auth(2);
 
 	// get snmp index data
-	$q_snmp = do_query("SELECT * FROM snmp_interface_cache WHERE dev_id={$_REQUEST['dev_id']} AND ifIndex='{$_REQUEST['index']}'");
-	$r_snmp = mysql_fetch_array($q_snmp);
+	$q_snmp = db_query("SELECT * FROM snmp_interface_cache WHERE dev_id={$_REQUEST['dev_id']} AND ifIndex='{$_REQUEST['index']}'");
+	$r_snmp = db_fetch_array($q_snmp);
 
 	if (isset($r_snmp["ifName"]) && !empty($r_snmp["ifName"]))
 	{
@@ -53,10 +53,10 @@ function make_graph()
 	$index_value = $r_snmp[$index_type];
 
 	// create the subdevice
-	do_update("INSERT INTO sub_devices SET dev_id={$_REQUEST['dev_id']}, type=2, name='$index_value'");
-	$sd_id = mysql_insert_id();
-	do_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='$index_type', value='$index_value'");
-	do_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='ifIndex', value='{$_REQUEST['index']}', type='dynamic'");
+	db_update("INSERT INTO sub_devices SET dev_id={$_REQUEST['dev_id']}, type=2, name='$index_value'");
+	$sd_id = db_insert_id();
+	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='$index_type', value='$index_value'");
+	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='ifIndex', value='{$_REQUEST['index']}', type='dynamic'");
 
 	// add monitors and associate template
 	apply_template($sd_id, $GLOBALS["netmrg"]["traffictemplateid"]);
@@ -80,11 +80,11 @@ function view_disk_cache()
 		"Device", "",
 		"Path", "");
 	
-	$handle = do_query($query);
+	$handle = db_query($query);
 	
-	for ($i = 0; $i < mysql_num_rows($handle); $i++)
+	for ($i = 0; $i < db_num_rows($handle); $i++)
 	{                   
-		$row = mysql_fetch_array($handle);
+		$row = db_fetch_array($handle);
                 make_display_item("editfield".($i%2),
 			array("text" => $row['disk_index']),
 			array("text" => $row['disk_device']),
@@ -130,10 +130,10 @@ function view_interface_cache()
 		"MAC Address",	"$sort_href=ifMAC",
 		"","");
 
-	$handle = do_query($query);
-	for ($i = 0; $i < mysql_num_rows($handle); $i++)
+	$handle = db_query($query);
+	for ($i = 0; $i < db_num_rows($handle); $i++)
 	{
-		$row = mysql_fetch_array($handle);
+		$row = db_fetch_array($handle);
 		$status = "";
 		if (isset($row['ifAdminStatus']))
 		{
@@ -151,12 +151,12 @@ function view_interface_cache()
 			}
 		}
 		$links = "";
-		$s_query = do_query("SELECT sub.id AS id FROM sub_devices sub, sub_dev_variables var 
+		$s_query = db_query("SELECT sub.id AS id FROM sub_devices sub, sub_dev_variables var 
 					WHERE sub.dev_id={$_REQUEST['dev_id']} 
 					AND sub.id=var.sub_dev_id 
 					AND var.name='ifIndex' 
 					AND var.value={$row['ifIndex']}");
-		$s_row = mysql_fetch_array($s_query);
+		$s_row = db_fetch_array($s_query);
 		if (isset($s_row['id']))
 		{
 			$links .= formatted_link("View", "view.php?object_type=subdevice&object_id={$s_row['id']}");
