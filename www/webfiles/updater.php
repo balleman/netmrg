@@ -43,7 +43,7 @@ $dbupdates = array(
   PRIMARY KEY (id),
   KEY uid (uid),
   KEY uid_module_pref (uid, module, pref));",
-"INSERT INTO user_prefs (uid, module, pref, value) SELECT id, "SlideShow", "AutoScroll", 1 FROM user;"
+"INSERT INTO user_prefs (uid, module, pref, value) SELECT id, 'SlideShow', 'AutoScroll', 1 FROM user;"
 	) // end 0.10
 ); // end $dbupdates;
 
