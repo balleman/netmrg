@@ -15,6 +15,7 @@ use strict;
 ### config variables
 my $acpibatdir = "/proc/acpi/battery";
 my $acpiacdir = "/proc/acpi/ac_adapter";
+my $max_minutes = 600; # 10hrs
 ### status variables
 my $ac_status = 0;
 my $battery_status = 0;
@@ -84,6 +85,7 @@ foreach my $batfile (@batdirfiles)
 } # end foreach batfile
 
 $time_remaining = sprintf("%.2f", $battery_curcapacity/$battery_dischargerate) if ($battery_dischargerate);
+$time_remaining = "U" if ($time_remaining*60 > $max_minutes);
 $percent_left = sprintf("%.2f", $battery_curcapacity/$battery_maxcapacity*100);
 
 
