@@ -1,5 +1,6 @@
 2004.12.09  v0.18.2  silfreed
   - bug#0000281 - Support for a config_site.php in addition to config.php
+  - bug#0000364 - PHP Library Restructure
 
 2004.11.23  v0.18.2  keb
   - bug#0000352 - Escaping issues in graphing.php
