@@ -7,6 +7,7 @@
   - update of all web pages to work with 'register_globals' off
     * this requires PHP 4.1+
   - use php long start tags instead of short ones
+  - C++ code supports net-snmp library
 
 0.79.2a
   - reconstruction of C++ code

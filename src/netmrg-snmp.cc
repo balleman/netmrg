@@ -85,7 +85,8 @@ string snmpget(DeviceInfo info, string oidstring)
 		if (status == STAT_SUCCESS)
 		{
 			vars = response->variables;
-			sprint_value(temp, vars->name, vars->name_length, vars);
+			//sprint_value(temp, vars->name, vars->name_length, vars);
+			snprint_value(temp, sizeof(temp), vars->name, vars->name_length, vars);
 			result = temp;
 			result = result.erase(0, result.find(":",0) + 1);
 			result = result.erase(0, result.find("=",0) + 1);

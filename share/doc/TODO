@@ -43,6 +43,7 @@ format.php
 graph templates
 make events/responses work again
 snmp cacher rewrite
+investigate c++ warnings
 netmrg.cc
   more comprehensive way of setting debug levels needed
 mon_responses.php
