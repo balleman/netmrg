@@ -148,7 +148,7 @@ function display()
 	begin_page("graphs.php", ucfirst($_REQUEST['type']) . " Graphs");
 	js_confirm_dialog("del", "Are you sure you want to delete graph ", "?", "{$_SERVER['PHP_SELF']}?action=dodelete&type={$_REQUEST['type']}&graph_id=");
 	make_display_table(ucfirst($_REQUEST['type']) . " Graphs", "graphs.php?action=add&type={$_REQUEST['type']}", 
-		array("text" => "Name", "href" => "{$_SERVER['PHP_SELF']}?order_by=name"),
+		array("text" => "Name"),
 		array()
 	); // end make_display_table();
 

@@ -44,8 +44,8 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 	begin_page("groups.php", "Groups");
 	js_confirm_dialog("del", "Are you sure you want to delete group ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&grp_id=");
 	make_display_table("Device Groups", "", 
-		array("text" => "Name", "href" => "{$_SERVER['PHP_SELF']}?orderby=name"),
-		array("text" => "Comment", "href" => "{$_SERVER['PHP_SELF']}?orderby=comment")
+		array("text" => "Name"),
+		array("text" => "Comment")
 	); // end make_display_table();
 
 	if (!isset($_REQUEST["orderby"]))

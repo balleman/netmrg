@@ -89,7 +89,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	DrawGroupNavHistory("group", $_REQUEST["grp_id"]);
 	js_confirm_dialog("del", "Are you sure you want to delete device ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&grp_id={$_REQUEST['grp_id']}&dev_id=");
 	make_display_table($title, $addlink,
-		array("text" => "Name", "href" => "{$_SERVER['PHP_SELF']}?orderby=name"),
+		array("text" => "Name"),
 		array("text" => "SNMP Options")
 	);
 
