@@ -19,7 +19,15 @@ netmrg_share_db_DATA = share/netmrg.mysql
 
 # options to install files in the share/doc directory
 netmrg_share_docdir=$(datadir)/doc/$(PACKAGE)-$(VERSION)
-netmrg_share_doc_DATA = INSTALL README share/doc/*.sgml share/doc/ChangeLog share/doc/LICENSE share/doc/TODO
+netmrg_share_doc_DATA = INSTALL README share/doc/*.sgml share/doc/ChangeLog share/doc/LICENSE share/doc/TODO share/doc/txt/*
+
+# html documentation
+netmrg_share_htmldir=$(datadir)/doc/$(PACKAGE)-$(VERSION)/html
+netmrg_share_html_DATA = share/doc/html/*
+
+# man1 pages
+netmrg_man1dir=$(mandir)/man1
+netmrg_man1_DATA = share/doc/man/man1/*
 
 # options to install files in the var/lib directory
 netmrg_var_libdir=$(localstatedir)/lib/$(PACKAGE)/rrd

@@ -94,7 +94,15 @@ netmrg_share_db_DATA = share/netmrg.mysql
 
 # options to install files in the share/doc directory
 netmrg_share_docdir = $(datadir)/doc/$(PACKAGE)-$(VERSION)
-netmrg_share_doc_DATA = INSTALL README share/doc/*.sgml share/doc/ChangeLog share/doc/LICENSE share/doc/TODO
+netmrg_share_doc_DATA = INSTALL README share/doc/*.sgml share/doc/ChangeLog share/doc/LICENSE share/doc/TODO share/doc/txt/*
+
+# html documentation
+netmrg_share_htmldir = $(datadir)/doc/$(PACKAGE)-$(VERSION)/html
+netmrg_share_html_DATA = share/doc/html/*
+
+# man1 pages
+netmrg_man1dir = $(mandir)/man1
+netmrg_man1_DATA = share/doc/man/man1/*
 
 # options to install files in the var/lib directory
 netmrg_var_libdir = $(localstatedir)/lib/$(PACKAGE)/rrd
@@ -111,7 +119,8 @@ CONFIG_CLEAN_FILES = bin/netmrg_cron.sh src/include/netmrg.h \
 SCRIPTS = $(bin_SCRIPTS) $(netmrg_libexec_SCRIPTS)
 
 DIST_SOURCES =
-DATA = $(netmrg_share_db_DATA) $(netmrg_share_doc_DATA) \
+DATA = $(netmrg_man1_DATA) $(netmrg_share_db_DATA) \
+	$(netmrg_share_doc_DATA) $(netmrg_share_html_DATA) \
 	$(netmrg_share_images_DATA) $(netmrg_var_lib_DATA) \
 	$(netmrg_var_log_DATA)
 
@@ -190,6 +199,24 @@ uninstall-netmrg_libexecSCRIPTS:
 	  rm -f $(DESTDIR)$(netmrg_libexecdir)/$$f; \
 	done
 uninstall-info-am:
+netmrg_man1DATA_INSTALL = $(INSTALL_DATA)
+install-netmrg_man1DATA: $(netmrg_man1_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(netmrg_man1dir)
+	@list='$(netmrg_man1_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(netmrg_man1DATA_INSTALL) $$d$$p $(DESTDIR)$(netmrg_man1dir)/$$f"; \
+	  $(netmrg_man1DATA_INSTALL) $$d$$p $(DESTDIR)$(netmrg_man1dir)/$$f; \
+	done
+
+uninstall-netmrg_man1DATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(netmrg_man1_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(netmrg_man1dir)/$$f"; \
+	  rm -f $(DESTDIR)$(netmrg_man1dir)/$$f; \
+	done
 netmrg_share_dbDATA_INSTALL = $(INSTALL_DATA)
 install-netmrg_share_dbDATA: $(netmrg_share_db_DATA)
 	@$(NORMAL_INSTALL)
@@ -225,6 +252,24 @@ uninstall-netmrg_share_docDATA:
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f $(DESTDIR)$(netmrg_share_docdir)/$$f"; \
 	  rm -f $(DESTDIR)$(netmrg_share_docdir)/$$f; \
+	done
+netmrg_share_htmlDATA_INSTALL = $(INSTALL_DATA)
+install-netmrg_share_htmlDATA: $(netmrg_share_html_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(netmrg_share_htmldir)
+	@list='$(netmrg_share_html_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " $(netmrg_share_htmlDATA_INSTALL) $$d$$p $(DESTDIR)$(netmrg_share_htmldir)/$$f"; \
+	  $(netmrg_share_htmlDATA_INSTALL) $$d$$p $(DESTDIR)$(netmrg_share_htmldir)/$$f; \
+	done
+
+uninstall-netmrg_share_htmlDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(netmrg_share_html_DATA)'; for p in $$list; do \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo " rm -f $(DESTDIR)$(netmrg_share_htmldir)/$$f"; \
+	  rm -f $(DESTDIR)$(netmrg_share_htmldir)/$$f; \
 	done
 netmrg_share_imagesDATA_INSTALL = $(INSTALL_DATA)
 install-netmrg_share_imagesDATA: $(netmrg_share_images_DATA)
@@ -483,7 +528,7 @@ check: check-recursive
 all-am: Makefile $(SCRIPTS) $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
-	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(netmrg_libexecdir) $(DESTDIR)$(netmrg_share_dbdir) $(DESTDIR)$(netmrg_share_docdir) $(DESTDIR)$(netmrg_share_imagesdir) $(DESTDIR)$(netmrg_var_libdir) $(DESTDIR)$(netmrg_var_logdir)
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(netmrg_libexecdir) $(DESTDIR)$(netmrg_man1dir) $(DESTDIR)$(netmrg_share_dbdir) $(DESTDIR)$(netmrg_share_docdir) $(DESTDIR)$(netmrg_share_htmldir) $(DESTDIR)$(netmrg_share_imagesdir) $(DESTDIR)$(netmrg_var_libdir) $(DESTDIR)$(netmrg_var_logdir)
 
 install: install-recursive
 install-exec: install-exec-recursive
@@ -525,9 +570,10 @@ info: info-recursive
 
 info-am:
 
-install-data-am: install-netmrg_share_dbDATA \
-	install-netmrg_share_docDATA install-netmrg_share_imagesDATA \
-	install-netmrg_var_libDATA install-netmrg_var_logDATA
+install-data-am: install-netmrg_man1DATA install-netmrg_share_dbDATA \
+	install-netmrg_share_docDATA install-netmrg_share_htmlDATA \
+	install-netmrg_share_imagesDATA install-netmrg_var_libDATA \
+	install-netmrg_var_logDATA
 
 install-exec-am: install-binSCRIPTS install-netmrg_libexecSCRIPTS
 
@@ -547,8 +593,9 @@ mostlyclean: mostlyclean-recursive
 mostlyclean-am: mostlyclean-generic
 
 uninstall-am: uninstall-binSCRIPTS uninstall-info-am \
-	uninstall-netmrg_libexecSCRIPTS uninstall-netmrg_share_dbDATA \
-	uninstall-netmrg_share_docDATA \
+	uninstall-netmrg_libexecSCRIPTS uninstall-netmrg_man1DATA \
+	uninstall-netmrg_share_dbDATA uninstall-netmrg_share_docDATA \
+	uninstall-netmrg_share_htmlDATA \
 	uninstall-netmrg_share_imagesDATA uninstall-netmrg_var_libDATA \
 	uninstall-netmrg_var_logDATA
 
@@ -562,8 +609,9 @@ uninstall-info: uninstall-info-recursive
 	install-data install-data-am install-data-recursive \
 	install-exec install-exec-am install-exec-recursive \
 	install-info install-info-am install-info-recursive install-man \
-	install-netmrg_libexecSCRIPTS install-netmrg_share_dbDATA \
-	install-netmrg_share_docDATA install-netmrg_share_imagesDATA \
+	install-netmrg_libexecSCRIPTS install-netmrg_man1DATA \
+	install-netmrg_share_dbDATA install-netmrg_share_docDATA \
+	install-netmrg_share_htmlDATA install-netmrg_share_imagesDATA \
 	install-netmrg_var_libDATA install-netmrg_var_logDATA \
 	install-recursive install-strip installcheck installcheck-am \
 	installdirs installdirs-am installdirs-recursive \
@@ -572,7 +620,8 @@ uninstall-info: uninstall-info-recursive
 	mostlyclean-recursive tags tags-recursive uninstall \
 	uninstall-am uninstall-binSCRIPTS uninstall-info-am \
 	uninstall-info-recursive uninstall-netmrg_libexecSCRIPTS \
-	uninstall-netmrg_share_dbDATA uninstall-netmrg_share_docDATA \
+	uninstall-netmrg_man1DATA uninstall-netmrg_share_dbDATA \
+	uninstall-netmrg_share_docDATA uninstall-netmrg_share_htmlDATA \
 	uninstall-netmrg_share_imagesDATA uninstall-netmrg_var_libDATA \
 	uninstall-netmrg_var_logDATA uninstall-recursive
 
