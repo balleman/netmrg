@@ -2,24 +2,7 @@
 --
 -- Host: localhost    Database: netmrg
 ---------------------------------------------------------
--- Server version	4.0.13
-
-
---
--- Table structure for table 'versioninfo'
---
-
-CREATE TABLE versioninfo (
-	module varchar(64) NOT NULL,
-	version varchar(16) NOT NULL
-);
-
---
--- Dumping data for table 'versioninfo'
---
-
-INSERT INTO versioninfo VALUES ('Main', '0.10pre1');
-
+-- Server version	4.0.14-standard
 
 --
 -- Table structure for table 'conditions'
@@ -176,7 +159,9 @@ CREATE TABLE graph_ds (
   alignment tinyint(2) NOT NULL default '1',
   stats set('CURRENT','AVERAGE','MAXIMUM','SUMS','INTEGER') NOT NULL default 'CURRENT,AVERAGE,MAXIMUM',
   position int(11) NOT NULL default '0',
-  multiplier int(11) NOT NULL default '1',
+  multiplier varchar(100) NOT NULL default '1',
+  start_time varchar(20) NOT NULL default '',
+  end_time varchar(20) NOT NULL default '',
   PRIMARY KEY  (id),
   KEY graph_id (graph_id)
 ) TYPE=MyISAM;
@@ -185,24 +170,24 @@ CREATE TABLE graph_ds (
 -- Dumping data for table 'graph_ds'
 --
 
-INSERT INTO graph_ds VALUES (1,2,'#FF6600',4,1,'System',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
-INSERT INTO graph_ds VALUES (2,1,'#3366FF',5,1,'User',1,'CURRENT,AVERAGE,MAXIMUM',2,1);
-INSERT INTO graph_ds VALUES (3,3,'#00CC66',5,1,'Nice',1,'CURRENT,AVERAGE,MAXIMUM',3,1);
-INSERT INTO graph_ds VALUES (4,-2,'#000000',1,1,'Total',1,'CURRENT,AVERAGE,MAXIMUM',4,1);
-INSERT INTO graph_ds VALUES (5,4,'#FF9900',4,2,'1 Minute',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
-INSERT INTO graph_ds VALUES (6,5,'#330066',2,2,'5 Minute',1,'CURRENT,AVERAGE,MAXIMUM',2,1);
-INSERT INTO graph_ds VALUES (7,6,'#990000',2,2,'15 Minute',1,'CURRENT,AVERAGE,MAXIMUM',3,1);
-INSERT INTO graph_ds VALUES (8,7,'#330066',4,3,'TCP Connections',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
-INSERT INTO graph_ds VALUES (9,8,'#330066',4,4,'Users',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
-INSERT INTO graph_ds VALUES (10,9,'#330066',4,5,'Processes',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
-INSERT INTO graph_ds VALUES (11,11,'#CC3300',4,6,'Swap',1,'CURRENT,AVERAGE,MAXIMUM',1,1024);
-INSERT INTO graph_ds VALUES (12,10,'#FF9933',5,6,'RAM',1,'CURRENT,AVERAGE,MAXIMUM',2,1024);
-INSERT INTO graph_ds VALUES (13,-2,'#000000',1,6,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,1);
-INSERT INTO graph_ds VALUES (14,12,'#00CC00',4,7,'Inbound',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
-INSERT INTO graph_ds VALUES (15,13,'#0000CC',2,7,'Outbound',1,'CURRENT,AVERAGE,MAXIMUM',2,1);
-INSERT INTO graph_ds VALUES (16,16,'#333399',4,8,'Used',1,'CURRENT,AVERAGE,MAXIMUM',1,1024);
-INSERT INTO graph_ds VALUES (17,15,'#3399FF',5,8,'Available',1,'CURRENT,AVERAGE,MAXIMUM',2,1024);
-INSERT INTO graph_ds VALUES (18,-2,'#000000',1,8,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,1);
+INSERT INTO graph_ds VALUES (1,2,'#FF6600',4,1,'System',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
+INSERT INTO graph_ds VALUES (2,1,'#3366FF',5,1,'User',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','');
+INSERT INTO graph_ds VALUES (3,3,'#00CC66',5,1,'Nice',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','');
+INSERT INTO graph_ds VALUES (4,-2,'#000000',1,1,'Total',1,'CURRENT,AVERAGE,MAXIMUM',4,'1','','');
+INSERT INTO graph_ds VALUES (5,4,'#FF9900',4,2,'1 Minute',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
+INSERT INTO graph_ds VALUES (6,5,'#330066',2,2,'5 Minute',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','');
+INSERT INTO graph_ds VALUES (7,6,'#990000',2,2,'15 Minute',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','');
+INSERT INTO graph_ds VALUES (8,7,'#330066',4,3,'TCP Connections',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
+INSERT INTO graph_ds VALUES (9,8,'#330066',4,4,'Users',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
+INSERT INTO graph_ds VALUES (10,9,'#330066',4,5,'Processes',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
+INSERT INTO graph_ds VALUES (11,11,'#CC3300',4,6,'Swap',1,'CURRENT,AVERAGE,MAXIMUM',1,'1024','','');
+INSERT INTO graph_ds VALUES (12,10,'#FF9933',5,6,'RAM',1,'CURRENT,AVERAGE,MAXIMUM',2,'1024','','');
+INSERT INTO graph_ds VALUES (13,-2,'#000000',1,6,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','');
+INSERT INTO graph_ds VALUES (14,12,'#00CC00',4,7,'Inbound',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
+INSERT INTO graph_ds VALUES (15,13,'#0000CC',2,7,'Outbound',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','');
+INSERT INTO graph_ds VALUES (16,16,'#333399',4,8,'Used',1,'CURRENT,AVERAGE,MAXIMUM',1,'1024','','');
+INSERT INTO graph_ds VALUES (17,15,'#3399FF',5,8,'Available',1,'CURRENT,AVERAGE,MAXIMUM',2,'1024','','');
+INSERT INTO graph_ds VALUES (18,-2,'#000000',1,8,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','');
 
 --
 -- Table structure for table 'graphs'
@@ -211,11 +196,14 @@ INSERT INTO graph_ds VALUES (18,-2,'#000000',1,8,'Total',1,'CURRENT,AVERAGE,MAXI
 CREATE TABLE graphs (
   id int(11) NOT NULL auto_increment,
   name varchar(100) NOT NULL default '',
+  title varchar(100) NOT NULL default '',
   comment varchar(255) NOT NULL default '',
   width smallint(4) NOT NULL default '0',
   height smallint(4) NOT NULL default '0',
   vert_label varchar(100) NOT NULL default '',
   type enum('custom','template') NOT NULL default 'custom',
+  options set('nolegend','logarithmic') NOT NULL default '',
+  base int(11) NOT NULL default '1000',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -223,14 +211,14 @@ CREATE TABLE graphs (
 -- Dumping data for table 'graphs'
 --
 
-INSERT INTO graphs VALUES (1,'%dev_name% - CPU Utilization','',575,100,'% Usage','template');
-INSERT INTO graphs VALUES (2,'%dev_name% - Load Average','',575,100,'run queue size','template');
-INSERT INTO graphs VALUES (3,'%dev_name% - TCP Connections','',575,100,'Connections','template');
-INSERT INTO graphs VALUES (4,'%dev_name% - Logged In Users','',575,100,'Users','template');
-INSERT INTO graphs VALUES (5,'%dev_name% - System Processes','',575,100,'Processes','template');
-INSERT INTO graphs VALUES (6,'%dev_name% - Available Memory','',575,100,'Bytes','template');
-INSERT INTO graphs VALUES (7,'%dev_name% - %ifDescr%','Interface: %ifDescr%%n       IP: %ifIP%',575,100,'bytes / sec','template');
-INSERT INTO graphs VALUES (8,'%dev_name% - %dskPath%','',575,100,'Bytes','template');
+INSERT INTO graphs VALUES (1,'Linux Box - CPU Utilization','%dev_name% - CPU Utilization','',575,100,'% Usage','template','',1000);
+INSERT INTO graphs VALUES (2,'Linux Box - Load Average','%dev_name% - Load Average','',575,100,'run queue size','template','',1000);
+INSERT INTO graphs VALUES (3,'Linux Box - TCP Connections','%dev_name% - TCP Connections','',575,100,'Connections','template','',1000);
+INSERT INTO graphs VALUES (4,'Linux Box - Logged In Users','%dev_name% - Logged In Users','',575,100,'Users','template','',1000);
+INSERT INTO graphs VALUES (5,'Linux Box - System Processes','%dev_name% - System Processes','',575,100,'Processes','template','',1000);
+INSERT INTO graphs VALUES (6,'Linux Box - Available Memory','%dev_name% - Available Memory','',575,100,'Bytes','template','',1000);
+INSERT INTO graphs VALUES (7,'Linux Box - LAN Traffic','%dev_name% - %ifDescr%','Interface: %ifDescr%%n       IP: %ifIP%',575,100,'bytes / sec','template','',1000);
+INSERT INTO graphs VALUES (8,'Linux Box - Disk Utilization','%dev_name% - %dskPath%','',575,100,'Bytes','template','',1000);
 
 --
 -- Table structure for table 'groups'
@@ -362,6 +350,7 @@ CREATE TABLE snmp_interface_cache (
   ifType smallint(6) NOT NULL default '0',
   ifAdminStatus smallint(6) NOT NULL default '0',
   ifOperStatus smallint(6) NOT NULL default '0',
+  ifSpeed int(11) NOT NULL default '0',
   KEY ifIndex (dev_id,ifIndex),
   KEY ifName (dev_id,ifName),
   KEY ifDescr (dev_id,ifDescr),
@@ -560,6 +549,21 @@ CREATE TABLE user (
 --
 
 INSERT INTO user VALUES (1,'admin','ee10c315eba2c75b403ea99136f5b48d',3,'Administrator',0);
+
+--
+-- Table structure for table 'versioninfo'
+--
+
+CREATE TABLE versioninfo (
+  module varchar(64) NOT NULL default '',
+  version varchar(16) NOT NULL default ''
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'versioninfo'
+--
+
+INSERT INTO versioninfo VALUES ('Main','0.10pre1');
 
 --
 -- Table structure for table 'view'
