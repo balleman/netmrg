@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.8 $)
+AC_REVISION($Revision: 1.9 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -123,7 +123,7 @@ AC_CHECK_LIB(mysqlclient, mysql_init,
 # hunt through several directories trying to find the libraries
 if test "x$MYSQL_LIBS" = "x"; then
 	old_LDFLAGS="$LDFLAGS"
-	for try in /usr/lib /usr/lib/mysql /usr/local/lib /usr/local/mysql/lib $mysql_lib_dir; do
+	for try in /usr/lib /usr/lib/mysql /usr/local/lib /usr/local/mysql/lib /usr/local/lib/mysql $mysql_lib_dir; do
 		LDFLAGS="$old_LDFLAGS -L$try"
 		AC_CHECK_LIB(mysqlclient, mysql_init,
 			MYSQL_LIBS="-L$try -lmysqlclient",
@@ -170,7 +170,7 @@ AC_TRY_COMPILE([#include <mysql/mysql.h>], [int a = 1;],
 # hunt through several directories trying to find the includes
 if test "x$MYSQL_INCLUDE" = "x"; then
 	old_CPPFLAGS="$CPPFLAGS"
-	for i in /usr/include /usr/local/include /usr/local/mysql/include $mysql_include_dir; do
+	for i in /usr/include /usr/local/include /usr/local/mysql/include /usr/local/include/mysql $mysql_include_dir; do
 		CPPFLAGS="$old_CPPFLAGS -I$i"
 		AC_TRY_COMPILE([#include <mysql/mysql.h>], [int a = 1;],
 			MYSQL_INCLUDE="-I$i",
