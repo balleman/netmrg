@@ -605,6 +605,7 @@ INSERT INTO tests_snmp VALUES (12,'UCD - Available Swap','memAvailSwap.0',2);
 INSERT INTO tests_snmp VALUES (13,'UCD - Available Physical RAM','memAvailReal.0',2);
 INSERT INTO tests_snmp VALUES (19,'C5k - % Bandwidth','.1.3.6.1.4.1.9.5.1.1.8.0',2);
 INSERT INTO tests_snmp VALUES (18,'Open TCP Connections','tcp.tcpCurrEstab.0',2);
+INSERT INTO tests_snmp VALUES (20,'C7k Used Memory (Processor)','.1.3.6.1.4.1.9.9.48.1.1.1.5.1',2);
 INSERT INTO tests_snmp VALUES (21,'C7k Free Memory (Processor)','.1.3.6.1.4.1.9.9.48.1.1.1.6.1',2);
 INSERT INTO tests_snmp VALUES (22,'C7k Free Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.6.5',2);
 INSERT INTO tests_snmp VALUES (23,'C7k Used Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.5.5',2);
