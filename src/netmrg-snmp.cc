@@ -31,7 +31,7 @@ string snmpget(DeviceInfo info, string oidstring)
                 info.ip + "', '" + info.snmp_read_community + "', '" +
                 oidstring + "')");
 
-	snmp_sess_init( &session );
+	snmp_sess_init(&session);
 
 	strcpy(temp, info.ip.c_str());
 	session.peername = temp;
@@ -126,12 +126,12 @@ void snmp_get_and_print(netsnmp_session * ss, oid * theoid, size_t theoid_len)
 	netsnmp_pdu		*pdu, *response;
 	netsnmp_variable_list	*vars;
 	int			status;
-	
+
 	pdu = snmp_pdu_create(SNMP_MSG_GET);
 	snmp_add_null_var(pdu, theoid, theoid_len);
 
 	status = snmp_synch_response(ss, pdu, &response);
-	
+
 	if (status == STAT_SUCCESS && response->errstat == SNMP_ERR_NOERROR)
 	{
 		for (vars = response->variables; vars; vars = vars->next_variable)
@@ -147,29 +147,54 @@ void snmp_get_and_print(netsnmp_session * ss, oid * theoid, size_t theoid_len)
 	}
 }
 
-void snmp_walk()
+void snmp_walk(DeviceInfo info, string oidstring)
 {
 
-	netsnmp_session		session, *ss;
-	netsnmp_pdu		*pdu, *response;
-	netsnmp_variable_list	*vars;
+	struct snmp_session	session;
+	void			*ss;
+	struct snmp_pdu		*pdu, *response;
+	variable_list		*vars;
 	oid			name[MAX_OID_LEN];
-	size_t			name_length;
+	size_t			name_length = MAX_OID_LEN;
 	oid			root[MAX_OID_LEN];
-	size_t			rootlen;
+	size_t			rootlen = MAX_OID_LEN;
 	int			count;
 	int			running;
 	int			status;
 	int			check;
 	int			exitval = 0;
 
+	snmp_sess_init(&session);
+
+	char temp[250];
+	strcpy(temp, info.ip.c_str());
+	session.peername = temp;
+
+	/* set the SNMP version number */
+	session.version = SNMP_VERSION_1;
+
+	/* set the SNMPv1 community name used for authentication */
+	u_char u_temp[250];
+	session.community = u_string(info.snmp_read_community, u_temp);
+	session.community_len = info.snmp_read_community.length();
+
 	pthread_mutex_lock(&snmp_lock);
-	ss = snmp_open(&session);
+	ss = snmp_sess_open(&session);
 	pthread_mutex_unlock(&snmp_lock);
+
 
 	if (ss == NULL)
 	{
+		debuglogger(DEBUG_SNMP, &info, "SNMP Session Failure.");
 		// error
+	}
+
+        char tempoid[128];
+	strcpy(tempoid, oidstring.c_str());
+	if (!snmp_parse_oid(tempoid, root, &rootlen))
+	{
+		debuglogger(DEBUG_SNMP, &info, string("SNMP OID Parse Failure (") + tempoid + ")");
+		//return(string("U"));
 	}
 
 	memmove(name, root, rootlen * sizeof(oid));
@@ -182,7 +207,7 @@ void snmp_walk()
 		pdu = snmp_pdu_create(SNMP_MSG_GETNEXT);
 		snmp_add_null_var(pdu, name, name_length);
 
-		status = snmp_synch_response(ss, pdu, &response);
+		status = snmp_sess_synch_response(ss, pdu, &response);
 		if (status == STAT_SUCCESS)
 		{
 			if (response->errstat == SNMP_ERR_NOERROR)
@@ -243,13 +268,14 @@ void snmp_walk()
 		{
 			if (status == STAT_TIMEOUT)
 			{
-				fprintf(stderr, "Timeout: No Response from %s\n", session.peername);
+				debuglogger(DEBUG_SNMP, &info, string("Timeout: No Response from ") + session.peername);
 				running = 0;
 				exitval = 1;
 			}
 			else
 			{
-				snmp_sess_perror("snmpwalk", ss);
+				debuglogger(DEBUG_SNMP, &info, string("SNMP Walk Error (") + inttostr(status) + ")");
+				//snmp_sess_perror("snmpwalk", &session);
 				running = 0;
 				exitval = 1;
         		}
@@ -266,10 +292,10 @@ void snmp_walk()
 		* pointed at an only existing instance.  Attempt a GET, just
 		* for get measure.
 		*/
-		snmp_get_and_print(ss, root, rootlen);
+		//snmp_get_and_print(ss, root, rootlen);
 	}
 
-	snmp_close(ss);
+	snmp_sess_close(ss);
 
 	//return exitval;
 }

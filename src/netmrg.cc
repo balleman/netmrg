@@ -1396,21 +1396,32 @@ void show_usage()
 	printf("\n");
 }
 
+void try_snmpwalk()
+{
+	DeviceInfo info;
+	
+	info.ip = "127.0.0.1";
+	info.snmp_read_community = "public";
+
+	init_snmp("snmpapp");
+	SOCK_STARTUP;
+	snmp_walk(info, "ifInOctets");
+	SOCK_CLEANUP;
+}
 
 // main - the body of the program
 int main(int argc, char **argv)
 {
 	int option_char;
 
-	while ((option_char = getopt (argc, argv, "hvq")) != EOF)
+	while ((option_char = getopt (argc, argv, "hvqX")) != EOF)
 		switch (option_char)
 		{
 			case 'h': show_usage(); exit(0); break;
 			case 'v': show_version(); exit(0); break;
 			case 'q': debug_level = 0; break;
-
-      		}
+			case 'X': try_snmpwalk(); exit(0); break;
+		}
 
 	run_netmrg();
-
 }
