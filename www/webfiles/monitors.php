@@ -95,7 +95,7 @@ function do_list()
 		array("text" => "Graph")
 	); // end make_display_table();
 
-	$mon_results = db_query("SELECT * FROM monitors WHERE sub_dev_id={$_REQUEST['sub_dev_id']}");
+	$mon_results = db_query("SELECT * FROM monitors WHERE sub_dev_id='{$_REQUEST['sub_dev_id']}'");
 	$mon_total = db_num_rows($mon_results);
 
 	for ($mon_count = 0; $mon_count < $mon_total; $mon_count++)

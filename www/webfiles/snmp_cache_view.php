@@ -121,7 +121,8 @@ function view_disk_cache()
 	$query = "SELECT * FROM snmp_disk_cache WHERE dev_id={$_REQUEST['dev_id']} ORDER BY disk_index";
 	$dev_name = get_device_name($_REQUEST['dev_id']);
 	
-        begin_page("snmp_cache_view.php", "$dev_name - Disk Cache");
+	begin_page("snmp_cache_view.php", "$dev_name - Disk Cache");
+	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 	
 	make_plain_display_table("$dev_name - Disk Cache",
 		"Index", "",
@@ -193,6 +194,7 @@ function view_interface_cache()
 	$dev_name = get_device_name($_REQUEST['dev_id']);
 
 	begin_page("snmp_cache_view.php", "$dev_name - Interface Cache");
+	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 
 	make_plain_display_table("$dev_name - Interface Cache",
 		"Index",	"$sort_href=ifIndex",
