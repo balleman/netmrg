@@ -208,7 +208,8 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 
 	make_edit_select_from_table("Item Type:","type","graph_types", $ds_row["type"]);
 	make_edit_color("Item Color:", "color", $ds_row["color"]);
-	make_edit_select_from_table("Alignment:","align","static_pad_types", $ds_row["align"]);
+	GLOBAL $ALIGN_ARRAY;
+	make_edit_select_from_array("Alignment:","align", $ALIGN_ARRAY, $ds_row["align"]);
 	make_edit_checkbox("Show Stats","show_stats", $ds_row["show_stats"]);
 	make_edit_checkbox("Show Inverted","show_inverted", $ds_row["show_inverted"]);
 	if ($ds_row["multiplier"] == "") { $ds_row["multiplier"] = "1"; }

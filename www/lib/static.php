@@ -15,6 +15,13 @@
 
 require_once("/var/www/netmrg/lib/database.php");
 
+// array constants
+$ALIGN_ARRAY = array(
+			"Left"		=>	"1",
+			"Right"		=>	"2",
+			"Right Split"	=>	"3");
+
+
 // Return the path to an image based on the internal name of the image.
 function get_image_by_name($img_name) 
 {
@@ -88,7 +95,7 @@ function get_color_by_name($color_name) {
 	return $color;
 
 
-} # end get_color_by_name
+} // end get_color_by_name
 
 function get_path_by_name($path_name)
 {

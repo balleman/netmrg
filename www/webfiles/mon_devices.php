@@ -132,7 +132,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 ?>
 </table>
 <?php
-} # End if no action
+} // End if no action
 
 if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "add")
 {
