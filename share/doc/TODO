@@ -43,7 +43,7 @@ check external_auth
 
 == balleman ==
 netmrg.cc
-  more comprehensive way of setting debug levels needed
+  XML-based configuration
 
 == far-away features ==
 customized 'view' page

@@ -241,14 +241,29 @@ void show_version()
 
 void show_usage()
 {
-	printf("\nNetMRG Data Gatherer\n\n");
+	show_version();
+	
+	printf("General:\n");
 	printf("-v          Display Version\n");
 	printf("-h          Show usage (you are here)\n");
-	printf("-q          Quiet; display no debug messages.\n");
+	printf("-t <num>    Limits number of simultaneous threads to <num>\n");
+	
+	printf("\nMode of Operation:\n");
 	printf("-i <devid>  Recache the interfaces of device <devid>\n");
 	printf("-d <devid>  Recache the disks of device <devid>\n");
+	printf("If no mode is specified, the default is to gather data for all enabled devices.\n");
+	
+	printf("\nLogging:\n");
+	printf("-q          Quiet; display no debug messages.\n");
 	printf("-c <cm>     Use debug component mask <cm>\n");
 	printf("-l <lm>     Use debug level mask <lm>\n");
+
+	printf("\nDatabase Settings:\n");
+	printf("-H <host>   Use database server on <host>\n");
+	printf("-D <db>     Use database named <db>\n");
+	printf("-u <user>   Use database user name <user>\n");
+	printf("-p <pass>   Use database password <pass>\n");
+		
 	printf("\n");
 }
 
@@ -293,7 +308,7 @@ int main(int argc, char **argv)
 	int option_char;
 	load_default_settings();
 
-	while ((option_char = getopt(argc, argv, "hvqi:d:c:l:")) != EOF)
+	while ((option_char = getopt(argc, argv, "hvqi:d:c:l:H:D:u:p:t:")) != EOF)
 		switch (option_char)
 		{
 			case 'h': 	show_usage();
@@ -314,6 +329,16 @@ int main(int argc, char **argv)
 						break;
 			case 'q': 	set_debug_level(0);
 						break;			
+			case 'H':	set_setting(setDBHost, optarg);
+						break;
+			case 'D':	set_setting(setDBDB, optarg);
+						break;
+			case 'u':	set_setting(setDBUser, optarg);
+						break;
+			case 'p':	set_setting(setDBPass, optarg);
+						break;
+			case 't':	set_setting(setThreadCount, optarg);
+						break;
 			
 		}
 	run_netmrg();
