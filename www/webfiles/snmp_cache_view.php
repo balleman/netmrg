@@ -173,7 +173,7 @@ function view_interface_cache()
 		}
 		if (isset($row['ifType']))
 		{
-			if isset($GLOBALS['INTERFACE_TYPE'][$row['ifType']])
+			if (isset($GLOBALS['INTERFACE_TYPE'][$row['ifType']]))
 			{
 				$status .= $GLOBALS['INTERFACE_TYPE'][$row['ifType']];
 			}
