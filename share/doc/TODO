@@ -16,13 +16,7 @@ when looking at a device's graphs, you should be able to click next to it
 
 
 == silfreed ==
-public website
-  - add (dynamic) news section
-checkboxes on most pages - provide for massive deletes, duplications, etc
 make netmrg xhtml compliant
-make icons for links on various pages
-  - make svg images for most actions
-    * edit interfaces
 
 
 == balleman ==
@@ -66,7 +60,6 @@ wizards
 
 
 == FOR A RELEASE ==
-update docs w/ release notes
 version bump in:
   configure.ac (run bootstrap)
   share/netmrg.mysql
@@ -76,6 +69,7 @@ version bump in:
   www/webfiles/updater.php
   bugs.netmrg.net
 generate new template database
+update docs w/ release notes
 generate new docs
 test tutorial
 test upgrade from previous version
