@@ -83,7 +83,7 @@ foreach my $batfile (@batdirfiles)
 	close(BATSTATE);
 } # end foreach batfile
 
-$time_remaining = sprintf("%.2f", $battery_curcapacity/$battery_dischargerate);
+$time_remaining = sprintf("%.2f", $battery_curcapacity/$battery_dischargerate) if ($battery_dischargerate);
 $percent_left = sprintf("%.2f", $battery_curcapacity/$battery_maxcapacity*100);
 
 
