@@ -33,7 +33,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 			if (!isset($_REQUEST["snmp_recache"])) { $_REQUEST["snmp_recache"] = 0; }
 			if (!isset($_REQUEST["disabled"])) { $_REQUEST["disabled"] = 0; }
 			if (!isset($_REQUEST["snmp_check_ifnumber"])) { $_REQUEST["snmp_check_ifnumber"] = 0; }
-	        if (!isset($_REQUEST["snmp_enabled"])) { $_REQUEST["snmp_enabled"] = 0; }
+	        if (!isset($_REQUEST["snmp_version"])) { $_REQUEST["snmp_version"] = 0; }
 			$_REQUEST['dev_name'] = db_escape_string($_REQUEST['dev_name']);
 			$_REQUEST['dev_ip'] = db_escape_string($_REQUEST['dev_ip']);
 			$_REQUEST['snmp_read_community'] = db_escape_string($_REQUEST['snmp_read_community']);
@@ -45,7 +45,10 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 				snmp_recache='{$_REQUEST['snmp_recache']}', 
 				disabled='{$_REQUEST['disabled']}', 
 				snmp_check_ifnumber='{$_REQUEST['snmp_check_ifnumber']}',
-				snmp_enabled='{$_REQUEST['snmp_enabled']}' 
+				snmp_version='{$_REQUEST['snmp_version']}',
+				snmp_port='{$_REQUEST['snmp_port']}',
+				snmp_timeout='{$_REQUEST['snmp_timeout']}',
+				snmp_retries='{$_REQUEST['snmp_retries']}' 
 				$db_end");
 
 			if ($_REQUEST["dev_id"] == 0)
@@ -113,7 +116,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	else
 	{
 		$dev_results = db_query("
-			SELECT devices.name AS name, devices.ip, devices.id, devices.snmp_enabled,  
+			SELECT devices.name AS name, devices.ip, devices.id, devices.snmp_version,  
 				count(snmp.ifIndex) AS interface_count, count(disk.disk_index) AS disk_count
 			FROM dev_parents
 			LEFT JOIN devices ON dev_parents.dev_id=devices.id
@@ -135,11 +138,11 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 		$links   = 
 		cond_formatted_link($dev_row["interface_count"] > 0, "View&nbsp;Interface&nbsp;Cache", 
 			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface") . " " .
-		cond_formatted_link($dev_row["snmp_enabled"] == 1, "Recache&nbsp;Interfaces", 
+		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Interfaces", 
 			"recache.php?dev_id=$dev_id&type=interface") . " " .
 		cond_formatted_link($dev_row["disk_count"] > 0, "View&nbsp;Disk&nbsp;Cache", 
 			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk") . " " . 
-		cond_formatted_link($dev_row["snmp_enabled"] == 1, "Recache&nbsp;Disks", 
+		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Disks", 
 			"recache.php?dev_id=$dev_id&type=disk");
 
 		make_display_item("editfield".(($dev_count-1)%2),
@@ -207,10 +210,13 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 		$dev_row["check_if_number"] = 1;
 		$dev_row["dev_type"] = "";
 		$dev_row["disabled"] = 0;
-		$dev_row["snmp_enabled"] = 0;
+		$dev_row["snmp_version"] = 0;
 		$dev_row["snmp_read_community"] = "";
 		$dev_row["snmp_recache"] = 0;
 		$dev_row["snmp_check_ifnumber"] = 0;
+		$dev_row["snmp_port"] = 161;
+		$dev_row["snmp_timeout"] = 1000000;
+		$dev_row["snmp_retries"] = 3;
 	}
 
 	make_edit_table("Edit Device");
@@ -220,10 +226,13 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	make_edit_select_from_table("Device Type:", "dev_type", "dev_types", $dev_row["dev_type"]);
 	make_edit_checkbox("Disabled (do not monitor this device)", "disabled", $dev_row["disabled"]);
 	make_edit_group("SNMP");
-	make_edit_checkbox("This device uses SNMP", "snmp_enabled", $dev_row["snmp_enabled"]);
+	make_edit_select_from_array("SNMP Support:", "snmp_version", $GLOBALS["SNMP_VERSIONS"], $dev_row["snmp_version"]);
 	make_edit_text("SNMP Read Community:", "snmp_read_community", 50, 200, $dev_row["snmp_read_community"]);
 	make_edit_checkbox("Do not cache interface mappings", "snmp_recache", $dev_row["snmp_recache"]);
 	make_edit_checkbox("Clear interface cache when interface count changes", "snmp_check_ifnumber", $dev_row["snmp_check_ifnumber"]);
+	make_edit_text("SNMP UDP Port", "snmp_port", 5, 5, $dev_row["snmp_port"]);
+	make_edit_text("SNMP Timeout (microseconds):", "snmp_timeout", 10, 20, $dev_row["snmp_timeout"]);
+	make_edit_text("SNMP Retries:", "snmp_retries", 3, 10, $dev_row["snmp_retries"]);
 	make_edit_hidden("dev_id", $dev_id);
 	make_edit_hidden("action", "doedit");
 	make_edit_hidden("grp_id", $_REQUEST["grp_id"]);

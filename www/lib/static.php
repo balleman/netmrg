@@ -110,7 +110,7 @@ $VALUE_TYPES = array(
 			
 $VIEW_ITEM_TYPES = array(
 		'graph'		=>	"Graph",
-		'template'      =>	"Templated Graph",
+		'template'  =>	"Templated Graph",
 		'separator'	=>	"Separator");
 
 $INTERFACE_STATUS = array(
@@ -146,6 +146,13 @@ $INTERFACE_TYPE = array(
 			107	=>	"IMA",
 			117	=>	"Gigabit Ethernet",
 			134	=>	"ATM Subinterface"
+			);
+
+$SNMP_VERSIONS = array(
+			0	=>	"No SNMP Support",
+			1	=>	"SNMPv1",
+			2	=>	"SNMPv2c"/*,
+			3	=>	"SNMPv3"*/
 			);
 
 
