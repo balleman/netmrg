@@ -32,6 +32,13 @@ $GLOBALS["netmrg"]["defaultMapUser"]    = "NETMRG_DEFAULT_MAP";
 $GLOBALS["netmrg"]["traffictemplateid"] = 7;
 $GLOBALS["netmrg"]["disktemplateid"]	= 8;
 
+// include local site config
+if (is_readable("config_site.php"))
+{
+	include_once("config_site.php");
+} // end if site config
+
+
 
 /***** SESSION *****/
 session_start();
