@@ -1,6 +1,7 @@
 2004.05.25  v0.16cvs  balleman
   - bug#0000208 - when adding a group, remember your parent
   - bug#0000202 - ignore snmp uptime option
+  - bug#0000187 - Nth subitem of an OID
   
 2004.05.24  v0.16cvs  silfreed
   - bug#0000197 - SVO users can't see custom graphs

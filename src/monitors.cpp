@@ -226,11 +226,11 @@ string process_snmp_monitor(DeviceInfo info, MYSQL *mysql)
 	string 		value;
 
 	string query =
-		string("SELECT oid FROM tests_snmp WHERE id = ") +
+		string("SELECT oid, type, subitem FROM tests_snmp WHERE id = ") +
 		inttostr(info.test_id);
 
 	mysql_res = db_query(mysql, &info, query);
-
+	
 	// if the snmp test exists
 	if (mysql_res &&
 		(mysql_num_rows(mysql_res) == 1) &&
@@ -238,10 +238,45 @@ string process_snmp_monitor(DeviceInfo info, MYSQL *mysql)
 		(mysql_row[0] != NULL))
 	{
 		string oid = expand_parameters(info, mysql_row[0]);
+		int type 	= strtoint(mysql_row[1]);
+		int subitem = strtoint(mysql_row[2]);
 
 		if (info.snmp_avoid == 0)
 		{
-			value = snmp_get(info, oid);
+			if (type == 0)
+			{
+				// plain "get"
+				
+				value = snmp_get(info, oid);
+			}
+			else if (type == 1)
+			{
+				// walk to the Nth item
+				
+				list<SNMPPair> result = snmp_walk(info, oid);
+				result.reverse();  // sigh, it's upside-down
+				list<SNMPPair>::iterator x = result.begin();
+				for (int k = 0; k < subitem; k++)
+				{
+					if (x == result.end())
+					{
+						debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "There is no subitem in position " + inttostr(subitem) + ".");
+						value = "U";
+						break;
+					}
+					else
+					{
+						value = x->value;
+						x++;
+					}
+				}
+			}
+			else
+			{
+				value = "U";
+				debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown SNMP Test Type (" + inttostr(type) + ").");
+			}
+			
 		}
 		else
 		{
