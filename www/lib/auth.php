@@ -172,7 +172,7 @@ function view_redirect()
 	$row = mysql_fetch_array($handle);
 	if (empty($_SESSION["netmrgsess"]["redir"]) || (get_permit() == 0))
 	{
-		header("Location: {$GLOBALS['netmrg']['webroot']}/view.php?pos_id_type={$row['view_type']}&pos_id={$row['view_id']}");
+		header("Location: {$GLOBALS['netmrg']['webroot']}/device_tree.php");
 	}
 	else
 	{
