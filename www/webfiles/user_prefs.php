@@ -73,7 +73,7 @@ function edit($uid)
 
 	// slide show
 	make_edit_section('Slide Show');
-	make_edit_checkbox("Auto Scroll", "ss_auto_scroll", GetUserPref("SlideShow", "AutoScroll"));
+	make_edit_checkbox("Auto Scroll", "ss_auto_scroll", GetUserPref($_REQUEST["uid"], "SlideShow", "AutoScroll"));
 
 	make_edit_submit_button();
 	make_edit_end();
@@ -123,7 +123,7 @@ function update($uid)
 	} // end if ! password
 
 	// update slide show auto scroll
-	SetUserPref("SlideShow", "AutoScroll", !empty($_REQUEST["ss_auto_scroll"]));
+	SetUserPref($_REQUEST["uid"], "SlideShow", "AutoScroll", !empty($_REQUEST["ss_auto_scroll"]));
 	array_push($results, "Slide Show Auto Scroll was set to ".(!empty($_REQUEST["ss_auto_scroll"]) ? "true" : "false"));
 
 	// print results

@@ -50,7 +50,7 @@ function format_time_elapsed($num_secs)
 
 function sanitize_number($number, $round_to = 5)
 {
-	
+
 	if ($number < 1000)
 	{
 		return round($number,$round_to);
@@ -204,7 +204,7 @@ function rrd_sum($mon_id, $start, $end = "now", $resolution = 86400)
 		}
 		$row_count++;
 	}
-	
+
 	$average = $sum / ($row_count - 1);
 	$total_sum = $average * $resolution;
 	pclose($rrd_handle);
@@ -237,41 +237,41 @@ function rrdtool_syntax_highlight($txt)
 function expand_parameters($input, $subdev_id)
 {
 	$query = db_query("SELECT * FROM sub_dev_variables WHERE type='dynamic' AND sub_dev_id=$subdev_id");
-	
+
 	while (($row = db_fetch_array($query)) != NULL)
 	{
 		$input = str_replace("%" . $row['name'] . "%", $row['value'], $input);
 	}
 
 	//$input = preg_replace("/\%..+\%/", "N/A", $input);
-	
+
 	return $input;
 }  // expand_parameters()
 
 function apply_template($subdev_id, $template_id)
 {
-	
+
 	// add the appropriate monitors to the subdevice
-	$q = db_query("SELECT data_type, test_id, test_type, test_params FROM graph_ds, monitors WHERE graph_ds.graph_id=$template_id AND graph_ds.mon_id=monitors.id");	
+	$q = db_query("SELECT data_type, test_id, test_type, test_params FROM graph_ds, monitors WHERE graph_ds.graph_id=$template_id AND graph_ds.mon_id=monitors.id");
 	for ($i = 0; $i < db_num_rows($q); $i++)
 	{
 		$row = db_fetch_array($q);
 		db_update("INSERT INTO monitors SET sub_dev_id=$subdev_id, data_type={$row['data_type']}, test_id={$row['test_id']}, test_type={$row['test_type']}, test_params='{$row['test_params']}'");
 	}
-	
+
 	// add templated graph to the device's view
 	$q = db_query("SELECT dev_id FROM sub_devices WHERE id=$subdev_id");
 	$sd_row = db_fetch_array($q);
-	
+
 	$q = db_query("SELECT max(pos)+1 AS newpos FROM view WHERE object_type='device' AND object_id={$sd_row['dev_id']}");
 	$pos_row = db_fetch_array($q);
 	if (!isset($pos_row['newpos']) || empty($pos_row['newpos']))
 	{
 		$pos_row['newpos'] = 1;
 	}
-	
+
 	db_update("INSERT INTO view SET object_id={$sd_row['dev_id']}, object_type='device', graph_id=$template_id, type='template', pos={$pos_row['newpos']}, subdev_id=$subdev_id");
-	
+
 }  // apply_template()
 
 
@@ -446,7 +446,7 @@ function GetDeviceGroups($device_id)
 {
 	$db_result = db_query("
 		SELECT groups.id AS group_id 
-		FROM groups, dev_parents, devices 
+		FROM groups, dev_parents, devices
 		WHERE devices.id = '$device_id' 
 		AND devices.id = dev_parents.dev_id
 		AND dev_parents.grp_id = groups.id
@@ -498,8 +498,8 @@ function GetSubdeviceGroups($subdevice_id)
 function GetMonitorGroups($monitor_id)
 {
 	$db_result = db_query("
-		SELECT groups.id AS group_id 
-		FROM groups, dev_parents, devices, sub_devices, monitors 
+		SELECT groups.id AS group_id
+		FROM groups, dev_parents, devices, sub_devices, monitors
 		WHERE monitors.id = '$monitor_id'
 		AND sub_devices.id = monitors.sub_dev_id
 		AND sub_devices.dev_id = devices.id
@@ -526,8 +526,8 @@ function GetMonitorGroups($monitor_id)
 function GetCustomGraphGroups($customgraph_id)
 {
 	$db_result = db_query("
-		SELECT groups.id AS group_id 
-		FROM groups, dev_parents, devices, sub_devices, monitors, graph_ds 
+		SELECT groups.id AS group_id
+		FROM groups, dev_parents, devices, sub_devices, monitors, graph_ds
 		WHERE graph_ds.graph_id = '$customgraph_id'
 		AND graph_ds.mon_id = monitors.id
 		AND sub_devices.id = monitors.sub_dev_id
@@ -724,12 +724,12 @@ function delete_device($device_id, $group_id)
 	/** If this device is not part of any groups anymore, finish deleting it **/
 	$dev_parent_res = db_query("SELECT count(*) AS count FROM dev_parents WHERE dev_id = '$device_id'");
 	$dev_parent_row = db_fetch_array($dev_parent_res);
-	
+
 	if ($dev_parent_row["count"] == 0)
 	{
 		// delete the device
 		db_update("DELETE FROM devices WHERE id = '$device_id'");
-		
+
 		// remove the interface for the device
 		db_update("DELETE FROM snmp_interface_cache WHERE dev_id = '$device_id'");
 		
@@ -867,14 +867,13 @@ function update_group($id, $grp_name, $grp_comment, $parent_id)
 /**
 * GetUserPref($module, $pref)
 *
-* returns the value for the $module and $pref wanted
+* returns the value for the $module and $pref wanted for user $uid
 */
-function GetUserPref($module, $pref)
+function GetUserPref($uid, $module, $pref)
 {
 	$sql = "SELECT user_prefs.value
-		FROM user, user_prefs
-		WHERE user.user = '{$_SESSION['netmrgsess']['username']}'
-		AND user.id = user_prefs.id
+		FROM user_prefs
+		WHERE user_prefs.uid = '$uid'
 		AND user_prefs.module = '$module' AND user_prefs.pref = '$pref'";
 	$handle = db_query($sql);
 	if (db_num_rows($handle) > 0)
@@ -887,16 +886,15 @@ function GetUserPref($module, $pref)
 
 
 /**
-* SetUserPref($module, $pref, $value)
+* SetUserPref($uid, $module, $pref, $value)
 *
-* sets the $value for the $module and $pref
+* sets the $value for the $module and $pref for user $uid
 */
-function SetUserPref($module, $pref, $value)
+function SetUserPref($uid, $module, $pref, $value)
 {
 	$sql = "SELECT user_prefs.id
-		FROM user, user_prefs
-		WHERE user.user = '{$_SESSION['netmrgsess']['username']}'
-		AND user.id = user_prefs.id
+		FROM user_prefs
+		WHERE user_prefs.uid = '$uid'
 		AND user_prefs.module = '$module' AND user_prefs.pref = '$pref'";
 	$handle = db_query($sql);
 	if (db_num_rows($handle) > 0)
