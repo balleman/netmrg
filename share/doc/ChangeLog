@@ -1,3 +1,6 @@
+2004.08.24  v0.17cvs  balleman
+  - bug#0000258 - "Previous Value" should be available when processing conditions
+
 2004.08.24  v0.17cvs  silfreed
   - bug#0000257 - doing a delayed insert for dynamic variables lowers mysql overhead
 

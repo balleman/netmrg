@@ -113,6 +113,12 @@ uint process_condition(DeviceInfo info, long long int compare_value, int value_t
 				return 0;
 			actual_value = strtoint(info.rate_val);
 			break;
+		
+		case 3:
+			if (info.last_val == "U")
+				return 0;
+			actual_value = strtoint(info.last_val);
+			break;
 	}
 
 	switch (condition)

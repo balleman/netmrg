@@ -125,7 +125,8 @@ $CONDITIONS = array(
 $VALUE_TYPES = array(
 			0	=>	"Current Value",
 			1	=>	"Delta Value",
-			2	=>	"Rate of Change");
+			2	=>	"Rate of Change",
+			3	=>	"Last Value");
 			
 $VIEW_ITEM_TYPES = array(
 		'graph'		=>	"Graph",
