@@ -61,6 +61,21 @@ any company, organization, product, or platform.
 	<title>Revision History</title>
 	<itemizedlist>
 		<listitem>
+			<para>0.18</para>
+			<para>2004.10.25</para>
+			<para>
+Major Bug Fixes;
+Fixed an issue preventing form submissions on some browsers, fixed various
+escaping problems, fixed inability to create inverted stacked graphs, fixed
+parameter substituion and documentation regarding notifications and responses,
+fixed zero.rrd and size_type issues on 64-bit platforms, fixed possible stripnl
+name conflict issues, added ability to multiply summed values, added MySQL timeouts,
+added simple value parsing (to get the numeric content out of quoted numbers, etc), 
+added more graphic icons, added default external auth user, and cleaned up things
+in the gatherer build process.
+			</para>
+		</listitem>
+		<listitem>
 			<para>0.17</para>
 			<para>2004.09.13</para>
 			<para>
