@@ -58,5 +58,13 @@
 		<listitem><para>Graph Items</para><para>Graph Items represent data on a graph.  They can represent areas, lines, and stacks on Graphs.  Each Graph Item is linked to a Monitor for dynamic data or given a static value.  Options for Graph Items include type (such as line, area, stack), color, value (either static or dynamic based on a Monitor), and legend options.</para></listitem>
 	</itemizedlist>
 </chapter>
-
+<appendix>
+	<title>Contact Information</title>
+	<para>We have great aspirations for what NetMRG could become, but as with all open-source software, such aspriations can only be achieved with the active participation of the open-source community.  Please do your part and support software that you use by helping to answer support questions on forums and report bugs to developers.  Thanks!</para>
+	<itemizedlist>
+		<listitem><para>Main Website - <ulink url="http://www.netmrg.net/">http://www.netmrg.net/</ulink></para></listitem>
+		<listitem><para>Support Forum - <ulink url="http://lists.netmrg.net/">http://lists.netmrg.net/</ulink></para></listitem>
+		<listitem><para>Bug Reporting and Tracking - <ulink url="http://bugs.netmrg.net/">http://bugs.netmrg.net/</ulink></para></listitem>
+	</itemizedlist>
+</appendix>
 </book>
