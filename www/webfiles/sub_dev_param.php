@@ -35,7 +35,7 @@ if (empty($_REQUEST["action"]))
 			array("text" => $row["name"]),
 			array("text" => $row["value"]),
 			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}&name=" . $row["name"]) . "&nbsp;" . 
-				formatted_link("Delete", "javascript:del('{$row['name']}', '{$row['name']}')"), "")
+				formatted_link("Delete", "javascript:del('".addslashes(htmlspecialchars($row['name']))."}', '".addslashes(htmlspecialchars($row['name']))."')"), "")
 		); // end make_display_item();
 	}
 
@@ -125,6 +125,7 @@ elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 elseif ($_REQUEST["action"] == "dodelete")
 {
 	check_auth(2);
+	$_REQUEST['name'] = db_escape_string($_REQUEST['name']);
 	db_update("DELETE FROM sub_dev_variables WHERE sub_dev_id={$_REQUEST['sub_dev_id']} AND name='{$_REQUEST['name']}' AND type='static'");
 	header("Location: " . $_SERVER["PHP_SELF"] . "?sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}");
 }
