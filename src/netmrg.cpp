@@ -96,9 +96,16 @@ void run_netmrg()
 
 	// create lockfile
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Creating Lockfile.");
-	lockfile = fopen("/var/www/netmrg/dat/lockfile","w+");
-	fprintf(lockfile, "%ld", (long int) start_time);
-	fclose(lockfile);
+	if ((lockfile = fopen("/var/www/netmrg/dat/lockfile","w+")) != NULL)
+	{
+		fprintf(lockfile, "%ld", (long int) start_time);
+		fclose(lockfile);
+	}
+	else
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, string("Critical:  Lockfile creation failure.  (") + strerror(errno) + ")");
+		exit(2);
+	}
 
 	// SNMP library initialization
 	snmp_init();
@@ -107,7 +114,11 @@ void run_netmrg()
 	rrd_init();
 
 	// open mysql connection for initial queries
-	db_connect(&mysql);
+	if (!db_connect(&mysql))
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Critical: Master database connection failed.");
+		exit(3);
+	}
 
 	// request list of devices to process
 	mysql_res = db_query(&mysql, NULL, "SELECT id FROM devices WHERE disabled=0 ORDER BY id");
@@ -299,7 +310,6 @@ void external_snmp_recache(int device_id, int type)
 		case 2: do_snmp_disk_recache(&info, &mysql); 		break;
 	}
 	snmp_cleanup();
-
 	mysql_close(&mysql);
 }
 
