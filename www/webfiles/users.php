@@ -43,7 +43,7 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 	if (!empty($_REQUEST["pass"]))
 	{
 		$_REQUEST['pass'] = db_escape_string($_REQUEST['pass']);
-		$pass_cmd = "pass = ENCRYPT('{$_REQUEST['pass']}',md5('{$_REQUEST['pass']}')), ";
+		$pass_cmd = "pass = md5('{$_REQUEST['pass']}'), ";
 	}
 	else
 	{
