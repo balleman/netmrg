@@ -1,5 +1,12 @@
 <?php
 /**
+* NetMRG Integrator
+*
+* xml_to_array.php
+* xml file abstraction layer
+*
+* see doc/LICENSE for copyright information
+*
 * ripped from a webpage I found
 * author: kris@h3x.com
 * http://www.devdump.com/phpxml.php

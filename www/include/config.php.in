@@ -10,7 +10,6 @@
 
 /***** GLOBAL SETTINGS *****/ 
 error_reporting(E_ALL);
-//set_magic_quotes_runtime(0);
 //error_reporting(E_WARNING | E_ERROR);
 
 /***** CONFIG *****/
@@ -61,6 +60,7 @@ if (!isset($_SESSION["netmrgsess"]) || !is_array($_SESSION["netmrgsess"]))
 
 
 /***** INCLUDES *****/
+require_once($GLOBALS["netmrg"]["fileroot"]."/lib/xml_to_array.php");
 require_once($GLOBALS["netmrg"]["fileroot"]."/lib/database.php");
 require_once($GLOBALS["netmrg"]["fileroot"]."/lib/menu.php");
 require_once($GLOBALS["netmrg"]["fileroot"]."/lib/stat.php");
