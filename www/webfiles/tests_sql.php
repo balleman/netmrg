@@ -40,11 +40,11 @@ if ($action == "doedit")
 		$db_cmd = "UPDATE";
 		$db_end = "WHERE id={$_REQUEST['test_id']}";
 	}
-	$_REQUEST['test_name'] = db_escape_string($_REQUEST['test_name']);
-	$_REQUEST['host'] = db_escape_string($_REQUEST['host']);
-	$_REQUEST['sql_user'] = db_escape_string($_REQUEST['sql_user']);
-	$_REQUEST['sql_password'] = db_escape_string($_REQUEST['sql_password']);
-	$_REQUEST['query'] = db_escape_string($_REQUEST['query']);
+	$_REQUEST['test_name'] = db_escape_string(fix_magic_quotes($_REQUEST['test_name']));
+	$_REQUEST['host'] = db_escape_string(fix_magic_quotes($_REQUEST['host']));
+	$_REQUEST['sql_user'] = db_escape_string(fix_magic_quotes($_REQUEST['sql_user']));
+	$_REQUEST['sql_password'] = db_escape_string(fix_magic_quotes($_REQUEST['sql_password']));
+	$_REQUEST['query'] = db_escape_string(fix_magic_quotes($_REQUEST['query']));
 	$_REQUEST['column_num'] = $_REQUEST['column_num'] * 1;
 
 
@@ -80,12 +80,12 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 	$test_row = db_fetch_array($test_results);
 
 	make_display_item("editfield".(($test_count-1)%2),
-		array("text" => $test_row["name"]),
-		array("text" => $test_row["host"]),
-		array("text" => $test_row["user"]),
-		array("text" => $test_row["query"]),
+		array("text" => htmlspecialchars($test_row["name"])),
+		array("text" => htmlspecialchars($test_row["host"])),
+		array("text" => htmlspecialchars($test_row["user"])),
+		array("text" => htmlspecialchars($test_row["query"])),
 		array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&test_id=" . $test_row["id"]) . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('" . addslashes($test_row["name"]) . "', '" . $test_row["id"] . "')"))
+			formatted_link("Delete", "javascript:del('" . addslashes(htmlspecialchars($test_row["name"])) . "', '" . $test_row["id"] . "')"))
 	); // end make_display_item();
 } // end tests
 
@@ -108,12 +108,12 @@ if (($action == "edit") || ($action == "add"))
 
 	make_edit_table("Edit SQL Test");
 	make_edit_group("General");
-	make_edit_text("Name:","test_name","25","50",$test_row["name"]);
-	make_edit_select_from_table("For use with this device:","dev_type","dev_types",$test_row["sub_dev_type"]);
+	make_edit_text("Name:", "test_name", "25", "50", htmlspecialchars($test_row["name"]));
+	make_edit_select_from_table("For use with this device:", "dev_type", "dev_types", $test_row["sub_dev_type"]);
 	make_edit_group("SQL");
-	make_edit_text("Host:", "host", "75", "200", $test_row["host"]);
-	make_edit_text("User:", "sql_user", "75", "200", $test_row["user"]);
-	make_edit_text("Password:", "sql_password", "75", "200", $test_row["password"]);
+	make_edit_text("Host:", "host", "75", "200", htmlspecialchars($test_row["host"]));
+	make_edit_text("User:", "sql_user", "75", "200", htmlspecialchars($test_row["user"]));
+	make_edit_text("Password:", "sql_password", "75", "200", htmlspecialchars($test_row["password"]));
 	make_edit_text("Query:", "query", "75", "255", htmlspecialchars($test_row["query"]));
 	make_edit_text("Column Number:", "column_num", "2", "4", $test_row["column_num"]);
 	make_edit_hidden("action","doedit");
