@@ -7,9 +7,12 @@ AC_INIT(NetMRG,0.8)
 # Autoconf is dumb and doesn't expand ${prefix} for this variable
 # If it does this in the future, this can probably be removed
 #
-exec_prefix="/usr/local"
+if test "x$exec_prefix" = "xNONE"; then
+	exec_prefix="/usr/local"
+	ac_configure_args="$ac_configure_args --exec-prefix=$exec_prefix"
+fi
 
-AC_REVISION($Revision: 1.4 $)
+AC_REVISION($Revision: 1.5 $)
 AM_INIT_AUTOMAKE
 AC_PROG_MAKE_SET
 
