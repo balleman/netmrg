@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,0.17)
-AC_REVISION($Revision: 1.32 $)
+AC_REVISION($Revision: 1.33 $)
 AC_CONFIG_SRCDIR(src/netmrg.cpp)
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
@@ -302,7 +302,10 @@ AC_TYPE_SIZE_T
 AC_TYPE_SIGNAL
 AC_FUNC_MEMCMP
 AC_FUNC_STAT
-AC_CHECK_FUNCS(memmove)
+AC_CHECK_FUNCS( \
+	memmove \
+	llround
+)
 
 # Determine UCD or Net-SNMP include path
 if test "x$snmp_include_dir" != "x"; then

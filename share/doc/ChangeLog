@@ -1,3 +1,6 @@
+2004.10.24  v0.17  keb
+  - bug#0000318 - CVS build fails due to unknown function llround
+
 2004.10.23  v0.17  silfreed
   - bug#0000302 - Updater should support updating from any version
 

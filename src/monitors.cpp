@@ -24,6 +24,12 @@
 #define MYSQL_CONNECT(a,b,c,d,e,f,g,h) mysql_real_connect(a,b,c,d,e,f,g,h)
 #endif
 
+#ifdef HAVE_LLROUND
+#define ROUND_VAL llround
+#else
+#define ROUND_VAL (uint)
+#endif
+
 string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 {
 	string test_result = "U", temp, temp2;
@@ -361,7 +367,7 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 	{
 		//value is probably decimal
 		debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value is a decimal.");
-		info.curr_val = inttostr(llround(strtodec(info.curr_val)));
+		info.curr_val = inttostr(ROUND_VAL(strtodec(info.curr_val)));
 	}
 
 	if ((info.curr_val == "U") || (info.last_val == "U"))
