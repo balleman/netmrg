@@ -29,6 +29,8 @@ last_status.php:
   Table 'netmrg.mon_test' doesn't exist
 mon_responses.php
   javascript delete action
+format.php
+  no more $custom_add_link!
 
 
 == silfreed ==
@@ -41,7 +43,9 @@ research message board/mailing list
 CSS-ificiation
   - sub-pages need redone (ick)
 menu uses a './' in the link.. must.. kill.. dot...
+mon_notify.php / format.php bug in make_display_table()
 fix everything so register_globals can be off
+  - SCRIPT*
 get auth w/ php sessions to work
   - include check for REMOTE_ADDR
   - set a standard for auth checks

@@ -136,9 +136,8 @@ function make_display_table($title)
 	// Title: Table's displayed title
 	// All others:  format of heading,link,heading,link...
 
-	global $SCRIPT_NAME, $custom_add_link, $uplink;
-
-	?>
+	global $custom_add_link, $uplink;
+?>
 
 	<table width="100%" border="0" cellspacing="2" cellpadding="2" align="center">
 	<tr>
@@ -163,11 +162,9 @@ function make_display_table($title)
 	</tr>
 	<tr bgcolor="<? print(get_color_by_name("edit_header")); ?>">
 
-	<?
-
+<?
 	for ($item_num = 0; $item_num <= ((func_num_args() - 1) / 2 - 1); ++$item_num) {
-
-	?>
+?>
 		<td width="<? print(80 / ((func_num_args() -1) / 2 + 2)); ?>%">
 			<a href="<? print(func_get_arg($item_num * 2 + 2)); ?>">
 			<font color="<? print(get_color_by_name("edit_header_text")); ?>">
@@ -180,17 +177,15 @@ function make_display_table($title)
 			</font>
 			</a>
 		</td>
-	<?
-
+<?
 	} // end for
-
-	?>
+?>
 		<td width="5%" align="right">
 		<a href="<?
 		if (!isset($custom_add_link)) {
-		print("$SCRIPT_NAME?action=add");
+			echo "{$_SERVER['PHP_SELF']}?action=add";
 		} else {
-		print($custom_add_link);
+			echo $custom_add_link;
 		}
 		?>">
 		<font color="#FFFF00"><b>Add</b></font></a>&nbsp;
@@ -234,15 +229,13 @@ function make_display_item()
 
 } // end make_display_item
 
+
+//   Makes a display table
+//	Title: Table's displayed title
+//	All others:  format of heading,link,heading,link...
 function make_plain_display_table($title)
 {
-	//   Makes a display table
-	//	Title: Table's displayed title
-	//	All others:  format of heading,link,heading,link...
-
-	global $SCRIPT_NAME;
-
-	?>
+?>
 
 	<table width="100%" border="0" cellspacing="2" cellpadding="2" align="center">
 	<tr>
@@ -271,10 +264,6 @@ function make_plain_display_table($title)
 	} // end for
 
 } // end make_display_table
-
-
-
-
 
 
 
