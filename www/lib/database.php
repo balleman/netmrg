@@ -13,42 +13,35 @@
 #                                                      #
 ########################################################
 
-### Configurable Variables
 
-$database_host = "localhost";
-$database_name = "netmrg";
+require_once("../include/config.php");
 
-$database_read_user = "netmrgread";
-$database_read_password = "netmrgread";
 
-$database_write_user = "netmrgwrite";
-$database_write_password = "netmrgwrite";
-
+// Obtain data from a table
 function do_query($query_string)
 {
-        // Obtain data from a table
+	mysql_connect($GLOBALS["netmrg"]["dbhost"], $GLOBALS["netmrg"]["dbreaduser"], $GLOBALS["netmrg"]["dbreadpass"]) or 
+		die("<b>DB_ERROR:</b>: Cannot connect to the database server.");
+	mysql_select_db($GLOBALS["netmrg"]["dbname"]) or 
+		die("<b>DB_ERROR:</b> Cannot connect to the database.");
+	$query_result = mysql_query($query_string) or
+		die("<b>DB_ERROR:</b> Couldn't execute query:<br>\n$query_string<br>\n".mysql_error());
 
-        global $database_host, $database_name, $database_read_user, $database_read_password;
-
-        mysql_connect($database_host, $database_read_user, $database_read_password) or die('Cannot connect to the database server.');
-        mysql_select_db($database_name) or die('Cannot connect to the database.');
-        $query_handle = mysql_query($query_string);
-
-        return $query_handle;
-
+	return $query_result;
 } // end do_query
 
+
+// Update data in table
 function do_update($query_string)
 {
-        // Update data in table
+	mysql_connect($GLOBALS["netmrg"]["dbhost"], $GLOBALS["netmrg"]["dbwriteuser"], $GLOBALS["netmrg"]["dbwritepass"]) or 
+		die("<b>DB_ERROR:</b>: Cannot connect to the database server.");
+	mysql_select_db($GLOBALS["netmrg"]["dbname"]) or 
+		die("<b>DB_ERROR:</b> Cannot connect to the database.");
+	$query_result = mysql_query($query_string) or
+		die("<b>DB_ERROR:</b> Couldn't execute query:<br>\n$query_string<br>\n".mysql_error());
 
-        global $database_host, $database_name, $database_write_user, $database_write_password;
-
-        mysql_connect($database_host, $database_write_user, $database_write_password) or die('Cannot connect to the database server.');
-        mysql_select_db($database_name) or die('Cannot connect to the database.');
-        $query_handle = mysql_query($query_string);
-
-        return $query_handle;
+	return $query_result;
 
 } // end do_update
 
