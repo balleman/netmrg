@@ -27,8 +27,19 @@ function db_connect()
 // Obtain data from a table
 function db_query($query_string)
 {
-	$query_result = mysql_query($query_string, $GLOBALS["netmrg"]["dbconn"]) or
-		die("<b>DB_ERROR:</b> Couldn't execute query:<br>\n$query_string<br>\n".mysql_error());
+	$query_result = mysql_query($query_string, $GLOBALS["netmrg"]["dbconn"]);
+	// if there was an error, handle it
+	if (mysql_errno($GLOBALS["netmrg"]["dbconn"])
+	{
+		if ($GLOBALS["netmrg"]["dbdebug"])
+		{
+			die("<b>DB_ERROR:</b> Couldn't execute query:<br>\n<pre>$query_string</pre><br>\n<pre>".mysql_error()."</pre><br>\n\n");
+		} // end if we're debuging things
+		else
+		{
+			die("<b>DB_ERROR:</b> Sorry, a database error occured.  We cannot continue.  Please contact the administrator and let them know what you were doing when the problem occured<br><br>\n\n");
+		} // end else present a nice error code
+	} // end if there was an error
 
 	return $query_result;
 } // end db_query
@@ -37,11 +48,7 @@ function db_query($query_string)
 // Update/Insert data in table
 function db_update($query_string)
 {
-	$query_result = mysql_query($query_string, $GLOBALS["netmrg"]["dbconn"]) or
-		die("<b>DB_ERROR:</b> Couldn't execute query:<br>\n$query_string<br>\n".mysql_error());
-
-	return $query_result;
-
+	db_query($query_string);
 } // end db_update
 
 // fetch data from a query

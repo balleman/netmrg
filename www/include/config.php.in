@@ -24,6 +24,7 @@ $GLOBALS["netmrg"]["dbhost"]            = "localhost";
 $GLOBALS["netmrg"]["dbname"]            = "netmrg";
 $GLOBALS["netmrg"]["dbuser"]            = "netmrguser";
 $GLOBALS["netmrg"]["dbpass"]            = "netmrgpass";
+$GLOBALS["netmrg"]["dbdebug"]           = false;
 
 // Path Config
 $GLOBALS["netmrg"]["rrdtool"]           = "/usr/bin/rrdtool";
