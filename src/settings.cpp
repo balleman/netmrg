@@ -59,6 +59,9 @@ void load_settings_default()
 	set_setting(setPathRuntimeFile, DEF_RUNTIME_FILE);
 	set_setting(setPathLibexec, DEF_LIBEXEC);
 	set_setting(setPathRRDs, DEF_RRDS);
+	
+	// other
+	set_setting_int(setPollInterval, DEF_POLL_INTERVAL);
 }
 
 void print_settings()
@@ -79,6 +82,9 @@ void print_settings()
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Runtime File: " + get_setting(setPathRuntimeFile));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Libexec:      " + get_setting(setPathLibexec));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "RRDs:         " + get_setting(setPathRRDs));
+	
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "-- Other --");
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Poll Interval: " + get_setting(setPollInterval));
 }
 
 string xmltostring(const xmlChar * input)
@@ -144,6 +150,12 @@ void parse_config_section(xmlDocPtr doc, xmlNodePtr cur, string section)
 				set_setting(setThreadSleep, val_str);
 		}
 		else
+		if (section == "polling")
+		{
+			if (!xmlStrcmp(cur->name, (const xmlChar *) "interval"))
+				set_setting(setPollInterval, val_str);
+		}
+		else
 		debuglogger(DEBUG_GLOBAL, LEVEL_WARNING, NULL, "Second stage parser not aware of this section.");
 		xmlFree(value);
 		cur = cur->next;
@@ -197,6 +209,11 @@ void load_settings_file(const string & filename)
 		if (!xmlStrcmp(cur->name, (const xmlChar *) "threads"))
 		{
 			parse_config_section(doc, cur, "threads");
+		}
+		else
+		if (!xmlStrcmp(cur->name, (const xmlChar *) "polling"))
+		{
+			parse_config_section(doc, cur, "polling");
 		}
 		else
 		if (!xmlStrcmp(cur->name, (const xmlChar *) "website"))

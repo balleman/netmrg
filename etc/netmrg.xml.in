@@ -23,4 +23,7 @@
 		<webhost>http://localhost</webhost>
 		<webroot>/netmrg</webroot>
 	</website>
+	<polling>
+		<interval>300</interval>
+	</polling>
 </netmrg>

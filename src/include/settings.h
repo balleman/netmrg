@@ -13,7 +13,7 @@
 
 using std::string;
 
-const int settings_count = 11;
+const int settings_count = 12;
 
 enum Setting 
 {
@@ -27,7 +27,8 @@ enum Setting
 	setPathLockFile,
 	setPathRuntimeFile,
 	setPathLibexec,
-	setPathRRDs
+	setPathRRDs,
+	setPollInterval
 };
 
 // functions to set and get settings

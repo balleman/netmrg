@@ -79,19 +79,21 @@ string get_rrd_file(string mon_id)
 void create_rrd(DeviceInfo info, RRDInfo rrd)
 {
 	string command;
+	int poll_interval = get_setting_int(setPollInterval);
 
 	command = "create " + get_rrd_file(inttostr(info.monitor_id)) +
-			" DS:mon_" + inttostr(info.monitor_id) + ":" + rrd.data_type +
-			":600:" + rrd.min_val + ":" + rrd.max_val + " " +
-			"RRA:AVERAGE:0.5:1:600 " +
+			" --step " + inttostr(poll_interval) + "DS:mon_" + inttostr(info.monitor_id) + ":" 
+			+ rrd.data_type + ":" + inttostr(poll_interval * 2) + ":" + rrd.min_val + ":" + 
+			rrd.max_val + " " +
+			"RRA:AVERAGE:0.5:1:" + inttostr(180000 / poll_interval) + " "	+
 			"RRA:AVERAGE:0.5:6:700 " 	+
 			"RRA:AVERAGE:0.5:24:775 " 	+
 			"RRA:AVERAGE:0.5:288:797 " 	+
-			"RRA:LAST:0.5:1:600 " 		+
+			"RRA:LAST:0.5:1:" + inttostr(180000 / poll_interval) + " " 		+
 			"RRA:LAST:0.5:6:700 " 		+
 			"RRA:LAST:0.5:24:775 " 		+
 			"RRA:LAST:0.5:288:797 " 	+
-			"RRA:MAX:0.5:1:600 " 		+
+			"RRA:MAX:0.5:1:" + inttostr(180000 / poll_interval) + " " 		+
 			"RRA:MAX:0.5:6:700 "		+
 			"RRA:MAX:0.5:24:775 "		+
 			"RRA:MAX:0.5:288:797";
