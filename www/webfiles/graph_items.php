@@ -214,10 +214,10 @@ function display()
 ?>
 	<img align="center" src="get_graph.php?type=custom&id=<?php echo $_REQUEST["graph_id"]; ?>"><br><br>
 	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
-	<input type="hidden" name="action" value="">
-	<input type="hidden" name="type" value="<?php echo $_REQUEST['type']; ?>">
-	<input type="hidden" name="graph_id" value="<?php echo $_REQUEST['graph_id']; ?>">
 <?php
+	make_edit_hidden("action", "");
+	make_edit_hidden("type", $_REQUEST['type']);
+	make_edit_hidden("graph_id", $_REQUEST['graph_id']);
 
 	make_display_table("Graph Items", "{$_SERVER['PHP_SELF']}?action=add&graph_id={$_REQUEST['graph_id']}&edit_monitor=1&position=" . ($ds_total + 1),
 		array("text" => checkbox_toolbar()),

@@ -104,8 +104,8 @@ begin_page("users.php", "User Management");
 js_checkbox_utils();
 ?>
 <form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
-<input type="hidden" name="action" value="">
 <?php
+make_edit_hidden("action", "");
 make_display_table("Users", "", 
 	array("text" => checkbox_toolbar()),
 	array("text" => "User ID"),
