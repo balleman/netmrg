@@ -305,8 +305,8 @@ function do_slideshow()
 function do_view()
 {
 	if ($GLOBALS["slideshow"]
-		&& GetUserPref("SlideShow", "AutoScroll") !== ""
-		&& GetUserPref("SlideShow", "AutoScroll"))
+		&& GetUserPref(GetUserID(), "SlideShow", "AutoScroll") !== ""
+		&& GetUserPref(GetUserID(), "SlideShow", "AutoScroll"))
 	{
 		begin_page("view.php", "View", 1, "onLoad=start() onClick=toggle()");
 	}
