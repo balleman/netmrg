@@ -193,7 +193,17 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 		// if error code is desired
 		if (strtoint(mysql_row[1]) == 1)
 		{
-			value = inttostr(system(command.c_str()));
+			int waitcode = system(command.c_str());
+			if (WIFEXITED(waitcode))
+			{
+				// the process terminated normally, return the error code
+				value = inttostr(WEXITSTATUS(waitcode));
+			}
+			else
+			{
+				// the process did not terminate normally, return "unknown"
+				value = "U";
+			}
 		}
 		else
 		{
