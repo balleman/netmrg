@@ -95,12 +95,14 @@ IMG {
 	margin-left : 0.5em;
 	padding : 0;
 	display : inline;
+	clear : left;
 }
 
 #topmenu ul {
 	margin : 0;
 	padding : 0;
 	display : inline;
+	float : left;
 }
 
 #topmenu ul li {
@@ -164,6 +166,7 @@ IMG {
 }
 
 #content {
+	clear : left;
 }
 
 #footer {
