@@ -48,28 +48,30 @@ function format_time_elapsed($num_secs)
 } // end format_time_elapsed
 
 
-function sanitize_number($number, $round_to = 5)
+function sanitize_number($number, $round_to = 2)
 {
+
+	$format = "%4." . $round_to . "f";
 
 	if ($number < 1000)
 	{
-		return round($number,$round_to);
+		return sprintf($format, $number);
 	}
 	elseif ($number < 1000000)
 	{
-		return round(($number / 1000),$round_to) . " k";
+		return sprintf("$format k", $number / 1000);
 	}
 	elseif ($number < 1000000000)
 	{
-		return round(($number / 1000000),$round_to) . " M";
+		return sprintf("$format M", $number / 1000000);
 	}
 	elseif ($number < 1000000000000)
 	{
-		return round(($number / 1000000000),$round_to) . " G";
+		return sprintf("$format G", $number / 1000000000);
 	}
 	else
 	{
-		return round(($number / 1000000000000),$round_to) . " T";
+		return sprintf("$format T", $number / 1000000000000);
 	}
 
 } // end sanitize_number
