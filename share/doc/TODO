@@ -67,6 +67,7 @@ copy items from DBChangeLog to www/webfiles/updater.php
 generate new template database
 generate new docs
 test tutorial
+test upgrade from previous version
 tag CVS (ex: netmrg-0_10)
 build tarball
   - upload to devel, maybe release
