@@ -791,11 +791,26 @@ their NetMRG administrator.
 			<refsect2><title>List</title>
 				<para>list of monitors for a sub-device</para>
 				<itemizedlist>
-					<listitem><para><guilabel></guilabel> - </para></listitem>
+					<listitem><para><guilabel>Test</guilabel> - Name of what is being monitored; click to view/edit events for this monitor</para></listitem>
+					<listitem>
+						<para><guilabel>Data</guilabel> - Information about the last gather of this monitor</para>
+						<itemizedlist>
+							<listitem><para><guilabel>Value</guilabel> - value gathered in the last run</para></listitem>
+							<listitem><para><guilabel>Rate of Change</guilabel> - Difference between the current value and the last value</para></listitem>
+							<listitem><para><guilabel>Time Stamp</guilabel> - Date/Time of last gather for this monitor</para></listitem>
+						</itemizedlist>
+					</listitem>
+					<listitem><para><guilabel>Graph</guilabel> - A small representation of the current data gathered for this monitor; click on the graph for more options</para></listitem>
+					<listitem><para><guilabel>Add</guilabel> - add a new monitor to this sub device</para></listitem>
+					<listitem><para><guilabel>Edit</guilabel> - edits options of a monitor</para></listitem>
+					<listitem><para><guilabel>Delete</guilabel> - deletes the monitor and everything underneath it</para></listitem>
 				</itemizedlist>
 			</refsect2>
 			<refsect2><title>Edit</title>
 				<para>edit info about a monitor</para>
+				<itemizedlist>
+					<listitem><para><guilabel></guilabel> - </para></listitem>
+				</itemizedlist>
 			</refsect2>
 		</refsect1>
 	</refentry>
