@@ -89,7 +89,7 @@ else
 function do_list()
 {
 	refresh_tag();
-	begin_page();
+	begin_page("monitor.php", "Monitors");
 
 	js_confirm_dialog("del", "Are you sure you want to delete monitor ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&mon_id=");
 	global $custom_add_link;
@@ -157,7 +157,7 @@ function do_list()
 function edit()
 {
 
-	begin_page();
+	begin_page("monitor.php", "Monitors");
 
 	if ($_REQUEST["action"] == "edit")
 	{
@@ -227,7 +227,7 @@ function edit()
 	{
 		$mon_row["test_type"] = $_REQUEST["type"];
 	}
-	make_edit_select_from_table("Monitoring Type:","test_type", "test_types",$mon_row["test_type"], "", "onChange='redisplay(form.test_type.options[selectedIndex].value);'");
+	make_edit_select_from_table("Monitoring Type:","test_type", "test_types",$mon_row["test_type"], "onChange='redisplay(form.test_type.options[selectedIndex].value);'");
 
 	if ($mon_row["test_type"] == 1)
 	{

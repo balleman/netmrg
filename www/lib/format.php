@@ -338,12 +338,12 @@ function make_edit_label($contents)
 
 
 // Creates a form select control
-function make_edit_select($header, $name, $options = "", $select_options = "")
+function make_edit_select($header, $name, $select_options = "")
 {
 ?>
-	<tr <?php print($options); ?>><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>">
+	<tr><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>">
 	<b><?php print($header) ?></b><br>
-	<select name="<?php print($name); ?>" <?php print($select_options); ?>>
+	<select name="<?php print($name); ?>"<?php echo " $select_options"; ?>>
 <?php
 } // end make_edit_select
 
@@ -359,13 +359,28 @@ function make_edit_select_end()
 } // end make_edit_select_end
 
 
-// Creates a select control with items named by the table's name field, and id'd by tables id field
-function make_edit_select_from_table($header, $name, $table_name, $selected, $options = "", $select_options = "")
+/**
+* Creates a select control with items named by the table's name field, and id'd by tables id field
+*
+* $header = select title name
+* $name = select box form name
+* $table_name = mysql table field
+* $selected = mysql index to be selected (if any)
+* $select_options = things like javascript that apply to this select box
+* $begin_array_list = array of key=>value pairs to include at the beginning of the option list
+* $end_array_list = array of key=>value pairs to include at the end of the option list
+*/
+function make_edit_select_from_table($header, $name, $table_name, $selected, $select_options = "", $begin_array_list = "", $end_array_list = "")
 {
-	make_edit_select($header, $name, $options, $select_options);
+	make_edit_select($header, $name, $select_options);
 
 	$item_results = do_query("SELECT * FROM $table_name ORDER BY name,id");
 	$item_total = mysql_num_rows($item_results);
+
+	// loop through things to put @ the beginning of the select box
+	while (list($key, $value) = each($begin_array_list)) {
+		make_edit_select_option($key, $value, "");
+	} // end while we have array list
 
 	for ($item_count = 1; $item_count <= $item_total; ++$item_count)
 	{
@@ -376,6 +391,11 @@ function make_edit_select_from_table($header, $name, $table_name, $selected, $op
 
 		make_edit_select_option($item_name, $item_id, $item_selected);
 	} // end for
+
+	// loop through things to put @ the end of the select box
+	while (list($key, $value) = each($end_array_list)) {
+		make_edit_select_option($key, $value, "");
+	} // end while we have array list
 
 	make_edit_select_end();
 } // end make_edit_select_end
