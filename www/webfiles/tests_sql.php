@@ -20,7 +20,7 @@ if (empty($_REQUEST["action"]))
 // compatibility
 $action = $_REQUEST["action"];
 
-if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
+if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd") || ($action == "multidodelete"))
 {
 // Change databases if necessary and then display list
 
@@ -61,13 +61,32 @@ if ($action == "dodelete")
 	exit();
 } // done deleting
 
+if ($action == "multidodelete")
+{
+	if (isset($_REQUEST['test']))
+	{
+		while (list($key,$value) = each($_REQUEST["test"]))
+		{
+			db_update("DELETE FROM tests_sql WHERE id='$key'");
+		}
+	}
+	Header("Location: {$_SERVER['PHP_SELF']}");
+	exit();
+}
+
 /** start page **/
 begin_page("tests_sql.php", "SQL - Tests");
+js_checkbox_utils();
 js_confirm_dialog("del", "Are you sure you want to delete SQL test ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
+?>
+<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+<input type="hidden" name="action" value="">
+<?php
 
 // Display a list
 
 make_display_table("SQL Tests", "",
+	array("text" => checkbox_toolbar()),
 	array("text" => "Name"),
 	array("text" => "Host"),
 	array("text" => "User"),
@@ -83,6 +102,7 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 	$test_row = db_fetch_array($test_results);
 
 	make_display_item("editfield".(($test_count-1)%2),
+		array("checkboxname" => "test", "checkboxid" => $test_row['id']),
 		array("text" => htmlspecialchars($test_row["name"])),
 		array("text" => htmlspecialchars($test_row["host"])),
 		array("text" => htmlspecialchars($test_row["user"])),
@@ -91,9 +111,17 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 			formatted_link("Delete", "javascript:del('" . addslashes(htmlspecialchars($test_row["name"])) . "', '" . $test_row["id"] . "')"))
 	); // end make_display_item();
 } // end tests
-
+?>
+<tr>
+	<td colspan="6" class="editheader" nowrap="nowrap">
+		&lt;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked sub-devices?')){document.form.submit();}" href="#">Delete All Checked</a>&gt;
+	</td>
+</tr>
+<?php
+	make_status_line("SQL test", $test_count - 1);
 ?>
 </table>
+</form>
 <?php
 	end_page();
 } // End if no action

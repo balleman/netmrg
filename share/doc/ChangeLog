@@ -1,6 +1,7 @@
 2004.09.12  v0.17cvs  balleman
   - bug#0000109 - tests_script.php checkboxes
   - bug#0000111 - tests_snmp.php checkboxes
+  - bug#0000110 - tests_sql.php checkboxes
 
 2004.09.11  v0.17cvs  silfreed
   - bug#0000200 - Need a tutorial on how to create custom/template graphs
