@@ -23,7 +23,7 @@ if (!empty($_REQUEST["action"]))
 	if ($_REQUEST["action"] == "doadd")
 	{
 		$_REQUEST['graph_id'] = (($_REQUEST['type'] == 'graph') ? $_REQUEST['graph_id_custom'] : $_REQUEST['graph_id_template']);
-	
+
 		db_update("INSERT INTO view SET
 			object_id={$_REQUEST['object_id']},
 			object_type='{$_REQUEST['object_type']}',
@@ -39,14 +39,14 @@ if (!empty($_REQUEST["action"]))
 	elseif ($_REQUEST["action"] == "doedit")
 	{
 		$_REQUEST['graph_id'] = (($_REQUEST['type'] == 'graph') ? $_REQUEST['graph_id_custom'] : $_REQUEST['graph_id_template']);
-	
-		db_update("UPDATE view SET 
+
+		db_update("UPDATE view SET
 			graph_id={$_REQUEST['graph_id']},
 			type='{$_REQUEST['type']}',
 			separator_text='{$_REQUEST['separator_text']}',
-			subdev_id={$_REQUEST['subdev_id']} 
+			subdev_id={$_REQUEST['subdev_id']}
 			WHERE id={$_REQUEST['id']}");
-			
+
 		header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1");
 		exit(0);
 	}
@@ -167,7 +167,7 @@ if (!empty($_REQUEST["action"]))
 				documentYposition += scrollAmount;
 				window.scroll(0,documentYposition);
 				if (documentYposition > documentLength)
-					nextPage(); 
+					nextPage();
 			}
 			setTimeout('myScroll()',scrollInterval);
 		}
@@ -182,11 +182,11 @@ if (!empty($_REQUEST["action"]))
 		{
 			running = !running;
 		}
-			
+
 
 		var documentLength;
-		var scrollAmount = 100;    
-		var scrollInterval = 1000; 
+		var scrollAmount = 100;
+		var scrollInterval = 1000;
 		var documentYposition = 0;
 		var running = true;
 
@@ -240,7 +240,7 @@ if (empty($_REQUEST["action"]))
 					echo '	<img src="get_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].'" border="0">'."\n";
 					echo "</a><br />\n";
 					break;
-				
+
 				case "separator":
 					echo '<table width="100%" ><tr><td class="viewseparator">' . $row["separator_text"] . '</td></tr></table>'."\n";
 					break;
@@ -265,7 +265,7 @@ if (empty($_REQUEST["action"]))
 	{
 		js_confirm_dialog("del", "Do you want to remove ", " from this view?", "{$_SERVER['PHP_SELF']}?action=dodelete&object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&id=");
 
-		make_display_table("Edit View", 
+		make_display_table("Edit View",
 			"{$_SERVER['PHP_SELF']}?object_type=".$_REQUEST["object_type"]."&object_id=".$_REQUEST["object_id"]."&pos=" . ($num + 1) . "&action=add",
 			array("text" => "Item"),
 			array("text" => "Type")
@@ -299,12 +299,12 @@ if (empty($_REQUEST["action"]))
 				$name = $row['title'];
 				$extra_options = formatted_link("Edit Graph", "graph_items.php?graph_id={$row['graph_id']}");
 				break;
-				
+
 				case 'template':
 				$name = expand_parameters($row['title'], $row['subdev_id']);
 				$extra_options = formatted_link("Edit Template", "graph_items.php?graph_id={$row['graph_id']}");
 				break;
-				
+
 				case 'separator':
 				$name = $row['separator_text'];
 				$extra_options = "";
@@ -320,7 +320,7 @@ if (empty($_REQUEST["action"]))
 				array("text" => $move_up . "&nbsp;" .
 					$move_down . "&nbsp;" .
 					formatted_link("Edit", "{$_SERVER['PHP_SELF']}?id={$row['id']}&action=edit") . "&nbsp;" .
-					formatted_link("Delete","javascript:del('".addslashes($row['name'])."', '{$row['id']}')") . "&nbsp;" .
+					formatted_link("Delete","javascript:del('".addslashes($name)."', '{$row['id']}')") . "&nbsp;" .
 					$extra_options)
 			); // end make_display_item();
 		}

@@ -4,6 +4,7 @@
       'prettied up'
   - bug#0000094 - screenshots needs ordered by most recent release first
   - bug#0000082 - make netmrg_cron.sh use /bin/sh
+  - bug#0000086 - view.php should display the custom name, not the dbrow name
 
 2003.11.16  v0.10  balleman
   - bug#0000091 - monitor parameter escaping issues
