@@ -1,332 +1,185 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->Events</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="The NetMRG Reference"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Web Interface Descriptions"
-HREF="webpagedesc.html"><LINK
-REL="PREVIOUS"
-TITLE="Monitors"
-HREF="monitors.html"><LINK
-REL="NEXT"
-TITLE="Conditions"
-HREF="conditions.html"></HEAD
-><BODY
-CLASS="REFENTRY"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="monitors.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="conditions.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><H1
-><A
-NAME="EVENTS"
-></A
->Events</H1
-><DIV
-CLASS="REFNAMEDIV"
-><A
-NAME="AEN1260"
-></A
-><H2
->Name</H2
->Events&nbsp;--&nbsp;A container for a collection of actions to take based on monitor values</DIV
-><DIV
-CLASS="REFSECT1"
-><A
-NAME="AEN1263"
-></A
-><H2
->Description</H2
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN1265"
-></A
-><H3
->List</H3
-><P
->list of events for a monitor</P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="./stylesheet-images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Events displayed in bold are currently triggered.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DIV
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN1270"
-></A
-><H3
->Edit</H3
-><P
->edit info about an event</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> - a name for the event, unique within a device.  This name is used when displaying entries in the Event Log.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Trigger Type</B
-></TT
-> - when to trigger an event.  When events are triggered, they are logged in the Event Log and any Responses associated with the event are executed.</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->On Change</B
-></TT
-> - The event is triggered when its conditions are met, and the conditions had not been met on the last run.  Example:  If you have an event to warn you when CPU Usage climbs above 80%, it will trigger this condition if the previous value was 72 and the current value 85, but not if the previous value was 82 and the current value 85.  This prevents duplicate triggerings to a situation spanning multiple polling intervals.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Never (disabled)</B
-></TT
-> - This event is ignored and responses for it are not processed.</P
-></LI
-></UL
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Situation</B
-></TT
-> - the severity of the situation the event indicates.</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Disabled</B
-></TT
-> - the tested service is in a non-operational, yet normal, condition.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Normal</B
-></TT
-> - the tested service is operating normally.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Warning</B
-></TT
-> - the tested service is operating in a degraded condition.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Critical</B
-></TT
-> - the tested service is not operating acceptably.</P
-></LI
-></UL
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="./stylesheet-images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Situations for an event propagate up the Device Tree.  Each level takes on the worst situation of its descendents.  For example, if you have a <TT
-CLASS="GUILABEL"
-><B
->Critical</B
-></TT
-> situation, the Event as well as the Monitor, Sub-Device, Device, and Groups above that Event will take on the situation <TT
-CLASS="GUILABEL"
-><B
->Critical</B
-></TT
-> as well.</P
-></TD
-></TR
-></TABLE
-></DIV
-></LI
-></UL
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="monitors.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="conditions.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Monitors</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="webpagedesc.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Conditions</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>Events</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="HOME" title="The NetMRG Reference" href=
+  "index.html" />
+  <link rel="UP" title="Web Interface Descriptions" href=
+  "webpagedesc.html" />
+  <link rel="PREVIOUS" title="Monitors" href="monitors.html" />
+  <link rel="NEXT" title="Conditions" href="conditions.html" />
+  <link rel="STYLESHEET" type="text/css" href="netmrgdoc.css" />
+</head>
+
+<body class="REFENTRY" bgcolor="#FFFFFF" text="#000000" link=
+"#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">The NetMRG Reference</th>
+      </tr>
+
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href=
+        "monitors.html" accesskey="P">Prev</a></td>
+
+        <td width="80%" align="center" valign="bottom"></td>
+
+        <td width="10%" align="right" valign="bottom"><a href=
+        "conditions.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%" />
+  </div>
+
+  <h1><a name="EVENTS" id="EVENTS"></a>Events</h1>
+
+  <div class="REFNAMEDIV">
+    <a name="AEN1269" id="AEN1269"></a>
+
+    <h2>Name</h2>Events&nbsp;--&nbsp;A container for a collection
+    of actions to take based on monitor values
+  </div>
+
+  <div class="REFSECT1">
+    <a name="AEN1272" id="AEN1272"></a>
+
+    <h2>Description</h2>
+
+    <div class="REFSECT2">
+      <a name="AEN1274" id="AEN1274"></a>
+
+      <h3>List</h3>
+
+      <p>list of events for a monitor</p>
+
+      <div class="NOTE">
+        <blockquote class="NOTE">
+          <p><b>Note:</b> Events displayed in bold are currently
+          triggered.</p>
+        </blockquote>
+      </div>
+    </div>
+
+    <div class="REFSECT2">
+      <a name="AEN1279" id="AEN1279"></a>
+
+      <h3>Edit</h3>
+
+      <p>edit info about an event</p>
+
+      <ul>
+        <li>
+          <p><span class="GUILABEL">Name</span> - a name for the
+          event, unique within a device. This name is used when
+          displaying entries in the Event Log.</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Trigger Type</span> - when to
+          trigger an event. When events are triggered, they are
+          logged in the Event Log and any Responses associated with
+          the event are executed.</p>
+
+          <ul>
+            <li>
+              <p><span class="GUILABEL">On Change</span> - The
+              event is triggered when its conditions are met, and
+              the conditions had not been met on the last run.
+              Example: If you have an event to warn you when CPU
+              Usage climbs above 80%, it will trigger this
+              condition if the previous value was 72 and the
+              current value 85, but not if the previous value was
+              82 and the current value 85. This prevents duplicate
+              triggerings to a situation spanning multiple polling
+              intervals.</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Never (disabled)</span> -
+              This event is ignored and responses for it are not
+              processed.</p>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Situation</span> - the severity
+          of the situation the event indicates.</p>
+
+          <ul>
+            <li>
+              <p><span class="GUILABEL">Disabled</span> - the
+              tested service is in a non-operational, yet normal,
+              condition.</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Normal</span> - the tested
+              service is operating normally.</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Warning</span> - the tested
+              service is operating in a degraded condition.</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Critical</span> - the
+              tested service is not operating acceptably.</p>
+            </li>
+          </ul>
+
+          <div class="NOTE">
+            <blockquote class="NOTE">
+              <p><b>Note:</b> Situations for an event propagate up
+              the Device Tree. Each level takes on the worst
+              situation of its descendents. For example, if you
+              have a <span class="GUILABEL">Critical</span>
+              situation, the Event as well as the Monitor,
+              Sub-Device, Device, and Groups above that Event will
+              take on the situation <span class=
+              "GUILABEL">Critical</span> as well.</p>
+            </blockquote>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href=
+        "monitors.html" accesskey="P">Prev</a></td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "index.html" accesskey="H">Home</a></td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "conditions.html" accesskey="N">Next</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">Monitors</td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "webpagedesc.html" accesskey="U">Up</a></td>
+
+        <td width="33%" align="right" valign="top">Conditions</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

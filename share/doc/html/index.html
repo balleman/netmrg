@@ -1,322 +1,211 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->The NetMRG Reference</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="NEXT"
-TITLE="Overview"
-HREF="overview.html"></HEAD
-><BODY
-CLASS="BOOK"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="BOOK"
-><A
-NAME="AEN1"
-></A
-><DIV
-CLASS="TITLEPAGE"
-><H1
-CLASS="TITLE"
-><A
-NAME="AEN2"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</A
-></H1
-><H3
-CLASS="AUTHOR"
-><A
-NAME="AEN6"
-></A
->Brady Alleman</H3
-><H3
-CLASS="AUTHOR"
-><A
-NAME="AEN9"
-></A
->Douglas E. Warner</H3
-><P
-CLASS="COPYRIGHT"
-><A
-HREF="LICENSE.html"
->Copyright</A
-> &copy; 2003-2004 Brady Alleman and Douglas E. Warner</P
-><HR></DIV
-><DIV
-CLASS="TOC"
-><DL
-><DT
-><B
->Table of Contents</B
-></DT
-><DT
->I. <A
-HREF="overview.html"
->Overview</A
-></DT
-><DD
-><DL
-><DT
->1. <A
-HREF="intro.html"
->Introduction</A
-></DT
-><DT
->2. <A
-HREF="revisions.html"
->Revision History</A
-></DT
-></DL
-></DD
-><DT
->II. <A
-HREF="concepts.html"
->Concepts</A
-></DT
-><DD
-><DL
-><DT
->3. <A
-HREF="sytemstruct.html"
->System Structure</A
-></DT
-><DT
->4. <A
-HREF="monitorconcepts.html"
->Monitoring and Reporting Concepts</A
-></DT
-><DT
->5. <A
-HREF="graphconcepts.html"
->Graphing Concepts</A
-></DT
-></DL
-></DD
-><DT
->III. <A
-HREF="installation.html"
->Installation</A
-></DT
-><DD
-><DL
-><DT
->6. <A
-HREF="softwarereq.html"
->Software Requirements</A
-></DT
-><DT
->7. <A
-HREF="satisfyreq.html"
->Satisfying Requirements</A
-></DT
-><DT
->8. <A
-HREF="install.html"
->Installation Procedure</A
-></DT
-><DT
->9. <A
-HREF="upgrade.html"
->Upgrade Procedure</A
-></DT
-><DT
->10. <A
-HREF="basictutorial.html"
->Basic Tutorial</A
-></DT
-><DT
->11. <A
-HREF="graphtutorial.html"
->Graph Tutorial</A
-></DT
-><DT
->12. <A
-HREF="intdisktutorial.html"
->Interface and Disk Cache Tutorial</A
-></DT
-></DL
-></DD
-><DT
->IV. <A
-HREF="featureguide.html"
->Feature Guide</A
-></DT
-><DD
-><DL
-><DT
->13. <A
-HREF="extauth.html"
->External Authentication</A
-></DT
-><DT
->14. <A
-HREF="highlight.html"
->Workday Highlighting</A
-></DT
-></DL
-></DD
-><DT
->V. <A
-HREF="reference.html"
->Reference</A
-></DT
-><DD
-><DL
-><DT
->I. <A
-HREF="manpage.html"
->Manual Pages</A
-></DT
-><DD
-><DL
-><DT
-><A
-HREF="netmrg-gatherer.html"
->netmrg-gatherer</A
->&nbsp;--&nbsp;Gathers data from devices.</DT
-></DL
-></DD
-><DT
->II. <A
-HREF="webpagedesc.html"
->Web Interface Descriptions</A
-></DT
-><DD
-><DL
-><DT
-><A
-HREF="monitoring.html"
->Monitoring</A
->&nbsp;--&nbsp;Items associated with setting up gathering of information</DT
-><DT
-><A
-HREF="groups.html"
->Groups</A
->&nbsp;--&nbsp;A container for a collection of devices</DT
-><DT
-><A
-HREF="devices.html"
->Devices</A
->&nbsp;--&nbsp;A container for a collection of sub-devices</DT
-><DT
-><A
-HREF="sub-devices.html"
->Sub Devices</A
->&nbsp;--&nbsp;A container for a collection of monitors</DT
-><DT
-><A
-HREF="monitors.html"
->Monitors</A
->&nbsp;--&nbsp;A container for a collection of tracked values</DT
-><DT
-><A
-HREF="events.html"
->Events</A
->&nbsp;--&nbsp;A container for a collection of actions to take based on monitor values</DT
-><DT
-><A
-HREF="conditions.html"
->Conditions</A
->&nbsp;--&nbsp;A collection of paramenters to trigger an Event</DT
-><DT
-><A
-HREF="reporting.html"
->Reporting</A
->&nbsp;--&nbsp;Items whose purpose is to display and report information to the user.</DT
-><DT
-><A
-HREF="graphing.html"
->Graphing</A
->&nbsp;--&nbsp;Where graphs (compositions of one or more monitors) are created.</DT
-><DT
-><A
-HREF="tests.html"
->Tests</A
->&nbsp;--&nbsp;Tests represent actions taken to gather data.</DT
-><DT
-><A
-HREF="notifications.html"
->Notifications</A
->&nbsp;--&nbsp;Configuration for notifying users when events occur.</DT
-><DT
-><A
-HREF="admin.html"
->Admin</A
->&nbsp;--&nbsp;Administrative functions not related to the reporting or gathering of information.</DT
-><DT
-><A
-HREF="help.html"
->Help</A
->&nbsp;--&nbsp;How to get assistance with NetMRG.</DT
-></DL
-></DD
-></DL
-></DD
-><DT
->15. <A
-HREF="contact.html"
->Contact Information</A
-></DT
-></DL
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->&nbsp;</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
->&nbsp;</TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="overview.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->&nbsp;</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
->&nbsp;</TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Overview</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>The NetMRG Reference</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="NEXT" title="Overview" href="overview.html" />
+  <link rel="STYLESHEET" type="text/css" href="netmrgdoc.css" />
+</head>
+
+<body class="BOOK" bgcolor="#FFFFFF" text="#000000" link="#0000FF"
+vlink="#840084" alink="#0000FF">
+  <div class="BOOK">
+    <a name="AEN1" id="AEN1"></a>
+
+    <div class="TITLEPAGE">
+      <h1 class="TITLE"><a name="AEN2" id="AEN2">The NetMRG
+      Reference</a></h1>
+
+      <h3 class="AUTHOR"><a name="AEN5" id="AEN5"></a>Brady
+      Alleman</h3>
+
+      <h3 class="AUTHOR"><a name="AEN8" id="AEN8"></a>Douglas E.
+      Warner</h3>
+
+      <p class="COPYRIGHT"><a href="LICENSE.html">Copyright</a>
+      &copy; 2003-2004 Brady Alleman and Douglas E. Warner</p>
+      <hr />
+    </div>
+
+    <div class="TOC">
+      <dl>
+        <dt><b>Table of Contents</b></dt>
+
+        <dt>I. <a href="overview.html">Overview</a></dt>
+
+        <dd>
+          <dl>
+            <dt>1. <a href="intro.html">Introduction</a></dt>
+
+            <dt>2. <a href="revisions.html">Revision
+            History</a></dt>
+          </dl>
+        </dd>
+
+        <dt>II. <a href="concepts.html">Concepts</a></dt>
+
+        <dd>
+          <dl>
+            <dt>3. <a href="sytemstruct.html">System
+            Structure</a></dt>
+
+            <dt>4. <a href="monitorconcepts.html">Monitoring and
+            Reporting Concepts</a></dt>
+
+            <dt>5. <a href="graphconcepts.html">Graphing
+            Concepts</a></dt>
+          </dl>
+        </dd>
+
+        <dt>III. <a href="installation.html">Installation</a></dt>
+
+        <dd>
+          <dl>
+            <dt>6. <a href="softwarereq.html">Software
+            Requirements</a></dt>
+
+            <dt>7. <a href="satisfyreq.html">Satisfying
+            Requirements</a></dt>
+
+            <dt>8. <a href="install.html">Installation
+            Procedure</a></dt>
+
+            <dt>9. <a href="upgrade.html">Upgrade
+            Procedure</a></dt>
+
+            <dt>10. <a href="basictutorial.html">Basic
+            Tutorial</a></dt>
+
+            <dt>11. <a href="graphtutorial.html">Graph
+            Tutorial</a></dt>
+
+            <dt>12. <a href="intdisktutorial.html">Interface and
+            Disk Cache Tutorial</a></dt>
+          </dl>
+        </dd>
+
+        <dt>IV. <a href="featureguide.html">Feature Guide</a></dt>
+
+        <dd>
+          <dl>
+            <dt>13. <a href="extauth.html">External
+            Authentication</a></dt>
+
+            <dt>14. <a href="highlight.html">Workday
+            Highlighting</a></dt>
+          </dl>
+        </dd>
+
+        <dt>V. <a href="reference.html">Reference</a></dt>
+
+        <dd>
+          <dl>
+            <dt>I. <a href="manpage.html">Manual Pages</a></dt>
+
+            <dd>
+              <dl>
+                <dt><a href=
+                "netmrg-gatherer.html">netmrg-gatherer</a>&nbsp;--&nbsp;Gathers
+                data from devices.</dt>
+              </dl>
+            </dd>
+
+            <dt>II. <a href="webpagedesc.html">Web Interface
+            Descriptions</a></dt>
+
+            <dd>
+              <dl>
+                <dt><a href=
+                "monitoring.html">Monitoring</a>&nbsp;--&nbsp;Items
+                associated with setting up gathering of
+                information</dt>
+
+                <dt><a href="groups.html">Groups</a>&nbsp;--&nbsp;A
+                container for a collection of devices</dt>
+
+                <dt><a href=
+                "devices.html">Devices</a>&nbsp;--&nbsp;A container
+                for a collection of sub-devices</dt>
+
+                <dt><a href="sub-devices.html">Sub
+                Devices</a>&nbsp;--&nbsp;A container for a
+                collection of monitors</dt>
+
+                <dt><a href=
+                "monitors.html">Monitors</a>&nbsp;--&nbsp;A
+                container for a collection of tracked values</dt>
+
+                <dt><a href="events.html">Events</a>&nbsp;--&nbsp;A
+                container for a collection of actions to take based
+                on monitor values</dt>
+
+                <dt><a href=
+                "conditions.html">Conditions</a>&nbsp;--&nbsp;A
+                collection of paramenters to trigger an Event</dt>
+
+                <dt><a href=
+                "reporting.html">Reporting</a>&nbsp;--&nbsp;Items
+                whose purpose is to display and report information
+                to the user.</dt>
+
+                <dt><a href=
+                "graphing.html">Graphing</a>&nbsp;--&nbsp;Where
+                graphs (compositions of one or more monitors) are
+                created.</dt>
+
+                <dt><a href=
+                "tests.html">Tests</a>&nbsp;--&nbsp;Tests represent
+                actions taken to gather data.</dt>
+
+                <dt><a href=
+                "notifications.html">Notifications</a>&nbsp;--&nbsp;Configuration
+                for notifying users when events occur.</dt>
+
+                <dt><a href=
+                "admin.html">Admin</a>&nbsp;--&nbsp;Administrative
+                functions not related to the reporting or gathering
+                of information.</dt>
+
+                <dt><a href="help.html">Help</a>&nbsp;--&nbsp;How
+                to get assistance with NetMRG.</dt>
+              </dl>
+            </dd>
+          </dl>
+        </dd>
+
+        <dt>15. <a href="contact.html">Contact Information</a></dt>
+      </dl>
+    </div>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top">&nbsp;</td>
+
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "overview.html" accesskey="N">Next</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">&nbsp;</td>
+
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+
+        <td width="33%" align="right" valign="top">Overview</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

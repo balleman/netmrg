@@ -1,411 +1,254 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->Satisfying Requirements</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="The NetMRG Reference"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Installation"
-HREF="installation.html"><LINK
-REL="PREVIOUS"
-TITLE="Software Requirements"
-HREF="softwarereq.html"><LINK
-REL="NEXT"
-TITLE="Installation Procedure"
-HREF="install.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="softwarereq.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="install.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="SATISFYREQ"
-></A
->Chapter 7. Satisfying Requirements</H1
-><P
->Specific instructions to satisfy dependencies for certain platforms are presented below.  They should be used more as suggestions, not necessarily step-by-step instructions.  You may need to do more than what is listed, or much less, depending on the options you selected when installing your operating system.</P
-><P
-></P
-><UL
-><LI
-><P
-><A
-HREF="http://www.redhat.com/"
-TARGET="_top"
-><TT
-CLASS="APPLICATION"
->Red Hat Linux</TT
-></A
-></P
-><P
-></P
-><UL
-><LI
-><P
->In order to satisfy the libstdc++ requirement, Redhat 8.0 or above is required.  NetMRG may not be stable on older versions of libstdc++.</P
-></LI
-><LI
-><P
->Install the following RPMs from your Red Hat installation media:</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="FILENAME"
->httpd</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->php</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->php-mysql</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->mysql</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->mysql-server</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->mysql-devel</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->libxml2</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->libxml2-devel</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->net-snmp</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->net-snmp-devel</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->net-snmp-utils</TT
-></P
-></LI
-></UL
-></LI
-><LI
-><P
->Installing <TT
-CLASS="APPLICATION"
->RRDTOOL</TT
-></P
-><P
-></P
-><UL
-><LI
-><P
->Download an <TT
-CLASS="APPLICATION"
->RRDTOOL</TT
-> RPM from <A
-HREF="http://www.freshrpms.net/"
-TARGET="_top"
->http://www.freshrpms.net/</A
-></P
-></LI
-><LI
-><P
->OR Download the <TT
-CLASS="APPLICATION"
->RRDTOOL</TT
-> source from <A
-HREF="http://www.rrdtool.org/"
-TARGET="_top"
->http://www.rrdtool.org/</A
-> and compile it.</P
-></LI
-></UL
-></LI
-><LI
-><P
->Installing precompiled NetMRG RPM</P
-><P
->Download the latest NetMRG RPM and install it as follows:</P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->rpm -Uvh netmrg-0.10.rpm</PRE
-></TD
-></TR
-></TABLE
-><P
->You will still have to perform the following tasks listed in the Install Instructions:</P
-><P
-></P
-><UL
-><LI
-><P
->Setup the Database</P
-></LI
-><LI
-><P
->Configure Apache</P
-></LI
-><LI
-><P
->Configure the Installation</P
-></LI
-><LI
-><P
->Setup Crontab</P
-></LI
-></UL
-></LI
-></UL
-></LI
-><LI
-><P
-><A
-HREF="http://www.freebsd.org/"
-TARGET="_top"
-><TT
-CLASS="APPLICATION"
->FreeBSD (4.8)</TT
-></A
-></P
-><P
-></P
-><UL
-><LI
-><P
->Install the following ports:</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="FILENAME"
->www/apache13</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->rrdtool</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->net-snmp</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->libxml2</TT
-></P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->mod_php4</TT
-> (specify MySQL support)</P
-></LI
-><LI
-><P
-><TT
-CLASS="FILENAME"
->lang/gcc32</TT
-></P
-></LI
-></UL
-></LI
-><LI
-><P
->Run <B
-CLASS="COMMAND"
->configure</B
->, specifying gcc32:</P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><PRE
-CLASS="PROGRAMLISTING"
->./configure 'LDFLAGS=-L/usr/local/gcc3/lib' 'CPPFLAGS=-I/usr/local/gcc3/include' 'CXX=g++32'</PRE
-></TD
-></TR
-></TABLE
-></LI
-></UL
-></LI
-></UL
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="softwarereq.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="install.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Software Requirements</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="installation.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Installation Procedure</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>Satisfying Requirements</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="HOME" title="The NetMRG Reference" href=
+  "index.html" />
+  <link rel="UP" title="Installation" href="installation.html" />
+  <link rel="PREVIOUS" title="Software Requirements" href=
+  "softwarereq.html" />
+  <link rel="NEXT" title="Installation Procedure" href=
+  "install.html" />
+  <link rel="STYLESHEET" type="text/css" href="netmrgdoc.css" />
+</head>
+
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link=
+"#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">The NetMRG Reference</th>
+      </tr>
+
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href=
+        "softwarereq.html" accesskey="P">Prev</a></td>
+
+        <td width="80%" align="center" valign="bottom"></td>
+
+        <td width="10%" align="right" valign="bottom"><a href=
+        "install.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%" />
+  </div>
+
+  <div class="CHAPTER">
+    <h1><a name="SATISFYREQ" id="SATISFYREQ"></a>Chapter 7.
+    Satisfying Requirements</h1>
+
+    <p>Specific instructions to satisfy dependencies for certain
+    platforms are presented below. They should be used more as
+    suggestions, not necessarily step-by-step instructions. You may
+    need to do more than what is listed, or much less, depending on
+    the options you selected when installing your operating
+    system.</p>
+
+    <ul>
+      <li>
+        <p><a href="http://www.redhat.com/" target=
+        "_top"><span class="APPLICATION">Red Hat
+        Linux</span></a></p>
+
+        <ul>
+          <li>
+            <p>In order to satisfy the libstdc++ requirement,
+            Redhat 8.0 or above is required. NetMRG may not be
+            stable on older versions of libstdc++.</p>
+          </li>
+
+          <li>
+            <p>Install the following RPMs from your Red Hat
+            installation media:</p>
+
+            <ul>
+              <li>
+                <p><tt class="FILENAME">httpd</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">php</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">php-mysql</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">mysql</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">mysql-server</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">mysql-devel</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">libxml2</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">libxml2-devel</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">net-snmp</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">net-snmp-devel</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">net-snmp-utils</tt></p>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <p>Installing <span class=
+            "APPLICATION">RRDTOOL</span></p>
+
+            <ul>
+              <li>
+                <p>Download an <span class=
+                "APPLICATION">RRDTOOL</span> RPM from <a href=
+                "http://www.freshrpms.net/" target=
+                "_top">http://www.freshrpms.net/</a></p>
+              </li>
+
+              <li>
+                <p>OR Download the <span class=
+                "APPLICATION">RRDTOOL</span> source from <a href=
+                "http://www.rrdtool.org/" target=
+                "_top">http://www.rrdtool.org/</a> and compile
+                it.</p>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <p>Installing precompiled NetMRG RPM</p>
+
+            <p>Download the latest NetMRG RPM and install it as
+            follows:</p>
+            <pre class="SCREEN">
+<samp class="PROMPT">$ </samp><kbd class=
+"USERINPUT">rpm -Uvh netmrg-0.10.rpm</kbd>
+</pre>
+
+            <p>You will still have to perform the following tasks
+            listed in the Install Instructions:</p>
+
+            <ul>
+              <li>
+                <p>Setup the Database</p>
+              </li>
+
+              <li>
+                <p>Configure Apache</p>
+              </li>
+
+              <li>
+                <p>Configure the Installation</p>
+              </li>
+
+              <li>
+                <p>Setup Crontab</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+
+      <li>
+        <p><a href="http://www.freebsd.org/" target=
+        "_top"><span class="APPLICATION">FreeBSD
+        (4.8)</span></a></p>
+
+        <ul>
+          <li>
+            <p>Install the following ports:</p>
+
+            <ul>
+              <li>
+                <p><tt class="FILENAME">www/apache13</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">rrdtool</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">net-snmp</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">libxml2</tt></p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">mod_php4</tt> (specify
+                MySQL support)</p>
+              </li>
+
+              <li>
+                <p><tt class="FILENAME">lang/gcc32</tt></p>
+              </li>
+            </ul>
+          </li>
+
+          <li>
+            <p>Run <b class="COMMAND">configure</b>, specifying
+            gcc32:</p>
+            <pre class="SCREEN">
+<kbd class=
+"USERINPUT">./configure 'LDFLAGS=-L/usr/local/gcc3/lib' 'CPPFLAGS=-I/usr/local/gcc3/include' 'CXX=g++32'</kbd>
+</pre>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href=
+        "softwarereq.html" accesskey="P">Prev</a></td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "index.html" accesskey="H">Home</a></td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "install.html" accesskey="N">Next</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">Software
+        Requirements</td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "installation.html" accesskey="U">Up</a></td>
+
+        <td width="33%" align="right" valign="top">Installation
+        Procedure</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

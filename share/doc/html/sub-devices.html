@@ -1,373 +1,217 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->Sub Devices</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="The NetMRG Reference"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Web Interface Descriptions"
-HREF="webpagedesc.html"><LINK
-REL="PREVIOUS"
-TITLE="Devices"
-HREF="devices.html"><LINK
-REL="NEXT"
-TITLE="Monitors"
-HREF="monitors.html"></HEAD
-><BODY
-CLASS="REFENTRY"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="devices.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="monitors.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><H1
-><A
-NAME="SUB-DEVICES"
-></A
->Sub Devices</H1
-><DIV
-CLASS="REFNAMEDIV"
-><A
-NAME="AEN1060"
-></A
-><H2
->Name</H2
->Sub Devices&nbsp;--&nbsp;A container for a collection of monitors</DIV
-><DIV
-CLASS="REFSECT1"
-><A
-NAME="AEN1063"
-></A
-><H2
->Description</H2
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN1065"
-></A
-><H3
->List</H3
-><P
->list of sub devices in a device</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Sub Devices</B
-></TT
-> - Name of the sub devices for this device; click on a name to view its monitors</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Type</B
-></TT
-> - Type of sub device (group, interface, or disk)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Add</B
-></TT
-> - add a new sub device to this device</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Parameters</B
-></TT
-> - View/edit available parameters for this sub device (such as what ifName to use to graph this interface)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->View</B
-></TT
-> - views graphs assocated with this sub device and allows you to edit what graphs are associated with the sub device</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Edit</B
-></TT
-> - edits options of a sub device</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Delete</B
-></TT
-> - deletes the sub device all monitors, events, etc underneath it</P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN1090"
-></A
-><H3
->Edit</H3
-><P
->edit info about a sub device</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> - Name of this sub device</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Sub-Device Type</B
-></TT
-> - Type of sub device (group, interface, or disk)</P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN1100"
-></A
-><H3
->Parameters</H3
-><P
->items that alter what interface or disk a sub device monitors</P
-><DIV
-CLASS="REFSECT3"
-><A
-NAME="AEN1103"
-></A
-><H4
->Configured Parameters</H4
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> - Name of paramter to match this sub device to (commonly 'dskPath' for disks or 'ifDescr' for interfaces)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Value</B
-></TT
-> - Value of the <TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> to match (commonly '/' for disks or 'eth0' for interfaces)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Add</B
-></TT
-> - Adds a Name/Value pair for this sub device</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Edit</B
-></TT
-> - Edits the values above for this sub device</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Delete</B
-></TT
-> - Deletes this Name/Value pair for this sub device</P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="REFSECT3"
-><A
-NAME="AEN1122"
-></A
-><H4
->Dynamic Parameters</H4
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> - Name of paramter that is available in template graphs as a wildcard (put between two '%' in the title)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Value</B
-></TT
-> - Value of the <TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> that will be displayed</P
-></LI
-></UL
-></DIV
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="devices.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="monitors.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Devices</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="webpagedesc.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Monitors</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>Sub Devices</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="HOME" title="The NetMRG Reference" href=
+  "index.html" />
+  <link rel="UP" title="Web Interface Descriptions" href=
+  "webpagedesc.html" />
+  <link rel="PREVIOUS" title="Devices" href="devices.html" />
+  <link rel="NEXT" title="Monitors" href="monitors.html" />
+  <link rel="STYLESHEET" type="text/css" href="netmrgdoc.css" />
+</head>
+
+<body class="REFENTRY" bgcolor="#FFFFFF" text="#000000" link=
+"#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">The NetMRG Reference</th>
+      </tr>
+
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href=
+        "devices.html" accesskey="P">Prev</a></td>
+
+        <td width="80%" align="center" valign="bottom"></td>
+
+        <td width="10%" align="right" valign="bottom"><a href=
+        "monitors.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%" />
+  </div>
+
+  <h1><a name="SUB-DEVICES" id="SUB-DEVICES"></a>Sub Devices</h1>
+
+  <div class="REFNAMEDIV">
+    <a name="AEN1069" id="AEN1069"></a>
+
+    <h2>Name</h2>Sub Devices&nbsp;--&nbsp;A container for a
+    collection of monitors
+  </div>
+
+  <div class="REFSECT1">
+    <a name="AEN1072" id="AEN1072"></a>
+
+    <h2>Description</h2>
+
+    <div class="REFSECT2">
+      <a name="AEN1074" id="AEN1074"></a>
+
+      <h3>List</h3>
+
+      <p>list of sub devices in a device</p>
+
+      <ul>
+        <li>
+          <p><span class="GUILABEL">Sub Devices</span> - Name of
+          the sub devices for this device; click on a name to view
+          its monitors</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Type</span> - Type of sub
+          device (group, interface, or disk)</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Add</span> - add a new sub
+          device to this device</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Parameters</span> - View/edit
+          available parameters for this sub device (such as what
+          ifName to use to graph this interface)</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">View</span> - views graphs
+          assocated with this sub device and allows you to edit
+          what graphs are associated with the sub device</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Edit</span> - edits options of
+          a sub device</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Delete</span> - deletes the sub
+          device all monitors, events, etc underneath it</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="REFSECT2">
+      <a name="AEN1099" id="AEN1099"></a>
+
+      <h3>Edit</h3>
+
+      <p>edit info about a sub device</p>
+
+      <ul>
+        <li>
+          <p><span class="GUILABEL">Name</span> - Name of this sub
+          device</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Sub-Device Type</span> - Type
+          of sub device (group, interface, or disk)</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="REFSECT2">
+      <a name="AEN1109" id="AEN1109"></a>
+
+      <h3>Parameters</h3>
+
+      <p>items that alter what interface or disk a sub device
+      monitors</p>
+
+      <div class="REFSECT3">
+        <a name="AEN1112" id="AEN1112"></a>
+
+        <h4>Configured Parameters</h4>
+
+        <ul>
+          <li>
+            <p><span class="GUILABEL">Name</span> - Name of
+            paramter to match this sub device to (commonly
+            'dskPath' for disks or 'ifDescr' for interfaces)</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Value</span> - Value of the
+            <span class="GUILABEL">Name</span> to match (commonly
+            '/' for disks or 'eth0' for interfaces)</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Add</span> - Adds a
+            Name/Value pair for this sub device</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Edit</span> - Edits the
+            values above for this sub device</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Delete</span> - Deletes this
+            Name/Value pair for this sub device</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="REFSECT3">
+        <a name="AEN1131" id="AEN1131"></a>
+
+        <h4>Dynamic Parameters</h4>
+
+        <ul>
+          <li>
+            <p><span class="GUILABEL">Name</span> - Name of
+            paramter that is available in template graphs as a
+            wildcard (put between two '%' in the title)</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Value</span> - Value of the
+            <span class="GUILABEL">Name</span> that will be
+            displayed</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href=
+        "devices.html" accesskey="P">Prev</a></td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "index.html" accesskey="H">Home</a></td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "monitors.html" accesskey="N">Next</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">Devices</td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "webpagedesc.html" accesskey="U">Up</a></td>
+
+        <td width="33%" align="right" valign="top">Monitors</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

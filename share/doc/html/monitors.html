@@ -1,522 +1,297 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->Monitors</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="The NetMRG Reference"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Web Interface Descriptions"
-HREF="webpagedesc.html"><LINK
-REL="PREVIOUS"
-TITLE="Sub Devices"
-HREF="sub-devices.html"><LINK
-REL="NEXT"
-TITLE="Events"
-HREF="events.html"></HEAD
-><BODY
-CLASS="REFENTRY"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="sub-devices.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="events.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><H1
-><A
-NAME="MONITORS"
-></A
->Monitors</H1
-><DIV
-CLASS="REFNAMEDIV"
-><A
-NAME="AEN1135"
-></A
-><H2
->Name</H2
->Monitors&nbsp;--&nbsp;A container for a collection of tracked values</DIV
-><DIV
-CLASS="REFSECT1"
-><A
-NAME="AEN1138"
-></A
-><H2
->Description</H2
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN1140"
-></A
-><H3
->List</H3
-><P
->list of monitors for a sub-device</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Test</B
-></TT
-> - Name of what is being monitored; click to view/edit events for this monitor</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Data</B
-></TT
-> - Information about the last gather of this monitor</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Value</B
-></TT
-> - value gathered in the last run</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Rate of Change</B
-></TT
-> - Difference between the current value and the last value, divided by the time between samples</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Time Stamp</B
-></TT
-> - Date/Time of last gather for this monitor</P
-></LI
-></UL
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Graph</B
-></TT
-> - A small representation of the current data gathered for this monitor; click on the graph for more options</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Add</B
-></TT
-> - add a new monitor to this sub device</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Edit</B
-></TT
-> - edits options of a monitor</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Delete</B
-></TT
-> - deletes the monitor and everything underneath it</P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN1172"
-></A
-><H3
->Edit</H3
-><P
->edit info about a monitor</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Monitoring Type</B
-></TT
-> - specifies the type of test used for this monitor (Script, SNMP, SQL, or Internal)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Test Options</B
-></TT
-> - this section varies depending on the setting of <TT
-CLASS="GUILABEL"
-><B
->Monitoring Type</B
-></TT
-></P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Script Options</B
-></TT
-></P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Script Test</B
-></TT
-> - specifies which script to run</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Parameters</B
-></TT
-> - specifies a string which will be appended to the script's parameters.  Parameter expansions are honored in this field.</P
-></LI
-></UL
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->SNMP Options</B
-></TT
-></P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->SNMP Test</B
-></TT
-> - specifies which SNMP test to run</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Parameters</B
-></TT
-> - specifies a string which will replace the expansion <SAMP
-CLASS="COMPUTEROUTPUT"
->%parameters%</SAMP
-> in SNMP OIDs.</P
-></LI
-></UL
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->SQL Options</B
-></TT
-></P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->SQL Test</B
-></TT
-> - specifies which SQL test to run</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Parameters</B
-></TT
-> - specifies a string which will replace the expansion <SAMP
-CLASS="COMPUTEROUTPUT"
->%parameters%</SAMP
-> in SQL queries.</P
-></LI
-></UL
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Internal Options</B
-></TT
-></P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Internal Test</B
-></TT
-> - specifies which internal test to run</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Parameters</B
-></TT
-> - specifies a string used by the internal test</P
-></LI
-></UL
-></LI
-></UL
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Graphing Options</B
-></TT
-></P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Data Type</B
-></TT
-> - the <TT
-CLASS="APPLICATION"
->RRDTOOL</TT
-> data type for this monitor</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Absolute</B
-></TT
-> - a counter reset when read</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Counter</B
-></TT
-> - an incrementing value interpreted as a rate (such as calculating your average speed with odometer readings)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Derive</B
-></TT
-> - a counter without overflow protection, permits graphing of negative rates</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Gauge</B
-></TT
-> - the value read is the value used, such as temperatures</P
-></LI
-></UL
-><P
->For a more complete discussion on when to use which data type, see the <A
-HREF="http://people.ee.ethz.ch/~oetiker/webtools/rrdtool/manual/rrdcreate.html"
-TARGET="_top"
->RRD Create manual page</A
->.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Minimum Value</B
-></TT
-> - the minimum value accepted by <TT
-CLASS="APPLICATION"
->RRDTOOL</TT
-> as valid.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Maximum Value</B
-></TT
-> - the maximum value accepted by <TT
-CLASS="APPLICATION"
->RRDTOOL</TT
-> as valid.</P
-></LI
-></UL
-></LI
-></UL
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="sub-devices.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="events.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Sub Devices</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="webpagedesc.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Events</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>Monitors</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="HOME" title="The NetMRG Reference" href=
+  "index.html" />
+  <link rel="UP" title="Web Interface Descriptions" href=
+  "webpagedesc.html" />
+  <link rel="PREVIOUS" title="Sub Devices" href=
+  "sub-devices.html" />
+  <link rel="NEXT" title="Events" href="events.html" />
+  <link rel="STYLESHEET" type="text/css" href="netmrgdoc.css" />
+</head>
+
+<body class="REFENTRY" bgcolor="#FFFFFF" text="#000000" link=
+"#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">The NetMRG Reference</th>
+      </tr>
+
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href=
+        "sub-devices.html" accesskey="P">Prev</a></td>
+
+        <td width="80%" align="center" valign="bottom"></td>
+
+        <td width="10%" align="right" valign="bottom"><a href=
+        "events.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%" />
+  </div>
+
+  <h1><a name="MONITORS" id="MONITORS"></a>Monitors</h1>
+
+  <div class="REFNAMEDIV">
+    <a name="AEN1144" id="AEN1144"></a>
+
+    <h2>Name</h2>Monitors&nbsp;--&nbsp;A container for a collection
+    of tracked values
+  </div>
+
+  <div class="REFSECT1">
+    <a name="AEN1147" id="AEN1147"></a>
+
+    <h2>Description</h2>
+
+    <div class="REFSECT2">
+      <a name="AEN1149" id="AEN1149"></a>
+
+      <h3>List</h3>
+
+      <p>list of monitors for a sub-device</p>
+
+      <ul>
+        <li>
+          <p><span class="GUILABEL">Test</span> - Name of what is
+          being monitored; click to view/edit events for this
+          monitor</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Data</span> - Information about
+          the last gather of this monitor</p>
+
+          <ul>
+            <li>
+              <p><span class="GUILABEL">Value</span> - value
+              gathered in the last run</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Rate of Change</span> -
+              Difference between the current value and the last
+              value, divided by the time between samples</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Time Stamp</span> -
+              Date/Time of last gather for this monitor</p>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Graph</span> - A small
+          representation of the current data gathered for this
+          monitor; click on the graph for more options</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Add</span> - add a new monitor
+          to this sub device</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Edit</span> - edits options of
+          a monitor</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Delete</span> - deletes the
+          monitor and everything underneath it</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="REFSECT2">
+      <a name="AEN1181" id="AEN1181"></a>
+
+      <h3>Edit</h3>
+
+      <p>edit info about a monitor</p>
+
+      <ul>
+        <li>
+          <p><span class="GUILABEL">Monitoring Type</span> -
+          specifies the type of test used for this monitor (Script,
+          SNMP, SQL, or Internal)</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Test Options</span> - this
+          section varies depending on the setting of <span class=
+          "GUILABEL">Monitoring Type</span></p>
+
+          <ul>
+            <li>
+              <p><span class="GUILABEL">Script Options</span></p>
+
+              <ul>
+                <li>
+                  <p><span class="GUILABEL">Script Test</span> -
+                  specifies which script to run</p>
+                </li>
+
+                <li>
+                  <p><span class="GUILABEL">Parameters</span> -
+                  specifies a string which will be appended to the
+                  script's parameters. Parameter expansions are
+                  honored in this field.</p>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">SNMP Options</span></p>
+
+              <ul>
+                <li>
+                  <p><span class="GUILABEL">SNMP Test</span> -
+                  specifies which SNMP test to run</p>
+                </li>
+
+                <li>
+                  <p><span class="GUILABEL">Parameters</span> -
+                  specifies a string which will replace the
+                  expansion <samp class=
+                  "COMPUTEROUTPUT">%parameters%</samp> in SNMP
+                  OIDs.</p>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">SQL Options</span></p>
+
+              <ul>
+                <li>
+                  <p><span class="GUILABEL">SQL Test</span> -
+                  specifies which SQL test to run</p>
+                </li>
+
+                <li>
+                  <p><span class="GUILABEL">Parameters</span> -
+                  specifies a string which will replace the
+                  expansion <samp class=
+                  "COMPUTEROUTPUT">%parameters%</samp> in SQL
+                  queries.</p>
+                </li>
+              </ul>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Internal Options</span></p>
+
+              <ul>
+                <li>
+                  <p><span class="GUILABEL">Internal Test</span> -
+                  specifies which internal test to run</p>
+                </li>
+
+                <li>
+                  <p><span class="GUILABEL">Parameters</span> -
+                  specifies a string used by the internal test</p>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Graphing Options</span></p>
+
+          <ul>
+            <li>
+              <p><span class="GUILABEL">Data Type</span> - the
+              <span class="APPLICATION">RRDTOOL</span> data type
+              for this monitor</p>
+
+              <ul>
+                <li>
+                  <p><span class="GUILABEL">Absolute</span> - a
+                  counter reset when read</p>
+                </li>
+
+                <li>
+                  <p><span class="GUILABEL">Counter</span> - an
+                  incrementing value interpreted as a rate (such as
+                  calculating your average speed with odometer
+                  readings)</p>
+                </li>
+
+                <li>
+                  <p><span class="GUILABEL">Derive</span> - a
+                  counter without overflow protection, permits
+                  graphing of negative rates</p>
+                </li>
+
+                <li>
+                  <p><span class="GUILABEL">Gauge</span> - the
+                  value read is the value used, such as
+                  temperatures</p>
+                </li>
+              </ul>
+
+              <p>For a more complete discussion on when to use
+              which data type, see the <a href=
+              "http://people.ee.ethz.ch/~oetiker/webtools/rrdtool/manual/rrdcreate.html"
+              target="_top">RRD Create manual page</a>.</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Minimum Value</span> - the
+              minimum value accepted by <span class=
+              "APPLICATION">RRDTOOL</span> as valid.</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Maximum Value</span> - the
+              maximum value accepted by <span class=
+              "APPLICATION">RRDTOOL</span> as valid.</p>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href=
+        "sub-devices.html" accesskey="P">Prev</a></td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "index.html" accesskey="H">Home</a></td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "events.html" accesskey="N">Next</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">Sub Devices</td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "webpagedesc.html" accesskey="U">Up</a></td>
+
+        <td width="33%" align="right" valign="top">Events</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

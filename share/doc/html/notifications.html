@@ -1,244 +1,162 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->Notifications</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="The NetMRG Reference"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Web Interface Descriptions"
-HREF="webpagedesc.html"><LINK
-REL="PREVIOUS"
-TITLE="Tests"
-HREF="tests.html"><LINK
-REL="NEXT"
-TITLE="Admin"
-HREF="admin.html"></HEAD
-><BODY
-CLASS="REFENTRY"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="tests.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="admin.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><H1
-><A
-NAME="NOTIFICATIONS"
-></A
->Notifications</H1
-><DIV
-CLASS="REFNAMEDIV"
-><A
-NAME="AEN1471"
-></A
-><H2
->Name</H2
->Notifications&nbsp;--&nbsp;Configuration for notifying users when events occur.</DIV
-><DIV
-CLASS="REFSECT1"
-><A
-NAME="AEN1474"
-></A
-><H2
->Description</H2
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN1476"
-></A
-><H3
->Edit</H3
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> - A name used to identifiy the notification.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Command</B
-></TT
-> - A shell-interpreted command to run to notify the user of an event.  Parameter expansions will be made to this field as outlined below.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Disabled</B
-></TT
-> - When selected, the specified will not be run.  Useful for temporary suspension of notifications.</P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN1488"
-></A
-><H3
->Variable Substitutions</H3
-><P
->			The following parameters will be substituted in the command field:
-			<P
-></P
-><UL
-><LI
-><P
->%dev_name% - The device's name</P
-></LI
-><LI
-><P
->%ip% - The IP or host name for the device</P
-></LI
-><LI
-><P
->%event_name% - The name of the triggered event causing the notification.</P
-></LI
-><LI
-><P
->%situation% - The situation of the triggered event (Normal, Warning, etc.)</P
-></LI
-><LI
-><P
->%current_value% - The monitor's last gathered value.</P
-></LI
-><LI
-><P
->%delta_value% - The change between the monitor's last gathered value and the previous.</P
-></LI
-><LI
-><P
->%rate_value% - The rate-of-change based on the last two gathered values and the time difference between them.</P
-></LI
-><LI
-><P
->%last_value% - The value from the gathering period before last.</P
-></LI
-></UL
->
-			</P
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="tests.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="admin.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Tests</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="webpagedesc.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Admin</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>Notifications</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="HOME" title="The NetMRG Reference" href=
+  "index.html" />
+  <link rel="UP" title="Web Interface Descriptions" href=
+  "webpagedesc.html" />
+  <link rel="PREVIOUS" title="Tests" href="tests.html" />
+  <link rel="NEXT" title="Admin" href="admin.html" />
+  <link rel="STYLESHEET" type="text/css" href="netmrgdoc.css" />
+</head>
+
+<body class="REFENTRY" bgcolor="#FFFFFF" text="#000000" link=
+"#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">The NetMRG Reference</th>
+      </tr>
+
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href=
+        "tests.html" accesskey="P">Prev</a></td>
+
+        <td width="80%" align="center" valign="bottom"></td>
+
+        <td width="10%" align="right" valign="bottom"><a href=
+        "admin.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%" />
+  </div>
+
+  <h1><a name="NOTIFICATIONS" id=
+  "NOTIFICATIONS"></a>Notifications</h1>
+
+  <div class="REFNAMEDIV">
+    <a name="AEN1480" id="AEN1480"></a>
+
+    <h2>Name</h2>Notifications&nbsp;--&nbsp;Configuration for
+    notifying users when events occur.
+  </div>
+
+  <div class="REFSECT1">
+    <a name="AEN1483" id="AEN1483"></a>
+
+    <h2>Description</h2>
+
+    <div class="REFSECT2">
+      <a name="AEN1485" id="AEN1485"></a>
+
+      <h3>Edit</h3>
+
+      <ul>
+        <li>
+          <p><span class="GUILABEL">Name</span> - A name used to
+          identifiy the notification.</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Command</span> - A
+          shell-interpreted command to run to notify the user of an
+          event. Parameter expansions will be made to this field as
+          outlined below.</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Disabled</span> - When
+          selected, the specified will not be run. Useful for
+          temporary suspension of notifications.</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="REFSECT2">
+      <a name="AEN1497" id="AEN1497"></a>
+
+      <h3>Variable Substitutions</h3>
+
+      <p>The following parameters will be substituted in the
+      command field:</p>
+
+      <ul>
+        <li>
+          <p>%dev_name% - The device's name</p>
+        </li>
+
+        <li>
+          <p>%ip% - The IP or host name for the device</p>
+        </li>
+
+        <li>
+          <p>%event_name% - The name of the triggered event causing
+          the notification.</p>
+        </li>
+
+        <li>
+          <p>%situation% - The situation of the triggered event
+          (Normal, Warning, etc.)</p>
+        </li>
+
+        <li>
+          <p>%current_value% - The monitor's last gathered
+          value.</p>
+        </li>
+
+        <li>
+          <p>%delta_value% - The change between the monitor's last
+          gathered value and the previous.</p>
+        </li>
+
+        <li>
+          <p>%rate_value% - The rate-of-change based on the last
+          two gathered values and the time difference between
+          them.</p>
+        </li>
+
+        <li>
+          <p>%last_value% - The value from the gathering period
+          before last.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href=
+        "tests.html" accesskey="P">Prev</a></td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "index.html" accesskey="H">Home</a></td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "admin.html" accesskey="N">Next</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">Tests</td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "webpagedesc.html" accesskey="U">Up</a></td>
+
+        <td width="33%" align="right" valign="top">Admin</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -10,7 +10,10 @@
 #HTML
 echo "Building HTML docs"
 docbook2html -d share/doc/netmrg.dsl#html -o share/doc/html share/doc/netmrg.sgml
+find share/doc/html -name \*.html -exec tidy -indent -asxhtml -quiet -modify {} \;
 cp share/doc/netmrg-logo-medium.png share/doc/html/
+cp share/doc/netmrg-logo-small.png share/doc/html/
+cp share/doc/netmrgdoc.css share/doc/html/
 echo
 
 #MAN

@@ -1,214 +1,149 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->Monitoring and Reporting Concepts</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="The NetMRG Reference"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Concepts"
-HREF="concepts.html"><LINK
-REL="PREVIOUS"
-TITLE="System Structure"
-HREF="sytemstruct.html"><LINK
-REL="NEXT"
-TITLE="Graphing Concepts"
-HREF="graphconcepts.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="sytemstruct.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="graphconcepts.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="MONITORCONCEPTS"
-></A
->Chapter 4. Monitoring and Reporting Concepts</H1
-><P
-></P
-><UL
-><LI
-><P
->Groups</P
-><P
->Groups are organizational containers used in NetMRG.  They are capable of 
-containing Devices, as well as having a View associated with them.  As they 
-are strictly organizational, the Web Interface is the only component to 
-utilize them.  They are ignored by the Gatherer.
-			</P
-></LI
-><LI
-><P
->Devices</P
-><P
->Devices can be thought of as any physical device on your network that will 
-be monitored.  They may also be used organizationally to group Monitors 
-that are not associated directly to any physcial host.  Devices may have, 
-but are not required to have, IP addresses, SNMP community strings, and so 
-forth.  Data gathering for Devices may be explicitly disabled.  Devices 
-contain Sub-Devices.
-			</P
-></LI
-><LI
-><P
->Sub-Devices</P
-><P
->Sub-Devices are discrete entities on a Device.  Examples of these are network 
-interfaces, disk drives, and so forth.  Sub-Devices may have parameters or 
-variables associated with them for identification purposes.  For example, a 
-web server has a network interface designated "eth0."  In NetMRG, the server 
-would have a network interface Sub-Device which would have a variable of 
-"ifDescr" set to "eth0."  Sub-Devices contain Monitors.
-			</P
-></LI
-><LI
-><P
->Monitors</P
-><P
->Monitors represent discrete monitorable quantities.  The Gatherer performs the 
-Monitor's Test upon the Monitor's Sub-Device.  The result is then stored in a 
-RRD.  Monitors are also associated with Graph Items.  If NetMRG is being used 
-to track events, a Monitor may also contain Events.
-			</P
-></LI
-><LI
-><P
->Tests</P
-><P
->Tests are data gathering operations associated with Monitors.  There are four 
-types of tests:  Scripts, SNMP Queries, SQL Queries, and Internal tests.  
-Script tests call a script and use either its return code or its output as 
-data.  SNMP Tests perform a SNMP GET operation against a device using a 
-supplied OID.  SQL Tests perform a MySQL query and use a value from a returned 
-row as data.  Internal tests are frequently used tests built into the Gatherer.  
-They typically start as Script Tests but are integrated for the sake of 
-efficiency.
-			</P
-></LI
-><LI
-><P
->Events</P
-><P
->Events contain a group of Conditions and Responses.  If the Conditions of an 
-Event are met, the appropriate response is performed.
-			</P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="sytemstruct.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="graphconcepts.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->System Structure</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="concepts.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Graphing Concepts</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>Monitoring and Reporting Concepts</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="HOME" title="The NetMRG Reference" href=
+  "index.html" />
+  <link rel="UP" title="Concepts" href="concepts.html" />
+  <link rel="PREVIOUS" title="System Structure" href=
+  "sytemstruct.html" />
+  <link rel="NEXT" title="Graphing Concepts" href=
+  "graphconcepts.html" />
+  <link rel="STYLESHEET" type="text/css" href="netmrgdoc.css" />
+</head>
+
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link=
+"#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">The NetMRG Reference</th>
+      </tr>
+
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href=
+        "sytemstruct.html" accesskey="P">Prev</a></td>
+
+        <td width="80%" align="center" valign="bottom"></td>
+
+        <td width="10%" align="right" valign="bottom"><a href=
+        "graphconcepts.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%" />
+  </div>
+
+  <div class="CHAPTER">
+    <h1><a name="MONITORCONCEPTS" id="MONITORCONCEPTS"></a>Chapter
+    4. Monitoring and Reporting Concepts</h1>
+
+    <ul>
+      <li>
+        <p>Groups</p>
+
+        <p>Groups are organizational containers used in NetMRG.
+        They are capable of containing Devices, as well as having a
+        View associated with them. As they are strictly
+        organizational, the Web Interface is the only component to
+        utilize them. They are ignored by the Gatherer.</p>
+      </li>
+
+      <li>
+        <p>Devices</p>
+
+        <p>Devices can be thought of as any physical device on your
+        network that will be monitored. They may also be used
+        organizationally to group Monitors that are not associated
+        directly to any physcial host. Devices may have, but are
+        not required to have, IP addresses, SNMP community strings,
+        and so forth. Data gathering for Devices may be explicitly
+        disabled. Devices contain Sub-Devices.</p>
+      </li>
+
+      <li>
+        <p>Sub-Devices</p>
+
+        <p>Sub-Devices are discrete entities on a Device. Examples
+        of these are network interfaces, disk drives, and so forth.
+        Sub-Devices may have parameters or variables associated
+        with them for identification purposes. For example, a web
+        server has a network interface designated "eth0." In
+        NetMRG, the server would have a network interface
+        Sub-Device which would have a variable of "ifDescr" set to
+        "eth0." Sub-Devices contain Monitors.</p>
+      </li>
+
+      <li>
+        <p>Monitors</p>
+
+        <p>Monitors represent discrete monitorable quantities. The
+        Gatherer performs the Monitor's Test upon the Monitor's
+        Sub-Device. The result is then stored in a RRD. Monitors
+        are also associated with Graph Items. If NetMRG is being
+        used to track events, a Monitor may also contain
+        Events.</p>
+      </li>
+
+      <li>
+        <p>Tests</p>
+
+        <p>Tests are data gathering operations associated with
+        Monitors. There are four types of tests: Scripts, SNMP
+        Queries, SQL Queries, and Internal tests. Script tests call
+        a script and use either its return code or its output as
+        data. SNMP Tests perform a SNMP GET operation against a
+        device using a supplied OID. SQL Tests perform a MySQL
+        query and use a value from a returned row as data. Internal
+        tests are frequently used tests built into the Gatherer.
+        They typically start as Script Tests but are integrated for
+        the sake of efficiency.</p>
+      </li>
+
+      <li>
+        <p>Events</p>
+
+        <p>Events contain a group of Conditions and Responses. If
+        the Conditions of an Event are met, the appropriate
+        response is performed.</p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href=
+        "sytemstruct.html" accesskey="P">Prev</a></td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "index.html" accesskey="H">Home</a></td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "graphconcepts.html" accesskey="N">Next</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">System
+        Structure</td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "concepts.html" accesskey="U">Up</a></td>
+
+        <td width="33%" align="right" valign="top">Graphing
+        Concepts</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

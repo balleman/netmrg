@@ -1,5 +1,5 @@
 
-[netmrg-logo-medium.png] The NetMRG Reference
+The NetMRG Reference
 
 Brady Alleman
 
@@ -400,8 +400,7 @@ Chapter 7. Satisfying Requirements
                  http://www.rrdtool.org/ and compile it.
           + Installing precompiled NetMRG RPM
             Download the latest NetMRG RPM and install it as follows:
-
-            rpm -Uvh netmrg-0.10.rpm
+$ rpm -Uvh netmrg-0.10.rpm
             You will still have to perform the following tasks listed
             in the Install Instructions:
                o Setup the Database
@@ -417,54 +416,47 @@ Chapter 7. Satisfying Requirements
                o mod_php4 (specify MySQL support)
                o lang/gcc32
           + Run configure, specifying gcc32:
-
 ./configure 'LDFLAGS=-L/usr/local/gcc3/lib' 'CPPFLAGS=-I/usr/local/gcc3
-   /include' 'CXX=g++32'
+/include' 'CXX=g++32'
      _________________________________________________________
 
 Chapter 8. Installation Procedure
 
     1. Untar  to  some directory like /tmp/ (it will untar into a
        'netmrg' directory)
-
 cd /tmp
 wget http://www.netmrg.net/download/release/netmrg.tar.gz
-   tar xzvf netmrg.tar.gz
+tar xzvf netmrg.tar.gz
     2. Now we need to compile and install the source. cd into the
        directory made by your tar command and type the following:
-
 ./configure
 make
-   make install
+make install
 
-     Note If configure fails to locate the needed libraries they can be
-   manually specified. Run ./configure --help for details on the
-      necessary options.
+     Note: If configure fails to locate the needed libraries they can
+     be manually specified. Run ./configure --help for details on the
+     necessary options.
     3. Setup the database
        Now we need to setup the database. Please change at least the
        password (netmrgpass below).
-
 mysqladmin create netmrg
 mysql -u root -p netmrg < share/netmrg.mysql
 mysql -u root -p
 > grant all on netmrg.* to netmrguser@localhost identified by 'netmrgpa
-   ss';
+ss';
     4. You need to modify your apache config in order to make your
        NetMRG installation live (commonly in
        /etc/httpd/conf/httpd.conf).
        The first is to alias /netmrg to the installed web directory
        (commonly /usr/local/var/www/netmrg/webfiles).
-
-       Alias /netmrg "/usr/local/var/www/netmrg/webfiles"
+Alias /netmrg "/usr/local/var/www/netmrg/webfiles"
        The easier way (if you're running Apache >= 1.3) is to just
        Include the conf file we've created anywhere in your file (near
        the bottom is fine).
-
-       Include /usr/local/etc/netmrg.conf
+Include /usr/local/etc/netmrg.conf
        You  will  need to restart your Apache after making config
        changes. Telling it to reload its config should be good enough
-
-       killall -HUP httpd
+killall -HUP httpd
     5. Configure the Installation
        All of NetMRG's common configuration options are controlled by
        an XML file, normally located at /usr/local/etc/netmrg.xml. You
@@ -475,22 +467,19 @@ mysql -u root -p
     6. Setup Permissions
        NetMRG does not need superuser permissions to run, therefore we
        will setup a user for it.
-
 # useradd netmrg
 # chown netmrg:netmrg /usr/local/var/log/netmrg
-   # chown netmrg:netmrg /usr/local/var/lib/netmrg/rrd
+# chown netmrg:netmrg /usr/local/var/lib/netmrg/rrd
     7. Setup crontab
        You can setup the crontab entries in two places: either edit
        /etc/crontab, or run crontab -e as the netmrg user. For 'crontab
        -e', use an entry similar to this:
-
 su netmrg
 */5 * * * * /usr/local/bin/netmrg_cron.sh
-   exit
+exit
        To edit the master crontab, edit /etc/crontab and add a line
        similar to this:
-
-       */5 * * * * netmrg /usr/local/bin/netmrg_cron.sh
+*/5 * * * * netmrg /usr/local/bin/netmrg_cron.sh
     8. Point your web browser at your install, and start graphing
        things! The default login is admin and the default password is
        nimda. Point your web browser at the host you built this on
@@ -688,9 +677,9 @@ Chapter 13. External Authentication
    accomplished by handing off the authentication task to the HTTP
    server.
 
-   Note You must still create accounts in NetMRG for each user when
-   using external authentication in order to assign them permissions
-      and rights.
+     Note: You must still create accounts in NetMRG for each user when
+     using external authentication in order to assign them permissions
+     and rights.
 
    Details on methods of authentication using the Apache web server are
    available here. There are add-on modules for Apache that allow for
@@ -767,7 +756,7 @@ Description
    will store results in RRD files using RRDTOOL(1) and perform actions
    in response to events.
 
-   Global Options
+Global Options
 
    -h
 
@@ -777,7 +766,7 @@ Description
 
           Displays software version and exits.
 
-   Operating Options
+Operating Options
 
    -t num threads
 
@@ -797,12 +786,12 @@ Description
           daemonized) which will run all tests, wait for the gatherer
           interval to expire, and then repeat.
 
-   Note To run netmrg-gatherer daemonized, the recommended set of
-   options at this point is "-X -S -M wait" which will daemonize,
-   repeat the gather cycle on each interval, and write output to
-      syslog.
+     Note: To run netmrg-gatherer daemonized, the recommended set of
+     options at this point is "-X -S -M wait" which will daemonize,
+     repeat the gather cycle on each interval, and write output to
+     syslog.
 
-   Logging, Debugging and Verbosity Options
+Logging, Debugging and Verbosity Options
 
    -S
 
@@ -843,7 +832,7 @@ Description
           Safe.  Tries  to  keep sensitive information out of the
           displayed messages.
 
-   Configuration File Options
+Configuration File Options
 
    -C config file
 
@@ -853,7 +842,7 @@ Description
 
           Parses the specified XML configuration file and exits.
 
-   Database Options
+Database Options
 
    -H host
 
@@ -873,7 +862,7 @@ Description
           If no password is specified, the user is prompted to enter
           one.
 
-   Recaching Options
+Recaching Options
 
    -i device id
 
@@ -883,8 +872,8 @@ Description
 
           Performs a disk recache on the specified device.
 
-   Note Recaching options are intended for use by the web interface.
-      These options should not be generally used by end users.
+     Note: Recaching options are intended for use by the web interface.
+     These options should not be generally used by end users.
 
 II. Web Interface Descriptions
 
@@ -1239,7 +1228,7 @@ List
 
    list of events for a monitor
 
-   Note Events displayed in bold are currently triggered.
+     Note: Events displayed in bold are currently triggered.
 
 Edit
 
@@ -1268,11 +1257,11 @@ Edit
             condition.
           + Critical - the tested service is not operating acceptably.
 
-       Note Situations for an event propagate up the Device Tree. Each
-   level takes on the worst situation of its descendents. For example,
-   if you have a Critical situation, the Event as well as the Monitor,
-   Sub-Device, Device, and Groups above that Event will take on the
-      situation Critical as well.
+     Note: Situations for an event propagate up the Device Tree. Each
+     level  takes on the worst situation of its descendents. For
+     example, if you have a Critical situation, the Event as well as
+     the Monitor, Sub-Device, Device, and Groups above that Event will
+     take on the situation Critical as well.
 
 Conditions
 
@@ -1438,8 +1427,8 @@ Edit
      * Password - The password for the MySQL user.
      * Query - The SQL query to perform.
 
-       Note No default database is specified, so be sure to include the
-      database name in the table names that you use in your query.
+     Note: No default database is specified, so be sure to include the
+     database name in the table names that you use in your query.
      * Column Number - The column to return. NetMRG will collect the
        value from this column in the first row of the result set.
 

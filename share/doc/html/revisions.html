@@ -1,270 +1,207 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->Revision History</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="The NetMRG Reference"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Overview"
-HREF="overview.html"><LINK
-REL="PREVIOUS"
-TITLE="Introduction"
-HREF="intro.html"><LINK
-REL="NEXT"
-TITLE="Concepts"
-HREF="concepts.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="intro.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="concepts.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="REVISIONS"
-></A
->Chapter 2. Revision History</H1
-><P
-></P
-><UL
-><LI
-><P
->0.18</P
-><P
->2004.10.25</P
-><P
->Major Bug Fixes;
-Fixed an issue preventing form submissions on some browsers, fixed PHP string 
-escaping problems, fixed inability to create inverted stacked graphs, and fixed
-parameter substituion and documentation regarding notifications and responses.
-Added better support on FreeBSDs (4.8-5.2) and x86-64 architectures 
-(Linux and FreeBSD), the ability to multiply summed values, MySQL timeouts,
-simple value parsing (to get the numeric content out of quoted numbers, etc), 
-graphic icons for most actions, support for a default external auth user 
-(with regards to permissions), and cleaned up the gatherer build process output.
-			</P
-></LI
-><LI
-><P
->0.17</P
-><P
->2004.09.13</P
-><P
->Minor Feature Enhancements;
-Added colorized gatherer output, checkbox support on multiple pages, the 
-ability to disable users, fixed a potential SQL-injection bug, updated 
-navigation on group pages, updated tutorials.
-			</P
-></LI
-><LI
-><P
->0.16</P
-><P
->2004.06.10</P
-><P
->Minor Bugfixes and Feature Enhancements;
-fixed a user management bug and several bugs related to 'single view only' 
-users not being able to see graphs, added the ability to ignore SNMP uptime checks 
-for devices (permitting the monitoring of broken devices), added the ability 
-to do an SNMP walk of an OID (useful for the Windows SNMP agent), 
-enhanced group/device management, cleaned up autoconf (now supports FC2),
-and added experimental syslog and daemon support in the gatherer.
-			</P
-></LI
-><LI
-><P
->0.15</P
-><P
->2004.05.20</P
-><P
->Minor Bugfixes and Feature Enhancements; fixes for various db errors (including the infamous one on 
-snmp_cache_view.php), better cross-platform compilation, select all/none/invert checkbox support, support for 
-choosing what graph to apply to an interface, better support for php &#60; 4.2.0, and some security fixes for 
-single-view-only users.
-			</P
-></LI
-><LI
-><P
->0.14</P
-><P
->2004.03.10</P
-><P
->Minor Bugfixes and Feature Enhancements; escaping issues in template dereferencing, broken links on 
-various pages, security issues regarding manual SNMP recaching, broken duplication on non-cutting-edge MySQL,
-more parameter substitution in SQL tests, better date parsing for advanced graph view, nav-bar and group navigation
-enhancements, advanced view capability for monitor-only graphs.
-			</P
-></LI
-><LI
-><P
->0.13</P
-><P
->2003.12.19</P
-><P
->Minor Bugfixes and Feature Enhancements; slide show ordering, previous slide, resume slide show,
-better formatting of 'sums', errors on view editing, fixes to permissions checking, and an 
-occassional segfault in the gatherer was fixed.
-			</P
-></LI
-><LI
-><P
->0.12</P
-><P
->2003.12.15</P
-><P
->Major Feature Enhancents and Bugfixes; added SNMPv2 support, fixed a bug that
-would cause a device to be deleted from all groups, fixed session timeout
-when using external auth, added checkbox support to interface/disk cache pages, slide show
-enhancements, fixed permission issue where unauthorized users could view/edit test_* pages
-			</P
-></LI
-><LI
-><P
->0.10</P
-><P
->2003.10.05</P
-><P
->Major bug fix; fixes a db error when trying to view monitors, a bug that would
-always set the width and height to zero when creating graphs, and makes conditions
-with 'rate of change' work.  Many documentation upgrades.
-			</P
-></LI
-><LI
-><P
->0.10pre2</P
-><P
->2003.09.15</P
-><P
->This release focuses on adding new features and sqaushing bugs.  In addition,
-there is now an 'updater.php' that is required to be run between versions.  A
-minor change needs to be made to everyone's 'netmrg.xml' to add an 'externalauth'
-field inside the 'website' section.
-			</P
-></LI
-><LI
-><P
->0.10pre1</P
-><P
->2003.07.28</P
-><P
->Initial publication</P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="intro.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="concepts.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Introduction</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="overview.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Concepts</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>Revision History</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="HOME" title="The NetMRG Reference" href=
+  "index.html" />
+  <link rel="UP" title="Overview" href="overview.html" />
+  <link rel="PREVIOUS" title="Introduction" href="intro.html" />
+  <link rel="NEXT" title="Concepts" href="concepts.html" />
+  <link rel="STYLESHEET" type="text/css" href="netmrgdoc.css" />
+</head>
+
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link=
+"#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">The NetMRG Reference</th>
+      </tr>
+
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href=
+        "intro.html" accesskey="P">Prev</a></td>
+
+        <td width="80%" align="center" valign="bottom"></td>
+
+        <td width="10%" align="right" valign="bottom"><a href=
+        "concepts.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%" />
+  </div>
+
+  <div class="CHAPTER">
+    <h1><a name="REVISIONS" id="REVISIONS"></a>Chapter 2. Revision
+    History</h1>
+
+    <ul>
+      <li>
+        <p>0.18</p>
+
+        <p>2004.10.25</p>
+
+        <p>Major Bug Fixes; Fixed an issue preventing form
+        submissions on some browsers, fixed PHP string escaping
+        problems, fixed inability to create inverted stacked
+        graphs, and fixed parameter substituion and documentation
+        regarding notifications and responses. Added better support
+        on FreeBSDs (4.8-5.2) and x86-64 architectures (Linux and
+        FreeBSD), the ability to multiply summed values, MySQL
+        timeouts, simple value parsing (to get the numeric content
+        out of quoted numbers, etc), graphic icons for most
+        actions, support for a default external auth user (with
+        regards to permissions), and cleaned up the gatherer build
+        process output.</p>
+      </li>
+
+      <li>
+        <p>0.17</p>
+
+        <p>2004.09.13</p>
+
+        <p>Minor Feature Enhancements; Added colorized gatherer
+        output, checkbox support on multiple pages, the ability to
+        disable users, fixed a potential SQL-injection bug, updated
+        navigation on group pages, updated tutorials.</p>
+      </li>
+
+      <li>
+        <p>0.16</p>
+
+        <p>2004.06.10</p>
+
+        <p>Minor Bugfixes and Feature Enhancements; fixed a user
+        management bug and several bugs related to 'single view
+        only' users not being able to see graphs, added the ability
+        to ignore SNMP uptime checks for devices (permitting the
+        monitoring of broken devices), added the ability to do an
+        SNMP walk of an OID (useful for the Windows SNMP agent),
+        enhanced group/device management, cleaned up autoconf (now
+        supports FC2), and added experimental syslog and daemon
+        support in the gatherer.</p>
+      </li>
+
+      <li>
+        <p>0.15</p>
+
+        <p>2004.05.20</p>
+
+        <p>Minor Bugfixes and Feature Enhancements; fixes for
+        various db errors (including the infamous one on
+        snmp_cache_view.php), better cross-platform compilation,
+        select all/none/invert checkbox support, support for
+        choosing what graph to apply to an interface, better
+        support for php &lt; 4.2.0, and some security fixes for
+        single-view-only users.</p>
+      </li>
+
+      <li>
+        <p>0.14</p>
+
+        <p>2004.03.10</p>
+
+        <p>Minor Bugfixes and Feature Enhancements; escaping issues
+        in template dereferencing, broken links on various pages,
+        security issues regarding manual SNMP recaching, broken
+        duplication on non-cutting-edge MySQL, more parameter
+        substitution in SQL tests, better date parsing for advanced
+        graph view, nav-bar and group navigation enhancements,
+        advanced view capability for monitor-only graphs.</p>
+      </li>
+
+      <li>
+        <p>0.13</p>
+
+        <p>2003.12.19</p>
+
+        <p>Minor Bugfixes and Feature Enhancements; slide show
+        ordering, previous slide, resume slide show, better
+        formatting of 'sums', errors on view editing, fixes to
+        permissions checking, and an occassional segfault in the
+        gatherer was fixed.</p>
+      </li>
+
+      <li>
+        <p>0.12</p>
+
+        <p>2003.12.15</p>
+
+        <p>Major Feature Enhancents and Bugfixes; added SNMPv2
+        support, fixed a bug that would cause a device to be
+        deleted from all groups, fixed session timeout when using
+        external auth, added checkbox support to interface/disk
+        cache pages, slide show enhancements, fixed permission
+        issue where unauthorized users could view/edit test_*
+        pages</p>
+      </li>
+
+      <li>
+        <p>0.10</p>
+
+        <p>2003.10.05</p>
+
+        <p>Major bug fix; fixes a db error when trying to view
+        monitors, a bug that would always set the width and height
+        to zero when creating graphs, and makes conditions with
+        'rate of change' work. Many documentation upgrades.</p>
+      </li>
+
+      <li>
+        <p>0.10pre2</p>
+
+        <p>2003.09.15</p>
+
+        <p>This release focuses on adding new features and
+        sqaushing bugs. In addition, there is now an 'updater.php'
+        that is required to be run between versions. A minor change
+        needs to be made to everyone's 'netmrg.xml' to add an
+        'externalauth' field inside the 'website' section.</p>
+      </li>
+
+      <li>
+        <p>0.10pre1</p>
+
+        <p>2003.07.28</p>
+
+        <p>Initial publication</p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href=
+        "intro.html" accesskey="P">Prev</a></td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "index.html" accesskey="H">Home</a></td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "concepts.html" accesskey="N">Next</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">Introduction</td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "overview.html" accesskey="U">Up</a></td>
+
+        <td width="33%" align="right" valign="top">Concepts</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

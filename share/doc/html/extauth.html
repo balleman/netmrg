@@ -1,225 +1,120 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->External Authentication</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="The NetMRG Reference"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Feature Guide"
-HREF="featureguide.html"><LINK
-REL="PREVIOUS"
-TITLE="Feature Guide"
-HREF="featureguide.html"><LINK
-REL="NEXT"
-TITLE="Workday Highlighting"
-HREF="highlight.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="featureguide.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="highlight.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="EXTAUTH"
-></A
->Chapter 13. External Authentication</H1
-><P
->	NetMRG handles authentication internally by default, checking passwords against 
-	its own database.  It is possible for NetMRG to use other systems for username/password 
-	authentication.  This is accomplished by handing off the authentication task to the HTTP server.
-	</P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="./stylesheet-images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->	You must still create accounts in NetMRG for each user when using external authentication in order
-	to assign them permissions and rights.
-	</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->	Details on methods of authentication using the <A
-HREF="http://www.apache.org/"
-TARGET="_top"
-><TT
-CLASS="APPLICATION"
->Apache</TT
->
-	 web server</A
-> are available <A
-HREF="http://httpd.apache.org/docs-2.0/howto/auth.html"
-TARGET="_top"
->here</A
->.  
-	There are add-on modules for <TT
-CLASS="APPLICATION"
->Apache</TT
-> that allow for various authentication mechanisms, 
-	including LDAP and custom database authentication systems.  Using <TT
-CLASS="APPLICATION"
->Apache</TT
->-based 
-	authentication, it is possible for an organization to maintain users and passwords in one location for a variety
-	of web-based services, only needing to set up application-specific permissions in each application.
-	</P
-><P
->	To enable external authentication, edit <TT
-CLASS="FILENAME"
->netmrg.xml</TT
-> and set 
-	<SAMP
-CLASS="COMPUTEROUTPUT"
->externalAuth</SAMP
-> to <KBD
-CLASS="USERINPUT"
->true</KBD
->.
-	</P
-><P
->	There is also a way to map all users that are able to be authenticated to a single user's permissions.  
-	This is accomplished by creating a user named <KBD
-CLASS="USERINPUT"
->NETMRG_DEFAULT_MAP</KBD
-> and assigning 
-	it whatever permsissions you see fit (SVO, Read Only, etc).  This is often useful when you have a 
-	large staff that is authenticated centrally and you would like to allow them all to view graphs without 
-	having to create an account for each employee.
-	</P
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="featureguide.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="highlight.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Feature Guide</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="featureguide.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Workday Highlighting</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>External Authentication</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="HOME" title="The NetMRG Reference" href=
+  "index.html" />
+  <link rel="UP" title="Feature Guide" href="featureguide.html" />
+  <link rel="PREVIOUS" title="Feature Guide" href=
+  "featureguide.html" />
+  <link rel="NEXT" title="Workday Highlighting" href=
+  "highlight.html" />
+  <link rel="STYLESHEET" type="text/css" href="netmrgdoc.css" />
+</head>
+
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link=
+"#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">The NetMRG Reference</th>
+      </tr>
+
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href=
+        "featureguide.html" accesskey="P">Prev</a></td>
+
+        <td width="80%" align="center" valign="bottom"></td>
+
+        <td width="10%" align="right" valign="bottom"><a href=
+        "highlight.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%" />
+  </div>
+
+  <div class="CHAPTER">
+    <h1><a name="EXTAUTH" id="EXTAUTH"></a>Chapter 13. External
+    Authentication</h1>
+
+    <p>NetMRG handles authentication internally by default,
+    checking passwords against its own database. It is possible for
+    NetMRG to use other systems for username/password
+    authentication. This is accomplished by handing off the
+    authentication task to the HTTP server.</p>
+
+    <div class="NOTE">
+      <blockquote class="NOTE">
+        <p><b>Note:</b> You must still create accounts in NetMRG
+        for each user when using external authentication in order
+        to assign them permissions and rights.</p>
+      </blockquote>
+    </div>
+
+    <p>Details on methods of authentication using the <a href=
+    "http://www.apache.org/" target="_top"><span class=
+    "APPLICATION">Apache</span> web server</a> are available
+    <a href="http://httpd.apache.org/docs-2.0/howto/auth.html"
+    target="_top">here</a>. There are add-on modules for
+    <span class="APPLICATION">Apache</span> that allow for various
+    authentication mechanisms, including LDAP and custom database
+    authentication systems. Using <span class=
+    "APPLICATION">Apache</span>-based authentication, it is
+    possible for an organization to maintain users and passwords in
+    one location for a variety of web-based services, only needing
+    to set up application-specific permissions in each
+    application.</p>
+
+    <p>To enable external authentication, edit <tt class=
+    "FILENAME">netmrg.xml</tt> and set <samp class=
+    "COMPUTEROUTPUT">externalAuth</samp> to <kbd class=
+    "USERINPUT">true</kbd>.</p>
+
+    <p>There is also a way to map all users that are able to be
+    authenticated to a single user's permissions. This is
+    accomplished by creating a user named <kbd class=
+    "USERINPUT">NETMRG_DEFAULT_MAP</kbd> and assigning it whatever
+    permsissions you see fit (SVO, Read Only, etc). This is often
+    useful when you have a large staff that is authenticated
+    centrally and you would like to allow them all to view graphs
+    without having to create an account for each employee.</p>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href=
+        "featureguide.html" accesskey="P">Prev</a></td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "index.html" accesskey="H">Home</a></td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "highlight.html" accesskey="N">Next</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">Feature
+        Guide</td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "featureguide.html" accesskey="U">Up</a></td>
+
+        <td width="33%" align="right" valign="top">Workday
+        Highlighting</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

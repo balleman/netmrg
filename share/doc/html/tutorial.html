@@ -1,465 +1,284 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->NetMRG Tutorial</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="The NetMRG Reference"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Installation"
-HREF="installation.html"><LINK
-REL="PREVIOUS"
-TITLE="Upgrade Procedure"
-HREF="upgrade.html"><LINK
-REL="NEXT"
-TITLE="Feature Guide"
-HREF="featureguide.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="upgrade.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="featureguide.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="TUTORIAL"
-></A
->Chapter 10. NetMRG Tutorial</H1
-><P
->This brief tutorial will walk you through the major features of NetMRG.  The tutorial assumes that you have installed the <A
-HREF="http://net-snmp.sf.net/"
-TARGET="_top"
-><TT
-CLASS="APPLICATION"
->Net-SNMP</TT
-></A
-> daemon on a system which you want to monitor.</P
-><P
-></P
-><OL
-TYPE="1"
-><LI
-><P
->Create a new group.</P
-><P
-></P
-><OL
-TYPE="a"
-><LI
-><P
->Click on <TT
-CLASS="GUILABEL"
-><B
->Groups</B
-></TT
-> in the <TT
-CLASS="GUILABEL"
-><B
->Monitoring</B
-></TT
-> menu.</P
-></LI
-><LI
-><P
->Click on <TT
-CLASS="GUILABEL"
-><B
->Add</B
-></TT
->.</P
-></LI
-><LI
-><P
->In the <TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> textbox, enter a name for your group, such as "Home."</P
-></LI
-><LI
-><P
->In the <TT
-CLASS="GUILABEL"
-><B
->Comment</B
-></TT
-> textbox, enter a description for your group, such as "Computers in my house."</P
-></LI
-><LI
-><P
->In the <TT
-CLASS="GUILABEL"
-><B
->Parent</B
-></TT
-> drop down box, select <SAMP
-CLASS="COMPUTEROUTPUT"
->-Root-</SAMP
-> as we want this device in the root of the device tree.  You can create nested groups.</P
-></LI
-><LI
-><P
->Click the <TT
-CLASS="GUILABEL"
-><B
->Save Changes</B
-></TT
-> button to create your new group.</P
-></LI
-></OL
-></LI
-><LI
-><P
->Create a new device.</P
-><P
-></P
-><OL
-TYPE="a"
-><LI
-><P
->Click on the name of your new group.  You are now looking at an (empty) list of devices in your new group.</P
-></LI
-><LI
-><P
->Click on <TT
-CLASS="GUILABEL"
-><B
->Add</B
-></TT
-> in the Monitored Devices section.</P
-></LI
-><LI
-><P
->Click on <TT
-CLASS="GUILABEL"
-><B
->Create a new device</B
-></TT
->.</P
-></LI
-><LI
-><P
->In the <TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> textbox, enter a name for your device, such as "My Server."</P
-></LI
-><LI
-><P
->In the <TT
-CLASS="GUILABEL"
-><B
->IP or Host Name</B
-></TT
-> textbox, enter a domain name or IP address of your device.  Domain names must be resolvable from your monitoring host.</P
-></LI
-><LI
-><P
->In the <TT
-CLASS="GUILABEL"
-><B
->SNMP Support</B
-></TT
-> dropdown, select the appropriate version.  If unsure, select <TT
-CLASS="GUILABEL"
-><B
->SNMPv1</B
-></TT
->.</P
-></LI
-><LI
-><P
->In the <TT
-CLASS="GUILABEL"
-><B
->SNMP Read Community</B
-></TT
-> textbox, enter the SNMP community string for your device.</P
-></LI
-><LI
-><P
->Click the <TT
-CLASS="GUILABEL"
-><B
->Save Changes</B
-></TT
-> button to create your new device.</P
-></LI
-></OL
-></LI
-><LI
-><P
->Create a new sub-device.</P
-><P
-></P
-><OL
-TYPE="a"
-><LI
-><P
->Click on the name of your new device.  You are now looking at an (empty) list of sub-devices in your new device.</P
-></LI
-><LI
-><P
->Click on <TT
-CLASS="GUILABEL"
-><B
->Add</B
-></TT
->.</P
-></LI
-><LI
-><P
->In the <TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> textbox, enter "System."  This will be a pseudo-sub-device used for monitoring the device as a whole.</P
-></LI
-><LI
-><P
->In the <TT
-CLASS="GUILABEL"
-><B
->Type</B
-></TT
-> drop down box, ensure that <SAMP
-CLASS="COMPUTEROUTPUT"
->Group</SAMP
-> is selected.</P
-></LI
-><LI
-><P
->Click the <TT
-CLASS="GUILABEL"
-><B
->Save Changes</B
-></TT
-> button to create your new "System" sub-device.</P
-></LI
-></OL
-></LI
-><LI
-><P
->Add graph templates.</P
-><P
->Since devices running <TT
-CLASS="APPLICATION"
->Net-SNMP</TT
-> are common, NetMRG comes with several graph templates for commonly used variables.</P
-><P
-></P
-><OL
-TYPE="a"
-><LI
-><P
->Click on <TT
-CLASS="GUILABEL"
-><B
->Template Graphs</B
-></TT
-> in the <TT
-CLASS="GUILABEL"
-><B
->Graphing</B
-></TT
-> menu.</P
-></LI
-><LI
-><P
->Click on the <TT
-CLASS="GUILABEL"
-><B
->Apply Template To...</B
-></TT
-> next to the <SAMP
-CLASS="COMPUTEROUTPUT"
->Linux Box - CPU Utilization</SAMP
-> template graph.</P
-></LI
-><LI
-><P
->In the <TT
-CLASS="GUILABEL"
-><B
->Subdevice</B
-></TT
-> drop down box, select <SAMP
-CLASS="COMPUTEROUTPUT"
->My Server - System</SAMP
->.</P
-></LI
-><LI
-><P
->Click on the <TT
-CLASS="GUILABEL"
-><B
->Save Changes</B
-></TT
-> button to apply the template.</P
-></LI
-><LI
-><P
->Repeat this step for any other graph templates you find interesting.</P
-></LI
-></OL
-></LI
-><LI
-><P
->View your new graphs.</P
-><P
-></P
-><OL
-TYPE="a"
-><LI
-><P
->Click on <TT
-CLASS="GUILABEL"
-><B
->Device Tree</B
-></TT
-> in the <TT
-CLASS="GUILABEL"
-><B
->Reporting</B
-></TT
-> menu.</P
-></LI
-><LI
-><P
->Click on the name of your group to expand it.</P
-></LI
-><LI
-><P
->Click on the graph icon beside your device (orange graphs mean there are graphs associated with this device, black means there are no graphs attached to this device.</P
-></LI
-><LI
-><P
-><I
-CLASS="EMPHASIS"
->You should now see graphs!</I
->  If you don't, you may need to wait for the gatherer to perform another cycle.</P
-></LI
-></OL
-></LI
-></OL
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="upgrade.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="featureguide.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Upgrade Procedure</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="installation.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Feature Guide</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>NetMRG Tutorial</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="HOME" title="The NetMRG Reference" href=
+  "index.html" />
+  <link rel="UP" title="Installation" href="installation.html" />
+  <link rel="PREVIOUS" title="Upgrade Procedure" href=
+  "upgrade.html" />
+  <link rel="NEXT" title="Feature Guide" href=
+  "featureguide.html" />
+</head>
+
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link=
+"#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center"><img src=
+        "netmrg-logo-medium.png" />The NetMRG Reference</th>
+      </tr>
+
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href=
+        "upgrade.html" accesskey="P">&lt;&lt;&lt; Previous</a></td>
+
+        <td width="80%" align="center" valign="bottom"></td>
+
+        <td width="10%" align="right" valign="bottom"><a href=
+        "featureguide.html" accesskey="N">Next
+        &gt;&gt;&gt;</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%" />
+  </div>
+
+  <div class="CHAPTER">
+    <h1><a name="TUTORIAL" id="TUTORIAL"></a>Chapter 10. NetMRG
+    Tutorial</h1>
+
+    <p>This brief tutorial will walk you through the major features
+    of NetMRG. The tutorial assumes that you have installed the
+    <a href="http://net-snmp.sf.net/" target="_top"><tt class=
+    "APPLICATION">Net-SNMP</tt></a> daemon on a system which you
+    want to monitor.</p>
+
+    <ol type="1">
+      <li>
+        <p>Create a new group.</p>
+
+        <ol type="a">
+          <li>
+            <p>Click on <tt class="GUILABEL"><b>Groups</b></tt> in
+            the <tt class="GUILABEL"><b>Monitoring</b></tt>
+            menu.</p>
+          </li>
+
+          <li>
+            <p>Click on <tt class="GUILABEL"><b>Add</b></tt>.</p>
+          </li>
+
+          <li>
+            <p>In the <tt class="GUILABEL"><b>Name</b></tt>
+            textbox, enter a name for your group, such as
+            "Home."</p>
+          </li>
+
+          <li>
+            <p>In the <tt class="GUILABEL"><b>Comment</b></tt>
+            textbox, enter a description for your group, such as
+            "Computers in my house."</p>
+          </li>
+
+          <li>
+            <p>In the <tt class="GUILABEL"><b>Parent</b></tt> drop
+            down box, select <samp class=
+            "COMPUTEROUTPUT">-Root-</samp> as we want this device
+            in the root of the device tree. You can create nested
+            groups.</p>
+          </li>
+
+          <li>
+            <p>Click the <tt class="GUILABEL"><b>Save
+            Changes</b></tt> button to create your new group.</p>
+          </li>
+        </ol>
+      </li>
+
+      <li>
+        <p>Create a new device.</p>
+
+        <ol type="a">
+          <li>
+            <p>Click on the name of your new group. You are now
+            looking at an (empty) list of devices in your new
+            group.</p>
+          </li>
+
+          <li>
+            <p>Click on <tt class="GUILABEL"><b>Add</b></tt> in the
+            Monitored Devices section.</p>
+          </li>
+
+          <li>
+            <p>Click on <tt class="GUILABEL"><b>Create a new
+            device</b></tt>.</p>
+          </li>
+
+          <li>
+            <p>In the <tt class="GUILABEL"><b>Name</b></tt>
+            textbox, enter a name for your device, such as "My
+            Server."</p>
+          </li>
+
+          <li>
+            <p>In the <tt class="GUILABEL"><b>IP or Host
+            Name</b></tt> textbox, enter a domain name or IP
+            address of your device. Domain names must be resolvable
+            from your monitoring host.</p>
+          </li>
+
+          <li>
+            <p>In the <tt class="GUILABEL"><b>SNMP Support</b></tt>
+            dropdown, select the appropriate version. If unsure,
+            select <tt class="GUILABEL"><b>SNMPv1</b></tt>.</p>
+          </li>
+
+          <li>
+            <p>In the <tt class="GUILABEL"><b>SNMP Read
+            Community</b></tt> textbox, enter the SNMP community
+            string for your device.</p>
+          </li>
+
+          <li>
+            <p>Click the <tt class="GUILABEL"><b>Save
+            Changes</b></tt> button to create your new device.</p>
+          </li>
+        </ol>
+      </li>
+
+      <li>
+        <p>Create a new sub-device.</p>
+
+        <ol type="a">
+          <li>
+            <p>Click on the name of your new device. You are now
+            looking at an (empty) list of sub-devices in your new
+            device.</p>
+          </li>
+
+          <li>
+            <p>Click on <tt class="GUILABEL"><b>Add</b></tt>.</p>
+          </li>
+
+          <li>
+            <p>In the <tt class="GUILABEL"><b>Name</b></tt>
+            textbox, enter "System." This will be a
+            pseudo-sub-device used for monitoring the device as a
+            whole.</p>
+          </li>
+
+          <li>
+            <p>In the <tt class="GUILABEL"><b>Type</b></tt> drop
+            down box, ensure that <samp class=
+            "COMPUTEROUTPUT">Group</samp> is selected.</p>
+          </li>
+
+          <li>
+            <p>Click the <tt class="GUILABEL"><b>Save
+            Changes</b></tt> button to create your new "System"
+            sub-device.</p>
+          </li>
+        </ol>
+      </li>
+
+      <li>
+        <p>Add graph templates.</p>
+
+        <p>Since devices running <tt class=
+        "APPLICATION">Net-SNMP</tt> are common, NetMRG comes with
+        several graph templates for commonly used variables.</p>
+
+        <ol type="a">
+          <li>
+            <p>Click on <tt class="GUILABEL"><b>Template
+            Graphs</b></tt> in the <tt class=
+            "GUILABEL"><b>Graphing</b></tt> menu.</p>
+          </li>
+
+          <li>
+            <p>Click on the <tt class="GUILABEL"><b>Apply Template
+            To...</b></tt> next to the <samp class=
+            "COMPUTEROUTPUT">Linux Box - CPU Utilization</samp>
+            template graph.</p>
+          </li>
+
+          <li>
+            <p>In the <tt class="GUILABEL"><b>Subdevice</b></tt>
+            drop down box, select <samp class="COMPUTEROUTPUT">My
+            Server - System</samp>.</p>
+          </li>
+
+          <li>
+            <p>Click on the <tt class="GUILABEL"><b>Save
+            Changes</b></tt> button to apply the template.</p>
+          </li>
+
+          <li>
+            <p>Repeat this step for any other graph templates you
+            find interesting.</p>
+          </li>
+        </ol>
+      </li>
+
+      <li>
+        <p>View your new graphs.</p>
+
+        <ol type="a">
+          <li>
+            <p>Click on <tt class="GUILABEL"><b>Device
+            Tree</b></tt> in the <tt class=
+            "GUILABEL"><b>Reporting</b></tt> menu.</p>
+          </li>
+
+          <li>
+            <p>Click on the name of your group to expand it.</p>
+          </li>
+
+          <li>
+            <p>Click on the graph icon beside your device (orange
+            graphs mean there are graphs associated with this
+            device, black means there are no graphs attached to
+            this device.</p>
+          </li>
+
+          <li>
+            <p><i class="EMPHASIS">You should now see graphs!</i>
+            If you don't, you may need to wait for the gatherer to
+            perform another cycle.</p>
+          </li>
+        </ol>
+      </li>
+    </ol>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href=
+        "upgrade.html" accesskey="P">&lt;&lt;&lt; Previous</a></td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "index.html" accesskey="H">Home</a></td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "featureguide.html" accesskey="N">Next
+        &gt;&gt;&gt;</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">Upgrade
+        Procedure</td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "installation.html" accesskey="U">Up</a></td>
+
+        <td width="33%" align="right" valign="top">Feature
+        Guide</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

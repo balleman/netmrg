@@ -1,691 +1,441 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->Devices</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="The NetMRG Reference"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Web Interface Descriptions"
-HREF="webpagedesc.html"><LINK
-REL="PREVIOUS"
-TITLE="Groups"
-HREF="groups.html"><LINK
-REL="NEXT"
-TITLE="Sub Devices"
-HREF="sub-devices.html"></HEAD
-><BODY
-CLASS="REFENTRY"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="groups.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="sub-devices.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><H1
-><A
-NAME="DEVICES"
-></A
->Devices</H1
-><DIV
-CLASS="REFNAMEDIV"
-><A
-NAME="AEN880"
-></A
-><H2
->Name</H2
->Devices&nbsp;--&nbsp;A container for a collection of sub-devices</DIV
-><DIV
-CLASS="REFSECT1"
-><A
-NAME="AEN883"
-></A
-><H2
->Description</H2
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN885"
-></A
-><H3
->List</H3
-><P
->List of devices in a group; this is the default view when you click on a group name.</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> - click on the name of the device to view the sub devices contained in it</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->SNMP Options</B
-></TT
-></P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->View Interface Cache</B
-></TT
-> - views a list of cached interfaces (interfaces and values that NetMRG knows about)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Recache Interfaces</B
-></TT
-> - recache the interface list (to get new ifAliases or new interfaces, for example)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->View Disk Cache</B
-></TT
-> - views a list of cached disks (disks and their values that NetMRG knows about)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Recache Disks</B
-></TT
-> - recache the list of disks (to get new disks or paths, for example)</P
-></LI
-></UL
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Add</B
-></TT
-> - add a new device or an existing device to this group</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->View</B
-></TT
-> - views graphs assocated with this device and allows you to edit what graphs are associated with the device</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Edit</B
-></TT
-> - edits parameters of a device</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Delete</B
-></TT
-> - deletes the device all sub-devices, monitors, etc underneath it</P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN920"
-></A
-><H3
->Add</H3
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Create a new device</B
-></TT
-> - creates a new device in the current group</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Add an existing device to this group</B
-></TT
-> - puts a link to an existing device in this group (does not copy it, just refers to it; they are the same device</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Device</B
-></TT
-> - Name of the device to add to this group</P
-></LI
-></UL
-></LI
-></UL
-></DIV
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN933"
-></A
-><H3
->Edit</H3
-><P
->Edit info about a device</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->General</B
-></TT
-></P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> - Name of a device; commonly the hostname</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->IP or Hostname</B
-></TT
-> - IP address of the device, or hostname (must be resolvable by the monitoring box)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Device Type</B
-></TT
-> - Type of device (currently not used)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Disabled</B
-></TT
-> - Don't gather data for this device</P
-></LI
-></UL
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->SNMP</B
-></TT
-></P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->SNMP Support</B
-></TT
-> - The version of SNMP to use when querying this device, if any.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->SNMP Read Community</B
-></TT
-> - The SNMP community string to use when querying this device.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Recaching Method</B
-></TT
-> - Methods used by the gatherer for determining if its SNMP cache is stale.</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Never refresh cache</B
-></TT
-> - The gatherer will never automatically refresh the cache.  The cache must be refreshed manually when changes occur.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Refresh on SNMP agent restart</B
-></TT
-> - The gatherer will refresh the cache if the SNMP agent uptime goes backwards, or if the device has become reachable again after a period of unreachability.  This option is useful for devices that change interface counts too often, such as a router serving DSL sessions.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Refresh on interface count change</B
-></TT
-> - The gatherer will refresh the cache if the "ifNumber" value has changed since the last gathering.  This typically happens when cards are added to or removed from a router, or when PPP sessions go up or down.  (Also includes the above.)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Refresh on interface count mismatch</B
-></TT
-> - The gatherer will refresh the cache when the number of items in the interface cache do not match the "ifNumber" on a device.  This can prevent problems when devices are in the process of booting.  This is the preferred option for most devices. (Also includes the above.)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Always refresh cache</B
-></TT
-> - Always refresh the cache on each gather.  This is useful for devices that are always changing, when you care about the changes.</P
-></LI
-></UL
-></LI
-></UL
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Advanced SNMP Options</B
-></TT
-></P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Disable SNMP Uptime Check</B
-></TT
-> - Allows NetMRG to work with devices that are broken or abnormal with respect to system.sysUpTime.0.  NetMRG usually uses this value to determine if a host is up and if the SNMP agent has restarted since the last polling cycle.  It should only be used when absolutely necessary as it reduces the robustness of the SNMP avoidance and recaching mechanisms which can be crutial to performance.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->SNMP UDP Port</B
-></TT
-> - UDP port to direct SNMP queries to (default is 161).</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->SNMP Timeout (microseconds)</B
-></TT
-> - Number of microseconds to wait for a response to a query before retrying (default is 1000000 or 1 second).  An exponential backoff is used after each failed query; this is the initial delay.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->SNMP Retries</B
-></TT
-> - Number of times to query the device before giving up (default is 3).</P
-></LI
-></UL
-></LI
-></UL
-></DIV
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN998"
-></A
-><H3
->SNMP Cache View</H3
-><P
->List of cached values for a device</P
-><DIV
-CLASS="REFSECT3"
-><A
-NAME="AEN1001"
-></A
-><H4
->Interface Cache</H4
-><P
->List of Interfaces NetMRG knows about</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Index</B
-></TT
-> - SNMP ifIndex</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Status</B
-></TT
-> - SNMP ifAdminStatus/ifOperStatus</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Name</B
-></TT
-> - SNMP ifName</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Description</B
-></TT
-> - SNMP ifDescr</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Alias</B
-></TT
-> - SNMP ifAlias (commonly the 'description' field on routers and switches)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->IP Address</B
-></TT
-> - IP address of this interface</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->MAC Address</B
-></TT
-> - MAC address of this interface</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->View</B
-></TT
-> - View the graph for this interface (if monitored)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Monitors</B
-></TT
-> - View the monitors for this interface (if monitored)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Monitor/Graph</B
-></TT
-> - Choose to graph this interface (adds an interface subdevice based on ifDescr, adds monitors for ifInOctets, ifOutOctets, and ifInErrors for the subdevice, and assocates a graph with the device)</P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="REFSECT3"
-><A
-NAME="AEN1035"
-></A
-><H4
->Disk Cache</H4
-><P
->List of Disks NetMRG knows about</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Index</B
-></TT
-> - SNMP dskIndex</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Device</B
-></TT
-> - SNMP dskDevice</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Path</B
-></TT
-> - SNMP dskPath</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->View</B
-></TT
-> - View the graph for this disk (if monitored)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Monitors</B
-></TT
-> - View the monitors for this disk (if monitored)</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Monitor/Graph</B
-></TT
-> - Choose to graph this disk (adds a disk subdevice based on dskPath, adds monitors for KB Used and KB Available for the subdevice, and assocates a graph with the device)</P
-></LI
-></UL
-></DIV
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="groups.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="sub-devices.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Groups</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="webpagedesc.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Sub Devices</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>Devices</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="HOME" title="The NetMRG Reference" href=
+  "index.html" />
+  <link rel="UP" title="Web Interface Descriptions" href=
+  "webpagedesc.html" />
+  <link rel="PREVIOUS" title="Groups" href="groups.html" />
+  <link rel="NEXT" title="Sub Devices" href="sub-devices.html" />
+  <link rel="STYLESHEET" type="text/css" href="netmrgdoc.css" />
+</head>
+
+<body class="REFENTRY" bgcolor="#FFFFFF" text="#000000" link=
+"#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">The NetMRG Reference</th>
+      </tr>
+
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href=
+        "groups.html" accesskey="P">Prev</a></td>
+
+        <td width="80%" align="center" valign="bottom"></td>
+
+        <td width="10%" align="right" valign="bottom"><a href=
+        "sub-devices.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%" />
+  </div>
+
+  <h1><a name="DEVICES" id="DEVICES"></a>Devices</h1>
+
+  <div class="REFNAMEDIV">
+    <a name="AEN889" id="AEN889"></a>
+
+    <h2>Name</h2>Devices&nbsp;--&nbsp;A container for a collection
+    of sub-devices
+  </div>
+
+  <div class="REFSECT1">
+    <a name="AEN892" id="AEN892"></a>
+
+    <h2>Description</h2>
+
+    <div class="REFSECT2">
+      <a name="AEN894" id="AEN894"></a>
+
+      <h3>List</h3>
+
+      <p>List of devices in a group; this is the default view when
+      you click on a group name.</p>
+
+      <ul>
+        <li>
+          <p><span class="GUILABEL">Name</span> - click on the name
+          of the device to view the sub devices contained in it</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">SNMP Options</span></p>
+
+          <ul>
+            <li>
+              <p><span class="GUILABEL">View Interface Cache</span>
+              - views a list of cached interfaces (interfaces and
+              values that NetMRG knows about)</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Recache Interfaces</span> -
+              recache the interface list (to get new ifAliases or
+              new interfaces, for example)</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">View Disk Cache</span> -
+              views a list of cached disks (disks and their values
+              that NetMRG knows about)</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Recache Disks</span> -
+              recache the list of disks (to get new disks or paths,
+              for example)</p>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Add</span> - add a new device
+          or an existing device to this group</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">View</span> - views graphs
+          assocated with this device and allows you to edit what
+          graphs are associated with the device</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Edit</span> - edits parameters
+          of a device</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Delete</span> - deletes the
+          device all sub-devices, monitors, etc underneath it</p>
+        </li>
+      </ul>
+    </div>
+
+    <div class="REFSECT2">
+      <a name="AEN929" id="AEN929"></a>
+
+      <h3>Add</h3>
+
+      <ul>
+        <li>
+          <p><span class="GUILABEL">Create a new device</span> -
+          creates a new device in the current group</p>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Add an existing device to this
+          group</span> - puts a link to an existing device in this
+          group (does not copy it, just refers to it; they are the
+          same device</p>
+
+          <ul>
+            <li>
+              <p><span class="GUILABEL">Device</span> - Name of the
+              device to add to this group</p>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="REFSECT2">
+      <a name="AEN942" id="AEN942"></a>
+
+      <h3>Edit</h3>
+
+      <p>Edit info about a device</p>
+
+      <ul>
+        <li>
+          <p><span class="GUILABEL">General</span></p>
+
+          <ul>
+            <li>
+              <p><span class="GUILABEL">Name</span> - Name of a
+              device; commonly the hostname</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">IP or Hostname</span> - IP
+              address of the device, or hostname (must be
+              resolvable by the monitoring box)</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Device Type</span> - Type
+              of device (currently not used)</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Disabled</span> - Don't
+              gather data for this device</p>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">SNMP</span></p>
+
+          <ul>
+            <li>
+              <p><span class="GUILABEL">SNMP Support</span> - The
+              version of SNMP to use when querying this device, if
+              any.</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">SNMP Read Community</span>
+              - The SNMP community string to use when querying this
+              device.</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">Recaching Method</span> -
+              Methods used by the gatherer for determining if its
+              SNMP cache is stale.</p>
+
+              <ul>
+                <li>
+                  <p><span class="GUILABEL">Never refresh
+                  cache</span> - The gatherer will never
+                  automatically refresh the cache. The cache must
+                  be refreshed manually when changes occur.</p>
+                </li>
+
+                <li>
+                  <p><span class="GUILABEL">Refresh on SNMP agent
+                  restart</span> - The gatherer will refresh the
+                  cache if the SNMP agent uptime goes backwards, or
+                  if the device has become reachable again after a
+                  period of unreachability. This option is useful
+                  for devices that change interface counts too
+                  often, such as a router serving DSL sessions.</p>
+                </li>
+
+                <li>
+                  <p><span class="GUILABEL">Refresh on interface
+                  count change</span> - The gatherer will refresh
+                  the cache if the "ifNumber" value has changed
+                  since the last gathering. This typically happens
+                  when cards are added to or removed from a router,
+                  or when PPP sessions go up or down. (Also
+                  includes the above.)</p>
+                </li>
+
+                <li>
+                  <p><span class="GUILABEL">Refresh on interface
+                  count mismatch</span> - The gatherer will refresh
+                  the cache when the number of items in the
+                  interface cache do not match the "ifNumber" on a
+                  device. This can prevent problems when devices
+                  are in the process of booting. This is the
+                  preferred option for most devices. (Also includes
+                  the above.)</p>
+                </li>
+
+                <li>
+                  <p><span class="GUILABEL">Always refresh
+                  cache</span> - Always refresh the cache on each
+                  gather. This is useful for devices that are
+                  always changing, when you care about the
+                  changes.</p>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+
+        <li>
+          <p><span class="GUILABEL">Advanced SNMP
+          Options</span></p>
+
+          <ul>
+            <li>
+              <p><span class="GUILABEL">Disable SNMP Uptime
+              Check</span> - Allows NetMRG to work with devices
+              that are broken or abnormal with respect to
+              system.sysUpTime.0. NetMRG usually uses this value to
+              determine if a host is up and if the SNMP agent has
+              restarted since the last polling cycle. It should
+              only be used when absolutely necessary as it reduces
+              the robustness of the SNMP avoidance and recaching
+              mechanisms which can be crutial to performance.</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">SNMP UDP Port</span> - UDP
+              port to direct SNMP queries to (default is 161).</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">SNMP Timeout
+              (microseconds)</span> - Number of microseconds to
+              wait for a response to a query before retrying
+              (default is 1000000 or 1 second). An exponential
+              backoff is used after each failed query; this is the
+              initial delay.</p>
+            </li>
+
+            <li>
+              <p><span class="GUILABEL">SNMP Retries</span> -
+              Number of times to query the device before giving up
+              (default is 3).</p>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="REFSECT2">
+      <a name="AEN1007" id="AEN1007"></a>
+
+      <h3>SNMP Cache View</h3>
+
+      <p>List of cached values for a device</p>
+
+      <div class="REFSECT3">
+        <a name="AEN1010" id="AEN1010"></a>
+
+        <h4>Interface Cache</h4>
+
+        <p>List of Interfaces NetMRG knows about</p>
+
+        <ul>
+          <li>
+            <p><span class="GUILABEL">Index</span> - SNMP
+            ifIndex</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Status</span> - SNMP
+            ifAdminStatus/ifOperStatus</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Name</span> - SNMP ifName</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Description</span> - SNMP
+            ifDescr</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Alias</span> - SNMP ifAlias
+            (commonly the 'description' field on routers and
+            switches)</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">IP Address</span> - IP
+            address of this interface</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">MAC Address</span> - MAC
+            address of this interface</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">View</span> - View the graph
+            for this interface (if monitored)</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Monitors</span> - View the
+            monitors for this interface (if monitored)</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Monitor/Graph</span> - Choose
+            to graph this interface (adds an interface subdevice
+            based on ifDescr, adds monitors for ifInOctets,
+            ifOutOctets, and ifInErrors for the subdevice, and
+            assocates a graph with the device)</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="REFSECT3">
+        <a name="AEN1044" id="AEN1044"></a>
+
+        <h4>Disk Cache</h4>
+
+        <p>List of Disks NetMRG knows about</p>
+
+        <ul>
+          <li>
+            <p><span class="GUILABEL">Index</span> - SNMP
+            dskIndex</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Device</span> - SNMP
+            dskDevice</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Path</span> - SNMP
+            dskPath</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">View</span> - View the graph
+            for this disk (if monitored)</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Monitors</span> - View the
+            monitors for this disk (if monitored)</p>
+          </li>
+
+          <li>
+            <p><span class="GUILABEL">Monitor/Graph</span> - Choose
+            to graph this disk (adds a disk subdevice based on
+            dskPath, adds monitors for KB Used and KB Available for
+            the subdevice, and assocates a graph with the
+            device)</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href=
+        "groups.html" accesskey="P">Prev</a></td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "index.html" accesskey="H">Home</a></td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "sub-devices.html" accesskey="N">Next</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">Groups</td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "webpagedesc.html" accesskey="U">Up</a></td>
+
+        <td width="33%" align="right" valign="top">Sub Devices</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -13,10 +13,11 @@ use strict;
 ## variables
 my $cvs = 'cvs -d :pserver:anonymous@cvs.netmrg.net:/var/cvsroot';
 my %cvsfiles = (
-	"netmrg.sgml"    => "netmrg/share/doc/netmrg.sgml",
-	"netmrg.dsl"     => "netmrg/share/doc/netmrg.dsl",
-	"netmrgdoc.css"  => "netmrg/share/doc/netmrg.css",
-	"netmrg-logo-medium.png"  => "netmrg/share/doc/netmrg-logo-medium.png",
+	"netmrg.sgml"   => "netmrg/share/doc/netmrg.sgml",
+	"netmrg.dsl"    => "netmrg/share/doc/netmrg.dsl",
+	"netmrgdoc.css" => "netmrg/share/doc/netmrg.css",
+	"netmrg-logo-small.png"  => "netmrg/share/doc/netmrg-logo-small.png",
+	"netmrg-logo-medium.png" => "netmrg/share/doc/netmrg-logo-medium.png",
 );
 my $docfolder = "/tmp";
 my @versions = ();

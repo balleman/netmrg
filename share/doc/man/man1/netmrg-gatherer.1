@@ -14,14 +14,14 @@ netmrg-gatherer \- Gathers data from devices.
 .SH "DESCRIPTION"
 .PP
 \fBnetmrg-gatherer\fR performs tests on all enabled hosts in NetMRG.  It will store results in RRD files using RRDTOOL(1) and perform actions in response to events.
-"GLOBAL OPTIONS"
+.SS "GLOBAL OPTIONS"
 .TP
 \fB   -h  \fR
 Displays usage information and exits.
 .TP
 \fB   -v  \fR
 Displays software version and exits.
-"OPERATING OPTIONS"
+.SS "OPERATING OPTIONS"
 .TP
 \fB   -t \fInum threads\fB  \fR
 Run no more than the specified number of threads simultaneously.
@@ -36,7 +36,7 @@ Mode of operation.  This option controls the manner in which the gatherer operat
 .B "Note:"
 To run \fBnetmrg-gatherer\fR daemonized, the recommended set of options at this point is "-X -S -M wait" which will daemonize, repeat the gather cycle on each interval, and write output to syslog.
 .RE
-"LOGGING, DEBUGGING AND VERBOSITY OPTIONS"
+.SS "LOGGING, DEBUGGING AND VERBOSITY OPTIONS"
 .TP
 \fB   -S  \fR
 Syslog.  Logs messages to syslog instead of stdout.
@@ -61,14 +61,14 @@ Only outputs messages that match the specified component mask.
 .TP
 \fB   -s  \fR
 Safe.  Tries to keep sensitive information out of the displayed messages.
-"CONFIGURATION FILE OPTIONS"
+.SS "CONFIGURATION FILE OPTIONS"
 .TP
 \fB   -C \fIconfig file\fB  \fR
 Uses the specified XML configuration file.
 .TP
 \fB   -K \fIconfig file\fB  \fR
 Parses the specified XML configuration file and exits.
-"DATABASE OPTIONS"
+.SS "DATABASE OPTIONS"
 .TP
 \fB   -H \fIhost\fB  \fR
 Uses the specified host name for connecting to the database.
@@ -81,7 +81,7 @@ Uses the specified user name for connecting to the database.
 .TP
 \fB   -p  [ \fIpassword\fB ]  \fR
 Uses the specified password for connecting to the database.  If no password is specified, the user is prompted to enter one.
-"RECACHING OPTIONS"
+.SS "RECACHING OPTIONS"
 .TP
 \fB   -i \fIdevice id\fB  \fR
 Performs an interface recache on the specified device.

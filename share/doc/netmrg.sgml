@@ -1,7 +1,7 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <book>
 <bookinfo>
-	<title><inlinegraphic fileref="netmrg-logo-medium.png">The NetMRG Reference</title>
+	<title>The NetMRG Reference</title>
 	<authorgroup>
 		<author>
 			<firstname>Brady</firstname>
@@ -318,7 +318,7 @@ Event are met, the appropriate response is performed.
 				<listitem>
 					<para>Installing precompiled NetMRG RPM</para>
 					<para>Download the latest NetMRG RPM and install it as follows:</para>
-					<programlisting>rpm -Uvh netmrg-0.10.rpm</programlisting>
+					<screen><prompt>$ </prompt><userinput>rpm -Uvh netmrg-0.10.rpm</userinput></screen>
 					<para>You will still have to perform the following tasks listed in the Install Instructions:</para>
 					<itemizedlist>
 						<listitem><para>Setup the Database</para></listitem>
@@ -345,7 +345,7 @@ Event are met, the appropriate response is performed.
 				</listitem>
 				<listitem>
 				<para>Run <command>configure</command>, specifying gcc32:</para>
-				<programlisting>./configure 'LDFLAGS=-L/usr/local/gcc3/lib' 'CPPFLAGS=-I/usr/local/gcc3/include' 'CXX=g++32'</programlisting>
+				<screen><userinput>./configure 'LDFLAGS=-L/usr/local/gcc3/lib' 'CPPFLAGS=-I/usr/local/gcc3/include' 'CXX=g++32'</userinput></screen>
 				</listitem>
 			</itemizedlist>
 		</listitem>
@@ -356,9 +356,9 @@ Event are met, the appropriate response is performed.
 	<orderedlist>
 		<listitem>
 			<para>Untar to some directory like /tmp/ (it will untar into a 'netmrg' directory)</para>
-<programlisting>cd /tmp
+<screen><userinput>cd /tmp
 wget http://www.netmrg.net/download/release/netmrg.tar.gz
-tar xzvf netmrg.tar.gz</programlisting>
+tar xzvf netmrg.tar.gz</userinput></screen>
 		</listitem>
 		<listitem>
 			<para>
@@ -758,12 +758,14 @@ will be automatically updated to the latest version that has all updates applied
 				<arg choice="opt">OPTIONS</arg>
 			</cmdsynopsis>
 		</refsynopsisdiv>
-		<refsect1><title>Description</title>
+		<refsect1>
+			<title>Description</title>
 			<para>
 				<command>netmrg-gatherer</command> performs tests on all enabled hosts in NetMRG.  It will store results in RRD files using RRDTOOL(1) and perform actions in response to events.
 			</para>
-			<variablelist>
+			<refsect2>
 				<title>Global Options</title>
+				<variablelist>
 				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-h</option></arg></cmdsynopsis></term>
 					<listitem><para>Displays usage information and exits.</para></listitem>
@@ -772,9 +774,11 @@ will be automatically updated to the latest version that has all updates applied
 					<term><cmdsynopsis><arg choice="plain"><option>-v</option></arg></cmdsynopsis></term>
 					<listitem><para>Displays software version and exits.</para></listitem>
 				</varlistentry>
-			</variablelist>
-			<variablelist>
+				</variablelist>
+			</refsect2>
+			<refsect2>
 				<title>Operating Options</title>
+				<variablelist>
 				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-t</option> <replaceable>num threads</replaceable></arg></cmdsynopsis></term>
 					<listitem><para>Run no more than the specified number of threads simultaneously.</para></listitem>
@@ -787,10 +791,12 @@ will be automatically updated to the latest version that has all updates applied
 					<term><cmdsynopsis><arg choice="plain"><option>-M</option> <replaceable>mode</replaceable></arg></cmdsynopsis></term>
 					<listitem><para>Mode of operation.  This option controls the manner in which the gatherer operates.  The modes currently supported are "once" (the default, best used manually or via cron) which runs all tests once then exits, and "wait" (best used when daemonized) which will run all tests, wait for the gatherer interval to expire, and then repeat.</para></listitem>
 				</varlistentry>
-			</variablelist>
-			<note><para>To run <application>netmrg-gatherer</application> daemonized, the recommended set of options at this point is "-X -S -M wait" which will daemonize, repeat the gather cycle on each interval, and write output to syslog.</para></note>
-			<variablelist>
+				</variablelist>
+				<note><para>To run <application>netmrg-gatherer</application> daemonized, the recommended set of options at this point is "-X -S -M wait" which will daemonize, repeat the gather cycle on each interval, and write output to syslog.</para></note>
+			</refsect2>
+			<refsect2>
 				<title>Logging, Debugging and Verbosity Options</title>
+				<variablelist>
 				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-S</option></arg></cmdsynopsis></term>
 					<listitem><para>Syslog.  Logs messages to syslog instead of stdout.</para></listitem>
@@ -823,9 +829,11 @@ will be automatically updated to the latest version that has all updates applied
 					<term><cmdsynopsis><arg choice="plain"><option>-s</option></arg></cmdsynopsis></term>
 					<listitem><para>Safe.  Tries to keep sensitive information out of the displayed messages.</para></listitem>
 				</varlistentry>
-			</variablelist>
-			<variablelist>
+				</variablelist>
+			</refsect2>
+			<refsect2>
 				<title>Configuration File Options</title>
+				<variablelist>
 				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-C</option> <replaceable>config file</replaceable></arg></cmdsynopsis></term>
 					<listitem><para>Uses the specified XML configuration file.</para></listitem>
@@ -834,9 +842,11 @@ will be automatically updated to the latest version that has all updates applied
 					<term><cmdsynopsis><arg choice="plain"><option>-K</option> <replaceable>config file</replaceable></arg></cmdsynopsis></term>
 					<listitem><para>Parses the specified XML configuration file and exits.</para></listitem>
 				</varlistentry>
-			</variablelist>
-			<variablelist>
+				</variablelist>
+			</refsect2>
+			<refsect2>
 				<title>Database Options</title>
+				<variablelist>
 				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-H</option> <replaceable>host</replaceable></arg></cmdsynopsis></term>
 					<listitem><para>Uses the specified host name for connecting to the database.</para></listitem>
@@ -853,9 +863,11 @@ will be automatically updated to the latest version that has all updates applied
 					<term><cmdsynopsis><arg choice="plain"><option>-p</option> <arg choice="opt"><replaceable>password</replaceable></arg></arg></cmdsynopsis></term>
 					<listitem><para>Uses the specified password for connecting to the database.  If no password is specified, the user is prompted to enter one.</para></listitem>
 				</varlistentry>
-			</variablelist>
-			<variablelist>
+				</variablelist>
+			</refsect2>
+			<refsect2>
 				<title>Recaching Options</title>
+				<variablelist>
 				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-i</option> <replaceable>device id</replaceable></arg></cmdsynopsis></term>
 					<listitem><para>Performs an interface recache on the specified device.</para></listitem>
@@ -864,8 +876,9 @@ will be automatically updated to the latest version that has all updates applied
 					<term><cmdsynopsis><arg choice="plain"><option>-d</option> <replaceable>device id</replaceable></arg></cmdsynopsis></term>
 					<listitem><para>Performs a disk recache on the specified device.</para></listitem>
 				</varlistentry>
-			</variablelist>
-			<note><para>Recaching options are intended for use by the web interface.  These options should not be generally used by end users.</para></note>
+				</variablelist>
+				<note><para>Recaching options are intended for use by the web interface.  These options should not be generally used by end users.</para></note>
+			</refsect2>
 		</refsect1>
 	</refentry>
 </reference>

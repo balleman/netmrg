@@ -1,0 +1,81 @@
+BODY {
+	background-color : #FFFFFF;
+	color : #000000;
+	font-size : 1em;
+	font-family : serif;
+}
+
+TABLE, TH, TR, TD {
+	margin : 0;
+	padding : 0;
+	border : 0;
+}
+
+DIV, P, PRE, BLOCKQUOTE {
+	margin : 0;
+	padding : 0;
+	margin-bottom : 0.5em;
+}
+
+IMG {
+	border : 0;
+}
+
+.TITLEPAGE {
+	background-image : url(netmrg-logo-medium.png);
+	background-position : top right;
+	background-repeat : no-repeat;
+}
+
+.TITLE {
+	font-size : 2em;
+	font-weight : bold;
+	font-family : sans-serif;
+	letter-spacing : 0.2em;
+}
+
+.NAVHEADER th {
+	height : 35px;
+	background-image : url(netmrg-logo-small.png);
+	background-position : top right;
+	background-repeat : no-repeat;
+	font-size : 1em;
+	font-weight : bold;
+	font-family : sans-serif;
+	letter-spacing : 0.2em;
+}
+
+.AUTHOR {
+	font-size : 1em;
+	font-weight : bold;
+	margin : 0;
+}
+
+.FILENAME {
+	color: #007A00;
+}
+
+.SCREEN {
+	background-color : #E5E5E5;
+	border : 1px dashed #D0D0D0;
+}
+
+.PROGRAMLISTING {
+	background-color : #E5E5E5;
+	border : 1px dashed #D0D0D0;
+}
+
+BLOCKQUOTE.NOTE {
+	background-color : #F6FFBD;
+	border-top : 1px dashed #FFE856;
+	border-bottom : 1px dashed #FFE856;
+	margin-left : 2em;
+	margin-right : 2em;
+	padding-left : 0.2em;
+	padding-right : 0.2em;
+}
+
+BLOCKQUOTE.NOTE P{
+	padding : 0;
+}
+

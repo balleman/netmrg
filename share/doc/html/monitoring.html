@@ -1,210 +1,129 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->Monitoring</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="The NetMRG Reference"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Web Interface Descriptions"
-HREF="webpagedesc.html"><LINK
-REL="PREVIOUS"
-TITLE="Web Interface Descriptions"
-HREF="webpagedesc.html"><LINK
-REL="NEXT"
-TITLE="Groups"
-HREF="groups.html"></HEAD
-><BODY
-CLASS="REFENTRY"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="webpagedesc.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="groups.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><H1
-><A
-NAME="MONITORING"
-></A
->Monitoring</H1
-><DIV
-CLASS="REFNAMEDIV"
-><A
-NAME="AEN811"
-></A
-><H2
->Name</H2
->Monitoring&nbsp;--&nbsp;Items associated with setting up gathering of information</DIV
-><DIV
-CLASS="REFSECT1"
-><A
-NAME="AEN814"
-></A
-><H2
->Description</H2
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN816"
-></A
-><H3
->Groups</H3
-><P
->Management of <TT
-CLASS="GUILABEL"
-><B
->Groups</B
-></TT
->, Devices, Sub-devices, Monitors, Events, and the Notifications used by the events.</P
-></DIV
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN820"
-></A
-><H3
->Device Types</H3
-><P
->Types of devices; unused at this point.</P
-></DIV
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN823"
-></A
-><H3
->Notifications</H3
-><P
->Types of notifications that can be tied to events.</P
-><P
-></P
-><UL
-><LI
-><P
-><KBD
-CLASS="USERINPUT"
->Name</KBD
-> - Descriptive name of the notification</P
-></LI
-><LI
-><P
-><KBD
-CLASS="USERINPUT"
->Command</KBD
-> - Command to execute for the notification.  Notifications that start with a '/' will use the ful path the the specified command, whereas commands without a starting '/' will start using NetMRG's libexec directory.  Parameter substitution is fully functional here, as well.</P
-></LI
-></UL
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="webpagedesc.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="groups.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Web Interface Descriptions</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="webpagedesc.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Groups</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>Monitoring</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="HOME" title="The NetMRG Reference" href=
+  "index.html" />
+  <link rel="UP" title="Web Interface Descriptions" href=
+  "webpagedesc.html" />
+  <link rel="PREVIOUS" title="Web Interface Descriptions" href=
+  "webpagedesc.html" />
+  <link rel="NEXT" title="Groups" href="groups.html" />
+  <link rel="STYLESHEET" type="text/css" href="netmrgdoc.css" />
+</head>
+
+<body class="REFENTRY" bgcolor="#FFFFFF" text="#000000" link=
+"#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">The NetMRG Reference</th>
+      </tr>
+
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href=
+        "webpagedesc.html" accesskey="P">Prev</a></td>
+
+        <td width="80%" align="center" valign="bottom"></td>
+
+        <td width="10%" align="right" valign="bottom"><a href=
+        "groups.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%" />
+  </div>
+
+  <h1><a name="MONITORING" id="MONITORING"></a>Monitoring</h1>
+
+  <div class="REFNAMEDIV">
+    <a name="AEN820" id="AEN820"></a>
+
+    <h2>Name</h2>Monitoring&nbsp;--&nbsp;Items associated with
+    setting up gathering of information
+  </div>
+
+  <div class="REFSECT1">
+    <a name="AEN823" id="AEN823"></a>
+
+    <h2>Description</h2>
+
+    <div class="REFSECT2">
+      <a name="AEN825" id="AEN825"></a>
+
+      <h3>Groups</h3>
+
+      <p>Management of <span class="GUILABEL">Groups</span>,
+      Devices, Sub-devices, Monitors, Events, and the Notifications
+      used by the events.</p>
+    </div>
+
+    <div class="REFSECT2">
+      <a name="AEN829" id="AEN829"></a>
+
+      <h3>Device Types</h3>
+
+      <p>Types of devices; unused at this point.</p>
+    </div>
+
+    <div class="REFSECT2">
+      <a name="AEN832" id="AEN832"></a>
+
+      <h3>Notifications</h3>
+
+      <p>Types of notifications that can be tied to events.</p>
+
+      <ul>
+        <li>
+          <p><kbd class="USERINPUT">Name</kbd> - Descriptive name
+          of the notification</p>
+        </li>
+
+        <li>
+          <p><kbd class="USERINPUT">Command</kbd> - Command to
+          execute for the notification. Notifications that start
+          with a '/' will use the ful path the the specified
+          command, whereas commands without a starting '/' will
+          start using NetMRG's libexec directory. Parameter
+          substitution is fully functional here, as well.</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href=
+        "webpagedesc.html" accesskey="P">Prev</a></td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "index.html" accesskey="H">Home</a></td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "groups.html" accesskey="N">Next</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">Web Interface
+        Descriptions</td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "webpagedesc.html" accesskey="U">Up</a></td>
+
+        <td width="33%" align="right" valign="top">Groups</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

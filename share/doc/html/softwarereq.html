@@ -1,218 +1,120 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
-<HTML
-><HEAD
-><TITLE
->Software Requirements</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="The NetMRG Reference"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Installation"
-HREF="installation.html"><LINK
-REL="PREVIOUS"
-TITLE="Installation"
-HREF="installation.html"><LINK
-REL="NEXT"
-TITLE="Satisfying Requirements"
-HREF="satisfyreq.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
-><IMG
-SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="installation.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="satisfyreq.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="SOFTWAREREQ"
-></A
->Chapter 6. Software Requirements</H1
-><P
->NetMRG Requires the following packages for compilation.</P
-><P
-></P
-><UL
-><LI
-><P
-><A
-HREF="http://www.php.net/"
-TARGET="_top"
-><TT
-CLASS="APPLICATION"
->PHP</TT
-></A
->, Version &#62;= 4.1</P
-></LI
-><LI
-><P
-><A
-HREF="http://www.mysql.com/"
-TARGET="_top"
-><TT
-CLASS="APPLICATION"
->MySQL</TT
-></A
->, Version &#62;= 3.23</P
-></LI
-><LI
-><P
-><A
-HREF="http://www.rrdtool.org/"
-TARGET="_top"
-><TT
-CLASS="APPLICATION"
->RRDTOOL</TT
-></A
->, Version &#62;= 1.0.28</P
-></LI
-><LI
-><P
-><A
-HREF="http://xmlsoft.org/"
-TARGET="_top"
-><TT
-CLASS="APPLICATION"
->Libxml2</TT
-></A
->, Version &#62;= 2.30</P
-></LI
-><LI
-><P
-><A
-HREF="http://gcc.gnu.org/libstdc++/"
-TARGET="_top"
-><TT
-CLASS="APPLICATION"
->Libstdc++</TT
-></A
->, Version &#62;= 3.2</P
-><P
->Versions earlier than this may compile just fine, but may experience runtime issues.  Specifically, we experienced software crashes on an SMP machine running version 2.96 that were resolved by upgrading to 3.2.</P
-></LI
-><LI
-><P
-><A
-HREF="http://net-snmp.sf.net/"
-TARGET="_top"
-><TT
-CLASS="APPLICATION"
->NET/UCD-SNMP</TT
-></A
->, Version &#62;= 4.2.2</P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="installation.html"
-ACCESSKEY="P"
->&#60;&#60;&#60; Previous</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="satisfyreq.html"
-ACCESSKEY="N"
->Next &#62;&#62;&#62;</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Installation</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="installation.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Satisfying Requirements</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for Linux/x86 (vers 1st September 2004), see www.w3.org" />
+
+  <title>Software Requirements</title>
+  <meta name="GENERATOR" content=
+  "Modular DocBook HTML Stylesheet Version 1.7" />
+  <link rel="HOME" title="The NetMRG Reference" href=
+  "index.html" />
+  <link rel="UP" title="Installation" href="installation.html" />
+  <link rel="PREVIOUS" title="Installation" href=
+  "installation.html" />
+  <link rel="NEXT" title="Satisfying Requirements" href=
+  "satisfyreq.html" />
+  <link rel="STYLESHEET" type="text/css" href="netmrgdoc.css" />
+</head>
+
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link=
+"#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">The NetMRG Reference</th>
+      </tr>
+
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href=
+        "installation.html" accesskey="P">Prev</a></td>
+
+        <td width="80%" align="center" valign="bottom"></td>
+
+        <td width="10%" align="right" valign="bottom"><a href=
+        "satisfyreq.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%" />
+  </div>
+
+  <div class="CHAPTER">
+    <h1><a name="SOFTWAREREQ" id="SOFTWAREREQ"></a>Chapter 6.
+    Software Requirements</h1>
+
+    <p>NetMRG Requires the following packages for compilation.</p>
+
+    <ul>
+      <li>
+        <p><a href="http://www.php.net/" target="_top"><span class=
+        "APPLICATION">PHP</span></a>, Version &gt;= 4.1</p>
+      </li>
+
+      <li>
+        <p><a href="http://www.mysql.com/" target=
+        "_top"><span class="APPLICATION">MySQL</span></a>, Version
+        &gt;= 3.23</p>
+      </li>
+
+      <li>
+        <p><a href="http://www.rrdtool.org/" target=
+        "_top"><span class="APPLICATION">RRDTOOL</span></a>,
+        Version &gt;= 1.0.28</p>
+      </li>
+
+      <li>
+        <p><a href="http://xmlsoft.org/" target="_top"><span class=
+        "APPLICATION">Libxml2</span></a>, Version &gt;= 2.30</p>
+      </li>
+
+      <li>
+        <p><a href="http://gcc.gnu.org/libstdc++/" target=
+        "_top"><span class="APPLICATION">Libstdc++</span></a>,
+        Version &gt;= 3.2</p>
+
+        <p>Versions earlier than this may compile just fine, but
+        may experience runtime issues. Specifically, we experienced
+        software crashes on an SMP machine running version 2.96
+        that were resolved by upgrading to 3.2.</p>
+      </li>
+
+      <li>
+        <p><a href="http://net-snmp.sf.net/" target=
+        "_top"><span class="APPLICATION">NET/UCD-SNMP</span></a>,
+        Version &gt;= 4.2.2</p>
+      </li>
+    </ul>
+  </div>
+
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%" />
+
+    <table summary="Footer navigation table" width="100%" border=
+    "0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href=
+        "installation.html" accesskey="P">Prev</a></td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "index.html" accesskey="H">Home</a></td>
+
+        <td width="33%" align="right" valign="top"><a href=
+        "satisfyreq.html" accesskey="N">Next</a></td>
+      </tr>
+
+      <tr>
+        <td width="33%" align="left" valign="top">Installation</td>
+
+        <td width="34%" align="center" valign="top"><a href=
+        "installation.html" accesskey="U">Up</a></td>
+
+        <td width="33%" align="right" valign="top">Satisfying
+        Requirements</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
