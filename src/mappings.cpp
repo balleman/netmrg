@@ -11,16 +11,30 @@
 #include "utils.h"
 #include "snmp.h"
 
+string remove_surrounding_quotes(string input)
+{
+	if (input[0] == '"')
+		input.erase(0,1);
+	if (input[input.length() - 1] == '"')
+		input.erase(input.length() - 1, 1);
+	return input;
+}
+
 void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 {
 	// clear cache for this device
-	db_update(mysql, info, "DELETE FROM snmp_interface_cache WHERE dev_id=" + inttostr((*info).device_id));
+	db_update(mysql, info, "DELETE FROM snmp_interface_cache WHERE dev_id=" + inttostr(info->device_id));
 
 	// this is a hack to see if we're on a CatOS platform
 	string sysdescr = snmp_get(*info, "system.sysDescr.0");
-	bool catos = false;
+
+	IfMIBType mibtype = imtStandard;
+
 	if (sysdescr.find("WS-C") != string::npos)
-		catos = true;
+		mibtype = imtCatOS;
+
+	if (sysdescr.find("Cisco Systems Catalyst 1900") != string::npos)
+		mibtype = imtOldCiscoSwitch;
 
 	list<SNMPPair> ifIndexList = snmp_walk(*info, "ifIndex");
 
@@ -28,10 +42,20 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 	{
 		string ifIndex = (*current).value;
 		string ifName  = snmp_get(*info, "ifName."  + ifIndex);
+
+		if ((mibtype == imtStandard) &&
+			(sysdescr.find("Cisco") != string::npos) &&
+			(sysdescr.find("IOS") != string::npos) &&
+			(ifName == "U")
+		   )
+		{
+			mibtype = imtOldCiscoRouter;		
+		}
+		
 		string ifDescr = snmp_get(*info, "ifDescr." + ifIndex);
 		// use CatOS port name in place of ifAlias
 		string ifAlias;
-		if (catos)
+		if (mibtype == imtCatOS)
 		{
 			// CatOS port names are indexed by slot and port, not by ifIndex
 			int slash_pos = ifName.find("/");
@@ -44,6 +68,18 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 				ifAlias.erase(0, 1);
 				ifAlias.erase(ifAlias.length() - 1, 1);
 			}
+		}
+		else if (mibtype == imtOldCiscoSwitch)
+		{
+			ifAlias = snmp_get(*info, ".1.3.6.1.4.1.437.1.1.3.3.1.1.3." + ifIndex);
+			ifAlias = remove_surrounding_quotes(ifAlias);
+			ifName  = ifDescr;	
+		}
+		else if (mibtype == imtOldCiscoRouter)
+		{
+			ifAlias = snmp_get(*info, ".1.3.6.1.4.1.9.2.2.1.1.28." + ifIndex);
+			ifAlias = remove_surrounding_quotes(ifAlias);
+			ifName  = ifDescr;
 		}
 		else
 		{
