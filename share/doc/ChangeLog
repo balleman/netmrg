@@ -1,6 +1,7 @@
 2005.01.16  v0.18.2  balleman
   - bug#0000346 - Use correct sums in advanced graph view 
-
+  - bug#0000382 - when applying templates, they should be added to the sub-device view
+  
 2005.01.16  v0.18.2  balleman
   - bug#0000375 - Gatherer can crash with certain versions of net-snmp against broken agents
   - bug#0000359 - error code scripts don't really return the error code

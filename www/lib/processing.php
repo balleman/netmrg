@@ -343,6 +343,16 @@ function apply_template($subdev_id, $template_id)
 	}
 
 	db_update("INSERT INTO view SET object_id={$sd_row['dev_id']}, object_type='device', graph_id=$template_id, type='template', pos={$pos_row['newpos']}, subdev_id=$subdev_id");
+	
+	// add templated graph to the sub-device's view
+	$q = db_query("SELECT max(pos)+1 AS newpos FROM view WHERE object_type='subdevice' AND object_id=$subdev_id");
+	$pos_row = db_fetch_array($q);
+	if (!isset($pos_row['newpos']) || empty($pos_row['newpos']))
+	{
+		$pos_row['newpos'] = 1;
+	}
+
+	db_update("INSERT INTO view SET object_id=$subdev_id, object_type='subdevice', graph_id=$template_id, type='template', pos={$pos_row['newpos']}, subdev_id=$subdev_id");
 
 }  // apply_template()
 
