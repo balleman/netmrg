@@ -19,55 +19,68 @@ require_once(netmrg_root() . "lib/auth.php");
 require_once(netmrg_root() . "lib/processing.php");
 check_auth(1);
 
-if ($action == "doadd")
+if (empty($_REQUEST["action"]))
+{
+	$_REQUEST["action"] = "";
+}
+
+if ($_REQUEST["action"] == "doadd")
 {
 	check_auth(2);
-	if (!isset($show_legend)) { $show_legend = 0; }
-	if (!isset($show_total_line)) { $show_total_line = 0; }
-	if (!isset($show_total_stats)) { $show_total_stats = 0; }
-	if (!isset($show_summed)) { $show_summed = 0; }
-	if (!isset($disp_integer_only)) { $disp_integer_only = 0; }
-	do_update("INSERT INTO graphs SET name=\"$graph_name\", comment=\"$graph_comment\", xsize=$xsize, ysize=$ysize, vert_label=\"$vert_label\", show_legend=$show_legend, show_total_line=$show_total_line, show_total_stats=$show_total_stats, show_summed=$show_summed, max_custom=\"$max_custom\", disp_integer_only=$disp_integer_only");
-	unset($action);
+	if (empty($_REQUEST["show_legend"])) { $_REQUEST["show_legend"] = 0; }
+	if (empty($_REQUEST["show_total_line"])) { $_REQUEST["show_total_line"] = 0; }
+	if (empty($_REQUEST["show_total_stats"])) { $_REQUEST["show_total_stats"] = 0; }
+	if (empty($_REQUEST["show_summed"])) { $_REQUEST["show_summed"] = 0; }
+	if (empty($_REQUEST["disp_integer_only"])) { $_REQUEST["disp_integer_only"] = 0; }
+	do_update("INSERT INTO graphs SET name=\"{$_REQUEST["graph_name"]}\", comment=\"{$_REQUEST["graph_comment"]}\", xsize={$_REQUEST["xsize"]}, ysize={$_REQUEST["ysize"]}, vert_label=\"{$_REQUEST["vert_label"]}\", show_legend={$_REQUEST["show_legend"]}, show_total_line={$_REQUEST["show_total_line"]}, show_total_stats={$_REQUEST["show_total_stats"]}, show_summed={$_REQUEST["show_summed"]}, max_custom=\"{$_REQUEST["max_custom"]}\", disp_integer_only={$_REQUEST["disp_integer_only"]}");
+
+	header("Location: {$_SERVER["PHP_SELF"]}");
+	exit(0);
 
 } // done adding
 
-if ($action == "doedit")
+if ($_REQUEST["action"] == "doedit")
 {
 	check_auth(2);
-	if (!isset($show_legend)) { $show_legend = 0; }
-	if (!isset($show_total_line)) { $show_total_line = 0; }
-	if (!isset($show_total_stats)) { $show_total_stats = 0; }
-	if (!isset($show_summed)) { $show_summed = 0; }
-	if (!isset($disp_integer_only)) { $disp_integer_only = 0; }
-	do_update("UPDATE graphs SET name=\"$graph_name\", comment=\"$graph_comment\", xsize=$xsize, ysize=$ysize, vert_label=\"$vert_label\", show_legend=$show_legend, show_total_line=$show_total_line, show_total_stats=$show_total_stats, show_summed=$show_summed, max_custom=\"$max_custom\", disp_integer_only=$disp_integer_only WHERE id=$graph_id");
-	unset($action);
+	if (empty($_REQUEST["show_legend"])) { $_REQUEST["show_legend"] = 0; }
+	if (empty($_REQUEST["show_total_line"])) { $_REQUEST["show_total_line"] = 0; }
+	if (empty($_REQUEST["show_total_stats"])) { $_REQUEST["show_total_stats"] = 0; }
+	if (empty($_REQUEST["show_summed"])) { $_REQUEST["show_summed"] = 0; }
+	if (empty($_REQUEST["disp_integer_only"])) { $_REQUEST["disp_integer_only"] = 0; }
+	do_update("UPDATE graphs SET name=\"{$_REQUEST["graph_name"]}\", comment=\"{$_REQUEST["graph_comment"]}\", xsize={$_REQUEST["xsize"]}, ysize={$_REQUEST["ysize"]}, vert_label=\"{$_REQUEST["vert_label"]}\", show_legend={$_REQUEST["show_legend"]}, show_total_line={$_REQUEST["show_total_line"]}, show_total_stats={$_REQUEST["show_total_stats"]}, show_summed={$_REQUEST["show_summed"]}, max_custom=\"{$_REQUEST["max_custom"]}\", disp_integer_only={$_REQUEST["disp_integer_only"]} WHERE id=$graph_id");
 
-	if ($return_type != "")
+	if (isset($return_type))
 	{
 
 		if ($return_type == "traffic")
 		{
 
-			Header("Location: ./snmp_cache_view.php?dev_id=$return_id");
+			Header("Location: snmp_cache_view.php?dev_id=$return_id");
 			exit(0);
 
 		}
 
 	}
+	else
+	{
+		header("Location: {$_SERVER["PHP_SELF"]}");
+		exit(0);
+	}
 
 
 } // done editing
 
-if ($action == "dodelete")
+if ($_REQUEST["action"] == "dodelete")
 {
 	check_auth(2);
-	delete_graph($graph_id);
-	unset($action);
+	delete_graph($_REQUEST["graph_id"]);
+	
+	header("Location: {$_SERVER["PHP_SELF"]}");
+	exit(0);
 
 } // done deleting
 
-if ($action == "duplicate")
+if ($_REQUEST["action"] == "duplicate")
 {
 	$graph_handle = do_query("SELECT * FROM graphs WHERE id=$id");
 	$graph_row    = mysql_fetch_array($graph_handle);
