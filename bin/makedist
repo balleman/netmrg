@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# makedist
+#
+# gets the latest cvs tree and tars it up as $version
+#
+
+progname="netmrg"
+version=`cat doc/VERSION`
+this="$progname-$version"
+pkgdir="/tmp"
+
+cd $pkgdir
+
+rm -rf $this/
+rm -f $this.tar.gz
+
+cvs export -r HEAD -d $this $progname
+tar czf $this.tar.gz $this
