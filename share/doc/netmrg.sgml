@@ -625,11 +625,22 @@ their NetMRG administrator.
 			<refname>Groups</refname>
 			<refpurpose>A container for a collection of devices</refpurpose>
 		</refnamediv>
-		<refsect1><title>Group List</title>
-			<para>list of all groups</para>
-		</refsect1>
-		<refsect1><title>Group Edit</title>
-			<para>Edit info about a group</para>
+		<refsect1><title>Description</title>
+			<refsect2><title>List</title>
+				<para>List of all groups.  This is the default view when
+				you first click on <guilabel>Groups</guilabel> in the nav bar.</para>
+				<itemizedlist>
+					<listitem><para><guilabel>Name</guilabel> - click on the name of the group to view the devices contained in it</para></listitem>
+					<listitem><para><guilabel>Comments</guilabel> - description of a group</para></listitem>
+					<listitem><para><guilabel>Add</guilabel> - add another group</para></listitem>
+					<listitem><para><guilabel>View</guilabel> - views graphs assocated with this group and allows you to edit what graphs area associated with the group</para></listitem>
+					<listitem><para><guilabel>Edit</guilabel> - edits parameters of a group</para></listitem>
+					<listitem><para><guilabel>Delete</guilabel> - deletes the group and all devices, sub-devices, etc underneath it</para></listitem>
+				</itemizedlist>
+			</refsect2>
+			<refsect2><title>Edit</title>
+				<para>edit info about a group</para>
+			</refsect2>
 		</refsect1>
 	</refentry>
 	<refentry id="Devices">
@@ -640,8 +651,13 @@ their NetMRG administrator.
 			<refname>Devices</refname>
 			<refpurpose>A container for a collection of sub-devices</refpurpose>
 		</refnamediv>
-		<refsect1><title>Device List</title>
-			<para>list of devices in a group</para>
+		<refsect1><title>Description</title>
+			<refsect2><title>List</title>
+				<para>list of devices in a group</para>
+			</refsect2>
+			<refsect2><title>Edit</title>
+				<para>Edit info about a device</para>
+			</refsect2>
 		</refsect1>
 	</refentry>
 	<refentry id="Sub-Devices">
@@ -652,8 +668,13 @@ their NetMRG administrator.
 			<refname>Sub Devices</refname>
 			<refpurpose>A container for a collection of monitors</refpurpose>
 		</refnamediv>
-		<refsect1><title>Sub Device List</title>
-			<para>list of sub devices in a device</para>
+		<refsect1><title>Description</title>
+			<refsect2><title>List</title>
+				<para>list of sub devices in a device</para>
+			</refsect2>
+			<refsect2><title>Edit</title>
+				<para>edit info about a sub device</para>
+			</refsect2>
 		</refsect1>
 	</refentry>
 	<refentry id="Monitors">
@@ -664,8 +685,13 @@ their NetMRG administrator.
 			<refname>Monitors</refname>
 			<refpurpose>A container for a collection of tracked values</refpurpose>
 		</refnamediv>
-		<refsect1><title>Monitor List</title>
-			<para>list of monitors for a sub-device</para>
+		<refsect1><title>Description</title>
+			<refsect2><title>List</title>
+				<para>list of monitors for a sub-device</para>
+			</refsect2>
+			<refsect2><title>Edit</title>
+				<para>edit info about a monitor</para>
+			</refsect2>
 		</refsect1>
 	</refentry>
 	<refentry id="Events">
@@ -676,8 +702,13 @@ their NetMRG administrator.
 			<refname>Events</refname>
 			<refpurpose>A container for a collection of actions to take based on monitor values</refpurpose>
 		</refnamediv>
-		<refsect1><title>Event List</title>
-			<para>list of events for a monitor</para>
+		<refsect1><title>Description</title>
+			<refsect2><title>List</title>
+				<para>list of events for a monitor</para>
+			</refsect2>
+			<refsect2><title>Edit</title>
+				<para>edit info about an event</para>
+			</refsect2>
 		</refsect1>
 	</refentry>
 	<refentry id="Conditions">
@@ -688,8 +719,13 @@ their NetMRG administrator.
 			<refname>Conditions</refname>
 			<refpurpose>A container for a collection of paramenters to activate an event</refpurpose>
 		</refnamediv>
-		<refsect1><title>Condition List</title>
-			<para>list of conditions for an event</para>
+		<refsect1><title>Description</title>
+			<refsect2><title>List</title>
+				<para>list of conditions for an event</para>
+			</refsect2>
+			<refsect2><title>Edit</title>
+				<para>edit info about an condition</para>
+			</refsect2>
 		</refsect1>
 	</refentry>
 </reference>
