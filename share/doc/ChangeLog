@@ -1,3 +1,6 @@
+2004.08.29  v0.17cvs  keb
+  - ability to duplicate multiple graphs at once
+
 2004.08.28  v0.17cvs  keb
   - bug#0000106 - checkboxes to delete graphs for graphs.php
 
