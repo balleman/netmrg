@@ -124,6 +124,10 @@ Chapter 1. Introduction
 
 Chapter 2. Revision History
 
+     * 0.18.1
+       2004.11.01
+       Minor Bug Fixes; Fixed a small bug where the gatherer would not
+       register negative values.
      * 0.18
        2004.10.25
        Major Bug Fixes; Fixed an issue preventing form submissions on

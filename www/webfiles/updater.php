@@ -185,7 +185,9 @@ $dbupdates = array(
 			"name" => "SQL Test Timeout",
 			"query" => "ALTER TABLE `tests_sql` ADD `timeout` INT DEFAULT '10' NOT NULL ;"
 			)
-	) // end 0.18
+	), // end 0.18
+	
+	"0.18.1" => array() // end 0.18.1
 ); // end $dbupdates;
 
 
