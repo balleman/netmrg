@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Given a .rrd filename, edit it with vi and restore the .rrd after 
+# finished editing
+#
+# Written by Ian Berry, idea taken from Brady Alleman
+# Re-modified for NetMRG
+
+prefix="@prefix@"
+localstatedir="@localstatedir@"
+RRD_DIR="$localstatedir/var/lib/netmrg/rrd"
+
+if [ ! -n "$1" ]
+then
+  echo "Usage edit_rrd.sh [RRD_FILENAME]"
+  exit
+fi
+
+if [ ! -f "$RRD_DIR/$1" ]
+then
+  echo "Cannot locate file: '$RRD_DIR/$1'!"
+  exit
+fi
+
+# dump it to temp
+rrdtool dump $RRD_DIR/$1 > /tmp/$1.xml
+
+# make a backup
+cp $RRD_DIR/$1 /tmp/$1.backup
+
+# edit the xml
+vi /tmp/$1.xml
+
+rm -f $RRD_DIR/$1
+
+# restore the rrd
+rrdtool restore /tmp/$1.xml $RRD_DIR/$1
+
