@@ -83,6 +83,7 @@ string  		stripnl(string input);
 string			token_replace(string &source, string token, string value);
 u_char			*u_string(string source, u_char *out);
 string			inttostr(long long int int_to_convert);
+string			timetostr(const time_t timestamp);
 long long int 	strtoint(string string_to_convert);
 string			inttopadstr(int integer, int padlen);
 string			count_file_lines(DeviceInfo info);

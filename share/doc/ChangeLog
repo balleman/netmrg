@@ -1,5 +1,6 @@
 2004.06.30  v0.17cvs  balleman
   - bug#0000239 - variable substitution for notifications
+  - bug#0000238 - thread timestamps
 
 2004.06.30  v0.17cvs  dwarner
   - bug#0000235 - fixed SVO users viewing custom graphs in devices

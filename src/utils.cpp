@@ -92,6 +92,15 @@ long long int strtoint(string string_to_convert)
 	return strtoll(string_to_convert.c_str(), NULL, 10);
 } // end strtoint
 
+// timetostr - converts a unix timestamp to a nice format
+string timetostr(const time_t timestamp)
+{
+	char tempstr[255];
+	tm *atm = localtime(&timestamp);
+	strftime(tempstr, 255, "%F %T", atm);
+	return string(tempstr);
+}
+
 // inttopadstr - converts a string to an integer, adding 0s to pad to a given length
 string inttopadstr(int integer, int padlen)
 {
@@ -100,7 +109,6 @@ string inttopadstr(int integer, int padlen)
 	snprintf(tempstr, 255, format.c_str(), integer);
 	return string(tempstr);
 } // end inttopadstr
-
 
 // debuglogger - NetMRG's version of syslog
 

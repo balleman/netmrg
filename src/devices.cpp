@@ -186,14 +186,14 @@ void process_device(int dev_id)
 	MYSQL_RES 	*mysql_res;
 	MYSQL_ROW 	mysql_row;
 	uint		status = 0;
-
+	time_t		start_time = time( NULL );
 	DeviceInfo info;
 
 	info.device_id = dev_id;
 
 	// connect to db, get info for this device
 
-	debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Starting device thread.");
+	debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Starting device thread at " + timetostr(start_time) + ".");
 	if (!db_connect(&mysql)) return;
 	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, "MySQL connection established.");
 	info.mysql = (void *) &mysql;
@@ -373,6 +373,6 @@ void process_device(int dev_id)
 	mysql_close(&mysql);
 	info.mysql = NULL;
 
-	debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Ending device thread.");
+	debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Ending device thread at " + timetostr(time( NULL )) + ", after a duration of " + inttostr(time(NULL) - start_time) + " seconds.");
 
 } // end process_device
