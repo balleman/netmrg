@@ -69,7 +69,11 @@ $dbupdates = array(
 "ALTER TABLE user ADD CONSTRAINT UNIQUE user (user);"
 	), // end 0.13
 	"0.14" => array(), // end 0.14
-	"0.15" => array(), // end 0.15
+	"0.15" => array(
+"ALTER TABLE `devices` ADD `no_snmp_uptime_check` TINYINT DEFAULT '0' NOT NULL ;",
+"ALTER TABLE `tests_snmp` ADD `type` TINYINT DEFAULT '0' NOT NULL , ADD `subitem` INT DEFAULT '0' NOT NULL ;",
+"ALTER TABLE `graphs` ADD `max` INT, ADD `min` INT;",
+), // end 0.15
 	"0.16" => array() // end 0.16
 ); // end $dbupdates;
 
