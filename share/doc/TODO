@@ -28,6 +28,7 @@ make icons for links on various pages
 
 == balleman ==
   - ability to compile against librrd instead of using a pipe (should be able to compile for either)
+  - rrdd support?
   - portability
    - freebsd
    - solaris

@@ -10,7 +10,7 @@
     PRIMARY KEY (id),
     KEY uid (uid),
     KEY uid_module_pref (uid, module, pref));
-  INSERT INTO user_prefs (uid, module, pref, value) SELECT id, "SlideShow", "AutoScroll", 1 FROM USER;
+  INSERT INTO user_prefs (uid, module, pref, value) SELECT id, "SlideShow", "AutoScroll", 1 FROM user;
 
 2003.09.13  v0.10pre1  balleman
   ALTER TABLE `graphs` ADD `options` SET( 'nolegend', 'logarithmic' ) NOT NULL ;

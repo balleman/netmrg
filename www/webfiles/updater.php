@@ -30,7 +30,21 @@ $dbupdates = array(
 "ALTER TABLE `graph_ds` CHANGE `multiplier` `multiplier` VARCHAR( 100 ) DEFAULT '1' NOT NULL;",
 "ALTER TABLE snmp_interface_cache ADD COLUMN ifSpeed int(11) NOT NULL;",
 "UPDATE graphs SET title = name WHERE title = '';"
-	) // end 0.10pre1
+	), // end 0.10pre1
+	"0.10" => array(
+"ALTER TABLE `devices` CHANGE `snmp_enabled` `snmp_version` TINYINT( 4 ) DEFAULT '1' NOT NULL ;",
+"ALTER TABLE `devices` ADD `snmp_timeout` INT UNSIGNED DEFAULT '1000000' NOT NULL AFTER `snmp_version` ,
+  ADD `snmp_retries` TINYINT UNSIGNED DEFAULT '3' NOT NULL AFTER `snmp_timeout` ,
+  ADD `snmp_port` SMALLINT UNSIGNED DEFAULT '161' NOT NULL AFTER `snmp_retries` ;",
+"CREATE TABLE user_prefs (
+  id INT NOT NULL AUTO_INCREMENT, uid INT NOT NULL,
+  module VARCHAR(64) NOT NULL, pref VARCHAR(64) NOT NULL,
+  value VARCHAR(64) NOT NULL,
+  PRIMARY KEY (id),
+  KEY uid (uid),
+  KEY uid_module_pref (uid, module, pref));",
+"INSERT INTO user_prefs (uid, module, pref, value) SELECT id, "SlideShow", "AutoScroll", 1 FROM user;"
+	) // end 0.10
 ); // end $dbupdates;
 
 // check what to do
