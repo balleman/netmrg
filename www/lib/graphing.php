@@ -202,9 +202,11 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 
 	if ($templated)
 	{	
-		$graph_row['name'] = expand_parameters($graph_row['name'], $_REQUEST['subdev_id']);
-		$graph_row['vert_label'] = expand_parameters($graph_row['vert_label'], $_REQUEST['subdev_id']);
-		$graph_row['comment'] = expand_parameters($graph_row['comment'], $_REQUEST['subdev_id']);
+		$fields = array($graph_row['name'], $graph_row['vert_label'], $graph_row['comment']);
+		$fields = expand_parameters($fields, $_REQUEST['subdev_id']);
+		$graph_row['name'] 			= $fields[0];
+		$graph_row['vert_label'] 	= $fields[1];
+		$graph_row['comment'] 		= $fields[2];
 	}
 
 	if (isset($_REQUEST['start']))
@@ -223,7 +225,8 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 	}
 	else
 	{
-		$boundary = " --alt-autoscale-max";
+		//$boundary = " --alt-autoscale-max";
+		$boundary = "";
 	}
 		
 	// initial definition

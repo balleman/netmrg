@@ -2,7 +2,7 @@
 --
 -- Host: localhost    Database: netmrg
 ---------------------------------------------------------
--- Server version	3.23.54
+-- Server version	3.23.56
 
 --
 -- Table structure for table 'conditions'
@@ -24,13 +24,13 @@ CREATE TABLE conditions (
 --
 
 
-INSERT INTO conditions VALUES (3,3,75,5,0,0);
+INSERT INTO conditions VALUES (3,3,85,5,0,0);
 INSERT INTO conditions VALUES (4,3,100,3,0,0);
-INSERT INTO conditions VALUES (7,6,75,0,0,0);
+INSERT INTO conditions VALUES (7,6,85,0,0,0);
 INSERT INTO conditions VALUES (6,5,100,2,0,0);
-INSERT INTO conditions VALUES (8,4,75,5,0,0);
+INSERT INTO conditions VALUES (8,4,85,5,0,0);
 INSERT INTO conditions VALUES (9,4,100,3,0,0);
-INSERT INTO conditions VALUES (10,7,75,0,0,0);
+INSERT INTO conditions VALUES (10,7,85,0,0,0);
 INSERT INTO conditions VALUES (11,8,100,2,0,0);
 INSERT INTO conditions VALUES (12,9,5,3,0,0);
 INSERT INTO conditions VALUES (13,10,5,2,0,0);
@@ -45,9 +45,7 @@ CREATE TABLE data_types (
   id tinyint(4) NOT NULL auto_increment,
   rrd_type varchar(50) NOT NULL default '',
   name varchar(50) NOT NULL default '',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id)
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
@@ -79,6 +77,8 @@ CREATE TABLE dev_parents (
 INSERT INTO dev_parents VALUES (2,1);
 INSERT INTO dev_parents VALUES (2,2);
 INSERT INTO dev_parents VALUES (2,3);
+INSERT INTO dev_parents VALUES (2,7150);
+INSERT INTO dev_parents VALUES (4,7151);
 
 --
 -- Table structure for table 'dev_types'
@@ -88,9 +88,7 @@ CREATE TABLE dev_types (
   id int(11) NOT NULL auto_increment,
   name varchar(200) NOT NULL default '',
   comment varchar(250) NOT NULL default '',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id)
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
@@ -119,8 +117,7 @@ CREATE TABLE devices (
   snmp_enabled tinyint(4) NOT NULL default '1',
   status smallint(6) NOT NULL default '0',
   PRIMARY KEY  (id),
-  UNIQUE KEY id_2 (id),
-  KEY id (id)
+  KEY disabled (disabled)
 ) TYPE=MyISAM;
 
 --
@@ -128,9 +125,11 @@ CREATE TABLE devices (
 --
 
 
-INSERT INTO devices VALUES (1,'Oak','192.168.1.1','public',8,0,0,0,2382995,3,1,1,1);
-INSERT INTO devices VALUES (2,'Pine','192.168.1.11','public',8,0,0,0,2346650,2,1,1,1);
+INSERT INTO devices VALUES (1,'Oak','192.168.1.1','public',8,0,0,0,3024173,3,1,1,1);
+INSERT INTO devices VALUES (2,'Pine','192.168.1.11','public',8,0,0,0,2924163,2,1,1,1);
 INSERT INTO devices VALUES (3,'NetMRG','','',8,0,0,0,0,0,0,0,0);
+INSERT INTO devices VALUES (7150,'Spruce','192.168.1.14','thtech-private',8,0,0,0,0,3,1,1,0);
+INSERT INTO devices VALUES (7151,'Duo','duo.pa.net','',8,0,0,0,0,0,0,0,0);
 
 --
 -- Table structure for table 'event_log'
@@ -164,8 +163,7 @@ CREATE TABLE events (
   name varchar(100) NOT NULL default '',
   last_triggered bigint(20) NOT NULL default '0',
   PRIMARY KEY  (id),
-  UNIQUE KEY id_2 (id),
-  KEY id (id)
+  KEY monid_trigger (mon_id,trigger_type)
 ) TYPE=MyISAM;
 
 --
@@ -173,13 +171,13 @@ CREATE TABLE events (
 --
 
 
-INSERT INTO events VALUES (4,14,1,0,2,'Too Many Processes',1050441361);
-INSERT INTO events VALUES (3,7,1,0,2,'Too Many Processes',1050970020);
-INSERT INTO events VALUES (5,7,1,0,3,'Way Too Many Processes',2003);
-INSERT INTO events VALUES (6,7,1,1,1,'Processes Normal',1050970081);
-INSERT INTO events VALUES (7,14,1,1,1,'Processes Normal',1050946680);
-INSERT INTO events VALUES (8,14,1,0,3,'Way too many processes',1049589420);
-INSERT INTO events VALUES (9,8,1,1,1,'Users OK',1047758163);
+INSERT INTO events VALUES (4,14,1,0,2,'Too Many Processes',1057536241);
+INSERT INTO events VALUES (3,7,1,0,2,'Too Many Processes',1057542302);
+INSERT INTO events VALUES (5,7,1,0,3,'Way Too Many Processes',1057534620);
+INSERT INTO events VALUES (6,7,1,1,1,'Processes Normal',1057542420);
+INSERT INTO events VALUES (7,14,1,1,1,'Processes Normal',1057541101);
+INSERT INTO events VALUES (8,14,1,0,3,'Way too many processes',1057534380);
+INSERT INTO events VALUES (9,8,1,1,1,'Users OK',1053712144);
 INSERT INTO events VALUES (10,8,1,0,2,'Too Many Users',2003);
 INSERT INTO events VALUES (11,8,1,0,3,'Way Too Many Users',0);
 
@@ -207,6 +205,8 @@ CREATE TABLE graph_ds (
 --
 
 
+INSERT INTO graph_ds VALUES (30,3,'#FFCC33',4,17,'15 Minute',1,'CURRENT,AVERAGE,MAXIMUM',3,1);
+INSERT INTO graph_ds VALUES (29,2,'#FF6600',4,17,'5 Minute',1,'CURRENT,AVERAGE,MAXIMUM',2,1);
 INSERT INTO graph_ds VALUES (4,11,'#FF6600',4,2,'System',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
 INSERT INTO graph_ds VALUES (5,12,'#3366FF',5,2,'User',1,'CURRENT,AVERAGE,MAXIMUM',2,1);
 INSERT INTO graph_ds VALUES (6,13,'#00CC66',5,2,'Nice',1,'CURRENT,AVERAGE,MAXIMUM',3,1);
@@ -218,12 +218,15 @@ INSERT INTO graph_ds VALUES (13,25,'#CC3300',4,6,'Script',1,'CURRENT,AVERAGE,MAX
 INSERT INTO graph_ds VALUES (14,26,'#33CC00',5,6,'SNMP',1,'CURRENT,AVERAGE,MAXIMUM,INTEGER',2,1);
 INSERT INTO graph_ds VALUES (17,27,'#6699FF',5,6,'SQL',1,'CURRENT,AVERAGE,MAXIMUM,INTEGER',3,1);
 INSERT INTO graph_ds VALUES (16,40,'#FF9900',5,6,'Internal',1,'CURRENT,AVERAGE,MAXIMUM,INTEGER',4,1);
-INSERT INTO graph_ds VALUES (20,-2,'#000000',1,6,'Total Tests',1,'CURRENT,AVERAGE,MAXIMUM,INTEGER',5,1);
+INSERT INTO graph_ds VALUES (20,-2,'#000033',1,6,'Total',1,'CURRENT,AVERAGE,MAXIMUM,INTEGER',5,1);
+INSERT INTO graph_ds VALUES (28,1,'#990000',4,17,'1 Minute',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
 INSERT INTO graph_ds VALUES (23,-2,'#000000',1,2,'Total',1,'CURRENT,AVERAGE,MAXIMUM',4,1);
 INSERT INTO graph_ds VALUES (24,-1,'#FF9933',2,5,'1 Channel',1,'',3,8000);
 INSERT INTO graph_ds VALUES (25,-1,'#CC0000',2,5,'2 Channels',1,'',4,16000);
 INSERT INTO graph_ds VALUES (26,23,'#99CC66',4,15,'Inbound',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
 INSERT INTO graph_ds VALUES (27,24,'#CC3333',2,15,'Outbound',1,'CURRENT,AVERAGE,MAXIMUM',2,1);
+INSERT INTO graph_ds VALUES (51,7617,'#6666FF',4,23,'Main Batteries',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
+INSERT INTO graph_ds VALUES (52,7618,'#000066',2,24,'Main Battery',1,'CURRENT,AVERAGE,MAXIMUM',1,60);
 
 --
 -- Table structure for table 'graphs'
@@ -245,10 +248,13 @@ CREATE TABLE graphs (
 --
 
 
+INSERT INTO graphs VALUES (17,'%dev_name% - Load Average','',575,100,'','template');
 INSERT INTO graphs VALUES (2,'%dev_name% - CPU Utilization','',575,100,'% Usage','template');
-INSERT INTO graphs VALUES (4,'%dev_name% - LAN Traffic','Interface: %ifDescr%',575,100,'bytes / sec','template');
+INSERT INTO graphs VALUES (4,'%dev_name% - %ifDescr%','Interface: %ifDescr%%nIP:  %ifIP%%nMAC: %ifMAC%',575,100,'bytes / sec','template');
 INSERT INTO graphs VALUES (5,'Oak - Internet Traffic','',575,100,'bytes / sec','custom');
 INSERT INTO graphs VALUES (6,'NetMRG - Active Monitors','',575,100,'Monitors','custom');
+INSERT INTO graphs VALUES (23,'Spruce - Battery','',575,100,'Percent Capacity','custom');
+INSERT INTO graphs VALUES (24,'Spruce - Battery Rates','',575,100,'Charge Rate (%/min)','custom');
 
 --
 -- Table structure for table 'groups'
@@ -259,9 +265,7 @@ CREATE TABLE groups (
   name varchar(100) NOT NULL default '',
   comment varchar(200) NOT NULL default '',
   parent_id int(11) default NULL,
-  PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id)
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
@@ -270,6 +274,7 @@ CREATE TABLE groups (
 
 
 INSERT INTO groups VALUES (2,'LAN','',0);
+INSERT INTO groups VALUES (4,'Internet','',0);
 
 --
 -- Table structure for table 'monitors'
@@ -291,8 +296,8 @@ CREATE TABLE monitors (
   delta_time bigint(20) default NULL,
   status smallint(6) NOT NULL default '0',
   PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id,sub_dev_id)
+  KEY sub_dev_id (sub_dev_id),
+  KEY template_index (sub_dev_id,test_id,test_type,test_params)
 ) TYPE=MyISAM;
 
 --
@@ -300,39 +305,53 @@ CREATE TABLE monitors (
 --
 
 
-INSERT INTO monitors VALUES (1,1,1,NULL,NULL,1,2,9,'',NULL,NULL,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (2,1,1,NULL,NULL,1,2,10,'',NULL,NULL,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (3,1,1,NULL,NULL,1,2,11,'',NULL,NULL,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (4,1,2,NULL,105,1,2,7,'',23082,8,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (5,1,2,NULL,105,1,2,5,'',59108,77,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (6,1,2,NULL,105,1,2,8,'',18902,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (17,3,2,NULL,12000000,1,2,39,'',332964300,72221,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (7,1,1,NULL,NULL,1,2,2,'',72,-2,'2003-04-21 20:09:01',60,1);
-INSERT INTO monitors VALUES (8,1,1,NULL,NULL,1,2,3,'',1,0,'2003-04-21 20:09:01',60,1);
-INSERT INTO monitors VALUES (9,1,1,NULL,NULL,1,2,18,'',1,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (20,4,1,NULL,NULL,1,2,40,'',0,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (10,1,2,NULL,1000,1,3,1,'',100229,203,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (11,2,2,NULL,105,1,2,7,'',48381,45,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (12,2,2,NULL,105,1,2,5,'',132965,356,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (13,2,2,NULL,105,1,2,8,'',26897,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (14,2,1,NULL,NULL,1,2,2,'',71,0,'2003-04-21 20:09:01',60,1);
-INSERT INTO monitors VALUES (15,2,1,NULL,NULL,1,2,18,'',2,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (16,2,1,NULL,NULL,1,2,3,'',2,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (18,3,2,NULL,12000000,1,2,38,'',52937439,105870,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (40,6,1,NULL,NULL,1,3,6,'',1,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (21,5,2,NULL,12000000,1,2,39,'',46892126,103320,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (19,3,2,NULL,1000,1,2,40,'',0,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (25,6,1,NULL,NULL,1,3,3,'',0,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (29,7,1,NULL,NULL,1,2,44,'',14424664,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (22,5,2,NULL,12000000,1,2,38,'',331594286,70189,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (30,8,1,NULL,NULL,1,2,43,'',9485656,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (23,4,2,NULL,50000,1,2,39,'',1105507,2200,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (24,4,2,NULL,50000,1,2,38,'',202982,1667,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (26,6,1,NULL,NULL,1,3,4,'',27,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (28,7,1,NULL,NULL,1,2,43,'',749940,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (27,6,1,NULL,NULL,1,3,5,'',5,0,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (34,1,1,NULL,NULL,1,4,1,'/proc/net/ip_conntrack',25,-14,'2003-04-21 20:09:01',60,0);
-INSERT INTO monitors VALUES (31,8,1,NULL,NULL,1,2,44,'',88997188,0,'2003-04-21 20:09:01',60,0);
+INSERT INTO monitors VALUES (1,1,1,NULL,NULL,1,2,9,'',NULL,NULL,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (2,1,1,NULL,NULL,1,2,10,'',NULL,NULL,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (3,1,1,NULL,NULL,1,2,11,'',NULL,NULL,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (4,1,2,NULL,105,1,2,7,'',25579,12,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (5,1,2,NULL,105,1,2,5,'',82955,75,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (6,1,2,NULL,105,1,2,8,'',18136,0,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (17,3,2,NULL,12000000,1,2,39,'',38674631,13994,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (7,1,1,NULL,NULL,1,2,2,'',76,-10,'2003-07-06 21:47:00',60,1);
+INSERT INTO monitors VALUES (8,1,1,NULL,NULL,1,2,3,'',1,0,'2003-07-06 21:47:00',60,1);
+INSERT INTO monitors VALUES (9,1,1,NULL,NULL,1,2,18,'',6,0,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (20,4,1,NULL,NULL,1,2,40,'',0,0,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (10,1,2,NULL,1000,1,3,1,'',166210,276,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (11,2,2,NULL,105,1,2,7,'',47280,51,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (12,2,2,NULL,105,1,2,5,'',140791,95,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (13,2,2,NULL,105,1,2,8,'',87390,0,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (14,2,1,NULL,NULL,1,2,2,'',83,0,'2003-07-06 21:47:00',60,1);
+INSERT INTO monitors VALUES (15,2,1,NULL,NULL,1,2,18,'',3,0,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (16,2,1,NULL,NULL,1,2,3,'',1,0,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (18,3,2,NULL,12000000,1,2,38,'',79512857,12686,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (40,6,1,NULL,NULL,1,3,6,'',1,0,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (21,5,2,NULL,12000000,1,2,39,'',63927927,12886,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (19,3,2,NULL,1000,1,2,40,'',0,0,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (25,6,1,NULL,NULL,1,3,3,'',1,0,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (29,7,1,NULL,NULL,1,2,44,'',13672464,0,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (22,5,2,NULL,12000000,1,2,38,'',33664381,14174,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (30,8,1,NULL,NULL,1,2,43,'',7575188,0,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (23,4,2,NULL,50000,1,2,39,'',6693914,504,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (24,4,2,NULL,50000,1,2,38,'',924163,504,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (26,6,1,NULL,NULL,1,3,4,'',40,0,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (28,7,1,NULL,NULL,1,2,43,'',1502140,0,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (27,6,1,NULL,NULL,1,3,5,'',5,0,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (34,1,1,NULL,NULL,1,4,1,'/proc/net/ip_conntrack',48,-21,'2003-07-06 21:47:00',60,0);
+INSERT INTO monitors VALUES (31,8,1,NULL,NULL,1,2,44,'',90907656,0,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (7607,7154,1,NULL,NULL,1,1,27,'',NULL,NULL,'2003-07-06 21:47:01',59,0);
+INSERT INTO monitors VALUES (7605,7153,2,NULL,NULL,1,2,39,'',NULL,NULL,'2003-07-06 21:47:06',60,0);
+INSERT INTO monitors VALUES (7606,7153,2,NULL,NULL,1,2,38,'',NULL,NULL,'2003-07-06 21:47:06',60,0);
+INSERT INTO monitors VALUES (7609,7155,2,NULL,NULL,1,2,5,'',NULL,NULL,'2003-07-06 21:47:06',60,0);
+INSERT INTO monitors VALUES (7610,7155,2,NULL,NULL,1,2,8,'',NULL,NULL,'2003-07-06 21:47:06',60,0);
+INSERT INTO monitors VALUES (7615,2,1,NULL,NULL,1,2,10,'',NULL,NULL,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (7608,7155,2,NULL,NULL,1,2,7,'',NULL,NULL,'2003-07-06 21:47:06',60,0);
+INSERT INTO monitors VALUES (7611,7155,1,NULL,NULL,1,2,11,'',NULL,NULL,'2003-07-06 21:47:06',60,0);
+INSERT INTO monitors VALUES (7612,7155,1,NULL,NULL,1,2,10,'',NULL,NULL,'2003-07-06 21:47:06',60,0);
+INSERT INTO monitors VALUES (7613,7155,1,NULL,NULL,1,2,9,'',NULL,NULL,'2003-07-06 21:47:06',60,0);
+INSERT INTO monitors VALUES (7614,2,1,NULL,NULL,1,2,11,'',NULL,NULL,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (7618,7156,3,NULL,NULL,1,2,24,'',NULL,NULL,'2003-07-06 21:47:06',60,0);
+INSERT INTO monitors VALUES (7616,2,1,NULL,NULL,1,2,9,'',NULL,NULL,'2003-07-06 21:47:00',59,0);
+INSERT INTO monitors VALUES (7617,7156,1,NULL,NULL,1,2,24,'',NULL,NULL,'2003-07-06 21:47:06',60,0);
 
 --
 -- Table structure for table 'notifications'
@@ -343,9 +362,7 @@ CREATE TABLE notifications (
   name varchar(100) NOT NULL default '',
   command varchar(250) NOT NULL default '',
   disabled tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id_2 (id),
-  KEY id (id)
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
@@ -364,9 +381,7 @@ CREATE TABLE responses (
   event_id int(11) NOT NULL default '0',
   notification_id int(11) NOT NULL default '0',
   parameters varchar(100) default NULL,
-  PRIMARY KEY  (id),
-  UNIQUE KEY id_2 (id),
-  KEY id (id)
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
@@ -392,8 +407,8 @@ CREATE TABLE snmp_disk_cache (
 --
 
 
-INSERT INTO snmp_disk_cache VALUES (1,2,'/storage','/dev/hdc1');
 INSERT INTO snmp_disk_cache VALUES (1,1,'/','/dev/hda1');
+INSERT INTO snmp_disk_cache VALUES (1,2,'/storage','/dev/hdc1');
 
 --
 -- Table structure for table 'snmp_interface_cache'
@@ -424,12 +439,15 @@ CREATE TABLE snmp_interface_cache (
 --
 
 
-INSERT INTO snmp_interface_cache VALUES (1,2,NULL,'eth0',NULL,'192.168.1.1','0:0:21:fd:fa:13',6,1,1);
 INSERT INTO snmp_interface_cache VALUES (1,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
+INSERT INTO snmp_interface_cache VALUES (1,2,NULL,'eth0',NULL,'192.168.1.1','0:0:21:fd:fa:13',6,1,1);
 INSERT INTO snmp_interface_cache VALUES (1000,1,NULL,'lo',NULL,'127.0.0.1',NULL,0,0,0);
-INSERT INTO snmp_interface_cache VALUES (2,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
+INSERT INTO snmp_interface_cache VALUES (7150,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
 INSERT INTO snmp_interface_cache VALUES (1000,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',0,0,0);
+INSERT INTO snmp_interface_cache VALUES (7150,2,NULL,'irda0',NULL,'0.0.0.0','9:7a:21:9f:0:0',1,1,1);
+INSERT INTO snmp_interface_cache VALUES (7150,3,NULL,'eth0',NULL,'192.168.1.14','0:2:2d:28:bb:8a',6,1,1);
 INSERT INTO snmp_interface_cache VALUES (2,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
+INSERT INTO snmp_interface_cache VALUES (2,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
 INSERT INTO snmp_interface_cache VALUES (1,3,NULL,'ppp0',NULL,'66.59.96.86',NULL,23,1,1);
 
 --
@@ -441,7 +459,7 @@ CREATE TABLE sub_dev_variables (
   name varchar(50) NOT NULL default '',
   value varchar(50) NOT NULL default '',
   type enum('static','dynamic') NOT NULL default 'static',
-  KEY sub_dev_id (sub_dev_id,name)
+  KEY id_type (sub_dev_id,type)
 ) TYPE=MyISAM;
 
 --
@@ -454,45 +472,64 @@ INSERT INTO sub_dev_variables VALUES (3,'ifDescr','eth0','static');
 INSERT INTO sub_dev_variables VALUES (4,'ifDescr','ppp0','static');
 INSERT INTO sub_dev_variables VALUES (7,'dskPath','/','static');
 INSERT INTO sub_dev_variables VALUES (8,'dskPath','/storage','static');
-INSERT INTO sub_dev_variables VALUES (1,'ip','192.168.1.1','dynamic');
-INSERT INTO sub_dev_variables VALUES (3,'ip','192.168.1.1','dynamic');
-INSERT INTO sub_dev_variables VALUES (3,'dev_name','Oak','dynamic');
-INSERT INTO sub_dev_variables VALUES (3,'snmp_read_community','public','dynamic');
-INSERT INTO sub_dev_variables VALUES (5,'snmp_read_community','public','dynamic');
-INSERT INTO sub_dev_variables VALUES (6,'dev_name','NetMRG','dynamic');
-INSERT INTO sub_dev_variables VALUES (2,'snmp_read_community','public','dynamic');
-INSERT INTO sub_dev_variables VALUES (8,'dskPath','/storage','dynamic');
-INSERT INTO sub_dev_variables VALUES (8,'snmp_read_community','public','dynamic');
-INSERT INTO sub_dev_variables VALUES (7,'dskPath','/','dynamic');
-INSERT INTO sub_dev_variables VALUES (7,'dskDevice','/dev/hda1','dynamic');
-INSERT INTO sub_dev_variables VALUES (7,'dskIndex','1','dynamic');
-INSERT INTO sub_dev_variables VALUES (8,'ip','192.168.1.1','dynamic');
-INSERT INTO sub_dev_variables VALUES (2,'dev_name','Pine','dynamic');
-INSERT INTO sub_dev_variables VALUES (4,'snmp_read_community','public','dynamic');
-INSERT INTO sub_dev_variables VALUES (4,'ip','192.168.1.1','dynamic');
-INSERT INTO sub_dev_variables VALUES (1,'snmp_read_community','public','dynamic');
-INSERT INTO sub_dev_variables VALUES (2,'ip','192.168.1.11','dynamic');
-INSERT INTO sub_dev_variables VALUES (4,'dev_name','Oak','dynamic');
-INSERT INTO sub_dev_variables VALUES (3,'ifIP','192.168.1.1','dynamic');
-INSERT INTO sub_dev_variables VALUES (5,'ip','192.168.1.11','dynamic');
-INSERT INTO sub_dev_variables VALUES (3,'ifIndex','2','dynamic');
-INSERT INTO sub_dev_variables VALUES (5,'dev_name','Pine','dynamic');
-INSERT INTO sub_dev_variables VALUES (3,'ifDescr','eth0','dynamic');
-INSERT INTO sub_dev_variables VALUES (7,'ip','192.168.1.1','dynamic');
-INSERT INTO sub_dev_variables VALUES (5,'ifIP','192.168.1.11','dynamic');
+INSERT INTO sub_dev_variables VALUES (7153,'ifDescr','eth0','static');
+INSERT INTO sub_dev_variables VALUES (7156,'dev_name','Spruce','dynamic');
+INSERT INTO sub_dev_variables VALUES (7154,'dev_name','Duo','dynamic');
 INSERT INTO sub_dev_variables VALUES (8,'dev_name','Oak','dynamic');
-INSERT INTO sub_dev_variables VALUES (8,'dskDevice','/dev/hdc1','dynamic');
-INSERT INTO sub_dev_variables VALUES (8,'dskIndex','2','dynamic');
-INSERT INTO sub_dev_variables VALUES (7,'snmp_read_community','public','dynamic');
-INSERT INTO sub_dev_variables VALUES (5,'ifIndex','2','dynamic');
-INSERT INTO sub_dev_variables VALUES (5,'ifDescr','eth0','dynamic');
-INSERT INTO sub_dev_variables VALUES (4,'ifIP','66.59.96.86','dynamic');
-INSERT INTO sub_dev_variables VALUES (4,'ifIndex','3','dynamic');
-INSERT INTO sub_dev_variables VALUES (4,'ifDescr','ppp0','dynamic');
+INSERT INTO sub_dev_variables VALUES (6,'dev_name','NetMRG','dynamic');
+INSERT INTO sub_dev_variables VALUES (3,'dev_name','Oak','dynamic');
 INSERT INTO sub_dev_variables VALUES (7,'dev_name','Oak','dynamic');
+INSERT INTO sub_dev_variables VALUES (8,'ip','192.168.1.1','dynamic');
+INSERT INTO sub_dev_variables VALUES (3,'ip','192.168.1.1','dynamic');
+INSERT INTO sub_dev_variables VALUES (5,'ip','192.168.1.11','dynamic');
+INSERT INTO sub_dev_variables VALUES (7156,'ip','192.168.1.14','dynamic');
+INSERT INTO sub_dev_variables VALUES (8,'dskPath','/storage','dynamic');
+INSERT INTO sub_dev_variables VALUES (7153,'dev_name','Spruce','dynamic');
+INSERT INTO sub_dev_variables VALUES (7153,'ip','192.168.1.14','dynamic');
+INSERT INTO sub_dev_variables VALUES (5,'snmp_read_community','public','dynamic');
+INSERT INTO sub_dev_variables VALUES (7156,'snmp_read_community','thtech-private','dynamic');
+INSERT INTO sub_dev_variables VALUES (3,'snmp_read_community','public','dynamic');
+INSERT INTO sub_dev_variables VALUES (7153,'ifDescr','eth0','dynamic');
 INSERT INTO sub_dev_variables VALUES (6,'ip','','dynamic');
+INSERT INTO sub_dev_variables VALUES (3,'ifDescr','eth0','dynamic');
+INSERT INTO sub_dev_variables VALUES (2,'dev_name','Pine','dynamic');
+INSERT INTO sub_dev_variables VALUES (3,'ifIndex','2','dynamic');
+INSERT INTO sub_dev_variables VALUES (8,'snmp_read_community','public','dynamic');
+INSERT INTO sub_dev_variables VALUES (5,'ifDescr','eth0','dynamic');
+INSERT INTO sub_dev_variables VALUES (7154,'ip','duo.pa.net','dynamic');
+INSERT INTO sub_dev_variables VALUES (7,'ip','192.168.1.1','dynamic');
+INSERT INTO sub_dev_variables VALUES (5,'ifIndex','2','dynamic');
+INSERT INTO sub_dev_variables VALUES (7153,'snmp_read_community','thtech-private','dynamic');
+INSERT INTO sub_dev_variables VALUES (7155,'dev_name','Spruce','dynamic');
+INSERT INTO sub_dev_variables VALUES (7153,'ifIndex','3','dynamic');
+INSERT INTO sub_dev_variables VALUES (8,'dskIndex','2','dynamic');
+INSERT INTO sub_dev_variables VALUES (4,'dev_name','Oak','dynamic');
+INSERT INTO sub_dev_variables VALUES (7,'snmp_read_community','public','dynamic');
+INSERT INTO sub_dev_variables VALUES (4,'ip','192.168.1.1','dynamic');
+INSERT INTO sub_dev_variables VALUES (7155,'snmp_read_community','thtech-private','dynamic');
+INSERT INTO sub_dev_variables VALUES (7,'dskPath','/','dynamic');
 INSERT INTO sub_dev_variables VALUES (1,'dev_name','Oak','dynamic');
+INSERT INTO sub_dev_variables VALUES (4,'snmp_read_community','public','dynamic');
+INSERT INTO sub_dev_variables VALUES (7,'dskIndex','1','dynamic');
+INSERT INTO sub_dev_variables VALUES (7153,'ifIP','192.168.1.14','dynamic');
+INSERT INTO sub_dev_variables VALUES (2,'ip','192.168.1.11','dynamic');
+INSERT INTO sub_dev_variables VALUES (7155,'ip','192.168.1.14','dynamic');
+INSERT INTO sub_dev_variables VALUES (3,'ifIP','192.168.1.1','dynamic');
+INSERT INTO sub_dev_variables VALUES (5,'ifIP','192.168.1.11','dynamic');
+INSERT INTO sub_dev_variables VALUES (2,'snmp_read_community','public','dynamic');
 INSERT INTO sub_dev_variables VALUES (6,'snmp_read_community','','dynamic');
+INSERT INTO sub_dev_variables VALUES (7154,'snmp_read_community','','dynamic');
+INSERT INTO sub_dev_variables VALUES (7153,'ifMAC','0:2:2d:28:bb:8a','dynamic');
+INSERT INTO sub_dev_variables VALUES (4,'ifDescr','ppp0','dynamic');
+INSERT INTO sub_dev_variables VALUES (5,'dev_name','Pine','dynamic');
+INSERT INTO sub_dev_variables VALUES (4,'ifIndex','3','dynamic');
+INSERT INTO sub_dev_variables VALUES (7,'dskDevice','/dev/hda1','dynamic');
+INSERT INTO sub_dev_variables VALUES (5,'ifMAC','0:40:33:e3:33:9d','dynamic');
+INSERT INTO sub_dev_variables VALUES (1,'ip','192.168.1.1','dynamic');
+INSERT INTO sub_dev_variables VALUES (1,'snmp_read_community','public','dynamic');
+INSERT INTO sub_dev_variables VALUES (3,'ifMAC','0:0:21:fd:fa:13','dynamic');
+INSERT INTO sub_dev_variables VALUES (8,'dskDevice','/dev/hdc1','dynamic');
+INSERT INTO sub_dev_variables VALUES (4,'ifIP','66.59.96.86','dynamic');
 
 --
 -- Table structure for table 'sub_devices'
@@ -505,7 +542,6 @@ CREATE TABLE sub_devices (
   name varchar(80) default NULL,
   status smallint(6) NOT NULL default '0',
   PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
   KEY id_2 (id,dev_id,type)
 ) TYPE=MyISAM;
 
@@ -522,6 +558,10 @@ INSERT INTO sub_devices VALUES (5,2,2,'Eth0',0);
 INSERT INTO sub_devices VALUES (6,3,1,'System',0);
 INSERT INTO sub_devices VALUES (7,1,3,'Root',0);
 INSERT INTO sub_devices VALUES (8,1,3,'Storage',0);
+INSERT INTO sub_devices VALUES (7153,7150,2,'eth0',0);
+INSERT INTO sub_devices VALUES (7154,7151,1,'System',0);
+INSERT INTO sub_devices VALUES (7155,7150,1,'System',0);
+INSERT INTO sub_devices VALUES (7156,7150,1,'Battery',0);
 
 --
 -- Table structure for table 'tests_internal'
@@ -553,9 +593,7 @@ CREATE TABLE tests_script (
   data_type int(11) NOT NULL default '0',
   dev_type int(11) NOT NULL default '0',
   priority tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id_2 (id),
-  KEY id (id)
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
@@ -564,12 +602,12 @@ CREATE TABLE tests_script (
 
 
 INSERT INTO tests_script VALUES (9,'Custom','',2,0,0);
-INSERT INTO tests_script VALUES (23,'PM3 Modems Online (new)','/var/www/netmrg/cmd/test/pm3modems_new.pl %ip',2,3,0);
+INSERT INTO tests_script VALUES (23,'PM3 Modems Online (new)','/var/www/netmrg/cmd/test/pm3modems_new.pl %ip%',2,8,0);
 INSERT INTO tests_script VALUES (25,'Mail Stats','/var/www/netmrg/cmd/test/maillogstat.php',2,2,0);
 INSERT INTO tests_script VALUES (26,'NetMRG Stats','/var/www/netmrg/cmd/test/netmrg_stats.php',2,2,0);
-INSERT INTO tests_script VALUES (27,'Ping Latency','/var/www/netmrg/cmd/test/ping_time.pl %ip',2,2,0);
+INSERT INTO tests_script VALUES (27,'Ping Latency','/var/www/netmrg/cmd/test/ping_time.pl %ip%',2,8,0);
 INSERT INTO tests_script VALUES (28,'Ferrups','/var/www/netmrg/cmd/test/ferrups.pl',2,2,0);
-INSERT INTO tests_script VALUES (29,'TNT - Good Modems (aka avail-suspect)','/var/www/netmrg/cmd/test/snmpdiff.php %ip %community .1.3.6.1.4.1.529.15.1.0 .1.3.6.1.4.1.529.15.3.0',2,4,0);
+INSERT INTO tests_script VALUES (29,'TNT - Good Modems (aka avail-suspect)','/var/www/netmrg/cmd/test/snmpdiff.php %ip% %community% .1.3.6.1.4.1.529.15.1.0 .1.3.6.1.4.1.529.15.3.0',2,8,0);
 
 --
 -- Table structure for table 'tests_snmp'
@@ -580,9 +618,7 @@ CREATE TABLE tests_snmp (
   name varchar(200) NOT NULL default '',
   oid varchar(250) NOT NULL default '',
   dev_type int(11) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id)
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
@@ -605,7 +641,6 @@ INSERT INTO tests_snmp VALUES (12,'UCD - Available Swap','memAvailSwap.0',2);
 INSERT INTO tests_snmp VALUES (13,'UCD - Available Physical RAM','memAvailReal.0',2);
 INSERT INTO tests_snmp VALUES (19,'C5k - % Bandwidth','.1.3.6.1.4.1.9.5.1.1.8.0',2);
 INSERT INTO tests_snmp VALUES (18,'Open TCP Connections','tcp.tcpCurrEstab.0',2);
-INSERT INTO tests_snmp VALUES (20,'C7k Used Memory (Processor)','.1.3.6.1.4.1.9.9.48.1.1.1.5.1',2);
 INSERT INTO tests_snmp VALUES (21,'C7k Free Memory (Processor)','.1.3.6.1.4.1.9.9.48.1.1.1.6.1',2);
 INSERT INTO tests_snmp VALUES (22,'C7k Free Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.6.5',2);
 INSERT INTO tests_snmp VALUES (23,'C7k Used Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.5.5',2);
@@ -646,9 +681,7 @@ CREATE TABLE tests_sql (
   password varchar(50) NOT NULL default '',
   query varchar(255) NOT NULL default '',
   column_num tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id,sub_dev_type)
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
@@ -707,10 +740,18 @@ CREATE TABLE view (
 --
 
 
-INSERT INTO view VALUES (9,1,'device',5,'graph',3,'',6);
-INSERT INTO view VALUES (8,1,'device',4,'template',2,'',3);
+INSERT INTO view VALUES (19,1,'device',2,'template',2,'',1);
+INSERT INTO view VALUES (16,1,'device',5,'graph',5,'',6);
 INSERT INTO view VALUES (4,2,'device',2,'template',1,'',2);
 INSERT INTO view VALUES (5,2,'device',4,'template',2,'',5);
-INSERT INTO view VALUES (7,1,'device',2,'template',1,'',1);
+INSERT INTO view VALUES (18,1,'device',2,'separator',1,'Oak',6);
 INSERT INTO view VALUES (10,3,'device',6,'graph',1,'',6);
+INSERT INTO view VALUES (20,1,'device',4,'template',4,'',3);
+INSERT INTO view VALUES (21,1,'device',17,'template',3,'',1);
+INSERT INTO view VALUES (26,7150,'device',17,'template',2,'',7155);
+INSERT INTO view VALUES (25,7150,'device',2,'template',1,'',7155);
+INSERT INTO view VALUES (24,7150,'device',4,'template',3,'',7153);
+INSERT INTO view VALUES (27,2,'device',17,'template',3,'',2);
+INSERT INTO view VALUES (28,7150,'device',23,'graph',4,'',7154);
+INSERT INTO view VALUES (29,7150,'device',24,'graph',5,'',7154);
 
