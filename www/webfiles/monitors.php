@@ -51,9 +51,9 @@ function do_list()
 	begin_page("monitor.php", "Monitors", 1);
 	DrawGroupNavHistory("sub_device", $_REQUEST["sub_dev_id"]);
 
-	js_confirm_dialog("del", "Are you sure you want to delete monitor ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&mon_id=");
+	js_confirm_dialog("del", "Are you sure you want to delete monitor ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}&mon_id=");
 	make_display_table("Monitors for " . get_dev_sub_device_name($_REQUEST["sub_dev_id"]),
-		"{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}",
+		"{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}",
 		array("text" => "Test"),
 		array("text" => "Data"),
 		array("text" => "Graph")
@@ -117,7 +117,7 @@ function do_list()
 			array("text" => $html_name, "href" => "events.php?mon_id={$mon_row['id']}&tripid={$_REQUEST['tripid']}"),
 			array("text" => $data),
 			array("text" => $graph),
-			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&mon_id=$mon_id&sub_dev_id={$_REQUEST['sub_dev_id']}") . "&nbsp;" .
+			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&mon_id=$mon_id&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
 				formatted_link("Delete","javascript:del('$java_name', '$mon_id')"))
 		); // end make_display_item();
 
@@ -204,7 +204,7 @@ function edit()
 		
 		function redisplay(selectedIndex)
 		{
-			window.location = '{$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&action={$_REQUEST['action']}" . $dev_thingy . "&type=' + selectedIndex;
+			window.location = '{$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&tripid={$_REQUEST['tripid']}&action={$_REQUEST['action']}" . $dev_thingy . "&type=' + selectedIndex;
 		}
 		
 		function validateform()
@@ -322,6 +322,7 @@ function edit()
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("mon_id",$_REQUEST["mon_id"]);
 	make_edit_hidden("sub_dev_id",$_REQUEST["sub_dev_id"]);
+	make_edit_hidden("tripid",$_REQUEST["tripid"]);
 	
 	make_edit_submit_button();
 	make_edit_end();
@@ -331,7 +332,7 @@ function edit()
 
 function redirect()
 {
-	header("Location: monitors.php?sub_dev_id={$_REQUEST['sub_dev_id']}");
+	header("Location: monitors.php?sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}");
 } // end redirect()
 
 

@@ -12,8 +12,10 @@
 require_once("../include/config.php");
 check_auth(1);
 
-if (!isset($action))
+if (!isset($_REQUEST["action"]))
 	$action = "";
+else
+	$action = $_REQUEST["action"];
 
 switch ($action)
 {
@@ -37,8 +39,8 @@ function display_list()
 {
 	begin_page("responses.php", "Responses");
 	DrawGroupNavHistory("event", $_REQUEST["event_id"]);
-	js_confirm_dialog("del", "Are you sure you want to delete response ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&event_id={$_REQUEST['event_id']}&id=");
-	make_display_table("Responses", "responses.php?action=add&event_id={$_REQUEST['event_id']}", 
+	js_confirm_dialog("del", "Are you sure you want to delete response ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}&id=");
+	make_display_table("Responses", "responses.php?action=add&event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}", 
 		array("text" => "Name"),
 		array("text" => "Parameters")
 	);
@@ -53,7 +55,7 @@ function display_list()
 		make_display_item("editfield".($rowcount%2),
 			array("text" => $row['name']),
 			array("text" => $row['parameters']),
-			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
+			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('{$row['name']} - {$row['parameters']}','{$row['id']}')"))
 		); // end make_display_item();
 		$rowcount++;
@@ -76,12 +78,13 @@ function display_edit()
 		$res = db_query("SELECT * FROM responses WHERE id={$_REQUEST['id']}");
 		$row = db_fetch_array($res);
 	}
-
+	
 	begin_page("responses.php", "Responses");
 	make_edit_table("Edit Response");
 	make_edit_select_from_table("Notification:", "notification_id", "notifications", $row['notification_id']);
-        make_edit_text("Parameters:", "parameters", "50", "100", $row['parameters']);
+	make_edit_text("Parameters:", "parameters", "50", "100", $row['parameters']);
 	make_edit_hidden("id", $row['id']);
+	make_edit_hidden("tripid", $_REQUEST['tripid']);
 	make_edit_hidden("event_id", $row['event_id']);
 	make_edit_hidden("action", "doedit");
 	make_edit_submit_button();
@@ -92,10 +95,10 @@ function display_edit()
 function do_edit()
 {
 	check_auth(2);
-
-        if ($_REQUEST['id'] == 0)
+	
+	if ($_REQUEST['id'] == 0)
 	{
-                $pre  = "INSERT INTO";
+		$pre  = "INSERT INTO";
 		$post = ", event_id={$_REQUEST['event_id']}";
 	}
 	else
@@ -103,17 +106,17 @@ function do_edit()
 		$pre  = "UPDATE";
 		$post = "WHERE id = {$_REQUEST['id']}";
 	}
-
-        db_update("$pre responses SET notification_id = '{$_REQUEST['notification_id']}', parameters ='{$_REQUEST['parameters']}' $post");
-
-        header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}");
+	
+	db_update("$pre responses SET notification_id = '{$_REQUEST['notification_id']}', parameters ='{$_REQUEST['parameters']}' $post");
+	
+	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");
 }
 
 function do_delete()
 {
 	check_auth(2);
 	delete_response($_REQUEST['id']);
-	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}");
+	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");
 }
 
 ?>

@@ -37,8 +37,8 @@ function do_display()
 	DrawGroupNavHistory("monitor", $_REQUEST["mon_id"]);
 
 	$title = "Events for " . get_monitor_name($_REQUEST['mon_id']);
-	js_confirm_dialog("del", "Are you sure you want to delete event ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&mon_id={$_REQUEST['mon_id']}&id=");
-	make_display_table($title, "{$_SERVER['PHP_SELF']}?action=add&mon_id={$_REQUEST['mon_id']}",
+	js_confirm_dialog("del", "Are you sure you want to delete event ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&mon_id={$_REQUEST['mon_id']}&tripid={$_REQUEST['tripid']}&id=");
+	make_display_table($title, "{$_SERVER['PHP_SELF']}?action=add&mon_id={$_REQUEST['mon_id']}&tripid={$_REQUEST['tripid']}",
 		array("text" => "Name"),
 		array("text" => "Trigger Options"),
 		array("text" => "Situation"),
@@ -66,8 +66,8 @@ function do_display()
 			array("text" => $GLOBALS['TRIGGER_TYPES'][$row['trigger_type']]),
 			array("text" => $GLOBALS['SITUATIONS'][$row['situation']]),
 			array("text" => $triggered),
-			array("text" => formatted_link("Modify Conditions", "conditions.php?event_id={$row['id']}") . "&nbsp;" .
-				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
+			array("text" => formatted_link("Modify Conditions", "conditions.php?event_id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
+				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('" . addslashes($row['name']) . "','" . $row['id'] . "')"))
 		); // end make_display_item();
 		$rowcount++;
@@ -103,6 +103,7 @@ function display_edit()
         make_edit_select_from_array("Situation:", "situation", $GLOBALS['SITUATIONS'], $row['situation']);
 	make_edit_hidden("mon_id", $row['mon_id']);
 	make_edit_hidden("id", $row['id']);
+	make_edit_hidden("tripid", $_REQUEST['tripid']);
 	make_edit_hidden("action", "doedit");
 	make_edit_submit_button();
 	make_edit_end();
@@ -127,13 +128,13 @@ function do_edit()
 
 	$_REQUEST['name'] = db_escape_string($_REQUEST['name']);	
 	db_update("$pre events SET name = '{$_REQUEST['name']}', trigger_type={$_REQUEST['trigger_type']}, situation={$_REQUEST['situation']} $post");
-	header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}");
+	header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&tripid={$_REQUEST['tripid']}");
 }
 
 function do_delete()
 {
 	check_auth(2);
 	delete_event($_REQUEST['id']);
-	header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}");
+	header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&tripid={$_REQUEST['tripid']}");
 }
 ?>

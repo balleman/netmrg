@@ -23,7 +23,7 @@ switch ($_REQUEST['action'])
 			} // end while each interface
 		} // end for each interface
 		// redirect to keep us from doing this again
-		header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&type=interface&action=view");
+		header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}&type=interface&action=view");
 		exit(0);
 		break;
 	case "graphmultidisk":
@@ -35,7 +35,7 @@ switch ($_REQUEST['action'])
 			} // end while each interface
 		} // end for each interface
 		// redirect to keep us from doing this again
-		header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&type=disk&action=view");
+		header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}&type=disk&action=view");
 		exit(0);
 		break;
 }
@@ -56,13 +56,13 @@ function make_graph()
 		case "interface":
 			make_interface_graph($_REQUEST["dev_id"], $_REQUEST["index"]);
 			// redirect
-			header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&type=interface&action=view");
+			header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}&type=interface&action=view");
 			exit(0);
 			break;
 		case "disk":
 			make_disk_graph($_REQUEST["dev_id"], $_REQUEST["index"]);
 			// redirect
-			header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&type=disk&action=view");
+			header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}&type=disk&action=view");
 			exit(0);
 			break;
 	}
@@ -179,7 +179,7 @@ function view_disk_cache()
 		{
 			$links .= formatted_link("View", "view.php?action=view&object_type=subdevice&object_id={$s_row['id']}");
 			$links .= "&nbsp;";
-			$links .= formatted_link("Monitors", "monitors.php?sub_dev_id={$s_row['id']}");
+			$links .= formatted_link("Monitors", "monitors.php?sub_dev_id={$s_row['id']}&tripid={$_REQUEST['tripid']}");
 			$links .= "&nbsp;";
 			$links .= formatted_link_disabled("Monitor/Graph");
 		}
@@ -189,7 +189,7 @@ function view_disk_cache()
 			$links .= "&nbsp";
 			$links .= formatted_link_disabled("Monitors");
 			$links .= "&nbsp;";
-			$links .= formatted_link("Monitor/Graph", "snmp_cache_view.php?action=graph&type=disk&dev_id=" . $row["dev_id"] . "&index=" . $row["disk_index"]);
+			$links .= formatted_link("Monitor/Graph", "snmp_cache_view.php?action=graph&type=disk&dev_id=" . $row["dev_id"] . "&index=" . $row["disk_index"]. "&tripid={$_REQUEST['tripid']}");
 		}
 
 		make_display_item("editfield".($i%2),
@@ -279,7 +279,7 @@ function view_interface_cache()
 		{
 			$links .= formatted_link("View", "view.php?action=view&object_type=subdevice&object_id={$s_row['id']}");
 			$links .= "&nbsp;";
-			$links .= formatted_link("Monitors", "monitors.php?sub_dev_id={$s_row['id']}");
+			$links .= formatted_link("Monitors", "monitors.php?sub_dev_id={$s_row['id']}&tripid={$_REQUEST['tripid']}");
 			$links .= "&nbsp;";
 			$links .= formatted_link_disabled("Monitor/Graph");
 		}
@@ -289,7 +289,7 @@ function view_interface_cache()
 			$links .= "&nbsp";
 			$links .= formatted_link_disabled("Monitors");
 			$links .= "&nbsp;";
-			$links .= formatted_link("Monitor/Graph", "snmp_cache_view.php?action=graph&type=interface&dev_id=" . $row["dev_id"] . "&index=" . $row["ifIndex"]);
+			$links .= formatted_link("Monitor/Graph", "snmp_cache_view.php?action=graph&type=interface&dev_id=" . $row["dev_id"] . "&index=" . $row["ifIndex"] . "&tripid={$_REQUEST['tripid']}");
 		}
 
 		make_display_item("editfield".($i%2),

@@ -33,12 +33,12 @@ function dodisplay()
 	check_auth(1);
 	begin_page("sub_devices.php", "Sub Device");
 	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
-	js_confirm_dialog("del", "Are you sure you want to delete subdevice ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&dev_id={$_REQUEST['dev_id']}&sub_dev_id=");
+	js_confirm_dialog("del", "Are you sure you want to delete subdevice ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}&sub_dev_id=");
 
 	$results = db_query("SELECT name, id, type FROM sub_devices WHERE sub_devices.dev_id={$_REQUEST['dev_id']} ORDER BY name");
 
 	make_display_table("Sub-Devices for " . get_device_name($_REQUEST["dev_id"]),
-		"{$_SERVER['PHP_SELF']}?action=add&dev_id={$_REQUEST['dev_id']}",
+		"{$_SERVER['PHP_SELF']}?action=add&dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}",
 		array("text" => "Sub-Devices"),
 		array("text" => "Type")
 	); // end make_display_table();
@@ -53,8 +53,8 @@ function dodisplay()
 			array("text" => $SUB_DEVICE_TYPES[$row["type"]]),
 			array("text" => formatted_link("Parameters", "sub_dev_param.php?dev_id={$_REQUEST['dev_id']}&sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
 				formatted_link("View", "view.php?action=view&object_type=subdevice&object_id={$row['id']}") . "&nbsp;" .
-				formatted_link("Duplicate", "{$_SERVER['PHP_SELF']}?action=duplicate&dev_id={$_REQUEST['dev_id']}&sub_dev_id={$row['id']}") . "&nbsp;" .
-				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id={$_REQUEST['dev_id']}&sub_dev_id={$row['id']}") . "&nbsp;" .
+				formatted_link("Duplicate", "{$_SERVER['PHP_SELF']}?action=duplicate&dev_id={$_REQUEST['dev_id']}&sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
+				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id={$_REQUEST['dev_id']}&sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('".addslashes($row['name'])."','{$row['id']}')"))
 		); // end make_display_item();
 	}
@@ -85,19 +85,19 @@ function doedit()
 		dev_id='{$_REQUEST['dev_id']}'
 		$db_end");
 
-	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}");
+	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}");
 }
 
 function dodelete()
 {
 	delete_subdevice($_REQUEST["sub_dev_id"]);
-	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}");
+	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}");
 }
 
 function doduplicate()
 {
 	duplicate_subdevice($_REQUEST['sub_dev_id']);
-	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}");
+	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}");
 }
 
 function displayedit()
@@ -125,6 +125,7 @@ function displayedit()
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("sub_dev_id", $_REQUEST["sub_dev_id"]);
 	make_edit_hidden("dev_id", $_REQUEST["dev_id"]);
+	make_edit_hidden("tripid", $_REQUEST["tripid"]);
 	make_edit_submit_button();
 	make_edit_end();
 	end_page();

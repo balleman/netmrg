@@ -56,8 +56,8 @@ function do_display()
 		$nologic = "";
 	}
 
-	js_confirm_dialog("del", "Are you sure you want to delete condition ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&event_id={$_REQUEST['event_id']}&id=");
-	make_display_table("Conditions", "{$_SERVER['PHP_SELF']}?action=add&event_id={$_REQUEST['event_id']}$nologic", 
+	js_confirm_dialog("del", "Are you sure you want to delete condition ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}&id=");
+	make_display_table("Conditions", "{$_SERVER['PHP_SELF']}?action=add&event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}$nologic", 
 		array("text" => "Condition")
 	); // end make_display_table();
 
@@ -76,7 +76,7 @@ function do_display()
 		}
 		make_display_item("editfield".($i%2),
 			array("text" => $condition_name),
-			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}$nologic") . "&nbsp;" .
+			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}&tripid={$_REQUEST['tripid']}$nologic") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('" . $condition_name . "','" . $row['id'] . "')"))
 		); // end make_display_item();
 	}
@@ -121,6 +121,7 @@ function display_edit()
 	make_edit_text("Value:", "value", 5, 10, $row['value']);
 	make_edit_hidden("event_id", $row['event_id']);
 	make_edit_hidden("id", $row['id']);
+	make_edit_hidden("tripid", $_REQUEST['tripid']);
 	make_edit_hidden("action", "doedit");
 	make_edit_submit_button();
 	make_edit_end();
@@ -146,7 +147,7 @@ function do_edit()
 
         db_update("$pre conditions SET logic_condition={$_REQUEST['logic_condition']}, value_type={$_REQUEST['value_type']}, condition={$_REQUEST['condition']}, value={$_REQUEST['value']} $post");
 
-        header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}");
+        header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");
 } // end do_edit();
 
 
@@ -156,7 +157,7 @@ function do_delete()
 
         db_update("DELETE FROM conditions WHERE id = {$_REQUEST['id']}");
 
-	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}");
+	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");
 } // end do_delete();
 
 

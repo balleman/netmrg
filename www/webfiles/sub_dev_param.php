@@ -18,12 +18,12 @@ if (empty($_REQUEST["action"]))
 
 	begin_page("sub_dev_param.php", "Sub Device Parameters");
 	DrawGroupNavHistory("sub_device", $_REQUEST["sub_dev_id"]);
-	js_confirm_dialog("del", "Are you sure you want to delete subdevice parameter ", "", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&name=");
+	js_confirm_dialog("del", "Are you sure you want to delete subdevice parameter ", "", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}&name=");
 
 	$results = db_query("SELECT name, value FROM sub_dev_variables WHERE type='static' AND sub_dev_id={$_REQUEST['sub_dev_id']}");
 
 	make_display_table("Configured Parameters for " . get_dev_sub_device_name($_REQUEST["sub_dev_id"]), 
-		"{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}",
+		"{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}",
 		array("text" => "Name"),
 		array("text" => "Value")
 	); // end make_display_table();
@@ -34,7 +34,7 @@ if (empty($_REQUEST["action"]))
 		make_display_item("editfield".($i%2),
 			array("text" => $row["name"]),
 			array("text" => $row["value"]),
-			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&sub_dev_id={$_REQUEST['sub_dev_id']}&name=" . $row["name"]) . "&nbsp;" . 
+			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}&name=" . $row["name"]) . "&nbsp;" . 
 				formatted_link("Delete", "javascript:del('{$row['name']}', '{$row['name']}')"), "")
 		); // end make_display_item();
 	}
@@ -86,7 +86,7 @@ elseif ($_REQUEST["action"] == "doedit")
 			sub_dev_id={$_REQUEST['sub_dev_id']}
 			$db_end");
 
-	header("Location: " . $_SERVER["PHP_SELF"] . "?sub_dev_id={$_REQUEST['sub_dev_id']}");
+	header("Location: " . $_SERVER["PHP_SELF"] . "?sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}");
 }
 
 elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
@@ -115,6 +115,7 @@ elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	make_edit_hidden("type", $_REQUEST['action']);
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("sub_dev_id",$_REQUEST["sub_dev_id"]);
+	make_edit_hidden("tripid",$_REQUEST["tripid"]);
 	make_edit_submit_button();
 	make_edit_end();
 	end_page();
@@ -125,7 +126,7 @@ elseif ($_REQUEST["action"] == "dodelete")
 {
 	check_auth(2);
 	db_update("DELETE FROM sub_dev_variables WHERE sub_dev_id={$_REQUEST['sub_dev_id']} AND name='{$_REQUEST['name']}' AND type='static'");
-	header("Location: " . $_SERVER["PHP_SELF"] . "?sub_dev_id={$_REQUEST['sub_dev_id']}");
+	header("Location: " . $_SERVER["PHP_SELF"] . "?sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}");
 }
 
 ?>
