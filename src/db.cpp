@@ -41,7 +41,7 @@ int db_connect(MYSQL *connection)
 
 MYSQL_RES *db_query(MYSQL *mysql, DeviceInfo *info, string query)
 {
-	MYSQL_RES *mysql_res;
+	MYSQL_RES *mysql_res = NULL;
 
 	if (mysql_query(mysql, query.c_str()))
 	{

@@ -30,6 +30,7 @@ pthread_mutex_t* get_lock(Lock myLock)
 		case lkSettings:		return &settings_lock;
 		case lkPipe:			return &pipe_lock;
 	}
+	return NULL;
 }
 
 string get_lock_name(Lock myLock)
@@ -43,6 +44,7 @@ string get_lock_name(Lock myLock)
 		case lkSettings:		return "Settings";
 		case lkPipe:			return "Pipe";
 	}
+	return "";
 }
 
 void mutex_lock(Lock myLock)

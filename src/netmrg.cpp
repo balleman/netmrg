@@ -220,7 +220,7 @@ void run_netmrg()
 	long int run_time = time( NULL ) - start_time;
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Runtime: " + inttostr(run_time));
 	FILE *runtime;
-	if (runtime = fopen(get_setting(setPathRuntimeFile).c_str(),"w+"))
+	if ((runtime = fopen(get_setting(setPathRuntimeFile).c_str(),"w+")))
 	{
 		fprintf(runtime, "%ld", run_time);
 		fclose(runtime);

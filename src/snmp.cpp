@@ -132,7 +132,7 @@ void snmp_session_init(DeviceInfo &info)
 	session.retries = info.snmp_retries;
 
 	char log[255];
-	snprintf(log, 255, "Port: %d; Timeout: %d; Retries: %d.", info.snmp_port, info.snmp_timeout, info.snmp_retries);
+	snprintf(log, 255, "Port: %d; Timeout: %ld; Retries: %d.", info.snmp_port, info.snmp_timeout, info.snmp_retries);
 	debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, log);
 		
 	// set the SNMPv1/2c community name used for authentication
@@ -277,7 +277,7 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 	size_t			rootlen = MAX_OID_LEN;
 	int				running;
 	int				status;
-	int				check;
+	int				check = 0;
 	int				exitval = 0;
 	list<SNMPPair>	results;
 

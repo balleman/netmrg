@@ -130,7 +130,7 @@ bool get_debug_safety()
 string censor_message(const string & message)
 {
 	string tempmsg = string(message);
-	int pos;
+	unsigned int pos;
 	
 	while ((pos = tempmsg.find("{")) != string::npos)
 	{
@@ -144,7 +144,7 @@ string censor_message(const string & message)
 string remove_braces(const string & message)
 {
 	string tempmsg = string(message);
-	int pos;	
+	unsigned int pos;	
 
 	while ((pos = tempmsg.find("{")) != string::npos)
 	{

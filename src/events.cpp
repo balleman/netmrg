@@ -91,7 +91,7 @@ uint process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_sta
 
 uint process_condition(DeviceInfo info, long long int compare_value, int value_type, int condition)
 {
-	long long int actual_value;
+	long long int actual_value = 0;
 
 	switch (value_type)
 	{
