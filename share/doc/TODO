@@ -17,7 +17,6 @@ get new netmrg monitoring something (duo)
 == global ==
 prevent a group being its own parent (during editing)
 page titles should reflect where you're at
-ability to go 'up' a level when browsing 'Groups' et al
 view page should reflect status information (based on status of monitors of graphs)
 monitors.php:
   add javascript check so you can't enter a minimum < maximum
@@ -26,9 +25,11 @@ a device's type can affect the list of tests that can be performed on it
 when looking at a device's graphs, you should be able to click next to it
   and follow it to the next device (if applicable)
 ensure proper escaping in all queries
-checkboxes on most pages - provide for massive deletes, duplications, etc
+
 
 == silfreed ==
+checkboxes on most pages - provide for massive deletes, duplications, etc
+ability to go 'up' a level when browsing 'Groups' et al
 public website
   - flesh out content
 make netmrg xhtml compliant
@@ -64,5 +65,8 @@ distributed netmrg
   - how to delegate tasks: have the master keep a list of tasks for the slaves,
     and have the slaves get them periodically?  this will require the
     installations to be named
-
+wizards
+  - /wizard dir
+  - index.php reads in other files to know name, description, etc
+  - used for generating/updating special/large devices (catalyst switches, maxtnts)
 
