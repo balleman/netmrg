@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.3 $)
+AC_REVISION($Revision: 1.4 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -108,6 +108,7 @@ AC_CHECK_LIB(mysqlclient, mysql_init,,
 	AC_MSG_ERROR([MySQL libraries not found.]))
 AC_CHECK_LIB(mysqlclient, mysql_thread_init, [],
 	AC_DEFINE(OLD_MYSQL, 1, [Old MySQL version]))
+AC_CHECK_LIB(xml2, xmlParseFile)
 
 
 ### Checks for header files.

@@ -1,7 +1,7 @@
 #
 # Makefile
 #
-# Version:	$Id: Makefile.am,v 1.4 2003/07/17 02:12:26 silfreed Exp $
+# Version:	$Id: Makefile.am,v 1.5 2003/07/22 00:49:28 balleman Exp $
 #
 
 netmrg_gatherer_SOURCES = db.cpp devices.cpp events.cpp locks.cpp mappings.cpp monitors.cpp netmrg.cpp rrd.cpp settings.cpp snmp.cpp utils.cpp
@@ -10,4 +10,4 @@ noinst_HEADERS = include/common.h include/db.h include/devices.h include/events.
 
 noinst_PROGRAMS = netmrg-gatherer
 
-INCLUDES = -I./include
+INCLUDES = -I./include -I/usr/include/libxml2

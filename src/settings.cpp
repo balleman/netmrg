@@ -7,6 +7,9 @@
 * see doc/LICENSE for copyright information
 ********************************************/
 
+#include <libxml/xmlmemory.h>
+#include <libxml/parser.h>
+
 #include "settings.h"
 #include "locks.h"
 #include "utils.h"
@@ -54,5 +57,32 @@ void load_settings_default()
 void load_settings_file(const string & filename)
 {
 	// parses xml-based config file
+	xmlDocPtr doc;
+	xmlNodePtr cur;
+	
+	doc = xmlParseFile(filename.c_str());
+	if (doc == NULL)
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Failed to parse configuration file (" + filename + ")");
+		return;
+	}
+	
+	cur = xmlDocGetRootElement(doc);
+	
+	if (cur == NULL)
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Empty configuration file (" + filename + ")");
+		xmlFreeDoc(doc);
+		return;
+	}
+	
+	if (xmlStrcmp(cur->name, (const xmlChar *) "netmrg"))
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Configuration file of the wrong type.  Root node is not 'netmrg.' (" + filename + ")");
+		xmlFreeDoc(doc);
+		return;
+	}
+	
+	xmlFreeDoc(doc);
 }
 

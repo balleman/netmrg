@@ -28,7 +28,7 @@
 #define RUNTIME_FILE                    "@prefix@/var/log/netmrg/runtime"
 #define PREFIX                          "@prefix@"
 #define EXEC_PREFIX                     "@exec_prefix@"
-#define RRDTOOL                         "/usr/bin/rrdtool - "
+#define RRDTOOL                         "@RRDTOOL@"
 
 // Threading
 #define DEF_THREAD_COUNT	5						// number of simultaneous threads

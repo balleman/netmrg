@@ -17,7 +17,7 @@
 #
 # Makefile
 #
-# Version:	$Id: Makefile.in,v 1.8 2003/07/17 22:15:06 silfreed Exp $
+# Version:	$Id: Makefile.in,v 1.9 2003/07/22 00:49:28 balleman Exp $
 #
 SHELL = @SHELL@
 
@@ -90,7 +90,7 @@ noinst_HEADERS = include/common.h include/db.h include/devices.h include/events.
 
 noinst_PROGRAMS = netmrg-gatherer
 
-INCLUDES = -I./include
+INCLUDES = -I./include -I/usr/include/libxml2
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/../mkinstalldirs
