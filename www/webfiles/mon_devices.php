@@ -16,15 +16,21 @@
 require_once("../include/config.php");
 check_auth(1);
 
-if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQUEST["action"] == "dodelete") || ($_REQUEST["action"] == "doadd") || ($_REQUEST["action"] =="doaddtogrp")) {
+if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQUEST["action"] == "dodelete") || ($_REQUEST["action"] == "doadd") || ($_REQUEST["action"] =="doaddtogrp"))
+{
 
-	if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "doedit" || $_REQUEST["action"] == "doadd")) {
+	if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "doedit" || $_REQUEST["action"] == "doadd"))
+	{
 		check_auth(2);
-		if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit") {
-			if ($_REQUEST["dev_id"] == 0) {
+		if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
+		{
+			if ($_REQUEST["dev_id"] == 0)
+			{
 				$db_cmd = "INSERT INTO";
 				$db_end = "";
-			} else {
+			}
+			else
+			{
 				$db_cmd = "UPDATE";
 				$db_end = "WHERE id={$_REQUEST['dev_id']}";
 			} // end if dev_id = 0 or not
@@ -43,24 +49,28 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 				snmp_enabled='{$_REQUEST['snmp_enabled']}' 
 				$db_end");
 
-			if ($_REQUEST["dev_id"] == 0) {
+			if ($_REQUEST["dev_id"] == 0)
+			{
 				do_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id=" . mysql_insert_id());
 			} // end if dev+id = 0
 		} # done editing
 	} // end if we editing
 
-	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doaddtogrp") {
+	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doaddtogrp")
+	{
 		check_auth(2);
 		do_update("INSERT INTO dev_parents SET grp_id=$grp_id, dev_id=$dev_id");
 	} // end if we're adding to a group
 
-	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "dodelete") {
+	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "dodelete")
+	{
 		check_auth(2);
 		delete_device($_REQUEST["dev_id"]);
 	} # done deleting
 
 	# Display a list
-	if (isset($_REQUEST["grp_id"])) {
+	if (isset($_REQUEST["grp_id"]))
+	{
 		$group_results = do_query("SELECT * FROM mon_groups WHERE id={$_REQUEST['grp_id']}");
 		$group_array = mysql_fetch_array($group_results);
 
@@ -68,7 +78,9 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 
 		$custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&grp_id={$_REQUEST['grp_id']}";
 
-	} else {
+	}
+	else
+	{
 		$title = "Monitored Devices";
 
 	} // end if we have a group id
@@ -80,13 +92,16 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 
 	if (!isset($orderby)) { $orderby = "name"; };
 
-	if (!(isset($_REQUEST["grp_id"]))) {
+	if (!(isset($_REQUEST["grp_id"])))
+	{
 		$dev_results = do_query("
 			SELECT mon_devices.name AS name, mon_devices.ip, mon_devices.id
 			FROM mon_devices
 			ORDER BY $orderby");
 
-	} else {
+	}
+	else
+	{
 		$dev_results = do_query("
 			SELECT mon_devices.name AS name, mon_devices.ip, mon_devices.id 
 			FROM dev_parents
@@ -99,7 +114,8 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	$dev_total = mysql_num_rows($dev_results);
 
 	# For each device
-	for ($dev_count = 1; $dev_count <= $dev_total; ++$dev_count) {
+	for ($dev_count = 1; $dev_count <= $dev_total; ++$dev_count)
+	{
 		$dev_row = mysql_fetch_array($dev_results);
 		$dev_id  = $dev_row["id"];
 
@@ -117,7 +133,8 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 <?
 } # End if no action
 
-if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "add") {
+if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "add")
+{
 	check_auth(2);
 	begin_page();
 
@@ -129,7 +146,8 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "add") {
 	end_page();
 } // end if add
 
-if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "addtogrp") {
+if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "addtogrp")
+{
 
 	check_auth(2);
 	begin_page();
@@ -146,9 +164,12 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	# Display editing screen
 	check_auth(2);
 	begin_page();
-	if ($_REQUEST["action"] == "addnew") { 
+	if ($_REQUEST["action"] == "addnew")
+	{ 
 		$dev_id = 0; 
-	} else {
+	}
+	else
+	{
 		$dev_id = $_REQUEST["dev_id"];
 	} // end if device id
 
@@ -157,7 +178,8 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	$dev_row = mysql_fetch_array($dev_results);
 	$dev_name = $dev_row["name"];
 	$dev_ip = $dev_row["ip"];
-	if ($_REQUEST["action"] == "addnew") {
+	if ($_REQUEST["action"] == "addnew")
+	{
 		$dev_row["check_if_number"] = 1;
 		$dev_row["dev_type"] = "";
 		$dev_row["disabled"] = 0;

@@ -14,10 +14,6 @@
 ########################################################
 
 require_once("../include/config.php");
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
-require_once(netmrg_root() . "lib/processing.php");
-require_once(netmrg_root() . "lib/auth.php");
 
 if (!isset($_REQUEST["action"]))
 {
@@ -44,21 +40,24 @@ if (!isset($_REQUEST["action"]))
 
 if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
 {
-	if ($sub_dev_id == 0) {
+	if ($_REQUEST["sub_dev_id"] == 0)
+	{
 		$db_cmd = "INSERT INTO";
 		$db_end = "";
-	} else {
+	}
+	else
+	{
 		$db_cmd = "UPDATE";
-		$db_end = "WHERE id=$sub_dev_id";
+		$db_end = "WHERE id={$_REQUEST['sub_dev_id']}";
 	}
 
 	do_update("$db_cmd sub_devices SET
-			name=\"$name\",
-			type=$type,
-			dev_id={$_REQUEST['dev_id']}
-			$db_end");
+		name='{$_REQUEST['name']}',
+		type='{$_REQUEST['type']}',
+		dev_id='{$_REQUEST['dev_id']}'
+		$db_end");
 
-        header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}");
+	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}");
 }
 
 if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["action"] == "add"))
@@ -66,17 +65,25 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	check_auth(2);
 	begin_page();
 
-	if ($sub_dev_id > 0)
+	if ($_REQUEST["action"] == "add")
 	{
-		$query = do_query("SELECT * FROM sub_devices WHERE id = $sub_dev_id");
+		$_REQUEST["sub_dev_id"] = 0;
+		$row = array();
+		$row["name"] = "";
+		$row["type"] = "";
+	} // end if add
+
+	if ($_REQUEST["sub_dev_id"] > 0)
+	{
+		$query = do_query("SELECT * FROM sub_devices WHERE id = {$_REQUEST['sub_dev_id']}");
 		$row   = mysql_fetch_array($query);
 	}
 
 	make_edit_table("Sub-Device Properties");
-	make_edit_text("Name:", name, 40, 80, $row["name"]);
-	make_edit_select_from_table("Sub-Device Type:", type, sub_dev_types, $row["type"]);
+	make_edit_text("Name:", "name", 40, 80, $row["name"]);
+	make_edit_select_from_table("Sub-Device Type:", "type", "sub_dev_types", $row["type"]);
 	make_edit_hidden("action","doedit");
-	make_edit_hidden("sub_dev_id",$sub_dev_id);
+	make_edit_hidden("sub_dev_id", $_REQUEST["sub_dev_id"]);
 	make_edit_hidden("dev_id", $_REQUEST["dev_id"]);
 	make_edit_submit_button();
 	make_edit_end();

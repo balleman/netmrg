@@ -14,7 +14,7 @@
 #                                                      #
 ########################################################
 
-require_once("/var/www/netmrg/lib/stat.php");
+require_once("../include/config.php");
 
 
 // Source of HTML/JS: http://www.js-examples.com

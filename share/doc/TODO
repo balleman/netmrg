@@ -8,4 +8,5 @@ convert everything to using config.php
   - add include for config.php in every web page
   - move all other includes into config.php so they're not duplicated
 make custom_graphs.php delete action a javascript
+deleting a monitor doesn't work
 

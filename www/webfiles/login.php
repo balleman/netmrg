@@ -19,7 +19,8 @@ require_once("../include/config.php");
 $login_valid = false;
 $login_error = "";
 
-if (IsLoggedIn()) {
+if (IsLoggedIn())
+{
 	view_redirect();
 } # end if we've alread seen this page
 
@@ -30,7 +31,8 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "logout")
 	$_SESSION["netmrgsess"]["remote_addr"] = "";
 } // end if the action is to logout
 
-if (!empty($_REQUEST["user_name"])) {
+if (!empty($_REQUEST["user_name"]))
+{
 	if (check_user_pass($_REQUEST["user_name"], $_REQUEST["password"]))
 	{
 		$login_valid = true;
@@ -44,18 +46,26 @@ if (!empty($_REQUEST["user_name"])) {
 	} // end if the username & password is valid or not
 }// end if there was a username
 
-if ($login_valid == true) {
-	if (get_permit() == 0) {
+if ($login_valid == true)
+{
+	if (get_permit() == 0)
+	{
 		view_redirect();
 	} # end if we are permitted
 
-	if (!empty($_REQEST["action"])) {
-		if ($_REQUEST["action"] == "denied") {
+	if (!empty($_REQEST["action"]))
+	{
+		if ($_REQUEST["action"] == "denied")
+		{
 			$login_error = "Your last action was DENIED";
-		} else if ($_REQUEST["action"] == "invalid") {
+		}
+		else if ($_REQUEST["action"] == "invalid")
+		{
 			$login_error = "Your last action was INVALID";
 		} # end if action was denied or invalid
-	} else {
+	}
+	else
+	{
 		view_redirect();
 	}
 }
@@ -69,7 +79,8 @@ else
 	<font color="#000080" size="3"><strong>User Login</strong></font>
 	<br><br>
 <?
-if (!empty($login_error)) {
+if (!empty($login_error))
+{
 ?>
 	<div class="error">
 	<? echo "$login_error\n"; ?>

@@ -14,21 +14,25 @@
 ########################################################
 
 require_once("../include/config.php");
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
-require_once(netmrg_root() . "lib/auth.php");
 check_auth(1);
+
 begin_page();
 ?>
+
 <br><br>
-<div align="center"><a href="http://netmrg.net/"><font size="6" color="#000080"><b>NetMRG</b></font></a>
-<big>
+<div align="center">
+<a href="http://netmrg.net/">
+<font size="6" color="#000080"><b>NetMRG</b></font>
+</a>
 <br>
+
+<big>
 <b>The Network Monitoring, Reporting, and Graphing Tool</b>
 <br><br>
+
 Version <b><? echo $GLOBALS["netmrg"]["version"]; ?></b><br>
-<br>
-<br>
+<br><br>
+
 Copyright &copy; 2001-2002 <a href="http://www.treehousetechnologies.net/brady/">Brady Alleman</a>.<br>
 This project is licensed under the terms of the <a href="http://www.gnu.org/">GNU</a> <a href="http://www.gnu.org/licenses/gpl.html">GPL</a>.
 <br><br>

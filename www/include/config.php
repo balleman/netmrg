@@ -57,6 +57,8 @@ require_once($GLOBALS["netmrg"]["fileroot"]."/lib/format.php");
 require_once($GLOBALS["netmrg"]["fileroot"]."/lib/auth.php");
 require_once($GLOBALS["netmrg"]["fileroot"]."/lib/processing.php");
 require_once($GLOBALS["netmrg"]["fileroot"]."/lib/snmp_caching.php");
+require_once($GLOBALS["netmrg"]["fileroot"]."/lib/misc.php");
+require_once($GLOBALS["netmrg"]["fileroot"]."/lib/graphing.php");
 
 
 

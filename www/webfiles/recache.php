@@ -7,9 +7,12 @@ begin_page(2);
 
 echo "<PRE>";
 
-if (!empty($_REQUEST["type"]) && $_REQUEST["type"] == "disk") {
+if (!empty($_REQUEST["type"]) && $_REQUEST["type"] == "disk")
+{
 	cache_disks($row);
-} else {
+}
+else
+{
 	cache_device($row);
 } // end if type
 

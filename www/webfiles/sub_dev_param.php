@@ -13,10 +13,7 @@
 #                                                      #
 ########################################################
 
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
-require_once(netmrg_root() . "lib/processing.php");
-require_once(netmrg_root() . "lib/auth.php");
+require_once("../include/config.php");
 
 if (!isset($action))
 {

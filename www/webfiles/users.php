@@ -13,29 +13,35 @@
 #                                                      #
 ########################################################
 
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
-require_once(netmrg_root() . "lib/auth.php");
+require_once("../include/config.php");
 check_auth(3);
 begin_page();
 
-if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd")) {
+if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
+{
 
-if (($action == "doedit") || ($action == "doadd")) {
+if (($action == "doedit") || ($action == "doadd"))
+{
 
-	if ($user_id == 0) {
+	if ($user_id == 0)
+	{
 		$db_cmd = "INSERT INTO";
 		$db_end = "";
-	} else {
+	}
+	else
+	{
 		$db_cmd = "UPDATE";
 		$db_end = "WHERE id=$user_id";
 	}
 
-	if ($pass != "") {
+	if ($pass != "")
+	{
 		$pass_cmd = "pass=ENCRYPT('$pass','$pass'), ";
-		} else {
+	}
+	else
+	{
 		$pass_cmd = "";
-		}
+	}
 
 	do_update("$db_cmd user SET user=\"$user\", fullname=\"$fullname\", $pass_cmd permit=$permit, view_type=$view_type, view_id=$view_id $db_end");
 } // done editing
@@ -100,7 +106,8 @@ if (($action == "edit") || ($action == "add"))
 
 } // End editing screen
 
-if ($action == "delete") {
+if ($action == "delete")
+{
 # Display delete confirmation
 ?>
 <font size="4" color="#800000">Confirm Delete</font><br><br>

@@ -336,7 +336,7 @@ function delete_group($group_id)
 
 function delete_device($device_id)
 {
-
+	
         // delete the device
 	do_update("DELETE FROM mon_devices WHERE id=$device_id");
 
@@ -360,17 +360,15 @@ function delete_device($device_id)
 
 function delete_monitor($monitor_id)
 {
+	do_update("DELETE FROM mon_monitors WHERE id=$monitor_id");
 
-        do_update("DELETE FROM mon_monitors WHERE id=$monitor_id");
-
-        $events_handle = do_query("SELECT id FROM mon_events WHERE monitors_id=$monitor_id");
-
+	$events_handle = do_query("SELECT id FROM mon_events WHERE monitors_id=$monitor_id");
 	for ($i = 0; $i < mysql_num_rows($events_handle); $i++)
 	{
-	        $event_row = mysql_fetch_array($events_handle);
-	        delete_event($event_row["id"]);
-        }
-}
+		$event_row = mysql_fetch_array($events_handle);
+		delete_event($event_row["id"]);
+	} // end for each row
+} // end delete_monitor()
 
 function delete_event($event_id)
 {

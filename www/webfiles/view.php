@@ -18,18 +18,21 @@
 ########################################################
 
 require_once("../include/config.php");
-require_once(netmrg_root() . "lib/graphing.php");
 view_check_auth();
 refresh_tag();
 begin_page();
 
-if (!empty($_REQUEST["full_edit"])) {
+if (!empty($_REQUEST["full_edit"]))
+{
 	$full_edit = $_REQUEST["full_edit"];
-} else {
+}
+else
+{
 	$full_edit = 0;
 } // end if full_edit was set or not
 
-if (!empty($_REQUEST["action"])) {
+if (!empty($_REQUEST["action"]))
+{
 	if ($_REQUEST["action"] == "doadd")
 	{
 		do_update("INSERT INTO view SET 
@@ -40,7 +43,9 @@ if (!empty($_REQUEST["action"])) {
 		unset($action);
 		$full_edit = 1;
 
-	} else if ($_REQUEST["action"] == "dodelete") {
+	}
+	else if ($_REQUEST["action"] == "dodelete")
+	{
 		do_update("DELETE FROM view 
 			WHERE pos_id=".$_REQUEST["pos_id"]." 
 			AND pos_id_type=".$_REQUEST["pos_id_type"]." 
@@ -48,7 +53,9 @@ if (!empty($_REQUEST["action"])) {
 		unset($action);
 		$full_edit = 1;
 
-	} else if ($_REQUEST["action"] == "move") {
+	}
+	else if ($_REQUEST["action"] == "move")
+	{
 		// do moving and stuff (... and things)
 		do_update("UPDATE view SET pos=".$_REQUEST["val"]." 
 			WHERE pos_id=".$_REQUEST["pos_id"]." 
@@ -121,7 +128,8 @@ if (!isset($_REQUEST["action"]))
 }
 
 
-if (!empty($_REQUEST["action"])) {
+if (!empty($_REQUEST["action"]))
+{
 	if ($_REQUEST["action"] == "add")
 	{
 		make_edit_table("Add Graph to View");
@@ -131,7 +139,9 @@ if (!empty($_REQUEST["action"])) {
 		make_edit_hidden("action","doadd");
 		make_edit_submit_button();
 		make_edit_end();
-	} else if ($_REQUEST["action"] == "delete") {
+	}
+	else if ($_REQUEST["action"] == "delete")
+	{
 		// Display delete confirmation
 ?>
 

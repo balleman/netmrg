@@ -16,11 +16,7 @@
 #                                                      #
 ########################################################
 
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
-require_once(netmrg_root() . "lib/auth.php");
-require_once(netmrg_root() . "lib/processing.php");
-require_once(netmrg_root() . "lib/misc.php");
+require_once("../include/config.php");
 check_auth(1);
 refresh_tag();
 if (!isset($index)) { $index = 0; }

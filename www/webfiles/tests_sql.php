@@ -13,9 +13,7 @@
 #                                                      #
 ########################################################
 
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
-require_once(netmrg_root() . "lib/auth.php");
+require_once("../include/config.php");
 check_auth(1);
 begin_page();
 js_confirm_dialog("del", "Are you sure you want to delete SQL test ", " ? ", "$SCRIPT_NAME?action=dodelete&test_id=");
@@ -29,15 +27,20 @@ else
 	$action = "";
 }
 
-if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd")) {
+if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
+{
 // Change databases if necessary and then display list
 
-if ($action == "doedit") {
+if ($action == "doedit")
+{
 
-	if ($test_id == 0) {
+	if ($test_id == 0)
+	{
 		$db_cmd = "INSERT INTO";
 		$db_end = "";
-	} else {
+	}
+	else
+	{
 		$db_cmd = "UPDATE";
 		$db_end = "WHERE id={$_REQUEST["test_id"]}";
 	}

@@ -13,25 +13,27 @@
 #                                                      #
 ########################################################
 
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
-require_once(netmrg_root() . "lib/auth.php");
+require_once("../include/config.php");
 check_auth(1);
 begin_page();
 
-if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd")) {
+if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
+{
 # Change databases if necessary and then display list
 
-if ($action == "doadd") {
-do_update("INSERT INTO mon_responses SET events_id=$event_id, notify_id=$notify_id, cmd_params='$cmd_params'");
+if ($action == "doadd")
+{
+	do_update("INSERT INTO mon_responses SET events_id=$event_id, notify_id=$notify_id, cmd_params='$cmd_params'");
 } # done adding
 
-if ($action == "doedit") {
-do_update("UPDATE mon_responses SET events_id=$event_id, notify_id=$notify_id, cmd_params='$cmd_params' WHERE id=$response_id");
+if ($action == "doedit")
+{
+	do_update("UPDATE mon_responses SET events_id=$event_id, notify_id=$notify_id, cmd_params='$cmd_params' WHERE id=$response_id");
 } # done editing
 
-if ($action == "dodelete") {
-do_update("DELETE FROM mon_responses WHERE id=$response_id");
+if ($action == "dodelete")
+{
+	do_update("DELETE FROM mon_responses WHERE id=$response_id");
 } # done deleting
 
 
@@ -51,30 +53,38 @@ LEFT JOIN mon_test ON mon_monitors.test_id=mon_test.id
 LEFT JOIN mon_devices ON mon_monitors.device_id=mon_devices.id");
 $responses_total = mysql_num_rows($responses_results);
 
-for ($responses_count = 1; $responses_count <= $responses_total; ++$responses_count) { 
 # For each device
+for ($responses_count = 1; $responses_count <= $responses_total; ++$responses_count)
+{ 
 
-$responses_row = mysql_fetch_array($responses_results);
-$response_id  = $responses_row[0];
+	$responses_row = mysql_fetch_array($responses_results);
+	$response_id  = $responses_row[0];
 
-			if ($responses_row["condition"] == 1) {
-				# equal
-				$operator = "=";
-			} else {
-				if ($responses_row["condition"] == 2) {
-					# greater than
-					$operator = ">";
-				} else {
-					# less than
-					$operator = "<";
-			}} # End Triggers
+	if ($responses_row["condition"] == 1)
+	{
+		# equal
+		$operator = "=";
+	}
+	else
+	{
+		if ($responses_row["condition"] == 2)
+		{
+			# greater than
+			$operator = ">";
+		}
+		else
+		{
+			# less than
+			$operator = "<";
+		}
+	} # End Triggers
 
 
-make_display_item($responses_row["dev_name"] . " (" . $responses_row["test_name"] . " $operator " . $responses_row["result"] . ")","",
-				  $responses_row["notify_name"], "",
-				  $responses_row["cmd_params"], "",
-				  "Edit", "$SCRIPT_NAME?action=edit&response_id=$response_id",
-				  "Delete", "$SCRIPT_NAME?action=delete&response_id=$response_id");
+	make_display_item($responses_row["dev_name"] . " (" . $responses_row["test_name"] . " $operator " . $responses_row["result"] . ")","",
+		$responses_row["notify_name"], "",
+		$responses_row["cmd_params"], "",
+		"Edit", "$SCRIPT_NAME?action=edit&response_id=$response_id",
+		"Delete", "$SCRIPT_NAME?action=delete&response_id=$response_id");
 
 } # end devices
 
@@ -83,7 +93,8 @@ make_display_item($responses_row["dev_name"] . " (" . $responses_row["test_name"
 <?
 } # End if no action
 
-if ($action == "add") {
+if ($action == "add")
+{
 # Display editing screen
 
 ?>
@@ -100,7 +111,8 @@ LEFT JOIN mon_devices ON mon_monitors.device_id=mon_devices.id");
 
 $event_total = mysql_num_rows($event_results);
 
-for ($event_count = 1; $event_count <= $event_total; ++$event_count) { 
+for ($event_count = 1; $event_count <= $event_total; ++$event_count)
+{ 
 
 $event_row = mysql_fetch_array($event_results);
 
@@ -116,7 +128,8 @@ Notification Method:<br><br>
 $notify_results = do_query("SELECT * FROM mon_notify");
 $notify_total = mysql_num_rows($notify_results);
 
-for ($notify_count = 1; $notify_count <= $notify_total; ++$notify_count) { 
+for ($notify_count = 1; $notify_count <= $notify_total; ++$notify_count)
+{ 
 
 $notify_row = mysql_fetch_array($notify_results);
 $notify_name = $notify_row["name"];
@@ -138,7 +151,8 @@ You may use the keywords %dev_name, %ip, %test_name, and %test_result in your co
 <?
 } # End editing screen
 
-if ($action == "edit") {
+if ($action == "edit")
+{
 # Display editing screen
 
 ?>
@@ -160,11 +174,13 @@ LEFT JOIN mon_devices ON mon_monitors.device_id=mon_devices.id");
 
 $event_total = mysql_num_rows($event_results);
 
-for ($event_count = 1; $event_count <= $event_total; ++$event_count) { 
+for ($event_count = 1; $event_count <= $event_total; ++$event_count)
+{ 
 
 $event_row = mysql_fetch_array($event_results);
 
-if ($events_id_cur != $event_row["id"]) {
+if ($events_id_cur != $event_row["id"])
+{
 ?><option value="<?print($event_row["id"]);?>"><?print($event_row["dev_name"] . " (" . $event_row["test_name"] . " = " . $event_row["result"] . ")");
 } else {
 ?><option selected value="<?print($event_row["id"]);?>"><?print($event_row["dev_name"] . " (" . $event_row["test_name"] . " = " . $event_row["result"] . ")");
@@ -179,15 +195,19 @@ Notification Method:<br><br>
 $notify_results = do_query("SELECT * FROM mon_notify");
 $notify_total = mysql_num_rows($notify_results);
 
-for ($notify_count = 1; $notify_count <= $notify_total; ++$notify_count) { 
+for ($notify_count = 1; $notify_count <= $notify_total; ++$notify_count)
+{ 
 
 $notify_row = mysql_fetch_array($notify_results);
 $notify_name = $notify_row["name"];
 $notify_id	= $notify_row["id"];
 
-if ($notify_id_cur != $notify_id) { 
+if ($notify_id_cur != $notify_id)
+{ 
 ?><option value="<?print($notify_id);?>"><?print("$notify_name\n");
-} else {
+}
+else
+{
 ?><option selected value="<?print($notify_id);?>"><?print("$notify_name\n");
 } # end if
 } # end for
@@ -204,7 +224,8 @@ You may use the keywords %dev_name, %ip, %test_name, and %test_result in your co
 </form>
 <?} # End editing screen
 
-if ($action == "delete") {
+if ($action == "delete")
+{
 # Display delete confirmation
 ?>
 <font size="4" color="#800000">Confirm Delete</font><br><br>

@@ -13,16 +13,10 @@
 #                                                      #
 ########################################################
 
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
-require_once(netmrg_root() . "lib/auth.php");
-require_once(netmrg_root() . "lib/processing.php");
+require_once("../include/config.php");
 check_auth(1);
+if (empty($_REQUEST["action"])) { $_REQUEST["action"] = ""; }
 
-if (empty($_REQUEST["action"]))
-{
-	$_REQUEST["action"] = "";
-}
 
 if ($_REQUEST["action"] == "doadd")
 {
@@ -47,25 +41,16 @@ if ($_REQUEST["action"] == "doedit")
 	if (empty($_REQUEST["show_total_stats"])) { $_REQUEST["show_total_stats"] = 0; }
 	if (empty($_REQUEST["show_summed"])) { $_REQUEST["show_summed"] = 0; }
 	if (empty($_REQUEST["disp_integer_only"])) { $_REQUEST["disp_integer_only"] = 0; }
-	do_update("UPDATE graphs SET name=\"{$_REQUEST["graph_name"]}\", comment=\"{$_REQUEST["graph_comment"]}\", xsize={$_REQUEST["xsize"]}, ysize={$_REQUEST["ysize"]}, vert_label=\"{$_REQUEST["vert_label"]}\", show_legend={$_REQUEST["show_legend"]}, show_total_line={$_REQUEST["show_total_line"]}, show_total_stats={$_REQUEST["show_total_stats"]}, show_summed={$_REQUEST["show_summed"]}, max_custom=\"{$_REQUEST["max_custom"]}\", disp_integer_only={$_REQUEST["disp_integer_only"]} WHERE id=$graph_id");
+	do_update("UPDATE graphs SET name=\"{$_REQUEST["graph_name"]}\", comment=\"{$_REQUEST["graph_comment"]}\", xsize={$_REQUEST["xsize"]}, ysize={$_REQUEST["ysize"]}, vert_label=\"{$_REQUEST["vert_label"]}\", show_legend={$_REQUEST["show_legend"]}, show_total_line={$_REQUEST["show_total_line"]}, show_total_stats={$_REQUEST["show_total_stats"]}, show_summed={$_REQUEST["show_summed"]}, max_custom=\"{$_REQUEST["max_custom"]}\", disp_integer_only={$_REQUEST["disp_integer_only"]} WHERE id='{$_REQUEST['graph_id']}'");
 
-	if (isset($return_type))
-	{
-
-		if ($return_type == "traffic")
-		{
-
-			Header("Location: snmp_cache_view.php?dev_id=$return_id");
-			exit(0);
-
-		}
-
-	}
-	else
-	{
-		header("Location: {$_SERVER["PHP_SELF"]}");
+	if (isset($_REQUEST["return_type"])) {
+		if ($_REQUEST["return_type"] == "traffic") {
+			Header("Location: snmp_cache_view.php?dev_id={$_REQUEST['return_id']}");
+		} // end if return type is traffic
+	} else {
+		header("Location: {$_SERVER['PHP_SELF']}");
 		exit(0);
-	}
+	} // end if return type
 
 
 } // done editing
@@ -75,9 +60,7 @@ if ($_REQUEST["action"] == "dodelete")
 	check_auth(2);
 	delete_graph($_REQUEST["graph_id"]);
 	
-	header("Location: {$_SERVER["PHP_SELF"]}");
-	exit(0);
-
+	header("Location: {$_SERVER['PHP_SELF']}");
 } // done deleting
 
 if ($_REQUEST["action"] == "duplicate")
@@ -85,9 +68,9 @@ if ($_REQUEST["action"] == "duplicate")
 	$graph_handle = do_query("SELECT * FROM graphs WHERE id={$_REQUEST["id"]}");
 	$graph_row    = mysql_fetch_array($graph_handle);
 	$new_handle   = do_update("INSERT INTO graphs SET name=\"" . $graph_row["name"] . ' (copy)",
-	comment="' . $graph_row["comment"] . '",
-	xsize=' . $graph_row["xsize"] . ', ysize=' . $graph_row["ysize"] .
-	', vert_label="' . $graph_row["vert_label"] . '", show_legend=' .
+		comment="' . $graph_row["comment"] . '",
+		xsize=' . $graph_row["xsize"] . ', ysize=' . $graph_row["ysize"] .
+		', vert_label="' . $graph_row["vert_label"] . '", show_legend=' .
 	$graph_row["show_legend"] . ', show_total_line=' .
 	$graph_row["show_total_line"] . ', show_total_stats=' .
 	$graph_row["show_total_stats"] . ', show_summed=' .
@@ -114,30 +97,26 @@ if ($_REQUEST["action"] == "duplicate")
 		'hrule_color="' . $ds_row["hrule_color"] . '",' .
 		'hrule_label="' . $ds_row["hrule_label"] . '",' .
                 'multiplier="'  . $ds_row["multiplier"]  . '"');
-
-        } // end for
+	} // end for
 
 	header("Location: {$_SERVER["PHP_SELF"]}");
-	exit(0);
-
 } // done duplicating.
 
 if (empty($_REQUEST["action"]))
 {
-
 	begin_page();
-	make_display_table("Graphs","Name","{$_SERVER["PHP_SELF"]}?order_by=name","Comment","{$_SERVER["PHP_SELF"]}?order_by=comment","","");
+	make_display_table("Graphs","Name","{$_SERVER['PHP_SELF']}?order_by=name","Comment","{$_SERVER["PHP_SELF"]}?order_by=comment","","");
 
 	$query = "SELECT * FROM graphs";
 
 	if (isset($_REQUEST["order_by"]))
 	{
-		$query .= " ORDER BY {$_REQUEST["order_by"]}";
+		$query .= " ORDER BY {$_REQUEST['order_by']}";
 	}
 	else
 	{
 		$query .= " ORDER BY name";
-	}
+	} // end if order_by
 
 	$graph_results = do_query($query);
 	$graph_total = mysql_num_rows($graph_results);
@@ -149,12 +128,10 @@ if (empty($_REQUEST["action"]))
 		$temp_comment = str_replace("%n","<br>",$graph_row["comment"]);
 
 		make_display_item($graph_row["name"],"./graph_items.php?graph_id=$graph_id",
-				  $temp_comment,"",
-				  "[<a href=\"./enclose_graph.php?type=custom&id=" . $graph_row["id"]. "\">View</a>]&nbsp;[<a href=\"{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"] . "\">Duplicate</a>]","",
-				  formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .
-				  formatted_link("Delete", "{$_SERVER["PHP_SELF"]}?action=delete&graph_id=$graph_id"), "");
-
-
+		  $temp_comment,"",
+		  "[<a href=\"./enclose_graph.php?type=custom&id=" . $graph_row["id"]. "\">View</a>]&nbsp;[<a href=\"{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"] . "\">Duplicate</a>]","",
+		  formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .
+		  formatted_link("Delete", "{$_SERVER["PHP_SELF"]}?action=delete&graph_id=$graph_id"), "");
 	} // end graphs
 
 ?></table><?
@@ -215,7 +192,7 @@ if ($_REQUEST["action"] == "edit")
 	{
 		make_edit_hidden("return_type",$_REQUEST["return_type"]);
 		make_edit_hidden("return_id",$_REQUEST["return_id"]);
-	}
+	} // end if return_type
 
 	make_edit_submit_button();
 	make_edit_end();
@@ -233,12 +210,12 @@ if ($_REQUEST["action"] == "delete")
 
 	Are you sure you want to delete this graph and all of its data sources?
 
-	<form action="<? print("$SCRIPT_NAME"); ?>" method="post">
+	<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post">
 	<input type="submit" value="Yes">
 	<input type="hidden" name="graph_id" value="<? print($_REQUEST["graph_id"]); ?>">
 	<input type="hidden" name="action" value="dodelete">
 	</form>
-	<form action="<? print("$SCRIPT_NAME"); ?>" method="post">
+	<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post">
 	<input type="submit" value="No">
 	</form>
 

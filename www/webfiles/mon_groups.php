@@ -15,15 +15,21 @@
 require_once("../include/config.php");
 check_auth(1);
 
-if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST["action"] == "dodelete" || $_REQUEST["action"] == "doadd")) {
+if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST["action"] == "dodelete" || $_REQUEST["action"] == "doadd"))
+{
 // Change databases if necessary and then display list
 
-	if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "doedit" || $_REQUEST["action"] == "doadd")) {
+	if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "doedit" || $_REQUEST["action"] == "doadd"))
+	{
         check_auth(2);
-        if ($_REQUEST["action"] == "doedit") {
-			if ($_REQUEST["grp_id"] == -1) {
+        if ($_REQUEST["action"] == "doedit")
+		{
+			if ($_REQUEST["grp_id"] == -1)
+			{
                 create_group($_REQUEST["grp_name"], $_REQUEST["grp_comment"], $_REQUEST["parent_id"]);
-			} else {
+			}
+			else
+			{
 				update_group($_REQUEST["grp_id"], $_REQUEST["grp_name"], $_REQUEST["grp_comment"], $_REQUEST["parent_id"]);
 			} // end if group id
 		} // end if action is to edit
@@ -44,15 +50,21 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 	   "Name", "{$_SERVER['PHP_SELF']}?orderby=name",
 	   "Comment", "{$_SERVER['PHP_SELF']}?orderby=comment");
 
-	if (!isset($_REQUEST["orderby"])) { 
+	if (!isset($_REQUEST["orderby"]))
+	{ 
 		$orderby = "name";
-	} else {
+	}
+	else
+	{
 		$orderby = $_REQUEST["orderby"];
 	} // end if orderby
 
-	if (!isset($_REQUEST["parent_id"])) {
+	if (!isset($_REQUEST["parent_id"]))
+	{
 		$parent_id = 0;
-	} else {
+	}
+	else
+	{
 		$parent_id = $_REQUEST["parent_id"];
 	} // end if parent id
 
@@ -61,14 +73,18 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 	$grp_total = mysql_num_rows($grp_results);
 
 	// For each group
-	for ($grp_count = 1; $grp_count <= $grp_total; ++$grp_count) {
+	for ($grp_count = 1; $grp_count <= $grp_total; ++$grp_count)
+	{
 		$grp_row = mysql_fetch_array($grp_results);
 		$grp_id  = $grp_row["id"];
 
 		$child_query = do_query("SELECT id FROM mon_groups WHERE parent_id=$grp_id");
-		if (mysql_num_rows($child_query) > 0) {
+		if (mysql_num_rows($child_query) > 0)
+		{
 			$group_link = "mon_groups.php?parent_id=$grp_id";
-		} else {
+		}
+		else
+		{
 			$group_link = "mon_devices.php?grp_id=$grp_id";
 		} // end if we have children
 
@@ -88,9 +104,12 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	// Display editing screen
 	check_auth(2);
 	begin_page();
-	if ($_REQUEST["action"] == "add") {
+	if ($_REQUEST["action"] == "add")
+	{
 		$grp_id = -1;
-	} else {
+	}
+	else
+	{
 		$grp_id = $_REQUEST["grp_id"];
 	} // end if this is an add, no parent group
 
