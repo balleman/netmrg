@@ -540,37 +540,36 @@ function GetGroups($type,$id)
 	switch ($type)
 	{
 		case "group":
-			$query = "SELECT '$id' as group_id";
+			$query = array("SELECT '$id' as group_id");
 			break;
 		case "device":
-			$query = "
+			$query = array("
 				SELECT groups.id AS group_id 
 				FROM groups, dev_parents, devices
 				WHERE devices.id = '$id' 
 				AND devices.id = dev_parents.dev_id
 				AND dev_parents.grp_id = groups.id
-				GROUP BY group_id";
+				GROUP BY group_id");
 			break;
 		case "subdevice":
-			$query = "
-				(
+			$query = array("
 					SELECT groups.id AS group_id 
 					FROM groups, dev_parents, devices, sub_devices 
 					WHERE sub_devices.id = '$id' 
 					AND sub_devices.dev_id = devices.id
 					AND devices.id = dev_parents.dev_id
 					AND dev_parents.grp_id = groups.id
-					GROUP BY group_id
-				) UNION (
+					GROUP BY group_id",
+					"
 					SELECT object_id AS group_id
 					FROM view
 					WHERE object_type='group'
 					AND subdev_id = '$id'
-					GROUP BY group_id
-				)";
+					GROUP BY group_id",
+				);
 			break;
 		case "monitor":
-			$query = "
+			$query = array("
 				SELECT groups.id AS group_id
 				FROM groups, dev_parents, devices, sub_devices, monitors
 				WHERE monitors.id = '$id'
@@ -578,35 +577,37 @@ function GetGroups($type,$id)
 				AND sub_devices.dev_id = devices.id
 				AND devices.id = dev_parents.dev_id
 				AND dev_parents.grp_id = groups.id
-				GROUP BY group_id";
+				GROUP BY group_id");
 			break;
 		case "customgraph":
-			$query = "
+			$query = array("
 				SELECT object_id, object_type
 				FROM view
 				WHERE type = 'graph'
-				AND graph_id = '$id'";
+				AND graph_id = '$id'");
 			break;
 		default:
 			// an unknown type should have no groups
 			return $group_arr;
 	} // end switch($type)
 
-	$db_result = db_query($query);
-
-	while ($r = mysql_fetch_array($db_result))
+	foreach ($query as $sql_cmd)
 	{
-		if ($type == "customgraph")
+		$db_result = db_query($sql_cmd);
+		while ($r = mysql_fetch_array($db_result))
 		{
-			$group_arr = array_merge($group_arr, GetGroups($r["object_type"],$r["object_id"]));
-		}
-		else
-		{
-			array_push($group_arr, $r["group_id"]);
-			$group_arr = array_merge($group_arr, GetGroupParents($r["group_id"]));
-		}
-	} // end while we have results
-	
+			if ($type == "customgraph")
+			{
+				$group_arr = array_merge($group_arr, GetGroups($r["object_type"],$r["object_id"]));
+			}
+			else
+			{
+				array_push($group_arr, $r["group_id"]);
+				$group_arr = array_merge($group_arr, GetGroupParents($r["group_id"]));
+			}
+		} // end while we have results
+	}
+
 	return $group_arr;
 } // end GetGroups();
 
