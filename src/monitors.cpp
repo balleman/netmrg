@@ -79,19 +79,21 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 	// if the sql test exists
 	if (mysql_row[0] != NULL)
 	{
+		string host = expand_parameters(info, mysql_row[0]);
+		string user = expand_parameters(info, mysql_row[1]);
+		string password = expand_parameters(info, mysql_row[2]);
 		string test_query = expand_parameters(info, mysql_row[3]);
 		debuglogger(DEBUG_GATHERER, LEVEL_DEBUG, &info, "MySQL Query Test ({'" +
-			string(mysql_row[0]) + "'}, {'" + string(mysql_row[1]) + "'}, {'" +
-			string(mysql_row[2]) + "'}, '" + test_query + "', '" +
+			host + "'}, {'" + user + "'}, {'" + password + "'}, '" + test_query + "', '" +
 			string(mysql_row[4]) + "')");
 
 		mutex_lock(lkMySQL);
 #ifndef OLD_MYSQL
 		mysql_init(&test_mysql);
 
-		if (!(mysql_real_connect(&test_mysql,mysql_row[0],mysql_row[1],mysql_row[2], NULL, 0, NULL, 0)))
+		if (!(mysql_real_connect(&test_mysql,host.c_str(),user.c_str(),password.c_str(), NULL, 0, NULL, 0)))
 #else
-		if (!(mysql_connect(&test_mysql,mysql_row[0],mysql_row[1],mysql_row[2])))
+		if (!(mysql_connect(&test_mysql,host.c_str(),user.c_str(),password.c_str())))
 #endif
 		{
 			mutex_unlock(lkMySQL);
