@@ -211,23 +211,36 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 		// time periods
 		if (($ds_row['start_time'] != "") && ($ds_row['end_time'] != ""))
 		{
+			$relative_times = false;
+			
 			if (strpos($ds_row['start_time'], "+") !== false)
 			{
 				$ds_row['start_time'] = strtotime(substr($ds_row['start_time'],1));
+				$relative_times = true;
 			}
 			
 			if (strpos($ds_row['end_time'], "+") !== false)
 			{
 				$ds_row['end_time'] = strtotime(substr($ds_row['end_time'],1));
+				$relative_times = true;
 			}
 			
-			if ($sum_time != 86400)
+			if (($sum_time != 86400) && $relative_times)
 			{
 				$ds_row['start_time'] = 0;
 				$ds_row['end_time'] = 0;
 			}
 			
-			$time_pre		= "TIME,{$ds_row['start_time']},{$ds_row['end_time']},LIMIT,UN,UNKN,";
+			if (!$relative_times)
+			{
+				$time_pre		= "TIME,{$ds_row['start_time']},{$ds_row['end_time']},LIMIT,UN,UNKN,";
+			}
+			else
+			{
+				$time_pre		= "TIME,{$ds_row['start_time']},{$ds_row['end_time']},LIMIT,UN," .
+					"TIME," . ($ds_row['start_time'] - 86400) . "," . ($ds_row['end_time'] - 86400) . "," . 
+					"LIMIT,UN,MIN,UNKN,";
+			}
 			$time_post		= ",IF";
 			$time_shaping	= true;
 		}
@@ -341,10 +354,12 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 			$command .= 'COMMENT:"\\n" ';
 
 		// add to the running total CDEF
-		$CDEF_A .= ",data" . $ds_count . ",UN,0,data" . $ds_count . ",IF,+";
-		$CDEF_L .= ",data" . $ds_count . "l,UN,0,data" . $ds_count . ",IF,+";
-		$CDEF_M .= ",data" . $ds_count . "m,UN,0,data" . $ds_count . ",IF,+";
-
+		if ($ds_row["multiplier"] != "INF")
+		{
+			$CDEF_A .= ",data" . $ds_count . ",UN,0,data" . $ds_count . ",IF,+";
+			$CDEF_L .= ",data" . $ds_count . "l,UN,0,data" . $ds_count . ",IF,+";
+			$CDEF_M .= ",data" . $ds_count . "m,UN,0,data" . $ds_count . ",IF,+";
+		}
 	}
 
 	// make MRTG-like VRULE
