@@ -10,6 +10,7 @@
 #HTML
 echo "Building HTML docs"
 docbook2html -d share/doc/netmrg.dsl#html -o share/doc/html share/doc/netmrg.sgml
+cp share/doc/netmrg-logo-medium.png share/doc/html/
 echo
 
 #MAN
