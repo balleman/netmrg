@@ -10,22 +10,22 @@
 use strict;
 
 ### config variables
-my $blockdev = "/sys/block";
+my $sysblock = "/sys/block";
 ### status variables
-my $hd = "";
 my $partition = "";
+my $blockdev = "";
 my @fields = ();
 
 
 ### argument processing
 if (scalar(@ARGV) != 2
 	|| ($ARGV[0] ne "-r" && $ARGV[0] ne "-w")
-	|| ($ARGV[1] !~ /^hd\w(\d+)?$/)
+	|| ($ARGV[1] !~ /^\w+(\d+)?$/)
 	)
 {
 	print "U\n";
 	print "\n";
-	print "$0 [-r|-w] <hdx(N)>\n";
+	print "$0 [-r|-w] <blockDev(N)>\n";
 	print "  -r: Report Reads\n";
 	print "  -w: Report Writes\n";
 	print "\n";
@@ -33,24 +33,29 @@ if (scalar(@ARGV) != 2
 } # end if not enough parameters
 
 
-### figure out device/partitions
-if ($ARGV[1] =~ /^(hd\w)\d+$/)
-{
-	$partition = $ARGV[1];
-	$hd = $1;
-} # end if hd has a partition
-else
-{
-	$hd = $ARGV[1];
-} # end else hd is just the drive
+### define partitions
+$partition = $ARGV[1];
+$blockdev = $1 if ($partition =~ /^(\w+)\d+$/);
 
 
 ### read info from system block
 
 # read the data from the correct path
-my $path = "$blockdev/$hd";
-$path .= "/$partition" if ($partition ne "");
-$path .= "/stat";
+my $path = "";
+if (-e "$sysblock/$blockdev/$partition/stat")
+{
+	$path = "$sysblock/$blockdev/$partition/stat";
+}
+elsif (-e "$sysblock/$partition/stat")
+{
+	$path = "$sysblock/$partition/stat";
+}
+else
+{
+	die ("U\nERROR: couldn't find $partition\n\n");
+}
+
+# open the path and read the status info
 open(STAT, $path) || die ("U\nERROR: couldn't open $path\n\n");
 my $line = <STAT>;
 chomp($line);
