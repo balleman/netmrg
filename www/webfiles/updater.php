@@ -187,7 +187,9 @@ $dbupdates = array(
 			)
 	), // end 0.18
 	
-	"0.18.1" => array() // end 0.18.1
+	"0.18.1" => array(), // end 0.18.1
+
+	"0.18.2" => array() // end 0.18.2
 ); // end $dbupdates;
 
 
