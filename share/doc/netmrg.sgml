@@ -413,10 +413,10 @@ their NetMRG administrator.
 					<para>In the <guilabel>IP or Host Name</guilabel> textbox, enter a domain name or IP address of your device.  Domain names must be resolvable from your monitoring host.</para>
 				</listitem>
 				<listitem>
-					<para>Ensure that the <guilabel>This device uses SNMP</guilabel> checkbox is checked.</para>
+					<para>In the <guilabel>SNMP Support</guilabel> dropdown, select the appropriate version.  If unsure, select <guilabel>SNMPv1</guilabel>.</para>
 				</listitem>
 				<listitem>
-					<para>In the <guilabel>SNMP Read Community</guilabel> textbox, enter the SNMPv1 community string for your device.</para>
+					<para>In the <guilabel>SNMP Read Community</guilabel> textbox, enter the SNMP community string for your device.</para>
 				</listitem>
 				<listitem>
 					<para>Click the <guilabel>Save Changes</guilabel> button to create your new device.</para>
