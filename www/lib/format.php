@@ -286,6 +286,15 @@ function DrawGroupNavHistory($type, $id)
 			$_SESSION["netmrgsess"]["grpnav"][$tripid] = array_slice($_SESSION["netmrgsess"]["grpnav"][$tripid], 0, $count);
 			continue;
 		} // end if we're past our current type
+		// cut of extra groups
+		if ($type == "group" && $breadcrumb["type"] == "group"
+			&& $breadcrumb["id"] != $id
+			&& !in_array($breadcrumb["id"], GetGroupParents($id))
+			)
+		{
+			$_SESSION["netmrgsess"]["grpnav"][$tripid] = array_slice($_SESSION["netmrgsess"]["grpnav"][$tripid], 0, $count);
+			break;
+		} // end if group and not our parent or ourself
 		
 		// display the proper link
 		switch ($breadcrumb["type"])
