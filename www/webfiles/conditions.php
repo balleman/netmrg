@@ -5,8 +5,8 @@
 #           NetMRG Integrator                          #
 #           Web Interface                              #
 #                                                      #
-#           Events Editing Page                        #
-#           events.php                                 #
+#           Conditions Editing Page                    #
+#           conditions.php                             #
 #                                                      #
 #     Copyright (C) 2001-2002 Brady Alleman.           #
 #     brady@pa.net - www.treehousetechnologies.com     #
@@ -39,10 +39,9 @@ function do_display()
 	check_auth(1);
 	begin_page();
 
-	$title = "Events for " . get_monitor_name($_REQUEST['mon_id']);
-	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&mon_id={$_REQUEST['mon_id']}";
-	js_confirm_dialog("del", "Are you sure you want to delete event ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&mon_id={$_REQUEST['mon_id']}&id=");
-	make_display_table($title,
+	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&event_id={$_REQUEST['event_id']}";
+	js_confirm_dialog("del", "Are you sure you want to delete condition ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&event_id={$_REQUEST['event_id']}&id=");
+	make_display_table("Conditions",
 				"Name", "",
 				"Condition", "",
 				"Trigger Options", "",
@@ -50,12 +49,11 @@ function do_display()
 				"Status", "");
 
 	$query = do_query("SELECT * FROM events WHERE mon_id = {$_REQUEST['mon_id']}");
-	
+
 	while (($row = mysql_fetch_array($query)) != NULL)
 	{
 		make_display_item($row['name'], "", "", "", $GLOBALS['TRIGGER_TYPES'][$row['trigger_type']], "", $GLOBALS['SITUATIONS'][$row['situation']], "", "", "",
-			formatted_link("Modify Conditions", "conditions.php?event_id={$row['id']}") . "&nbsp;" . 
-			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" . 
+			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
 			formatted_link("Delete", "javascript:del('" . $row['name'] . "','" . $row['id'] . "')"), "");
 	}
 	?>

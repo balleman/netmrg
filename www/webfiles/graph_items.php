@@ -186,14 +186,14 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 		$ds_results = do_query("SELECT * FROM graph_ds WHERE id={$_REQUEST['id']}");
 	        $ds_row = mysql_fetch_array($ds_results);
 	}
-	
+
 	$ds_row["graph_id"] = $_REQUEST["graph_id"];
 
 	if (empty($_REQUEST["edit_monitor"]))
 	{
 		$_REQUEST["edit_monitor"] = 0;
 	}
-	
+
 	js_color_dialog();
 	make_edit_table("Edit Graph Item");
 	make_edit_text("Item Label:","label","50","100",$ds_row["label"]);
@@ -207,26 +207,24 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 		make_edit_label("<big><b>Monitor:</b><br>  " . get_monitor_name($ds_row["src_id"]) . "  [<a href='{$_SERVER['PHP_SELF']}?id={$_REQUEST['id']}&action={$_REQUEST['action']}&graph_id={$_REQUEST['graph_id']}&edit_monitor=1'>change</a>]</big>");
 		make_edit_hidden("mon_id", $ds_row["src_id"]);
 	}
-        GLOBAL $RRDTOOL_ITEM_TYPES;
-	make_edit_select_from_array("Item Type:", "type", $RRDTOOL_ITEM_TYPES, $ds_row["type"]);
+        make_edit_select_from_array("Item Type:", "type", $GLOBALS['RRDTOOL_ITEM_TYPES'], $ds_row["type"]);
 	make_edit_color("Item Color:", "color", $ds_row["color"]);
-	GLOBAL $ALIGN_ARRAY;
-	make_edit_select_from_array("Alignment:","align", $ALIGN_ARRAY, $ds_row["align"]);
-	make_edit_checkbox("Show Stats","show_stats", $ds_row["show_stats"]);
-	make_edit_checkbox("Show Inverted","show_inverted", $ds_row["show_inverted"]);
+	make_edit_select_from_array("Alignment:", "align", $GLOBALS['ALIGN_ARRAY'], $ds_row["align"]);
+	make_edit_checkbox("Show Stats", "show_stats", $ds_row["show_stats"]);
+	make_edit_checkbox("Show Inverted", "show_inverted", $ds_row["show_inverted"]);
 	if ($ds_row["multiplier"] == "") { $ds_row["multiplier"] = "1"; }
-	make_edit_text("Value Multiplier:","multiplier","20","20",$ds_row["multiplier"]);
+	make_edit_text("Value Multiplier:", "multiplier", "20", "20", $ds_row["multiplier"]);
 	make_edit_group("Maximum Indicator");
-	make_edit_checkbox("Show Indicator","show_indicator", $ds_row["show_indicator"]);
-	make_edit_text("Value","hrule_value","15","15", $ds_row["hrule_value"]);
-	make_edit_color("Color","hrule_color", $ds_row["hrule_color"]);
-	make_edit_text("Label","hrule_label","50","100", $ds_row["hrule_label"]);
+	make_edit_checkbox("Show Indicator", "show_indicator", $ds_row["show_indicator"]);
+	make_edit_text("Value", "hrule_value", "15", "15", $ds_row["hrule_value"]);
+	make_edit_color("Color", "hrule_color", $ds_row["hrule_color"]);
+	make_edit_text("Label", "hrule_label", "50", "100", $ds_row["hrule_label"]);
 	make_edit_group("Advanced Options");
-	make_edit_checkbox("Use Alternate Child","use_alt", $ds_row["use_alt"]);
-	make_edit_select_from_table("Alternate Child Graph:","alt_graph_id","graphs", $ds_row["alt_graph_id"]);
-	make_edit_hidden("action","doedit");
-	make_edit_hidden("graph_id",$ds_row["graph_id"]);
-	make_edit_hidden("id",$ds_row["id"]);
+	make_edit_checkbox("Use Alternate Child", "use_alt", $ds_row["use_alt"]);
+	make_edit_select_from_table("Alternate Child Graph:", "alt_graph_id","graphs", $ds_row["alt_graph_id"]);
+	make_edit_hidden("action", "doedit");
+	make_edit_hidden("graph_id", $ds_row["graph_id"]);
+	make_edit_hidden("id", $ds_row["id"]);
 	make_edit_hidden("position", $ds_row["position"]);
 	make_edit_submit_button();
 	make_edit_end();
