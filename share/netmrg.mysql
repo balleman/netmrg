@@ -292,8 +292,8 @@ CREATE TABLE mon_devices (
 --
 
 
-INSERT INTO mon_devices VALUES (1,'Oak','192.168.1.1','public',0,0,0,0,5164083,4,1,1);
-INSERT INTO mon_devices VALUES (2,'Pine','192.168.1.11','public',8,0,0,0,4826630,2,1,1);
+INSERT INTO mon_devices VALUES (1,'Oak','192.168.1.1','public',0,0,0,0,767593,3,1,1);
+INSERT INTO mon_devices VALUES (2,'Pine','192.168.1.11','public',8,0,0,0,382301,2,1,1);
 INSERT INTO mon_devices VALUES (3,'NetMRG','','',8,0,0,0,0,0,0,0);
 
 --
@@ -434,61 +434,39 @@ CREATE TABLE monitors (
 --
 
 
-INSERT INTO monitors VALUES (1,1,1,NULL,NULL,1,2,9,'',NULL,NULL,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (2,1,1,NULL,NULL,1,2,10,'',NULL,NULL,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (3,1,1,NULL,NULL,1,2,11,'',NULL,NULL,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (4,1,2,NULL,105,1,2,7,'',36632,12,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (5,1,2,NULL,105,1,2,5,'',164306,148,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (6,1,2,NULL,105,1,2,8,'',1260,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (17,3,2,NULL,12000000,1,2,39,'',28645487,30280,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (7,1,1,NULL,NULL,1,2,2,'',70,-3,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (8,1,1,NULL,NULL,1,2,3,'',1,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (9,1,1,NULL,NULL,1,2,18,'',3,1,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (20,4,1,NULL,NULL,1,2,40,'',2,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (10,1,2,NULL,1000,1,3,1,'',108715,308,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (11,2,2,NULL,105,1,2,7,'',98835,26,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (12,2,2,NULL,105,1,2,5,'',612787,215,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (13,2,2,NULL,105,1,2,8,'',311387,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (14,2,1,NULL,NULL,1,2,2,'',71,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (15,2,1,NULL,NULL,1,2,18,'',3,1,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (16,2,1,NULL,NULL,1,2,3,'',2,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (18,3,2,NULL,12000000,1,2,38,'',142365700,130706,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (40,6,1,NULL,NULL,1,3,6,'',1,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (21,5,2,NULL,12000000,1,2,39,'',103109389,87840,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (19,3,2,NULL,1000,1,2,40,'',0,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (25,6,1,NULL,NULL,1,3,3,'',0,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (29,7,1,NULL,NULL,1,2,44,'',14827260,4,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (22,5,2,NULL,12000000,1,2,38,'',20753518,22560,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (30,8,1,NULL,NULL,1,2,43,'',18068580,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (23,4,2,NULL,10000,1,2,39,'',0,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (24,4,2,NULL,10000,1,2,38,'',0,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (26,6,1,NULL,NULL,1,3,4,'',27,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (28,7,1,NULL,NULL,1,2,43,'',347344,-4,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (27,6,1,NULL,NULL,1,3,5,'',5,0,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (34,1,1,NULL,NULL,1,4,1,'/proc/net/ip_conntrack',32,-3,'2002-12-11 21:58:00',60);
-INSERT INTO monitors VALUES (31,8,1,NULL,NULL,1,2,44,'',80414264,0,'2002-12-11 21:58:00',60);
-
---
--- Table structure for table 'permit_type'
---
-
-CREATE TABLE permit_type (
-  id int(11) NOT NULL default '0',
-  name varchar(100) NOT NULL default '',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'permit_type'
---
-
-
-INSERT INTO permit_type VALUES (0,'Single View Only');
-INSERT INTO permit_type VALUES (1,'Read All');
-INSERT INTO permit_type VALUES (2,'Read/Write');
-INSERT INTO permit_type VALUES (3,'Read/Write/User Admin');
+INSERT INTO monitors VALUES (1,1,1,NULL,NULL,1,2,9,'',NULL,NULL,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (2,1,1,NULL,NULL,1,2,10,'',NULL,NULL,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (3,1,1,NULL,NULL,1,2,11,'',NULL,NULL,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (4,1,2,NULL,105,1,2,7,'',2716,49,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (5,1,2,NULL,105,1,2,5,'',12320,267,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (6,1,2,NULL,105,1,2,8,'',0,0,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (17,3,2,NULL,12000000,1,2,39,'',5222626,41333,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (7,1,1,NULL,NULL,1,2,2,'',71,3,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (8,1,1,NULL,NULL,1,2,3,'',1,0,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (9,1,1,NULL,NULL,1,2,18,'',3,2,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (20,4,1,NULL,NULL,1,2,40,'',1,0,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (10,1,2,NULL,1000,1,3,1,'',18909,263,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (11,2,2,NULL,105,1,2,7,'',6131,78,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (12,2,2,NULL,105,1,2,5,'',60262,626,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (13,2,2,NULL,105,1,2,8,'',1,0,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (14,2,1,NULL,NULL,1,2,2,'',70,0,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (15,2,1,NULL,NULL,1,2,18,'',3,2,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (16,2,1,NULL,NULL,1,2,3,'',2,0,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (18,3,2,NULL,12000000,1,2,38,'',90314825,136224,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (40,6,1,NULL,NULL,1,3,6,'',1,0,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (21,5,2,NULL,12000000,1,2,39,'',84236156,92593,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (19,3,2,NULL,1000,1,2,40,'',0,0,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (25,6,1,NULL,NULL,1,3,3,'',0,0,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (29,7,1,NULL,NULL,1,2,44,'',14872132,4,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (22,5,2,NULL,12000000,1,2,38,'',4104309,33507,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (30,8,1,NULL,NULL,1,2,43,'',18068580,0,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (23,4,2,NULL,10000,1,2,39,'',796604,1207,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (24,4,2,NULL,10000,1,2,38,'',190943,710,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (26,6,1,NULL,NULL,1,3,4,'',27,0,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (28,7,1,NULL,NULL,1,2,43,'',302472,-4,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (27,6,1,NULL,NULL,1,3,5,'',5,0,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (34,1,1,NULL,NULL,1,4,1,'/proc/net/ip_conntrack',27,-5,'2002-12-16 17:41:01',60);
+INSERT INTO monitors VALUES (31,8,1,NULL,NULL,1,2,44,'',80414264,0,'2002-12-16 17:41:01',60);
 
 --
 -- Table structure for table 'snmp_cache'
@@ -540,26 +518,6 @@ CREATE TABLE snmp_disk_cache (
 
 INSERT INTO snmp_disk_cache VALUES (1,1,'/','/dev/hda1');
 INSERT INTO snmp_disk_cache VALUES (1,2,'/storage','/dev/hdc1');
-
---
--- Table structure for table 'static_paths'
---
-
-CREATE TABLE static_paths (
-  name varchar(50) NOT NULL default '',
-  path varchar(255) NOT NULL default '',
-  PRIMARY KEY  (name),
-  UNIQUE KEY name (name),
-  KEY name_2 (name)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'static_paths'
---
-
-
-INSERT INTO static_paths VALUES ('rrdtool','/usr/bin/rrdtool');
-INSERT INTO static_paths VALUES ('root','/var/www/netmrg/');
 
 --
 -- Table structure for table 'sub_dev_types'
@@ -631,28 +589,6 @@ INSERT INTO sub_devices VALUES (5,2,2,'Eth0');
 INSERT INTO sub_devices VALUES (6,3,1,'System');
 INSERT INTO sub_devices VALUES (7,1,3,'Root');
 INSERT INTO sub_devices VALUES (8,1,3,'Storage');
-
---
--- Table structure for table 'test_types'
---
-
-CREATE TABLE test_types (
-  id int(11) NOT NULL auto_increment,
-  name varchar(100) NOT NULL default '',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'test_types'
---
-
-
-INSERT INTO test_types VALUES (1,'Script');
-INSERT INTO test_types VALUES (2,'SNMP');
-INSERT INTO test_types VALUES (3,'SQL');
-INSERT INTO test_types VALUES (4,'Internal');
 
 --
 -- Table structure for table 'tests_internal'

@@ -14,13 +14,12 @@
 ########################################################
 
 require_once("../include/config.php");
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/database.php");
 
 // Simple Formatting Section
 
-function format_time_elapsed($num_secs) {
-# Makes a string from a 'seconds elapsed' integer
+function format_time_elapsed($num_secs)
+{
+	// Makes a string from a 'seconds elapsed' integer
 	$the_secs = $num_secs;
 	$new_secs = $num_secs % 86400;
 	$days = ($num_secs - $new_secs) / 86400;
@@ -50,7 +49,7 @@ function format_time_elapsed($num_secs) {
 
 	return $res;
 
-} # end format_time_elapsed
+} // end format_time_elapsed
 
 
 function sanitize_number($number)
@@ -251,11 +250,12 @@ function get_group_status($grp_id)
 function get_short_monitor_name($mon_id)
 {
 
+	GLOBAL $TEST_TYPES;
+
 	$mon_query = do_query("
-		SELECT test_type, test_id, test_params, test_types.name AS test_name
-		FROM monitors
-		LEFT JOIN test_types ON monitors.test_type=test_types.id
-		WHERE monitors.id = $mon_id");
+		SELECT	test_id, test_params, test_type
+		FROM	monitors
+		WHERE	monitors.id = $mon_id");
 	$mon_row = mysql_fetch_array($mon_query);
 
 	switch($mon_row["test_type"])
@@ -277,7 +277,8 @@ function get_short_monitor_name($mon_id)
 
 	$test_row = mysql_fetch_array(do_query($test_query));
 
-	return $test_row["name"];
+	return $test_row["name"] . ' ' . $mon_row["test_params"];
+
 } // end get_short_monitor_name()
 
 

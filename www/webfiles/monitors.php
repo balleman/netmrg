@@ -106,7 +106,7 @@ function do_list()
 
 		if ($mon_row["data_type"] != -1)
 		{
-			$graph = "<a href=\"{$GLOBALS['netmrg']['webroot']}/enclose_graph.php?type=mon&id=$mon_id\"><img border='0' src='./get_graph.php?type=tinymon&id=$mon_id'></a>";
+			$graph = "<a href=\"enclose_graph.php?type=mon&id=$mon_id\"><img border='0' src='get_graph.php?type=tinymon&id=$mon_id'></a>";
 		}
 		else
 		{
@@ -227,7 +227,8 @@ function edit()
 	{
 		$mon_row["test_type"] = $_REQUEST["type"];
 	}
-	make_edit_select_from_table("Monitoring Type:","test_type", "test_types",$mon_row["test_type"], "onChange='redisplay(form.test_type.options[selectedIndex].value);'");
+	GLOBAL $TEST_TYPES;
+	make_edit_select_from_array("Monitoring Type:","test_type", $TEST_TYPES, $mon_row["test_type"], "onChange='redisplay(form.test_type.options[selectedIndex].value);'");
 
 	if ($mon_row["test_type"] == 1)
 	{

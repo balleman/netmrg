@@ -21,29 +21,32 @@ ini_set("REGISTER_GLOBALS", 0);
 
 /***** CONFIG *****/
 // Cosmetic Variables
-$GLOBALS["netmrg"]["version"] = "0.79.3a";
-$GLOBALS["netmrg"]["name"] = "NetMRG";
-$GLOBALS["netmrg"]["company"] = "Generic Company";
-$GLOBALS["netmrg"]["companylink"] = "http://netmrg.net";
+$GLOBALS["netmrg"]["version"]		= "0.79.3a";
+$GLOBALS["netmrg"]["name"]		= "NetMRG";
+$GLOBALS["netmrg"]["company"]		= "Generic Company";
+$GLOBALS["netmrg"]["companylink"]	= "http://netmrg.net";
 
 // DB Config
-$GLOBALS["netmrg"]["dbhost"] = "localhost";
-$GLOBALS["netmrg"]["dbname"] = "netmrg";
-$GLOBALS["netmrg"]["dbreaduser"] = "netmrgread";
-$GLOBALS["netmrg"]["dbreadpass"] = "netmrgread";
-$GLOBALS["netmrg"]["dbwriteuser"] = "netmrgwrite";
-$GLOBALS["netmrg"]["dbwritepass"] = "netmrgwrite";
+$GLOBALS["netmrg"]["dbhost"]		= "localhost";
+$GLOBALS["netmrg"]["dbname"]		= "netmrg";
+$GLOBALS["netmrg"]["dbreaduser"]	= "netmrgread";
+$GLOBALS["netmrg"]["dbreadpass"]	= "netmrgread";
+$GLOBALS["netmrg"]["dbwriteuser"]	= "netmrgwrite";
+$GLOBALS["netmrg"]["dbwritepass"]	= "netmrgwrite";
 
 // Path Config
-$GLOBALS["netmrg"]["fileroot"] = "/var/www/netmrg";
-$GLOBALS["netmrg"]["webhost"] = "http://localhost";
-$GLOBALS["netmrg"]["webroot"] = "/netmrg";
+$GLOBALS["netmrg"]["rrdtool"]		= "/usr/bin/rrdtool";
+$GLOBALS["netmrg"]["rrdroot"]		= "/var/www/netmrg/rrd";
+$GLOBALS["netmrg"]["fileroot"]		= "/var/www/netmrg";
+$GLOBALS["netmrg"]["webhost"]		= "http://localhost";
+$GLOBALS["netmrg"]["webroot"]		= "/netmrg";
 
 
 
 /***** SESSION *****/
 session_start();
-if (!isset($_SESSION["netmrgsess"]) || !is_array($_SESSION["netmrgsess"])) {
+if (!isset($_SESSION["netmrgsess"]) || !is_array($_SESSION["netmrgsess"]))
+{
 	$_SESSION["netmrgsess"] = array();
 	$_SESSION["netmrgsess"]["username"] = "";
 	$_SESSION["netmrgsess"]["password"] = "";

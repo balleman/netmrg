@@ -29,6 +29,18 @@ $RRDTOOL_ITEM_TYPES = array(
 			4	=>	"AREA",
 			5	=>	"STACK");
 
+$TEST_TYPES = array(
+			1	=>	"Script",
+			2	=>	"SNMP",
+			3	=>	"SQL",
+			4	=>	"Internal");
+			
+$PERMIT_TYPES = array(
+			0	=>	"Single View Only",
+			1	=>	"Read All",
+			2	=>	"Read/Write",
+			3	=>	"Read/Write/User Admin");
+
 
 
 // Return the path to an image based on the internal name of the image.
@@ -105,27 +117,6 @@ function get_color_by_name($color_name) {
 
 
 } // end get_color_by_name
-
-function get_path_by_name($path_name)
-{
-	// Return the path of the specified object
-
-	$query_handle = do_query("SELECT * FROM static_paths WHERE name=\"$path_name\"");
-	$row = mysql_fetch_array($query_handle);
-
-	return $row["path"];
-
-} // end get_path_by_name
-
-function netmrg_root()
-{
-	return get_path_by_name("root");
-}
-
-function get_site_name()
-{
-	return $GLOBALS["netmrg"]["company"];
-}
 
 
 ?>

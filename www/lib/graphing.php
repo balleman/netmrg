@@ -14,8 +14,6 @@
 ########################################################
 
 require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/database.php");
-require_once(netmrg_root() . "lib/processing.php");
 
 function get_graph_command($type, $id, $hist, $togglelegend)
 {
@@ -63,17 +61,17 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 	if ($type == "mon")
 	{
 
-		return(get_path_by_name("rrdtool") . " graph - -s " . $start . " -e " . $end_time .
+		return($GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start . " -e " . $end_time .
 				" --title=\"" . get_monitor_name($id) . " (#" . $id . ")\"  --imgformat PNG -g " .
-				"DEF:data1=" . netmrg_root() . "rrd/mon_" . $id . ".rrd:mon_" . $id . ":AVERAGE " .
+				"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $id . ".rrd:mon_" . $id . ":AVERAGE " .
 				"AREA:data1#151590");
 
 	}
 
 	if ($type == "tinymon")
 	{
-		return(get_path_by_name("rrdtool") . " graph - -s $start -e $end_time -a PNG -g -w 275 -h 25 " .
-			"DEF:data1=" . netmrg_root() . "rrd/mon_$id.rrd:mon_$id:AVERAGE " .
+		return($GLOBALS['netmrg']['rrdtool'] . " graph - -s $start -e $end_time -a PNG -g -w 275 -h 25 " .
+			"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_$id.rrd:mon_$id:AVERAGE " .
 			"AREA:data1#151590");
 	}
 
@@ -149,11 +147,11 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 		}
 
 
-		return(get_path_by_name("rrdtool") . " graph - -s " . $start . " -e " . $end_time .
+		return($GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start . " -e " . $end_time .
 				" --title=\"" . $row["title"] . "\" --imgformat PNG -v \"" . $row["vert"] . "\" " .
-				"DEF:raw_data1=" . netmrg_root() . "rrd/mon_" . $row["src_id"] . ".rrd:mon_" . $row["src_id"] . ":AVERAGE " .
-				"DEF:raw_data1l=" . netmrg_root() . "rrd/mon_" . $row["src_id"] . ".rrd:mon_" . $row["src_id"] . ":LAST " .
-				"DEF:raw_data1m=" . netmrg_root() . "rrd/mon_" . $row["src_id"] . ".rrd:mon_" . $row["src_id"] . ":MAX " .
+				"DEF:raw_data1="  . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $row["src_id"] . ".rrd:mon_" . $row["src_id"] . ":AVERAGE " .
+				"DEF:raw_data1l=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $row["src_id"] . ".rrd:mon_" . $row["src_id"] . ":LAST " .
+				"DEF:raw_data1m=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $row["src_id"] . ".rrd:mon_" . $row["src_id"] . ":MAX " .
 				"CDEF:data1=raw_data1," . $row["multiplier"] . ",* " .
 				"CDEF:data1l=raw_data1l," . $row["multiplier"] . ",* " .
 				"CDEF:data1m=raw_data1m," . $row["multiplier"] . ",* " .
@@ -175,7 +173,7 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 		if ($togglelegend == 1) { $graph_row["show_legend"] = (1 - $graph_row["show_legend"]); }
 		if ($graph_row["show_legend"] == 0) { $options = "-g "; }
 
-		$command = get_path_by_name("rrdtool") . " graph - -s " . $start . " -e " . $end_time . " --alt-autoscale-max --title \"" . $graph_row["name"] . "\" -w " .
+		$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start . " -e " . $end_time . " --alt-autoscale-max --title \"" . $graph_row["name"] . "\" -w " .
 				$graph_row["xsize"] . " -h " . $graph_row["ysize"] . " -v \"" . $graph_row["vert_label"] .
 				"\" --imgformat PNG $options";
 
@@ -225,9 +223,9 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 
 			$hrule_total += $ds_row["hrule_value"];
 
-			$command .= " DEF:raw_data" . $ds_count . "=" . netmrg_root() . "rrd/mon_" . $ds_row["src_id"] . ".rrd:mon_" . $ds_row["src_id"] . ":AVERAGE " .
-						" DEF:raw_data" . $ds_count . "l=" . netmrg_root() . "rrd/mon_" . $ds_row["src_id"] . ".rrd:mon_" . $ds_row["src_id"] . ":LAST " .
-						" DEF:raw_data" . $ds_count . "m=" . netmrg_root() . "rrd/mon_" . $ds_row["src_id"] . ".rrd:mon_" . $ds_row["src_id"] . ":MAX ";
+			$command .= " DEF:raw_data" . $ds_count . "=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . ".rrd:mon_" . $ds_row["src_id"] . ":AVERAGE " .
+						" DEF:raw_data" . $ds_count . "l=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . ".rrd:mon_" . $ds_row["src_id"] . ":LAST " .
+						" DEF:raw_data" . $ds_count . "m=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . ".rrd:mon_" . $ds_row["src_id"] . ":MAX ";
 			if ($ds_row["multiplier"] == 0) { $ds_row["multiplier"] = 1; }
 			$command .= "CDEF:data" . $ds_count . "=raw_data" . $ds_count . "," . $ds_row["multiplier"] . ",* ";
 			$command .= "CDEF:data" . $ds_count . "l=raw_data" . $ds_count . "l," . $ds_row["multiplier"] . ",* ";
@@ -255,7 +253,7 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 
 				if ($graph_row["disp_sum"])
 				{
-					$sum_cmd = netmrg_root() . "bin/rrdsum.pl " . netmrg_root() . "rrd/mon_" . $ds_row["src_id"] . " -" . $sum_time . " now " . $sum_time;
+					$sum_cmd = $GLOBALS['netmrg']['fileroot'] . "bin/rrdsum.pl " . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . " -" . $sum_time . " now " . $sum_time;
 					$sum_val = `$sum_cmd`;
 					$sum_text = sprintf("%.0f",$sum_val);
 					$command .= ' GPRINT:data' . $ds_count . ':AVERAGE:"$sum_label Sum\\:" $sum_text"';
@@ -271,7 +269,7 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 
 				if ($graph_row["disp_sum"])
 				{
-					$sum_cmd = netmrg_root() . "bin/rrdsum.pl " . netmrg_root() . "rrd/mon_" . $ds_row["src_id"] . ".rrd -" . $sum_time . " now " . $sum_time;
+					$sum_cmd = $GLOBALS['netmrg']['fileroot'] . "bin/rrdsum.pl " . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . ".rrd -" . $sum_time . " now " . $sum_time;
 					$sum_val = `$sum_cmd`;
 					$sum_text = sanitize_number($sum_val);
 					$command .="     $sum_label Sum\\: $sum_text";
