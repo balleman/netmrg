@@ -9,8 +9,7 @@
 ********************************************/
 
 /***** GLOBAL SETTINGS *****/ 
-error_reporting(E_ALL);
-//error_reporting(E_WARNING | E_ERROR);
+error_reporting(E_WARNING | E_ERROR);
 
 /***** CONFIG *****/
 // Cosmetic Variables

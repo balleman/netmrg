@@ -63,6 +63,10 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 
 	$_REQUEST['user'] = db_escape_string($_REQUEST['user']);
 	$_REQUEST['fullname'] = db_escape_string($_REQUEST['fullname']);
+	if (empty($_REQUEST["group_id"]))
+	{
+		$_REQUEST["group_id"] == 0;
+	} // end if no group id set
 	
 	db_update("$db_cmd user SET user='{$_REQUEST['user']}',
 		fullname='{$_REQUEST['fullname']}', $pass_cmd
