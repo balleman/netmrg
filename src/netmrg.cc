@@ -62,17 +62,31 @@ pthread_mutex_t rrdtool_lock 		= PTHREAD_MUTEX_INITIALIZER;
 
 // structs
 
+// ValuePair
+//
+// Used to store a name and value for a parameter used in
+// to expand parameters beforing being passed to external
+// scripts or used as part of a query.
+
 struct ValuePair
 {
         string name;
 	string value;
-	
+
 	ValuePair(string setname, string setvalue)
 	{
 		name 	= setname;
 		value   = setvalue;
 	}
 };
+
+// DeviceInfo
+//
+// Used to provide any subroutine working on a device or
+// a component of one with all information necessary.
+// This allows the information to be added to in only this
+// location and where it is needed, not as a parameter
+// in all interim functions.
 
 struct DeviceInfo
 {
@@ -128,13 +142,18 @@ struct DeviceInfo
 	}
 };
 
+// RRDInfo
+//
+// Provides the information needed for creating
+// or updating an RRD file.
+
 struct RRDInfo
 {
 	string max_val;
 	string min_val;
-	
+
 	int tuned;
-	
+
 	string value;
 
 	string data_type;
@@ -147,13 +166,18 @@ struct RRDInfo
 		data_type 	= "";
 	}
 };
-		
-	
+
+
 // Include the NetMRG Libraries
 #include <netmrg-utils.cc>
 #include <netmrg-snmp.cc>
 #include <netmrg-db.cc>
 #include <netmrg-misc.cc>
+
+
+// file_exists
+// 
+// evaluates to true if filename specifies an existing file
 
 int file_exists(string filename)
 {
@@ -163,6 +187,10 @@ int file_exists(string filename)
 
 	return S_ISREG(file_stat.st_mode);
 }
+
+// rrd_cmd
+//
+// issues a command to RRDTOOL via the RRDTOOL pipe, and logs it
 
 void rrd_cmd(DeviceInfo info, string cmd)
 {
@@ -174,18 +202,26 @@ void rrd_cmd(DeviceInfo info, string cmd)
 	pthread_mutex_unlock(&rrdtool_lock);
 }
 
+// get_rrd_file
+//
+// returns the name of the rrd file in use for a given monitor
+
 string get_rrd_file(string mon_id)
 {
 	string filename = string(NETMRG_ROOT) + "rrd/mon_" + mon_id + ".rrd";
 	return filename;
 }
 
+// create_rrd
+//
+// creates a new RRD file
+
 void create_rrd(DeviceInfo info, RRDInfo rrd)
 {
 	string command;
 
-	command = "create " + get_rrd_file(inttostr(info.monitor_id)) + 
-			" DS:mon_" + inttostr(info.monitor_id) + ":" + rrd.data_type + 
+	command = "create " + get_rrd_file(inttostr(info.monitor_id)) +
+			" DS:mon_" + inttostr(info.monitor_id) + ":" + rrd.data_type +
 			":600:" + rrd.min_val + ":" + rrd.max_val + " " +
 			"RRA:AVERAGE:0.5:1:600 " +
 			"RRA:AVERAGE:0.5:6:700 " 	+
@@ -195,12 +231,16 @@ void create_rrd(DeviceInfo info, RRDInfo rrd)
 			"RRA:LAST:0.5:6:700 " 		+
 			"RRA:LAST:0.5:24:775 " 		+
 			"RRA:LAST:0.5:288:797 " 	+
-			"RRA:MAX:0.5:1:600 " 		+ 
+			"RRA:MAX:0.5:1:600 " 		+
 			"RRA:MAX:0.5:6:700 "		+
 			"RRA:MAX:0.5:24:775 "		+
 			"RRA:MAX:0.5:288:797";
 	rrd_cmd(info, command);
 }
+
+// tune_rrd
+//
+// modifies the maximum and minimum values acceptable for a given RRD
 
 void tune_rrd(DeviceInfo info, RRDInfo rrd)
 {
@@ -210,14 +250,24 @@ void tune_rrd(DeviceInfo info, RRDInfo rrd)
 	rrd_cmd(info, command);
 }
 
+// update_rrd
+//
+// update an RRD with a current value
+
 void update_rrd(DeviceInfo info, RRDInfo rrd)
 {
 	string command = "update " + get_rrd_file(inttostr(info.monitor_id)) + " N:" + stripnl(info.curr_val);
 	rrd_cmd(info, command);
-}	
-		
-// update_monitor_rrd - given information, update a round robin database
-void update_monitor_rrd(DeviceInfo info, RRDInfo rrd) 
+}
+
+// update_monitor_rrd
+//
+// for a monitor:
+//	1. Create a RRD file if one doesn't exist.
+//	2. Tune the RRD file if necessary.
+//	3. Update the RRD file with current data.
+
+void update_monitor_rrd(DeviceInfo info, RRDInfo rrd)
 {
 	if (!(file_exists(get_rrd_file(inttostr(info.monitor_id)))))
 	{
@@ -231,6 +281,10 @@ void update_monitor_rrd(DeviceInfo info, RRDInfo rrd)
 
 	update_rrd(info, rrd);
 }
+
+// db_connect
+//
+// make a new MySQL connection to the NetMRG database
 
 MYSQL db_connect(MYSQL connection)
 {
@@ -252,6 +306,10 @@ MYSQL db_connect(MYSQL connection)
 	return connection;
 }
 
+// db_query
+//
+// perform a MySQL query and return the results
+
 MYSQL_RES *db_query(MYSQL *mysql, DeviceInfo *info, string query)
 {
 	MYSQL_RES *mysql_res;
@@ -271,6 +329,10 @@ MYSQL_RES *db_query(MYSQL *mysql, DeviceInfo *info, string query)
 	return mysql_res;
 }
 
+// db_update
+//
+// query the database, but disregard the results and log any failure
+
 void db_update(MYSQL *mysql, DeviceInfo *info, string query)
 {
 	if (mysql_query(mysql, query.c_str()))
@@ -278,11 +340,19 @@ void db_update(MYSQL *mysql, DeviceInfo *info, string query)
 		debuglogger(DEBUG_MYSQL, info, "MySQL Query Failed (" + query + ")");
 	}
 }
-	
+
+// do_snmp_recache
+//
+// walk the interfaces MIB to populate the interface cache for a device
+
 void do_snmp_recache(int dev_id)
 {
 
 }
+
+// update_monitor_db
+//
+// update the database with current values for a monitor
 
 void update_monitor_db(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 {
@@ -410,6 +480,10 @@ void setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 {
 }
 
+// expand_parameters
+//
+// expand parameters within a string
+
 string expand_parameters(DeviceInfo info, string input)
 {
 	for (slist<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
@@ -484,8 +558,6 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
          mysql_free_result(mysql_res);
          return value;
 }
-
-
 
 string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 {
@@ -745,11 +817,11 @@ void process_sub_devices(DeviceInfo info, MYSQL *mysql)
 
 	MYSQL_RES	*mysql_res;
 	MYSQL_ROW	mysql_row;
-	
+
 	string query = string("SELECT id, type FROM sub_devices WHERE dev_id=") + inttostr(info.device_id);
-	
+
 	mysql_res = db_query(mysql, &info, query);
-	
+
 	for (int i = 0; i < mysql_num_rows(mysql_res); i++)
 	{
 		mysql_row = mysql_fetch_row(mysql_res);
@@ -769,27 +841,27 @@ void process_device(int dev_id)
 
 	DeviceInfo info;
 
-	info.device_id = dev_id;	
-	
+	info.device_id = dev_id;
+
 	// connect to db, get info for this device
-	
+
 	debuglogger(DEBUG_DEVICE, &info, "Starting device thread.");
 	mysql = db_connect(mysql);
 	debuglogger(DEBUG_DEVICE, &info, "MySQL connection established.");
-	
-	string query = 	string("SELECT ") 		+ 
+
+	string query = 	string("SELECT ") 		+
 			string("name, ")  		+	// 0
 			string("ip, ")			+ 	// 1
 			string("snmp_enabled, ")	+	// 2
 			string("snmp_read_community, ")	+	// 3
 			string("snmp_recache, ")	+	// 4
 			string("snmp_uptime, ")		+	// 5
-			string("snmp_ifnumber, ")	+	// 6 
+			string("snmp_ifnumber, ")	+	// 6
 			string("snmp_check_ifnumber ")	+	// 7
 			string("FROM mon_devices ")	+
 			string("WHERE id=") + inttostr(dev_id);
 
-	mysql_res = db_query(&mysql, &info, query);	
+	mysql_res = db_query(&mysql, &info, query);
 	mysql_row = mysql_fetch_row(mysql_res);
 
 	info.name 			= mysql_row[0];
@@ -802,19 +874,19 @@ void process_device(int dev_id)
 	{
 		// get uptime
 		info.snmp_uptime = get_snmp_uptime(info);
-		debuglogger(DEBUG_SNMP, &info, "SNMP Uptime is " + inttostr(info.snmp_uptime));	
-		
+		debuglogger(DEBUG_SNMP, &info, "SNMP Uptime is " + inttostr(info.snmp_uptime));
+
 		// store new uptime
-		do_mysql_update("UPDATE mon_devices SET snmp_uptime=" + inttostr(info.snmp_uptime) + 
+		do_mysql_update("UPDATE mon_devices SET snmp_uptime=" + inttostr(info.snmp_uptime) +
 				" WHERE id=" + inttostr(dev_id));
-		
+
 		if (info.snmp_uptime == 0)
 		{
 			// device is snmp-dead
 			info.snmp_avoid = 1;
 			debuglogger(DEBUG_DEVICE, &info, "Device is SNMP-dead.  Avoiding SNMP tests.");
-		} 
-		else 
+		}
+		else
 		{
 			if (strtoint(mysql_row[5]) == 0)
 			{
@@ -822,7 +894,7 @@ void process_device(int dev_id)
 				info.snmp_recache = 1;
 				debuglogger(DEBUG_DEVICE, &info, "Device has returned from SNMP-death.");
 			}
-				
+
 			if (info.snmp_uptime < strtoint(mysql_row[5]))
 			{
 				// uptime went backwards
@@ -830,24 +902,24 @@ void process_device(int dev_id)
 				debuglogger(DEBUG_SNMP, &info, "SNMP Agent Restart.");
 			}
 
-		
+
 			if (strtoint(mysql_row[7]) == 1)
 			{
 				// we care about ifNumber
 
 				info.snmp_ifnumber =  strtoint(snmpget(info, string("interfaces.ifNumber.0")));
-			
-				debuglogger(DEBUG_SNMP, &info, 
+
+				debuglogger(DEBUG_SNMP, &info,
 					"Number of Interfaces is " + inttostr(info.snmp_ifnumber));
-				
+
 				if (info.snmp_ifnumber != strtoint(mysql_row[6]))
 				{
 					// ifNumber changed
 					info.snmp_recache = 1;
-					do_mysql_update("UPDATE mon_devices SET snmp_ifnumber = " + 
-						inttostr(info.snmp_ifnumber) + string(" WHERE id = ") + 
+					do_mysql_update("UPDATE mon_devices SET snmp_ifnumber = " +
+						inttostr(info.snmp_ifnumber) + string(" WHERE id = ") +
 						inttostr(dev_id));
-					debuglogger(DEBUG_SNMP, &info, 
+					debuglogger(DEBUG_SNMP, &info,
 						"Number of interfaces changed from " + string(mysql_row[6]));
 				}
 
@@ -863,12 +935,12 @@ void process_device(int dev_id)
 
 		if (info.snmp_recache)
 		{
-			// we need to recache.	
+			// we need to recache.
 			do_snmp_recache(dev_id);
-		}	
+		}
 
 	} // end snmp-enabled
-	
+
 	mysql_free_result(mysql_res);
 
 	// process sub-devices
@@ -1015,26 +1087,26 @@ int main()
 			if (active_threads == 0) canexit = 1;
 
 			pthread_mutex_unlock(&active_threads_lock);
-		} 
-		else 
+		}
+		else
 		{
 			debuglogger(DEBUG_THREAD, NULL, "[PASSIVE] Sorry, can't lock thread counter.");
-		}	
+		}
 		usleep(THREAD_SLEEP);
 	}
 
-		
+
 	// free active devices results
 	mysql_free_result(mysql_res);
-	
+
 	// generate change of status report
-	mysql_res = db_query(&mysql, NULL, 
-			string("SELECT date, dev_name, situation, event_text, since_last_change ") + 
-			string("FROM event_log WHERE date >= ") + 
+	mysql_res = db_query(&mysql, NULL,
+			string("SELECT date, dev_name, situation, event_text, since_last_change ") +
+			string("FROM event_log WHERE date >= ") +
 			inttostr(start_time) + string(" ORDER BY situation"));
-	
+
 	num_rows = mysql_num_rows(mysql_res);
-	
+
 	if (num_rows > 0)
 	{
 		printf("ATTENTION: Creating Status Report.\n");
@@ -1042,7 +1114,7 @@ int main()
 		for (i = 0; i < mysql_num_rows(mysql_res); i++)
 		{
 			mysql_row = mysql_fetch_row(mysql_res);
-			fprintf(lockfile, 
+			fprintf(lockfile,
 				"DATE/TIME: %s\nDevice: %s\nSituation: %s\nEvent: %s\nTime Since Last Change: %s\n\n",
 				mysql_row[0], mysql_row[1], mysql_row[2], mysql_row[3], mysql_row[4]);
 		}
@@ -1052,10 +1124,10 @@ int main()
 
 	// free report results
 	mysql_free_result(mysql_res);
-	
+
 	delete [] threads;
 	delete [] ids;
-	
+
 	// clean up mysql
 	mysql_close(&mysql);
 	debuglogger(DEBUG_GLOBAL, NULL, "Closed MySQL connection.");
@@ -1067,14 +1139,14 @@ int main()
 	// clean up SNMP
 	SOCK_CLEANUP;
 	debuglogger(DEBUG_GLOBAL, NULL, "Cleaned up SNMP.");
-	
+
 	// determine runtime and store it
 	run_time = time( NULL ) - start_time;
 	fprintf( stdout , "Runtime: %d\n", run_time);
 	lockfile = fopen("/var/www/netmrg/dat/runtime","w+");
 	fprintf(lockfile, "%d", run_time);
 	fclose(lockfile);
-	
+
 	// remove lock file
 	unlink("/var/www/netmrg/dat/lockfile");
 
