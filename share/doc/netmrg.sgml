@@ -671,7 +671,7 @@ their NetMRG administrator.
 						</itemizedlist>
 					</listitem>
 					<listitem><para><guilabel>Add</guilabel> - add a new device or an existing device to this group</para></listitem>
-					<listitem><para><guilabel>View</guilabel> - views graphs assocated with this device and allows you to edit what graphs are associated with the group</para></listitem>
+					<listitem><para><guilabel>View</guilabel> - views graphs assocated with this device and allows you to edit what graphs are associated with the device</para></listitem>
 					<listitem><para><guilabel>Edit</guilabel> - edits parameters of a device</para></listitem>
 					<listitem><para><guilabel>Delete</guilabel> - deletes the device all sub-devices, monitors, etc underneath it</para></listitem>
 				</itemizedlist>
@@ -682,7 +682,7 @@ their NetMRG administrator.
 					<listitem>
 						<para><guilabel>Add an existing device to this group</guilabel> - puts a link to an existing device in this group (does not copy it, just refers to it; they are the same device</para>
 						<itemizedlist>
-							<listitem><para><guilabel>Device</guilabel> - Name of the device to add to this group</para></listitem
+							<listitem><para><guilabel>Device</guilabel> - Name of the device to add to this group</para></listitem>
 						</itemizedlist>
 					</listitem>
 				</itemizedlist>
@@ -743,11 +743,39 @@ their NetMRG administrator.
 			<refsect2><title>List</title>
 				<para>list of sub devices in a device</para>
 				<itemizedlist>
-					<listitem><para><guilabel></guilabel> - </para></listitem>
+					<listitem><para><guilabel>Sub Devices</guilabel> - Name of the sub devices for this device; click on a name to view its monitors</para></listitem>
+					<listitem><para><guilabel>Type</guilabel> - Type of sub device (group, interface, or disk)</para></listitem>
+					<listitem><para><guilabel>Add</guilabel> - add a new sub device to this device</para></listitem>
+					<listitem><para><guilabel>Parameters</guilabel> - View/edit available parameters for this sub device (such as what ifName to use to graph this interface)</para></listitem>
+					<listitem><para><guilabel>View</guilabel> - views graphs assocated with this sub device and allows you to edit what graphs are associated with the sub device</para></listitem>
+					<listitem><para><guilabel>Edit</guilabel> - edits options of a sub device</para></listitem>
+					<listitem><para><guilabel>Delete</guilabel> - deletes the sub device all monitors, events, etc underneath it</para></listitem>
 				</itemizedlist>
 			</refsect2>
 			<refsect2><title>Edit</title>
 				<para>edit info about a sub device</para>
+				<itemizedlist>
+					<listitem><para><guilabel>Name</guilabel> - Name of this sub device</para></listitem>
+					<listitem><para><guilabel>Sub-Device Type</guilabel> - Type of sub device (group, interface, or disk)</para></listitem>
+				</itemizedlist>
+			</refsect2>
+			<refsect2><title>Parameters</title>
+				<para>items that alter what interface or disk a sub device monitors</para>
+				<refsect3><title>Configured Parameters</title>
+					<itemizedlist>
+						<listitem><para><guilabel>Name</guilabel> - Name of paramter to match this sub device to (commonly 'dskPath' for disks or 'ifDescr' for interfaces)</para></listitem>
+						<listitem><para><guilabel>Value</guilabel> - Value of the <guilabel>Name</guilabel> to match (commonly '/' for disks or 'eth0' for interfaces)</para></listitem>
+						<listitem><para><guilabel>Add</guilabel> - Adds a Name/Value pair for this sub device</para></listitem>
+						<listitem><para><guilabel>Edit</guilabel> - Edits the values above for this sub device</para></listitem>
+						<listitem><para><guilabel>Delete</guilabel> - Deletes this Name/Value pair for this sub device</para></listitem>
+					</itemizedlist>
+				</refsect3>
+				<refsect3><title>Dynamic Parameters</title>
+					<itemizedlist>
+						<listitem><para><guilabel>Name</guilabel> - Name of paramter that is available in template graphs as a wildcard (put between two '%' in the title)</para></listitem>
+						<listitem><para><guilabel>Value</guilabel> - Value of the <guilabel>Name</guilabel> that will be displayed</para></listitem>
+					</itemizedlist>
+				</refsect3>
 			</refsect2>
 		</refsect1>
 	</refentry>
@@ -762,6 +790,9 @@ their NetMRG administrator.
 		<refsect1><title>Description</title>
 			<refsect2><title>List</title>
 				<para>list of monitors for a sub-device</para>
+				<itemizedlist>
+					<listitem><para><guilabel></guilabel> - </para></listitem>
+				</itemizedlist>
 			</refsect2>
 			<refsect2><title>Edit</title>
 				<para>edit info about a monitor</para>
