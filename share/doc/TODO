@@ -35,7 +35,12 @@ when looking at a device's graphs, you should be able to click next to it
 design public website
 CSS-ificiation
   - sub-pages need redone (ick)
+custom image directories
+  - spec file in that directory
+    * key-value pairs for inclusion for (almost) every <img /> tag
+  - select image directory from config.php
 make icons for links on various pages
+make netmrg xhtml compliant
 
 
 == balleman ==
