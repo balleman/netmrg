@@ -56,6 +56,12 @@ foreach my $ver (@versions)
 		`docbook2html $curdir/$shortdocfile -o $curdir`;
 		symlink("$curdir/book1.html", "$curdir/index.html");
 	}
+	
+	rename("$docfolder/$ver", "$docfolder/CVS") if ($ver eq "HEAD");
+	if ($ver =~ /^netmrg-(\d+)\_(\d+)/)
+	{
+		rename("$docfolder/$ver", "$docfolder/NetMRG-$1.$2");
+	} # end if ver looks like netmrg-0_10
 } # end foreach version
 
 
