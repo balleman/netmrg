@@ -92,16 +92,16 @@ function get_color_by_name($color_name) {
 
 function get_path_by_name($path_name)
 {
-	# Return the path of the specified object
+	// Return the path of the specified object
 
 	$query_handle = do_query("SELECT * FROM static_paths WHERE name=\"$path_name\"");
 	$row = mysql_fetch_array($query_handle);
 
 	return $row["path"];
 
-} # end get_path_by_name
+} // end get_path_by_name
 
-function netmrg_root() 
+function netmrg_root()
 {
 	return get_path_by_name("root");
 }

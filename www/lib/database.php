@@ -26,7 +26,7 @@ $database_write_password = "netmrgwrite";
 
 function do_query($query_string)
 {
-        # Obtain data from a table
+        // Obtain data from a table
 
         global $database_host, $database_name, $database_read_user, $database_read_password;
 
@@ -36,11 +36,11 @@ function do_query($query_string)
 
         return $query_handle;
 
-} # end do_query
+} // end do_query
 
 function do_update($query_string)
 {
-        # Update data in table
+        // Update data in table
 
         global $database_host, $database_name, $database_write_user, $database_write_password;
 
@@ -50,7 +50,7 @@ function do_update($query_string)
 
         return $query_handle;
 
-} # end do_update
+} // end do_update
 
 
 ?>

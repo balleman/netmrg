@@ -28,15 +28,18 @@ require_once(netmrg_root() . "lib/auth.php");
 
 
 
-function begin_page() {
-	# Define the initial formating for the page
+function begin_page()
+{
+	// Define the initial formating for the page
 
 	global $menu_id, $menu_stat, $user_name;
 
-	if (isset($menu_id)) {
-	# If there is a change to the menu, apply it
-	change_menu_status($menu_id, $menu_stat);
-	} # end if
+	if (isset($menu_id))
+	{
+        	// If there is a change to the menu, apply it
+        	change_menu_status($menu_id, $menu_stat);
+
+	} // end if
 
 	?>
 	<html>
@@ -69,7 +72,7 @@ function begin_page() {
 	<tr>
 		<td class="menu" valign="top">
 		<?
-			if (get_permit() > 0) 
+			if (get_permit() > 0)
 			{
 				display_menu();
 			}
@@ -79,10 +82,11 @@ function begin_page() {
 
 	<?
 
-} # end begin_page
+} // end begin_page
 
-function end_page() {
-	# Define the final formatting for the page
+function end_page() 
+{
+	// Define the final formatting for the page
 
 	?>
 		</td>
@@ -91,7 +95,7 @@ function end_page() {
 	</body></html>
 	<?
 
-} # end end_page
+} // end end_page
 
 
 
@@ -104,10 +108,11 @@ function end_page() {
 #
 #+++++++++++++++++++++++++++++++++++++++++++++
 
-function make_display_table($title) {
-	# Makes a display table
-	#	Title: Table's displayed title
-	#	All others:  format of heading,link,heading,link...
+function make_display_table($title)
+{
+	// Makes a display table
+	// Title: Table's displayed title
+	// All others:  format of heading,link,heading,link...
 
 	global $SCRIPT_NAME, $custom_add_link, $uplink;
 
@@ -155,7 +160,7 @@ function make_display_table($title) {
 		</td>
 	<?
 
-	} # end for
+	} // end for
 
 	?>
 		<td width="5%" align="right">
@@ -173,10 +178,11 @@ function make_display_table($title) {
 
 	<?
 
-} # end make_display_table
+} // end make_display_table
 
-function make_display_item() {
-	# Makes an item for a displayed table
+function make_display_item()
+{
+	// Makes an item for a displayed table
 	?>
 
 	<tr bgcolor="<? print(get_color_by_name("edit_fields")); ?>">
@@ -186,7 +192,7 @@ function make_display_item() {
 	for ($item_num = 0; $item_num <= ((func_num_args() / 2) - 1); ++$item_num) {
 
 		if (func_get_arg($item_num * 2 + 1) != "") {
-			# We have a link
+			// We have a link
 			?>
 				<td><a href="<?print(func_get_arg($item_num * 2 + 1));?>"><?print(func_get_arg($item_num * 2));?></a></td>
 			<?
@@ -199,14 +205,15 @@ function make_display_item() {
 					if ($text != "") { print($text); } else { print("&nbsp;"); }
 					?></td>
 			<?
-		} #end if
-	} #end for
+		} //end if
+	} // end for
 
 	?> </tr> <?
 
-} # end make_display_item
+} // end make_display_item
 
-function make_plain_display_table($title) {
+function make_plain_display_table($title)
+{
 	//   Makes a display table
 	//	Title: Table's displayed title
 	//	All others:  format of heading,link,heading,link...
@@ -261,7 +268,8 @@ function make_table_tag()
 }
 
 
-function make_edit_table($title) {
+function make_edit_table($title)
+{
 	// Makes a table for editing data
 
 	global $SCRIPT_NAME;
@@ -282,7 +290,8 @@ function make_edit_table($title) {
 } // end make_edit_table
 
 
-function make_edit_end() {
+function make_edit_end()
+{
 	// Finishes an edit table
 	?>
 	</table>
@@ -291,7 +300,8 @@ function make_edit_end() {
 } // end make_edit_end
 
 
-function make_edit_group($title, $options = "") {
+function make_edit_group($title, $options = "")
+{
 	// Makes a group bar in an edit table
 	?>
 
@@ -300,6 +310,7 @@ function make_edit_group($title, $options = "") {
 	<strong><? print($title); ?></strong></font></td></tr>
 
 	<?
+
 } // end make_edit_group
 
 
@@ -312,10 +323,11 @@ function make_edit_label($contents)
 	<? print ($contents); ?>
 	</td></tr>
 	<?
- }
+}
 
 
-function make_edit_select($header, $name, $options = "", $select_options = "") {
+function make_edit_select($header, $name, $options = "", $select_options = "")
+{
 	// Creates a form select control
 	?>
 
@@ -329,7 +341,8 @@ function make_edit_select($header, $name, $options = "", $select_options = "") {
 } // end make_edit_select
 
 
-function make_edit_select_end() {
+function make_edit_select_end()
+{
 	// Creates a form select control
 	?>
 
@@ -339,7 +352,8 @@ function make_edit_select_end() {
 } // end make_edit_select_end
 
 
-function make_edit_select_from_table($header, $name, $table_name, $selected, $options = "", $select_options = "") {
+function make_edit_select_from_table($header, $name, $table_name, $selected, $options = "", $select_options = "")
+{
 	// Creates a select control with items named by the table's name field, and id'd by tables id field
 
 	make_edit_select($header, $name, $options, $select_options);
@@ -363,29 +377,35 @@ function make_edit_select_from_table($header, $name, $table_name, $selected, $op
 } // end make_edit_select_end
 
 
-function make_edit_select_option($name, $value, $selected) {
+function make_edit_select_option($name, $value, $selected)
+{
 	// Creates a form select control
 
-	if ($selected) {
+	if ($selected)
+	{
 
-	?>
+        	?>
 
-	<option value="<? print($value) ?>" SELECTED><? print($name); ?></option>
+        	<option value="<? print($value) ?>" SELECTED><? print($name); ?></option>
 
-	<?
+        	<?
 
-	} else {
+	}
+	else
+	{
 
-	?>
+        	?>
 
-	<option value="<? print($value) ?>"><? print($name); ?></option>
+        	<option value="<? print($value) ?>"><? print($name); ?></option>
 
-	<?
+        	<?
 
 	} // end else
+
 } // end make_edit_select_option
 
-function make_edit_text($header, $name, $size, $maxlength, $value, $options = "") {
+function make_edit_text($header, $name, $size, $maxlength, $value, $options = "")
+{
 	// Creates a form text edit control
 	?>
 
@@ -398,6 +418,7 @@ function make_edit_text($header, $name, $size, $maxlength, $value, $options = ""
 	</td></tr>
 
 	<?
+
 } // end make_edit_text
 
 function make_edit_color($header, $name, $value)
@@ -417,10 +438,12 @@ function make_edit_color($header, $name, $value)
 	</td></tr>
 
 	<?
+
 } // end make_edit_color
 
 
-function make_edit_password($header, $name, $size, $maxlength, $value, $options = "") {
+function make_edit_password($header, $name, $size, $maxlength, $value, $options = "")
+{
         // Creates a form text edit control
         ?>
 
@@ -433,20 +456,24 @@ function make_edit_password($header, $name, $size, $maxlength, $value, $options 
         </td></tr>
 
         <?
+
 } // end make_edit_password
 
 
-function make_edit_hidden($name, $value) {
+function make_edit_hidden($name, $value)
+{
 	// Creates a form hidden text control
 	?>
 
 	<input type="hidden" name="<? print($name) ?>" value="<? print($value); ?>">
 
 	<?
+
 } // end make_edit_text
 
 
-function make_edit_submit_button() {
+function make_edit_submit_button()
+{
 	// Creates a form submit button
 	?>
 
@@ -458,9 +485,11 @@ function make_edit_submit_button() {
 	</td></tr>
 
 	<?
+
 } // end make_edit_submit_button
 
-function make_edit_checkbox($header, $name, $checked, $options = "") {
+function make_edit_checkbox($header, $name, $checked, $options = "")
+{
 	// Creates a form checkbox
 	?><tr <? print($options); ?>><td bgcolor="<? print(get_color_by_name("edit_fields")); ?>"><?
 
@@ -476,7 +505,8 @@ function make_edit_checkbox($header, $name, $checked, $options = "") {
 
 } // end make_edit_checkbox
 
-function make_edit_select_monitor($mon_id_cur) {
+function make_edit_select_monitor($mon_id_cur)
+{
 	// Creates an edit select box for the selection of "monitors"
 
 	make_edit_select("Monitor:","mon_id");
@@ -497,17 +527,22 @@ function make_edit_select_monitor($mon_id_cur) {
 
         $mon_total = mysql_num_rows($mon_results);
 
-	for ($mon_count = 1; $mon_count <= $mon_total; ++$mon_count) {
+	for ($mon_count = 1; $mon_count <= $mon_total; ++$mon_count)
+	{
 
 		$mon_row = mysql_fetch_array($mon_results);
 		$mon_id = $mon_row["id"];
 		$mon_name = get_monitor_name($mon_id);
 
-		if ($mon_id_cur != $mon_id) {
-		make_edit_select_option($mon_name,$mon_id,0);
-		} else {
-		make_edit_select_option($mon_name,$mon_id,1);
-		} # end if
+		if ($mon_id_cur != $mon_id)
+		{
+		        make_edit_select_option($mon_name,$mon_id,0);
+		} 
+		else
+		{
+		        make_edit_select_option($mon_name,$mon_id,1);
+		}
+
 	} // end for
 
 	make_edit_select_end();
@@ -526,14 +561,17 @@ function formatted_link($text, $link, $caption = "")
 	if ($caption != "")
 	{
 		return "&lt;<a href=\"$link\" title=\"$caption\">$text</a>&gt;";
-	} else {
+	}
+	else
+	{
 		return "&lt;<a href=\"$link\">$text</a>&gt;";
 	}
 
 } // end formatted_link
 
-function refresh_tag() {
-echo("<META HTTP-EQUIV=\"refresh\" CONTENT=\"300\">");
+function refresh_tag()
+{
+        echo("<META HTTP-EQUIV=\"refresh\" CONTENT=\"300\">");
 }
 
 function js_confirm_dialog($function_name, $before = "", $after = "", $url_base = "")
