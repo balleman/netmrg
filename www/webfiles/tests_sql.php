@@ -20,7 +20,16 @@ check_auth(1);
 begin_page();
 js_confirm_dialog("del", "Are you sure you want to delete SQL test ", " ? ", "$SCRIPT_NAME?action=dodelete&test_id=");
 
-if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd")) {
+if (!empty($_REQUEST["action"]))
+{
+	$action = $_REQUEST["action"];
+}
+else
+{
+	$action = "";
+}
+
+if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd")) {
 // Change databases if necessary and then display list
 
 if ($action == "doedit") {
@@ -30,15 +39,16 @@ if ($action == "doedit") {
 		$db_end = "";
 	} else {
 		$db_cmd = "UPDATE";
-		$db_end = "WHERE id=$test_id";
+		$db_end = "WHERE id={$_REQUEST["test_id"]}";
 	}
 
-	do_update("$db_cmd tests_sql SET name=\"$test_name\", sub_dev_type=$dev_type, host=\"$host\", user=\"$sql_user\", password=\"$sql_password\", query=\"$query\", column_num=$column_num $db_end");
+	do_update("$db_cmd tests_sql SET name=\"{$_REQUEST["test_name"]}\", sub_dev_type={$_REQUEST["dev_type"]}, host=\"{$_REQUEST["host"]}\", user=\"{$_REQUEST["sql_user"]}\", password=\"{$_REQUEST["sql_password"]}\", query=\"{$_REQUEST["query"]}\", column_num={$_REQUEST["column_num"]} $db_end");
 } // done editing
 
 if ($action == "dodelete")
 {
-        do_update("DELETE FROM tests_sql WHERE id=$test_id");
+        do_update("DELETE FROM tests_sql WHERE id={$_REQUEST["test_id"]}");
+
 } // done deleting
 
 
@@ -75,9 +85,12 @@ if (($action == "edit") || ($action == "add"))
 {
         // Display editing screen
 
-        if ($action == "add") { $test_id = 0; }
+        if ($action == "add")
+	{
+		$_REQUEST["test_id"] = 0;
+	}
 
-        $test_results = do_query("SELECT * FROM tests_sql WHERE id=$test_id");
+        $test_results = do_query("SELECT * FROM tests_sql WHERE id={$_REQUEST["test_id"]}");
         $test_row = mysql_fetch_array($test_results);
 
 	make_edit_table("Edit SQL Test");
@@ -91,7 +104,7 @@ if (($action == "edit") || ($action == "add"))
 	make_edit_text("Query:", "query", "75", "255", htmlspecialchars($test_row["query"]));
 	make_edit_text("Column Number:", "column_num", "2", "4", $test_row["column_num"]);
         make_edit_hidden("action","doedit");
-        make_edit_hidden("test_id",$test_id);
+        make_edit_hidden("test_id",$_REQUEST["test_id"]);
         make_edit_submit_button();
         make_edit_end();
 
