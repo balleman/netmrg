@@ -1,6 +1,7 @@
 2004.05.06  v0.15cvs  balleman
   - bug#0000188 - Select All/None/Invert for checkboxes
   - bug#0000190 - Intelligent Subdev Defaults
+  - bug#0000183 - escaping for ifAlias, ifDescr in gatherer
 
 2004.04.08  v0.15cvs  dwarner
   - added some quoting to lib/graphing.php to prevent db errors

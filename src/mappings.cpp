@@ -10,6 +10,7 @@
 #include "mappings.h"
 #include "utils.h"
 #include "snmp.h"
+#include "db.h"
 
 string remove_surrounding_quotes(string input)
 {
@@ -243,7 +244,7 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 	{
 		string query =
 			string("SELECT ifIndex, ifName, ifIP, ifDescr, ifAlias, ifMAC, ifSpeed FROM snmp_interface_cache WHERE dev_id=") +
-			inttostr(info->device_id) + string(" AND ") + index + "=\"" + value + "\"";
+			inttostr(info->device_id) + string(" AND ") + index + "='" + db_escape(value) + "'";
 
 		mysql_res = db_query(mysql, info, query);
 
@@ -355,7 +356,7 @@ int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 	{
 		string query =
 		string("SELECT disk_index, disk_path, disk_device FROM snmp_disk_cache WHERE dev_id=") +
-		inttostr(info->device_id) + string(" AND ") + index + "=\"" + value + "\"";
+		inttostr(info->device_id) + string(" AND ") + index + "='" + db_escape(value) + "'";
 
 		mysql_res = db_query(mysql, info, query);
 

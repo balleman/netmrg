@@ -59,11 +59,11 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 						subdev_status = -3;
 
 	}  // end subdevice type switch
-	
+
 	// delete the old dynamic entries from the cache
 	db_update(mysql, &info, "DELETE FROM sub_dev_variables WHERE type = 'dynamic' AND sub_dev_id = "
 		+ inttostr(info.subdevice_id));
-		
+
 	// insert the new dynamic entries
 	for (list<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
 	{
@@ -71,7 +71,7 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 			+ inttostr(info.subdevice_id) + ", name = '" + current->name + "', value = '" + db_escape(current->value)
 			+ "'");
 	}
-	
+
 	if (subdev_status < 0)
 	{
 		debuglogger(DEBUG_SUBDEVICE, LEVEL_WARNING, &info, "Subdevice aborted due to previous errors.");
@@ -113,7 +113,7 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 		{
 			info.last_val = mysql_row[8];
 		}
-		
+
 		if (mysql_row[10] != NULL)
 		{
 			info.delta_time = strtoint(mysql_row[10]);
