@@ -44,6 +44,10 @@ rm -rf %{buildroot}
 %pre
 if [ $1 = 1 ]; then
 	useradd -d ${_localstatedir}/lib/netmrg netmrg > /dev/null 2>&1 || true
+fi
+
+%post
+if [ $1 = 1 ]; then
 	chkconfig --add netmrg
 fi
 
