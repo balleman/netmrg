@@ -668,9 +668,6 @@ function GetXMLConfig()
 	$GLOBALS["netmrg"]["rrdtool"]        = $xmlconfig["NETMRG"][0]["PATHS"][0]["RRDTOOL"][0]["VALUE"];
 	$GLOBALS["netmrg"]["rrdroot"]        = $xmlconfig["NETMRG"][0]["PATHS"][0]["RRDS"][0]["VALUE"];
 	$GLOBALS["netmrg"]["fileroot"]       = $xmlconfig["NETMRG"][0]["PATHS"][0]["WEBFILEROOT"][0]["VALUE"];
-	$GLOBALS["netmrg"]["binary"]         = "@exec_prefix@/bin/netmrg-gatherer";
-	$GLOBALS["netmrg"]["staticimagedir"] = "{$GLOBALS['netmrg']['webroot']}/img";
-	$GLOBALS["netmrg"]["imagebasedir"]   = "{$GLOBALS['netmrg']['fileroot']}/webfiles/images/default";
 
 } // end GetXMLConfig();
 
