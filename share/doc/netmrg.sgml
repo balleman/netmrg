@@ -61,6 +61,15 @@ any company, organization, product, or platform.
 	<title>Revision History</title>
 	<itemizedlist>
 		<listitem>
+			<para>0.13</para>
+			<para>2003.12.19</para>
+			<para>
+Minor Bugfixes and Feature Enhancements; slide show ordering, previous slide, resume slide show,
+better formatting of 'sums', errors on view editing, fixes to permissions checking, and an 
+occassional segfault in the gatherer was fixed.
+			</para>
+		</listitem>
+		<listitem>
 			<para>0.12</para>
 			<para>2003.12.15</para>
 			<para>

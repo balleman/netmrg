@@ -57,7 +57,7 @@ wizards
 update docs w/ release notes
 version bump in:
   configure.ac (run bootstrap)
-  share/netmrg.sql
+  share/netmrg.mysql
   share/doc/VERSION
   www/lib/stat.php
   share/netmrg.spec
