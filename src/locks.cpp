@@ -18,6 +18,9 @@ static pthread_mutex_t rrdtool_lock			= PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t settings_lock		= PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t pipe_lock			= PTHREAD_MUTEX_INITIALIZER;
 
+// Create conditional variables
+static pthread_cond_t active_threads_cv		= PTHREAD_COND_INITIALIZER;
+
 pthread_mutex_t* get_lock(Lock myLock)
 {
 	switch (myLock)
@@ -28,6 +31,15 @@ pthread_mutex_t* get_lock(Lock myLock)
 		case lkRRD:				return &rrdtool_lock;
 		case lkSettings:		return &settings_lock;
 		case lkPipe:			return &pipe_lock;
+	}
+	return NULL;
+}
+
+pthread_cond_t* get_cond(Cond myCond)
+{
+	switch (myCond)
+	{
+		case cActiveThreads:	return &active_threads_cv;
 	}
 	return NULL;
 }
@@ -62,4 +74,14 @@ int	netmrg_mutex_trylock(Lock myLock)
 {
 	debuglogger(DEBUG_THREAD, LEVEL_DEBUG, NULL, "Trying to lock " + get_lock_name(myLock));
 	return pthread_mutex_trylock(get_lock(myLock));
+}
+
+void netmrg_cond_signal(Cond myCond)
+{
+	pthread_cond_signal(get_cond(myCond));
+}
+
+void netmrg_cond_wait(Cond myCond, Lock myLock)
+{
+	pthread_cond_wait(get_cond(myCond), get_lock(myLock));
 }

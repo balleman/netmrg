@@ -13,10 +13,14 @@
 #include "common.h"
 
 enum Lock { lkActiveThreads, lkMySQL, lkSNMP, lkRRD, lkSettings, lkPipe };
+enum Cond { cActiveThreads };
 
 void	netmrg_mutex_lock(Lock);
 void	netmrg_mutex_unlock(Lock);
 int		netmrg_mutex_trylock(Lock);
+
+void	netmrg_cond_signal(Cond);
+void	netmrg_cond_wait(Cond, Lock);
 
 #endif
 

@@ -66,6 +66,7 @@ void *child(void * arg)
 
 	netmrg_mutex_lock(lkActiveThreads);
 	active_threads--;
+	netmrg_cond_signal(cActiveThreads);
 	netmrg_mutex_unlock(lkActiveThreads);
 	debuglogger(DEBUG_THREAD, LEVEL_NOTICE, NULL, "Thread Ended.");
 
@@ -149,65 +150,48 @@ void run_netmrg()
 
 	// reading settings isn't necessarily efficient.  storing them locally.
 	int			THREAD_COUNT = get_setting_int(setThreadCount);
-	long int	THREAD_SLEEP = get_setting_int(setThreadSleep);
 
 	int dev_counter = 0;
 
 	// deploy more threads as needed
 	int last_active_threads = 0;
+
+	netmrg_mutex_lock(lkActiveThreads);
+
 	while (dev_counter < num_rows)
 	{
-		if (netmrg_mutex_trylock(lkActiveThreads) != EBUSY)
-		{
-			if (last_active_threads != active_threads)
-			{
-				debuglogger(DEBUG_THREAD, LEVEL_INFO, NULL, "[ACTIVE] Last: " +
-						inttostr(last_active_threads) + ", Now: " +
-						inttostr(active_threads));
-				last_active_threads = active_threads;
-			}
-			while ((active_threads < THREAD_COUNT) && (dev_counter < num_rows))
-			{
-				mysql_row = mysql_fetch_row(mysql_res);
-				int dev_id = strtoint(string(mysql_row[0]));
-				ids[dev_counter] = dev_id;
-				pthread_create(&threads[dev_counter], NULL, child, &ids[dev_counter]);
-				pthread_detach(threads[dev_counter]);
-				dev_counter++;
-				active_threads++;
-			}
+		debuglogger(DEBUG_THREAD, LEVEL_INFO, NULL, "[ACTIVE] Last: " +
+			inttostr(last_active_threads) + ", Now: " +
+			inttostr(active_threads));
+		last_active_threads = active_threads;
 
-			netmrg_mutex_unlock(lkActiveThreads);
-		}
-		else
+		while ((active_threads < THREAD_COUNT) && (dev_counter < num_rows))
 		{
-			debuglogger(DEBUG_THREAD, LEVEL_NOTICE, NULL, "[ACTIVE] Sorry, can't lock thread counter.");
+			mysql_row = mysql_fetch_row(mysql_res);
+			int dev_id = strtoint(string(mysql_row[0]));
+			ids[dev_counter] = dev_id;
+			pthread_create(&threads[dev_counter], NULL, child, &ids[dev_counter]);
+			pthread_detach(threads[dev_counter]);
+			dev_counter++;
+			active_threads++;
 		}
-		usleep(THREAD_SLEEP);
+
+		netmrg_cond_wait(cActiveThreads, lkActiveThreads);
+
 	}
 
 	// wait until all threads exit
-	int canexit = 0;
-	while (canexit == 0)
+	while (active_threads != 0)
 	{
-		if (netmrg_mutex_trylock(lkActiveThreads) != EBUSY)
-		{
-			if (last_active_threads != active_threads)
-			{
-				debuglogger(DEBUG_THREAD, LEVEL_INFO, NULL, "[PASSIVE] Last: " +
-				inttostr(last_active_threads) + ", Now: " +
-				inttostr(active_threads));
-				last_active_threads = active_threads;
-			}
-			if (active_threads == 0) canexit = 1;
-			netmrg_mutex_unlock(lkActiveThreads);
-		}
-		else
-		{
-			debuglogger(DEBUG_THREAD, LEVEL_NOTICE, NULL, "[PASSIVE] Sorry, can't lock thread counter.");
-		}
-		usleep(THREAD_SLEEP);
+		netmrg_cond_wait(cActiveThreads, lkActiveThreads);
+
+		debuglogger(DEBUG_THREAD, LEVEL_INFO, NULL, "[PASSIVE] Last: " +
+			inttostr(last_active_threads) + ", Now: " +
+			inttostr(active_threads));
+			last_active_threads = active_threads;
 	}
+
+	netmrg_mutex_unlock(lkActiveThreads);
 
 	// free active devices results
 	mysql_free_result(mysql_res);
@@ -232,8 +216,6 @@ void run_netmrg()
 	{
 		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Failed to open runtime file for writing.");
 	}
-
-
 }
 
 void show_version()
@@ -245,19 +227,19 @@ void show_version()
 void show_usage()
 {
 	show_version();
-	
+
 	printf("General:\n");
 	printf("-v          Display Version\n");
 	printf("-h          Show usage (you are here)\n");
 	printf("-C <file>   Use alternate configuration file <file>\n");
 	printf("-t <num>    Limits number of simultaneous threads to <num>\n");
-	
+
 	printf("\nMode of Operation:\n");
 	printf("-i <devid>  Recache the interfaces of device <devid>\n");
 	printf("-d <devid>  Recache the disks of device <devid>\n");
 	printf("-K <file>   Parse config file <file> (for syntax checking)\n");
 	printf("If no mode is specified, the default is to gather data for all enabled devices.\n");
-	
+
 	printf("\nLogging:\n");
 	printf("-a          All; display all debug messages.\n");
 	printf("-m          Most; display more than the default.\n");

@@ -3,6 +3,7 @@
   - bug#0000190 - Intelligent Subdev Defaults
   - bug#0000183 - escaping for ifAlias, ifDescr in gatherer
   - bug#0000189 - when applying a template, never duplicate a monitor
+  - bug#0000172 - pthread_cond_wait() instead of busy-wait for thread counter
 
 2004.04.08  v0.15cvs  dwarner
   - added some quoting to lib/graphing.php to prevent db errors
