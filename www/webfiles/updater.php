@@ -130,6 +130,7 @@ function update($dbupdates)
 		echo "No updates were needed for this version of NetMRG<br />\n";
 	} // end else no updates
 	echo "Enjoy your new version of NetMRG!!<br />\n";
+	echo '<a href="index.php">[continue]</a>'."<br />\n";
 	
 	end_page();
 } // end update();
