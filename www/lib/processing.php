@@ -637,6 +637,10 @@ function GetCustomGraphGroups($customgraph_id)
 		{
 			$group_arr = array_merge($group_arr, GetDeviceGroups($r["object_id"]));
 		} // end if device id, get groups
+		else if ($r["object_type"] == "subdevice")
+		{
+			$group_arr = array_merge($group_arr, GetSubdeviceGroups($r["object_id"]));
+		} // end if subdevice id, get groups
 	} // end while we have results
 	
 	return $group_arr;
