@@ -171,7 +171,7 @@ function view_interface_cache()
 		}
 		if (isset($row['ifOperStatus']))
 		{
-			$status .= $GLOBALS['INTERFACE_STATUS'][$row['ifOperStatus']] . " ";
+			$status .= $GLOBALS['INTERFACE_STATUS'][$row['ifOperStatus']] . "&nbsp;";
 		}
 		if (isset($row['ifType']))
 		{
@@ -182,7 +182,10 @@ function view_interface_cache()
 		}
 		$links = "";
 		$s_query = do_query("SELECT sub.id AS id FROM sub_devices sub, sub_dev_variables var 
-					WHERE sub.id=var.sub_dev_id AND var.name='ifIndex' AND var.value={$row['ifIndex']}");
+					WHERE sub.dev_id={$_REQUEST['dev_id']} 
+					AND sub.id=var.sub_dev_id 
+					AND var.name='ifIndex' 
+					AND var.value={$row['ifIndex']}");
 		$s_row = mysql_fetch_array($s_query);
 		if (isset($s_row['id']))
 		{

@@ -669,10 +669,22 @@ function color_block($color)
 	return "<b class='colorbox' style='border:thin solid black;background-color:$color'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
 }
 
+function cond_formatted_link($enabled, $text, $link = "", $caption = "")
+{
+	if ($enabled)
+	{
+		return formatted_link($text, $link, $caption);
+	}
+	else
+	{
+		return formatted_link_disabled($text);
+	}
+}
+
 function formatted_link($text, $link, $caption = "")
 {
 
-	$text = str_replace(" ", "&nbsp;", $text);
+	$text = space_to_nbsp($text);
 
 	if ($caption != "")
 	{

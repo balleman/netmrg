@@ -86,6 +86,7 @@ $INTERFACE_STATUS = array(
 			);
 			
 $INTERFACE_TYPE = array(
+			1	=>	"Other",
                         6	=>	"Ethernet",
 			15	=>	"FDDI",
 			18	=>	"DS1",

@@ -102,10 +102,14 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	else
 	{
 		$dev_results = do_query("
-			SELECT devices.name AS name, devices.ip, devices.id 
+			SELECT devices.name AS name, devices.ip, devices.id, devices.snmp_enabled,  
+				count(snmp.ifIndex) AS interface_count, count(disk.disk_index) AS disk_count
 			FROM dev_parents
-			LEFT JOIN devices ON dev_parents.dev_id=devices.id 
+			LEFT JOIN devices ON dev_parents.dev_id=devices.id
+			LEFT JOIN snmp_interface_cache snmp ON devices.id=snmp.dev_id
+			LEFT JOIN snmp_disk_cache disk ON devices.id=disk.dev_id 
 			WHERE grp_id={$_REQUEST['grp_id']}
+			GROUP BY devices.id
 			ORDER BY $orderby");
 
 	} // end if we have group id or not
@@ -117,16 +121,22 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	{
 		$dev_row = mysql_fetch_array($dev_results);
 		$dev_id  = $dev_row["id"];
+		$links   = 
+		cond_formatted_link($dev_row["interface_count"] > 0, "View Interface Cache", 
+			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface") . "&nbsp;" .
+		cond_formatted_link($dev_row["snmp_enabled"] == 1, "Recache Interfaces", 
+			"recache.php?dev_id=$dev_id&type=interface") . "&nbsp;" .
+		cond_formatted_link($dev_row["disk_count"] > 0, "View Disk Cache", 
+			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk") . "&nbsp;" . 
+		cond_formatted_link($dev_row["snmp_enabled"] == 1, "Recache Disks", 
+			"recache.php?dev_id=$dev_id&type=disk");
 
 		make_display_item("editfield".(($dev_count-1)%2),
 			array("text" => $dev_row["name"], "href" => "sub_devices.php?dev_id=$dev_id"),
-			array("text" => formatted_link("View Interface Cache",	"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface") . "&nbsp;" .
-				formatted_link("Recache Interfaces",	"recache.php?dev_id=$dev_id&type=interface") . "&nbsp;" .
-				formatted_link("View Disk Cache",	"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk") . "&nbsp;" . 
-				formatted_link("Recache Disks",		"recache.php?dev_id=$dev_id&type=disk")),
-			array("text" => formatted_link("View",			"view.php?object_type=device&object_id=$dev_id") . "&nbsp;" .
-				formatted_link("Edit",			"{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST["grp_id"]}") . "&nbsp;" .
-				formatted_link("Delete",		"javascript:del('" . addslashes($dev_row["name"]) . "', '" . $dev_row["id"] . "')"))
+			array("text" => $links),
+			array("text" => formatted_link("View", "view.php?object_type=device&object_id=$dev_id") . "&nbsp;" .
+				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST["grp_id"]}") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('" . addslashes($dev_row["name"]) . "', '" . $dev_row["id"] . "')"))
 		); // end make_display_item();
 
 	} // end devices
