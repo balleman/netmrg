@@ -19,7 +19,7 @@
 		<holder>Brady Alleman and Douglas E. Warner</holder>
 	</copyright>
 	
-	<legalnotice>
+	<legalnotice id="license">
 		<para>This project is licensed under the terms of the MIT License.</para>
 		<para>
 Permission is hereby granted, free of charge, to any person obtaining a copy 
@@ -50,7 +50,7 @@ any company, organization, product, or platform.
 	</legalnotice>
 </bookinfo>
 
-<part>
+<part id="overview">
 <title>Overview</title>
 <chapter id="intro">
 	<title>Introduction</title>
@@ -79,7 +79,7 @@ field inside the 'website' section.
 </chapter>
 </part>
 
-<part>
+<part id="concepts">
 <title>Concepts</title>
 <chapter id="sytemstruct">
 	<title>System Structure</title>
@@ -167,7 +167,7 @@ Event are met, the appropriate response is performed.
 </chapter>
 </part>
 
-<part>
+<part id="installation">
 <title>Installation</title>
 <chapter id="softwarereq">
 	<title>Software Requirements</title>
@@ -464,8 +464,8 @@ their NetMRG administrator.
 </chapter>
 </part>
 
-<part>
-<title>Feature Guides</title>
+<part id="featureguide">
+<title>Feature Guide</title>
 <chapter id="extauth">
 	<title>External Authentication</title>
 	<para>
@@ -516,7 +516,7 @@ their NetMRG administrator.
 </chapter>
 </part>
 
-<part>
+<part id="reference">
 <title>Reference</title>
 <reference id="manpage">
 	<title>Manual Pages</title>
