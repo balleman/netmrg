@@ -161,7 +161,7 @@ function do_add()
 		type='{$_REQUEST['type']}',
 		separator_text='{$_REQUEST['separator_text']}',
 		pos={$_REQUEST['pos']},
-		subdev_id={$_REQUEST['subdev_id']}");
+		subdev_id={$_REQUEST['subdev_id'][0]}");
 	
 	header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&action=list");
 	exit(0);
@@ -177,7 +177,7 @@ function do_edit()
 		graph_id={$_REQUEST['graph_id']},
 		type='{$_REQUEST['type']}',
 		separator_text='{$_REQUEST['separator_text']}',
-		subdev_id={$_REQUEST['subdev_id']}
+		subdev_id={$_REQUEST['subdev_id'][0]}
 		WHERE id={$_REQUEST['id']}");
 
 	header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&action=list");

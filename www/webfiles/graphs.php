@@ -148,7 +148,7 @@ function applytemplates()
 	echo "</td></tr>";
 
 	$sub_dev = (!empty($_REQUEST["sub_dev_id"])) ? $_REQUEST["sub_dev_id"] : -1;
-	make_edit_select_subdevice($sub_dev);
+	make_edit_select_subdevice($sub_dev,array(),'multiple size="10"');
 
 	make_edit_hidden("action", "doapplytemplates");
 	make_edit_hidden("return", $_SERVER["HTTP_REFERER"]);
@@ -160,9 +160,13 @@ function doapplytemplates()
 {
 	check_auth($PERMIT["ReadWrite"]);
 
-	while (list($key,$value) = each($_REQUEST["graph"]))
+	while (list($skey,$svalue) = each($_REQUEST["subdev_id"]))
 	{
-		apply_template($_REQUEST['subdev_id'], $key);
+		while (list($gkey,$gvalue) = each($_REQUEST["graph"]))
+		{
+			apply_template($svalue, $gkey);
+		}
+		reset($_REQUEST["graph"]);
 	}
 
 	header("Location: {$_REQUEST['return']}");

@@ -405,7 +405,7 @@ function do_edit()
 	
 	
 	db_update("$db_cmd monitors SET
-		sub_dev_id='{$_REQUEST['subdev_id']}',
+		sub_dev_id='{$_REQUEST['subdev_id'][0]}',
 		test_type='{$_REQUEST['test_type']}',
 		test_id='{$_REQUEST['test_id']}',
 		test_params='" . $_REQUEST['test_params'] ."',

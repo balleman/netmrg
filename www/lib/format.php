@@ -1171,11 +1171,11 @@ function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 
 } // end make_edit_select_monitor
 
-function make_edit_select_subdevice($subdev_id_cur, $prepended_array = array())
+function make_edit_select_subdevice($subdev_id_cur, $prepended_array = array(), $select_options = "")
 {
 	// Creates an edit select box for the selection of "subdevices"
 
-	make_edit_select("Subdevice:", "subdev_id");
+	make_edit_select("Subdevice:", "subdev_id[]", $select_options);
 
 	// loop through things to put @ the end of the select box
 	while (list($key, $value) = each($prepended_array))

@@ -1,3 +1,6 @@
+2005.03.26  v0.18.2  keb
+  - bug#0000387: Way to apply a template graph to multiple subdevices
+
 2005.03.09  v0.18.2  silfreed
   - updated about, contributions pages
   - updated to 2005 in all docs
