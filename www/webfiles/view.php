@@ -186,7 +186,7 @@ function ss_random_all()
 
 function ss_descendants($group)
 {
-	$q = db_query("SELECT id FROM groups WHERE parent_id = $group");
+	$q = db_query("SELECT id FROM groups WHERE parent_id = $group ORDER BY name");
 	while ($r = db_fetch_array($q))
 	{
 		ss_descendants($r['id']);
