@@ -113,8 +113,8 @@ void create_rrd(DeviceInfo info, RRDInfo rrd)
 void tune_rrd(DeviceInfo info, RRDInfo rrd)
 {
 	string command = "tune " + get_rrd_file(inttostr(info.monitor_id)) + " -a mon_" +
-	       			inttostr(info.monitor_id) + ":" + rrd.max_val +
-				" -i mon_" + inttostr(info.monitor_id) + ":" + rrd.min_val;
+		inttostr(info.monitor_id) + ":" + rrd.max_val +
+		" -i mon_" + inttostr(info.monitor_id) + ":" + rrd.min_val;
 	rrd_cmd(info, command);
 }
 
@@ -124,7 +124,7 @@ void tune_rrd(DeviceInfo info, RRDInfo rrd)
 
 void update_rrd(DeviceInfo info, RRDInfo rrd)
 {
-	string command = "update " + get_rrd_file(inttostr(info.monitor_id)) + " N:" + stripnl(info.curr_val);
+	string command = "update " + get_rrd_file(inttostr(info.monitor_id)) + " N:" + strstripnl(info.curr_val);
 	rrd_cmd(info, command);
 }
 

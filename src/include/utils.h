@@ -79,7 +79,7 @@ bool			vt100_compatible();
 
 // general functions
 int 			file_exists(string filename);
-string  		stripnl(string input);
+string  		strstripnl(string input);
 string			token_replace(string &source, string token, string value);
 u_char			*u_string(string source, u_char *out);
 string			inttostr(long long int int_to_convert);

@@ -41,8 +41,8 @@ int file_exists(string filename)
 	return !(stat(filename.c_str(), &file_stat));
 }
 
-// stripnl - given a string, return a string without new line at the end
-string stripnl(string input)
+// strstripnl - given a string, return a string without new line at the end
+string strstripnl(string input)
 {
 	string temp_str;
 
