@@ -15,11 +15,8 @@ get new netmrg monitoring something (duo)
 
 
 == global ==
-prevent a group being its own parent (during editing)
 page titles should reflect where you're at
 view page should reflect status information (based on status of monitors of graphs)
-monitors.php:
-  add javascript check so you can't enter a minimum < maximum
 ability for user to change their own password
 a device's type can affect the list of tests that can be performed on it
 when looking at a device's graphs, you should be able to click next to it
@@ -28,10 +25,12 @@ ensure proper escaping in all queries
 
 
 == silfreed ==
-checkboxes on most pages - provide for massive deletes, duplications, etc
-ability to go 'up' a level when browsing 'Groups' et al
+'makedist' script
 public website
   - flesh out content
+  - download management (release, devel, cvs tree)
+checkboxes on most pages - provide for massive deletes, duplications, etc
+ability to go 'up' a level when browsing 'Groups' et al
 make netmrg xhtml compliant
 make icons for links on various pages
   - make svg images for most actions
