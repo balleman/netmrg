@@ -61,11 +61,11 @@ string snmp_value(string input)
 {
 	input = input.erase(0, input.find(":",0) + 1);
 	input = input.erase(0, input.find("=",0) + 1);
-	while (input[0] == ' ')
+	while (!input.empty() && input[0] == ' ')
 	{
 		input = input.erase(0, 1);
 	}
-	while (input[input.length() -1] == ' ')
+	while (!input.empty() && input[input.length() -1] == ' ')
 	{
 		input = input.erase(input.length() - 1, input.length());
 	}
