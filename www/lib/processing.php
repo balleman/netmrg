@@ -749,10 +749,10 @@ function delete_group($group_id)
 	
 	// delete the group
 	db_query("DELETE FROM groups WHERE id='$group_id'");
-	
+
 	// delete the associated graphs
 	db_query("DELETE FROM view WHERE object_type='group' AND object_id='$group_id'");
-	
+
 	// get devices in this group
 	$devs_in_grp_handle = db_query("SELECT dev_id FROM dev_parents WHERE grp_id='$group_id'");
 	$devs_in_grp = array();
@@ -760,10 +760,10 @@ function delete_group($group_id)
 	{
 		array_push($devs_in_grp, $r["dev_id"]);
 	} // end while devices in this group
-	
+
 	// delete devices from this group
 	db_query("DELETE FROM dev_parents WHERE grp_id = '$group_id'");
-	
+
 	// for each device we had, if it no longer has parents, delete it
 	foreach ($devs_in_grp as $device_id)
 	{
@@ -773,18 +773,25 @@ function delete_group($group_id)
 			delete_device($device_id);
 		} // end delete if this device has no parents left
 	} // end foreach device we had
-	
+
 } // end delete_group();
 
 
-function delete_device($device_id, $group_id)
+function delete_device($device_id, $group_id = false)
 {
-	// 'unparent' the device
-	db_update("DELETE FROM dev_parents WHERE dev_id = '$device_id' AND grp_id = '$group_id'");
-	
-	/** If this device is not part of any groups anymore, finish deleting it **/
-	$dev_parent_res = db_query("SELECT count(*) AS count FROM dev_parents WHERE dev_id = '$device_id'");
-	$dev_parent_row = db_fetch_array($dev_parent_res);
+	if ($group_id !== false)
+	{
+		// 'unparent' the device
+		db_update("DELETE FROM dev_parents WHERE dev_id = '$device_id' AND grp_id = '$group_id'");
+
+		/** If this device is not part of any groups anymore, finish deleting it **/
+		$dev_parent_res = db_query("SELECT count(*) AS count FROM dev_parents WHERE dev_id = '$device_id'");
+		$dev_parent_row = db_fetch_array($dev_parent_res);
+	}
+	else
+	{
+		$dev_parent_row["count"] = 0;
+	}
 
 	if ($dev_parent_row["count"] == 0)
 	{
@@ -793,13 +800,13 @@ function delete_device($device_id, $group_id)
 
 		// remove the interface for the device
 		db_update("DELETE FROM snmp_interface_cache WHERE dev_id = '$device_id'");
-		
+
 		// remove the disk cache for the device
 		db_update("DELETE FROM snmp_disk_cache WHERE dev_id = '$device_id'");
-		
+
 		// remove associated graphs
 		db_update("DELETE FROM view WHERE object_type='device' AND object_id = '$device_id'");
-		
+
 		$subdev_handle = db_query("SELECT id FROM sub_devices WHERE dev_id = '$device_id'");
 		
 		while ($subdev_row = db_fetch_array($subdev_handle))
