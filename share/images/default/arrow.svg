@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"
+[
+ <!ATTLIST svg
+  xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink">
+]>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   id="svg1"
+   sodipodi:version="0.30.1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   width="500pt"
+   height="500pt"
+   sodipodi:docbase="/home/silfreed/cvs/netmrg/images/default/"
+   sodipodi:docname="/home/silfreed/cvs/netmrg/images/default/arrow.svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     gridspacingx="28.3465pt"
+     gridspacingy="28.3465pt"
+     showgrid="true" />
+  <path
+     style="fill:#ffa500;fill-rule:evenodd;stroke:#ffa500;stroke-opacity:1;stroke-width:1.25;stroke-linejoin:miter;stroke-linecap:butt;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1;"
+     d="M 312.5 -3.8147e-05 C 312.5 -3.8147e-05 125 625 125 625 C 125 625 312.5 625 312.5 625 C 312.5 625 312.5 1.24996 312.5 -3.8147e-05 z "
+     id="path126" />
+  <path
+     style="fill:#ff8d00;fill-rule:evenodd;stroke:#ff8d00;stroke-opacity:1;stroke-width:1.25;stroke-linejoin:miter;stroke-linecap:butt;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1;"
+     d="M 312.5 -3.8147e-05 C 312.5 -3.8147e-05 312.5 625 312.5 625 C 312.5 625 500 625 500 625 C 500 625 312.5 2.49996 312.5 -3.8147e-05 z "
+     id="path127" />
+  <path
+     style="fill:#ffa626;fill-rule:evenodd;stroke:#ffa525;stroke-opacity:1;stroke-width:1.25;stroke-linejoin:miter;stroke-linecap:butt;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1;"
+     d="M 125 625 C 125 625 312.5 562.5 312.5 562.5 C 312.5 562.5 500 625 500 625 C 500 625 126.25 627.5 125 625 z "
+     id="path128" />
+  <path
+     style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-opacity:1;stroke-width:5;stroke-linejoin:miter;stroke-linecap:butt;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1;"
+     d="M 312.5 -3.8147e-05 C 312.5 -3.8147e-05 125 625 125 625 C 125 625 500 625 500 625 C 500 625 312.5 4.99996 312.5 -3.8147e-05 z "
+     id="path125" />
+</svg>
