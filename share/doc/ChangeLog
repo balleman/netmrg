@@ -2,6 +2,8 @@
   - bug#0000005: where id != '$grp_id' should do the trick
   - bug#0000006: spiffy javascript to prevent min >= max in monitors.php
   - bug#0000007: spiffy javascript to write a 'U' in the min/max column in monitors.php
+  - bug#0000004: can't figure out how to speed things up
+  - added a 'makedist' script that will make a tarball out of the latest cvs
 
 2003.07.06  v0.8  silfreed
   - enclose_graph checks for auth now

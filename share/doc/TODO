@@ -25,7 +25,6 @@ ensure proper escaping in all queries
 
 
 == silfreed ==
-'makedist' script
 public website
   - flesh out content
   - download management (release, devel, cvs tree)
