@@ -1,23 +1,26 @@
-0.79.0a
-	- First version with a change log.
-	- alternating table row colors
-	- numeric sorting of if_index in snmp_cache
-	- working multiple simultaneous pthreads
-	- tiered deletion (facilitating orphan prevention)
-	- make color selections static
-        - allow for nested groups
-	- removed cookie expiration for device tree
-	- fixed some major inefficiencies in the device tree
-	- popup color chooser
-	- javascript-based delete confirmation
 
-0.79.1a
-        - sub-devices and database restructuring.
-	- menu and title bar redesign
+== versions before 2002.11.19 didn't have a date assocated with them ==
+0.79.3a
+  - CVS-ification
+  - continue rewrite of C++ code
 
 0.79.2a
-	- reconstruction of C++ code
+  - reconstruction of C++ code
 
-0.79.3a
-	- CVS-ification
-	- continue rewrite of C++ code
+0.79.1a
+  - sub-devices and database restructuring.
+  - menu and title bar redesign
+
+0.79.0a
+  - First version with a change log.
+  - alternating table row colors
+  - numeric sorting of if_index in snmp_cache
+  - working multiple simultaneous pthreads
+  - tiered deletion (facilitating orphan prevention)
+  - make color selections static
+  - allow for nested groups
+  - removed cookie expiration for device tree
+  - fixed some major inefficiencies in the device tree
+  - popup color chooser
+  - javascript-based delete confirmation
+
