@@ -158,9 +158,13 @@ function get_image_by_name($img_name)
 		case "arrow" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow']}";
 			break;
-		case "viewgraph" :
-			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['viewgraph']}";
+		case "viewgraph-on" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['viewgraph-on']}";
 			break;
+		case "viewgraph-off" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['viewgraph-off']}";
+			break;
+
 
 		// LEDs
 		case "blue_led_on" :
