@@ -50,7 +50,6 @@ int active_threads = 0;
 // child - the thread spawned to process each device
 void *child(void * arg)
 {
-
 	int device_id = *(int *) arg;
 
 	//mysql_thread_init();
@@ -79,7 +78,7 @@ void run_netmrg()
 	FILE			*lockfile;
 	long int		num_rows	= 0;
 	pthread_t*		threads		= NULL;
-	int*			ids		= NULL;
+	int*			ids			= NULL;
 	string			temp_string;
 
 	start_time = time( NULL );
