@@ -23,7 +23,7 @@ else
 } // end if action set or not
 
 
-if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
+if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd") || ($action == "deletemulti"))
 {
 
 if (!empty($action) && ($action == "doedit" || $action == "doadd"))
@@ -81,11 +81,31 @@ if (!empty($action) && $action == "dodelete")
 
 } // done deleting
 
+if (!empty($action) && $action == "deletemulti")
+{
+	if (isset($_REQUEST["user"]))
+	{
+		while (list($key,$value) = each($_REQUEST["user"]))
+		{
+			db_update("DELETE FROM user WHERE id='$key'");
+		}
+	}
+	header("Location: {$_SERVER['PHP_SELF']}");
+	exit(0);
+
+} // done multi-deleting
+
 
 // Display a list
 
 begin_page("users.php", "User Management");
+js_checkbox_utils();
+?>
+<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+<input type="hidden" name="action" value="">
+<?php
 make_display_table("Users", "", 
+	array("text" => checkbox_toolbar()),
 	array("text" => "User ID"),
 	array("text" => "Name"),
 	array("text" => "Permissions")
@@ -104,6 +124,7 @@ for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 	$user_id  = $user_row["id"];
 
 	make_display_item("editfield".(($user_count-1)%2),
+		array("checkboxname" => "user", "checkboxid" => $user_id),
 		array("text" => $user_row["user"]),
 		array("text" => $user_row["fullname"]),
 		array("text" => $GLOBALS['PERMIT_TYPES'][$user_row['permit']]),
@@ -115,8 +136,15 @@ for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 
 } // end users
 
+echo "<tr>\n";
+echo '<td colspan="5" class="editheader" nowrap="nowrap">';
+echo '<a class="editheaderlink" onclick="document.form.action.value=\'deletemulti\';javascript:if(window.confirm(\'Are you sure you want to delete the checked users ?\')){document.form.submit();}" href="#">Delete All Checked</a>';
+echo "</td>";
+echo "</tr>\n";
+
 ?>
 </table>
+</form>
 <?php
 } // End if no action
 
