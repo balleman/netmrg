@@ -194,7 +194,7 @@ Event are met, the appropriate response is performed.
 					<listitem><para><filename>net-snmp</filename></para></listitem>
 					<listitem><para><filename>libxml2</filename></para></listitem>
 					<listitem><para><filename>mod_php4</filename> (specify MySQL support)</para></listitem>
-					<listitem><para><filename>gcc32</filename></para></listitem>
+					<listitem><para><filename>lang/gcc32</filename></para></listitem>
 				</itemizedlist>
 				</listitem>
 				<listitem>
