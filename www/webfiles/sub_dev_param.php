@@ -22,7 +22,7 @@ if (empty($_REQUEST["action"]))
 	check_auth(1);
         begin_page();
 
-	$results = do_query("SELECT name, value FROM sub_dev_variables WHERE sub_dev_id=$sub_dev_id");
+	$results = do_query("SELECT name, value FROM sub_dev_variables WHERE sub_dev_id={$_REQUEST['sub_dev_id']}");
 
 	$custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}";
 	make_display_table("Parameters for " . get_sub_device_name($_REQUEST["sub_dev_id"]), "Name", "", "Value", "");
