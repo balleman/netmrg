@@ -61,11 +61,13 @@ foreach my $ver (@versions)
 	{
 		`rm -rf "$docfolder/CVSHEAD"`;
 		rename("$docfolder/$ver", "$docfolder/CVSHEAD");
+		`find $docfolder/CVSHEAD -name \*.html -exec tidy -indent -asxhtml -quiet -modify {} \;`
 	} # end if head
 	elsif ($ver =~ /^netmrg-(\d+)\_(\S+)/)
 	{
 		`rm -rf "$docfolder/NetMRG-$1.$2"`;
 		rename("$docfolder/$ver", "$docfolder/NetMRG-$1.$2");
+		`find $docfolder/NetMRG-$1.$2 -name \*.html -exec tidy -indent -asxhtml -quiet -modify {} \;`
 	} # end if ver looks like netmrg-0_10
 } # end foreach version
 
