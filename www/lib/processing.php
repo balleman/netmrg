@@ -358,6 +358,13 @@ function get_graph_name($graph_id)
 	return $graph_row["name"];
 }
 
+function get_group_name($grp_id)
+{
+	$grp_query = db_query("SELECT name FROM groups WHERE id=$grp_id");
+	$grp_row   = db_fetch_array($grp_query);
+	return $grp_row["name"];
+}
+
 function get_device_name($dev_id)
 {
 	$dev_query = db_query("SELECT name FROM devices WHERE id=$dev_id");
@@ -367,6 +374,13 @@ function get_device_name($dev_id)
 
 function get_sub_device_name($sub_dev_id)
 {
+	$dev_query = db_query("SELECT name FROM sub_devices WHERE id = $sub_dev_id");
+	$row = db_fetch_array($dev_query);
+	return $row["name"];
+}
+
+function get_dev_sub_device_name($sub_dev_id)
+{
 	$dev_query = db_query("
 		SELECT devices.name AS dev_name, sub_devices.name AS sub_name
 		FROM sub_devices
@@ -374,6 +388,13 @@ function get_sub_device_name($sub_dev_id)
 		WHERE sub_devices.id = $sub_dev_id");
 	$row = db_fetch_array($dev_query);
 	return $row["dev_name"] . " - " . $row["sub_name"];
+}
+
+function get_event_name($event_id)
+{
+	$e_query = db_query("SELECT name FROM events WHERE id=$event_id");
+	$e_row   = db_fetch_array($e_query);
+	return $e_row["name"];
 }
 
 

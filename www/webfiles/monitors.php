@@ -85,9 +85,10 @@ else
 function do_list()
 {
 	begin_page("monitor.php", "Monitors", 1);
+	DrawGroupNavHistory("sub_device", $_REQUEST["sub_dev_id"]);
 
 	js_confirm_dialog("del", "Are you sure you want to delete monitor ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&mon_id=");
-	make_display_table("Monitors for " . get_sub_device_name($_REQUEST["sub_dev_id"]),
+	make_display_table("Monitors for " . get_dev_sub_device_name($_REQUEST["sub_dev_id"]),
 		"{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}",
 		array("text" => "Test"),
 		array("text" => "Data"),

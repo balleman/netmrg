@@ -34,6 +34,7 @@ function do_display()
 
 	check_auth(1);
 	begin_page("events.php", "Events");
+	DrawGroupNavHistory("monitor", $_REQUEST["mon_id"]);
 
 	$title = "Events for " . get_monitor_name($_REQUEST['mon_id']);
 	js_confirm_dialog("del", "Are you sure you want to delete event ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&mon_id={$_REQUEST['mon_id']}&id=");

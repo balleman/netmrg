@@ -17,6 +17,7 @@ if (!isset($_REQUEST["action"]))
 
 	check_auth(1);
 	begin_page("sub_devices.php", "Sub Device");
+	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 	js_confirm_dialog("del", "Are you sure you want to delete subdevice ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&dev_id={$_REQUEST['dev_id']}&sub_dev_id=");
 
 	$results = db_query("SELECT name, id, type FROM sub_devices WHERE sub_devices.dev_id={$_REQUEST['dev_id']} ORDER BY name");

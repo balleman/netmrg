@@ -86,6 +86,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 
 	} // end if we have a group id
 	begin_page("devices.php", "Devices");
+	DrawGroupNavHistory("group", $_REQUEST["grp_id"]);
 	js_confirm_dialog("del", "Are you sure you want to delete device ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&grp_id={$_REQUEST['grp_id']}&dev_id=");
 	make_display_table($title, $addlink,
 		array("text" => "Name", "href" => "{$_SERVER['PHP_SELF']}?orderby=name"),
@@ -153,7 +154,6 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "add")
 {
 	check_auth(2);
 	begin_page("devices.php", "Add Device");
-
 	echo("<big><b>
 		<a href='{$_SERVER['PHP_SELF']}?grp_id={$_REQUEST['grp_id']}&action=addnew'>Create a new device</a><br><br>
 		<a href='{$_SERVER['PHP_SELF']}?grp_id={$_REQUEST['grp_id']}&action=addtogrp>Add an existing device to this group</a>
@@ -180,6 +180,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	// Display editing screen
 	check_auth(2);
 	begin_page("devices.php", "Edit Device");
+
 	if ($_REQUEST["action"] == "addnew")
 	{
 		$dev_id = 0;

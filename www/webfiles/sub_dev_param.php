@@ -17,12 +17,13 @@ if (empty($_REQUEST["action"]))
 	// Display the list of sub-devices for a particular device.
 
 	begin_page("sub_dev_param.php", "Sub Device Parameters");
+	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 	js_confirm_dialog("del", "Are you sure you want to delete subdevice parameter ", "", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&name=");
 
 
 	$results = db_query("SELECT name, value FROM sub_dev_variables WHERE type='static' AND sub_dev_id={$_REQUEST['sub_dev_id']}");
 
-	make_display_table("Configured Parameters for " . get_sub_device_name($_REQUEST["sub_dev_id"]), 
+	make_display_table("Configured Parameters for " . get_dev_sub_device_name($_REQUEST["sub_dev_id"]), 
 		"{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}",
 		array("text" => "Name"),
 		array("text" => "Value")
@@ -43,7 +44,7 @@ if (empty($_REQUEST["action"]))
 
 	$results = db_query("SELECT name, value FROM sub_dev_variables WHERE type='dynamic' AND sub_dev_id={$_REQUEST['sub_dev_id']}");
 
-	make_display_table("Dynamic Parameters for " . get_sub_device_name($_REQUEST["sub_dev_id"]), "#",
+	make_display_table("Dynamic Parameters for " . get_dev_sub_device_name($_REQUEST["sub_dev_id"]), "#",
 		array("text" => "Name"),
 		array("text" => "Value")
 	); // end make_display_table();

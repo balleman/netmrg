@@ -148,6 +148,87 @@ function end_page()
 } // end end_page()
 
 
+/**
+* DrawGroupNavHistory($type, $id)
+*
+* draws a nav bar along the tops of the pages under 'Groups'
+* and keeps a history of where you've been
+*
+* $type = (group, device, sub_device, monitor, event)
+* $id = <id of type you are in>
+*/
+function DrawGroupNavHistory($type, $id)
+{
+	// setup array to hold group nav
+	if (!isset($_SESSION["netmrgsess"]["grpnav"]) || !is_array($_SESSION["netmrgsess"]["grpnav"]))
+	{
+		$_SESSION["netmrgsess"]["grpnav"] = array();
+		$_SESSION["netmrgsess"]["grpnav"]["group"] = "";
+		$_SESSION["netmrgsess"]["grpnav"]["device"] = "";
+		$_SESSION["netmrgsess"]["grpnav"]["sub_device"] = "";
+		$_SESSION["netmrgsess"]["grpnav"]["monitor"] = "";
+		$_SESSION["netmrgsess"]["grpnav"]["event"] = "";
+	} // end if we haven't done this yet
+	
+	// for each type, clear out everything below it
+	switch ($type)
+	{
+		case "group" :
+			$_SESSION["netmrgsess"]["grpnav"]["group"] = "";
+		case "device" :
+			$_SESSION["netmrgsess"]["grpnav"]["device"] = "";
+		case "sub_device" :
+			$_SESSION["netmrgsess"]["grpnav"]["sub_device"] = "";
+		case "monitor" :
+			$_SESSION["netmrgsess"]["grpnav"]["monitor"] = "";
+		case "event" :
+			$_SESSION["netmrgsess"]["grpnav"]["event"] = "";
+	} // end if type
+	
+	// assign the id to the type
+	$_SESSION["netmrgsess"]["grpnav"][$type] = $id;
+	
+?>
+	<table style="border-collapse: collapse;" width="100%" cellpadding="0" cellspacing="0" border="0">
+	<tr><td class="editmainheader">
+		History : 
+<?php
+	if (!empty($_SESSION["netmrgsess"]["grpnav"]["group"]))
+	{
+		echo '<a href="devices.php?grp_id='.$_SESSION["netmrgsess"]["grpnav"]["group"];
+		echo '">'.get_group_name($_SESSION["netmrgsess"]["grpnav"]["group"]);
+		echo "</a>\n";
+	} // end if ! empty group
+	if (!empty($_SESSION["netmrgsess"]["grpnav"]["device"]))
+	{
+		echo ' : <a href="sub_devices.php?dev_id='.$_SESSION["netmrgsess"]["grpnav"]["device"];
+		echo '">'.get_device_name($_SESSION["netmrgsess"]["grpnav"]["device"]);
+		echo "</a>\n";
+	} // end if ! empty device
+	if (!empty($_SESSION["netmrgsess"]["grpnav"]["sub_device"]))
+	{
+		echo ' : <a href="monitors.php?sub_dev_id='.$_SESSION["netmrgsess"]["grpnav"]["sub_device"];
+		echo '">'.get_sub_device_name($_SESSION["netmrgsess"]["grpnav"]["sub_device"]);
+		echo "</a>\n";
+	} // end if ! empty sub_device
+	if (!empty($_SESSION["netmrgsess"]["grpnav"]["monitor"]))
+	{
+		echo ' : <a href="events.php?mon_id='.$_SESSION["netmrgsess"]["grpnav"]["monitor"];
+		echo '">'.get_short_monitor_name($_SESSION["netmrgsess"]["grpnav"]["monitor"]);
+		echo "</a>\n";
+	} // end if ! empty monitor
+	if (!empty($_SESSION["netmrgsess"]["grpnav"]["event"]))
+	{
+		echo ' : <a href="responses.php?event_id='.$_SESSION["netmrgsess"]["grpnav"]["event"];
+		echo '">'.get_event_name($_SESSION["netmrgsess"]["grpnav"]["event"]);
+		echo "</a>\n";
+	} // end if ! empty event
+?>
+	</td></tr>
+	</table>
+<?php
+} // end DrawGroupNavHistory();
+
 
 
 /*********************************************
@@ -661,7 +742,7 @@ function make_edit_select_subdevice($subdev_id_cur, $prepended_array = array())
 
 		$subdev_row = db_fetch_array($subdev_results);
 		$subdev_id = $subdev_row["id"];
-		$subdev_name = get_sub_device_name($subdev_id);
+		$subdev_name = get_dev_sub_device_name($subdev_id);
 	        make_edit_select_option($subdev_name, $subdev_id, $subdev_id_cur == $subdev_id);
 	}
 
