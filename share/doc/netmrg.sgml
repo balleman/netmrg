@@ -430,7 +430,7 @@ their NetMRG administrator.
 					<para>Click on the name of your new group.  You are now looking at an (empty) list of devices in your new group.</para>
 				</listitem>
 				<listitem>
-					<para>Click on <guilabel>Add</guilabel>.</para>
+					<para>Click on <guilabel>Add</guilabel> in the Monitored Devices section.</para>
 				</listitem>
 				<listitem>
 					<para>Click on <guilabel>Create a new device</guilabel>.</para>

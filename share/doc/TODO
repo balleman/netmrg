@@ -64,6 +64,7 @@ version bump in:
   www/webfiles/updater.php
   bugs.netmrg.net
 copy items from DBChangeLog to www/webfiles/updater.php
+put release notes in docs
 generate new template database
 generate new docs
 test tutorial
