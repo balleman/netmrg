@@ -1,3 +1,6 @@
+2003.07.07  v0.8  silfreed
+  - bug#0000005: where id != '$grp_id' should do the trick
+
 2003.07.06  v0.8  silfreed
   - enclose_graph checks for auth now
   - added an 'ACCESS DENIED' png for get_graph auth
