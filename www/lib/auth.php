@@ -115,7 +115,7 @@ function check_auth($level)
 	} // end if they aren't logged in
 
 	// if they don't have enough permissions
-	else if (get_permit() < $level)
+	else if ($_SESSION["netmrgsess"]["permit"] < $level)
 	{
 		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
 		exit(0);
