@@ -205,6 +205,7 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 			if ((mysql_row[4] != NULL) && (index != "ifAlias"))
 			{
 				info->parameters.push_front(ValuePair("ifAlias", mysql_row[4]));
+				parse_fancy_alias(info, mysql_row[4]);
 			}
 
 			if ((mysql_row[5] != NULL) && (index != "ifMAC"))
@@ -220,6 +221,16 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 	 	mysql_free_result(mysql_res);
 	}
 	return retval;
+}
+
+void parse_fancy_alias(DeviceInfo *info, string alias)
+{
+	// see if the interface description looks parsible, and parse it.
+	if (alias.find("(",0) != string::npos)
+	{
+		info->parameters.push_front(ValuePair("ifCktName", alias.substr(0, alias.find("(",0))));
+		info->parameters.push_front(ValuePair("ifCktID", alias.substr(alias.find("(",0) + 1, alias.length() - alias.find("(",0) - 2)));
+	}
 }
 
 int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)

@@ -23,6 +23,9 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 
 	debuglogger(DEBUG_SUBDEVICE, LEVEL_INFO, &info, "Starting Subdevice.");
 
+	// setup subdevice specific parameters
+	info.parameters.push_front(ValuePair("subdev_name", info.subdevice_name));
+
 	// create an array containing the parameters for the subdevice
 
 	string query =
@@ -149,15 +152,19 @@ uint process_sub_devices(DeviceInfo info, MYSQL *mysql)
 	MYSQL_ROW	mysql_row;
 	uint		status = 0;
 
-	string query = string("SELECT id, type FROM sub_devices WHERE dev_id=") + inttostr(info.device_id);
+	string query = string("SELECT id, type, name FROM sub_devices WHERE dev_id=") + inttostr(info.device_id);
 
 	mysql_res = db_query(mysql, &info, query);
 
 	for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
 	{
 		mysql_row = mysql_fetch_row(mysql_res);
+
+		// setup subdevice variables
 		info.subdevice_id 	= strtoint(mysql_row[0]);
 		info.subdevice_type	= strtoint(mysql_row[1]);
+		info.subdevice_name = mysql_row[2];
+
 		status = worstof(status, process_sub_device(info, mysql));
 	}
 

@@ -65,6 +65,7 @@ struct DeviceInfo
 
 	string name;
 	string ip;
+	string subdevice_name;
 	string snmp_read_community;
 	string test_params;
 	string curr_val;

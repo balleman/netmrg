@@ -22,4 +22,7 @@ void do_snmp_disk_recache(DeviceInfo *info, MYSQL *mysql);
 int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql);
 int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql);
 
+// misc functions
+void parse_fancy_alias(DeviceInfo *info, string alias);
+
 #endif
