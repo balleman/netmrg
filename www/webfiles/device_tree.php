@@ -195,7 +195,7 @@ function draw_group($grp_id, $depth, &$rowcount)
 		if (GetNumAssocItems("group", $grp_id) > 0)
 		{
 			make_display_item("editfield".($rowcount%2),
-				array("text" => "<img border=0 height=1 width=" . ($depth * 8) . "><img src=\"" . $img . "\" border=\"0\"> " . $grp_row["name"], 
+				array("text" => "<img border=0 height=1 width=" . ($depth * 8) . "><img src=\"" . $img . "\" border=\"0\" width=\"9\" height=\"9\"> " . $grp_row["name"], 
 					"href" => $_SERVER["PHP_SELF"] . "?action=$grp_action&groupid=$grp_id"),
 				array("text" => '<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />',
 					"href" => "view.php?object_type=group&object_id=$grp_id"),
@@ -209,7 +209,7 @@ function draw_group($grp_id, $depth, &$rowcount)
 		else
 		{
 			make_display_item("editfield".($rowcount%2),
-				array("text" => "<img border=0 height=1 width=" . ($depth * 8) . "><img src=\"" . $img . "\" border=\"0\"> " . $grp_row["name"], 
+				array("text" => "<img border=0 height=1 width=" . ($depth * 8) . "><img src=\"" . $img . "\" border=\"0\" width=\"9\" height=\"9\"> " . $grp_row["name"], 
 					"href" => $_SERVER["PHP_SELF"] . "?action=$grp_action&groupid=$grp_id"),
 				array("text" => '<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="center" />',
 					"href" => "view.php?object_type=group&object_id=$grp_id"),
@@ -255,7 +255,7 @@ function draw_group($grp_id, $depth, &$rowcount)
 				{
 					make_display_item("editfield".($rowcount%2),
 						array(),
-						array("text" => "<img src=\"" . $img . "\" border=\"0\"> " . $dev_row["name"],
+						array("text" => "<img src=\"" . $img . "\" border=\"0\" width=\"9\" height=\"9\"> " . $dev_row["name"],
 							"href" => $_SERVER["PHP_SELF"] . "?action=$device_action&deviceid=$device_id"),
 						array("text" => '<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />',
 							"href" => "view.php?object_type=device&object_id=$device_id"),
@@ -269,7 +269,7 @@ function draw_group($grp_id, $depth, &$rowcount)
 				{
 					make_display_item("editfield".($rowcount%2),
 						array(),
-						array("text" => "<img src=\"" . $img . "\" border=\"0\"> " . $dev_row["name"],
+						array("text" => "<img src=\"" . $img . "\" border=\"0\" width=\"9\" height=\"9\"> " . $dev_row["name"],
 							"href" => $_SERVER["PHP_SELF"] . "?action=$device_action&deviceid=$device_id"),
 						array("text" => '<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="center" />',
 							"href" => "view.php?object_type=device&object_id=$device_id"),
@@ -308,7 +308,7 @@ function draw_group($grp_id, $depth, &$rowcount)
 							make_display_item("editfield".($rowcount%2),
 								array(),
 								array(),
-								array("text" => "<img src=\"" . $img . "\" border=\"0\"> " . $subdev_row['name'],
+								array("text" => "<img src=\"" . $img . "\" border=\"0\" width=\"9\" height=\"9\"> " . $subdev_row['name'],
 									"href" => $_SERVER["PHP_SELF"] . "?action=$subdev_action&subdevid=$subdev_id"),
 								array("text" => '<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />',
 									"href" => "view.php?object_type=subdevice&object_id=$subdev_id"),
@@ -322,7 +322,7 @@ function draw_group($grp_id, $depth, &$rowcount)
 							make_display_item("editfield".($rowcount%2),
 								array(),
 								array(),
-								array("text" => "<img src=\"" . $img . "\" border=\"0\"> " . $subdev_row['name'],
+								array("text" => "<img src=\"" . $img . "\" border=\"0\" width=\"9\" height=\"9\"> " . $subdev_row['name'],
 									"href" => $_SERVER["PHP_SELF"] . "?action=$subdev_action&subdevid=$subdev_id"),
 								array("text" => '<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="center" />',
 									"href" => "view.php?object_type=subdevice&object_id=$subdev_id"),
@@ -359,7 +359,7 @@ function draw_group($grp_id, $depth, &$rowcount)
 									array(),
 									array(),
 									array(),
-									array("text" => "<img src=\"" . $img . "\" border=\"0\"> " . get_short_monitor_name($mon_row["id"]),
+									array("text" => "<img src=\"" . $img . "\" border=\"0\" width=\"9\" height=\"9\"> " . get_short_monitor_name($mon_row["id"]),
 										"href" => $_SERVER["PHP_SELF"] . "?action=$monitor_action&monid=$mon_id"),
 									array(),
 									array("text" => get_img_tag_from_status($mon_row['status']) . '<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center"/>',
