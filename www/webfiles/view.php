@@ -26,7 +26,11 @@ view_check_auth();
 refresh_tag();
 begin_page();
 
-$full_edit = 0;
+if (!empty($_REQUEST["full_edit"])) {
+	$full_edit = $_REQUEST["full_edit"];
+} else {
+	$full_edit = 0;
+} // end if full_edit was set or not
 
 if (!empty($_REQUEST["action"])) {
 	if ($_REQUEST["action"] == "doadd")
@@ -59,14 +63,14 @@ if (!empty($_REQUEST["action"])) {
 
 } // end if an action was defined
 
-$query = do_query("
-	SELECT * FROM view
-	LEFT JOIN graphs ON view.graph_id=graphs.id
-	WHERE pos_id_type=".$_REQUEST["pos_id_type"]." 
-	AND pos_id=".$_REQUEST["pos_id"]."
-	ORDER BY pos");
-
-$num = mysql_num_rows($query);
+$view_select = "
+    SELECT * FROM view
+    LEFT JOIN graphs ON view.graph_id=graphs.id
+    WHERE pos_id_type=".$_REQUEST["pos_id_type"]."
+    AND pos_id=".$_REQUEST["pos_id"]."
+    ORDER BY pos";
+$view_result = do_query($view_select);
+$num = mysql_num_rows($view_result);
 
 if (!isset($_REQUEST["action"]))
 {
@@ -77,7 +81,7 @@ if (!isset($_REQUEST["action"]))
 
 		for ($i = 0; $i < $num; $i++)
 		{
-			$row = mysql_fetch_array($query);
+			$row = mysql_fetch_array($view_result);
 
 			if ($row["graph_id_type"] == 0)
 			{
@@ -96,25 +100,25 @@ if (!isset($_REQUEST["action"]))
 
 		if (get_permit() > 1)
 		{
-			print("<a href='./view.php?pos_id_type=$pos_id_type&pos_id=$pos_id&full_edit=1'>[Edit]</a>");
+			print("<a href='./view.php?pos_id_type=".$_REQUEST["pos_id_type"]."&pos_id=".$_REQUEST["pos_id"]."&full_edit=1'>[Edit]</a>");
 		}
 
 	}
 	else
 	{
-		$custom_add_link = "./view.php?pos_id_type=$pos_id_type&pos_id=$pos_id&action=add";
+		$custom_add_link = "./view.php?pos_id_type=".$_REQUEST["pos_id_type"]."&pos_id=".$_REQUEST["pos_id"]."&action=add";
 		make_display_table("Edit View","Graph","");
 
 		for ($i = 0; $i < $num; $i++)
 		{
-			$row = mysql_fetch_array($query);
+			$row = mysql_fetch_array($view_result);
 			make_display_item($row["name"],"",
 				formatted_link("Move Up", "$SCRIPT_NAME?action=move&val=" . ($row["pos"] - 1) . "&pos_id=" . $row["pos_id"] . "&pos_id_type=" . $row["pos_id_type"] . "&graph_id=" . $row["graph_id"] . "&full_edit=1") . "&nbsp;" .
 				formatted_link("Move Down", "$SCRIPT_NAME?action=move&val=" . ($row["pos"] + 1) . "&pos_id=" . $row["pos_id"] . "&pos_id_type=" . $row["pos_id_type"] . "&graph_id=" . $row["graph_id"] . "&full_edit=1") . "&nbsp;" .
 				formatted_link("Delete","./view.php?action=delete&pos_id_type=$pos_id_type&pos_id=$pos_id&graph_id=" . $row["graph_id"]), "");
 		}
 
-		print("</table><a href='./view.php?pos_id_type=$pos_id_type&pos_id=$pos_id&full_edit=0'>[Done Editing]</a>");
+		print("</table><a href='./view.php?pos_id_type=".$_REQUEST["pos_id_type"]."&pos_id=".$_REQUEST["pos_id"]."&full_edit=0'>[Done Editing]</a>");
 
 	}
 }
