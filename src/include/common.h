@@ -31,5 +31,9 @@
 #  define memmove(d, s, n) memcpy ((d), (s), (n))
 #endif
 
+#if HAVE_NETINET_IN_H
+#  include <netinet/in.h>
+#endif
+
 #endif /* NETMRG_COMMON_H */
 
