@@ -33,7 +33,7 @@ begin_page("about.php", "About");
 Version <b><?php echo $GLOBALS["netmrg"]["version"]; ?></b><br>
 <br><br>
 
-Copyright &copy; 2001-2002 <a href="http://thtech.net/brady/">Brady Alleman</a> and <a href="http://silfreed.net/">Doug Warner</a>.<br>
+Copyright &copy; 2001-2002 <a href="http://thtech.net/brady/">Brady Alleman</a> and <a href="http://silfreed.net/">Douglas E. Warner</a>.<br>
 
 </big>
 <big>
