@@ -1,6 +1,7 @@
 2004.06.15  v0.17cvs  balleman
   - bug#0000211 - colorized gatherer output
-
+  - bug#0000234 - change time frame for a view
+  
 2004.06.14  v0.17cvs  balleman
   - version bump to 0.17cvs
   - bug#0000233 - 'disable snmp uptime check' should default to off

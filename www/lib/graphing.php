@@ -47,77 +47,39 @@ function get_graph_command($type, $id, $hist)
 
 	// Determine the time domain of the graph
 
-	$end_time = "-360";
-
-	switch ($hist)
-	{
-		case 0:
-			// daily view - 30 hours
-			$start_time = "-108000";
-			$break_time = (time() - (date("s") + date("i") * 60 + date("H") * 3600));
-			$sum_label = "24 Hour";
-			$sum_time = "86400";
-			//$break_time = (time() - (time() % 86400) + (5 * 3600));
-			break;
-		case 1:
-			// weekly view - 9 days
-			$start_time = "-777600";
-			$break_time = (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("w") * 86400));
-			$sum_label = "7 Day";
-			$sum_time = "604800";
-			//$break_time = (time() - (time() % 604800) + (5 * 3600));
-			break;
-		case 2:
-			// montly view - 6 weeks
-			$start_time = "-3628800";
-			$break_time = (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("d") * 86400));
-			$sum_label = "4 Week";
-			$sum_time = "2419200";
-			//$break_time = (time() - (time() % 2419200) + (5 * 3600));
-			break;
-		case 3:
-			// yearly view - 425 days
-			$start_time = "-36720000";
-			$break_time = (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("z") * 86400));
-			$sum_label = "1 Year";
-			$sum_time = "31536000";
-			//$break_time = (time() - (time() % 31536000) + (5 * 3600));
-			break;
-		}
-
 	switch ($type)
 	{
-		case "mon":				return monitor_graph_command($id, $start_time, $end_time);
-		case "tinymon":			return tiny_monitor_graph_command($id, $start_time, $end_time);
-		case "custom":			return custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, false, false);
-		case "custom_item":		return custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, false, true);
-		case "template":		return custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, true, false);
-		case "template_item":	return custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, true, true);
+		case "mon":				return monitor_graph_command($id, $GLOBALS['TIMEFRAMES'][$hist]);
+		case "tinymon":			return tiny_monitor_graph_command($id, $GLOBALS['TIMEFRAMES'][$hist]);
+		case "custom":			return custom_graph_command($id, $GLOBALS['TIMEFRAMES'][$hist], false, false);
+		case "custom_item":		return custom_graph_command($id, $GLOBALS['TIMEFRAMES'][$hist], false, true);
+		case "template":		return custom_graph_command($id, $GLOBALS['TIMEFRAMES'][$hist], true, false);
+		case "template_item":	return custom_graph_command($id, $GLOBALS['TIMEFRAMES'][$hist], true, true);
 	}
 
 }
 
-function monitor_graph_command($id, $start_time, $end_time)
+function monitor_graph_command($id, $timeframe)
 {
 	if (isset($_REQUEST['start']))
 		{
-			$start_time = $_REQUEST['start'];
+			$timeframe['start_time'] = $_REQUEST['start'];
 		}
 
 		if (isset($_REQUEST['end']))
 		{
-			$end_time = $_REQUEST['end'];
+			$timeframe['end_time'] = $_REQUEST['end'];
 		}
 
-		if (strpos($start_time, " ") !== false)
+		if (strpos($timeframe['start_time'], " ") !== false)
 		{
-			$start_time = strtotime(substr($start_time,1));
+			$timeframe['start_time'] = strtotime(substr($timeframe['start_time'],1));
 
 		}
 
 		if (strpos($end_time, " ") !== false)
 		{
-			$end_time = strtotime(substr($end_time,1));
+			$timeframe['end_time'] = strtotime(substr($timeframe['end_time'],1));
 		}
 
 		if (isset($_REQUEST['min']) && isset($_REQUEST['max']) && ($_REQUEST['max'] > $_REQUEST['min']))
@@ -129,21 +91,23 @@ function monitor_graph_command($id, $start_time, $end_time)
 			$boundary = "";
 		}
 
-	return($GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time . " " . $boundary .
+	return($GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $timeframe['start_time'] . 
+			" -e " . $timeframe['end_time'] . " " . $boundary .
 			" --title=\"" . get_monitor_name($id) . " (#" . $id . ")\"  --imgformat PNG -g -w 575 -h 100 " .
 			"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $id . ".rrd:mon_" . $id . ":AVERAGE " .
 			"AREA:data1#151590");
 
 }
 
-function tiny_monitor_graph_command($id, $start_time, $end_time)
+function tiny_monitor_graph_command($id, $timeframe)
 {
-	return($GLOBALS['netmrg']['rrdtool'] . " graph - -s $start_time -e $end_time -a PNG -g -w 275 -h 25 " .
+	return($GLOBALS['netmrg']['rrdtool'] . " graph - -s {$timeframe['start_time']} " . 
+		"-e {$timeframe['end_time']} -a PNG -g -w 275 -h 25 " .
 		"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_$id.rrd:mon_$id:AVERAGE " .
 		"AREA:data1#151590");
 }
 
-function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, $templated, $single_ds)
+function custom_graph_command($id, $timeframe, $templated, $single_ds)
 {
 	$options = "";
 
@@ -169,23 +133,23 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 
 	if (isset($_REQUEST['start']))
 	{
-		$start_time = $_REQUEST['start'];
+		$timeframe['start_time'] = $_REQUEST['start'];
 	}
 
 	if (isset($_REQUEST['end']))
 	{
-		$end_time = $_REQUEST['end'];
+		$timeframe['end_time'] = $_REQUEST['end'];
 	}
 
-	if (strpos($start_time, " ") !== false)
+	if (strpos($timeframe['start_time'], " ") !== false)
 	{
-		$start_time = strtotime(substr($start_time,1));
+		$timeframe['start_time'] = strtotime(substr($timeframe['start_time'],1));
 
 	}
 
-	if (strpos($end_time, " ") !== false)
+	if (strpos($timeframe['end_time'], " ") !== false)
 	{
-		$end_time = strtotime(substr($end_time,1));
+		$timeframe['end_time'] = strtotime(substr($timeframe['end_time'],1));
 	}
 
 	if (isset($_REQUEST['min']) && isset($_REQUEST['max']) && ($_REQUEST['max'] > $_REQUEST['min']))
@@ -223,9 +187,10 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 	}
 
 	// initial definition
-	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time . $boundary . " --title \"" . $graph_row["title"] . "\" -w " .
-			$graph_row["width"] . " -h " . $graph_row["height"] . $options . "-b " . $graph_row["base"] . " -v \"" . $graph_row["vert_label"] .
-			"\" --imgformat PNG $options";
+	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $timeframe['start_time'] . 
+			" -e " . $timeframe['end_time'] . $boundary . " --title \"" . $graph_row["title"] . "\" -w " .
+			$graph_row["width"] . " -h " . $graph_row["height"] . $options . "-b " . $graph_row["base"] . " -v \"" .
+			$graph_row["vert_label"] . "\" --imgformat PNG $options";
 
 
 	// *** Padded Length Calculation
@@ -285,7 +250,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 				$relative_times = true;
 			}
 
-			if (($sum_time != 86400) && $relative_times)
+			if (($timeframe['sum_time'] != 86400) && $relative_times)
 			{
 				$ds_row['start_time'] = 0;
 				$ds_row['end_time'] = 0;
@@ -404,7 +369,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 		{
 			if ($ds_row['mon_id'] > 0)
 			{
-				$sum_val = rrd_sum($ds_row['mon_id'], -1 * $sum_time, "now", $sum_time);
+				$sum_val = rrd_sum($ds_row['mon_id'], -1 * $timeframe['sum_time'], "now", $timeframe['sum_time']);
 				$total_sum += $sum_val;
 			}
 			elseif ($ds_row['mon_id'] == -2)
@@ -422,7 +387,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 				$sum_text = sanitize_number($sum_val);
 			}
 
-			$command .= " COMMENT:\"$sum_label Sum: $sum_text\" ";
+			$command .= " COMMENT:\"{$timeframe['sum_label']} Sum: $sum_text\" ";
 		}
 
 		if ($ds_row['label'] != "")
@@ -438,11 +403,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 	}
 
 	// make MRTG-like VRULE
-	if ($break_time != "")
-	{
-		$command .= " VRULE:" . $break_time  . "#F00000";
-
-	}
+	$command .= " VRULE:" . $timeframe['break_time']  . "#F00000";
 
 	// print out the graph comment, if any
 	if ($graph_row["comment"] != "")

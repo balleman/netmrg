@@ -405,6 +405,9 @@ function do_view()
 	{
 		echo '<!-- graphs start -->'."\n";
 		echo "<div align=\"center\">";
+		
+		if (isset($_REQUEST['hist']))
+			$hist = "&hist={$_REQUEST['hist']}";
 
 		while ($row = db_fetch_array($view_result))
 		{
@@ -412,13 +415,13 @@ function do_view()
 			{
 				case "graph":
 					echo '<a href="enclose_graph.php?type=custom&id='.$row["graph_id"].'">'."\n";
-					echo '	<img src="get_graph.php?type=custom&id='.$row["graph_id"].'" border="0">'."\n";
+					echo '	<img src="get_graph.php?type=custom&id='.$row["graph_id"].$hist.'" border="0">'."\n";
 					echo "</a><br />\n";
 					break;
 
 				case "template":
 					echo '<a href="enclose_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].'">'."\n";
-					echo '	<img src="get_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].'" border="0">'."\n";
+					echo '	<img src="get_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].$hist.'" border="0">'."\n";
 					echo "</a><br />\n";
 					break;
 
@@ -430,7 +433,15 @@ function do_view()
 
 		echo "</div>\n";
 		echo '<!-- graphs end -->'."\n";
-
+	
+		$histnum = 0;
+		foreach ($GLOBALS['TIMEFRAMES'] as $tf)
+		{
+			print(formatted_link($tf['name'], "{$_SERVER['PHP_SELF']}?action=view&object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&hist=$histnum"));
+			$histnum++;
+		}
+		print("<br>");
+		
 		if ($_SESSION["netmrgsess"]["permit"] > 1)
 		{
 			print(formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=list&object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}"));

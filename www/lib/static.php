@@ -188,7 +188,45 @@ $SCRIPT_DATA_TYPES = array(
 			2	=>	"Standard Out"
 			);
 
+			
+$TIMEFRAME_DAILY = array(
+			'name'			=> "Daily",
+			'start_time' 	=> "-108000",
+			'end_time'		=> "-360",
+			'break_time' 	=> (time() - (date("s") + date("i") * 60 + date("H") * 3600)),
+			'sum_label'		=> "24 Hour",
+			'sum_time'		=> "86400"
+			);
 
+$TIMEFRAME_WEEKLY = array(
+			'name'			=> "Weekly",
+			'start_time' 	=> "-777600",
+			'end_time'		=> "-360",
+			'break_time' 	=> (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("w") * 86400)),
+			'sum_label'		=> "7 Day",
+			'sum_time'		=> "604800"
+			);			
+
+$TIMEFRAME_MONTHLY = array(
+			'name'			=> "Monthly",
+			'start_time' 	=> "-3628800",
+			'end_time'		=> "-360",
+			'break_time' 	=> (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("d") * 86400)),
+			'sum_label'		=> "4 Week",
+			'sum_time'		=> "2419200"
+			);
+
+$TIMEFRAME_YEARLY = array(
+			'name'			=> "Yearly",
+			'start_time' 	=> "-36720000",
+			'end_time'		=> "-360",
+			'break_time' 	=> (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("z") * 86400)),
+			'sum_label'		=> "1 Year",
+			'sum_time'		=> "31536000"
+			);
+
+$TIMEFRAMES = array( $TIMEFRAME_DAILY, $TIMEFRAME_WEEKLY, $TIMEFRAME_MONTHLY, $TIMEFRAME_YEARLY );
+		
 // Return the path to an image based on the internal name of the image.
 function get_image_by_name($img_name)
 {
@@ -286,7 +324,7 @@ function get_color_by_name($color_name)
 
 	switch ($color_name)
 	{
-		case "site_background"		:	$color = "#EDEBEB"; break;
+		case "site_background"	:	$color = "#EDEBEB"; break;
 		case "site_text"		:	$color = "#000000"; break;
 		case "site_link"		:	$color = "#076D07"; break;
 		case "site_vlink"		:	$color = "#076D07"; break;
@@ -297,20 +335,18 @@ function get_color_by_name($color_name)
 			if ($alt_color == 0)
 			{
 				$alt_color = 1;
-				//$color = "#CBD9E7";
 				$color = "#CECECE";
 			}
 			else
 			{
 				$alt_color = 0;
-				//$color = "#B9C9D9";
 				$color = "#E4E4E4";
 			}
 			break;
 		}
 		case "edit_header_text"		:	$color = "#C0C0C0"; break;
 		case "edit_main_header"		:	$color = "#005000"; break;
-		case "edit_main_header_text"	:	$color = "#C0C0C0"; break;
+		case "edit_main_header_text":	$color = "#C0C0C0"; break;
 		case "menu_background"		:	$color = "#D9D9D9"; break;
 	}
 
