@@ -165,4 +165,8 @@ struct SNMPPair
 	}
 };
 
+// Schedule 
+
+enum ScheduleType { schOnce, schWait };
+
 #endif

@@ -1,6 +1,7 @@
 2004.05.31  v0.16cvs  balleman
   - bug#0000214 - syslog support
-
+  - bug#0000157 - become a daemon
+  
 2004.05.27  v0.16cvs  keb
   - cleanup subst perl script and make it stop using the .in files
   - bug#0000147 - fix warnings caused by autoconf PACKAGE_* defines

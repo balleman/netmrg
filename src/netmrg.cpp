@@ -46,6 +46,8 @@ int active_threads = 0;
 #include "mappings.h"
 #include "devices.h"
 
+ScheduleType schedule = schOnce;
+
 #ifdef OLD_MYSQL
 #define MYSQL_THREAD_INIT
 #define MYSQL_THREAD_END
@@ -86,10 +88,8 @@ void remove_lockfile()
 void run_netmrg()
 {
 	setlinebuf(stdout);
-
+	
 	debuglogger(DEBUG_GLOBAL, LEVEL_NOTICE, NULL, "NetMRG starting.");
-	time_t start_time = time(NULL);
-	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Start time is " + inttostr(start_time));
 
 	if (file_exists(get_setting(setPathLockFile)))
 	{
@@ -102,7 +102,7 @@ void run_netmrg()
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Creating Lockfile.");
 	if ((lockfile = fopen(get_setting(setPathLockFile).c_str(),"w+")) != NULL)
 	{
-		fprintf(lockfile, "%ld", (long int) start_time);
+		fprintf(lockfile, "netmrg lock file.");
 		fclose(lockfile);
 		atexit(remove_lockfile);
 	}
@@ -120,102 +120,120 @@ void run_netmrg()
 	rrd_init();
 	atexit(rrd_cleanup);
 
-	// open mysql connection for initial queries
-	MYSQL			mysql;
-	MYSQL_RES		*mysql_res;
-	MYSQL_ROW		mysql_row;
-	if (!db_connect(&mysql))
+	do
 	{
-		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Critical: Master database connection failed.");
-		exit(3);
-	}
-
-	// verify the database version matches the gatherer version
-	mysql_res = db_query(&mysql, NULL, "SELECT version FROM versioninfo WHERE module = 'Main'");
-	mysql_row = mysql_fetch_row(mysql_res);
-	if (string(mysql_row[0]) != string(NETMRG_VERSION))
-	{
-		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, string("Critical: Database version (") + mysql_row[0] + ") and gatherer version (" + NETMRG_VERSION + ") do not match.");
-		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Log into the web interface to perform the database upgrade.");
-		exit(4);
-	}
-	mysql_free_result(mysql_res);
-	
-	// request list of devices to process
-	mysql_res = db_query(&mysql, NULL, "SELECT id FROM devices WHERE disabled=0 ORDER BY id");
-
-	long int num_rows	=	mysql_num_rows(mysql_res);
-	pthread_t* threads	=   new pthread_t[num_rows];
-	int* ids			=	new int[num_rows];
-
-	// reading settings isn't necessarily efficient.  storing them locally.
-	int			THREAD_COUNT = get_setting_int(setThreadCount);
-
-	int dev_counter = 0;
-
-	// deploy more threads as needed
-	int last_active_threads = 0;
-
-	netmrg_mutex_lock(lkActiveThreads);
-
-	while (dev_counter < num_rows)
-	{
-		debuglogger(DEBUG_THREAD, LEVEL_INFO, NULL, "[ACTIVE] Last: " +
-			inttostr(last_active_threads) + ", Now: " +
-			inttostr(active_threads));
-		last_active_threads = active_threads;
-
-		while ((active_threads < THREAD_COUNT) && (dev_counter < num_rows))
+		time_t start_time = time(NULL);
+		
+		// open mysql connection for initial queries
+		MYSQL			mysql;
+		MYSQL_RES		*mysql_res;
+		MYSQL_ROW		mysql_row;
+		if (!db_connect(&mysql))
 		{
-			mysql_row = mysql_fetch_row(mysql_res);
-			int dev_id = strtoint(string(mysql_row[0]));
-			ids[dev_counter] = dev_id;
-			pthread_create(&threads[dev_counter], NULL, child, &ids[dev_counter]);
-			pthread_detach(threads[dev_counter]);
-			dev_counter++;
-			active_threads++;
+			debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Critical: Master database connection failed.");
+			exit(3);
 		}
-
-		netmrg_cond_wait(cActiveThreads, lkActiveThreads);
-
-	}
-
-	// wait until all threads exit
-	while (active_threads != 0)
-	{
-		netmrg_cond_wait(cActiveThreads, lkActiveThreads);
-
-		debuglogger(DEBUG_THREAD, LEVEL_INFO, NULL, "[PASSIVE] Last: " +
-			inttostr(last_active_threads) + ", Now: " +
-			inttostr(active_threads));
+	
+		// verify the database version matches the gatherer version
+		mysql_res = db_query(&mysql, NULL, "SELECT version FROM versioninfo WHERE module = 'Main'");
+		mysql_row = mysql_fetch_row(mysql_res);
+		if (string(mysql_row[0]) != string(NETMRG_VERSION))
+		{
+			debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, string("Critical: Database version (") + mysql_row[0] + ") and gatherer version (" + NETMRG_VERSION + ") do not match.");
+			debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Log into the web interface to perform the database upgrade.");
+			exit(4);
+		}
+		mysql_free_result(mysql_res);
+		
+		// request list of devices to process
+		mysql_res = db_query(&mysql, NULL, "SELECT id FROM devices WHERE disabled=0 ORDER BY id");
+	
+		long int num_rows	=	mysql_num_rows(mysql_res);
+		pthread_t* threads	=   new pthread_t[num_rows];
+		int* ids			=	new int[num_rows];
+	
+		// reading settings isn't necessarily efficient.  storing them locally.
+		int			THREAD_COUNT = get_setting_int(setThreadCount);
+	
+		int dev_counter = 0;
+	
+		// deploy more threads as needed
+		int last_active_threads = 0;
+	
+		netmrg_mutex_lock(lkActiveThreads);
+	
+		while (dev_counter < num_rows)
+		{
+			debuglogger(DEBUG_THREAD, LEVEL_INFO, NULL, "[ACTIVE] Last: " +
+				inttostr(last_active_threads) + ", Now: " +
+				inttostr(active_threads));
 			last_active_threads = active_threads;
+	
+			while ((active_threads < THREAD_COUNT) && (dev_counter < num_rows))
+			{
+				mysql_row = mysql_fetch_row(mysql_res);
+				int dev_id = strtoint(string(mysql_row[0]));
+				ids[dev_counter] = dev_id;
+				pthread_create(&threads[dev_counter], NULL, child, &ids[dev_counter]);
+				pthread_detach(threads[dev_counter]);
+				dev_counter++;
+				active_threads++;
+			}
+	
+			netmrg_cond_wait(cActiveThreads, lkActiveThreads);
+	
+		}
+	
+		// wait until all threads exit
+		while (active_threads != 0)
+		{
+			netmrg_cond_wait(cActiveThreads, lkActiveThreads);
+	
+			debuglogger(DEBUG_THREAD, LEVEL_INFO, NULL, "[PASSIVE] Last: " +
+				inttostr(last_active_threads) + ", Now: " +
+				inttostr(active_threads));
+				last_active_threads = active_threads;
+		}
+	
+		netmrg_mutex_unlock(lkActiveThreads);
+	
+		// free active devices results
+		mysql_free_result(mysql_res);
+	
+		delete [] threads;
+		delete [] ids;
+	
+		// clean up mysql
+		mysql_close(&mysql);
+		debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Closed MySQL connection.");
+	
+		// determine runtime and store it
+		long int run_time = time( NULL ) - start_time;
+		debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Runtime: " + inttostr(run_time));
+		FILE *runtime;
+		if ((runtime = fopen(get_setting(setPathRuntimeFile).c_str(),"w+")))
+		{
+			fprintf(runtime, "%ld", run_time);
+			fclose(runtime);
+		}
+		else
+		{
+			debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Failed to open runtime file for writing.");
+		}
+		
+		if (schedule == schWait)
+		{
+			if ( time(NULL) > (start_time + get_setting_int(setPollInterval)))
+			{
+				debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "We're running behind!");
+			}
+			else
+			{
+				sleep(start_time + get_setting_int(setPollInterval) - time(NULL));
+			}
+		}	
 	}
-
-	netmrg_mutex_unlock(lkActiveThreads);
-
-	// free active devices results
-	mysql_free_result(mysql_res);
-
-	delete [] threads;
-	delete [] ids;
-
-	// clean up mysql
-	mysql_close(&mysql);
-	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Closed MySQL connection.");
-
-	// determine runtime and store it
-	long int run_time = time( NULL ) - start_time;
-	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Runtime: " + inttostr(run_time));
-	FILE *runtime;
-	if ((runtime = fopen(get_setting(setPathRuntimeFile).c_str(),"w+")))
-	{
-		fprintf(runtime, "%ld", run_time);
-		fclose(runtime);
-	}
-	else
-	{
-		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Failed to open runtime file for writing.");
-	}
+	while (schedule != schOnce);
 }
 
 void show_version()
@@ -234,6 +252,9 @@ void show_usage()
 	printf("-C <file>   Use alternate configuration file <file>\n");
 	printf("-t <num>    Limits number of simultaneous threads to <num>\n");
 	printf("-X          Become a daemon.\n");
+	printf("-M <mode>   Scheduling mode, <mode> is:\n");
+	printf("            once = return after one gather cycle (default).\n");
+	printf("            wait = gather once every interval, waiting between intervals.\n");
 
 	printf("\nMode of Operation:\n");
 	printf("-i <devid>  Recache the interfaces of device <devid>\n");
@@ -348,7 +369,7 @@ int main(int argc, char **argv)
 	load_settings_file(DEF_CONFIG_FILE);
 	string temppass;
 
-	while ((option_char = getopt(argc, argv, "hvXSqasmi:d:c:l:H:D:u:p::t:C:K::")) != EOF)
+	while ((option_char = getopt(argc, argv, "hvXSqasmM:i:d:c:l:H:D:u:p::t:C:K::")) != EOF)
 		switch (option_char)
 		{
 			case 'h': 	show_usage();
@@ -356,6 +377,13 @@ int main(int argc, char **argv)
 						break;
 			case 'v': 	show_version();
 						exit(0);
+						break;
+			case 'M':	if (strcmp(optarg, "once") == 0)
+							schedule = schOnce;
+						else if (strcmp(optarg, "wait") == 0)
+							schedule = schWait;
+						else
+							fprintf(stderr, "I don't know what schedule '%s' is.  Using default.\n", optarg);
 						break;
 			case 'i': 	external_snmp_recache(strtoint(optarg), 1);
 						exit(0);
