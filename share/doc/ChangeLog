@@ -9,6 +9,7 @@
   - bug#0000218 - easier to maintain public website
   - bug#0000209 - easier to browse docs
   - bug#0000182 - FAQ system
+  - bug#0000207 - disable password fields when external auth is in use
 
 2004.05.26  v0.16cvs  silfreed
   - bug#0000215 - fix view.php edit template/custom graph selection

@@ -67,9 +67,12 @@ function edit($uid)
 	make_edit_hidden("uid", $uid);
 
 	// edit password
-	make_edit_section('Password');
-	make_edit_password("Password:", "password", "25", "50", "");
-	make_edit_password("Verify Password:", "vpassword", "25", "50", "");
+	if (!$GLOBALS["netmrg"]["externalAuth"])
+	{
+		make_edit_section('Password');
+		make_edit_password("Password:", "password", "25", "50", "");
+		make_edit_password("Verify Password:", "vpassword", "25", "50", "");
+	} // end if no external auth, show password dialog
 
 	// slide show
 	make_edit_section('Slide Show');

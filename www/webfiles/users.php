@@ -50,17 +50,14 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 		$db_cmd = "UPDATE";
 		$db_end = "WHERE id='{$_REQUEST['user_id']}'";
 	}
-
+	
+	$pass_cmd = "";
 	if (!empty($_REQUEST["pass"]))
 	{
 		$_REQUEST['pass'] = db_escape_string($_REQUEST['pass']);
 		$pass_cmd = "pass = md5('{$_REQUEST['pass']}'), ";
-	}
-	else
-	{
-		$pass_cmd = "";
-	}
-
+	} // end if new password to set
+	
 	$_REQUEST['user'] = db_escape_string($_REQUEST['user']);
 	$_REQUEST['fullname'] = db_escape_string($_REQUEST['fullname']);
 	if (empty($_REQUEST["group_id"]))
@@ -158,8 +155,11 @@ document.editform.group_id.value=0; // Root Group
 	make_edit_table("Edit User");
 	make_edit_text("User ID:", "user", "25", "50", $user_row["user"]);
 	make_edit_text("Full Name", "fullname", "25", "75", $user_row["fullname"]);
-	make_edit_password("Password:", "pass", "25", "50", "");
-	make_edit_password("Verify Password:", "vpass", "25", "50", "");
+	if (!$GLOBALS["netmrg"]["externalAuth"])
+	{
+		make_edit_password("Password:", "pass", "25", "50", "");
+		make_edit_password("Verify Password:", "vpass", "25", "50", "");
+	} // end if not using external auth, show password form
 	make_edit_select_from_array("Permit Type:", "permit", $GLOBALS['PERMIT_TYPES'], $user_row["permit"], 'onChange="enableGroup(this.value)"');
 	make_edit_select_from_table("Group:", "group_id", "groups", $user_row["group_id"], "", array(0 => "-Root-"));
 	make_edit_hidden("action", "doedit");
