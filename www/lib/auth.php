@@ -138,16 +138,16 @@ function check_auth($level)
 function view_check_auth($object_id, $object_type)
 {
 	check_auth(0);
-
+	
 	// the groups this object_id is in
 	$object_id_groups = array();
-
+	
 	// check what groups this object_id is in
 	switch ($object_type)
 	{
 		case "group" :
-			array_push($object_id_groups, $object_id);
 			$object_id_groups = GetGroupParents($object_id);
+			array_push($object_id_groups, $object_id);
 			break;
 
 		case "device" :
@@ -157,9 +157,9 @@ function view_check_auth($object_id, $object_type)
 		case "subdevice" :
 			$object_id_groups = GetSubdeviceGroups($object_id);
 			break;
-
+	
 	} // end switch object type
-
+	
 	if (!in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups)
 		&& $_SESSION["netmrgsess"]["permit"] == 0)
 	{
