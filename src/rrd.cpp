@@ -82,21 +82,27 @@ void create_rrd(DeviceInfo info, RRDInfo rrd)
 	int poll_interval = get_setting_int(setPollInterval);
 
 	command = "create " + get_rrd_file(inttostr(info.monitor_id)) +
-			" --step " + inttostr(poll_interval) + "DS:mon_" + inttostr(info.monitor_id) + ":" 
+			" --step " + inttostr(poll_interval) + " DS:mon_" + inttostr(info.monitor_id) + ":" 
 			+ rrd.data_type + ":" + inttostr(poll_interval * 2) + ":" + rrd.min_val + ":" + 
 			rrd.max_val + " " +
-			"RRA:AVERAGE:0.5:1:" + inttostr(180000 / poll_interval) + " "	+
-			"RRA:AVERAGE:0.5:6:700 " 	+
-			"RRA:AVERAGE:0.5:24:775 " 	+
-			"RRA:AVERAGE:0.5:288:797 " 	+
-			"RRA:LAST:0.5:1:" + inttostr(180000 / poll_interval) + " " 		+
-			"RRA:LAST:0.5:6:700 " 		+
-			"RRA:LAST:0.5:24:775 " 		+
-			"RRA:LAST:0.5:288:797 " 	+
-			"RRA:MAX:0.5:1:" + inttostr(180000 / poll_interval) + " " 		+
-			"RRA:MAX:0.5:6:700 "		+
-			"RRA:MAX:0.5:24:775 "		+
-			"RRA:MAX:0.5:288:797";
+			/* Step: Interval; Capacity: 50 hours */ 
+			"RRA:AVERAGE:0.5:1:" + inttostr(180000 / poll_interval) + " "     +
+			/* Step: 30 mins;  Capacity: 350 hours */ 
+			"RRA:AVERAGE:0.5:"   + inttostr(1800   / poll_interval) + ":700 " +
+			/* Step: 2 hours;  Capacity: 1550 hours */ 
+			"RRA:AVERAGE:0.5:"   + inttostr(7200   / poll_interval) + ":775 " +
+			/* Step: 1 day;    Capacity: 19128 hours */ 
+			"RRA:AVERAGE:0.5:"   + inttostr(86400  / poll_interval) + ":797 " +
+
+			"RRA:LAST:0.5:1:"    + inttostr(180000 / poll_interval) + " "     +
+			"RRA:LAST:0.5:"      + inttostr(1800   / poll_interval) + ":700 " +
+			"RRA:LAST:0.5:"      + inttostr(7200   / poll_interval) + ":775 " +
+			"RRA:LAST:0.5:"      + inttostr(86400  / poll_interval) + ":797 " +
+
+			"RRA:MAX:0.5:1:"     + inttostr(180000 / poll_interval) + " " 	  +
+			"RRA:MAX:0.5:"       + inttostr(1800   / poll_interval) + ":700 " +
+			"RRA:MAX:0.5:"       + inttostr(7200   / poll_interval) + ":775 " +
+			"RRA:MAX:0.5:"       + inttostr(86400  / poll_interval) + ":797"  ;
 	rrd_cmd(info, command);
 }
 
