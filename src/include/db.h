@@ -10,8 +10,9 @@
 #ifndef NETMRG_DB
 #define NETMRG_DB
 
+#include "config.h"
 #include <mysql.h>
-#include <types.h>
+#include "types.h"
 
 void db_connect(MYSQL *connection);
 MYSQL_RES *db_query(MYSQL *mysql, DeviceInfo *info, string query);

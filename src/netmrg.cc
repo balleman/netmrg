@@ -19,6 +19,7 @@
 
 */
 
+#include "config.h"
 #include <cstdio>
 #include <cstdlib>
 #include <unistd.h>
@@ -30,8 +31,6 @@
 #include <list>
 
 using namespace std;
-
-#include "config.h"
 
 // RRDTOOL Pipe
 FILE *rrdtool_pipe;

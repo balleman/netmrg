@@ -10,6 +10,7 @@
 #ifndef NETMRG_SNMP
 #define NETMRG_SNMP
 
+#include "config.h"
 #include <string>
 #include <list>
 #include "types.h"

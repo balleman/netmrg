@@ -10,6 +10,8 @@
 #ifndef NETMRG_LOCKS
 #define NETMRG_LOCKS
 
+#include "config.h"
+
 enum Lock { lkActiveThreads, lkMySQL, lkSNMP, lkRRD };
 
 void	mutex_lock(Lock);

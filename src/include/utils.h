@@ -10,6 +10,7 @@
 #ifndef NETMRG_UTILS
 #define NETMRG_UTILS
 
+#include "config.h"
 #include "types.h"
 #include <cstdio>
 #include <cstdlib>
