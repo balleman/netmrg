@@ -1,5 +1,6 @@
 2003.11.26  v0.10  balleman
   - bug#0000120 - gatherer should check db version
+  - bug#0000118 - total of sums should work
 
 2003.11.24  v0.10  silfreed
   - bug#0000115 - add checkbox support to disks on snmp_cache_view.php

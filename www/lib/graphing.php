@@ -194,6 +194,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 	$CDEF_A = "zero,UN,0,0,IF";
 	$CDEF_L = "zero,UN,0,0,IF";
 	$CDEF_M = "zero,UN,0,0,IF";
+	$total_sum = 0;
 
 	$command .= " DEF:zero=" . $GLOBALS['netmrg']['rrdroot'] . "/zero.rrd:mon_25:AVERAGE ";
 
@@ -202,7 +203,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 
 		$ds_row = db_fetch_array($ds_results);
 		$ds_row["type"] = $GLOBALS["RRDTOOL_ITEM_TYPES"][$ds_row["type"]];
-		
+
 		if ($single_ds && ($ds_row["type"] == "STACK"))
 		{
 			$ds_row["type"] = "AREA";
@@ -212,25 +213,25 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 		if (($ds_row['start_time'] != "") && ($ds_row['end_time'] != ""))
 		{
 			$relative_times = false;
-			
+
 			if (strpos($ds_row['start_time'], "+") !== false)
 			{
 				$ds_row['start_time'] = strtotime(substr($ds_row['start_time'],1));
 				$relative_times = true;
 			}
-			
+
 			if (strpos($ds_row['end_time'], "+") !== false)
 			{
 				$ds_row['end_time'] = strtotime(substr($ds_row['end_time'],1));
 				$relative_times = true;
 			}
-			
+
 			if (($sum_time != 86400) && $relative_times)
 			{
 				$ds_row['start_time'] = 0;
 				$ds_row['end_time'] = 0;
 			}
-			
+
 			if (!$relative_times)
 			{
 				$time_pre		= "TIME,{$ds_row['start_time']},{$ds_row['end_time']},LIMIT,UN,UNKN,";
@@ -238,7 +239,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 			else
 			{
 				$time_pre		= "TIME,{$ds_row['start_time']},{$ds_row['end_time']},LIMIT,UN," .
-					"TIME," . ($ds_row['start_time'] - 86400) . "," . ($ds_row['end_time'] - 86400) . "," . 
+					"TIME," . ($ds_row['start_time'] - 86400) . "," . ($ds_row['end_time'] - 86400) . "," .
 					"LIMIT,UN,MIN,UNKN,";
 			}
 			$time_post		= ",IF";
@@ -250,7 +251,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 			$time_pre		= "";
 			$time_post		= "";
 		}
-				
+
 		// Data is from a monitor
 		if ($ds_row['mon_id'] >= 0)
 		{
@@ -258,8 +259,8 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 			{
 				$ds_row["mon_id"] = dereference_templated_monitor($ds_row["mon_id"], $_REQUEST['subdev_id']);
 			}
-		
-			$rawness = (($ds_row["multiplier"] == 1) && !$time_shaping) ? "" : "raw_"; 
+
+			$rawness = (($ds_row["multiplier"] == 1) && !$time_shaping) ? "" : "raw_";
 			$command .= " DEF:" . $rawness . "data" . $ds_count . "="  . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":AVERAGE " .
 						" DEF:" . $rawness . "data" . $ds_count . "l=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":LAST " .
 						" DEF:" . $rawness . "data" . $ds_count . "m=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":MAX ";
@@ -305,7 +306,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 			$command .= "CDEF:data" . $ds_count . "="  . $time_pre . $CDEF_A . "," . $ds_row["multiplier"] . ",*" . $time_post . " ";
 			$command .= "CDEF:data" . $ds_count . "l=" . $time_pre . $CDEF_L . "," . $ds_row["multiplier"] . ",*" . $time_post . " ";
 			$command .= "CDEF:data" . $ds_count . "m=" . $time_pre . $CDEF_M . "," . $ds_row["multiplier"] . ",*" . $time_post . " ";
-			
+
 			// Reset totals
 			$CDEF_A = "zero,UN,0,0,IF";
 			$CDEF_L = "zero,UN,0,0,IF";
@@ -342,7 +343,17 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 
 		if (isin($ds_row["stats"], "SUMS"))
 		{
-			$sum_val = rrd_sum($ds_row['mon_id'], -1 * $sum_time, "now", $sum_time);
+			if ($ds_row['mon_id'] > 0)
+			{
+				$sum_val = rrd_sum($ds_row['mon_id'], -1 * $sum_time, "now", $sum_time);
+				$total_sum += $sum_val;
+			}
+			elseif ($ds_row['mon_id'] == -2)
+			{
+				$sum_val = $total_sum;
+				$total_sum = 0;
+			}
+
 			if (isin($ds_row["stats"], "INTEGER"))
 			{
 				$sum_text = sprintf("%.0f", $sum_val);
