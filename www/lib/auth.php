@@ -86,14 +86,14 @@ function check_auth($level)
 	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
 		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=invalid");
-
+		exit(0);
 	} // end if they aren't logged in
 
 	// if they don't have enough permissions
 	else if (get_permit() < $level)
 	{
 		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
-
+		exit(0);
 	} // end if they don't have enough permissions
 
 } // end check_auth()
@@ -173,12 +173,14 @@ function view_redirect()
 	if (empty($_SESSION["netmrgsess"]["redir"]) || (get_permit() == 0))
 	{
 		header("Location: {$GLOBALS['netmrg']['webroot']}/device_tree.php");
+		exit(0);
 	}
 	else
 	{
 		$redir = $_SESSION["netmrgsess"]["redir"];
 		unset($_SESSION["netmrgsess"]["redir"]);
 		header("Location: $redir");
+		exit(0);
 	} // end if we don't have a redir page or we do
 } // end view_redirect()
 

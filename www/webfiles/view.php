@@ -31,6 +31,7 @@ if (!empty($_REQUEST["action"]))
 			subdev_id={$_REQUEST['subdev_id']}");
 
 		header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1");
+		exit(0);
 	}
 	elseif ($_REQUEST["action"] == "doedit")
 	{
@@ -44,6 +45,7 @@ if (!empty($_REQUEST["action"]))
 			WHERE id={$_REQUEST['id']}");
 			
 		header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1");
+		exit(0);
 	}
 	elseif ($_REQUEST["action"] == "dodelete")
 	{
@@ -60,6 +62,7 @@ if (!empty($_REQUEST["action"]))
 			AND pos > " . $pos);
 
 		header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1");
+		exit(0);
 	}
 	elseif ($_REQUEST["action"] == "move")
 	{

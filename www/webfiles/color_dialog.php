@@ -26,7 +26,7 @@ require_once("../include/config.php");
 <script language="JavaScript">
 <!--
 function showColor(val) {
-window.opener.document.editform.<?php print($field); ?>.value = val;
+window.opener.document.editform.<?php echo $_REQUEST["field"]; ?>.value = val;
 window.close();
 }
 // -->

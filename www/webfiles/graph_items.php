@@ -22,19 +22,19 @@ if ($_REQUEST["action"] == "doedit")
         
 	$stats = "";
 
-	if (isset($show_current))
+	if (isset($_REQUEST["show_current"]))
 		$stats .= "CURRENT,";
 
-	if (isset($show_average))
+	if (isset($_REQUEST["show_average"]))
 		$stats .= "AVERAGE,";
 
-	if (isset($show_maximum))
+	if (isset($_REQUEST["show_maximum"]))
 		$stats .= "MAXIMUM,";
 
-	if (isset($show_integer))
+	if (isset($_REQUEST["show_integer"]))
 		$stats .= "INTEGER,";
 
-	if (isset($show_sums))
+	if (isset($_REQUEST["show_sums"]))
 		$stats .= "SUMS,";
 		
 	$stats = substr($stats, 0, -1);
@@ -50,10 +50,13 @@ if ($_REQUEST["action"] == "doedit")
 		$post = "WHERE id = {$_REQUEST['id']}";
 	}
 
-	do_update("$pre graph_ds SET mon_id={$_REQUEST['mon_id']}, color='{$_REQUEST['color']}', " .
-		 "type={$_REQUEST['type']}, graph_id={$_REQUEST['graph_id']}, " .
-		 "label='{$_REQUEST['label']}', alignment={$_REQUEST['alignment']}, " .
-		 "stats='$stats', position={$_REQUEST['position']}, multiplier={$_REQUEST['multiplier']} $post");
+	$graph_ds_query = "$pre graph_ds
+		SET mon_id='{$_REQUEST['mon_id']}', color='{$_REQUEST['color']}', 
+		 type='{$_REQUEST['type']}', graph_id='{$_REQUEST['graph_id']}', 
+		 label='{$_REQUEST['label']}', alignment='{$_REQUEST['alignment']}', 
+		 stats='$stats', position='{$_REQUEST['position']}', multiplier='{$_REQUEST['multiplier']}'
+		 $post";
+	do_update($graph_ds_query);
 
 	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
 	exit(0);
