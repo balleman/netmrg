@@ -1,3 +1,6 @@
+2003.09.23  v0.10pre2  balleman
+  - bug#0000054: program crash on problem with runtime file
+
 2003.09.13  v0.10pre1  silfreed
   - bug#0000026: hiding advanced options on graph items edit page
   - bug#0000049: moved everything from DBChangeLog to netmrg.mysql and
