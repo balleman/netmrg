@@ -41,11 +41,11 @@ $GLOBALS["netmrg"]["webroot"] = "/netmrg";
 
 /***** SESSION *****/
 session_start();
-if (!isset($_SESSION["netmrg"]) || !is_array($_SESSION["netmrg"])) {
-	$_SESSION["netmrg"] = array();
-	$_SESSION["netmrg"]["username"] = "";
-	$_SESSION["netmrg"]["password"] = "";
-	$_SESSION["netmrg"]["remote_addr"] = "";
+if (!isset($_SESSION["netmrgsess"]) || !is_array($_SESSION["netmrgsess"])) {
+	$_SESSION["netmrgsess"] = array();
+	$_SESSION["netmrgsess"]["username"] = "";
+	$_SESSION["netmrgsess"]["password"] = "";
+	$_SESSION["netmrgsess"]["remote_addr"] = "";
 } // end if the netmrg session array doesn't exist yet, make it
 
 

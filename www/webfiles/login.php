@@ -25,18 +25,18 @@ if (IsLoggedIn()) {
 
 if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "logout")
 {
-	$_SESSION["netmrg"]["username"] = "";
-	$_SESSION["netmrg"]["password"] = "";
-	$_SESSION["netmrg"]["remote_addr"] = "";
+	$_SESSION["netmrgsess"]["username"] = "";
+	$_SESSION["netmrgsess"]["password"] = "";
+	$_SESSION["netmrgsess"]["remote_addr"] = "";
 } // end if the action is to logout
 
 if (!empty($_REQUEST["user_name"])) {
 	if (check_user_pass($_REQUEST["user_name"], $_REQUEST["password"]))
 	{
 		$login_valid = true;
-		$_SESSION["netmrg"]["username"] = $_REQUEST["user_name"];
-		$_SESSION["netmrg"]["password"] = $_REQUEST["password"];
-		$_SESSION["netmrg"]["remote_addr"] = $_SERVER["REMOTE_ADDR"];
+		$_SESSION["netmrgsess"]["username"] = $_REQUEST["user_name"];
+		$_SESSION["netmrgsess"]["password"] = $_REQUEST["password"];
+		$_SESSION["netmrgsess"]["remote_addr"] = $_SERVER["REMOTE_ADDR"];
 	}
 	else
 	{
