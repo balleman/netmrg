@@ -633,7 +633,7 @@ their NetMRG administrator.
 					<listitem><para><guilabel>Name</guilabel> - click on the name of the group to view the devices contained in it</para></listitem>
 					<listitem><para><guilabel>Comments</guilabel> - description of a group</para></listitem>
 					<listitem><para><guilabel>Add</guilabel> - add another group</para></listitem>
-					<listitem><para><guilabel>View</guilabel> - views graphs assocated with this group and allows you to edit what graphs area associated with the group</para></listitem>
+					<listitem><para><guilabel>View</guilabel> - views graphs assocated with this group and allows you to edit what graphs are associated with the group</para></listitem>
 					<listitem><para><guilabel>Edit</guilabel> - edits parameters of a group</para></listitem>
 					<listitem><para><guilabel>Delete</guilabel> - deletes the group and all devices, sub-devices, etc underneath it</para></listitem>
 				</itemizedlist>
@@ -658,10 +658,76 @@ their NetMRG administrator.
 		</refnamediv>
 		<refsect1><title>Description</title>
 			<refsect2><title>List</title>
-				<para>list of devices in a group</para>
+				<para>List of devices in a group; this is the default view when you click on a group name.</para>
+				<itemizedlist>
+					<listitem><para><guilabel>Name</guilabel> - click on the name of the device to view the sub devices contained in it</para></listitem>
+					<listitem>
+						<para><guilabel>SNMP Options</guilabel></para>
+						<itemizedlist>
+							<listitem><para><guilabel>View Interface Cache</guilabel> - views a list of cached interfaces (interfaces and values that NetMRG knows about)</para></listitem>
+							<listitem><para><guilabel>Recache Interfaces</guilabel> - recache the interface list (to get new ifAliases or new interfaces, for example)</para></listitem>
+							<listitem><para><guilabel>View Disk Cache</guilabel> - views a list of cached disks (disks and their values that NetMRG knows about)</para></listitem>
+							<listitem><para><guilabel>Recache Disks</guilabel> - recache the list of disks (to get new disks or paths, for example)</para></listitem>
+						</itemizedlist>
+					</listitem>
+					<listitem><para><guilabel>Add</guilabel> - add a new device or an existing device to this group</para></listitem>
+					<listitem><para><guilabel>View</guilabel> - views graphs assocated with this device and allows you to edit what graphs are associated with the group</para></listitem>
+					<listitem><para><guilabel>Edit</guilabel> - edits parameters of a device</para></listitem>
+					<listitem><para><guilabel>Delete</guilabel> - deletes the device all sub-devices, monitors, etc underneath it</para></listitem>
+				</itemizedlist>
+			</refsect2>
+			<refsect2><title>Add</title>
+				<itemizedlist>
+					<listitem><para><guilabel>Create a new device</guilabel> - creates a new device in the current group</para></listitem>
+					<listitem>
+						<para><guilabel>Add an existing device to this group</guilabel> - puts a link to an existing device in this group (does not copy it, just refers to it; they are the same device</para>
+						<itemizedlist>
+							<listitem><para><guilabel>Device</guilabel> - Name of the device to add to this group</para></listitem
+						</itemizedlist>
+					</listitem>
+				</itemizedlist>
 			</refsect2>
 			<refsect2><title>Edit</title>
 				<para>Edit info about a device</para>
+				<itemizedlist>
+					<listitem><para><guilabel>Name</guilabel> - Name of a device; commonly the hostname</para></listitem>
+					<listitem><para><guilabel>IP or Hostname</guilabel> - IP address of the device, or hostname (must be resolvable by the monitoring box)</para></listitem>
+					<listitem><para><guilabel>Device Type</guilabel> - type of device (currently not used)</para></listitem>
+					<listitem><para><guilabel>Disabled</guilabel> - don't gather data for this box</para></listitem>
+					<listitem><para><guilabel>This device uses SNMP</guilabel> - whether this device is SNMP Queriable</para></listitem>
+					<listitem><para><guilabel>SNMP Read Community</guilabel> - The SNMPv1 community string for this device</para></listitem>
+					<listitem><para><guilabel>Do not cache interface mappings</guilabel> - Recache interfaces on every gather (in case indexes for interfaces change often)</para></listitem>
+					<listitem><para><guilabel>Clear interface cache when interface count changes</guilabel> - An easier option to make the gatherer recache interfaces when the interface count changes (like when you add or remove a card from a router)</para></listitem>
+				</itemizedlist>
+			</refsect2>
+			<refsect2><title>SNMP Cache View</title>
+				<para>List of cached values for a device</para>
+					<refsect3><title>Interface Cache</title>
+						<para>List of Interfaces NetMRG knows about</para>
+						<itemizedlist>
+							<listitem><para><guilabel>Index</guilabel> - SNMP ifIndex</para></listitem>
+							<listitem><para><guilabel>Status</guilabel> - SNMP ifAdminStatus/ifOperStatus</para></listitem>
+							<listitem><para><guilabel>Name</guilabel> - SNMP ifName</para></listitem>
+							<listitem><para><guilabel>Description</guilabel> - SNMP ifDescr</para></listitem>
+							<listitem><para><guilabel>Alias</guilabel> - SNMP ifAlias (commonly the 'description' field on routers and switches)</para></listitem>
+							<listitem><para><guilabel>IP Address</guilabel> - IP address of this interface</para></listitem>
+							<listitem><para><guilabel>MAC Address</guilabel> - MAC address of this interface</para></listitem>
+							<listitem><para><guilabel>View</guilabel> - View the graph for this interface (if monitored)</para></listitem>
+							<listitem><para><guilabel>Monitors</guilabel> - View the monitors for this interface (if monitored)</para></listitem>
+							<listitem><para><guilabel>Monitor/Graph</guilabel> - Choose to graph this interface (adds an interface subdevice based on ifDescr, adds monitors for ifInOctets, ifOutOctets, and ifInErrors for the subdevice, and assocates a graph with the device)</para></listitem>
+						</itemizedlist>
+					</refsect3>
+					<refsect3><title>Disk Cache</title>
+						<para>List of Disks NetMRG knows about</para>
+						<itemizedlist>
+							<listitem><para><guilabel>Index</guilabel> - SNMP dskIndex</para></listitem>
+							<listitem><para><guilabel>Device</guilabel> - SNMP dskDevice</para></listitem>
+							<listitem><para><guilabel>Path</guilabel> - SNMP dskPath</para></listitem>
+							<listitem><para><guilabel>View</guilabel> - View the graph for this disk (if monitored)</para></listitem>
+							<listitem><para><guilabel>Monitors</guilabel> - View the monitors for this disk (if monitored)</para></listitem>
+							<listitem><para><guilabel>Monitor/Graph</guilabel> - Choose to graph this disk (adds a disk subdevice based on dskPath, adds monitors for KB Used and KB Available for the subdevice, and assocates a graph with the device)</para></listitem>
+						</itemizedlist>
+					</refsect3>
 			</refsect2>
 		</refsect1>
 	</refentry>
@@ -676,6 +742,9 @@ their NetMRG administrator.
 		<refsect1><title>Description</title>
 			<refsect2><title>List</title>
 				<para>list of sub devices in a device</para>
+				<itemizedlist>
+					<listitem><para><guilabel></guilabel> - </para></listitem>
+				</itemizedlist>
 			</refsect2>
 			<refsect2><title>Edit</title>
 				<para>edit info about a sub device</para>
