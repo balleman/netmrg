@@ -10,7 +10,6 @@
 #ifndef NETMRG_CONFIG
 #define NETMRG_CONFIG
 
-#define _REENTRANT
 #define _THREAD_SAFE
 #define _PTHREADS
 #define _POSIX_THREADS

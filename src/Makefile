@@ -1,5 +1,5 @@
 CC 	= g++
-CFLAGS 	= -Wall -g
+CFLAGS 	= -Wall -g -pthread
 LDFLAGS	= -lmysqlclient -lsnmp -lcrypto -lpthread -lz -ldl 
 
 all : clean netmrg
