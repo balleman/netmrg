@@ -84,6 +84,7 @@ function do_list()
 	begin_page();
 
 	js_confirm_dialog("del", "Are you sure you want to delete monitor ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&mon_id=");
+	global $custom_add_link;
 	$custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}";
 	make_display_table("Monitors for " . get_sub_device_name($_REQUEST["sub_dev_id"]),"Test","", "Data", "", "Graph","");
 
