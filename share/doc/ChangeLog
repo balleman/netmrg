@@ -1,5 +1,6 @@
 2004.12.20  v0.18.2  keb
   - bug#0000369 - 'Delete' under device groups fails with no device selected
+  - bug#0000376 - devices.php: break statement missing
 
 2004.12.12  v0.18.2  keb
   - bug#0000362 - gettext support

@@ -39,6 +39,7 @@ switch ($_REQUEST["action"])
 			} // end foreach group, delete
 		}
 		display();
+		break;
 	
 	case "doaddtogrp":
 		doaddtogrp();
