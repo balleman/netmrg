@@ -213,7 +213,119 @@ and please change your password!
 </chapter>
 <chapter>
 	<title>NetMRG Tutorial</title>
-	<para>This brief tutorial will walk you through the major features of NetMRG.</para>
+	<para>This brief tutorial will walk you through the major features of NetMRG.  The tutorial assumes that you have installed the <ulink url="http://net-snmp.sf.net/"><application>Net-SNMP</application></ulink> daemon on a system which you want to monitor.</para>
+	<orderedlist>
+		<listitem>
+			<para>Create a new group.</para>
+			<orderedlist>
+				<listitem>
+					<para>Click on <guilabel>Groups</guilabel> in the <guilabel>Monitoring</guilabel> menu.</para>
+				</listitem>
+				<listitem>
+					<para>Click on <guilabel>Add</guilabel>.</para>
+				</listitem>
+				<listitem>
+					<para>In the <guilabel>Name</guilabel> textbox, enter a name for your group, such as "Home."</para>
+				</listitem>
+				<listitem>
+					<para>In the <guilabel>Comment</guilabel> textbox, enter a description for your group, such as "Computers in my house."</para>
+				</listitem>
+				<listitem>
+					<para>In the <guilabel>Parent</guilabel> drop down box, select <computeroutput>-Root-</computeroutput> as we want this device in the root of the device tree.  You can create nested groups.</para>
+				</listitem>
+				<listitem>
+					<para>Click the <guilabel>Save Changes</guilabel> button to create your new group.</para>
+				</listitem>
+			</orderedlist>
+		</listitem>
+		<listitem>
+			<para>Create a new device.</para>
+			<orderedlist>
+				<listitem>
+					<para>Click on the name of your new group.  You are now looking at an (empty) list of devices in your new group.</para>
+				</listitem>
+				<listitem>
+					<para>Click on <guilabel>Add</guilabel>.</para>
+				</listitem>
+				<listitem>
+					<para>Click on <guilabel>Create a new device</guilabel>.</para>
+				</listitem>
+				<listitem>
+					<para>In the <guilabel>Name</guilabel> textbox, enter a name for your device, such as "My Server."</para>
+				</listitem>
+				<listitem>
+					<para>In the <guilabel>IP or Host Name</guilabel> textbox, enter a domain name or IP address of your device.  Domain names must be resolvable from your monitoring host.</para>
+				</listitem>
+				<listitem>
+					<para>Ensure that the <guilabel>This device uses SNMP</guilabel> checkbox is checked.</para>
+				</listitem>
+				<listitem>
+					<para>In the <guilabel>SNMP Read Community</guilabel> textbox, enter the SNMPv1 community string for your device.</para>
+				</listitem>
+				<listitem>
+					<para>Click the <guilabel>Save Changes</guilabel> button to create your new device.</para>
+				</listitem>
+			</orderedlist>
+		</listitem>
+		<listitem>
+			<para>Create a new sub-device.</para>
+			<orderedlist>
+				<listitem>
+					<para>Click on the name of your new device.  You are now looking at an (empty) list of sub-devices in your new device.</para>
+				</listitem>
+				<listitem>
+					<para>Click on <guilabel>Add</guilabel>.</para>
+				</listitem>
+				<listitem>
+					<para>In the <guilabel>Name</guilabel> textbox, enter "System."  This will be a pseudo-sub-device used for monitoring the device as a whole.</para>
+				</listitem>
+				<listitem>
+					<para>In the <guilabel>Type</guilabel> drop down box, ensure that <computeroutput>Group</computeroutput> is selected.</para>
+				</listitem>
+				<listitem>
+					<para>Click the <guilabel>Save Changes</guilabel> button to create your new "System" sub-device.</para>
+				</listitem>
+			</orderedlist>
+		</listitem>
+		<listitem>
+			<para>Add graph templates.</para>
+			<para>Since devices running <application>Net-SNMP</application> are common, NetMRG comes with several graph templates for commonly used variables.</para>
+			<orderedlist>
+				<listitem>
+					<para>Click on <guilabel>Template Graphs</guilabel> in the <guilabel>Graphing</guilabel> menu.</para>
+				</listitem>
+				<listitem>
+					<para>Click on the <guilabel>Apply Template To...</guilabel> next to the <computeroutput>%dev_name% - CPU Utilization</computeroutput> template graph.</para>
+				</listitem>
+				<listitem>
+					<para>In the <guilabel>Subdevice</guilabel> drop down box, select <computeroutput>My Server - System</computeroutput>.</para>
+				</listitem>
+				<listitem>
+					<para>Click on the <guilabel>Save Changes</guilabel> button to apply the template.</para>
+				</listitem>
+				<listitem>
+					<para>Repeat this step for any other graph templates you find interesting.</para>
+				</listitem>
+			</orderedlist>
+		</listitem>
+		<listitem>
+			<para>View your new graphs.</para>
+			<orderedlist>
+				<listitem>
+					<para>Click on <guilabel>Device Tree</guilabel> in the <guilabel>Reporting</guilabel> menu.</para>
+				</listitem>
+				<listitem>
+					<para>Click on the name of your group to expand it.</para>
+				</listitem>
+				<listitem>
+					<para>Click on the graph icon beside your device.</para>
+				</listitem>
+				<listitem>
+					<para><emphasis>You should now see graphs!</emphasis>  If you don't, you may need to wait for the gatherer to perform another cycle.</para>
+				</listitem>
+			</orderedlist>
+		</listitem>
+	</orderedlist>
 </chapter>
 <appendix>
 	<title>Contact Information</title>
