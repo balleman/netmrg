@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+# netmrg_cron.sh
+#
+# a shell script to remove lockfiles and rotate output if it died
+#
+
+mailto="silfreed@home.silfreed.net"
+netmrg="/var/www/netmrg/src/netmrg"
+lockfile="/var/www/netmrg/dat/lockfile"
+output="/var/www/netmrg/dat/output"
+error="/var/www/netmrg/dat/error"
+curdate=`date +%s`
+
+if [ -e $lockfile ] ; then
+	lastrun=`cat $lockfile`;
+	rundiff=$(($curdate - $lastrun));
+	echo "NetMRG died on its run $rundiff seconds ago.  I'll remove the lockfile" | mail -s "NetMRG died at $lastrun" $mailto
+	mv -f $output $output.$lastrun
+	mv -f $error $error.$lastrun
+	rm -f $lockfile
+fi
+
+$netmrg > $output 2> $error
