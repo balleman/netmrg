@@ -1,3 +1,6 @@
+2004.09.08  v0.17cvs  keb
+  - bug#0000266 - apply templates should return to proper location
+
 2004.09.07  v0.17cvs  balleman
   - bug#0000213 - tests documentation
   - bug#0000108 - view.php checkboxes

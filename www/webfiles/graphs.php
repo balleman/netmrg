@@ -150,6 +150,7 @@ function applytemplates()
 	make_edit_select_subdevice($sub_dev);
 
 	make_edit_hidden("action", "doapplytemplates");
+	make_edit_hidden("return", $_SERVER["HTTP_REFERER"]);
 	make_edit_submit_button();
 	make_edit_end();
 } // end applytemplates()
@@ -163,7 +164,7 @@ function doapplytemplates()
 		apply_template($_REQUEST['subdev_id'], $key);
 	}
 
-	header("Location: {$_SERVER['PHP_SELF']}?type=template");
+	header("Location: {$_REQUEST['return']}");
 	exit(0);
 } // end doapplytemplate()
 
