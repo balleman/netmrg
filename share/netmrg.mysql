@@ -1,11 +1,11 @@
--- MySQL dump 9.08
+-- MySQL dump 8.23
 --
 -- Host: localhost    Database: netmrg
 ---------------------------------------------------------
--- Server version	4.0.14-standard
+-- Server version	3.23.58
 
 --
--- Table structure for table 'conditions'
+-- Table structure for table `conditions`
 --
 
 CREATE TABLE conditions (
@@ -20,12 +20,13 @@ CREATE TABLE conditions (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'conditions'
+-- Dumping data for table `conditions`
 --
 
 
+
 --
--- Table structure for table 'data_types'
+-- Table structure for table `data_types`
 --
 
 CREATE TABLE data_types (
@@ -36,8 +37,9 @@ CREATE TABLE data_types (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'data_types'
+-- Dumping data for table `data_types`
 --
+
 
 INSERT INTO data_types VALUES (1,'GAUGE','Gauge');
 INSERT INTO data_types VALUES (2,'COUNTER','Counter');
@@ -46,7 +48,7 @@ INSERT INTO data_types VALUES (4,'ABSOLUTE','Absolute (a counter reset when read
 INSERT INTO data_types VALUES (-1,'','Not Graphed');
 
 --
--- Table structure for table 'dev_parents'
+-- Table structure for table `dev_parents`
 --
 
 CREATE TABLE dev_parents (
@@ -56,13 +58,14 @@ CREATE TABLE dev_parents (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'dev_parents'
+-- Dumping data for table `dev_parents`
 --
+
 
 INSERT INTO dev_parents VALUES (1,1);
 
 --
--- Table structure for table 'dev_types'
+-- Table structure for table `dev_types`
 --
 
 CREATE TABLE dev_types (
@@ -73,13 +76,14 @@ CREATE TABLE dev_types (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'dev_types'
+-- Dumping data for table `dev_types`
 --
+
 
 INSERT INTO dev_types VALUES (8,'Linux Box','');
 
 --
--- Table structure for table 'devices'
+-- Table structure for table `devices`
 --
 
 CREATE TABLE devices (
@@ -94,20 +98,24 @@ CREATE TABLE devices (
   snmp_uptime bigint(20) default '0',
   snmp_ifnumber int(11) NOT NULL default '0',
   snmp_check_ifnumber int(11) NOT NULL default '1',
-  snmp_enabled tinyint(4) NOT NULL default '1',
+  snmp_version tinyint(4) NOT NULL default '1',
+  snmp_timeout int(10) unsigned NOT NULL default '1000000',
+  snmp_retries tinyint(3) unsigned NOT NULL default '3',
+  snmp_port smallint(5) unsigned NOT NULL default '161',
   status smallint(6) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY disabled (disabled)
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'devices'
+-- Dumping data for table `devices`
 --
 
-INSERT INTO devices VALUES (1,'Template Linux Box','127.0.0.1','',8,0,1,0,0,0,0,0,0);
+
+INSERT INTO devices VALUES (1,'Template Linux Box','127.0.0.1','',8,0,1,0,0,0,0,0,1000000,3,161,0);
 
 --
--- Table structure for table 'event_log'
+-- Table structure for table `event_log`
 --
 
 CREATE TABLE event_log (
@@ -120,12 +128,13 @@ CREATE TABLE event_log (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'event_log'
+-- Dumping data for table `event_log`
 --
 
 
+
 --
--- Table structure for table 'events'
+-- Table structure for table `events`
 --
 
 CREATE TABLE events (
@@ -141,12 +150,13 @@ CREATE TABLE events (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'events'
+-- Dumping data for table `events`
 --
 
 
+
 --
--- Table structure for table 'graph_ds'
+-- Table structure for table `graph_ds`
 --
 
 CREATE TABLE graph_ds (
@@ -167,8 +177,9 @@ CREATE TABLE graph_ds (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'graph_ds'
+-- Dumping data for table `graph_ds`
 --
+
 
 INSERT INTO graph_ds VALUES (1,2,'#FF6600',4,1,'System',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
 INSERT INTO graph_ds VALUES (2,1,'#3366FF',5,1,'User',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','');
@@ -190,7 +201,7 @@ INSERT INTO graph_ds VALUES (17,15,'#3399FF',5,8,'Available',1,'CURRENT,AVERAGE,
 INSERT INTO graph_ds VALUES (18,-2,'#000000',1,8,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','');
 
 --
--- Table structure for table 'graphs'
+-- Table structure for table `graphs`
 --
 
 CREATE TABLE graphs (
@@ -208,8 +219,9 @@ CREATE TABLE graphs (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'graphs'
+-- Dumping data for table `graphs`
 --
+
 
 INSERT INTO graphs VALUES (1,'Linux Box - CPU Utilization','%dev_name% - CPU Utilization','',575,100,'% Usage','template','',1000);
 INSERT INTO graphs VALUES (2,'Linux Box - Load Average','%dev_name% - Load Average','',575,100,'run queue size','template','',1000);
@@ -221,7 +233,7 @@ INSERT INTO graphs VALUES (7,'Linux Box - LAN Traffic','%dev_name% - %ifDescr%',
 INSERT INTO graphs VALUES (8,'Linux Box - Disk Utilization','%dev_name% - %dskPath%','',575,100,'Bytes','template','',1024);
 
 --
--- Table structure for table 'groups'
+-- Table structure for table `groups`
 --
 
 CREATE TABLE groups (
@@ -233,13 +245,14 @@ CREATE TABLE groups (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'groups'
+-- Dumping data for table `groups`
 --
+
 
 INSERT INTO groups VALUES (1,'Template Group','',0);
 
 --
--- Table structure for table 'monitors'
+-- Table structure for table `monitors`
 --
 
 CREATE TABLE monitors (
@@ -263,8 +276,9 @@ CREATE TABLE monitors (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'monitors'
+-- Dumping data for table `monitors`
 --
+
 
 INSERT INTO monitors VALUES (1,1,2,0,405,0,2,5,'',NULL,NULL,NULL,NULL,0);
 INSERT INTO monitors VALUES (2,1,2,0,405,0,2,7,'',NULL,NULL,NULL,NULL,0);
@@ -284,7 +298,7 @@ INSERT INTO monitors VALUES (15,3,1,NULL,NULL,0,2,43,'',NULL,NULL,NULL,NULL,0);
 INSERT INTO monitors VALUES (16,3,1,NULL,NULL,0,2,44,'',NULL,NULL,NULL,NULL,0);
 
 --
--- Table structure for table 'notifications'
+-- Table structure for table `notifications`
 --
 
 CREATE TABLE notifications (
@@ -296,13 +310,14 @@ CREATE TABLE notifications (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'notifications'
+-- Dumping data for table `notifications`
 --
+
 
 INSERT INTO notifications VALUES (1,'Broadcast message to linux users','wall problem with %ip',0);
 
 --
--- Table structure for table 'responses'
+-- Table structure for table `responses`
 --
 
 CREATE TABLE responses (
@@ -314,12 +329,13 @@ CREATE TABLE responses (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'responses'
+-- Dumping data for table `responses`
 --
 
 
+
 --
--- Table structure for table 'snmp_disk_cache'
+-- Table structure for table `snmp_disk_cache`
 --
 
 CREATE TABLE snmp_disk_cache (
@@ -331,12 +347,13 @@ CREATE TABLE snmp_disk_cache (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'snmp_disk_cache'
+-- Dumping data for table `snmp_disk_cache`
 --
 
 
+
 --
--- Table structure for table 'snmp_interface_cache'
+-- Table structure for table `snmp_interface_cache`
 --
 
 CREATE TABLE snmp_interface_cache (
@@ -361,12 +378,13 @@ CREATE TABLE snmp_interface_cache (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'snmp_interface_cache'
+-- Dumping data for table `snmp_interface_cache`
 --
 
 
+
 --
--- Table structure for table 'sub_dev_variables'
+-- Table structure for table `sub_dev_variables`
 --
 
 CREATE TABLE sub_dev_variables (
@@ -378,12 +396,13 @@ CREATE TABLE sub_dev_variables (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'sub_dev_variables'
+-- Dumping data for table `sub_dev_variables`
 --
 
 
+
 --
--- Table structure for table 'sub_devices'
+-- Table structure for table `sub_devices`
 --
 
 CREATE TABLE sub_devices (
@@ -397,15 +416,16 @@ CREATE TABLE sub_devices (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'sub_devices'
+-- Dumping data for table `sub_devices`
 --
+
 
 INSERT INTO sub_devices VALUES (1,1,1,'System',0);
 INSERT INTO sub_devices VALUES (2,1,2,'Network Interface',0);
 INSERT INTO sub_devices VALUES (3,1,3,'Disk Drive',0);
 
 --
--- Table structure for table 'tests_internal'
+-- Table structure for table `tests_internal`
 --
 
 CREATE TABLE tests_internal (
@@ -417,13 +437,14 @@ CREATE TABLE tests_internal (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'tests_internal'
+-- Dumping data for table `tests_internal`
 --
+
 
 INSERT INTO tests_internal VALUES (1,'Count Lines in File');
 
 --
--- Table structure for table 'tests_script'
+-- Table structure for table `tests_script`
 --
 
 CREATE TABLE tests_script (
@@ -437,8 +458,9 @@ CREATE TABLE tests_script (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'tests_script'
+-- Dumping data for table `tests_script`
 --
+
 
 INSERT INTO tests_script VALUES (1,'Custom','',2,0,0);
 INSERT INTO tests_script VALUES (2,'Ping Latency','ping_time.pl %ip%',2,8,0);
@@ -446,7 +468,7 @@ INSERT INTO tests_script VALUES (3,'SNMP Diff','snmpdiff.php',2,8,0);
 INSERT INTO tests_script VALUES (4,'Win2k SNMP CPU','win2kcpu.pl',2,8,0);
 
 --
--- Table structure for table 'tests_snmp'
+-- Table structure for table `tests_snmp`
 --
 
 CREATE TABLE tests_snmp (
@@ -458,8 +480,9 @@ CREATE TABLE tests_snmp (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'tests_snmp'
+-- Dumping data for table `tests_snmp`
 --
+
 
 INSERT INTO tests_snmp VALUES (1,'TNT - Modems Online','.1.3.6.1.4.1.529.10.6.0',8);
 INSERT INTO tests_snmp VALUES (2,'Host - System Processes','.1.3.6.1.2.1.25.1.6.0',8);
@@ -504,7 +527,7 @@ INSERT INTO tests_snmp VALUES (45,'Disk - Percent Used','dskPercent.%dskIndex%',
 INSERT INTO tests_snmp VALUES (46,'Disk - Percent Node Usage','dskPercentNode.%dskIndex%',8);
 
 --
--- Table structure for table 'tests_sql'
+-- Table structure for table `tests_sql`
 --
 
 CREATE TABLE tests_sql (
@@ -520,8 +543,9 @@ CREATE TABLE tests_sql (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'tests_sql'
+-- Dumping data for table `tests_sql`
 --
+
 
 INSERT INTO tests_sql VALUES (1,'MySQL Questions',8,'localhost','root','sqlroot','show status like \"Questions\"',1);
 INSERT INTO tests_sql VALUES (3,'NetMRG - Active Script Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=1',0);
@@ -530,7 +554,7 @@ INSERT INTO tests_sql VALUES (5,'NetMRG - Active SQL Monitors',8,'localhost','ne
 INSERT INTO tests_sql VALUES (6,'NetMRG - Active Internal Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=4',0);
 
 --
--- Table structure for table 'user'
+-- Table structure for table `user`
 --
 
 CREATE TABLE user (
@@ -545,13 +569,36 @@ CREATE TABLE user (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'user'
+-- Dumping data for table `user`
 --
+
 
 INSERT INTO user VALUES (1,'admin','ee10c315eba2c75b403ea99136f5b48d',3,'Administrator',0);
 
 --
--- Table structure for table 'versioninfo'
+-- Table structure for table `user_prefs`
+--
+
+CREATE TABLE user_prefs (
+  id int(11) NOT NULL auto_increment,
+  uid int(11) NOT NULL default '0',
+  module varchar(64) NOT NULL default '',
+  pref varchar(64) NOT NULL default '',
+  value varchar(64) NOT NULL default '',
+  PRIMARY KEY  (id),
+  KEY uid (uid),
+  KEY uid_module_pref (uid,module,pref)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table `user_prefs`
+--
+
+
+INSERT INTO user_prefs VALUES (1,1,'SlideShow','AutoScroll','1');
+
+--
+-- Table structure for table `versioninfo`
 --
 
 CREATE TABLE versioninfo (
@@ -560,13 +607,14 @@ CREATE TABLE versioninfo (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'versioninfo'
+-- Dumping data for table `versioninfo`
 --
 
-INSERT INTO versioninfo VALUES ('Main','0.10');
+
+INSERT INTO versioninfo VALUES ('Main','0.12');
 
 --
--- Table structure for table 'view'
+-- Table structure for table `view`
 --
 
 CREATE TABLE view (
@@ -583,7 +631,8 @@ CREATE TABLE view (
 ) TYPE=MyISAM;
 
 --
--- Dumping data for table 'view'
+-- Dumping data for table `view`
 --
+
 
 
