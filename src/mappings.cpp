@@ -41,7 +41,7 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 
 	for (list<SNMPPair>::iterator current = ifIndexList.begin(); current != ifIndexList.end(); current++)
 	{
-		string ifIndex = (*current).value;
+		string ifIndex = current->value;
 		string ifName  = snmp_get(*info, "ifName."  + ifIndex);
 
 		if ((mibtype == imtStandard) &&
@@ -50,7 +50,7 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 			(ifName == "U")
 		   )
 		{
-			mibtype = imtOldCiscoRouter;		
+			mibtype = imtOldCiscoRouter;
 		}
 		
 		string ifDescr = snmp_get(*info, "ifDescr." + ifIndex);

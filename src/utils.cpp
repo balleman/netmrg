@@ -532,3 +532,20 @@ string format_time_elapsed(long long int num_secs)
 	}
 	
 } // end format_time_elapsed
+
+
+string remove_nonnumerics(string input)
+{
+	string temp;
+	for (string::size_type pos = 0; pos < input.length(); pos++)
+	{
+		if (isdigit(input[pos]) || (input[pos] == '.'))
+			temp += input[pos];
+	}
+	return temp;
+}
+
+double strtodec(string input)
+{
+	return strtod(input.c_str(), NULL);
+}

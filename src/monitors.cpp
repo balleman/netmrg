@@ -7,6 +7,8 @@
 * see doc/LICENSE for copyright information
 ********************************************/
 
+#include <math.h>
+
 #include "monitors.h"
 
 #include "snmp.h"
@@ -334,16 +336,32 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 
 	debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value: " + info.curr_val);
 
+	// strip out anything not numeric
+	info.curr_val = remove_nonnumerics(info.curr_val);
+	
 	if (rrd.data_type != "")
 	{
 		update_monitor_rrd(info, rrd);
 	}
 
-	// destroy anything non-integer; we don't want it here.
-	if (stripnl(info.curr_val) != inttostr(strtoint(info.curr_val)))
+	// what type of value are we dealing with?
+	if (info.curr_val == inttostr(strtoint(info.curr_val)))
 	{
-		debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value is non-integer.");
+		// value is an integer
+		// (do nothing)
+		debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value is an integer.");
+	}
+	else if (info.curr_val == "")
+	{
+		// value is non-numeric
+		debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value is not numeric.");
 		info.curr_val = "U";
+	}
+	else
+	{
+		//value is probably decimal
+		debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value is a decimal.");
+		info.curr_val = inttostr(llround(strtodec(info.curr_val)));
 	}
 
 	if ((info.curr_val == "U") || (info.last_val == "U"))
