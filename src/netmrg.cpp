@@ -216,9 +216,15 @@ void run_netmrg()
 	// determine runtime and store it
 	long int run_time = time( NULL ) - start_time;
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Runtime: " + inttostr(run_time));
-	runtime = fopen(get_setting(setPathRuntimeFile).c_str(),"w+");
-	fprintf(runtime, "%ld", run_time);
-	fclose(runtime);
+	if (runtime = fopen(get_setting(setPathRuntimeFile).c_str(),"w+"))
+	{
+		fprintf(runtime, "%ld", run_time);
+		fclose(runtime);
+	}
+	else
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Failed to open runtime file for writing.");
+	}
 
 
 }
