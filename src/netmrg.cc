@@ -91,12 +91,14 @@ struct DeviceInfo
 	int event_id;
 	int response_id;
 
-	int snmp_avoid;
-	int snmp_recache;
-	int snmp_ifnumber;
+	uint status;
+
+	uint snmp_avoid;
+	uint snmp_recache;
+	uint snmp_ifnumber;
 	long long int snmp_uptime;
 
-	int subdevice_type;
+	uint subdevice_type;
 
 	int test_type;
 	int test_id;
@@ -118,6 +120,8 @@ struct DeviceInfo
 		monitor_id		= -1;
 		event_id		= -1;
 		response_id		= -1;
+
+		status			=  0;
 
 		snmp_avoid		=  0;
 		snmp_recache		=  0;
@@ -863,7 +867,7 @@ string process_snmp_monitor(DeviceInfo info, MYSQL *mysql)
 }
 
 
-void process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
+uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 {
 	debuglogger(DEBUG_MONITOR, &info, "Starting Monitor.");
 
@@ -912,15 +916,16 @@ void process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 	}
 
 	update_monitor_db(info, mysql, rrd);
-	
-	process_events(info, mysql);
+
+	return process_events(info, mysql);
 
 }
 
-void process_sub_device(DeviceInfo info, MYSQL *mysql)
+uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 {
 	MYSQL_RES	*mysql_res;
 	MYSQL_ROW	mysql_row;
+	uint		status = 0;
 
 	debuglogger(DEBUG_SUBDEVICE, &info, "Starting Subdevice.");
 
@@ -1015,21 +1020,23 @@ void process_sub_device(DeviceInfo info, MYSQL *mysql)
 		} // end using rrd
 
 		// process each monitor
-		process_monitor(info, mysql, rrd);
+		status = worstof(status, process_monitor(info, mysql, rrd));
 
 	} // end for each monitor
 
         mysql_free_result(mysql_res);
 
+	return status;
 
 } // end process subdevice
 
 
-void process_sub_devices(DeviceInfo info, MYSQL *mysql)
+uint process_sub_devices(DeviceInfo info, MYSQL *mysql)
 {
 
 	MYSQL_RES	*mysql_res;
 	MYSQL_ROW	mysql_row;
+        uint		status = 0;
 
 	string query = string("SELECT id, type FROM sub_devices WHERE dev_id=") + inttostr(info.device_id);
 
@@ -1040,10 +1047,12 @@ void process_sub_devices(DeviceInfo info, MYSQL *mysql)
 		mysql_row = mysql_fetch_row(mysql_res);
 		info.subdevice_id 	= strtoint(mysql_row[0]);
 		info.subdevice_type	= strtoint(mysql_row[1]);
-		process_sub_device(info, mysql);
+		status = worstof(status, process_sub_device(info, mysql));
 	}
 
 	mysql_free_result(mysql_res);
+	
+	return status;
 }
 
 void process_device(int dev_id)
@@ -1051,6 +1060,7 @@ void process_device(int dev_id)
 	MYSQL 		mysql;
 	MYSQL_RES 	*mysql_res;
 	MYSQL_ROW 	mysql_row;
+	uint		status = 0;
 
 	DeviceInfo info;
 
@@ -1157,7 +1167,7 @@ void process_device(int dev_id)
 	mysql_free_result(mysql_res);
 
 	// process sub-devices
-	process_sub_devices(info, &mysql);
+	status = process_sub_devices(info, &mysql);
 
 	mysql_close(&mysql);
 
