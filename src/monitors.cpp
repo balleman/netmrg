@@ -172,7 +172,11 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 			FILE *p_handle;
 			char temp [256] = "";
 
-			if ((p_handle = popen(command.c_str(), "r")) == NULL)
+			mutex_lock(lkPipe);
+			p_handle = popen(command.c_str(), "r");
+			mutex_unlock(lkPipe);
+
+			if (p_handle == NULL)
 			{
 				debuglogger(DEBUG_GATHERER, LEVEL_ERROR, &info, "popen() failed.");
 				value = "U";
@@ -180,7 +184,10 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 			else
 			{
 				fgets(temp, 256, p_handle);
+
+				mutex_lock(lkPipe);
 				pclose(p_handle);
+				mutex_unlock(lkPipe);
 
 				value = string(temp);
 

@@ -12,7 +12,7 @@
 
 #include "common.h"
 
-enum Lock { lkActiveThreads, lkMySQL, lkSNMP, lkRRD, lkSettings };
+enum Lock { lkActiveThreads, lkMySQL, lkSNMP, lkRRD, lkSettings, lkPipe };
 
 void	mutex_lock(Lock);
 void	mutex_unlock(Lock);

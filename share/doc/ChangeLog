@@ -1,3 +1,6 @@
+2003.10.23  v0.10  balleman
+  - bug#0000081 - applied patch for popen concurrency issue (rojer)
+
 2003.10.21  v0.10  balleman
   - updated device page docs with new SNMP options
   - parse out SNMPv2 'bad oid' msgs
