@@ -1,5 +1,6 @@
 2004.05.27  v0.16cvs  keb
   - cleanup subst perl script and make it stop using the .in files
+  - bug#0000147 - fix warnings caused by autoconf PACKAGE_* defines
 
 2004.05.27  v0.16cvs  silfreed
   - bug#0000209 - docs should be a little prettier
