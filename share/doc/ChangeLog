@@ -1,6 +1,8 @@
 2004.08.21  v0.17cvs  balleman
   - bug#0000241 - setting for syslog facility
-
+  - bug#0000250 - internal ucd user+system monitor should return U's when necessary
+  - added the rest of the included internal tests to tests_internal in the default database
+  
 2004.08.20  v0.17cvs  balleman
   - bug#0000243 - gatherer man-page updates
   - bug#0000252 - status line, quick implementation

@@ -470,6 +470,10 @@ CREATE TABLE tests_internal (
 
 
 INSERT INTO tests_internal VALUES (1,'Count Lines in File');
+INSERT INTO tests_internal VALUES (2,'Lucent TNT "Good" Modems (available modems minus suspect modems)');
+INSERT INTO tests_internal VALUES (3,'UCD CPU Load (user + system)');
+INSERT INTO tests_internal VALUES (4,'Windows Disk Usage (percent)');
+INSERT INTO tests_internal VALUES (5,'UCD Swap Usage (percent)');
 
 --
 -- Table structure for table `tests_script`

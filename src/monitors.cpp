@@ -24,7 +24,7 @@
 
 string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 {
-	string test_result = "U", temp;
+	string test_result = "U", temp, temp2;
 	float disk_total, disk_used;
 
 	switch(info.test_id)
@@ -38,10 +38,12 @@ string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 					break;
 					
 		// UCD CPU combined load (user + system)
-		case 3:		test_result = inttostr(
-							strtoint(snmp_get(info, ".1.3.6.1.4.1.2021.11.9.0")) +
-							strtoint(snmp_get(info, ".1.3.6.1.4.1.2021.11.10.0"))
-						      );
+		case 3:		temp = snmp_get(info, ".1.3.6.1.4.1.2021.11.9.0");
+					temp2 = snmp_get(info, ".1.3.6.1.4.1.2021.11.10.0");
+					if ( (temp != "U") && (temp2 != "U") )
+					{
+						test_result = inttostr(temp) + inttostr(temp2);
+					}
 					break;
 
 		// Windows disk usage %
