@@ -19,11 +19,11 @@ netmrg_share_images_SCRIPTS = share/images/default/*.svg
 
 # options to install files in the share/db directory
 netmrg_share_dbdir=$(pkgdatadir)/db
-netmrg_share_db_SCRIPTS = 
+netmrg_share_db_SCRIPTS = share/netmrg.mysql
 
 # options to install files in the share/doc directory
-netmrg_share_docdir=$(datadir)/doc/$(PACKAGE)
-netmrg_share_doc_SCRIPTS = share/doc/*.sgml
+netmrg_share_docdir=$(datadir)/doc/$(PACKAGE)-$(VERSION)
+netmrg_share_doc_SCRIPTS = INSTALL README share/doc/*.sgml share/doc/ChangeLog share/doc/LICENSE share/doc/TODO
 
 # options to install files in the var/lib directory
 netmrg_var_libdir=$(localstatedir)/lib/$(PACKAGE)/rrd
@@ -32,3 +32,4 @@ netmrg_var_lib_SCRIPTS = var/lib/rrd/*.rrd
 # options to install files in the var/log directory
 netmrg_var_logdir=$(localstatedir)/log/$(PACKAGE)
 netmrg_var_log_SCRIPTS = 
+
