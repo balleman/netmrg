@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -8,7 +8,7 @@
 #           SNMP Structure Caching and Retreival       #
 #           snmp_caching.php                           #
 #                                                      #
-#     Copyright (C) 2001 Brady Alleman.                #
+#     Copyright (C) 2001-2002 Brady Alleman.           #
 #     brady@pa.net - www.treehousetechnologies.com     #
 #                                                      #
 ########################################################
@@ -18,19 +18,19 @@ function is_cached($dev_id)
 {
 	$h = do_query("SELECT dev_id FROM snmp_cache WHERE dev_id=$dev_id");
 	return mysql_num_rows($h);
-} # end is_cached
+} // end is_cached
 
 function is_disk_cached($dev_id)
 {
 	$h = do_query("SELECT dev_id FROM snmp_disk_cache WHERE dev_id=$dev_id");
 	return mysql_num_rows($h);
-} # end is_cached
+} // end is_cached
 
 function snmp_chop($string)
 {
 	$temp = ereg_replace("\n","",$string);
 	return ereg_replace(".*= ","",$temp);
-} # end snmp_chop
+} // end snmp_chop
 
 function do_snmp_get($dev_ip, $community, $oid)
 {
@@ -51,7 +51,7 @@ function do_snmp_get($dev_ip, $community, $oid)
 		$to_return = "U";
 	} // end if avoided device
 	return $to_return;
-} # end do_snmp_get
+} // end do_snmp_get
 
 function snmp_make_ip_array($dev_ip, $community)
 {
@@ -65,7 +65,7 @@ function snmp_make_ip_array($dev_ip, $community)
 		echo "Index: $index, IP: $ip\n";
 	}
 	return $res;
-} # end snmp_make_ip_array
+} // end snmp_make_ip_array
 
 function make_normal_snmp_array($dev_ip, $community, $oid_root)
 {
@@ -80,7 +80,7 @@ function make_normal_snmp_array($dev_ip, $community, $oid_root)
 		echo "Index: $index, Value: $value\n";
 	}
 	return $res;
-} # end make_normal_snmp_array
+} // end make_normal_snmp_array
 
 function cache_device($dev_row)
 {
@@ -125,26 +125,26 @@ function cache_device($dev_row)
 		echo "Alias: " . $if_alias . "\n\n";
 
 		do_update("
-			INSERT INTO snmp_cache SET 
+			INSERT INTO snmp_cache SET
 			dev_id=$dev_id,
-			if_index=$if_index, 
+			if_index=$if_index,
 			if_name=\"$if_name\",
 			if_ip=\"$if_ip\",
 			if_desc=\"$if_desc\",
 			if_mac=\"$if_mac\",
 			if_alias=\"$if_alias\"");
-	} # end for
+	} // end for
 
-} # end cache_device
+} // end cache_device
 
 function ensure_cached($dev_id)
 {
 	if (is_cached($dev_id) < 1) {
 		$h = do_query("SELECT * FROM mon_devices WHERE id=$dev_id");
-		$row = mysql_fetch_array($h); 
+		$row = mysql_fetch_array($h);
 		cache_device($row);
 	} // end if device is cached
-} # end ensure_cached;
+} // end ensure_cached;
 
 function cache_disks($dev_row)
 {
@@ -173,22 +173,22 @@ function cache_disks($dev_row)
 		echo "Device: " . $dsk_device . "\n";
 
 		do_update("
-			INSERT INTO snmp_disk_cache SET 
+			INSERT INTO snmp_disk_cache SET
 			dev_id=$dev_id,
-			disk_index=$dsk_index, 
+			disk_index=$dsk_index,
 			disk_path=\"$dsk_path\",
 			disk_device=\"$dsk_device\"");
-	} # end for
+	} // end for
 
-} # end cache_disks
+} // end cache_disks
 
 function ensure_disk_cached($dev_id)
 {
 	if (is_disk_cached($dev_id) < 1) {
 		$h = do_query("SELECT * FROM mon_devices WHERE id=$dev_id");
-		$row = mysql_fetch_array($h); 
+		$row = mysql_fetch_array($h);
 		cache_device($row);
 	} // end if disk is cached
-} # end ensure_disk_cached;
+} // end ensure_disk_cached;
 
 ?>

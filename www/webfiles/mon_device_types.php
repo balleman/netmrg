@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -20,7 +20,6 @@ check_auth(1);
 if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQUEST["action"] == "dodelete") || ($_REQUEST["action"] == "doadd"))
 {
 check_auth(2);
-# Change databases if necessary and then display list
 
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
 	{
@@ -35,13 +34,13 @@ check_auth(2);
 			$db_end = "WHERE id={$_REQUEST['id']}";
 		} // end if id is 0 or not
 		do_update("$db_cmd mon_device_types SET name='{$_REQUEST['name']}', comment='{$_REQUEST['comment']}' $db_end");
-	} # done editing
+	} // done editing
 
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "dodelete")
 	{
 		check_auth(2);
 		do_update("DELETE FROM mon_device_types WHERE id={$_REQUEST['id']}");
-	} # done deleting
+	} // done deleting
 
 
 	# Display a list
@@ -77,24 +76,12 @@ check_auth(2);
 
 ?>
 </table>
-<?
-} # End if no action
+<?php
+} // End if no action
 
-/*if ($action == "add") {
-# Display editing screen
-
-make_edit_table("Add Group");
-make_edit_text("Name:","grp_name","25","100","");
-make_edit_text("Comment:","grp_comment","50","200","");
-make_edit_hidden("action","doadd");
-make_edit_submit_button();
-make_edit_end();
-
-} # End editing screen
-*/
 if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["action"] == "add"))
 {
-# Display editing screen
+	// Display editing screen
 	check_auth(2);
 	begin_page();
 	if ($_REQUEST["action"] == "add")
@@ -119,7 +106,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	make_edit_submit_button();
 	make_edit_end();
 
-} # End editing screen
+} // End editing screen
 
 end_page();
 

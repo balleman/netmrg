@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -79,20 +79,20 @@ begin_page();
 ?>
 <table width="100%" border="0" cellspacing="2" cellpadding="2" align="center">
 	<tr>
-		<td colspan="5" bgcolor="<? print(get_color_by_name("edit_main_header")); ?>">
-		<font color="<? print(get_color_by_name("edit_main_header_text")); ?>">
+		<td colspan="5" bgcolor="<?php print(get_color_by_name("edit_main_header")); ?>">
+		<font color="<?php print(get_color_by_name("edit_main_header_text")); ?>">
 		<b>Device Tree</b>
 		</font>
 		</td>
 	</tr>
-	<tr bgcolor="<? print(get_color_by_name("edit_header")); ?>">
+	<tr bgcolor="<?php print(get_color_by_name("edit_header")); ?>">
 
-	<td width=""><b><font color="<? print(get_color_by_name("edit_header_text")); ?>">Group</font></b></td>
-	<td width=""><b><font color="<? print(get_color_by_name("edit_header_text")); ?>">Device</font></b></td>
-	<td width=""><b><font color="<? print(get_color_by_name("edit_header_text")); ?>">Monitors</font></b></td>
-	<td width=""><b><font color="<? print(get_color_by_name("edit_header_text")); ?>">Events</font></b></td>
-	<td width=""><b><font color="<? print(get_color_by_name("edit_header_text")); ?>">Situation</font></b></td>
-<?
+	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Group</font></b></td>
+	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Device</font></b></td>
+	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Monitors</font></b></td>
+	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Events</font></b></td>
+	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Situation</font></b></td>
+<?php
 
 draw_group(0);
 
@@ -204,7 +204,7 @@ function draw_group($grp_id, $depth = 0)
 		} // end group for
 	} // end group expand if
 } // end draw_group()
-?></table><?
+?></table><?php
 
 end_page();
 

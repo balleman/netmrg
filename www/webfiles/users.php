@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -92,7 +92,7 @@ for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 
 ?>
 </table>
-<?
+<?php
 } // End if no action
 
 if (!empty($action) && ($action == "edit" || $action == "add"))
@@ -133,16 +133,16 @@ if (!empty($action) && $action == "delete")
 
 Are you sure you want to delete this test?
 
-<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post">
+<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
 <input type="submit" value="Yes">
-<input type="hidden" name="user_id" value="<? echo $_REQUEST["user_id"]; ?>">
+<input type="hidden" name="user_id" value="<?php echo $_REQUEST["user_id"]; ?>">
 <input type="hidden" name="action" value="dodelete">
 </form>
-<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post">
+<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
 <input type="submit" value="No">
 </form>
 
-<?
+<?php
 
 } # end delete confirmation
 

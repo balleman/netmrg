@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -30,7 +30,7 @@ begin_page();
 <b>The Network Monitoring, Reporting, and Graphing Tool</b>
 <br><br>
 
-Version <b><? echo $GLOBALS["netmrg"]["version"]; ?></b><br>
+Version <b><?php echo $GLOBALS["netmrg"]["version"]; ?></b><br>
 <br><br>
 
 Copyright &copy; 2001-2002 <a href="http://www.treehousetechnologies.net/brady/">Brady Alleman</a>.<br>
@@ -44,7 +44,7 @@ This project makes use of <a href="http://www.rrdtool.org/">RRDTOOL</a>, <a href
 <a href="http://www.netmrg.net/">NetMRG</a> is a project of <a href="http://www.treehousetechnologies.net/">TreehouseTechnologies</a>.
 </big>
 </div>
-<?
+<?php
 
 end_page();
 

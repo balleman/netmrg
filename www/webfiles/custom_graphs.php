@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -134,7 +134,7 @@ if (empty($_REQUEST["action"]))
 		  formatted_link("Delete", "{$_SERVER["PHP_SELF"]}?action=delete&graph_id=$graph_id"), "");
 	} // end graphs
 
-?></table><?
+?></table><?php
 
 } // end no action
 
@@ -210,16 +210,16 @@ if ($_REQUEST["action"] == "delete")
 
 	Are you sure you want to delete this graph and all of its data sources?
 
-	<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post">
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
 	<input type="submit" value="Yes">
-	<input type="hidden" name="graph_id" value="<? print($_REQUEST["graph_id"]); ?>">
+	<input type="hidden" name="graph_id" value="<?php print($_REQUEST["graph_id"]); ?>">
 	<input type="hidden" name="action" value="dodelete">
 	</form>
-	<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post">
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
 	<input type="submit" value="No">
 	</form>
 
-	<?
+	<?php
 
 } // end delete confirmation
 

@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -78,14 +78,14 @@ else
 	<br><br>
 	<font color="#000080" size="3"><strong>User Login</strong></font>
 	<br><br>
-<?
+<?php
 if (!empty($login_error))
 {
 ?>
 	<div class="error">
-	<? echo "$login_error\n"; ?>
+	<?php echo "$login_error\n"; ?>
 	</div>
-<?
+<?php
 } // end if there was a login error
 ?>
 	<form action="./login.php" method="post">
@@ -96,7 +96,7 @@ if (!empty($login_error))
 	</table>
 	</form>
 
-<?
+<?php
 
 	end_page();
 

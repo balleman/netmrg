@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -149,18 +149,18 @@ if (!empty($_REQUEST["action"]))
 
 	Are you sure you want to delete this graph from this view?
 
-	<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post">
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
 	<input type="submit" value="Yes">
-	<input type="hidden" name="pos_id" value="<? echo $_REQUEST["pos_id"]; ?>">
-	<input type="hidden" name="pos_id_type" value="<? echo $_REQUEST["$pos_id_type"]; ?>">
-	<input type="hidden" name="graph_id" value="<? echo $_REQUEST["$graph_id"]; ?>">
+	<input type="hidden" name="pos_id" value="<?php echo $_REQUEST["pos_id"]; ?>">
+	<input type="hidden" name="pos_id_type" value="<?php echo $_REQUEST["$pos_id_type"]; ?>">
+	<input type="hidden" name="graph_id" value="<?php echo $_REQUEST["$graph_id"]; ?>">
 	<input type="hidden" name="action" value="dodelete">
 	</form>
-	<form action="<? echo $_SERVER["PHP_SELF"]; ?>" method="post">
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
 	<input type="submit" value="No">
 	</form>
 
-<?
+<?php
 	} // end if action is to do something
 } // end if action is defined
 

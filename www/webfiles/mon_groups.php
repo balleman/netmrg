@@ -1,4 +1,4 @@
-<?
+<?php
 ########################################################
 #                                                      #
 #           NetMRG Integrator                          #
@@ -96,7 +96,7 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 
 ?>
 </table>
-<?
+<?php
 } // End if no action
 
 if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["action"] == "add"))

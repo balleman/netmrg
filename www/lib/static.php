@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -8,7 +8,7 @@
 #           Static Data Integration Module             #
 #           stat.php                                   #
 #                                                      #
-#     Copyright (C) 2001 Brady Alleman.                #
+#     Copyright (C) 2001-2002 Brady Alleman.           #
 #     brady@pa.net - www.treehousetechnologies.com     #
 #                                                      #
 ########################################################

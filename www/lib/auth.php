@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -40,7 +40,7 @@ function check_user_pass($user, $pass)
 * IsLoggedIn();
 *
 * verifies a username and password in the session 
-* agains what's in the database
+* against what's in the database
 * and that the user isn't spoofing their ip
 */
 function IsLoggedIn()
@@ -126,7 +126,7 @@ function view_redirect()
 		$redir = $_SESSION["netmrgsess"]["redir"];
 		unset($_SESSION["netmrgsess"]["redir"]);
 		header("Location: $redir");
-	} # end if we don't have a redir page or we do
+	} // end if we don't have a redir page or we do
 } // end view_redirect()
 
 ?>

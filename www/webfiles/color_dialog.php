@@ -1,5 +1,6 @@
-<?
+<?php
 
+/*
 ########################################################
 #                                                      #
 #           NetMRG Integrator                          #
@@ -13,6 +14,7 @@
 #     based on Luis Romero's Color Picker              #
 #                                                      #
 ########################################################
+*/
 
 require_once("../include/config.php");
 
@@ -30,7 +32,7 @@ require_once("../include/config.php");
 <SCRIPT LANGUAGE="JavaScript">
 <!-- Begin
 function showColor(val) {
-window.opener.document.editform.<? print($field); ?>.value = val;
+window.opener.document.editform.<?php print($field); ?>.value = val;
 window.close();
 }
 </script>

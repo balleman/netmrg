@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -8,7 +8,7 @@
 #           Events Editing Page                        #
 #           mon_events.php                             #
 #                                                      #
-#     Copyright (C) 2001 Brady Alleman.                #
+#     Copyright (C) 2001-2002 Brady Alleman.           #
 #     brady@pa.net - www.treehousetechnologies.com     #
 #                                                      #
 ########################################################
@@ -18,28 +18,27 @@ check_auth(1);
 
 if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
 {
-# Change databases if necessary and then display list
 
 if ($action == "doadd")
 {
 	check_auth(2);
 	do_update("INSERT INTO mon_events SET monitors_id=$mon_id, result=$result, condition=$mon_conditions, options=$mon_options, situation=$mon_situations, display_name=\"$display_name\"");
-} # done adding
+} // done adding
 
 if ($action == "doedit")
 {
 	check_auth(2);
 	do_update("UPDATE mon_events SET monitors_id=$mon_id, result=$result, condition=$mon_conditions, options=$mon_options, situation=$mon_situations, display_name=\"$display_name\" WHERE id=$event_id");
-} # done editing
+} // done editing
 
 if ($action == "dodelete")
 {
 	check_auth(2);
 	delete_event($event_id);
-} # done deleting
+} // done deleting
 
 
-# Display a list
+// Display a list
 
 if (isset($mon_id))
 {
@@ -90,7 +89,7 @@ else
 
 $mon_total = mysql_num_rows($mon_results);
 
-# For each device
+// For each device
 for ($mon_count = 1; $mon_count <= $mon_total; ++$mon_count)
 {
 
@@ -110,8 +109,8 @@ make_display_item(get_monitor_name($mon_row["mon_id"]),"",
 
 ?>
 </table>
-<?
-} # End if no action
+<?php
+} // End if no action
 
 if ($action == "add")
 {
@@ -129,7 +128,7 @@ if ($action == "add")
 	make_edit_submit_button();
 	make_edit_end();
 
-} # End editing screen
+} // End editing screen
 
 if ($action == "edit")
 {
@@ -152,11 +151,11 @@ if ($action == "edit")
 	make_edit_submit_button();
 	make_edit_end();
 
-} # End editing screen
+} // End editing screen
 
 if ($action == "delete")
 {
-	# Display delete confirmation
+	// Display delete confirmation
 	check_auth(2);
 	begin_page();
 ?>
@@ -164,18 +163,18 @@ if ($action == "delete")
 
 Are you sure you want to delete this event?
 
-<form action="<? print("$SCRIPT_NAME"); ?>" method="post">
+<form action="<?php print("$SCRIPT_NAME"); ?>" method="post">
 <input type="submit" value="Yes">
-<input type="hidden" name="event_id" value="<? print("$event_id"); ?>">
+<input type="hidden" name="event_id" value="<?php print("$event_id"); ?>">
 <input type="hidden" name="action" value="dodelete">
 </form>
-<form action="<? print("$SCRIPT_NAME"); ?>" method="post">
+<form action="<?php print("$SCRIPT_NAME"); ?>" method="post">
 <input type="submit" value="No">
 </form>
 
-<?
+<?php
 
-} # end delete confirmation
+} // end delete confirmation
 
 end_page();
 

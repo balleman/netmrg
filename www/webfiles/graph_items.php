@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -79,7 +79,7 @@ if (empty($_REQUEST["action"]))
 
         $custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&graph_id={$_REQUEST['graph_id']}&edit_monitor=1";
 
-	?><img align="center" src="get_graph.php?type=custom&id=<? echo $_REQUEST["graph_id"]; ?>"><br><?
+	?><img align="center" src="get_graph.php?type=custom&id=<?php echo $_REQUEST["graph_id"]; ?>"><br><?php
 	make_display_table("Graph Data Sources","Graph","","Item Label","","","");
 
 	for ($ds_count = 1; $ds_count <= $ds_total; ++$ds_count)
@@ -100,7 +100,7 @@ if (empty($_REQUEST["action"]))
 
 	} // end for
 
-?></table><?
+?></table><?php
 
 } // end no action
 

@@ -1,4 +1,4 @@
-<?
+<?php
 
 /*
 ########################################################
@@ -46,20 +46,20 @@ function tailer()
 	?>
 	<div align="right">
 	<br>
-	<a href="<? print($_SERVER["PHP_SELF"]); ?>?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($newhist) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>&show_children=<? print($_REQUEST["show_children"]) ?>">Toggle History</a><br>
-	<a href="<? print($_SERVER["PHP_SELF"]); ?>?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($_REQUEST["hist"]) ?>&togglelegend=<? print($toggle) ?>&show_children=<? print($_REQUEST["show_children"]) ?>">Toggle Legend</a><br>
-	<?
+	<a href="<?php print($_SERVER["PHP_SELF"]); ?>?type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=<?php print($newhist) ?>&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>&show_children=<?php print($_REQUEST["show_children"]) ?>">Toggle History</a><br>
+	<a href="<?php print($_SERVER["PHP_SELF"]); ?>?type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=<?php print($_REQUEST["hist"]) ?>&togglelegend=<?php print($toggle) ?>&show_children=<?php print($_REQUEST["show_children"]) ?>">Toggle Legend</a><br>
+	<?php
 	if ($_REQUEST["type"] == "custom")
 	{
 	?>
-	<a href="<? print($_SERVER["PHP_SELF"]); ?>?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($_REQUEST["hist"]) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>&show_children=<? print($new_show_children) ?>">Toggle Children</a><br>
-	<?
+	<a href="<?php print($_SERVER["PHP_SELF"]); ?>?type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=<?php print($_REQUEST["hist"]) ?>&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>&show_children=<?php print($new_show_children) ?>">Toggle Children</a><br>
+	<?php
 	}
 	?>
 	<Br>
 	<a href="javascript:history.back(1)">Back</a>
 	</div>
-	<?
+	<?php
 
 } // end tailer
 
@@ -71,9 +71,9 @@ function show_a_graph()
 	{
 		?>
 		<div align="center">
-		<img src="get_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>">
+		<img src="get_graph.php?type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>">
 		</div>
-		<?
+		<?php
 
 		if (!empty($_REQUEST["show_source"]))
 		{
@@ -85,12 +85,12 @@ function show_a_graph()
 
 		?>
 		<div align="center">
-		<img src="get_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=0&togglelegend=<? print($_REQUEST["togglelegend"]) ?>">
-		<img src="get_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=1&togglelegend=<? print($_REQUEST["togglelegend"]) ?>">
-		<img src="get_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=2&togglelegend=<? print($_REQUEST["togglelegend"]) ?>">
-		<img src="get_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=3&togglelegend=<? print($_REQUEST["togglelegend"]) ?>">
+		<img src="get_graph.php?type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=0&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>">
+		<img src="get_graph.php?type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=1&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>">
+		<img src="get_graph.php?type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=2&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>">
+		<img src="get_graph.php?type=<?php print($_REQUEST["type"]) ?>&id=<?php print($_REQUEST["id"]) ?>&hist=3&togglelegend=<?php print($_REQUEST["togglelegend"]) ?>">
 		</div>
-        	<?
+        	<?php
 
 	} // end if
 

@@ -1,4 +1,4 @@
-<? 
+<?php 
 require_once("../include/config.php");
 
 $handle = do_query("SELECT * FROM mon_devices WHERE id={$_REQUEST['dev_id']}");

@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -75,7 +75,7 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 
 ?>
 </table>
-<?
+<?php
 } // End if no action
 
 

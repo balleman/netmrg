@@ -6,6 +6,7 @@
   - extensive use of CSS
   - update of all web pages to work with 'register_globals' off
     * this requires PHP 4.1+
+  - use php long start tags instead of short ones
 
 0.79.2a
   - reconstruction of C++ code

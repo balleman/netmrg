@@ -1,4 +1,4 @@
-<?
+<?php
 
 ########################################################
 #                                                      #
@@ -33,7 +33,7 @@ if (empty($_REQUEST["action"]))
 		make_display_item($row["name"], "", $row["value"], "", formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&sub_dev_id={$_REQUEST['sub_dev_id']}&name=" . $row["name"]) . "&nbsp;" . formatted_link("Delete", ""), "");
 	}
 
-	?></table><?
+	?></table><?php
 
 	end_page();
 }
