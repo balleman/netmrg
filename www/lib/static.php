@@ -108,7 +108,7 @@ function netmrg_root()
 
 function get_site_name()
 {
-	return "TreehouseTechnologies";
+	return $GLOBALS["netmrg"]["company"];
 }
 
 

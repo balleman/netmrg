@@ -13,12 +13,6 @@
 #                                                      #
 ########################################################
 
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/menu.php");
-require_once(netmrg_root() . "lib/database.php");
-require_once(netmrg_root() . "lib/processing.php");
-require_once(netmrg_root() . "lib/auth.php");
-
 
 #+++++++++++++++++++++++++++++++++++++++++++++
 #
@@ -27,27 +21,34 @@ require_once(netmrg_root() . "lib/auth.php");
 #+++++++++++++++++++++++++++++++++++++++++++++
 
 
-
-function begin_page($pagename = "")
+function begin_page($pagename = "", $prettyname = "")
 {
 	// Define the initial formating for the page
-
 	global $menu_id, $menu_stat, $user_name;
 
 	if (isset($menu_id))
 	{
         	// If there is a change to the menu, apply it
         	change_menu_status($menu_id, $menu_stat);
-
 	} // end if
 
 	?>
 	<html>
 	<head>
-		<title>NetMRG - <? echo(get_site_name()); ?></title>
-		<link rel="stylesheet" type="text/css" href="./css/main.css">
+		<title><?
+	if (!empty($prettyname))
+	{
+		echo "$prettyname - ";
+	} // end if prettyname
+	echo $GLOBALS["netmrg"]["name"];
+	if (!empty($GLOBALS["netmrg"]["company"]))
+	{
+		echo " - {$GLOBALS['netmrg']['company']}";
+	} // end if company
+	?></title>
+		<link rel="stylesheet" type="text/css" href="<? echo $GLOBALS["netmrg"]["webroot"]; ?>/include/netmrg.css">
 	</head>
-	<body bgcolor="<? print(get_color_by_name("site_background")); ?>" text="<? print(get_color_by_name("site_text")); ?>" link="<? print(get_color_by_name("site_link")); ?>" vlink="<? print(get_color_by_name("site_vlink")); ?>" alink="<? print(get_color_by_name("site_alink")); ?>">
+	<body>
 <?
 if (!empty($pagename)) {
 ?>
@@ -55,56 +56,70 @@ if (!empty($pagename)) {
 <?
 } // end if there's a pagename, output it
 ?>
-	<table cellspacing="0" cellpadding="0" border="0" class="full">
-	<tr bgcolor="#001080" class="title">
-		<td class="title" width="125px" background="<? echo(get_image_by_name("tex_blue")); ?>"><a href="http://netmrg.net/"><img border="0" align="left" src="<? print(get_image_by_name("top"));?>"</a></td>
-		<td class="title" align="right" background="<? echo(get_image_by_name("tex_blue")); ?>">
-			<table class="title"><tr><td>
-			<font color="#d0d0d0" size="4">
-			<?
-				echo("<b>" . get_site_name() . "&nbsp;</b>" );
-			?>
-			</font></td></tr><td>
-			<font color="#d4d4dr">
-			<?
-				if (isset($user_name) && ($user_name != ""))
-				{
-					echo(get_full_name($user_name));
-				}
-			?>
-			</font>
-			</td></tr></table>
-		</td>
-	</tr>
-	<tr>
-		<td class="menu" valign="top">
-		<?
-			if (get_permit() > 0)
-			{
-				display_menu();
-			}
-		?>
-		</td>
-		<td valign="top">
-
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td class="title_name" valign="top" rowspan="2">
+		<a href="<? echo $GLOBALS["netmrg"]["webhost"].$GLOBALS["netmrg"]["webroot"]; ?>" class="title_name">
+		<? echo $GLOBALS["netmrg"]["name"]; ?>
+		</a>
+	</td>
+	<td class="company" align="right" valign="top">
+		<a href="<? echo $GLOBALS["netmrg"]["companylink"]; ?>" class="company">
+		<? echo $GLOBALS["netmrg"]["company"]; ?>
+		</a>
+	</td>
+</tr>
+<tr>
+	<td class="loggedintext" align="right" valign="bottom">
 	<?
+		if (IsLoggedIn())
+		{
+			echo '<span class="loggedintext">Logged in as </span>';
+			echo '<span class="loggedinuser">';
+			echo $_SESSION["netmrgsess"]["username"];
+			echo "</span>\n";
+		}
+		else
+		{
+			echo '<span class="loggedouttext">Not Logged In</span>'."\n";
+		} // end if logged in or not
+	?>
+	</td>
+</tr>
+</table>
+<br>
 
-} // end begin_page
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr>
+	<td class="empty" valign="top"><img src="<? echo $GLOBALS["netmrg"]["webroot"]; ?>/img/trans.gif" width="4" height="1" alt="trans gif"></td>
+	<td valign="top">
+	<?
+		if (IsLoggedIn())
+		{
+			display_menu();
+		} // end if is logged in, show the menu
+	?>
+	<img src="<? echo $GLOBALS["netmrg"]["webroot"]; ?>/img/trans.gif" width="125" height="1" alt="trans gif">
+	</td>
+	<td class="empty" valign="top"><img src="<? echo $GLOBALS["netmrg"]["webroot"]; ?>/img/trans.gif" width="4" height="1" alt="trans gif"></td>
+	<td valign="top" width="100%">
 
+<?
+} // end begin_page()
+
+
+// Define the final formatting for the page
 function end_page() 
 {
-	// Define the final formatting for the page
+?>
+	</td>
+</tr>
+</table>
 
-	?>
-		</td>
-	</tr>
-	</table>
-	</body></html>
-	<?
-
-} // end end_page
-
-
+</body>
+</html>
+<?
+} // end end_page()
 
 
 

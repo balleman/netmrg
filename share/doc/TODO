@@ -30,7 +30,9 @@ last_status.php:
 
 
 == silfreed ==
-move 'company' to config.php and use it in the header
+CSS-ificiation
+  - lessen use of images so the page is 'lighter'
+  - menu needs to be more lightweight
 fix everything so register_globals can be off
 get auth w/ php sessions to work
   - include check for REMOTE_ADDR

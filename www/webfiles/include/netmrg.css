@@ -1,109 +1,160 @@
 A, A:visited
 {
-	color : blue;
+	color : #0000B0;
 	text-decoration: none;
 }
 
 A:hover, A:active
 {
-	color : dark-orange;
+	color : #FF8C00;
 	text-decoration: underline;
 }
 
 BODY
 {
-	FONT-FAMILY: sans-serif;
-	FONT-SIZE: 10px;
-	MARGIN-TOP: 0px;
-	MARGIN-BOTTOM: 0px;
-	MARGIN-LEFT: 0px;
-	MARGIN-RIGHT: 0px;
+	background-color : #EAEAEA;
+	color : black;
+	font-family: sans-serif;
+	font-size: 10px;
+	margin: 0px;
+	border: 0px;
 }
 
 TABLE, TR, TD
 {
-	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
-	FONT-SIZE: 10px;
+	font-family: sans-serif;
+	font-size: 10px;
 }
 
 TR.title, TD.title
 {
-	Height: 50px;
+	height: 50px;
 }
 
 TABLE.full, TR.full, TD.full
 {
-	Height: 100%;
-	Width: 100%;
+	height: 100%;
+	width: 100%;
 }
 
 TD.menu 
 {
-	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
-	FONT-SIZE: 12px;
-	WIDTH: 125px;
+	font-family: sans-serif;
+	font-size: 12px;
+	width: 125px;
 }
 
 .title_name
 {
-	font-family : monospace;
-	font-size : 14px;
-	font-weight : bold;
-	color : maroon;
 	background-color : navy;
+	color : #EAEAEA;
+	font-family : sans-serif;
+	font-size : 24px;
+	font-weight : bold;
 }
 
 A.title_name, A:visited.title_name
 {
-	font-family : monospace;
-	font-size : 14px;
-	font-weight : bold;
-	color : maroon;
 	background-color : navy;
+	color : #EAEAEA;
+	font-family : sans-serif;
+	font-size : 24px;
+	font-weight : bold;
 	text-decoration : none;
 }
 
 A:hover.title_name, A:active.title_name
 {
-	font-family : monospace;
-	font-size : 14px;
-	font-weight : bold;
-	color : dark-orange;
 	background-color : navy;
+	color : #FF8C00;
+	font-family : sans-serif;
+	font-size : 24px;
+	font-weight : bold;
 	text-decoration : underline;
 }
 
 .company
 {
-	font-family : monospace;
-	font-size : 12px;
-	font-weight : bold;
-	color : maroon;
 	background-color : navy;
+	color : #EAEAEA;
+	font-family : monospace;
+	font-size : 16px
+	font-weight : bold;
 }
 
 A.company, A:visited.company
 {
-	font-family : monospace;
-	font-size : 12px;
-	font-weight : bold;
-	color : maroon;
 	background-color : navy;
+	color : #EAEAEA;
+	font-family : monospace;
+	font-size : 16px;
+	font-weight : bold;
 	text-decoration : none;
 }
 
 A:hover.company, A:active.company
 {
+	background-color : navy;
+	color : #FF8C00;
 	font-family : monospace;
+	font-size : 16px;
+	font-weight : bold;
+	text-decoration : underline;
+}
+
+.loggedouttext
+{
+	background-color : navy;
+	color : #E00000;
+	font-family : monospace;
+	font-size : 10px;
+}
+
+.loggedintext
+{
+	background-color : navy;
+	color : #EAEAEA;
+	font-family : monospace;
+	font-size : 10px;
+}
+
+.loggedinuser
+{
+	background-color : navy;
+	color : #00D000;
+	font-family : monospace;
+	font-size : 10px;
+}
+
+.menuhead
+{
+	background-color : #005000;
+	color : #D0D0D0;
+	font-family : sans-serif;
 	font-size : 12px;
 	font-weight : bold;
-	color : dark-orange;
-	background-color : navy;
-	text-decoration : underline;
+	width: 125px;
+	border-top : 1px solid #002000;
+	border-bottom : 1px solid #002000;
+}
+
+.menuitem
+{
+	background-color : #D0D0D0;
+	color : #0000B0;
+	width: 125px;
+	font-family : sans-serif;
+	font-size : 12px;
 }
 
 .error
 {
 	color : red;
+}
+
+.empty
+{
+	font-family : sans-serif;
+	font-size : 0px;
 }
 

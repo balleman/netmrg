@@ -13,16 +13,13 @@
 #                                                      #
 ########################################################
 
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/database.php");
 
 function display_menu()
 {
 
 	$menu_q = do_query("SELECT * FROM menu WHERE state=0 ORDER BY groupid,priority");
 	
-	echo("<table border='1' width='100%' cellpadding='2' class='Menu' ");
-	echo("bgcolor='" . get_color_by_name("menu_background") . "'>");
+	echo '<table cellpadding="0" cellspacing="0" border="0">'."\n";
 	
 	for ($i = 0; $i < mysql_num_rows($menu_q); $i++)
 	{
@@ -30,21 +27,28 @@ function display_menu()
 		
 		if ($menu_row["priority"] == 0)
 		{
-			if ($i != 0)
-			{
-				echo("</td></tr>");
-			}
-			echo("<tr><td class='menu' bgcolor='" . get_color_by_name("edit_main_header") . "'>");
-			echo("<font color='" . get_color_by_name("edit_main_header_text") . "'><strong>");
-			echo($menu_row["label"] . "</strong></font></td></tr><tr><td class='menu'>");
-		} else {
-			echo("<a href='" . $menu_row["link"] . "' name='" . $menu_row["caption"] . "'>");
-			echo($menu_row["label"] . "</a><br>");
-		}
-	}
-	echo("</td></tr></table>");
+			if ($i != 0) {
+				echo "<br />\n";
+				echo "</td></tr>\n";
+			} // end if this is not the first
 
-}
-		
+			echo '<tr><td class="menuhead">'."\n";
+			echo $menu_row["label"];
+			echo "</td></tr>\n";
+			echo '<tr><td class="menuitem">'."\n";
+
+		} else {
+			echo '<a class="menuitem" href="'. $menu_row["link"] .'" name="'. $menu_row["caption"] .'">';
+			echo $menu_row["label"];
+			echo "</a><br>\n";
+
+		} // end if it's a head item or not
+	} // end foreach menu item
+
+	echo "</td></tr>\n";
+	echo "</table>\n";
+
+} // end display_menu();
+
 
 ?>

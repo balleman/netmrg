@@ -24,6 +24,7 @@ ini_set("REGISTER_GLOBALS", 0);
 $GLOBALS["netmrg"]["version"] = "0.79.3a";
 $GLOBALS["netmrg"]["name"] = "NetMRG";
 $GLOBALS["netmrg"]["company"] = "Generic Company";
+$GLOBALS["netmrg"]["companylink"] = "http://netmrg.net";
 
 // DB Config
 $GLOBALS["netmrg"]["dbhost"] = "localhost";
@@ -35,6 +36,7 @@ $GLOBALS["netmrg"]["dbwritepass"] = "netmrgwrite";
 
 // Path Config
 $GLOBALS["netmrg"]["fileroot"] = "/var/www/netmrg";
+$GLOBALS["netmrg"]["webhost"] = "http://gunter.home.silfreed.net";
 $GLOBALS["netmrg"]["webroot"] = "/netmrg";
 
 
@@ -52,6 +54,7 @@ if (!isset($_SESSION["netmrgsess"]) || !is_array($_SESSION["netmrgsess"])) {
 
 /***** INCLUDES *****/
 require_once($GLOBALS["netmrg"]["fileroot"]."/lib/database.php");
+require_once($GLOBALS["netmrg"]["fileroot"]."/lib/menu.php");
 require_once($GLOBALS["netmrg"]["fileroot"]."/lib/stat.php");
 require_once($GLOBALS["netmrg"]["fileroot"]."/lib/format.php");
 require_once($GLOBALS["netmrg"]["fileroot"]."/lib/auth.php");
