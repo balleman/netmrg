@@ -7,7 +7,7 @@
 
 progname="netmrg"
 version=`cat share/doc/VERSION`
-cvsver=`echo $version | sed -e 's/\./-/'`
+cvsver=`echo $version | sed -e 's/\./_/'`
 this="$progname-$version"
 pkgdir="/tmp"
 
@@ -16,5 +16,5 @@ cd $pkgdir
 rm -rf $this/
 rm -f $this.tar.gz
 
-cvs export -r $progname"_"$cvsver -d $this $progname
+cvs export -r $progname"-"$cvsver -d $this $progname
 tar czf $this.tar.gz $this
