@@ -61,6 +61,7 @@ version bump in:
   share/doc/VERSION
   www/lib/stat.php
   share/netmrg.spec
+  bugs.netmrg.net
 copy items from DBChangeLog to www/webfiles/updater.php
 generate new template database
 generate new docs
