@@ -213,7 +213,7 @@ function edit()
 
 	make_edit_group("General Parameters");
 
-	echo("
+	echo "
 		<script type='text/javascript'>
 
 		function redisplay(selectedIndex)
@@ -221,14 +221,13 @@ function edit()
 			window.location = '{$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&action={$_REQUEST['action']}" . $dev_thingy . "&type=' + selectedIndex;
 		}
 		</script>
-		");
+		";
 
 	if (isset($_REQUEST["type"]))
 	{
-		if ($_REQUEST["type"] == 0) { $_REQUEST["type"] = 4; }
 		$mon_row["test_type"] = $_REQUEST["type"];
 	}
-	make_edit_select_from_table("Monitoring Type:","test_type", "test_types",$mon_row["test_type"], "", "onChange='redisplay(this.selectedIndex);'");
+	make_edit_select_from_table("Monitoring Type:","test_type", "test_types",$mon_row["test_type"], "", "onChange='redisplay(form.test_type.options[selectedIndex].value);'");
 
 	if ($mon_row["test_type"] == 1)
 	{
@@ -238,8 +237,8 @@ function edit()
 
 	if ($mon_row["test_type"] == 2)
 	{
-	        make_edit_group("SNMP Options");
-	        make_edit_select_from_table("SNMP Test:", "test_id", "tests_snmp", $mon_row["test_id"]);
+		make_edit_group("SNMP Options");
+		make_edit_select_from_table("SNMP Test:", "test_id", "tests_snmp", $mon_row["test_id"]);
 	}
 
 	if ($mon_row["test_type"] == 3)
