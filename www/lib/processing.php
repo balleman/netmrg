@@ -260,7 +260,7 @@ function apply_template($subdev_id, $template_id)
 {
 
 	// add the appropriate monitors to the subdevice
-	$q = db_query("SELECT monitors.id, data_type, test_id, test_type, test_params, min_val, max_val FROM graph_ds, monitors WHERE graph_ds.graph_id=$template_id AND graph_ds.mon_id=monitors.id");
+	$q = db_query("SELECT monitors.id, data_type, test_id, test_type, test_params, min_val, max_val FROM graph_ds, monitors WHERE graph_ds.graph_id='$template_id' AND graph_ds.mon_id=monitors.id");
 	for ($i = 0; $i < db_num_rows($q); $i++)
 	{
 		$row = db_fetch_array($q);
