@@ -12,6 +12,7 @@
   - support legend hiding (-g)
   - bug#0000048: duplication problems
   - bug#0000020: polling interval configuration
+  - bug#0000039: disk graph automagic, finalize
 
 2003.09.12  v0.10pre1  silfreed
   - bug#0000041: add navigational history to the top of pages underneath 'Groups'
