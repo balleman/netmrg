@@ -21,7 +21,7 @@ if (empty($_REQUEST["action"]))
 $action = $_REQUEST["action"];
 
 // if no action (list), and do inserts/updates/deletes
-if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
+if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd") || ($action == "multidodelete"))
 {
 // Change databases if necessary and then display list
 
@@ -54,13 +54,33 @@ if ($action == "dodelete")
 	exit();
 } // done deleting
 
+if ($action == "multidodelete")
+{
+	if (isset($_REQUEST['test']))
+	{
+		while (list($key,$value) = each($_REQUEST["test"]))
+		{
+			db_update("DELETE FROM tests_snmp WHERE id='$key'");
+		}
+	}
+	Header("Location: {$_SERVER['PHP_SELF']}");
+	exit();
+}
+
 /** start page **/
 begin_page("tests_snmp.php", "SNMP - Tests");
+js_checkbox_utils();
 js_confirm_dialog("del", "Are you sure you want to delete SNMP test ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
+?>
+<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+<input type="hidden" name="action" value="">
+<?php
+
 
 // Display a list
 
 make_display_table("SNMP Tests", "",
+	array("text" => checkbox_toolbar()),
 	array("text" => "Name"),
 	array("text" => "OID")
 ); // end make_display_table();
@@ -74,6 +94,7 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 	$test_row = db_fetch_array($test_results);
 
 	make_display_item("editfield".(($test_count-1)%2),
+		array("checkboxname" => "test", "checkboxid" => $test_row['id']),
 		array("text" => htmlspecialchars($test_row["name"])),
 		array("text" => htmlspecialchars($test_row["oid"])),
 		array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&test_id=" . $test_row["id"]) . "&nbsp;" .
@@ -82,7 +103,16 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 } // end tests
 
 ?>
+<tr>
+	<td colspan="5" class="editheader" nowrap="nowrap">
+		&lt;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked sub-devices?')){document.form.submit();}" href="#">Delete All Checked</a>&gt;
+	</td>
+</tr>
+<?php
+	make_status_line("SNMP test", $test_count - 1);
+?>
 </table>
+</form>
 <?php
 end_page();
 } // End if no action
