@@ -639,7 +639,12 @@ their NetMRG administrator.
 				</itemizedlist>
 			</refsect2>
 			<refsect2><title>Edit</title>
-				<para>edit info about a group</para>
+				<para>Edit information about a group</para>
+				<itemizedlist>
+					<listitem><para><userinput>Name</userinput> - Name of the group</para></listitem>
+					<listitem><para><userinput>Comment</userinput> - Description of the group</para></listitem>
+					<listitem><para><userinput>Parent</userinput> - Parent group for this group; sets up subgroups</para></listitem>
+				</itemizedlist>
 			</refsect2>
 		</refsect1>
 	</refentry>
