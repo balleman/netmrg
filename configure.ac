@@ -8,15 +8,17 @@ AC_INIT(NetMRG,0.8)
 # If it does this in the future, this can probably be removed
 #
 if test "x$exec_prefix" = "xNONE"; then
-	exec_prefix="/usr/local"
+	if test "x$prefix" = "xNONE" ; then
+		exec_prefix="/usr/local"
+	else
+		exec_prefix="$prefix"
+	fi
 	ac_configure_args="$ac_configure_args --exec-prefix=$exec_prefix"
 fi
 
-AC_REVISION($Revision: 1.5 $)
+AC_REVISION($Revision: 1.6 $)
 AM_INIT_AUTOMAKE
 AC_PROG_MAKE_SET
-
-AC_PREFIX_DEFAULT(/usr/local)
 
 #
 #  Run configure in directories
@@ -24,9 +26,9 @@ AC_PREFIX_DEFAULT(/usr/local)
 AC_CONFIG_SUBDIRS(src)
 
 AC_CONFIG_FILES( \
-	./Makefile \
-	./src/include/netmrg.h \
-	./www/include/config.php
+	Makefile \
+	src/include/netmrg.h \
+	www/include/config.php
 )
 
 AC_OUTPUT
