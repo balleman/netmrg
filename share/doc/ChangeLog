@@ -9,6 +9,7 @@
   - bug#0000082 - make netmrg_cron.sh use /bin/sh
   - bug#0000086 - view.php should display the custom name, not the dbrow name
   - bug#0000087 - session+external auth 'invalid' bug
+  - bug#0000098 - be more specific in Makefile.am so CVS doesn't cause problems
 
 2003.11.16  v0.10  balleman
   - bug#0000091 - monitor parameter escaping issues
