@@ -138,7 +138,7 @@ function do_list()
 
 		$short_name = get_short_monitor_name($mon_row["id"]);
 
-		make_display_item($short_name, "",
+		make_display_item($short_name, "events.php?mon_id={$mon_row['id']}",
 			$data, "", $graph, "",
 			formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&mon_id=$mon_id&sub_dev_id={$_REQUEST['sub_dev_id']}") . "&nbsp;" .
 			formatted_link("Delete","javascript:del('$short_name', '$mon_id')"), "");
