@@ -62,7 +62,7 @@ string strstripnl(string input)
 // token_replace - replace a token with a value throughout a string
 string token_replace(string &source, string token, string value)
 {
-	long int i;
+	string::size_type i;
 
 	while ((i = source.find(token)) >= 0)
 	{
