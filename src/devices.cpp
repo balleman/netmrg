@@ -208,6 +208,8 @@ void process_device(int dev_id)
 	info.name					= mysql_row[0];
 	info.ip						= mysql_row[1];
 	info.snmp_read_community	= mysql_row[3];
+
+	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, info.name + " / " + info.ip + " / " + info.snmp_read_community);
 	
 	// setup device-wide parameters
 	info.parameters.push_front(ValuePair("dev_name", mysql_row[0]));
