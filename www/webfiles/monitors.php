@@ -164,6 +164,9 @@ function edit()
 			WHERE monitors.id='{$_REQUEST['mon_id']}'
 			");
 		$mon_row = db_fetch_array($mon_results);
+		if (empty($mon_row["min_val"])) { $mon_row["min_val"] = "U"; }
+		if (empty($mon_row["max_val"])) { $mon_row["max_val"] = "U"; }
+
 	
 	} // end if editing a monitor
 	// if we're adding a monitor
@@ -172,8 +175,8 @@ function edit()
 		$mon_id = 0;
 		$mon_row["data_type"] = 1;
 		$mon_row["test_id"] = 1;
-		if (empty($mon_row["min_val"])) { $mon_row["min_val"] = "U"; }
-		if (empty($mon_row["max_val"])) { $mon_row["max_val"] = "U"; }
+		$mon_row["min_val"] = "U";
+		$mon_row["max_val"] = "U";
 		if (!empty($_REQUEST["type"]))
 		{
 			$mon_row["test_type"] = $_REQUEST["type"];
@@ -297,28 +300,13 @@ function edit()
 	}
 	
 	make_edit_text("Parameters:", "test_params", 50, 100, htmlspecialchars($mon_row["test_params"]));
-	
 	make_edit_group("Graphing Options");
-	
 	make_edit_select_from_table("Data Type:", "data_type", "data_types", $mon_row["data_type"]);
-	
-	if ($mon_row["min_val"] == "")
-	{
-	        $mon_row["min_val"] = "U";
-	}
-	
 	make_edit_text("Minimum Value:", "min_val", "10", "20", $mon_row["min_val"]);
-	
-	if ($mon_row["max_val"] == "")
-	{
-	        $mon_row["max_val"] = "U";
-	}
-	
 	make_edit_text("Maximum Value:", "max_val", "10", "20", $mon_row["max_val"]);
-	
 	make_edit_label('[<a href="javascript:make_min_undefined();">make minimum undefined</a>]
 		[<a href="javascript:make_max_undefined();">make maximum undefined</a>]');
-	
+
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("mon_id",$_REQUEST["mon_id"]);
 	make_edit_hidden("sub_dev_id",$_REQUEST["sub_dev_id"]);

@@ -54,6 +54,9 @@ function doedit()
 
 	if (isset($_REQUEST["options_logarithmic"]) && $_REQUEST["options_logarithmic"] == true)
 		$options .= "logarithmic,";
+		
+	if ($_REQUEST["min"] == "U") { $_REQUEST["min"] = "NULL"; }
+	if ($_REQUEST["max"] == "U") { $_REQUEST["max"] = "NULL"; }
 
 	$options = substr($options, 0, -1);
 	
@@ -64,7 +67,9 @@ function doedit()
 			width='{$_REQUEST['width']}', height='{$_REQUEST['height']}',
 			vert_label='" . db_escape_string($_REQUEST['vert_label']) . "',
 			base='{$_REQUEST['base']}', 
-			options='$options' 
+			options='$options',
+			max={$_REQUEST['max']},
+			min={$_REQUEST['min']}
 			$where");
 
 	header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
@@ -86,13 +91,15 @@ function duplicate()
 	check_auth(2);
 	$graph_handle = db_query("SELECT * FROM graphs WHERE id={$_REQUEST["id"]}");
 	$graph_row    = db_fetch_array($graph_handle);
+	if (empty($graph_row["min"])) { $graph_row["min"] = "NULL"; }
+	if (empty($graph_row["max"])) { $graph_row["max"] = "NULL"; }
 	db_update("INSERT INTO graphs SET name='" . db_escape_string($graph_row['name']) . " (duplicate)', " .
 	"title='" . db_escape_string($graph_row['title']). "', " .  
 	"comment='" . db_escape_string($graph_row['comment']) . "', " .
 	"width={$graph_row['width']}, height={$graph_row['height']}, " .
 	"vert_label='" . db_escape_string($graph_row['vert_label']) . "', " .
 	"base={$graph_row['base']}, options=\"{$graph_row['options']}\", " .
-	"type='{$graph_row['type']}'");
+	"type='{$graph_row['type']}', max={$graph_row['max']}, min={$graph_row['min']}");
 
 	$new_id = db_insert_id();
 
@@ -206,6 +213,8 @@ function edit()
 	{
 		$graph_results = db_query("SELECT * FROM graphs WHERE id={$_REQUEST["graph_id"]}");
 		$graph_row = db_fetch_array($graph_results);
+		if (empty($graph_row["min"])) { $graph_row["min"] = "U"; }
+		if (empty($graph_row["max"])) { $graph_row["max"] = "U"; }
 	}
 	else
 	{
@@ -216,6 +225,8 @@ function edit()
 		$graph_row["height"] = 100;
 		$graph_row["vert_label"] = "";
 		$graph_row["base"] = 1000;
+		$graph_row["min"] = "U";
+		$graph_row["max"] = "U";
 		$graph_row["options"] = "";
 	}
 
@@ -229,7 +240,9 @@ function edit()
 	if (!empty($_REQUEST["showadvanced"]))
 	{
 		make_edit_group("Advanced");
-		make_edit_text("Base Value:", "base", "4", "6", $graph_row["base"]);
+		make_edit_text("Base Value:", "base", "4", "10", $graph_row["base"]);
+		make_edit_text("Maximum Value:", "max", "6", "10", $graph_row["max"]);
+		make_edit_text("Minimum Value:", "min", "6", "10", $graph_row["min"]);
 		make_edit_checkbox("Hide Legend", "options_nolegend", isin($graph_row["options"], "nolegend"));
 		make_edit_checkbox("Use Logarithmic Scaling", "options_logarithmic", isin($graph_row["options"], "logarithmic"));
 	} // end if show advanced
@@ -242,6 +255,8 @@ function edit()
 		} // end if query string not empty
 		make_edit_group('<a class="editheaderlink" href="'.$graphlink.'">[Show Advanced]</a>');
 		make_edit_hidden("base", $graph_row["base"]);
+		make_edit_hidden("max", $graph_row["max"]);
+		make_edit_hidden("min", $graph_row["min"]);
 		make_edit_hidden("options_nolegend", isin($graph_row["options"], "nolegend"));
 		make_edit_hidden("options_logarithmic", isin($graph_row["options"], "logarithmic"));
 	} // end else hide advanced

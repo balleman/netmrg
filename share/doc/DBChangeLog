@@ -1,3 +1,6 @@
+2004.06.01  v0.16cvs  balleman
+  ALTER TABLE `graphs` ADD `max` INT, ADD `min` INT;
+
 2004.05.25  v0.16cvs  balleman
   ALTER TABLE `devices` ADD `no_snmp_uptime_check` TINYINT DEFAULT '0' NOT NULL ;
   ALTER TABLE `tests_snmp` ADD `type` TINYINT DEFAULT '0' NOT NULL , ADD `subitem` INT DEFAULT '0' NOT NULL ;

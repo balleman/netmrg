@@ -1,3 +1,6 @@
+2004.06.01  v0.16cvs  balleman
+  - bug#0000177 - graph scaling options
+
 2004.05.31  v0.16cvs  balleman
   - bug#0000214 - syslog support
   - bug#0000157 - become a daemon
