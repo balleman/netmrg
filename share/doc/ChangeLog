@@ -1,3 +1,6 @@
+2004.07.20  v0.17cvs  keb
+  - bug#0000221 - ability to disable users
+
 2004.07.18  v0.17cvs  silfreed
   - bug#0000114 - checkboxes to delete users on users.php
   - bug#0000201 - summary of each section in netmrg
