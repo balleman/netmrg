@@ -34,6 +34,13 @@ switch ($_REQUEST["action"])
 	default:			display_error();
 }
 
+function display_error()
+{
+	begin_page("view.php", "View");
+	echo("An error occurred.");
+	end_page();
+}
+
 function display_edit()
 {
 	begin_page("view.php", "Edit View Item");
@@ -97,7 +104,7 @@ function do_add()
 		pos={$_REQUEST['pos']},
 		subdev_id={$_REQUEST['subdev_id']}");
 
-	header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1");
+	header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&action=list");
 	exit(0);
 }
 
@@ -112,7 +119,7 @@ function do_edit()
 		subdev_id={$_REQUEST['subdev_id']}
 		WHERE id={$_REQUEST['id']}");
 
-	header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1");
+	header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&action=list");
 	exit(0);
 }
 
@@ -130,7 +137,7 @@ function do_delete()
 		AND object_type='" . $_REQUEST["object_type"] . "'
 		AND pos > " . $pos);
 
-	header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1");
+	header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&action=list");
 	exit(0);
 }
 
@@ -169,7 +176,7 @@ function do_move()
 		}
 	}
 
-	header("Location: {$_SERVER['PHP_SELF']}?object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&edit=1");
+	header("Location: {$_SERVER['PHP_SELF']}?object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&action=list");
 	exit(0);
 }
 
