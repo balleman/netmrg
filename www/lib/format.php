@@ -196,31 +196,36 @@ function DrawGroupNavHistory($type, $id)
 <?php
 	if (!empty($_SESSION["netmrgsess"]["grpnav"]["group"]))
 	{
+		echo ' : ';
 		if ($type != "group") echo '<a href="devices.php?grp_id='.$_SESSION["netmrgsess"]["grpnav"]["group"].'">';
 		echo get_group_name($_SESSION["netmrgsess"]["grpnav"]["group"]);
 		if ($type != "group") echo "</a>\n";
 	} // end if ! empty group
 	if (!empty($_SESSION["netmrgsess"]["grpnav"]["device"]))
 	{
-		if ($type != "device") echo ' : <a href="sub_devices.php?dev_id='.$_SESSION["netmrgsess"]["grpnav"]["device"].'">';
+		echo ' : ';
+		if ($type != "device") echo '<a href="sub_devices.php?dev_id='.$_SESSION["netmrgsess"]["grpnav"]["device"].'">';
 		echo get_device_name($_SESSION["netmrgsess"]["grpnav"]["device"]);
 		if ($type != "device") echo "</a>\n";
 	} // end if ! empty device
 	if (!empty($_SESSION["netmrgsess"]["grpnav"]["sub_device"]))
 	{
-		if ($type != "sub_device") echo ' : <a href="monitors.php?sub_dev_id='.$_SESSION["netmrgsess"]["grpnav"]["sub_device"].'">';
+		echo ' : ';
+		if ($type != "sub_device") echo '<a href="monitors.php?sub_dev_id='.$_SESSION["netmrgsess"]["grpnav"]["sub_device"].'">';
 		echo get_sub_device_name($_SESSION["netmrgsess"]["grpnav"]["sub_device"]);
 		if ($type != "sub_device") echo "</a>\n";
 	} // end if ! empty sub_device
 	if (!empty($_SESSION["netmrgsess"]["grpnav"]["monitor"]))
 	{
-		if ($type != "monitor") echo ' : <a href="events.php?mon_id='.$_SESSION["netmrgsess"]["grpnav"]["monitor"].'">';
+		echo ' : ';
+		if ($type != "monitor") echo '<a href="events.php?mon_id='.$_SESSION["netmrgsess"]["grpnav"]["monitor"].'">';
 		echo get_short_monitor_name($_SESSION["netmrgsess"]["grpnav"]["monitor"]);
 		if ($type != "monitor") echo "</a>\n";
 	} // end if ! empty monitor
 	if (!empty($_SESSION["netmrgsess"]["grpnav"]["event"]))
 	{
-		if ($type != "event") echo ' : <a href="responses.php?event_id='.$_SESSION["netmrgsess"]["grpnav"]["event"].'">';
+		echo ' : ';
+		if ($type != "event") echo '<a href="responses.php?event_id='.$_SESSION["netmrgsess"]["grpnav"]["event"].'">';
 		echo get_event_name($_SESSION["netmrgsess"]["grpnav"]["event"]);
 		if ($type != "event") echo "</a>\n";
 	} // end if ! empty event
