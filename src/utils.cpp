@@ -272,7 +272,7 @@ int level_to_attrib(int level)
 string censor_message(const string & message)
 {
 	string tempmsg = string(message);
-	unsigned int pos;
+	size_t pos;
 	
 	while ((pos = tempmsg.find("{")) != string::npos)
 	{
@@ -286,7 +286,7 @@ string censor_message(const string & message)
 string remove_braces(const string & message)
 {
 	string tempmsg = string(message);
-	unsigned int pos;	
+	size_t pos;	
 
 	while ((pos = tempmsg.find("{")) != string::npos)
 	{
