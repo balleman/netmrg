@@ -16,7 +16,7 @@
 #define _POSIX_THREAD_SAFE_FUNCTIONS
 #define _P __P
 
-#define NETMRG_VERSION		"@NETMRG_VERSION@"
+#define NETMRG_VERSION		"@PACKAGE_VERSION@"
 
 // The remaining options are the default values 
 // used if not overridden on the command line or config file.
@@ -36,6 +36,6 @@
 #define DEF_DB_DB		"netmrg"
 
 // Define the command that distributes reports
-#define DISTRIB_CMD		"/var/www/netmrg/bin/distrib.sh"
+#define DISTRIB_CMD		"@prefix@/bin/distrib.sh"
 
 #endif              
