@@ -18,9 +18,9 @@ static string current_settings[settings_count];
 
 string get_setting(Setting x)
 {
-	mutex_lock(lkSettings);
+	netmrg_mutex_lock(lkSettings);
 	string temp = current_settings[x];
-	mutex_unlock(lkSettings);
+	netmrg_mutex_unlock(lkSettings);
 	return temp;
 }
 
@@ -31,9 +31,9 @@ long int get_setting_int(Setting x)
 
 void set_setting(Setting x, const string & newvalue)
 {
-	mutex_lock(lkSettings);
+	netmrg_mutex_lock(lkSettings);
 	current_settings[x] = newvalue;
-	mutex_unlock(lkSettings);
+	netmrg_mutex_unlock(lkSettings);
 }
 
 void set_setting_int(Setting x, long int newvalue)

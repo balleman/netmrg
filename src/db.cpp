@@ -20,17 +20,17 @@
 
 int db_connect(MYSQL *connection)
 {
-	mutex_lock(lkMySQL);
+	netmrg_mutex_lock(lkMySQL);
 	mysql_init(connection);
 	if (!(mysql_real_connect(connection, get_setting(setDBHost).c_str(), get_setting(setDBUser).c_str(), get_setting(setDBPass).c_str(), get_setting(setDBDB).c_str(), 0, NULL, 0)))
 	{
-		mutex_unlock(lkMySQL);
+		netmrg_mutex_unlock(lkMySQL);
 		debuglogger(DEBUG_MYSQL, LEVEL_ERROR, NULL, "MySQL Connection Failure. (" + string(mysql_error(connection)) + ")");
 		return 0;
 	}
 	else
 	{
-		mutex_unlock(lkMySQL);
+		netmrg_mutex_unlock(lkMySQL);
 		return 1;
 	}
 }

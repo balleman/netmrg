@@ -47,19 +47,19 @@ string get_lock_name(Lock myLock)
 	return "";
 }
 
-void mutex_lock(Lock myLock)
+void netmrg_mutex_lock(Lock myLock)
 {
 	debuglogger(DEBUG_THREAD, LEVEL_DEBUG, NULL, "Locking " + get_lock_name(myLock));
 	pthread_mutex_lock(get_lock(myLock));
 }
 
-void mutex_unlock(Lock myLock)
+void netmrg_mutex_unlock(Lock myLock)
 {
 	debuglogger(DEBUG_THREAD, LEVEL_DEBUG, NULL, "Unlocking " + get_lock_name(myLock));
 	pthread_mutex_unlock(get_lock(myLock));
 }
 
-int	mutex_trylock(Lock myLock)
+int	netmrg_mutex_trylock(Lock myLock)
 {
 	debuglogger(DEBUG_THREAD, LEVEL_DEBUG, NULL, "Trying to lock " + get_lock_name(myLock));
 	return pthread_mutex_trylock(get_lock(myLock));

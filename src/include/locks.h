@@ -14,9 +14,9 @@
 
 enum Lock { lkActiveThreads, lkMySQL, lkSNMP, lkRRD, lkSettings, lkPipe };
 
-void	mutex_lock(Lock);
-void	mutex_unlock(Lock);
-int		mutex_trylock(Lock);
+void	netmrg_mutex_lock(Lock);
+void	netmrg_mutex_unlock(Lock);
+int		netmrg_mutex_trylock(Lock);
 
 #endif
 

@@ -64,9 +64,9 @@ void *child(void * arg)
 
 	process_device(device_id);
 
-	mutex_lock(lkActiveThreads);
+	netmrg_mutex_lock(lkActiveThreads);
 	active_threads--;
-	mutex_unlock(lkActiveThreads);
+	netmrg_mutex_unlock(lkActiveThreads);
 	debuglogger(DEBUG_THREAD, LEVEL_NOTICE, NULL, "Thread Ended.");
 
 	MYSQL_THREAD_END;
@@ -157,7 +157,7 @@ void run_netmrg()
 	int last_active_threads = 0;
 	while (dev_counter < num_rows)
 	{
-		if (mutex_trylock(lkActiveThreads) != EBUSY)
+		if (netmrg_mutex_trylock(lkActiveThreads) != EBUSY)
 		{
 			if (last_active_threads != active_threads)
 			{
@@ -177,7 +177,7 @@ void run_netmrg()
 				active_threads++;
 			}
 
-			mutex_unlock(lkActiveThreads);
+			netmrg_mutex_unlock(lkActiveThreads);
 		}
 		else
 		{
@@ -190,7 +190,7 @@ void run_netmrg()
 	int canexit = 0;
 	while (canexit == 0)
 	{
-		if (mutex_trylock(lkActiveThreads) != EBUSY)
+		if (netmrg_mutex_trylock(lkActiveThreads) != EBUSY)
 		{
 			if (last_active_threads != active_threads)
 			{
@@ -200,7 +200,7 @@ void run_netmrg()
 				last_active_threads = active_threads;
 			}
 			if (active_threads == 0) canexit = 1;
-			mutex_unlock(lkActiveThreads);
+			netmrg_mutex_unlock(lkActiveThreads);
 		}
 		else
 		{

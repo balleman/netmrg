@@ -137,9 +137,9 @@ void snmp_session_init(DeviceInfo &info)
 	session.community = u_string(info.snmp_read_community, u_temp);
 	session.community_len = info.snmp_read_community.length();
 
-	mutex_lock(lkSNMP);
+	netmrg_mutex_lock(lkSNMP);
 	sessp = snmp_sess_open(&session);
-	mutex_unlock(lkSNMP);
+	netmrg_mutex_unlock(lkSNMP);
 	
 	if (!sessp)
 	{

@@ -95,17 +95,17 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 			host + "'}, {'" + user + "'}, {'" + password + "'}, '" + test_query + "', '" +
 			string(mysql_row[4]) + "')");
 
-		mutex_lock(lkMySQL);
+		netmrg_mutex_lock(lkMySQL);
 		mysql_init(&test_mysql);
 
 		if (!(MYSQL_CONNECT(&test_mysql,host.c_str(),user.c_str(),password.c_str(), NULL, 0, NULL, 0)))
 		{
-			mutex_unlock(lkMySQL);
+			netmrg_mutex_unlock(lkMySQL);
 			debuglogger(DEBUG_GATHERER, LEVEL_WARNING, &info, "Test MySQL Connection Failure.");
 		}
 		else
 		{
-			mutex_unlock(lkMySQL);
+			netmrg_mutex_unlock(lkMySQL);
 			if (mysql_query(&test_mysql, test_query.c_str()))
 			{
 				debuglogger(DEBUG_GATHERER, LEVEL_WARNING, &info, "Test MySQL Query Failed (" + test_query + ")");
@@ -180,9 +180,9 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 			FILE *p_handle;
 			char temp [256] = "";
 
-			mutex_lock(lkPipe);
+			netmrg_mutex_lock(lkPipe);
 			p_handle = popen(command.c_str(), "r");
-			mutex_unlock(lkPipe);
+			netmrg_mutex_unlock(lkPipe);
 
 			if (p_handle == NULL)
 			{
@@ -193,9 +193,9 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 			{
 				fgets(temp, 256, p_handle);
 
-				mutex_lock(lkPipe);
+				netmrg_mutex_lock(lkPipe);
 				pclose(p_handle);
-				mutex_unlock(lkPipe);
+				netmrg_mutex_unlock(lkPipe);
 
 				value = string(temp);
 

@@ -57,9 +57,9 @@ void rrd_cmd(DeviceInfo info, string cmd)
 	debuglogger(DEBUG_RRD, LEVEL_DEBUG, &info, "RRD: '" + cmd + "'");
 	cmd = " " + cmd + "\n";
 
-	mutex_lock(lkRRD);
+	netmrg_mutex_lock(lkRRD);
 	fprintf(rrdtool_pipe, cmd.c_str());
-	mutex_unlock(lkRRD);
+	netmrg_mutex_unlock(lkRRD);
 }
 
 // get_rrd_file
