@@ -17,7 +17,22 @@ when looking at a device's graphs, you should be able to click next to it
 
 == silfreed ==
 make netmrg xhtml compliant
-
+View Graph replacement (dew)
+  - title as text
+  - comments as text
+  - allow links to other items (next subdevice)
+  - <A NAME="title"></a>
+  - custom link
+Web Interface redesign (dew)
+  - big navigations along top
+  - move general nav right
+  - "device tree" renamed
+  - collapsed view
+    * have nav at the top w/ items immediately around where you currently are
+    * graphs below nav w/ items of where you're currently at
+PHP Library Restructure
+  - split libraries into more useful items
+  - write a 'loadlib' function to load libries instead of ugly 'include_once's everywhere
 
 == balleman ==
   - ability to compile against librrd instead of using a pipe (should be able to compile for either)
