@@ -355,8 +355,10 @@ void update_monitor_db(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 
 
 	db_update(mysql, &info, "UPDATE monitors SET tuned=1, last_val=" + info.curr_val +
-		", delta_val=" + info.delta_val + ", delta_time=UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(last_time), last_time=NOW() WHERE id="
-		+ inttostr(info.monitor_id));
+		", delta_val=" + info.delta_val + 
+		", delta_time=UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(last_time), "+
+		"last_time=NOW(), status=" + inttostr(info.status) +
+		" WHERE id=" + inttostr(info.monitor_id));
 
 }
 
@@ -476,7 +478,7 @@ uint worstof(uint a, uint b)
 		return b;
 	}
 }
- 
+
 uint process_events(DeviceInfo info, MYSQL *mysql)
 {
 	MYSQL_RES 	*mysql_res;
@@ -490,7 +492,10 @@ uint process_events(DeviceInfo info, MYSQL *mysql)
 	{
 		mysql_row = mysql_fetch_row(mysql_res);
 		info.event_id = strtoint(mysql_row[0]);
-		status = worstof(status, process_event(info, mysql, strtoint(mysql_row[1]), strtoint(mysql_row[2]), strtoint(mysql_row[3])));
+		if (process_event(info, mysql, strtoint(mysql_row[1]), strtoint(mysql_row[2]), strtoint(mysql_row[3])))
+		{
+			status = worstof(status, strtoint(mysql_row[3]));
+		}
 	}
 
 	mysql_free_result(mysql_res);
@@ -915,10 +920,12 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 		info.delta_val = inttostr(strtoint(info.curr_val) - strtoint(info.last_val));
 	}
 
+	uint status = process_events(info, mysql);
+        
+	info.status = status;
 	update_monitor_db(info, mysql, rrd);
 
-	return process_events(info, mysql);
-
+	return status;
 }
 
 uint process_sub_device(DeviceInfo info, MYSQL *mysql)
@@ -1026,6 +1033,8 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 
         mysql_free_result(mysql_res);
 
+	db_update(mysql, &info, "UPDATE sub_devices SET status=" + inttostr(status) + " WHERE id=" + inttostr(info.subdevice_id));
+
 	return status;
 
 } // end process subdevice
@@ -1051,7 +1060,7 @@ uint process_sub_devices(DeviceInfo info, MYSQL *mysql)
 	}
 
 	mysql_free_result(mysql_res);
-	
+
 	return status;
 }
 
@@ -1168,6 +1177,8 @@ void process_device(int dev_id)
 
 	// process sub-devices
 	status = process_sub_devices(info, &mysql);
+
+	db_update(&mysql, &info, "UPDATE mon_devices SET status=" + inttostr(status) + " WHERE id=" + inttostr(dev_id));
 
 	mysql_close(&mysql);
 
