@@ -1,6 +1,10 @@
 == showstoppers for 0.80.0 ==
 device_tree.php
   - can't navigate monitors yet
+graph templating
+device duplication
+responses
+new snmp cacher
 
 
 == before going public ==
@@ -10,6 +14,7 @@ find a mailing list/message board
 
 
 == global ==
+device duplication
 prevent a group being its own parent (during editing)
 page titles should reflect where you're at
 recache.php
@@ -38,7 +43,6 @@ format.php
 
 == balleman ==
 graph templates
-make events propagate into other tables
 make responses work
 snmp cacher rewrite
 netmrg.cc
