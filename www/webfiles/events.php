@@ -16,10 +16,11 @@ if (isset($_REQUEST['action']))
 {
 	switch ($_REQUEST['action'])
 	{
-		case "edit":		display_edit(); 	break;
-		case "add":			display_edit(); 	break;
-		case "doedit":		do_edit(); 			break;
-		case "dodelete":	do_delete(); 		break;
+		case "edit":			display_edit(); 	break;
+		case "add":				display_edit(); 	break;
+		case "doedit":			do_edit(); 			break;
+		case "multidodelete":
+		case "dodelete":		do_delete(); 		break;
 	}
 }
 else
@@ -34,19 +35,27 @@ function do_display()
 
 	check_auth($PERMIT["ReadAll"]);
 	begin_page("events.php", "Events");
+	js_checkbox_utils();
+	?>
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+	<input type="hidden" name="action" value="">
+	<input type="hidden" name="mon_id" value="<?php echo $_REQUEST['mon_id']; ?>">
+	<input type="hidden" name="tripid" value="<?php echo $_REQUEST['tripid']; ?>">
+	<?php
 	PrepGroupNavHistory("monitor", $_REQUEST["mon_id"]);
 	DrawGroupNavHistory("monitor", $_REQUEST["mon_id"]);
 	
 	$title = "Events for " . get_monitor_name($_REQUEST['mon_id']);
 	js_confirm_dialog("del", "Are you sure you want to delete event ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&mon_id={$_REQUEST['mon_id']}&tripid={$_REQUEST['tripid']}&id=");
 	make_display_table($title, "{$_SERVER['PHP_SELF']}?action=add&mon_id={$_REQUEST['mon_id']}&tripid={$_REQUEST['tripid']}",
+		array("text" => checkbox_toolbar()),
 		array("text" => "Name"),
 		array("text" => "Trigger Options"),
 		array("text" => "Situation"),
 		array("text" => "Status")
 	); // end make_display_table();
 
-	$query = db_query("SELECT * FROM events WHERE mon_id = {$_REQUEST['mon_id']}");
+	$query = db_query("SELECT * FROM events WHERE mon_id = {$_REQUEST['mon_id']} ORDER BY name");
 
 	$rowcount = 0;
 	while (($row = db_fetch_array($query)) != NULL)
@@ -63,6 +72,7 @@ function do_display()
 		}
 
 		make_display_item("editfield".($rowcount%2),
+			array("checkboxname" => "event", "checkboxid" => $row['id']),
 			array("text" => $name, "href" => "responses.php?event_id={$row['id']}&tripid={$_REQUEST['tripid']}"),
 			array("text" => $GLOBALS['TRIGGER_TYPES'][$row['trigger_type']]),
 			array("text" => $GLOBALS['SITUATIONS'][$row['situation']]),
@@ -73,6 +83,13 @@ function do_display()
 		); // end make_display_item();
 		$rowcount++;
 	} // end while rows left
+	?>
+	<tr>
+		<td colspan="6" class="editheader" nowrap="nowrap">
+			&lt;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked sub-devices?')){document.form.submit();}" href="#">Delete All Checked</a>&gt;
+		</td>
+	</tr>
+	<?php
 	make_status_line("event", $rowcount);
 	?>
 	</table>
@@ -136,7 +153,17 @@ function do_edit()
 function do_delete()
 {
 	check_auth($PERMIT["ReadWrite"]);
-	delete_event($_REQUEST['id']);
+	if (isset($_REQUEST['event']))
+	{
+		while (list($key,$value) = each($_REQUEST["event"]))
+		{
+			delete_event($key);
+		}
+	}
+	else
+	{
+		delete_event($_REQUEST['id']);
+	}
 	header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&tripid={$_REQUEST['tripid']}");
 }
 ?>
