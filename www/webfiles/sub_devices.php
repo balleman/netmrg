@@ -58,9 +58,8 @@ function dodisplay()
 				formatted_link("Delete", "javascript:del('".addslashes($row['name'])."','{$row['id']}')"))
 		); // end make_display_item();
 	}
-
+	make_status_line("sub-device", db_num_rows($results));
 	?></table><?php
-
 	end_page();
 }
 

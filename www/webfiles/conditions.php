@@ -80,6 +80,7 @@ function do_display()
 				formatted_link("Delete", "javascript:del('" . $condition_name . "','" . $row['id'] . "')"))
 		); // end make_display_item();
 	}
+	make_status_line("condition", $rows);
 	?>
 	</table>
 	<?php

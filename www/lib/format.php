@@ -506,7 +506,14 @@ function make_plain_display_table($title)
 
 } // end make_display_table
 
-
+// make_status_line
+// unit: the singular form of the thing we're counting
+// value: the quantity of the thing we're counting
+function make_status_line($unit, $value)
+{
+	if ($value != 1) $unit = $unit . "s";
+	make_display_item("statusline", array("text" => "$value $unit"));
+}
 
 #+++++++++++++++++++++++++++++++++++++++++++++
 #

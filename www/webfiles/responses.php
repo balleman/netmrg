@@ -60,7 +60,10 @@ function display_list()
 		); // end make_display_item();
 		$rowcount++;
 	}
-	
+	make_status_line("response", $rowcount);
+	?>
+	</table>
+	<?php
 	end_page();
 } // end display_list();
 

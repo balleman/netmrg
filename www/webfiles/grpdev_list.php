@@ -70,6 +70,7 @@ function display()
 		); // end make_display_item();
 		$count++;
 	} // end while groups
+	make_status_line("group", $count);
 ?>
 </table>
 <br />
@@ -123,6 +124,7 @@ function display()
 		); // end make_display_item();
 		$count++;
 	} // end while devices
+	make_status_line("device", $count);
 ?>
 </table>
 <br />

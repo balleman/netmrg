@@ -264,6 +264,14 @@ A.editfield1, A:visited.editfield1
 	border : 0px;
 }
 
+.statusline
+{
+	font-family : sans-serif;
+	font-size : 12px;
+	color : #000000;
+	font-style : italic;
+}
+
 .customaddlink, A.customaddlink, A:visited.customaddlink
 {
 	color : #FFFF00;

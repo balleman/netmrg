@@ -79,6 +79,7 @@ function do_list()
 	}
 
 	usort($mons, mon_sort);
+	$mon_count = 0;
 
 	foreach ($mons as $mon_row)
 	{
@@ -137,9 +138,11 @@ function do_list()
 				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&mon_id=$mon_id&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
 				formatted_link("Delete","javascript:del('$java_name', '$mon_id')"))
 		); // end make_display_item();
+		
+		$mon_count++;
 
 	} // end for each monitor
-
+	make_status_line("monitor", $mon_count);
 	?>
 	</table>
 	<?php

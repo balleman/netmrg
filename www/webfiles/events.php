@@ -72,6 +72,7 @@ function do_display()
 		); // end make_display_item();
 		$rowcount++;
 	} // end while rows left
+	make_status_line("event", $rowcount);
 	?>
 	</table>
 	<?php
