@@ -601,13 +601,10 @@ CREATE TABLE tests_script (
 --
 
 
-INSERT INTO tests_script VALUES (9,'Custom','',2,0,0);
-INSERT INTO tests_script VALUES (23,'PM3 Modems Online (new)','/var/www/netmrg/cmd/test/pm3modems_new.pl %ip%',2,8,0);
-INSERT INTO tests_script VALUES (25,'Mail Stats','/var/www/netmrg/cmd/test/maillogstat.php',2,2,0);
-INSERT INTO tests_script VALUES (26,'NetMRG Stats','/var/www/netmrg/cmd/test/netmrg_stats.php',2,2,0);
-INSERT INTO tests_script VALUES (27,'Ping Latency','/var/www/netmrg/cmd/test/ping_time.pl %ip%',2,8,0);
-INSERT INTO tests_script VALUES (28,'Ferrups','/var/www/netmrg/cmd/test/ferrups.pl',2,2,0);
-INSERT INTO tests_script VALUES (29,'TNT - Good Modems (aka avail-suspect)','/var/www/netmrg/cmd/test/snmpdiff.php %ip% %community% .1.3.6.1.4.1.529.15.1.0 .1.3.6.1.4.1.529.15.3.0',2,8,0);
+INSERT INTO tests_script VALUES (1,'Custom','',2,0,0);
+INSERT INTO tests_script VALUES (2,'Ping Latency','ping_time.pl %ip%',2,8,0);
+INSERT INTO tests_script VALUES (3,'SNMP Diff','snmpdiff.php',2,8,0);
+INSERT INTO tests_script VALUES (4,'Win2k SNMP CPU','win2kcpu.pl',2,8,0);
 
 --
 -- Table structure for table 'tests_snmp'
