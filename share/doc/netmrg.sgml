@@ -40,6 +40,33 @@
 		</itemizedlist>
 	</para> 
 </chapter>
+<chapter>
+	<title>Concepts</title>
+	<section>
+		<title>Overview</title>
+		<para>This chapter will describe the conceptual layout of NetMRG.</para>
+	</section>
+	<section>
+		<title>Groups</title>
+		<para>Groups are organizational containers used in NetMRG.  They are capable of containing Devices, as well as having a View associated with them.  As they are strictly organizational, the Web Interface is the only component to utilize them.  They are ignored by the Gatherer.</para>
+	</section>
+	<section>
+		<title>Devices</title>
+		<para>Devices can be thought of as any physical device on your network that will be monitored.  They may also be used organizationally to group Monitors that are not associated directly to any physcial host.  Devices may have, but are not required to have, IP addresses, SNMP community strings, and so forth.  Data gathering for Devices may be explicitly disabled.  Devices contain Sub-Devices.</para>
+	</section>
+	<section>
+		<title>Sub-Devices</title>
+		<para>Sub-Devices are discrete entities on a Device.  Examples of these are network interfaces, disk drives, and so forth.  Sub-Devices may have parameters or variables associated with them for identification purposes.  For example, a web server has a network interface designated "eth0."  In NetMRG, the server would have a network interface Sub-Device which would have a variable of "ifDescr" set to "eth0."  Sub-Devices contain Monitors.</para>
+	</section>
+	<section>
+		<title>Monitors</title>
+		<para>Monitors represent discrete monitorable quantities.  The Gatherer performs the Monitor's Test upon the Monitor's Sub-Device.  The result is then stored in a RRD.  Monitors are also associated with Graph Items.  If NetMRG is being used to track events, a Monitor may also contain Events.</para>
+	</section>
+	<section>
+		<title>Events</title>
+		<para>Events contain a group of Conditions and Responses.  If the Conditions of an Event are met, the appropriate response is performed.</para>
+	</section>
+</chapter>
 <appendix>
 	<title>Database Structure</title>
 	<para>NetMRG's database structure is wonderful...</para>
