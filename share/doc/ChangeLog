@@ -1,3 +1,6 @@
+2003.12.19  v0.12  silfreed
+  - bug#0000131 - dynamic 'resume slide show' link
+
 2003.12.18  v0.12  balleman
   - bug#0000130 - descendants slideshow should sort groups by name
   - bug#0000132 - there should be a "previous slide" link during slideshow
