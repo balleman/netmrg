@@ -20,8 +20,10 @@ if (isset($_REQUEST['action']))
 {
 	switch ($_REQUEST['action'])
 	{
-		case "edit":	display_edit(); break;
-		case "add":	display_edit(); break;
+		case "edit":		display_edit(); 	break;
+		case "add":		display_edit(); 	break;
+		case "doedit":		do_edit(); 		break;
+		case "dodelete":	do_delete(); 		break;
 	}
 }
 else
@@ -34,18 +36,27 @@ function do_display()
 
 	// Display a list
 
-	$title = "Events for " . get_monitor_name($_REQUEST['mon_id']);
-
-	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&mon_id={$_REQUEST['mon_id']}";
-
+	check_auth(1);
 	begin_page();
-	js_confirm_dialog("del", "Are you sure you want to delete event ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&mon_id={$_REQUEST['mon_id']}&event_id=");
-	make_display_table("Events",
+
+	$title = "Events for " . get_monitor_name($_REQUEST['mon_id']);
+	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&mon_id={$_REQUEST['mon_id']}";
+	js_confirm_dialog("del", "Are you sure you want to delete event ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&mon_id={$_REQUEST['mon_id']}&id=");
+	make_display_table($title,
 				"Name", "",
 				"Condition", "",
 				"Trigger Options", "",
 				"Situation", "",
 				"Status", "");
+
+	$query = do_query("SELECT * FROM events WHERE mon_id = {$_REQUEST['mon_id']}");
+	
+	while (($row = mysql_fetch_array($query)) != NULL)
+	{
+		make_display_item($row['name'], "", "", "", $GLOBALS['TRIGGER_TYPES'][$row['trigger_type']], "", $GLOBALS['SITUATIONS'][$row['situation']], "", "", "",
+			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" . 
+			formatted_link("Delete", "javascript:del('" . $row['name'] . "','" . $row['id'] . "')"), "");
+	}
 	?>
 	</table>
 	<?php
@@ -54,6 +65,7 @@ function do_display()
 
 function display_edit()
 {
+	check_auth(2);
 	begin_page();
 
 	if ($_REQUEST['action'] == "add")
@@ -83,4 +95,32 @@ function display_edit()
 
 }
 
+function do_edit()
+{
+	check_auth(2);
+
+        if ($_REQUEST['id'] == 0)
+	{
+                $pre  = "INSERT INTO";
+		$post = ", mon_id={$_REQUEST['mon_id']}";
+	}
+	else
+	{
+		$pre  = "UPDATE";
+		$post = "WHERE id = {$_REQUEST['id']}";
+	}
+
+        do_update("$pre events SET name = '{$_REQUEST['name']}', trigger_type={$_REQUEST['trigger_type']}, situation={$_REQUEST['situation']} $post");
+
+        header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}");
+}
+
+function do_delete()
+{
+	check_auth(2);
+
+        do_update("DELETE FROM events WHERE id = {$_REQUEST['id']}");
+	
+	header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}");
+}
 ?>

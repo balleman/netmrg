@@ -119,7 +119,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 		$dev_row = mysql_fetch_array($dev_results);
 		$dev_id  = $dev_row["id"];
 
-		make_display_item(	$dev_row["name"],"./sub_devices.php?dev_id=$dev_id",
+		make_display_item(	$dev_row["name"],"sub_devices.php?dev_id=$dev_id",
 			formatted_link("View Interface Cache", "snmp_cache_view.php?dev_id=$dev_id") . "&nbsp;" .
 			formatted_link("Recache Interfaces", "recache.php?dev_id=$dev_id") . "&nbsp;" .
 			formatted_link("Recache Disks", "recache.php?dev_id=$dev_id&type=disk"), "",
