@@ -77,7 +77,7 @@ NAME="NETMRG-GATHERER"
 ><DIV
 CLASS="REFNAMEDIV"
 ><A
-NAME="AEN495"
+NAME="AEN607"
 ></A
 ><H2
 >Name</H2
@@ -85,7 +85,7 @@ NAME="AEN495"
 ><DIV
 CLASS="REFSYNOPSISDIV"
 ><A
-NAME="AEN498"
+NAME="AEN610"
 ></A
 ><H2
 >Synopsis</H2
@@ -98,7 +98,7 @@ CLASS="COMMAND"
 ><DIV
 CLASS="REFSECT1"
 ><A
-NAME="AEN502"
+NAME="AEN614"
 ></A
 ><H2
 >Description</H2
@@ -139,6 +139,17 @@ CLASS="OPTION"
 ><P
 >Displays software version and exits.</P
 ></DD
+></DL
+></DIV
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><P
+><B
+>Operating Options</B
+></P
+><DL
 ><DT
 ><P
 > <VAR
@@ -153,7 +164,61 @@ CLASS="REPLACEABLE"
 ><P
 >Run no more than the specified number of threads simultaneously.</P
 ></DD
+><DT
+><P
+> <VAR
+CLASS="OPTION"
+>-X</VAR
+> </P
+></DT
+><DD
+><P
+>Become a daemon.</P
+></DD
+><DT
+><P
+> <VAR
+CLASS="OPTION"
+>-M</VAR
+> <VAR
+CLASS="REPLACEABLE"
+>mode</VAR
+> </P
+></DT
+><DD
+><P
+>Mode of operation.  This option controls the manner in which the gatherer operates.  The modes currently supported are "once" (the default, best used manually or via cron) which runs all tests once then exits, and "wait" (best used when daemonized) which will run all tests, wait for the gatherer interval to expire, and then repeat.</P
+></DD
 ></DL
+></DIV
+><DIV
+CLASS="NOTE"
+><P
+></P
+><TABLE
+CLASS="NOTE"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="./stylesheet-images/note.gif"
+HSPACE="5"
+ALT="Note"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>To run <TT
+CLASS="APPLICATION"
+>netmrg-gatherer</TT
+> daemonized, the recommended set of options at this point is "-X -S -M wait" which will daemonize, repeat the gather cycle on each interval, and write output to syslog.</P
+></TD
+></TR
+></TABLE
 ></DIV
 ><P
 ></P
@@ -161,9 +226,34 @@ CLASS="REPLACEABLE"
 CLASS="VARIABLELIST"
 ><P
 ><B
->Debugging / Verbosity Options</B
+>Logging, Debugging and Verbosity Options</B
 ></P
 ><DL
+><DT
+><P
+> <VAR
+CLASS="OPTION"
+>-S</VAR
+> </P
+></DT
+><DD
+><P
+>Syslog.  Logs messages to syslog instead of stdout.</P
+></DD
+><DT
+><P
+> <VAR
+CLASS="OPTION"
+>-b</VAR
+> </P
+></DT
+><DD
+><P
+>Bland.  Disables color output.  By default, <TT
+CLASS="APPLICATION"
+>netmrg-gatherer</TT
+> will display color output when connected to a terminal, but will use bland output when its output is written to a file.  This option should only be needed when the detection mechanism has failed, or the user doesn't want to see colors when running the program by hand.</P
+></DD
 ><DT
 ><P
 > <VAR

@@ -53,12 +53,14 @@ Douglas E. Warner
         7. Satisfying Requirements
         8. Installation Procedure
         9. Upgrade Procedure
-        10. NetMRG Tutorial
+        10. Basic Tutorial
+        11. Graph Tutorial
+        12. Interface and Disk Cache Tutorial
 
    IV. Feature Guide
 
-        11. External Authentication
-        12. Workday Highlighting
+        13. External Authentication
+        14. Workday Highlighting
 
    V. Reference
 
@@ -67,6 +69,9 @@ Douglas E. Warner
               netmrg-gatherer -- Gathers data from devices.
 
         II. Web Interface Descriptions
+
+              Monitoring -- Items associated with setting up gathering
+                      of information
 
               Groups -- A container for a collection of devices
               Devices -- A container for a collection of sub-devices
@@ -80,7 +85,19 @@ Douglas E. Warner
               Conditions -- A collection of paramenters to trigger an
                       Event
 
-   13. Contact Information
+              Reporting -- Items whose purpose is to display and report
+                      information to the user.
+
+              Graphing -- Where graphs (compositions of one or more
+                      monitors) are created.
+
+              Tests -- Tests represent actions taken to gather data.
+              Admin -- Administrative functions not related to the
+                      reporting or gathering of information.
+
+              Help -- How to get assistance with NetMRG.
+
+   15. Contact Information
 
 I. Overview
 
@@ -104,6 +121,12 @@ Chapter 1. Introduction
 
 Chapter 2. Revision History
 
+     * 0.17
+       2004.09.13
+       Minor Feature Enhancements; Added colorized gatherer output,
+       checkbox support on multiple pages, the ability to disable
+       users, fixed a potential SQL-injection bug, updated navigation
+       on group pages, updated tutorials.
      * 0.16
        2004.06.10
        Minor Bugfixes and Feature Enhancements; fixed a user management
@@ -272,6 +295,35 @@ Chapter 5. Graphing Concepts
        Graph Items include type (such as line, area, stack), color,
        value (either static or dynamic based on a Monitor), and legend
        options.
+     * RRDs and Variables
+       Graphs  and  variables (subdevice parameters) won't become
+       available until after the gatherer runs. The gatherer creates
+       RRD  files  that the graphs use to display and inserts the
+       variables into the database so they can be used to be displayed
+       in the graphs. This can occasionally bite you when you add a new
+       parameter and expect it to be displayed immediately in your
+       graph.
+     * Variables and Parameters
+       Subdevice  parameters become variables that can be used in
+       various places inside NetMRG. Variables can be used inside
+       Tests, Graph Legends and Graph item multipliers.
+       Inside  tests,  it allows you to use use the same test for
+       multiple  subdevices  by defining a parameter that will be
+       substituted in.
+       Inside  graph  items, it will allow you to use a graph for
+       multiple subdevices.
+       Here's a partial list of some variables that will be defined by
+       NetMRG for a device/subdevice
+          + %dev_name%: your device's name
+          + %ip%: the IP entered for your device
+          + %test_name%: the name of the test executed
+          + %test_result%: the results of the test
+          + %snmp_read_community%: the SNMP community for the device
+          + %subdev_name%: name of the subdevice
+       There are usually several "Dynamic Parameters" for a subdevice;
+       if you go to your device, then click parameters next to your
+       subdevice, you will get a list of parameters you entered an a
+       list of dynamic parameters that NetMRG has created.
 
 III. Installation
 
@@ -280,7 +332,9 @@ III. Installation
    7. Satisfying Requirements
    8. Installation Procedure
    9. Upgrade Procedure
-   10. NetMRG Tutorial
+   10. Basic Tutorial
+   11. Graph Tutorial
+   12. Interface and Disk Cache Tutorial
      _________________________________________________________
 
 Chapter 6. Software Requirements
@@ -439,7 +493,7 @@ Chapter 9. Upgrade Procedure
    to contact their NetMRG administrator.
      _________________________________________________________
 
-Chapter 10. NetMRG Tutorial
+Chapter 10. Basic Tutorial
 
    This brief tutorial will walk you through the major features of
    NetMRG. The tutorial assumes that you have installed the Net-SNMP
@@ -499,15 +553,102 @@ Chapter 10. NetMRG Tutorial
             means there are no graphs attached to this device.
          d. You should now see graphs! If you don't, you may need to
             wait for the gatherer to perform another cycle.
+     _________________________________________________________
+
+Chapter 11. Graph Tutorial
+
+   This tutorial aims to show you the basics of how to create a Custom
+   or Template Graph. It will be useful to look at existing graphs that
+   are supplied with NetMRG for examples.
+
+   Custom and Template graphs are very similar, but have slightly
+   different applications. A Custom Graph is designed to be used only
+   once, while a Template Graph is designed to be applied to multiple
+   devices and subdevices
+
+   Let's try a basic graph using no subdevice parameters.
+
+    1. Creating a Template/Custom Graph
+         a. Goto the Template Graph item under the Graphing menu.
+         b. Click on Add.
+         c. Click on Add.
+            This leads you to a screen where you can combine multiple
+            monitors (usually of the same subdevice) into one graph
+            using various styles; areas, stacked areas, and thicknesses
+            of lines.
+         d. Click on add
+            This  page allows you to edit various aspects of this
+            monitor's appearance.
+            Name:  Name  that will be displayed in the legend. If
+            omitted, this item will not be displayed in the legend.
+            Item Type: can be various thickness of lines (1 being
+            thinnest, 3 being thickest), area (which will always start
+            at '0' from the graph - positive or negative), and stack
+            (which will 'stack' on top of other areas and stacks).
+            Item Color: color of the item on the graph and in the
+            legend. It can be omitted to have a transparent item.
+            Fixed Value or Multiplier: change the value displayed by
+            your monitor.
+            The rest of the checkboxes should be self explanatory
+         e. By repeating these steps you can add multiple monitors to a
+            single graph.
+     _________________________________________________________
+
+Chapter 12. Interface and Disk Cache Tutorial
+
+   The Interface and Disk Cache (that is available next to your device
+   names  under  the  Groups menu) are quick tools for setting up
+   interfaces and disk graphs on your devices.
+
+   These  caches provide useful mechanisms for indexing disks and
+   interfaces. For example, commonly you want to graph your interfaces
+   by their ifName (interface name) which is commonly something like
+   'Se2/1'. Doing a lookup each time you gather data would be very
+   time-consuming, so the cache allows you monitor an interface by
+   using it's name, and NetMRG will do the mapping to the correct
+   ifIndex. NetMRG will do the same thing for disks
+
+     * The options from next to your device are as follows
+         1. View Interface Cache: This is only available after you have
+            cached your interfaces. Most of the management is done
+            through here
+         2. Recache Interfaces: If you add or remove interfaces to your
+            device, this can force a recache. You can also setup NetMRG
+            to automatically recache your interfaces when the device
+            reboots or the number of interfaces changes by editing your
+            device.
+         3. View Disk Cache: Like the interface cache; the list of
+            disks that NetMRG currently knows about.
+         4. Recache Disks: You'll probably only do this once when you
+            create your device (unless you add/remove disks a lot).
+     * Inside the Interface Cache
+         1. Checkboxes: You can select multiple interfaces to monitor
+            by using the '*' (all), '0' (none), and '-' (inverse)
+            items, or by clicking each checkbox individually.
+         2. View: View the graph that has been created by clicking
+            'monitor/graph'.
+         3. Monitors: View the monitors under the subdevice that was
+            created by clicking 'monitor/graph'.
+         4. Monitor/Graph: Apply the graph template selected in the
+            dropdown box by clicking this item
+         5. Dropdown  box:  The  list of graph templates that are
+            available in your NetMRG installation; it's very useful
+            when you have different types of interfaces with different
+            monitors you want applied to an interface (maybe you have
+            one graph with a maximum line, or different multiplers to
+            show bits instead of bytes).
+     * Inside the Disk Cache
+         1. The options inside the Disk Cache are very similar to the
+            Interface Cache. Refer there for their descriptions.
 
 IV. Feature Guide
 
    Table of Contents
-   11. External Authentication
-   12. Workday Highlighting
+   13. External Authentication
+   14. Workday Highlighting
      _________________________________________________________
 
-Chapter 11. External Authentication
+Chapter 13. External Authentication
 
    NetMRG  handles authentication internally by default, checking
    passwords against its own database. It is possible for NetMRG to use
@@ -531,7 +672,7 @@ Chapter 11. External Authentication
    externalAuth to true.
      _________________________________________________________
 
-Chapter 12. Workday Highlighting
+Chapter 14. Workday Highlighting
 
    Shading specific time periods on a graph is possible using NetMRG.
    Typically  this  is  used  for highlighting the workday or SLA
@@ -596,12 +737,45 @@ Description
 
           Displays software version and exits.
 
+   Operating Options
+
    -t num threads
 
           Run  no  more  than  the  specified  number  of threads
           simultaneously.
 
-   Debugging / Verbosity Options
+   -X
+
+          Become a daemon.
+
+   -M mode
+
+          Mode of operation. This option controls the manner in which
+          the gatherer operates. The modes currently supported are
+          "once" (the default, best used manually or via cron) which
+          runs all tests once then exits, and "wait" (best used when
+          daemonized) which will run all tests, wait for the gatherer
+          interval to expire, and then repeat.
+
+   Note To run netmrg-gatherer daemonized, the recommended set of
+   options at this point is "-X -S -M wait" which will daemonize,
+   repeat the gather cycle on each interval, and write output to
+      syslog.
+
+   Logging, Debugging and Verbosity Options
+
+   -S
+
+          Syslog. Logs messages to syslog instead of stdout.
+
+   -b
+
+          Bland. Disables color output. By default, netmrg-gatherer
+          will display color output when connected to a terminal, but
+          will use bland output when its output is written to a file.
+          This  option  should  only be needed when the detection
+          mechanism has failed, or the user doesn't want to see colors
+          when running the program by hand.
 
    -a
 
@@ -675,6 +849,9 @@ Description
 II. Web Interface Descriptions
 
    Table of Contents
+   Monitoring -- Items associated with setting up gathering of
+          information
+
    Groups -- A container for a collection of devices
    Devices -- A container for a collection of sub-devices
    Sub Devices -- A container for a collection of monitors
@@ -683,6 +860,46 @@ II. Web Interface Descriptions
           monitor values
 
    Conditions -- A collection of paramenters to trigger an Event
+   Reporting -- Items whose purpose is to display and report
+          information to the user.
+
+   Graphing -- Where graphs (compositions of one or more monitors) are
+          created.
+
+   Tests -- Tests represent actions taken to gather data.
+   Admin -- Administrative functions not related to the reporting or
+          gathering of information.
+
+   Help -- How to get assistance with NetMRG.
+
+Monitoring
+
+Name
+
+   Monitoring -- Items  associated  with  setting up gathering of
+   information
+
+Description
+
+Groups
+
+   Management of Groups, Devices, Sub-devices, Monitors, Events, and
+   the Notifications used by the events.
+
+Device Types
+
+   Types of devices; unused at this point.
+
+Notifications
+
+   Types of notifications that can be tied to events.
+
+     * Name - Descriptive name of the notification
+     * Command - Command to execute for the notification. Notifications
+       that start with a '/' will use the ful path the the specified
+       command, whereas commands without a starting '/' will start
+       using NetMRG's libexec directory. Parameter substitution is
+       fully functional here, as well.
 
 Groups
 
@@ -1045,9 +1262,211 @@ Edit
      * Condition - the arithmetic operator to use when comparing the
        Value Type of the Monitor and the Value of the Condition.
      * Value - the number used for comparision.
+
+Reporting
+
+Name
+
+   Reporting -- Items  whose  purpose  is  to  display and report
+   information to the user.
+
+Description
+
+Device Tree
+
+   Displays  graphs attached to Groups, Devices, etc, down to the
+   monitor level. Graph icons next to each level represent where views
+   are attached to items. Orange icons mean one or more graphs are
+   linked here; grey icons mean there are non currently.
+
+   Groups will have a Slide Show icon next to them which will show all
+   views in subgroups and devices underneath this group.
+
+   Most items will also have a pencil icon (when a user has Read/Write
+   permissions) in order to quickly edit this item.
+
+Event Log
+
+   When events are triggered, the record of their status changes can be
+   viewed here.
+
+Slide Show
+
+   Starts an in-order or random slide show of all views. A 'Resume
+   Slide Show' link will also appear to go back to the place where you
+   left  off if you leave the slide show. If you have auto-scroll
+   enabled, clicking anywhere on the page will pause the slideshow, and
+   clicking again will resume scrolling.
+
+Graphing
+
+Name
+
+   Graphing -- Where graphs (compositions of one or more monitors) are
+   created.
+
+Description
+
+Custom Graphs
+
+   Custom Graphs are graphs meant to only be used once. If you have an
+   application where you are going to apply the same type of monitors
+   to more than one device (even if the parameters are different), use
+   a template graph.
+
+Template Graphs
+
+   Graphs intended to be used more than once. Template graphs are
+   applied to a sub-device at the view level. It will look for the same
+   type of monitors as it was created with and use the matching monitor
+   types from whichever sub-device was selected.
+
+   Template graphs also have the added benefit of being applied to a
+   sub-device, allowing you to automatically create the same monitor
+   types inside a new sub-device, quickly adding more monitors to your
+   device.
+
+Tests
+
+Name
+
+   Tests -- Tests represent actions taken to gather data.
+
+Overview
+
+   A monitor can be thought of as a specific instantiation of a test.
+   There  are  currently four types of tests supported by NetMRG:
+   Scripts, SNMP, SQL, and Internal.
+
+Scripts
+
+   Arbitrary scripts can be executed and their output or return values
+   used as values to be monitored.
+
+Edit
+
+     * Name - An description used to identify the test.
+     * Command - The program to execute for this test. If the value of
+       this field does not start with a slash, it is assumed that the
+       command  is located in the default NetMRG tests directory.
+       Commands are passed to a shell for execution by the gatherer.
+     * Data Type - The type of data gathered from the program.
+          + Standard Out - Data from the program's standard output is
+            returned. The program should output data on one line which
+            should be a numeric value or "U" to specify an unknown
+            value.
+          + Error Code - The integer return code from the executed
+            program is returned.
+
+SNMP
+
+   SNMP  (Simple  Network Management Protocol) is widely used for
+   accessing statistics on network infrastructure and hosts.
+
+Edit
+
+     * Name - An description used to identify the test.
+     * SNMP OID - The OID to be obtained. The value may be numeric or
+       of any form your Net-SNMP library can understand. Because the
+       installed MIBs can vary from machine to machine, use of numeric
+       (or at least common) values is preferred.
+     * Type - specifies whether to GET or WALK the OID
+          + Direct (Get) - The specific OID specified will be returned.
+          + Nth Item (Walk) - The OID specified will be walked until
+            the Nth item is encountered. This item will be returned.
+     * Item # - Specifies which item to return when doing an SNMP walk.
+       This option has no effect on SNMP GETs.
+
+SQL
+
+   SQL (more specifically, MySQL) tests are useful when you have data
+   that is otherwise in-accessable, or takes a long time to gather.
+   Rather than making the netmrg-gatherer run a script test that will
+   take a long time, consider writing the script to run periodically
+   (out of Cron, for example) and dumping its output into a MySQL
+   database for NetMRG to gather later. This greatly reduces NetMRG's
+   runtime.
+
+Edit
+
+     * Name - An description used to identify the test.
+     * Host - The host running the MySQL server you wish to connect to.
+     * User - The MySQL user to connect as.
+     * Password - The password for the MySQL user.
+     * Query - The SQL query to perform.
+
+       Note No default database is specified, so be sure to include the
+      database name in the table names that you use in your query.
+     * Column Number - The column to return. NetMRG will collect the
+       value from this column in the first row of the result set.
+
+Internal
+
+   Internal tests are compiled into the gatherer. These tests typically
+   start as script tests, and are then migrated to the gatherer for
+   efficiency. At the moment, the gatherer source code is the only
+   documentation  for  such  tests, however some are obvious. The
+   intention is to expand this category to include DSO-based test
+   packages.
+
+Admin
+
+Name
+
+   Admin -- Administrative functions not related to the reporting or
+   gathering of information.
+
+Description
+
+Users
+
+   The area where you manage users that are allowed to view or modify
+   graphs and parameters in NetMRG. If you're using External Auth, you
+   will also need to come here to create users to setup permissions for
+   them to access your NetMRG installation.
+
+Prefs
+
+   Preferences for your users (such as auto-scroll in the Slide Show,
+   or changing your password). If you're an admin, you will be able to
+   change your users' prefs here, or you will only be able to change
+   your own.
+
+Logout
+
+   Logout of NetMRG. NetMRG will keep its session active for 24 hours;
+   this may allow other users to come and use your computer to view or
+   modify your graphs if you don't close your browser. Logging out of
+   NetMRG will prevent accidental (or malevolent) activities in your
+   NetMRG installation.
+
+Help
+
+Name
+
+   Help -- How to get assistance with NetMRG.
+
+Description
+
+About
+
+   Some basic information about NetMRG, its authors, the license, and
+   credits to noteworthy contributors.
+
+Manual
+
+   A link to the NetMRG Manual.
+
+Forum
+
+   A link to the best place to go for useability questions.
+
+Bugs
+
+   If you think you have found a bug, submit it here.
      _________________________________________________________
 
-Chapter 13. Contact Information
+Chapter 15. Contact Information
 
    We have great aspirations for what NetMRG could become, but as with
    all open-source software, such aspriations can only be achieved with

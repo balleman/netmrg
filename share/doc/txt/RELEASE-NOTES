@@ -1,6 +1,15 @@
 
                           Chapter 2. Revision History
 
+     * 0.17
+
+       2004.09.13
+
+       Minor Feature Enhancements; Added colorized gatherer output, checkbox
+       support on multiple pages, the ability to disable users, fixed a
+       potential SQL-injection bug, updated navigation on group pages,
+       updated tutorials.
+
      * 0.16
 
        2004.06.10

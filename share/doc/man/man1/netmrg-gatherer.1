@@ -3,7 +3,7 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "NETMRG-GATHERER" "1" "10 June 2004" "" "Manual Pages"
+.TH "NETMRG-GATHERER" "1" "13 September 2004" "" "Manual Pages"
 
 .SH NAME
 netmrg-gatherer \- Gathers data from devices.
@@ -21,10 +21,28 @@ Displays usage information and exits.
 .TP
 \fB   -v  \fR
 Displays software version and exits.
+"OPERATING OPTIONS"
 .TP
 \fB   -t \fInum threads\fB  \fR
 Run no more than the specified number of threads simultaneously.
-"DEBUGGING / VERBOSITY OPTIONS"
+.TP
+\fB   -X  \fR
+Become a daemon.
+.TP
+\fB   -M \fImode\fB  \fR
+Mode of operation.  This option controls the manner in which the gatherer operates.  The modes currently supported are "once" (the default, best used manually or via cron) which runs all tests once then exits, and "wait" (best used when daemonized) which will run all tests, wait for the gatherer interval to expire, and then repeat.
+.sp
+.RS
+.B "Note:"
+To run \fBnetmrg-gatherer\fR daemonized, the recommended set of options at this point is "-X -S -M wait" which will daemonize, repeat the gather cycle on each interval, and write output to syslog.
+.RE
+"LOGGING, DEBUGGING AND VERBOSITY OPTIONS"
+.TP
+\fB   -S  \fR
+Syslog.  Logs messages to syslog instead of stdout.
+.TP
+\fB   -b  \fR
+Bland.  Disables color output.  By default, \fBnetmrg-gatherer\fR will display color output when connected to a terminal, but will use bland output when its output is written to a file.  This option should only be needed when the detection mechanism has failed, or the user doesn't want to see colors when running the program by hand.
 .TP
 \fB   -a  \fR
 All.  Displays all log messages.

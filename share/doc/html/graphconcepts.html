@@ -114,6 +114,84 @@ CLASS="APPLICATION"
 ><P
 >Graph Items represent data on a graph.  They can represent areas, lines, and stacks on Graphs.  Each Graph Item is linked to a Monitor for dynamic data or given a static value.  Options for Graph Items include type (such as line, area, stack), color, value (either static or dynamic based on a Monitor), and legend options.</P
 ></LI
+><LI
+><P
+>RRDs and Variables</P
+><P
+>Graphs and variables (subdevice parameters) won't become available until after the gatherer runs.  The gatherer creates RRD files that the graphs use to display and inserts the variables into the database so they can be used to be displayed in the graphs.  This can occasionally bite you when you add a new parameter and expect it to be displayed immediately in your graph.</P
+></LI
+><LI
+><P
+>Variables and Parameters</P
+><P
+>Subdevice parameters become variables that can be used in various places inside NetMRG.  Variables can be used inside Tests, Graph Legends and Graph item multipliers.</P
+><P
+>Inside tests, it allows you to use use the same test for multiple subdevices by defining a parameter that will be substituted in.</P
+><P
+>Inside graph items, it will allow you to use a graph for multiple subdevices.</P
+><P
+>Here's a partial list of some variables that will be defined by NetMRG for a device/subdevice</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>%dev_name%</B
+></TT
+>: your device's name</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>%ip%</B
+></TT
+>: the IP entered for your device</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>%test_name%</B
+></TT
+>: the name of the test executed</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>%test_result%</B
+></TT
+>: the results of the test</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>%snmp_read_community%</B
+></TT
+>: the SNMP community for the device</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>%subdev_name%</B
+></TT
+>: name of the subdevice</P
+></LI
+></UL
+><P
+>There are usually several "Dynamic Parameters" for a subdevice; if you go to your device, then click parameters next to your subdevice, you will get a list of parameters you entered an a list of dynamic parameters that NetMRG has created.</P
+></LI
 ></UL
 ></DIV
 ><DIV
