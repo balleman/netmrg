@@ -1,6 +1,6 @@
 CXXFLAGS= -Wall -g -pthread -I/usr/include/mysql -I./
 LDFLAGS	= -lmysqlclient -lsnmp -lcrypto -lpthread -lz -ldl -lstdc++ -L/usr/lib/mysql
-OBJS	= utils.o locks.o snmp.o db.o rrd.o events.o netmrg.o
+OBJS	= utils.o locks.o settings.o snmp.o db.o rrd.o events.o netmrg.o
 
 .PHONY: all
 

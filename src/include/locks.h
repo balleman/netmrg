@@ -12,11 +12,11 @@
 
 #include "config.h"
 
-enum Lock { lkActiveThreads, lkMySQL, lkSNMP, lkRRD };
+enum Lock { lkActiveThreads, lkMySQL, lkSNMP, lkRRD, lkSettings };
 
 void	mutex_lock(Lock);
 void	mutex_unlock(Lock);
-int	mutex_trylock(Lock);
+int		mutex_trylock(Lock);
 
 #endif
 

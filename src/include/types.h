@@ -64,7 +64,7 @@ struct DeviceInfo
 	int test_id;
 
 	string name;
-       	string ip;
+	string ip;
 	string snmp_read_community;
 	string test_params;
 	string curr_val;
@@ -76,7 +76,7 @@ struct DeviceInfo
 	DeviceInfo()
 	{
 		device_id 		= -1;
-		subdevice_id		= -1;
+		subdevice_id	= -1;
 		monitor_id		= -1;
 		event_id		= -1;
 		response_id		= -1;
@@ -84,20 +84,19 @@ struct DeviceInfo
 		status			=  0;
 
 		snmp_avoid		=  0;
-		snmp_recache		=  0;
-		snmp_ifnumber		=  0;
+		snmp_recache	=  0;
+		snmp_ifnumber	=  0;
 		snmp_uptime		=  0;
 
-		subdevice_type		=  0;
+		subdevice_type	=  0;
 
 		test_type		= -1;
 		test_id			= -1;
-		//test_params		= "";
+		//test_params	= "";
 
 		curr_val		= "U";
 		last_val		= "U";
 		delta_val		= "U";
-
 	}
 };
 

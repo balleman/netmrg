@@ -34,10 +34,11 @@ using namespace std;
 
 int active_threads = 0;
 
-// Include the NetMRG Libraries
+// Include the NetMRG Headers
 #include "types.h"
 #include "utils.h"
 #include "locks.h"
+#include "settings.h"
 #include "snmp.h"
 #include "db.h"
 #include "rrd.h"
@@ -102,8 +103,6 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 				ifAlias.erase(0, 1);
 				ifAlias.erase(ifAlias.length() - 1, 1);
 			}
-			
-		
 		}
 		else
 		{
@@ -119,20 +118,20 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 		db_update(mysql, info, string("INSERT INTO snmp_interface_cache SET ")  +
 			"dev_id = " 		+ inttostr((*info).device_id) 	+ ", "  +
 			"ifIndex = '"		+ ifIndex 			+ "', " +
-			"ifName = "		+ ifName			+ ", "  +
+			"ifName = "			+ ifName			+ ", "  +
 			"ifDescr = "		+ ifDescr			+ ", "  +
 			"ifAlias = "		+ ifAlias			+ ", "  +
 			"ifType = '"		+ ifType			+ "', " +
-			"ifMAC = "		+ ifMAC				+ ", "  +
-			"ifOperStatus = '" 	+ ifOperStatus			+ "', " +
-			"ifAdminStatus = '" 	+ ifAdminStatus			+ "'");
+			"ifMAC = "			+ ifMAC				+ ", "  +
+			"ifOperStatus = '" 	+ ifOperStatus		+ "', " +
+			"ifAdminStatus = '" + ifAdminStatus		+ "'");
 
 	}
 
 	list<SNMPPair> ifIPList = snmp_walk(*info, "ipAdEntIfIndex");
 	ifIPList = snmp_trim_rootoid(ifIPList, ".1.3.6.1.2.1.4.20.1.2.");
 
-        for (list<SNMPPair>::iterator current = ifIPList.begin(); current != ifIPList.end(); current++)
+	for (list<SNMPPair>::iterator current = ifIPList.begin(); current != ifIPList.end(); current++)
 	{
 		string ip 	= (*current).oid;
 		string ifIndex	= (*current).value;
@@ -230,11 +229,11 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 	}
 	else
 	{
-                string query =
-		string("SELECT ifIndex, ifName, ifIP, ifDescr, ifAlias, ifMAC FROM snmp_interface_cache WHERE dev_id=") +
-		inttostr(info->device_id) + string(" AND ") + index + "=\"" + value + "\"";
+		string query =
+			string("SELECT ifIndex, ifName, ifIP, ifDescr, ifAlias, ifMAC FROM snmp_interface_cache WHERE dev_id=") +
+			inttostr(info->device_id) + string(" AND ") + index + "=\"" + value + "\"";
 
-                mysql_res = db_query(mysql, info, query);
+		mysql_res = db_query(mysql, info, query);
 
 		if (mysql_num_rows(mysql_res) > 0)
 		{
@@ -272,16 +271,12 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 		}
 		else
 		{
-		        debuglogger(DEBUG_SUBDEVICE, LEVEL_WARNING, info, "Interface index not found.");
+			debuglogger(DEBUG_SUBDEVICE, LEVEL_WARNING, info, "Interface index not found.");
 			retval = -2;
 		}
-
 	 	mysql_free_result(mysql_res);
-
 	}
-
 	return retval;
-
 }
 
 int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
@@ -335,34 +330,30 @@ int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 
 		if (mysql_num_rows(mysql_res) > 0)
 		{
-		        mysql_row = mysql_fetch_row(mysql_res);
+			mysql_row = mysql_fetch_row(mysql_res);
 
-		        if ((mysql_row[0] != NULL) && (index != "disk_index"))
-		        {
-        		        info->parameters.push_front(ValuePair("dskIndex", mysql_row[0]));
-		        }
+			if ((mysql_row[0] != NULL) && (index != "disk_index"))
+			{
+				info->parameters.push_front(ValuePair("dskIndex", mysql_row[0]));
+			}
 
-		        if ((mysql_row[1] != NULL) && (index != "disk_path"))
-		        {
-        		        info->parameters.push_front(ValuePair("dskPath", mysql_row[1]));
-		        }
+			if ((mysql_row[1] != NULL) && (index != "disk_path"))
+			{
+				info->parameters.push_front(ValuePair("dskPath", mysql_row[1]));
+			}
 
-		        if ((mysql_row[2] != NULL) && (index != "disk_device"))
-		        {
-        		        info->parameters.push_front(ValuePair("dskDevice", mysql_row[2]));
-		        }
-
+			if ((mysql_row[2] != NULL) && (index != "disk_device"))
+			{
+				info->parameters.push_front(ValuePair("dskDevice", mysql_row[2]));
+			}
 		}
 		else
 		{
 			debuglogger(DEBUG_SUBDEVICE, LEVEL_WARNING, info, "Disk index not found.");
 			retval = -2;
 		}
-
 	 	mysql_free_result(mysql_res);
-
 	}
-
 	return retval;
 }
 
@@ -593,7 +584,7 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 					debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown test type (" +
 						inttostr(info.test_type) + ").");
 					info.curr_val = "U";
-				}
+					}
 	} // end switch
 
 	debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value: " + info.curr_val);
@@ -603,12 +594,11 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 		update_monitor_rrd(info, rrd);
 	}
 
-        // destroy anything non-integer; we don't want it here.
+	// destroy anything non-integer; we don't want it here.
 	if (info.curr_val != inttostr(strtoint(info.curr_val)))
 	{
 		info.curr_val = "U";
 	}
-
 
 	if ((info.curr_val == "U") || (info.last_val == "U"))
 	{
@@ -690,18 +680,18 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 	// query the monitors for this subdevice
 
 	query =
-		string("SELECT ") 				+
-		string("monitors.data_type, 	") 		+ // 0
+		string("SELECT ")						+
+		string("monitors.data_type, 	")		+ // 0
 		string("data_types.rrd_type, 	")		+ // 1
-		string("monitors.min_val,	")		+ // 2
-		string("monitors.max_val,	")		+ // 3
-		string("monitors.tuned,		")		+ // 4
-		string("monitors.test_type,	")		+ // 5
-		string("monitors.test_id,	") 		+ // 6
+		string("monitors.min_val,	")			+ // 2
+		string("monitors.max_val,	")			+ // 3
+		string("monitors.tuned,		")			+ // 4
+		string("monitors.test_type,	")			+ // 5
+		string("monitors.test_id,	") 			+ // 6
 		string("monitors.test_params,	")		+ // 7
-		string("monitors.last_val,	")		+ // 8
-		string("monitors.id		")		+ // 9
-		string("FROM monitors ")			+
+		string("monitors.last_val,	")			+ // 8
+		string("monitors.id		")				+ // 9
+		string("FROM monitors ")				+
 		string("LEFT JOIN data_types ON monitors.data_type=data_types.id ") +
 		string("WHERE sub_dev_id = ") + inttostr(info.subdevice_id);
 
@@ -748,10 +738,8 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 
 	} // end for each monitor
 
-        mysql_free_result(mysql_res);
-
+	mysql_free_result(mysql_res);
 	db_update(mysql, &info, "UPDATE sub_devices SET status=" + inttostr(status) + " WHERE id=" + inttostr(info.subdevice_id));
-
 	return status;
 
 } // end process subdevice
@@ -976,9 +964,9 @@ void run_netmrg()
 	// request list of devices to process
 	mysql_res = db_query(&mysql, NULL, "SELECT id FROM devices WHERE disabled=0 ORDER BY id");
 
-	num_rows 	= mysql_num_rows(mysql_res);
-        threads 	= new pthread_t[num_rows];
-	ids             = new int[num_rows];
+	num_rows	= mysql_num_rows(mysql_res);
+	threads		= new pthread_t[num_rows];
+	ids			= new int[num_rows];
 
 	int dev_counter = 0;
 
@@ -1021,16 +1009,14 @@ void run_netmrg()
 	{
 		if (mutex_trylock(lkActiveThreads) != EBUSY)
 		{
-	                if (last_active_threads != active_threads)
-        	        {
-                	        debuglogger(DEBUG_THREAD, LEVEL_INFO, NULL, "[PASSIVE] Last: " +
-						inttostr(last_active_threads) + ", Now: " +
-						inttostr(active_threads));
-	                        last_active_threads = active_threads;
-        	        }
-
+			if (last_active_threads != active_threads)
+			{
+				debuglogger(DEBUG_THREAD, LEVEL_INFO, NULL, "[PASSIVE] Last: " +
+				inttostr(last_active_threads) + ", Now: " +
+				inttostr(active_threads));
+				last_active_threads = active_threads;
+			}
 			if (active_threads == 0) canexit = 1;
-
 			mutex_unlock(lkActiveThreads);
 		}
 		else
@@ -1039,7 +1025,6 @@ void run_netmrg()
 		}
 		usleep(THREAD_SLEEP);
 	}
-
 
 	// free active devices results
 	mysql_free_result(mysql_res);
@@ -1094,7 +1079,6 @@ void run_netmrg()
 
 	// remove lock file
 	unlink("/var/www/netmrg/dat/lockfile");
-
 }
 
 void show_version()
@@ -1121,13 +1105,13 @@ void external_snmp_recache(int device_id, int type)
 	MYSQL 		mysql;
 	MYSQL_RES	*mysql_res;
 	MYSQL_ROW	mysql_row;
-        DeviceInfo	info;
+	DeviceInfo	info;
 
 	db_connect(&mysql);
 	info.device_id = device_id;
 
 	mysql_res = db_query(&mysql, &info, "SELECT ip, snmp_read_community, snmp_enabled FROM devices WHERE id=" + inttostr(device_id));
-        mysql_row = mysql_fetch_row(mysql_res);
+	mysql_row = mysql_fetch_row(mysql_res);
 
 	if (strtoint(mysql_row[2]) != 1)
 	{
@@ -1149,7 +1133,6 @@ void external_snmp_recache(int device_id, int type)
 	snmp_cleanup();
 
 	mysql_close(&mysql);
-
 }
 
 // main - the body of the program
@@ -1180,6 +1163,5 @@ int main(int argc, char **argv)
 						break;			
 			
 		}
-
 	run_netmrg();
 }
