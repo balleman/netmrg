@@ -117,22 +117,18 @@ Event are met, the appropriate response is performed.
 	<orderedlist>
 		<listitem>
 			<para>untar to some directory like /tmp/ (it will untar into a 'netmrg' directory)</para>
-			<programlisting>
-cd /tmp
+<programlisting>cd /tmp
 wget http://www.netmrg.net/download/release/netmrg.tar.gz
-tar xzvf netmrg.tar.gz
-			</programlisting>
+tar xzvf netmrg.tar.gz</programlisting>
 		</listitem>
 		<listitem>
 			<para>
 Now we need to compile and install the source. <command>cd</command> into the directory 
 made by your <command>tar</command> command and type the following:
 			</para>
-			<programlisting>
-./configure
+<programlisting>./configure
 make
-make install
-			</programlisting>
+make install</programlisting>
 		</listitem>
 		<listitem>
 			<para>setup the database</para>
@@ -140,12 +136,10 @@ make install
 Now we need to setup the database.  Please change at least the password 
 (<computeroutput>netmrgpass</computeroutput> below).
 			</para>
-			<programlisting>
-mysqladmin create netmrg
+<programlisting>mysqladmin create netmrg
 mysql -u root -p netmrg < share/db/netmrg.mysql
 mysql -u root -p
-> grant all on netmrg.* to netmrguser@localhost identified by 'netmrgpass';
-			</programlisting>
+> grant all on netmrg.* to netmrguser@localhost identified by 'netmrgpass';</programlisting>
 		</listitem>
 		<listitem>
 			<para>
@@ -154,10 +148,8 @@ modify you apache config (commonly in
 to the installed web directory (commonly 
 <computeroutput>/usr/local/var/www/netmrg/webfiles</computeroutput>)
 			</para>
-			<programlisting>
-Example:
-Alias /netmrg "/usr/local/var/www/netmrg/webfiles"
-			</programlisting>
+<programlisting>Example:
+Alias /netmrg "/usr/local/var/www/netmrg/webfiles"</programlisting>
 		</listitem>
 		<listitem>
 			<para>setup crontab</para>
@@ -165,9 +157,7 @@ Alias /netmrg "/usr/local/var/www/netmrg/webfiles"
 You can setup the crontab entries in two places: either edit /etc/crontab,
 or run 'crontab -e' as root. For 'crontab -e', use an entry similar to this:
 			</para>
-			<programlisting>
-*/5 * * * * /usr/local/bin/netmrg_cron.sh
-			</programlisting>
+			<programlisting>*/5 * * * * /usr/local/bin/netmrg_cron.sh</programlisting>
 		</listitem>
 		<listitem>
 			<para>
