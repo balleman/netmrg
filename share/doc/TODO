@@ -12,7 +12,7 @@ snmp_cache_view.php:
   "Make Graph" needs overhauled
 monitors.php:
   add javascript check so you can't enter a minimum < maximum
-fix move-up/move-down in views and graph-items
+fix move-up/move-down in views
 view page should reflect status information
 add support for 'unfiled' devices (should only be things that were put
   in the database incorrectly)

@@ -580,6 +580,12 @@ function formatted_link($text, $link, $caption = "")
 
 } // end formatted_link
 
+function formatted_link_disabled($text)
+{
+	return "&lt;$text&gt;";  
+
+}  // end formatted_link_disabled
+
 function refresh_tag()
 {
         echo("<META HTTP-EQUIV=\"refresh\" CONTENT=\"300\">");

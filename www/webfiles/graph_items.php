@@ -41,8 +41,39 @@ if ($_REQUEST["action"] == "doedit")
 
 if ($_REQUEST["action"] == "move")
 {
-	// do moving and stuff (... and things)
-	do_update("UPDATE graph_ds SET position={$_REQUEST['val']} WHERE id={$_REQUEST['id']}");
+	// do moving
+	$query = do_query("
+		SELECT id, position
+		FROM graph_ds
+		WHERE graph_id={$_REQUEST['graph_id']}
+		ORDER BY position
+		");
+	for ($ds_count = 0; $ds_count < mysql_num_rows($query); $ds_count++)
+	{
+		$row = mysql_fetch_array($query);
+
+		if ($_REQUEST["direction"] == "up")
+		{
+			if (($_REQUEST["id"] - 1) == $ds_count)
+			{
+				$next_row = mysql_fetch_array($query);
+				do_update("UPDATE graph_ds SET position = {$next_row['position']} WHERE id = {$row['id']}");
+				do_update("UPDATE graph_ds SET position = {$row['position']} WHERE id = {$next_row['id']}");
+				break;
+			}
+		}
+		else
+		{
+                	if ($_REQUEST["id"] == $ds_count)
+			{
+				$next_row = mysql_fetch_array($query);
+				do_update("UPDATE graph_ds SET position = {$next_row['position']} WHERE id = {$row['id']}");
+				do_update("UPDATE graph_ds SET position = {$row['position']} WHERE id = {$next_row['id']}");
+				break;
+			}
+		}
+	}
+
 	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
 	exit(0);
 
@@ -66,13 +97,13 @@ if (empty($_REQUEST["action"]))
 
 	$ds_results = do_query("
 		SELECT
-		graphs.name AS name,
 		graph_ds.label AS label,
 		graph_ds.id AS id,
-		graph_ds.position AS pos
-		FROM graph_ds
-		LEFT JOIN graphs ON graph_ds.graph_id=graphs.id
-		WHERE graph_ds.graph_id={$_REQUEST['graph_id']}
+		graph_ds.position AS pos,
+		graph_types.name AS type
+		FROM graph_ds, graph_types
+		WHERE graph_ds.type=graph_types.id
+		AND graph_ds.graph_id={$_REQUEST['graph_id']}
 		ORDER BY position, id");
 
 	$ds_total = mysql_num_rows($ds_results);
@@ -80,20 +111,37 @@ if (empty($_REQUEST["action"]))
         $custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&graph_id={$_REQUEST['graph_id']}&edit_monitor=1";
 
 	?><img align="center" src="get_graph.php?type=custom&id=<?php echo $_REQUEST["graph_id"]; ?>"><br><?php
-	make_display_table("Graph Data Sources","Graph","","Item Label","","","");
+	make_display_table("Graph Items","Label","","Type", "", "","");
 
-	for ($ds_count = 1; $ds_count <= $ds_total; ++$ds_count)
+	for ($ds_count = 0; $ds_count < $ds_total; $ds_count++)
 	{
 		// For each graph item
 
 		$ds_row = mysql_fetch_array($ds_results);
 		$id  = $ds_row["id"];
 
-		make_display_item($ds_row["name"],"",
-			$ds_row["label"],"",
+		if ($ds_count == 0)
+		{
+			$move_up = formatted_link_disabled("Move Up");
+		}
+		else
+		{
+			$move_up = formatted_link("Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&graph_id={$_REQUEST['graph_id']}&id=$ds_count");
+		}
+
+		if ($ds_count == ($ds_total - 1))
+		{
+			$move_down = formatted_link_disabled("Move Down");
+		}
+		else
+		{
+			$move_down = formatted_link("Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&graph_id={$_REQUEST['graph_id']}&id=$ds_count");
+		}
+
+		make_display_item($ds_row["label"],"",
+			$ds_row["type"],"",
 			formatted_link("View", "enclose_graph.php?type=custom_ds&id=" . $ds_row["id"]) . "&nbsp;" .
-			formatted_link("Move Up", "{$_SERVER['PHP_SELF']}?action=move&val=" . ($ds_row["pos"] - 1) . "&id=" . $ds_row["id"] . "&graph_id={$_REQUEST["graph_id"]}") . "&nbsp;" .
-			formatted_link("Move Down", "{$_SERVER['PHP_SELF']}?action=move&val=" . ($ds_row["pos"] + 1) . "&id=" . $ds_row["id"] . "&graph_id={$_REQUEST["graph_id"]}"), "",
+			$move_up . "&nbsp;" . $move_down, "",
 			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id=$id&graph_id={$_REQUEST['graph_id']}") . "&nbsp;" .
 			formatted_link("Delete", "javascript:del('" . $ds_row["label"] . "', '" . $ds_row["id"] . "')"), "");
 

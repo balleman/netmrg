@@ -161,12 +161,12 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "addtogrp")
 } // end if add to group
 
 if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["action"] == "addnew")) {
-	# Display editing screen
+	// Display editing screen
 	check_auth(2);
 	begin_page();
 	if ($_REQUEST["action"] == "addnew")
-	{ 
-		$dev_id = 0; 
+	{
+		$dev_id = 0;
 	}
 	else
 	{
