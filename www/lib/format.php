@@ -468,9 +468,9 @@ function make_edit_color($header, $name, $value)
 
 	<tr><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>">
 
-	<b><?php print($header) ?></b><br>
+	<?php print('<b>' . $header . '</b><br>'); ?>
 
-        <input id="<?php print($name); ?>field" type="text" name="<?php print($name) ?>" size="10" maxlength="7" value="<?php print($value); ?>">
+	<input id="<?php print($name); ?>field" type="text" name="<?php print($name) ?>" size="10" maxlength="7" value="<?php print($value); ?>">
 
         <input type="button" name="<?php print($name . 'cbtn'); ?>" value="Choose" onClick="colorDialog('<?php print($name); ?>')">
 	<br><br>
@@ -595,7 +595,7 @@ function make_edit_select_monitor($mon_id_cur)
 
 function color_block($color)
 {       
-	return "<b style='border:thin solid black;background-color:$color'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+	return "<b class='colorbox' style='border:thin solid black;background-color:$color'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
 }
 
 function formatted_link($text, $link, $caption = "")
