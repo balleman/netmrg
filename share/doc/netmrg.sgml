@@ -189,7 +189,7 @@ Event are met, the appropriate response is performed.
 				<listitem>
 				<para>Install the following ports:</para>
 				<itemizedlist>
-					<listitem><para><filename>apache</filename></para></listitem>
+					<listitem><para><filename>www/apache13</filename></para></listitem>
 					<listitem><para><filename>rrdtool</filename></para></listitem>
 					<listitem><para><filename>net-snmp</filename></para></listitem>
 					<listitem><para><filename>libxml2</filename></para></listitem>
