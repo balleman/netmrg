@@ -1,5 +1,6 @@
 2003.12.18  v0.12  balleman
   - bug#0000130 - descendants slideshow should sort groups by name
+  - bug#0000132 -  there should be a "previous slide" link during slideshow
 
 2003.12.15  v0.12  balleman
   - bug#0000129 - uninitialized snmp session pointer can cause segfault

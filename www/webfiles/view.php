@@ -236,19 +236,27 @@ function do_slideshow()
 		exit(0);
 	}
 
+	if (isset($_REQUEST['jump']))
+	{
+		$_SESSION["netmrgsess"]["slideshow"]["current"] = $_REQUEST['jump'];
+	}
+
 	$GLOBALS["slideshow"] = true;
 	$_REQUEST['action'] = "view";
-	$slide_show_link = "{$_SERVER['PHP_SELF']}?action=slideshow";
 	$view = $_SESSION["netmrgsess"]["slideshow"]["views"][$_SESSION["netmrgsess"]["slideshow"]["current"]];
 	$_REQUEST['object_type'] = $view['object_type'];
 	$_REQUEST['object_id'] = $view['object_id'];
-	$GLOBALS["slide_show_formatted_link"] = formatted_link("Next Slide", $slide_show_link);
+	$GLOBALS["slide_show_formatted_link"] = cond_formatted_link($_SESSION["netmrgsess"]["slideshow"]["current"] > 0, "Previous Slide", "{$_SERVER['PHP_SELF']}?action=slideshow&jump=" . ($_SESSION["netmrgsess"]["slideshow"]["current"] - 1));
 	$_SESSION["netmrgsess"]["slideshow"]["current"]++;
 
 	if ( count($_SESSION["netmrgsess"]["slideshow"]["views"]) == $_SESSION["netmrgsess"]["slideshow"]["current"])
 	{
 		$_SESSION["netmrgsess"]["slideshow"]["current"] = 0;
-		$GLOBALS["slide_show_formatted_link"] = formatted_link("Restart Slideshow", $slide_show_link);
+		$GLOBALS["slide_show_formatted_link"] .= formatted_link("Restart Slideshow", "{$_SERVER['PHP_SELF']}?action=slideshow");
+	}
+	else
+	{
+		$GLOBALS["slide_show_formatted_link"] .= formatted_link("Next Slide", "{$_SERVER['PHP_SELF']}?action=slideshow");
 	}
 
 	?>
@@ -261,7 +269,7 @@ function do_slideshow()
 
 	function nextPage()
 	{
-		window.location = "<?php echo($slide_show_link); ?>";
+		window.location = "<?php echo("{$_SERVER['PHP_SELF']}?action=slideshow"); ?>";
 	}
 
 	function myScroll()
