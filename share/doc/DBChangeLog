@@ -1,3 +1,6 @@
+2004.10.19  v0.17  balleman
+  INSERT INTO tests_internal VALUES (7,'SNMP Failure');
+
 2004.09.21  v0.17  balleman
   ALTER TABLE `graph_ds` CHANGE `stats` `stats` SET( 'CURRENT', 'AVERAGE', 'MAXIMUM', 'SUMS', 'INTEGER', 'MULTSUM' ) DEFAULT 'CURRENT,AVERAGE,MAXIMUM' NOT NULL ;
 

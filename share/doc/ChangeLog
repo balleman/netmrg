@@ -1,3 +1,6 @@
+2004.10.19  v0.17  balleman
+  - bug#0000313 - internal test for snmp availability
+  
 2004.10.16  v0.17  keb
   - bug#0000315 - netmrg build should have cleaner output
   - add more control over the install files in www/

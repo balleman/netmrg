@@ -69,6 +69,10 @@ string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 		// read value from file
 		case 6:		test_result = read_value_from_file(info);
 					break;
+		
+		// report SNMP avoidance status
+		case 7:		test_result = info.snmp_avoid;
+					break;
 
 		default:	debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown Internal Test (" + inttostr(info.test_id) + ")");
 	}
