@@ -41,6 +41,6 @@ string		count_file_lines(DeviceInfo info);
 // debugging functions
 int		get_debug_level();
 void		set_debug_level(int level);
-void 		debuglogger(int level, DeviceInfo *info_in, string message);
+void 		debuglogger(int level, const DeviceInfo *, const string & message);
 
 #endif

@@ -395,41 +395,41 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 
 	int		retval	= 0;
 
-	for (list<ValuePair>::iterator current = (*info).parameters.begin(); current != (*info).parameters.end(); current++)
+	for (list<ValuePair>::iterator current = info->parameters.begin(); current != info->parameters.end(); current++)
 	{
-		value = (*current).value;
+		value = current->value;
 
-		if ((*current).name == "ifIndex")
+		if (current->name == "ifIndex")
 		{
 			index = "ifIndex";
                 	break;
 		}
 		else
-		if ((*current).name == "ifName")
+		if (current->name == "ifName")
 		{
 			index = "ifName";
 			break;
 		}
 		else
-		if ((*current).name == "ifDescr")
+		if (current->name == "ifDescr")
 		{
 			index = "ifDescr";
 			break;
 		}
 		else
-		if ((*current).name == "ifAlias")
+		if (current->name == "ifAlias")
 		{
 			index = "ifAlias";
 			break;
 		}
 		else
-		if ((*current).name == "ifIP")
+		if (current->name == "ifIP")
 		{
 			index = "ifIP";
 			break;
 		}
 		else
-		if ((*current).name == "ifMAC")
+		if (current->name == "ifMAC")
 		{
 			index = "ifMAC";
 			break;
@@ -446,7 +446,7 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 	{
                 string query =
 		string("SELECT ifIndex, ifName, ifIP, ifDescr, ifAlias, ifMAC FROM snmp_interface_cache WHERE dev_id=") +
-		inttostr((*info).device_id) + string(" AND ") + index + "=\"" + value + "\"";
+		inttostr(info->device_id) + string(" AND ") + index + "=\"" + value + "\"";
 
                 mysql_res = db_query(mysql, info, query);
 
@@ -456,27 +456,27 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 
 		        if ((mysql_row[0] != NULL) && (index != "ifIndex"))
 		        {
-        		        (*info).parameters.push_front(ValuePair("ifIndex", mysql_row[0]));
+        		        info->parameters.push_front(ValuePair("ifIndex", mysql_row[0]));
 		        }
 
 		        if ((mysql_row[1] != NULL) && (index != "ifName"))
 		        {
-        		        (*info).parameters.push_front(ValuePair("ifName", mysql_row[1]));
+        		        info->parameters.push_front(ValuePair("ifName", mysql_row[1]));
 		        }
 
 		        if ((mysql_row[2] != NULL) && (index != "ifIP"))
 		        {
-        		        (*info).parameters.push_front(ValuePair("ifIP", mysql_row[2]));
+        		        info->parameters.push_front(ValuePair("ifIP", mysql_row[2]));
 		        }
 
 		        if ((mysql_row[3] != NULL) && (index != "ifDescr"))
 		        {
-        		        (*info).parameters.push_front(ValuePair("ifDescr", mysql_row[3]));
+        		        info->parameters.push_front(ValuePair("ifDescr", mysql_row[3]));
 		        }
 
 		        if ((mysql_row[4] != NULL) && (index != "ifAlias"))
 		        {
-        		        (*info).parameters.push_front(ValuePair("ifAlias", mysql_row[4]));
+        		        info->parameters.push_front(ValuePair("ifAlias", mysql_row[4]));
 		        }
 		}
 		else
@@ -488,7 +488,7 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 	 	mysql_free_result(mysql_res);
 
 	}
-	
+
 	return retval;
 
 }
@@ -505,23 +505,23 @@ int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 
 	int		retval	= 0;
 
-	for (list<ValuePair>::iterator current = (*info).parameters.begin(); current != (*info).parameters.end(); current++)
+	for (list<ValuePair>::iterator current = info->parameters.begin(); current != info->parameters.end(); current++)
 	{
-		value = (*current).value;
+		value = current->value;
 
-		if ((*current).name == "dskIndex")
+		if (current->name == "dskIndex")
 		{
 			index = "disk_index";
                 	break;
 		}
 		else
-		if ((*current).name == "dskPath")
+		if (current->name == "dskPath")
 		{
 			index = "disk_path";
 			break;
 		}
 		else
-		if ((*current).name == "dskDevice")
+		if (current->name == "dskDevice")
 		{
 			index = "disk_device";
 			break;
@@ -538,7 +538,7 @@ int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 	{
                 string query =
 		string("SELECT disk_index, disk_path, disk_device FROM snmp_disk_cache WHERE dev_id=") +
-		inttostr((*info).device_id) + string(" AND ") + index + "=\"" + value + "\"";
+		inttostr(info->device_id) + string(" AND ") + index + "=\"" + value + "\"";
 
 		mysql_res = db_query(mysql, info, query);
 
@@ -548,17 +548,17 @@ int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 
 		        if ((mysql_row[0] != NULL) && (index != "disk_index"))
 		        {
-        		        (*info).parameters.push_front(ValuePair("dskIndex", mysql_row[0]));
+        		        info->parameters.push_front(ValuePair("dskIndex", mysql_row[0]));
 		        }
 
 		        if ((mysql_row[1] != NULL) && (index != "disk_path"))
 		        {
-        		        (*info).parameters.push_front(ValuePair("dskPath", mysql_row[1]));
+        		        info->parameters.push_front(ValuePair("dskPath", mysql_row[1]));
 		        }
 
 		        if ((mysql_row[2] != NULL) && (index != "disk_device"))
 		        {
-        		        (*info).parameters.push_front(ValuePair("dskDevice", mysql_row[2]));
+        		        info->parameters.push_front(ValuePair("dskDevice", mysql_row[2]));
 		        }
 
 		}
@@ -571,7 +571,7 @@ int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 	 	mysql_free_result(mysql_res);
 
 	}
-         
+
 	return retval;
 }
 
@@ -583,7 +583,7 @@ string expand_parameters(DeviceInfo info, string input)
 {
 	for (list<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
 	{
-		input = token_replace(input, "%" + (*current).name + "%", (*current).value);
+		input = token_replace(input, "%" + current->name + "%", current->value);
 	}
 
 	return input;

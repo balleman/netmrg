@@ -124,48 +124,46 @@ int get_debug_level()
 	return debug_level;
 }
 
-void debuglogger(int level, DeviceInfo *info_in, string message)
+void debuglogger(int level, const DeviceInfo * info, const string & message)
 {
-	DeviceInfo info;
-
-	if (info_in != NULL)
-	{
-		info = *info_in;
-	}
 
 	if (debug_level && level)
 	{
 
 		string tempmsg = "";
 
-		if (info.device_id != -1)
+		if (info !=  NULL)
 		{
-			tempmsg = tempmsg + string("[Dev: ") +
-				inttopadstr(info.device_id, 4) + string("] ");
-		}
 
-		if (info.subdevice_id != -1)
-		{
-			tempmsg = tempmsg + string("[Sub: ") +
-				inttopadstr(info.subdevice_id, 4) + string("] ");
-		}
+			if (info->device_id != -1)
+			{
+				tempmsg = tempmsg + string("[Dev: ") +
+					inttopadstr(info->device_id, 4) + string("] ");
+			}
 
-		if (info.monitor_id != -1)
-		{
-			tempmsg = tempmsg + string("[Mon: ") +
-				inttopadstr(info.monitor_id, 4) + string("] ");
-		}
+			if (info->subdevice_id != -1)
+			{
+				tempmsg = tempmsg + string("[Sub: ") +
+					inttopadstr(info->subdevice_id, 4) + string("] ");
+			}
 
-		if (info.event_id != -1)
-		{
-			tempmsg = tempmsg + string("[Ev: ") +
-				inttopadstr(info.event_id, 4) + string("] ");
-		}
+			if (info->monitor_id != -1)
+			{
+				tempmsg = tempmsg + string("[Mon: ") +
+					inttopadstr(info->monitor_id, 4) + string("] ");
+			}
 
-		if (info.response_id != -1)
-		{
-			tempmsg = tempmsg + string("[Resp: ") +
-				inttopadstr(info.response_id, 4) + string("] ");
+			if (info->event_id != -1)
+			{
+				tempmsg = tempmsg + string("[Ev: ") +
+					inttopadstr(info->event_id, 4) + string("] ");
+			}
+
+			if (info->response_id != -1)
+			{
+				tempmsg = tempmsg + string("[Resp: ") +
+					inttopadstr(info->response_id, 4) + string("] ");
+			}
 		}
 
 		tempmsg = tempmsg + message;
@@ -176,7 +174,6 @@ void debuglogger(int level, DeviceInfo *info_in, string message)
 } // end debuglogger
 
 // count_file_lines
-//
 string count_file_lines(DeviceInfo info)
 {
 	FILE *fhandle;
