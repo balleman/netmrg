@@ -20,26 +20,49 @@ begin_page();
 ?>
 
 <br><br>
+
 <div align="center">
 <a href="http://netmrg.net/"><font size="6" color="#000080"><b>NetMRG</b></font></a><br>
+
 <big>
+
 <b>The Network Monitoring, Reporting, and Graphing Tool</b>
+
 <br><br>
 
 Version <b><?php echo $GLOBALS["netmrg"]["version"]; ?></b><br>
 <br><br>
 
-Copyright &copy; 2001-2002 <a href="http://www.treehousetechnologies.net/brady/">Brady Alleman</a>.<br>
-This project is licensed under the terms of the <a href="http://www.gnu.org/">GNU</a> <a href="http://www.gnu.org/licenses/gpl.html">GPL</a>.
+Copyright &copy; 2001-2002 <a href="http://thtech.net/brady/">Brady Alleman</a> and <a href="http://silfreed.net/">Doug Warner</a>.<br>
+
+</big>
+<big>
 <br><br>
-Portions of this project were developed at <a href="http://www.ctinetworks.com/">CTI|Networks</a>.<br>
-<a href="http://raxnet.net/">Ian Berry</a>, <a href="http://silfreed.net/">Doug Warner</a>, and <a href="http://haller.ws/">Patrick Haller</a> offered suggestions, found bugs, and were supportive in general.<br>
-<br>
-This project makes use of <a href="http://www.rrdtool.org/">RRDTOOL</a>, <a href="http://net-snmp.sourceforge.net/">NET-SNMP</a>, <a href="http://www.php.net/">PHP</a>, C++, Perl, and pthreads.<br>
+
+Portions of this project were developed for <a href="http://www.ctinetworks.com/">CTI|Networks</a>.<br>
+<a href="http://raxnet.net/">Ian Berry</a> and <a href="http://haller.ws/">Patrick Haller</a> offered suggestions.<br>
+
+</big>
+<br><br><br>
+
+<table width="55%" style="border: 1px solid black;">
+<tr><td align="left">
+This project is licensed under the terms of the MIT License.<br><br>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br><br>
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.<br><br>
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+</td>
+</tr>
+</table>
+
 <br>
 <a href="http://www.netmrg.net/">NetMRG</a> is a project of <a href="http://www.treehousetechnologies.net/">TreehouseTechnologies</a>.
-</big>
+
 </div>
+
 <?php
 
 end_page();
