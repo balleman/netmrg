@@ -1,3 +1,6 @@
+2004.08.28  v0.17cvs  keb
+  - bug#0000106 - checkboxes to delete graphs for graphs.php
+
 2004.08.24  v0.17cvs  balleman
   - bug#0000258 - "Previous Value" should be available when processing conditions
   - bug#0000232 - correctly order cisco names on snmp interface cache page
