@@ -25,15 +25,27 @@ void rrd_init()
 	if (!(get_debug_components() & DEBUG_RRD) || !(get_debug_level() & LEVEL_DEBUG))
 		rrdtool = rrdtool + " >/dev/null";
 	rrdtool_pipe = popen(rrdtool.c_str(), "w");
-	
+	if (!rrdtool_pipe)
+	{
+		debuglogger(DEBUG_GLOBAL + DEBUG_RRD, LEVEL_CRITICAL, NULL, "Failed to initialize RRDTOOL pipe.");
+		exit(3);
+	}
+		
 	// sets buffering to one line
 	setlinebuf(rrdtool_pipe);
 }
 
 void rrd_cleanup()
 {
-	pclose(rrdtool_pipe);
-	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Closed RRDTOOL pipe.");
+	if (rrdtool_pipe)
+	{
+		pclose(rrdtool_pipe);
+		debuglogger(DEBUG_GLOBAL + DEBUG_RRD, LEVEL_INFO, NULL, "Closed RRDTOOL pipe.");
+	}
+	else
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Tried to close RRDTOOL pipe before opening it.");
+	}
 }
 
 // rrd_cmd
