@@ -208,7 +208,8 @@ void process_device(int dev_id)
 			string("snmp_ifnumber, ")		+ // 6
 			string("snmp_port, ")			+ // 7
 			string("snmp_timeout, ")		+ // 8
-			string("snmp_retries ")			+ // 9
+			string("snmp_retries, ")		+ // 9
+			string("no_snmp_uptime_check ")	+ // 10
 			string("FROM devices ")			+
 			string("WHERE id=") + inttostr(dev_id);
 
@@ -234,22 +235,31 @@ void process_device(int dev_id)
 		info.snmp_timeout			= strtoint(mysql_row[8]);
 		info.snmp_retries			= strtoint(mysql_row[9]);
 		int  snmp_recache_method	= strtoint(mysql_row[4]);
-
+		int  check_snmp_uptime		= strtoint(mysql_row[10]) ? 0 : 1;
+		
 		// add SNMP parameters to list
 		info.parameters.push_front(ValuePair("snmp_read_community", mysql_row[3]));
 
 		// init device snmp session
 		snmp_session_init(info);
 
-		// get uptime
-		info.snmp_uptime = get_snmp_uptime(info);
-		debuglogger(DEBUG_SNMP, LEVEL_INFO, &info, "SNMP Uptime is " + inttostr(info.snmp_uptime));
+		if (check_snmp_uptime)
+		{
+			// get uptime
+			info.snmp_uptime = get_snmp_uptime(info);
+			debuglogger(DEBUG_SNMP, LEVEL_INFO, &info, "SNMP Uptime is " + inttostr(info.snmp_uptime));
 
-		// store new uptime
-		db_update(&mysql, &info, "UPDATE devices SET snmp_uptime=" + inttostr(info.snmp_uptime) +
-				" WHERE id=" + inttostr(dev_id));
+			// store new uptime
+			db_update(&mysql, &info, "UPDATE devices SET snmp_uptime=" + inttostr(info.snmp_uptime) +
+					" WHERE id=" + inttostr(dev_id));
+		}
+		else
+		{
+			debuglogger(DEBUG_DEVICE, LEVEL_WARNING, &info, "Not checking SNMP uptime as per configuration.");
+			debuglogger(DEBUG_DEVICE, LEVEL_WARNING, &info, "This option should only be used as a last resort.");
+		}
 
-		if (info.snmp_uptime == 0)
+		if ( check_snmp_uptime && (info.snmp_uptime == 0) )
 		{
 			// device is snmp-dead
 			info.snmp_avoid = 1;
@@ -261,18 +271,21 @@ void process_device(int dev_id)
 			{
 				// we care about SNMP agent restarts
 
-				if (strtoint(mysql_row[5]) == 0)
+				if (check_snmp_uptime)
 				{
-					// device came back from the dead
-					info.snmp_recache = 1;
-					debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Device has returned from SNMP-death.");
-				}
+					if (strtoint(mysql_row[5]) == 0)
+					{
+						// device came back from the dead
+						info.snmp_recache = 1;
+						debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Device has returned from SNMP-death.");
+					}
 
-				if (info.snmp_uptime < strtoint(mysql_row[5]))
-				{
-					// uptime went backwards
-					info.snmp_recache = 1;
-					debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info, "SNMP Agent Restart.");
+					if (info.snmp_uptime < strtoint(mysql_row[5]))
+					{
+						// uptime went backwards
+						info.snmp_recache = 1;
+						debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info, "SNMP Agent Restart.");
+					}
 				}
 			}
 

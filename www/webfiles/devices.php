@@ -70,6 +70,7 @@ function doedit()
 		} // end if dev_id = 0 or not
 		if (!isset($_REQUEST["disabled"])) { $_REQUEST["disabled"] = 0; }
 		if (!isset($_REQUEST["snmp_version"])) { $_REQUEST["snmp_version"] = 0; }
+		if (!isset($_REQUEST["no_snmp_uptime_check"])) { $_REQUEST["no_snmp_uptime_check"] = 0; }
 		$_REQUEST['dev_name'] = db_escape_string($_REQUEST['dev_name']);
 		$_REQUEST['dev_ip'] = db_escape_string($_REQUEST['dev_ip']);
 		$_REQUEST['snmp_read_community'] = db_escape_string($_REQUEST['snmp_read_community']);
@@ -83,7 +84,8 @@ function doedit()
 			snmp_version='{$_REQUEST['snmp_version']}',
 			snmp_port='{$_REQUEST['snmp_port']}',
 			snmp_timeout='{$_REQUEST['snmp_timeout']}',
-			snmp_retries='{$_REQUEST['snmp_retries']}'
+			snmp_retries='{$_REQUEST['snmp_retries']}',
+			no_snmp_uptime_check='{$_REQUEST['no_snmp_uptime_check']}' 
 			$db_end");
 
 		if ($_REQUEST["dev_id"] == 0)
@@ -181,6 +183,7 @@ function displayedit()
 		$dev_row["snmp_port"] = 161;
 		$dev_row["snmp_timeout"] = 1000000;
 		$dev_row["snmp_retries"] = 3;
+		$dev_row["no_snmp_uptime_check"] = 1;
 	}
 
 	make_edit_table("Edit Device");
@@ -194,6 +197,7 @@ function displayedit()
 	make_edit_text("SNMP Read Community:", "snmp_read_community", 50, 200, $dev_row["snmp_read_community"]);
 	make_edit_select_from_array("Recaching Method:", "snmp_recache_method", $GLOBALS["RECACHE_METHODS"], $dev_row["snmp_recache_method"]);
 	make_edit_group("Advanaced SNMP Options");
+	make_edit_checkbox("Disable SNMP Uptime Check", "no_snmp_uptime_check", $dev_row["no_snmp_uptime_check"] == 1);
 	make_edit_text("SNMP UDP Port", "snmp_port", 5, 5, $dev_row["snmp_port"]);
 	make_edit_text("SNMP Timeout (microseconds):", "snmp_timeout", 10, 20, $dev_row["snmp_timeout"]);
 	make_edit_text("SNMP Retries:", "snmp_retries", 3, 10, $dev_row["snmp_retries"]);

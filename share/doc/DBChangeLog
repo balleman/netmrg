@@ -1,3 +1,6 @@
+2004.05.25  v0.16cvs  balleman
+  ALTER TABLE `devices` ADD `no_snmp_uptime_check` TINYINT DEFAULT '0' NOT NULL ;
+
 2004.03.10  v0.14cvs  silfreed
   ALTER TABLE user DROP INDEX user;
   ALTER TABLE user ADD CONSTRAINT UNIQUE user (user);
