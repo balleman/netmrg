@@ -25,6 +25,7 @@ if ($_REQUEST["action"] == "doedit")
 	if (empty($_REQUEST["show_total_stats"])) { $_REQUEST["show_total_stats"] = 0; }
 	if (empty($_REQUEST["show_summed"])) { $_REQUEST["show_summed"] = 0; }
 	if (empty($_REQUEST["disp_integer_only"])) { $_REQUEST["disp_integer_only"] = 0; }
+	if (empty($_REQUEST["disp_sum"])) { $_REQUEST["disp_sum"] = 0; }
 
 	if (empty($_REQUEST["graph_id"]))
 	{
@@ -36,7 +37,17 @@ if ($_REQUEST["action"] == "doedit")
 		$command = "UPDATE";
 		$where = "WHERE id={$_REQUEST['graph_id']}";
 	}
-	do_update("$command graphs SET name=\"{$_REQUEST["graph_name"]}\", comment=\"{$_REQUEST["graph_comment"]}\", xsize={$_REQUEST["xsize"]}, ysize={$_REQUEST["ysize"]}, vert_label=\"{$_REQUEST["vert_label"]}\", show_legend={$_REQUEST["show_legend"]}, show_total_line={$_REQUEST["show_total_line"]}, show_total_stats={$_REQUEST["show_total_stats"]}, show_summed={$_REQUEST["show_summed"]}, max_custom=\"{$_REQUEST["max_custom"]}\", disp_integer_only={$_REQUEST["disp_integer_only"]} $where");
+	do_update("$command graphs SET name=\"{$_REQUEST['graph_name']}\",
+			comment=\"{$_REQUEST['graph_comment']}\",
+			xsize={$_REQUEST['xsize']}, ysize={$_REQUEST['ysize']},
+			vert_label=\"{$_REQUEST['vert_label']}\",
+			show_legend={$_REQUEST['show_legend']},
+			show_total_line={$_REQUEST['show_total_line']},
+			show_total_stats={$_REQUEST['show_total_stats']},
+			show_summed={$_REQUEST['show_summed']},
+			max_custom=\"{$_REQUEST['max_custom']}\",
+			disp_integer_only={$_REQUEST['disp_integer_only']},
+			disp_sum={$_REQUEST['disp_sum']} $where");
 
 	if (isset($_REQUEST["return_type"])) {
 		if ($_REQUEST["return_type"] == "traffic") {
@@ -158,6 +169,7 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 		$graph_row["show_total_line"] = 0;
 		$graph_row["show_total_stats"] = 0;
 		$graph_row["disp_integer_only"] = 0;
+		$graph_row["disp_sum"] = 0;
 		$graph_row["show_summed"] = 0;
 		$graph_row["max_custom"] = 0;
 	}
@@ -172,11 +184,12 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	make_edit_checkbox("Show Total Line","show_total_line",$graph_row["show_total_line"]);
 	make_edit_checkbox("Show Total Stats","show_total_stats",$graph_row["show_total_stats"]);
 	make_edit_checkbox("Only Integers in Legend", "disp_integer_only", $graph_row["disp_integer_only"]);
+	make_edit_checkbox("Show Sums", "disp_sum", $graph_row["disp_sum"]);
 	make_edit_group("Maximum Indicators");
 	make_edit_checkbox("Show Summed Data Source Maximum Indicators","show_summed",$graph_row["show_summed"]);
 	make_edit_text("Custom Maximum Value","max_custom",10,10,$graph_row["max_custom"]);
 	if ($_REQUEST["action"] == "edit")
-	{	
+	{
 		make_edit_hidden("graph_id",$_REQUEST["graph_id"]);
 	}
 	make_edit_hidden("action","doedit");
