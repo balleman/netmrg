@@ -318,7 +318,7 @@ function view_redirect()
 	$sql = "SELECT * FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."'";
 	$handle = db_query($sql);
 	$row = db_fetch_array($handle);
-	if (empty($_SESSION["netmrgsess"]["redir"]) || (get_permit() == 0))
+	if (empty($_SESSION["netmrgsess"]["redir"]) || ($_SESSION["netmrgsess"]["permit"] == 0))
 	{
 		header("Location: {$GLOBALS['netmrg']['webroot']}/device_tree.php");
 		exit(0);

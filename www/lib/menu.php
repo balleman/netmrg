@@ -21,7 +21,7 @@ function display_menu()
 		$item_output = "";
 		foreach ($menuitems as $menuitem)
 		{
-			if (get_permit() >= $menuitem["authLevelRequired"])
+			if ($_SESSION["netmrgsess"]["permit"] >= $menuitem["authLevelRequired"])
 			{
 				$item_output .= '<tr><td class="menuitem">'."\n";
 				$item_output .= '<a class="menuitem" href="'. $menuitem["link"] .'" name="'. $menuitem["descr"] .'">';
