@@ -178,7 +178,7 @@ function draw_group($grp_id, $depth = 0)
 			$img = get_image_by_name("show");
 			$grp_action = "expand";
 		} // end if this group is expanded
-		make_display_item("<img border=0 height=1 width=" . ($depth * 8) . "><img src=\"" . $img . "\" border=\"0\"> " . $grp_row["name"], $_SERVER["PHP_SELF"] . "?action=$grp_action&groupid=$grp_id","[<a href=\"view.php?pos_id_type=0&pos_id=$grp_id\">View</a>]","","","","","","","", "", "");
+		make_display_item("<img border=0 height=1 width=" . ($depth * 8) . "><img src=\"" . $img . "\" border=\"0\"> " . $grp_row["name"], $_SERVER["PHP_SELF"] . "?action=$grp_action&groupid=$grp_id",formatted_link("View", "view.php?pos_id_type=0&pos_id=$grp_id"),"","","","","","","", "", "");
 
 
 		// if group is expanded, show the devices

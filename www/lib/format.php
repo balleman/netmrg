@@ -89,7 +89,8 @@ if (!empty($pagename)) {
 	</td>
 </tr>
 </table>
-<small><br></small>
+<? // needs some kind of spacing for IE.  A <br> is too much.
+?>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
 	<td class="empty" valign="top"><img src="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/img/trans.gif" width="4" height="1" alt="trans gif"></td>
@@ -283,6 +284,7 @@ function make_table_tag()
 function make_edit_table($title)
 {
 	// Makes a table for editing data
+
 	?>
 	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="editform">
 
@@ -443,12 +445,12 @@ function make_edit_select_option($name, $value, $selected)
 } // end make_edit_select_option
 
 
-function make_edit_text($header, $name, $size, $maxlength, $value, $options = "")
+function make_edit_text($header, $name, $size, $maxlength, $value)
 {
 	// Creates a form text edit control
 	?>
 
-	<tr <?php print($options); ?>><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>">
+	<tr><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>">
 
 	<b><?php print($header) ?></b><br>
 
@@ -527,10 +529,10 @@ function make_edit_submit_button()
 
 } // end make_edit_submit_button
 
-function make_edit_checkbox($header, $name, $checked, $options = "")
+function make_edit_checkbox($header, $name, $checked)
 {
 	// Creates a form checkbox
-	?><tr <?php print($options); ?>><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>"><?php
+	?><tr><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>"><?php
 
 	if ($checked) {
 	?>
@@ -544,11 +546,19 @@ function make_edit_checkbox($header, $name, $checked, $options = "")
 
 } // end make_edit_checkbox
 
-function make_edit_select_monitor($mon_id_cur)
+function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 {
 	// Creates an edit select box for the selection of "monitors"
 
 	make_edit_select("Monitor:","mon_id");
+
+	// loop through things to put @ the end of the select box
+	while (list($key, $value) = each($prepended_array))
+	{
+		make_edit_select_option($value, $key, ($key == $mon_id_cur));
+
+	} // end while we have array list
+
 
 	$mon_results = do_query("
 	SELECT  monitors.id AS id,
@@ -572,16 +582,7 @@ function make_edit_select_monitor($mon_id_cur)
 		$mon_row = mysql_fetch_array($mon_results);
 		$mon_id = $mon_row["id"];
 		$mon_name = get_monitor_name($mon_id);
-
-		if ($mon_id_cur != $mon_id)
-		{
-		        make_edit_select_option($mon_name,$mon_id,0);
-		} 
-		else
-		{
-		        make_edit_select_option($mon_name,$mon_id,1);
-		}
-
+	        make_edit_select_option($mon_name, $mon_id, $mon_id_curr == $mon_id);
 	} // end for
 
 	make_edit_select_end();
@@ -593,7 +594,7 @@ function make_edit_select_monitor($mon_id_cur)
 // Special Functions
 
 function color_block($color)
-{       
+{
 	return "<b class='colorbox' style='border:thin solid black;background-color:$color'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
 }
 

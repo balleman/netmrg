@@ -13,24 +13,47 @@ require_once("../include/config.php");
 check_auth(1);
 
 
-if (empty($_REQUEST["action"])) { $_REQUEST["action"] = ""; }
+if (empty($_REQUEST["action"]))
+	$_REQUEST["action"] = "";
 
 if ($_REQUEST["action"] == "doedit")
 {
 	check_auth(2);
-	if (empty($_REQUEST["show_stats"])) 		{ $_REQUEST["show_stats"] = 0; 		}
-	if (empty($_REQUEST["show_indicator"])) 	{ $_REQUEST["show_indicator"] = 0; 	}
-	if (empty($_REQUEST["show_inverted"])) 		{ $_REQUEST["show_inverted"] = 0; 	}
-	if (empty($_REQUEST["use_alt"])) 		{ $_REQUEST["use_alt"] = 0; 		}
-	
+        
+	$stats = "";
+
+	if (isset($show_current))
+		$stats .= "CURRENT,";
+
+	if (isset($show_average))
+		$stats .= "AVERAGE,";
+
+	if (isset($show_maximum))
+		$stats .= "MAXIMUM,";
+
+	if (isset($show_integer))
+		$stats .= "INTEGER,";
+
+	if (isset($show_sums))
+		$stats .= "SUMS,";
+		
+	$stats = substr($stats, 0, -1);
+
 	if ($_REQUEST["id"] == 0)
 	{
-		create_graph_item($_REQUEST["mon_id"], $_REQUEST["color"], $_REQUEST["type"], $_REQUEST["label"], $_REQUEST["align"], $_REQUEST["graph_id"], $_REQUEST["show_stats"], $_REQUEST["show_indicator"], $_REQUEST["hrule_value"], $_REQUEST["hrule_color"], $_REQUEST["hrule_label"], $_REQUEST["show_inverted"], $_REQUEST["alt_graph_id"], $_REQUEST["use_alt"], $_REQUEST["multiplier"], $_REQUEST["position"]);
+		$pre  = "INSERT INTO";
+		$post = "";
 	}
 	else
 	{
-		update_graph_item($_REQUEST["id"], $_REQUEST["mon_id"], $_REQUEST["color"], $_REQUEST["type"], $_REQUEST["label"], $_REQUEST["align"], $_REQUEST["graph_id"], $_REQUEST["show_stats"], $_REQUEST["show_indicator"], $_REQUEST["hrule_value"], $_REQUEST["hrule_color"], $_REQUEST["hrule_label"], $_REQUEST["show_inverted"], $_REQUEST["alt_graph_id"], $_REQUEST["use_alt"], $_REQUEST["multiplier"], $_REQUEST["position"]);
+		$pre  = "UPDATE";
+		$post = "WHERE id = {$_REQUEST['id']}";
 	}
+
+	do_update("$pre graph_ds SET mon_id={$_REQUEST['mon_id']}, color='{$_REQUEST['color']}', " .
+		 "type={$_REQUEST['type']}, graph_id={$_REQUEST['graph_id']}, " .
+		 "label='{$_REQUEST['label']}', alignment={$_REQUEST['alignment']}, " .
+		 "stats='$stats', position={$_REQUEST['position']}, multiplier={$_REQUEST['multiplier']} $post");
 
 	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
 	exit(0);
@@ -163,20 +186,13 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	        $_REQUEST["id"] = 0;
 		$ds_row["type"] = 0;
 		$ds_row["color"] = "#0000AA";
-		$ds_row["align"] = 0;
-		$ds_row["show_stats"] = 1;
-		$ds_row["show_inverted"] = 0;
+		$ds_row["alignment"] = 0;
 		$ds_row["multiplier"] = 1;
-		$ds_row["show_indicator"] = 0;
-		$ds_row["hrule_value"] = 0;
-		$ds_row["hrule_color"] = "#FF0000";
-		$ds_row["hrule_label"] = "";
-		$ds_row["use_alt"] = 0;
-		$ds_row["alt_graph_id"] = 0;
 		$ds_row["label"] = "";
-		$ds_row["src_id"] = 0;
+		$ds_row["mon_id"] = -1;
 		$ds_row["id"] = 0;
 		$ds_row["position"] = $_REQUEST["position"];
+		$ds_row["stats"] = "CURRENT,AVERAGE,MAXIMUM";
         }
 	else
 	{
@@ -194,31 +210,39 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	js_color_dialog();
 	make_edit_table("Edit Graph Item");
 	make_edit_text("Item Label:","label","50","100",$ds_row["label"]);
+        make_edit_select_from_array("Item Type:", "type", $GLOBALS['RRDTOOL_ITEM_TYPES'], $ds_row["type"]);
+	make_edit_color("Item Color:", "color", $ds_row["color"]);
 
+        make_edit_group("Data");
 	if ($_REQUEST["edit_monitor"] == 1)
 	{
-		make_edit_select_monitor($ds_row["src_id"]);
+		make_edit_select_monitor($ds_row["mon_id"], $GLOBALS['SPECIAL_MONITORS']);
 	}
 	else
 	{
-		make_edit_label("<big><b>Monitor:</b><br>  " . get_monitor_name($ds_row["src_id"]) . "  [<a href='{$_SERVER['PHP_SELF']}?id={$_REQUEST['id']}&action={$_REQUEST['action']}&graph_id={$_REQUEST['graph_id']}&edit_monitor=1'>change</a>]</big>");
-		make_edit_hidden("mon_id", $ds_row["src_id"]);
+		$label = "<big><b>Monitor:</b><br>  ";
+		if ($ds_row["mon_id"] > 0)
+		{
+			$label .= get_monitor_name($ds_row["mon_id"]);
+		}
+		else
+		{
+			$label .= $GLOBALS['SPECIAL_MONITORS'][intval($ds_row["mon_id"])];
+		}
+		$label .= "  [<a href='{$_SERVER['PHP_SELF']}?id={$_REQUEST['id']}&action={$_REQUEST['action']}&graph_id={$_REQUEST['graph_id']}&edit_monitor=1'>change</a>]</big>";
+		make_edit_label($label);
+		make_edit_hidden("mon_id", $ds_row["mon_id"]);
 	}
-        make_edit_select_from_array("Item Type:", "type", $GLOBALS['RRDTOOL_ITEM_TYPES'], $ds_row["type"]);
-	make_edit_color("Item Color:", "color", $ds_row["color"]);
-	make_edit_select_from_array("Alignment:", "align", $GLOBALS['ALIGN_ARRAY'], $ds_row["align"]);
-	make_edit_checkbox("Show Stats", "show_stats", $ds_row["show_stats"]);
-	make_edit_checkbox("Show Inverted", "show_inverted", $ds_row["show_inverted"]);
-	if ($ds_row["multiplier"] == "") { $ds_row["multiplier"] = "1"; }
-	make_edit_text("Value Multiplier:", "multiplier", "20", "20", $ds_row["multiplier"]);
-	make_edit_group("Maximum Indicator");
-	make_edit_checkbox("Show Indicator", "show_indicator", $ds_row["show_indicator"]);
-	make_edit_text("Value", "hrule_value", "15", "15", $ds_row["hrule_value"]);
-	make_edit_color("Color", "hrule_color", $ds_row["hrule_color"]);
-	make_edit_text("Label", "hrule_label", "50", "100", $ds_row["hrule_label"]);
-	make_edit_group("Advanced Options");
-	make_edit_checkbox("Use Alternate Child", "use_alt", $ds_row["use_alt"]);
-	make_edit_select_from_table("Alternate Child Graph:", "alt_graph_id","graphs", $ds_row["alt_graph_id"]);
+
+	make_edit_text("Fixed Value or Value Multiplier:", "multiplier", "20", "20", $ds_row["multiplier"]);
+	make_edit_group("Legend");
+	make_edit_select_from_array("Alignment:", "alignment", $GLOBALS['ALIGN_ARRAY'], $ds_row["alignment"]);
+	make_edit_checkbox("Show Current Value", "show_current", isin($ds_row["stats"], "CURRENT"));
+	make_edit_checkbox("Show Average Value", "show_average", isin($ds_row["stats"], "AVERAGE"));
+	make_edit_checkbox("Show Maximum Value", "show_maximum", isin($ds_row["stats"], "MAXIMUM"));
+	make_edit_checkbox("Show Only Integers", "show_integer", isin($ds_row["stats"], "INTEGER"));
+	make_edit_checkbox("Show Sums",		 "show_sums",    isin($ds_row["stats"], "SUMS"));
+
 	make_edit_hidden("action", "doedit");
 	make_edit_hidden("graph_id", $ds_row["graph_id"]);
 	make_edit_hidden("id", $ds_row["id"]);

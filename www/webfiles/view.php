@@ -129,8 +129,8 @@ if (empty($_REQUEST["action"]))
 
 			if ($row["graph_id_type"] == 0)
 			{
-				print("<a href=\"./enclose_graph.php?type=" . $row["graph_id_type"] . "&id=" . $row["graph_id"] . "\">" .
-					"<img border=\"0\" src=\"./get_graph.php?type=" . $row["graph_id_type"] . "&id=" . $row["graph_id"] . "\"></a><br>");
+				print("<a href=\"enclose_graph.php?type=" . $row["graph_id_type"] . "&id=" . $row["graph_id"] . "\">" .
+					"<img border=\"0\" src=\"get_graph.php?type=" . $row["graph_id_type"] . "&id=" . $row["graph_id"] . "\"></a><br>");
 			}
 
 			if ($row["graph_id_type"] == 10)

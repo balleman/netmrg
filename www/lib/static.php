@@ -23,6 +23,10 @@ $RRDTOOL_ITEM_TYPES = array(
 			4	=>	"AREA",
 			5	=>	"STACK");
 
+$SPECIAL_MONITORS = array(
+			-1	=>	"-Fixed Value-",
+			-2	=>	"-Sum of all graph items-");
+
 $TEST_TYPES = array(
 			1	=>	"Script",
 			2	=>	"SNMP",
@@ -107,7 +111,7 @@ $MENU = array(
 	"Monitoring" => array(
 		array("name" => "Groups", "link" => "mon_groups.php", "descr" => "", "authLevelRequired" => 1),
 		array("name" => "Device Types", "link" => "mon_device_types.php", "descr" => "", "authLevelRequired" => 2),
-		array("name" => "Notifications", "link" => "mon_notify.php", "descr" => "", "authLevelRequired" => 2)
+		array("name" => "Notifications", "link" => "notifications.php", "descr" => "", "authLevelRequired" => 2)
 	),
 	"Reporting" => array(
 		array("name" => "Device Tree", "link" => "device_tree.php", "descr" => "", "authLevelRequired" => 1),
@@ -187,10 +191,14 @@ function get_color_by_name($color_name)
 			if ($alt_color == 0)
 			{
 				$alt_color = 1;
-				$color = "#CBD9E7";
-			} else {
+				//$color = "#CBD9E7";
+				$color = "#CECECE";
+			}
+			else
+			{
 				$alt_color = 0;
-				$color = "#B9C9D9";
+				//$color = "#B9C9D9";
+				$color = "#E4E4E4";
 			}
 			break;
 		}

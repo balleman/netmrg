@@ -20,7 +20,7 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 	{
 		case 0:
 			// daily view - 30 hours
-			$start = "-108000";
+			$start_time = "-108000";
 			$break_time = (time() - (date("s") + date("i") * 60 + date("H") * 3600));
 			$sum_label = "24 Hour";
 			$sum_time = "86400";
@@ -28,7 +28,7 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 			break;
 		case 1:
 			// weekly view - 9 days
-			$start = "-777600";
+			$start_time = "-777600";
 			$break_time = (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("w") * 86400));
 			$sum_label = "7 Day";
 			$sum_time = "604800";
@@ -36,7 +36,7 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 			break;
 		case 2:
 			// montly view - 6 weeks
-			$start = "-3628800";
+			$start_time = "-3628800";
 			$break_time = (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("d") * 86400));
 			$sum_label = "4 Week";
 			$sum_time = "2419200";
@@ -44,7 +44,7 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 			break;
 		case 3:
 			// yearly view - 425 days
-			$start = "-36720000";
+			$start_time = "-36720000";
 			$break_time = (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("z") * 86400));
 			$sum_label = "1 Year";
 			$sum_time = "31536000";
@@ -52,22 +52,33 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 			break;
 		}
 
-	if ($type == "mon")
+	switch ($type)
 	{
-
-		return($GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start . " -e " . $end_time .
-				" --title=\"" . get_monitor_name($id) . " (#" . $id . ")\"  --imgformat PNG -g " .
-				"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $id . ".rrd:mon_" . $id . ":AVERAGE " .
-				"AREA:data1#151590");
-
+		case "mon":	return monitor_graph_command($id, $start_time, $end_time);
+		case "tinymon": return tiny_monitor_graph_command($id, $start_time, $end_time);
+		case "custom":  return custom_graph_command($id, $start_time, $end_time, $togglelegend, $break_time, $sum_label, $sum_time);
 	}
 
-	if ($type == "tinymon")
-	{
-		return($GLOBALS['netmrg']['rrdtool'] . " graph - -s $start -e $end_time -a PNG -g -w 275 -h 25 " .
-			"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_$id.rrd:mon_$id:AVERAGE " .
+}
+
+function monitor_graph_command($id, $start_time, $end_time)
+{
+
+	return($GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time .
+			" --title=\"" . get_monitor_name($id) . " (#" . $id . ")\"  --imgformat PNG -g " .
+			"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $id . ".rrd:mon_" . $id . ":AVERAGE " .
 			"AREA:data1#151590");
-	}
+
+}
+
+function tiny_monitor_graph_command($id, $start_time, $end_time)
+{
+	return($GLOBALS['netmrg']['rrdtool'] . " graph - -s $start_time -e $end_time -a PNG -g -w 275 -h 25 " .
+		"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_$id.rrd:mon_$id:AVERAGE " .
+		"AREA:data1#151590");
+}
+
+/*
 
 	if ($type == "custom_ds")
 	{
@@ -152,186 +163,150 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 				$row["type"] . ":data1" . $row["color"] .":\"" . $row["label"] . "\" " .
 				$gprint . $append);
 
-	}
+	}*/
 
-	if ($type == "custom")
+function custom_graph_command($id, $start_time, $end_time, $togglelegend, $break_time, $sum_label, $sum_time)
+{
+	$options = "";
+
+	$graph_results = do_query("SELECT * FROM graphs WHERE id=$id");
+	$graph_row = mysql_fetch_array($graph_results);
+
+	//if ($togglelegend == 1) { $graph_row["show_legend"] = (1 - $graph_row["show_legend"]); }
+	//if ($graph_row["show_legend"] == 0) { $options = "-g "; }
+
+	// initial definition
+	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time . " --alt-autoscale-max --title \"" . $graph_row["name"] . "\" -w " .
+			$graph_row["width"] . " -h " . $graph_row["height"] . " -v \"" . $graph_row["vert_label"] .
+			"\" --imgformat PNG $options";
+
+
+	// *** Padded Length Calculation
+	$padded_length = 5;
+	$ds_results = do_query("SELECT graph_ds.label FROM graph_ds WHERE graph_ds.graph_id=$id");
+	$ds_total = mysql_num_rows($ds_results);
+
+	for ($ds_count = 1; $ds_count <= $ds_total; $ds_count++)
+	{
+		$ds_row = mysql_fetch_array($ds_results);
+		if (strlen($ds_row["label"]) > $padded_length)
+		{
+			$padded_length = strlen($ds_row["label"]);
+		}
+	}
+	// ***
+
+	$ds_results = do_query("SELECT * FROM graph_ds WHERE graph_ds.graph_id=$id ORDER BY position, id");
+	$ds_total = mysql_num_rows($ds_results);
+
+	$CDEF_A = "zero,UN,0,0,IF";
+	$CDEF_L = "zero,UN,0,0,IF";
+	$CDEF_M = "zero,UN,0,0,IF";
+
+	$command .= " DEF:zero=" . $GLOBALS['netmrg']['rrdroot'] . "/zero.rrd:mon_25:AVERAGE ";
+
+	for ($ds_count = 1; $ds_count <= $ds_total; $ds_count++)
 	{
 
-		GLOBAL $RRDTOOL_ITEM_TYPES;
+		$ds_row = mysql_fetch_array($ds_results);
+		$ds_row["type"] = $GLOBALS["RRDTOOL_ITEM_TYPES"][$ds_row["type"]];
 
-		$options = "";
-
-		$graph_results = do_query("SELECT * FROM graphs WHERE id=$id");
-		$graph_row = mysql_fetch_array($graph_results);
-
-		if ($togglelegend == 1) { $graph_row["show_legend"] = (1 - $graph_row["show_legend"]); }
-		if ($graph_row["show_legend"] == 0) { $options = "-g "; }
-
-		$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start . " -e " . $end_time . " --alt-autoscale-max --title \"" . $graph_row["name"] . "\" -w " .
-				$graph_row["xsize"] . " -h " . $graph_row["ysize"] . " -v \"" . $graph_row["vert_label"] .
-				"\" --imgformat PNG $options";
-
-		$padded_length = 5;
-		$ds_results = do_query("SELECT graph_ds.label FROM graph_ds WHERE graph_ds.graph_id=$id");
-		$ds_total = mysql_num_rows($ds_results);
-
-		for ($ds_count = 1; $ds_count <= $ds_total; $ds_count++)
-		{
-			$ds_row = mysql_fetch_array($ds_results);
-			if (strlen($ds_row["label"]) > $padded_length)
-			{
-				$padded_length = strlen($ds_row["label"]);
-			}
-		} // end for;
-
-		$ds_results = do_query("
-		SELECT
-		graph_ds.src_id AS src_id,
-		graph_ds.type AS type,
-		graph_ds.color AS color,
-		graph_ds.label AS label,
-		graph_ds.align AS align,
-		graph_ds.show_stats AS show_stats,
-		graph_ds.hrule_value AS hrule_value,
-		graph_ds.show_inverted AS show_inverted,
-		graph_ds.multiplier AS multiplier,
-		graph_ds.position AS position
-		FROM graph_ds
-		WHERE graph_ds.graph_id=$id
-		ORDER BY graph_ds.position, graph_ds.id");
-
-		$ds_total = mysql_num_rows($ds_results);
-
-		$CDEF_A = "CDEF:total=0";
-		$CDEF_L = "CDEF:totall=0";
-		$CDEF_M = "CDEF:totalm=0";
-
-		$hrule_total = 0;
-
-		for ($ds_count = 1; $ds_count <= $ds_total; $ds_count++)
+		// Data is from a monitor
+		if ($ds_row['mon_id'] >= 0)
 		{
 
-			$ds_row = mysql_fetch_array($ds_results);
+			$command .= " DEF:raw_data" . $ds_count . "=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":AVERAGE " .
+						" DEF:raw_data" . $ds_count . "l=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":LAST " .
+						" DEF:raw_data" . $ds_count . "m=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":MAX ";
 
-			$ds_row["type"] = $RRDTOOL_ITEM_TYPES[$ds_row["type"]];
-
-			$hrule_total += $ds_row["hrule_value"];
-
-			$command .= " DEF:raw_data" . $ds_count . "=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . ".rrd:mon_" . $ds_row["src_id"] . ":AVERAGE " .
-						" DEF:raw_data" . $ds_count . "l=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . ".rrd:mon_" . $ds_row["src_id"] . ":LAST " .
-						" DEF:raw_data" . $ds_count . "m=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . ".rrd:mon_" . $ds_row["src_id"] . ":MAX ";
-			if ($ds_row["multiplier"] == 0) { $ds_row["multiplier"] = 1; }
 			$command .= "CDEF:data" . $ds_count . "=raw_data" . $ds_count . "," . $ds_row["multiplier"] . ",* ";
 			$command .= "CDEF:data" . $ds_count . "l=raw_data" . $ds_count . "l," . $ds_row["multiplier"] . ",* ";
 			$command .= "CDEF:data" . $ds_count . "m=raw_data" . $ds_count . "m," . $ds_row["multiplier"] . ",* ";
-			if ($ds_row["show_inverted"] == 0)
-			{
-				$command .= $ds_row["type"] . ":data" . $ds_count . $ds_row["color"] .":\"" . do_align($ds_row["label"], $padded_length, $ds_row["align"]); # . "\" ";
-			}
-			else
-			{
-				$command .= " CDEF:inv_data" . $ds_count . "=0,data" . $ds_count . ",- ";
-				$command .= $ds_row["type"] . ":inv_data" . $ds_count . $ds_row["color"] .":\"" . do_align($ds_row["label"], $padded_length, $ds_row["align"]); # . "\" ";
-			}
-
-
-		if ($ds_row["show_stats"])
+		}
+		// Data is from a fixed value
+		elseif ($ds_row['mon_id'] == -1)
 		{
-			if ($graph_row["disp_integer_only"])
-			{
-				$command .=
-				'" ' .
-				"GPRINT:data" . $ds_count . 'l:LAST:"Current\\:%5.0lf" ' .
-				"GPRINT:data" . $ds_count . ':AVERAGE:"Average\\:%5.0lf" ' .
-				"GPRINT:data" . $ds_count . 'm:MAX:"Maximum\\:%5.0lf';
+			$command .= "CDEF:data" . $ds_count . "=zero,UN,1,1,IF," . $ds_row["multiplier"] . ",* ";
+			$command .= "CDEF:data" . $ds_count . "l=zero,UN,1,1,IF," . $ds_row["multiplier"] . ",* ";
+			$command .= "CDEF:data" . $ds_count . "m=zero,UN,1,1,IF," . $ds_row["multiplier"] . ",* ";
+		}
+		// Data is the sum of all prior items
+		elseif ($ds_row['mon_id'] == -2)
+		{
+			$command .= "CDEF:data" . $ds_count . "="  . $CDEF_A . "," . $ds_row["multiplier"] . ",* ";
+			$command .= "CDEF:data" . $ds_count . "l=" . $CDEF_L . "," . $ds_row["multiplier"] . ",* ";
+			$command .= "CDEF:data" . $ds_count . "m=" . $CDEF_M . "," . $ds_row["multiplier"] . ",* ";
+		}
 
-				if ($graph_row["disp_sum"])
-				{
-					$sum_text = $GLOBALS['netmrg']['fileroot'] . "/bin/rrdsum.pl " . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . " -" . $sum_time . " now " . $sum_time;
-					$sum_val = `$sum_cmd`;
-					$sum_text = sprintf("%.0f", $sum_val);
-					$command .= ' GPRINT:data' . $ds_count . ':AVERAGE:"$sum_label Sum\\:" $sum_text"';
-				}
+		$command .= $ds_row["type"] . ":data" . $ds_count . $ds_row["color"] .":\"" . do_align($ds_row["label"], $padded_length, $ds_row["alignment"]) . "\" ";
+
+		// define the formatting string
+		if (isin($ds_row["stats"], "INTEGER"))
+		{
+			$format = "%5.0lf";
 		}
 		else
 		{
-			$command .=
-				'" ' .
-				"GPRINT:data" . $ds_count . 'l:LAST:"Current\\:%8.2lf %s" ' .
-				"GPRINT:data" . $ds_count . ':AVERAGE:"Average\\:%8.2lf %s" ' .
-				"GPRINT:data" . $ds_count . 'm:MAX:"Maximum\\:%8.2lf %s';
-
-				if ($graph_row["disp_sum"])
-				{
-					$sum_cmd = $GLOBALS['netmrg']['fileroot'] . "/bin/rrdsum.pl " . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . ".rrd -" . $sum_time . " now " . $sum_time;
-					$sum_val = `$sum_cmd`;
-					$sum_text = sanitize_number($sum_val);
-					$command .="     $sum_label Sum\\: $sum_text";
-				}
-			}
+			$format = "%8.2lf %s";
 		}
 
-		$command .= '\\n" ';
-		$CDEF_A .= ",data" . $ds_count . ",UN,0,data" . $ds_count . ",IF,+";
-		$CDEF_L .= ",data" . $ds_count . "l,UN,0,data" . $ds_count . ",IF,+";
-		$CDEF_M .= ",data" . $ds_count . "m,UN,0,data" . $ds_count . ",IF,+";
-		}
-
-		$command .= " " . $CDEF_A . " " . $CDEF_L . " " . $CDEF_M;
-
-		if ($graph_row["show_total_line"])
+		// Display each field requested
+		if (isin($ds_row["stats"], "CURRENT"))
 		{
-			$command .= " LINE1:total" . $graph_row["total_line_color"] . ':"' . do_align("Total", $padded_length, 1) . '"';
+			$command .= 'GPRINT:data' . $ds_count . 'l:LAST:"Current\\:' . $format . '" ';
 		}
 
-		if ($graph_row["show_total_stats"])
+		if (isin($ds_row["stats"], "AVERAGE"))
 		{
-			if ($graph_row["disp_integer_only"])
+			$command .= 'GPRINT:data' . $ds_count . ':AVERAGE:"Average\\:' . $format . '" ';
+		}
+
+		if (isin($ds_row["stats"], "MAXIMUM"))
+		{
+			$command .= 'GPRINT:data' . $ds_count . 'm:MAX:"Maximum\\:' . $format . '" ';
+		}
+
+		if (isin($ds_row["stats"], "SUMS"))
+		{
+			$sum_cmd = $GLOBALS['netmrg']['fileroot'] . "/bin/rrdsum.pl " . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd -" . $sum_time . " now " . $sum_time;
+			$sum_val = `$sum_cmd`;
+			if (isin($ds_row["stats"], "INTEGER"))
 			{
-				$command .= ' GPRINT:totall:LAST:"Current\\:%5.0lf" GPRINT:total:AVERAGE:"Average\\:%5.0lf" GPRINT:totalm:MAX:"Maximum\\:%5.0lf\\n"';
+				$sum_text = sprintf("%.0f", $sum_val);
 			}
 			else
 			{
-				$command .= ' GPRINT:totall:LAST:"Current\\:%8.2lf %s" GPRINT:total:AVERAGE:"Average\\:%8.2lf %s" GPRINT:totalm:MAX:"Maximum\\:%8.2lf %s\\n"';
+				$sum_text = sanitize_number($sum_val);
 			}
+
+			$command .= " COMMENT:\"$sum_label Sum: $sum_text\" ";
 		}
 
-		if ($graph_row["show_summed"])
-		{
-			$command .= ' HRULE:$hrule_total#FF0000:"Maximum Capactiy ($hrule_total)\\n" ';
-		}
+		$command .= 'COMMENT:"\\n" ';
 
-		if (($graph_row["max_custom"] != "") && ($graph_row['max_custom'] != 0))
-		{
-			$command .= " HRULE:" . $graph_row['max_custom'] . "#FF0000:\"Maximum Capacity (" . $graph_row['max_custom'] . ")\\n\" ";
-		}
+		// add to the running total CDEF
+		$CDEF_A .= ",data" . $ds_count . ",UN,0,data" . $ds_count . ",IF,+";
+		$CDEF_L .= ",data" . $ds_count . "l,UN,0,data" . $ds_count . ",IF,+";
+		$CDEF_M .= ",data" . $ds_count . "m,UN,0,data" . $ds_count . ",IF,+";
 
-		// make MRTG-like VRULE
-		if ($break_time != "")
-		{
-			$command .= " VRULE:" . $break_time  . "#F00000";
-
-		}
-
-		if ($graph_row["comment"] != "")
-		{
-			$temp_comment = str_replace("%n", "\" COMMENT:\"\\n\" COMMENT:\"", $graph_row["comment"]);
-			/*
-			$temp_comment = str_replace("%r", "\\r\" COMMENT:\"", $temp_comment);
-			$temp_comment = str_replace("%l", "\\l\" COMMENT:\"", $temp_comment);
-			$temp_comment = str_replace("%c", "\\c\" COMMENT:\"", $temp_comment);
-			$temp_comment = str_replace("%r", "\" COMMENT:\"\\r\" COMMENT:\"", $temp_comment);
-			$temp_comment = str_replace("%l", "\" COMMENT:\"\\l\" COMMENT:\"", $temp_comment);
-			$temp_comment = str_replace("%c", "\" COMMENT:\"\\c\" COMMENT:\"", $temp_comment);
-			$temp_comment =  str_replace("%l", "\\l", $temp_comment);
-			$temp_comment =  str_replace("%r", "\\r", $temp_comment);
-			$temp_comment =  str_replace("%c", "\\c", $temp_comment);
-			*/
-			$command .= ' COMMENT:"\\n"';
-			$command .= ' COMMENT:"' . $temp_comment .'\\n"';
-		}
-
-		return($command);
 	}
+
+	// make MRTG-like VRULE
+	if ($break_time != "")
+	{
+		$command .= " VRULE:" . $break_time  . "#F00000";
+
+	}
+
+	// print out the graph comment, if any
+	if ($graph_row["comment"] != "")
+	{
+		$temp_comment = str_replace("%n", "\" COMMENT:\"\\n\" COMMENT:\"", $graph_row["comment"]);
+		$command .= ' COMMENT:"\\n"';
+		$command .= ' COMMENT:"' . $temp_comment .'\\n"';
+	}
+
+	return($command);
 }
+
 ?>

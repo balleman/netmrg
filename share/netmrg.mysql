@@ -98,18 +98,57 @@ CREATE TABLE event_log (
 --
 
 
-INSERT INTO event_log VALUES (4,6,1044836400,1044834397);
-INSERT INTO event_log VALUES (2,8,1044834961,1044832958);
-INSERT INTO event_log VALUES (3,10,1044834961,1044834961);
-INSERT INTO event_log VALUES (5,9,1044836400,1044834397);
-INSERT INTO event_log VALUES (6,4,1044836400,1044834397);
-INSERT INTO event_log VALUES (7,3,1044836461,1044834458);
-INSERT INTO event_log VALUES (8,6,1044836521,1044834518);
-INSERT INTO event_log VALUES (9,3,1044836641,1044834638);
-INSERT INTO event_log VALUES (10,6,1044836762,1044834759);
-INSERT INTO event_log VALUES (11,3,1044836821,180);
-INSERT INTO event_log VALUES (12,6,1044837060,298);
-INSERT INTO event_log VALUES (13,3,1044837120,299);
+INSERT INTO event_log VALUES (1,6,1047311280,4740);
+INSERT INTO event_log VALUES (2,3,1047311341,4740);
+INSERT INTO event_log VALUES (3,6,1047318842,7562);
+INSERT INTO event_log VALUES (4,3,1047318900,7559);
+INSERT INTO event_log VALUES (5,6,1047319983,1141);
+INSERT INTO event_log VALUES (6,3,1047320040,1140);
+INSERT INTO event_log VALUES (7,8,1047340800,1202400);
+INSERT INTO event_log VALUES (8,6,1047343021,23038);
+INSERT INTO event_log VALUES (9,3,1047343081,23041);
+INSERT INTO event_log VALUES (10,6,1047343141,120);
+INSERT INTO event_log VALUES (11,3,1047343201,120);
+INSERT INTO event_log VALUES (12,6,1047343381,240);
+INSERT INTO event_log VALUES (13,3,1047343441,240);
+INSERT INTO event_log VALUES (14,7,1047350761,46618);
+INSERT INTO event_log VALUES (15,6,1047350820,7439);
+INSERT INTO event_log VALUES (16,3,1047351240,7799);
+INSERT INTO event_log VALUES (17,6,1047351780,960);
+INSERT INTO event_log VALUES (18,3,1047351840,600);
+INSERT INTO event_log VALUES (19,6,1047352680,900);
+INSERT INTO event_log VALUES (20,3,1047353641,1801);
+INSERT INTO event_log VALUES (21,6,1047353700,1020);
+INSERT INTO event_log VALUES (22,3,1047353820,179);
+INSERT INTO event_log VALUES (23,6,1047353881,181);
+INSERT INTO event_log VALUES (24,7,1047386340,35579);
+INSERT INTO event_log VALUES (25,4,1047386701,78720);
+INSERT INTO event_log VALUES (26,3,1047387361,33541);
+INSERT INTO event_log VALUES (27,6,1047387481,33600);
+INSERT INTO event_log VALUES (28,3,1047387540,179);
+INSERT INTO event_log VALUES (29,6,1047387661,180);
+INSERT INTO event_log VALUES (30,3,1047387721,181);
+INSERT INTO event_log VALUES (31,12,1047389521,1047389521);
+INSERT INTO event_log VALUES (32,6,1047390841,3180);
+INSERT INTO event_log VALUES (33,3,1047390963,3242);
+INSERT INTO event_log VALUES (34,6,1047391140,299);
+INSERT INTO event_log VALUES (35,3,1047391261,298);
+INSERT INTO event_log VALUES (36,6,1047391321,181);
+INSERT INTO event_log VALUES (37,3,1047391381,120);
+INSERT INTO event_log VALUES (38,6,1047391442,121);
+INSERT INTO event_log VALUES (39,3,1047391561,180);
+INSERT INTO event_log VALUES (40,6,1047392221,779);
+INSERT INTO event_log VALUES (41,3,1047392280,719);
+INSERT INTO event_log VALUES (42,6,1047392400,179);
+INSERT INTO event_log VALUES (43,3,1047392460,180);
+INSERT INTO event_log VALUES (44,6,1047392580,180);
+INSERT INTO event_log VALUES (45,3,1047392641,181);
+INSERT INTO event_log VALUES (46,6,1047392941,361);
+INSERT INTO event_log VALUES (47,3,1047393000,359);
+INSERT INTO event_log VALUES (48,6,1047393120,179);
+INSERT INTO event_log VALUES (49,3,1047393180,180);
+INSERT INTO event_log VALUES (50,6,1047393240,120);
+INSERT INTO event_log VALUES (51,3,1047393301,121);
 
 --
 -- Table structure for table 'events'
@@ -133,12 +172,12 @@ CREATE TABLE events (
 --
 
 
-INSERT INTO events VALUES (4,14,1,1,2,'Too Many Processes',2003);
-INSERT INTO events VALUES (3,7,1,1,2,'Too Many Processes',1044837120);
+INSERT INTO events VALUES (4,14,1,1,2,'Too Many Processes',1047386701);
+INSERT INTO events VALUES (3,7,1,1,2,'Too Many Processes',1047393301);
 INSERT INTO events VALUES (5,7,1,0,3,'Way Too Many Processes',2003);
-INSERT INTO events VALUES (6,7,1,0,1,'Processes Normal',1044837060);
-INSERT INTO events VALUES (7,14,1,0,1,'Processes Normal',2003);
-INSERT INTO events VALUES (8,14,1,0,3,'Way too many processes',2003);
+INSERT INTO events VALUES (6,7,1,0,1,'Processes Normal',1047393240);
+INSERT INTO events VALUES (7,14,1,0,1,'Processes Normal',1047386340);
+INSERT INTO events VALUES (8,14,1,0,3,'Way too many processes',1047340800);
 INSERT INTO events VALUES (9,8,1,1,1,'Users OK',2003);
 INSERT INTO events VALUES (10,8,1,0,2,'Too Many Users',2003);
 INSERT INTO events VALUES (11,8,1,0,3,'Way Too Many Users',0);
@@ -149,26 +188,16 @@ INSERT INTO events VALUES (11,8,1,0,3,'Way Too Many Users',0);
 
 CREATE TABLE graph_ds (
   id int(11) NOT NULL auto_increment,
-  src_type int(11) NOT NULL default '0',
-  src_id int(11) NOT NULL default '0',
+  mon_id int(11) NOT NULL default '0',
   color varchar(10) NOT NULL default '',
-  type int(11) NOT NULL default '0',
+  type tinyint(2) NOT NULL default '0',
   graph_id int(11) NOT NULL default '0',
   label varchar(100) NOT NULL default '',
-  align int(11) NOT NULL default '1',
-  show_stats tinyint(4) NOT NULL default '1',
-  show_indicator tinyint(4) NOT NULL default '0',
-  hrule_value varchar(15) NOT NULL default '0',
-  hrule_color varchar(7) NOT NULL default '#FF0000',
-  hrule_label varchar(200) NOT NULL default '',
-  show_inverted tinyint(4) NOT NULL default '0',
+  alignment tinyint(2) NOT NULL default '1',
+  stats set('CURRENT','AVERAGE','MAXIMUM','SUMS','INTEGER') NOT NULL default 'CURRENT,AVERAGE,MAXIMUM',
   position int(11) NOT NULL default '0',
-  alt_graph_id int(11) NOT NULL default '0',
-  use_alt tinyint(4) NOT NULL default '0',
-  multiplier int(11) default NULL,
+  multiplier int(11) NOT NULL default '1',
   PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id),
   KEY graph_id (graph_id)
 ) TYPE=MyISAM;
 
@@ -177,22 +206,25 @@ CREATE TABLE graph_ds (
 --
 
 
-INSERT INTO graph_ds VALUES (1,0,4,'#993300',4,1,'System',1,1,0,'','','',0,1,1,0,1);
-INSERT INTO graph_ds VALUES (2,0,5,'#3333CC',5,1,'User',1,1,0,'','','',0,2,1,0,1);
-INSERT INTO graph_ds VALUES (3,0,6,'#336600',5,1,'Nice',1,1,0,'','','',0,3,1,0,1);
-INSERT INTO graph_ds VALUES (4,0,11,'#993300',4,2,'System',1,1,0,'','','',0,1,1,0,1);
-INSERT INTO graph_ds VALUES (5,0,12,'#3333CC',5,2,'User',1,1,0,'','','',0,2,1,0,1);
-INSERT INTO graph_ds VALUES (6,0,13,'#336600',5,2,'Nice',1,1,0,'','','',0,3,1,0,1);
-INSERT INTO graph_ds VALUES (7,0,17,'#009933',4,3,'Inbound',1,1,0,'','','',0,1,1,0,1);
-INSERT INTO graph_ds VALUES (8,0,18,'#3333FF',2,3,'Outbound',1,1,0,'','','',0,2,1,0,1);
-INSERT INTO graph_ds VALUES (9,0,21,'#009933',4,4,'Inbound',1,1,0,'','','',0,1,1,0,1);
-INSERT INTO graph_ds VALUES (10,0,22,'#3333FF',2,4,'Outbound',1,1,0,'','','',0,2,1,0,1);
-INSERT INTO graph_ds VALUES (11,0,23,'#009933',4,5,'Inbound',1,1,0,'','','',0,1,1,0,1);
-INSERT INTO graph_ds VALUES (12,0,24,'#3333FF',2,5,'Outbound',1,1,0,'','','',0,2,1,0,1);
-INSERT INTO graph_ds VALUES (13,0,25,'#CC3300',4,6,'Script',1,1,0,'','','',0,1,6,0,1);
-INSERT INTO graph_ds VALUES (14,0,26,'#33CC00',5,6,'SNMP',1,1,0,'','','',0,2,6,0,1);
-INSERT INTO graph_ds VALUES (17,0,27,'#6699FF',5,6,'SQL',1,1,0,'0','#FF0000','',0,3,6,0,1);
-INSERT INTO graph_ds VALUES (16,0,40,'#FF9900',5,6,'Internal',1,1,0,'0','#FF0000','',0,4,6,0,1);
+INSERT INTO graph_ds VALUES (1,4,'#FF3300',4,1,'System',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
+INSERT INTO graph_ds VALUES (2,5,'#3333FF',5,1,'User',1,'CURRENT,AVERAGE,MAXIMUM',2,1);
+INSERT INTO graph_ds VALUES (3,6,'#66FF33',5,1,'Nice',1,'CURRENT,AVERAGE,MAXIMUM',3,1);
+INSERT INTO graph_ds VALUES (4,11,'#FF6600',4,2,'System',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
+INSERT INTO graph_ds VALUES (5,12,'#3366FF',5,2,'User',1,'CURRENT,AVERAGE,MAXIMUM',2,1);
+INSERT INTO graph_ds VALUES (6,13,'#00CC66',5,2,'Nice',1,'CURRENT,AVERAGE,MAXIMUM',3,1);
+INSERT INTO graph_ds VALUES (7,17,'#009933',4,3,'Inbound',1,'CURRENT,AVERAGE,MAXIMUM,SUMS',1,1);
+INSERT INTO graph_ds VALUES (8,18,'#3333FF',2,3,'Outbound',1,'CURRENT,AVERAGE,MAXIMUM,SUMS',2,1);
+INSERT INTO graph_ds VALUES (9,21,'#009933',4,4,'Inbound',1,'CURRENT,AVERAGE,MAXIMUM',1,1);
+INSERT INTO graph_ds VALUES (10,22,'#3333FF',2,4,'Outbound',1,'CURRENT,AVERAGE,MAXIMUM',2,1);
+INSERT INTO graph_ds VALUES (11,23,'#009933',4,5,'Inbound',1,'CURRENT,AVERAGE,MAXIMUM,SUMS',1,1);
+INSERT INTO graph_ds VALUES (12,24,'#3333FF',2,5,'Outbound',1,'CURRENT,AVERAGE,MAXIMUM,SUMS',2,1);
+INSERT INTO graph_ds VALUES (13,25,'#CC3300',4,6,'Script',1,'CURRENT,AVERAGE,MAXIMUM,INTEGER',1,1);
+INSERT INTO graph_ds VALUES (14,26,'#33CC00',5,6,'SNMP',1,'CURRENT,AVERAGE,MAXIMUM,INTEGER',2,1);
+INSERT INTO graph_ds VALUES (17,27,'#6699FF',5,6,'SQL',1,'CURRENT,AVERAGE,MAXIMUM,INTEGER',3,1);
+INSERT INTO graph_ds VALUES (16,40,'#FF9900',5,6,'Internal',1,'CURRENT,AVERAGE,MAXIMUM,INTEGER',4,1);
+INSERT INTO graph_ds VALUES (20,-2,'#000000',1,6,'Total Tests',1,'CURRENT,AVERAGE,MAXIMUM,INTEGER',5,1);
+INSERT INTO graph_ds VALUES (22,-2,'#000000',1,1,'Total',1,'CURRENT,AVERAGE,MAXIMUM',4,1);
+INSERT INTO graph_ds VALUES (23,-2,'#000000',1,2,'Total',1,'CURRENT,AVERAGE,MAXIMUM',4,1);
 
 --
 -- Table structure for table 'graphs'
@@ -202,20 +234,10 @@ CREATE TABLE graphs (
   id int(11) NOT NULL auto_increment,
   name varchar(100) NOT NULL default '',
   comment varchar(255) NOT NULL default '',
-  xsize int(11) NOT NULL default '0',
-  ysize int(11) NOT NULL default '0',
+  width smallint(4) NOT NULL default '0',
+  height smallint(4) NOT NULL default '0',
   vert_label varchar(100) NOT NULL default '',
-  show_legend tinyint(4) NOT NULL default '0',
-  show_total_line tinyint(4) default '0',
-  show_total_stats tinyint(4) default '0',
-  total_line_color varchar(10) NOT NULL default '#000000',
-  show_summed tinyint(4) NOT NULL default '0',
-  max_custom int(11) NOT NULL default '0',
-  disp_integer_only tinyint(4) NOT NULL default '0',
-  disp_sum int(11) default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id)
+  PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
 --
@@ -223,12 +245,12 @@ CREATE TABLE graphs (
 --
 
 
-INSERT INTO graphs VALUES (1,'Oak - CPU Utilization','',575,100,'% Usage',1,1,1,'#000000',0,100,0,0);
-INSERT INTO graphs VALUES (2,'Pine - CPU Utilization','',575,100,'% Usage',1,1,1,'#000000',0,100,0,0);
-INSERT INTO graphs VALUES (3,'Oak - LAN Traffic','',575,100,'bytes / sec',1,0,0,'#000000',0,0,0,1);
-INSERT INTO graphs VALUES (4,'Pine - Eth0','',575,100,'bytes / sec',1,0,0,'#000000',0,0,0,1);
-INSERT INTO graphs VALUES (5,'Oak - Internet Traffic','',575,100,'bytes / sec',1,0,0,'#000000',0,0,0,1);
-INSERT INTO graphs VALUES (6,'NetMRG - Active Monitors','',575,100,'Monitors',1,1,1,'#000000',0,0,1,0);
+INSERT INTO graphs VALUES (1,'Oak - CPU Utilization','',575,100,'% Usage');
+INSERT INTO graphs VALUES (2,'Pine - CPU Utilization','',575,100,'% Usage');
+INSERT INTO graphs VALUES (3,'Oak - LAN Traffic','',575,100,'bytes / sec');
+INSERT INTO graphs VALUES (4,'Pine - Eth0','',575,100,'bytes / sec');
+INSERT INTO graphs VALUES (5,'Oak - Internet Traffic','',575,100,'bytes / sec');
+INSERT INTO graphs VALUES (6,'NetMRG - Active Monitors','',575,100,'Monitors');
 
 --
 -- Table structure for table 'mon_device_types'
@@ -278,10 +300,10 @@ CREATE TABLE mon_devices (
 --
 
 
-INSERT INTO mon_devices VALUES (1,'Oak','192.168.1.1','public',8,0,0,0,3886412,3,1,1,2);
-INSERT INTO mon_devices VALUES (2,'Pine','192.168.1.11','public',8,0,0,0,3486319,2,1,1,2);
+INSERT INTO mon_devices VALUES (1,'Oak','192.168.1.1','public',8,0,0,0,852311,3,1,1,2);
+INSERT INTO mon_devices VALUES (2,'Pine','192.168.1.11','public',8,0,0,0,777802,2,1,1,2);
 INSERT INTO mon_devices VALUES (3,'NetMRG','','',8,0,0,0,0,0,0,0,0);
-INSERT INTO mon_devices VALUES (1000,'Pine','192.168.1.11','public',8,0,0,0,3486334,2,1,1,0);
+INSERT INTO mon_devices VALUES (1000,'Pine','192.168.1.11','public',8,0,0,0,777812,2,1,1,0);
 
 --
 -- Table structure for table 'mon_groups'
@@ -303,52 +325,6 @@ CREATE TABLE mon_groups (
 
 
 INSERT INTO mon_groups VALUES (2,'LAN','',0);
-
---
--- Table structure for table 'mon_notify'
---
-
-CREATE TABLE mon_notify (
-  id int(11) NOT NULL auto_increment,
-  name varchar(50) NOT NULL default '',
-  cmd varchar(100) NOT NULL default '',
-  disabled tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id_2 (id),
-  KEY id (id)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'mon_notify'
---
-
-
-INSERT INTO mon_notify VALUES (1,'Broadcast message to linux users','wall problem with %ip',0);
-INSERT INTO mon_notify VALUES (2,'Email root','echo \"message\" | mail root',0);
-INSERT INTO mon_notify VALUES (4,'Network Messenger','/bin/send_message 192.168.1.11',0);
-INSERT INTO mon_notify VALUES (5,'echo','echo',0);
-INSERT INTO mon_notify VALUES (6,'E-Mail Brady (unpingable)','echo \'%dev_name is reported as unpingable.\' | mail -s \'DEVICE %dev_name UNPINGABLE\' brady@pa.net',0);
-INSERT INTO mon_notify VALUES (7,'E-Mail Brady (pingable)','echo \'%dev_name is now reported as pingable.\' | mail -s \'DEVICE %dev_name PINGABLE\' brady@pa.net',0);
-
---
--- Table structure for table 'mon_responses'
---
-
-CREATE TABLE mon_responses (
-  id int(11) NOT NULL auto_increment,
-  events_id int(11) NOT NULL default '0',
-  notify_id int(11) NOT NULL default '0',
-  cmd_params varchar(100) default NULL,
-  PRIMARY KEY  (id),
-  UNIQUE KEY id_2 (id),
-  KEY id (id)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'mon_responses'
---
-
-
 
 --
 -- Table structure for table 'monitors'
@@ -379,39 +355,80 @@ CREATE TABLE monitors (
 --
 
 
-INSERT INTO monitors VALUES (1,1,1,NULL,NULL,1,2,9,'',NULL,NULL,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (2,1,1,NULL,NULL,1,2,10,'',NULL,NULL,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (3,1,1,NULL,NULL,1,2,11,'',NULL,NULL,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (4,1,2,NULL,105,1,2,7,'',42575,12,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (5,1,2,NULL,105,1,2,5,'',129811,69,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (6,1,2,NULL,105,1,2,8,'',21852,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (17,3,2,NULL,12000000,1,2,39,'',50453952,26530,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (7,1,1,NULL,NULL,1,2,2,'',75,-4,'2003-02-09 19:58:01',60,2);
-INSERT INTO monitors VALUES (8,1,1,NULL,NULL,1,2,3,'',2,0,'2003-02-09 19:58:01',60,1);
-INSERT INTO monitors VALUES (9,1,1,NULL,NULL,1,2,18,'',2,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (20,4,1,NULL,NULL,1,2,40,'',1,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (10,1,2,NULL,1000,1,3,1,'',427974,165,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (11,2,2,NULL,105,1,2,7,'',71831,48,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (12,2,2,NULL,105,1,2,5,'',207202,311,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (13,2,2,NULL,105,1,2,8,'',126637,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (14,2,1,NULL,NULL,1,2,2,'',97,0,'2003-02-09 19:58:01',60,2);
-INSERT INTO monitors VALUES (15,2,1,NULL,NULL,1,2,18,'',4,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (16,2,1,NULL,NULL,1,2,3,'',5,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (18,3,2,NULL,12000000,1,2,38,'',244308840,60211,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (40,6,1,NULL,NULL,1,3,6,'',1,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (21,5,2,NULL,12000000,1,2,39,'',240880496,60468,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (19,3,2,NULL,1000,1,2,40,'',0,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (25,6,1,NULL,NULL,1,3,3,'',0,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (29,7,1,NULL,NULL,1,2,44,'',13219012,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (22,5,2,NULL,12000000,1,2,38,'',49472435,26880,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (30,8,1,NULL,NULL,1,2,43,'',16532148,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (23,4,2,NULL,10000,1,2,39,'',621817,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (24,4,2,NULL,10000,1,2,38,'',526471,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (26,6,1,NULL,NULL,1,3,4,'',27,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (28,7,1,NULL,NULL,1,2,43,'',1955592,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (27,6,1,NULL,NULL,1,3,5,'',5,0,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (34,1,1,NULL,NULL,1,4,1,'/proc/net/ip_conntrack',31,-2,'2003-02-09 19:58:01',60,0);
-INSERT INTO monitors VALUES (31,8,1,NULL,NULL,1,2,44,'',81950696,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (1,1,1,NULL,NULL,1,2,9,'',NULL,NULL,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (2,1,1,NULL,NULL,1,2,10,'',NULL,NULL,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (3,1,1,NULL,NULL,1,2,11,'',NULL,NULL,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (4,1,2,NULL,105,1,2,7,'',17152,85,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (5,1,2,NULL,105,1,2,5,'',34355,167,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (6,1,2,NULL,105,1,2,8,'',19395,0,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (17,3,2,NULL,12000000,1,2,39,'',13205018,74142,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (7,1,1,NULL,NULL,1,2,2,'',75,-1,'2003-03-11 09:48:01',60,2);
+INSERT INTO monitors VALUES (8,1,1,NULL,NULL,1,2,3,'',1,0,'2003-03-11 09:48:01',60,1);
+INSERT INTO monitors VALUES (9,1,1,NULL,NULL,1,2,18,'',1,0,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (20,4,1,NULL,NULL,1,2,40,'',0,0,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (10,1,2,NULL,1000,1,3,1,'',32231,368,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (11,2,2,NULL,105,1,2,7,'',21665,294,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (12,2,2,NULL,105,1,2,5,'',22173,634,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (13,2,2,NULL,105,1,2,8,'',37654,279,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (14,2,1,NULL,NULL,1,2,2,'',78,-1,'2003-03-11 09:48:01',60,2);
+INSERT INTO monitors VALUES (15,2,1,NULL,NULL,1,2,18,'',1,0,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (16,2,1,NULL,NULL,1,2,3,'',2,0,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (18,3,2,NULL,12000000,1,2,38,'',35325352,1166855,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (40,6,1,NULL,NULL,1,3,6,'',1,0,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (21,5,2,NULL,12000000,1,2,39,'',4983081,80408,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (19,3,2,NULL,1000,1,2,40,'',0,0,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (25,6,1,NULL,NULL,1,3,3,'',0,0,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (29,7,1,NULL,NULL,1,2,44,'',13037488,4,'2003-03-11 09:48:01',59,0);
+INSERT INTO monitors VALUES (22,5,2,NULL,12000000,1,2,38,'',11092975,28823,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (30,8,1,NULL,NULL,1,2,43,'',17552844,0,'2003-03-11 09:48:01',59,0);
+INSERT INTO monitors VALUES (23,4,2,NULL,50000,1,2,39,'',22944751,918959,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (24,4,2,NULL,50000,1,2,38,'',621163,16461,'2003-03-11 09:48:01',59,0);
+INSERT INTO monitors VALUES (26,6,1,NULL,NULL,1,3,4,'',27,0,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (28,7,1,NULL,NULL,1,2,43,'',2137116,-4,'2003-03-11 09:48:01',59,0);
+INSERT INTO monitors VALUES (27,6,1,NULL,NULL,1,3,5,'',5,0,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (34,1,1,NULL,NULL,1,4,1,'/proc/net/ip_conntrack',40,-2,'2003-03-11 09:48:01',60,0);
+INSERT INTO monitors VALUES (31,8,1,NULL,NULL,1,2,44,'',80930000,0,'2003-03-11 09:48:01',59,0);
+
+--
+-- Table structure for table 'notifications'
+--
+
+CREATE TABLE notifications (
+  id int(11) NOT NULL auto_increment,
+  name varchar(100) NOT NULL default '',
+  command varchar(250) NOT NULL default '',
+  disabled tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  UNIQUE KEY id_2 (id),
+  KEY id (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'notifications'
+--
+
+
+INSERT INTO notifications VALUES (1,'Broadcast message to linux users','wall problem with %ip',0);
+
+--
+-- Table structure for table 'responses'
+--
+
+CREATE TABLE responses (
+  id int(11) NOT NULL auto_increment,
+  event_id int(11) NOT NULL default '0',
+  notification_id int(11) NOT NULL default '0',
+  parameters varchar(100) default NULL,
+  PRIMARY KEY  (id),
+  UNIQUE KEY id_2 (id),
+  KEY id (id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table 'responses'
+--
+
+
 
 --
 -- Table structure for table 'snmp_disk_cache'
@@ -462,715 +479,13 @@ CREATE TABLE snmp_interface_cache (
 --
 
 
-INSERT INTO snmp_interface_cache VALUES (1000,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (5000,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
 INSERT INTO snmp_interface_cache VALUES (1,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (1,2,NULL,'eth0',NULL,'192.168.1.1','0:0:21:fd:fa:13',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (1000,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2000,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2001,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2002,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2003,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2004,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2005,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2006,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2007,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2008,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2000,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2001,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2002,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2003,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2004,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2005,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2006,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2007,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2008,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2009,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2009,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2011,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2010,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2011,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2010,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2012,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2013,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2014,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2015,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2016,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2012,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2013,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2014,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2017,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2018,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2019,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2020,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2021,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2016,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2015,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2017,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2018,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2019,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2020,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2021,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2022,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2023,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2024,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2022,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2025,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2026,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2023,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2024,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2026,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2025,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2027,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2028,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2029,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2030,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2031,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2027,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2028,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2029,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2030,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2031,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2032,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2033,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2034,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2035,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2032,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2036,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2033,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2034,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2035,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2036,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2037,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2038,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2039,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2041,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2040,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2037,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2038,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2039,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2041,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2040,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2042,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2043,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2044,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2042,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2045,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2046,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2044,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2045,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2043,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2046,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2047,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2048,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2049,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (2047,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2048,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (2049,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4000,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4001,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4002,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4003,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4004,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4005,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4006,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4007,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4008,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4000,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4009,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4001,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4002,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4003,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4004,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4005,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4006,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4007,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4008,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4009,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4010,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4011,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4012,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4013,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4014,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4015,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4016,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4017,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4018,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4019,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4010,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4011,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4012,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4013,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4014,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4015,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4017,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4016,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4018,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4019,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4020,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4021,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4022,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4023,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4024,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4025,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4026,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4027,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4028,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4020,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4021,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4022,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4023,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4029,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4024,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4025,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4026,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4027,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4029,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4028,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4030,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4031,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4032,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4033,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4034,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4035,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4036,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4037,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4038,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4039,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4030,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4031,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4032,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4033,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4034,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4035,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4036,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4037,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4038,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4039,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4040,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4040,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4041,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4041,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4042,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4043,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4044,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4045,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4046,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4048,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4047,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4050,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4049,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4042,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4043,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4044,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4045,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4046,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4048,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4047,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4050,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4049,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4051,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4051,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4052,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4053,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4054,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4055,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4056,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4057,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4058,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4059,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4060,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4052,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4053,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4054,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4055,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4057,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4056,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4058,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4059,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4060,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4061,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4062,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4063,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4064,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4065,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4061,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4066,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4067,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4068,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4062,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4063,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4069,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4064,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4065,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4070,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4066,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4067,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4068,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4069,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4070,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4071,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4072,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4073,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4075,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4074,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4071,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4076,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4077,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4072,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4073,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4078,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4079,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4080,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4075,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4074,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4076,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4077,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4078,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4079,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4080,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4081,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4082,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4083,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4081,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4084,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4085,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4086,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4082,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4083,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4087,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4088,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4089,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4090,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4084,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4085,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4086,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4088,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4087,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4089,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4090,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4091,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4092,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4093,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4091,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4094,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4092,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4095,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4096,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4097,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4098,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4099,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4100,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4093,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4094,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4095,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4096,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4097,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4099,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4098,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4100,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4101,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4101,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4102,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4103,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4104,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4105,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4107,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4106,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4108,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4102,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4109,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4110,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4103,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4104,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4111,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4105,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4107,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4108,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4109,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4110,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4111,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4106,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4113,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4112,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4114,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4115,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4116,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4113,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4112,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4114,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4115,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4116,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4117,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4117,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4118,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4118,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4120,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4119,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4121,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4120,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4122,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4119,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4123,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4124,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4125,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4126,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4127,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4121,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4122,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4123,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4124,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4125,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4126,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4127,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4128,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4128,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4129,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4130,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4129,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4130,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4131,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4132,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4133,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4134,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4135,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4137,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4136,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4131,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4138,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4132,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4139,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4140,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4133,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4134,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4135,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4137,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4136,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4138,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4139,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4140,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4141,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4142,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4141,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4142,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4143,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4144,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4146,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4145,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4147,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4148,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4149,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (4143,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4144,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4146,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4145,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4147,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4148,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (4149,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (5000,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7045,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7042,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7039,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7036,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7027,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7024,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7021,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7011,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7000,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7048,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7046,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7044,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7042,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7039,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7037,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7035,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7033,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7031,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7029,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7027,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7025,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7023,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7021,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7019,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7017,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7015,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7013,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7011,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7008,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7006,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7003,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7001,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7046,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7043,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7040,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7037,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7029,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7028,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7025,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7022,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7018,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7012,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7001,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7049,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7045,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7040,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7038,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7036,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7034,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7032,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7030,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7028,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7026,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7024,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7022,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7020,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7018,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7016,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7014,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7010,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7009,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7007,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7005,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7049,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7048,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7047,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7044,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7041,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7038,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7035,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7034,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7033,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7032,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7031,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7030,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7026,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7023,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7020,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7019,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7017,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7016,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7015,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7014,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7013,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7010,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7009,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7008,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7007,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7006,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7005,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7003,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7004,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7002,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7047,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7043,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7041,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7012,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7004,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7000,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7002,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7098,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7066,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7059,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7060,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7061,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7053,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7054,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7098,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7096,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7094,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7090,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7088,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7086,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7084,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7080,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7078,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7076,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7074,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7073,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7068,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7067,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7066,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7063,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7061,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7059,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7057,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7055,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7052,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7099,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7071,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7070,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7069,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7062,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7064,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7055,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7099,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7097,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7095,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7091,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7089,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7085,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7081,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7079,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7077,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7075,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7072,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7069,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7065,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7064,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7062,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7060,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7054,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7097,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7096,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7095,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7094,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7093,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7092,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7091,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7090,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7089,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7088,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7087,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7086,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7085,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7084,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7083,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7082,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7081,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7080,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7079,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7078,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7077,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7076,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7075,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7074,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7072,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7073,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7068,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7065,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7067,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7063,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7058,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7057,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7056,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7051,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7052,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7050,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7093,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7092,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7087,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7083,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7082,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7070,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7071,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7058,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7056,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7053,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7051,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7050,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7149,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7146,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7143,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7140,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7137,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7135,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7128,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7129,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7130,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7123,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7118,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7113,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7111,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7107,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7102,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7149,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7146,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7148,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7143,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7141,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7139,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7137,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7134,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7132,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7130,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7128,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7129,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7124,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7121,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7119,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7113,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7110,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7103,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7104,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7101,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7148,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7144,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7141,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7138,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7134,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7131,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7132,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7124,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7121,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7119,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7116,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7110,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7108,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7103,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7100,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7144,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7142,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7140,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7138,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7136,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7135,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7133,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7131,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7125,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7123,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7122,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7116,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7111,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7109,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7108,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7105,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7102,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7147,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7145,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7142,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7139,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7136,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7133,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7125,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7126,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7127,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7122,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7120,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7117,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7115,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7112,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7114,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7106,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7105,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7104,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7101,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7109,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
-INSERT INTO snmp_interface_cache VALUES (7147,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7145,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7126,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7127,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7118,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7120,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7117,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7112,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7114,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7115,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7107,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7106,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
-INSERT INTO snmp_interface_cache VALUES (7100,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
 INSERT INTO snmp_interface_cache VALUES (1,3,NULL,'ppp0',NULL,'66.59.96.86',NULL,23,1,1);
+INSERT INTO snmp_interface_cache VALUES (1,2,NULL,'eth0',NULL,'192.168.1.1','0:0:21:fd:fa:13',6,1,1);
+INSERT INTO snmp_interface_cache VALUES (2,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
+INSERT INTO snmp_interface_cache VALUES (2,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
+INSERT INTO snmp_interface_cache VALUES (1000,2,NULL,'eth0',NULL,'192.168.1.11','0:40:33:e3:33:9d',6,1,1);
+INSERT INTO snmp_interface_cache VALUES (1000,1,NULL,'lo',NULL,'127.0.0.1',NULL,24,1,1);
 
 --
 -- Table structure for table 'sub_dev_variables'

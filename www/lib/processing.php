@@ -140,6 +140,11 @@ function get_microtime()
 }
 
 
+function isin($haystack, $needle)
+{
+	return is_integer(strpos($haystack, $needle));
+}
+
 // Recursive status determination section
 
 
@@ -356,7 +361,7 @@ function delete_event($event_id)
 	do_update("DELETE FROM events WHERE id=$event_id");
 	do_update("DELETE FROM conditions WHERE event_id=$event_id");
 
-	$responses_handle = do_query("SELECT id FROM mon_responses WHERE events_id=$event_id");
+	$responses_handle = do_query("SELECT id FROM responses WHERE event_id=$event_id");
 
 	for ($i = 0; $i < mysql_num_rows($responses_handle); $i++)
 	{
@@ -368,7 +373,7 @@ function delete_event($event_id)
 
 function delete_response($response_id)
 {
-	do_update("DELETE FROM mon_responses WHERE id=$response_id");
+	do_update("DELETE FROM responses WHERE id=$response_id");
 }
 
 
