@@ -251,24 +251,31 @@ function get_group_status($grp_id)
 function get_short_monitor_name($mon_id)
 {
 
-        $mon_query = do_query(" SELECT test_type, test_id, test_params, test_types.name AS test_name
-	                        FROM monitors
-				LEFT JOIN test_types ON monitors.test_type=test_types.id
-                                WHERE monitors.id = $mon_id");
-        $mon_row   = mysql_fetch_array($mon_query);
+	$mon_query = do_query("
+		SELECT test_type, test_id, test_params, test_types.name AS test_name
+		FROM monitors
+		LEFT JOIN test_types ON monitors.test_type=test_types.id
+		WHERE monitors.id = $mon_id");
+	$mon_row = mysql_fetch_array($mon_query);
 
 	switch($mon_row["test_type"])
 	{
-	        case 1: $test_query = "SELECT name FROM tests_script WHERE id = " . $mon_row["test_id"]; break;
-		case 2: $test_query = "SELECT name FROM tests_snmp   WHERE id = " . $mon_row["test_id"]; break;
-		case 3: $test_query = "SELECT name FROM tests_sql    WHERE id = " . $mon_row["test_id"]; break;
-        }
+		case 1:
+			$test_query = "SELECT name FROM tests_script WHERE id = " . $mon_row["test_id"];
+			break;
+		case 2:
+			$test_query = "SELECT name FROM tests_snmp   WHERE id = " . $mon_row["test_id"];
+			break;
+		case 3:
+			$test_query = "SELECT name FROM tests_sql    WHERE id = " . $mon_row["test_id"];
+			break;
+	} // end switch test type
 
 	$test_row = mysql_fetch_array(do_query($test_query));
 
 	return $test_row["name"];
+} // end get_short_monitor_name()
 
-}
 
 function get_monitor_name($mon_id)
 {

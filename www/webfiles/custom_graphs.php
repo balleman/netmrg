@@ -78,7 +78,7 @@ if ($_REQUEST["action"] == "duplicate")
 	$graph_row["disp_integer_only"]);
 	$new_id = mysql_insert_id();
 
-	$ds_handle = do_query("SELECT * FROM graph_ds WHERE graph_id=$id");
+	$ds_handle = do_query("SELECT * FROM graph_ds WHERE graph_id='{$_REQUEST['id']}'");
 	$ds_count = mysql_num_rows($ds_handle);
 	for ($i = 0; $i < $ds_count; $i++)
 	{
