@@ -1,7 +1,7 @@
 == requirements for 0.10pre2 ==
 easier && more documented builds in freebsd
 bug#0000020: custom polling intervals
-portability issues: bugs# 29 and 32
+bug#0000032: getopt/unistd issues
 bug#0000036: install shouldn't overwrite config
 
 
