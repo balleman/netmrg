@@ -170,21 +170,6 @@ function DrawGroupNavHistory($type, $id)
 		$_SESSION["netmrgsess"]["grpnav"]["event"] = "";
 	} // end if we haven't done this yet
 	
-	// for each type, clear out everything below it
-	switch ($type)
-	{
-		case "group" :
-			$_SESSION["netmrgsess"]["grpnav"]["group"] = "";
-		case "device" :
-			$_SESSION["netmrgsess"]["grpnav"]["device"] = "";
-		case "sub_device" :
-			$_SESSION["netmrgsess"]["grpnav"]["sub_device"] = "";
-		case "monitor" :
-			$_SESSION["netmrgsess"]["grpnav"]["monitor"] = "";
-		case "event" :
-			$_SESSION["netmrgsess"]["grpnav"]["event"] = "";
-	} // end if type
-	
 	// assign the id to the type
 	$_SESSION["netmrgsess"]["grpnav"][$type] = $id;
 	
