@@ -20,9 +20,14 @@ if (!isset($_REQUEST['action']))
 switch ($_REQUEST['action'])
 {
 	case 'doedit':			doedit();			break;
-	case 'dodelete':		dodelete();			break;
-	case 'multidodelete':		dodelete();			break;
-	case 'duplicate':		duplicate();		break;
+	case 'dodelete':
+	case 'multidodelete':
+		dodelete();
+		break;
+	case 'duplicate':
+	case 'multiduplicate':
+		duplicate();
+		break;
 	case 'edit':			edit();				break;
 	case 'add':				edit();				break;
 	case 'applytemplate':	applytemplate();	break;
@@ -101,10 +106,20 @@ function dodelete()
 function duplicate()
 {
 	check_auth(2);
-	duplicate_graph($_REQUEST["id"]);
-	$graph_handle = db_query("SELECT * FROM graphs WHERE id={$_REQUEST["id"]}");
-	$graph_row = db_fetch_array($graph_handle);
-	header("Location: {$_SERVER['PHP_SELF']}?type={$graph_row['type']}");
+
+	if (isset($_REQUEST["graph"]))
+	{
+		while (list($key,$value) = each($_REQUEST["graph"]))
+		{
+			duplicate_graph($key);
+		}
+	}
+	elseif (isset($_REQUEST["id"]))
+	{
+		duplicate_graph($_REQUEST["id"]);
+	}
+
+	header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
 	exit(0);
 } // end duplicate()
 
@@ -183,7 +198,7 @@ function display()
 			array("checkboxname" => "graph", "checkboxid" => $graph_id),
 			array("text" => $graph_row["name"], "href" => "graph_items.php?graph_id=$graph_id"),
 			array("text" => formatted_link("View", "enclose_graph.php?type=custom&id=" . $graph_row["id"]) . "&nbsp;" .
-				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"]) . $apply_template_link),
+				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&type=" . $graph_row['type'] . "&id=" . $graph_row["id"]) . $apply_template_link),
 			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('" . addslashes($graph_row['name']) . "', '$graph_id')"))
 		); // end make_display_item();
@@ -193,6 +208,8 @@ function display()
 <tr>
 	<td colspan="5" class="editheader" nowrap="nowrap">
 		<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked graphs ?')){document.form.submit();}" href="#">Delete All Checked</a>
+		&nbsp;&nbsp;
+		<a class="editheaderlink" onclick="document.form.action.value='multiduplicate';document.form.submit();" href="#">Duplicate All Checked</a>
 	</td>
 </tr>
 </table>
