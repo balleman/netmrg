@@ -255,7 +255,16 @@ function DrawGroupNavHistory($type, $id)
 			|| ($id == $last_id && $type != $last_type)
 			|| ($type != $last_type && $id != $last_id))
 		{
-			if (!in_array(array("type" => $type, "id" => $id), $_SESSION["netmrgsess"]["grpnav"][$tripid]))
+			$found = false;
+			foreach ($_SESSION["netmrgsess"]["grpnav"][$tripid] as $triparr)
+			{
+				if ($triparr["type"] == $type && $triparr["id"] == $id)
+				{
+					$found = true;
+					break;
+				} // end if found our trip info
+			} // end foreach trip breadcrumb
+			if (!$found)
 			{
 				array_push($_SESSION["netmrgsess"]["grpnav"][$tripid], array("type" => $type, "id" => $id));
 			} // end if we haven't already pushed this item on
