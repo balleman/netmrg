@@ -59,7 +59,7 @@ function do_display()
 			$name = $row['name'];
 		}
 
-		make_display_item($name, "", $GLOBALS['TRIGGER_TYPES'][$row['trigger_type']], "", $GLOBALS['SITUATIONS'][$row['situation']], "", $triggered, "",
+		make_display_item($name, "responses.php?event_id={$row['id']}", $GLOBALS['TRIGGER_TYPES'][$row['trigger_type']], "", $GLOBALS['SITUATIONS'][$row['situation']], "", $triggered, "",
 			formatted_link("Modify Conditions", "conditions.php?event_id={$row['id']}") . "&nbsp;" .
 			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
 			formatted_link("Delete", "javascript:del('" . $row['name'] . "','" . $row['id'] . "')"), "");

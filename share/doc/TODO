@@ -51,10 +51,8 @@ graph templates
 make responses work
 netmrg.cc
   more comprehensive way of setting debug levels needed
-mon_responses.php
-  javascript delete action
-
-
+  
+  
 == far-away features ==
 customized 'view' page
   - if one graph shown, ability to zoom in on a area (custom min/max)
