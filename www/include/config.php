@@ -41,6 +41,9 @@ $GLOBALS["netmrg"]["fileroot"]		= "/var/www/netmrg";
 $GLOBALS["netmrg"]["webhost"]		= "http://localhost";
 $GLOBALS["netmrg"]["webroot"]		= "/netmrg";
 
+// Other Config
+$GLOBALS["netmrg"]["authTimeout"]   = 86400; // 24hr * 60min * 60sec
+
 
 
 /***** SESSION *****/

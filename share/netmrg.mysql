@@ -216,7 +216,7 @@ INSERT INTO menu VALUES (20,400,'SNMP','tests_snmp.php',2,'SNMP Queries');
 INSERT INTO menu VALUES (21,100,'Device Types','mon_device_types.php',5,'');
 INSERT INTO menu VALUES (24,500,'Admin','',0,'');
 INSERT INTO menu VALUES (25,500,'Users','users.php',2,'');
-INSERT INTO menu VALUES (26,500,'Logout','login.php?action=logout',3,'End your NetMRG Session.');
+INSERT INTO menu VALUES (26,500,'Logout','logout.php',3,'End your NetMRG Session.');
 INSERT INTO menu VALUES (27,200,'Event Log','event_log.php',10,'Display a list of the most recent events.');
 INSERT INTO menu VALUES (28,400,'Tests','',0,'Options for Data Gatherers');
 INSERT INTO menu VALUES (29,400,'SQL','tests_sql.php',3,'Database Queries');

@@ -24,11 +24,6 @@ if (IsLoggedIn())
 	view_redirect();
 } # end if we've alread seen this page
 
-if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "logout")
-{
-	ResetAuth();
-} // end if the action is to logout
-
 if (!empty($_REQUEST["user_name"]))
 {
 	if (check_user_pass($_REQUEST["user_name"], $_REQUEST["password"]))

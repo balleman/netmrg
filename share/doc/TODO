@@ -25,9 +25,7 @@ CSS-ificiation
   - sub-pages need redone (ick)
 get auth w/ php sessions to work
   - redirections for users w/o proper auth levels is broken
-  - include check for REMOTE_ADDR in check_auth
   - set a standard for auth checks
-    * think a combination of IsLoggedIn and check_auth would be good
     * what exactly are the different auth levels?
       - single view - "only 'view' a subtree"
       - read all - "read"

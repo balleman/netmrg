@@ -49,7 +49,8 @@ function check_user_pass($user, $pass)
 function IsLoggedIn()
 {
 	if (check_user_pass($_SESSION["netmrgsess"]["username"], $_SESSION["netmrgsess"]["password"])
-		&& $_SESSION["netmrgsess"]["remote_addr"] == $_SERVER["REMOTE_ADDR"])
+		&& $_SESSION["netmrgsess"]["remote_addr"] == $_SERVER["REMOTE_ADDR"]
+		&& time() - $_SESSION["netmrgsess"]["accessTime"] <= $GLOBALS["netmrg"]["authTimeout"])
 	{
 		return true;
 	} // end if the username/password checks out and the ips match
@@ -78,19 +79,23 @@ function get_full_name($user)
 */
 function check_auth($level)
 {
-	$valid_user = check_user_pass($_SESSION["netmrgsess"]["username"], $_SESSION["netmrgsess"]["password"]);
-
-	if ($valid_user == false) {
-		# Hacker Alert!
+	// if they aren't logged in
+	if (!IsLoggedIn())
+	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
 		header("Location: {$GLOBALS['netmrg']['webroot']}/login.php?action=invalid");
 		exit;
 
-	} else if (get_permit() < $level) {
+	} // end if they aren't logged in
+
+	// if they don't have enough permissions
+	else if (get_permit() < $level)
+	{
 		header("Location: {$GLOBALS['netmrg']['webroot']}/login.php?action=denied");
 		exit;
 
-	} # end if this is a valid user
+	} // end if they don't have enough permissions
+
 } // end check_auth()
 
 
