@@ -61,6 +61,16 @@ any company, organization, product, or platform.
 	<title>Revision History</title>
 	<itemizedlist>
 		<listitem>
+			<para>0.17</para>
+			<para>2004.09.13</para>
+			<para>
+Minor Feature Enhancements;
+Added colorized gatherer output, checkbox support on multiple pages, the 
+ability to disable users, fixed a potential SQL-injection bug, updated 
+navigation on group pages, updated tutorials.
+			</para>
+		</listitem>
+		<listitem>
 			<para>0.16</para>
 			<para>2004.06.10</para>
 			<para>
