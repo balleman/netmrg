@@ -246,6 +246,7 @@ void show_usage()
 	printf("General:\n");
 	printf("-v          Display Version\n");
 	printf("-h          Show usage (you are here)\n");
+	printf("-C <file>   Use alternate configuration file <file>\n");
 	printf("-t <num>    Limits number of simultaneous threads to <num>\n");
 	
 	printf("\nMode of Operation:\n");
@@ -306,9 +307,10 @@ void external_snmp_recache(int device_id, int type)
 int main(int argc, char **argv)
 {
 	int option_char;
-	load_default_settings();
+	load_settings_default();
+	load_settings_file(CONFIG_FILE);
 
-	while ((option_char = getopt(argc, argv, "hvqi:d:c:l:H:D:u:p:t:")) != EOF)
+	while ((option_char = getopt(argc, argv, "hvqi:d:c:l:H:D:u:p:t:C:")) != EOF)
 		switch (option_char)
 		{
 			case 'h': 	show_usage();
@@ -338,6 +340,8 @@ int main(int argc, char **argv)
 			case 'p':	set_setting(setDBPass, optarg);
 						break;
 			case 't':	set_setting(setThreadCount, optarg);
+						break;
+			case 'C':	load_settings_file(optarg);
 						break;
 			
 		}

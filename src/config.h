@@ -21,6 +21,8 @@
 // The remaining options are the default values 
 // used if not overridden on the command line or config file.
 
+#define CONFIG_FILE			"/etc/netmrg.conf"
+
 #define NETMRG_ROOT 		"/var/www/netmrg/"
 #define RRDTOOL 			"/usr/bin/rrdtool - "
 

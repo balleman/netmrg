@@ -38,7 +38,7 @@ void set_setting_int(Setting x, long int newvalue)
 	set_setting(x, inttostr(newvalue));
 }
 
-void load_default_settings()
+void load_settings_default()
 {
 	// threads
 	set_setting_int(setThreadCount, DEF_THREAD_COUNT);
@@ -50,3 +50,9 @@ void load_default_settings()
 	set_setting(setDBPass, DEF_DB_PASS);
 	set_setting(setDBDB, DEF_DB_DB);
 }
+
+void load_settings_file(const string & filename)
+{
+	// parses xml-based config file
+}
+

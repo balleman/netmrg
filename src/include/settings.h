@@ -34,6 +34,7 @@ void		set_setting(Setting, const string &);
 void		set_setting_int(Setting, long int);
 
 // functions to load settings
-void		load_default_settings();
+void		load_settings_default();
+void		load_settings_file(const string & filename);
 
 #endif
