@@ -126,7 +126,7 @@ Event are met, the appropriate response is performed.
 	<title>Installation Proceedure</title>
 	<orderedlist>
 		<listitem>
-			<para>untar to some directory like /tmp/ (it will untar into a 'netmrg' directory)</para>
+			<para>Untar to some directory like /tmp/ (it will untar into a 'netmrg' directory)</para>
 <programlisting>cd /tmp
 wget http://www.netmrg.net/download/release/netmrg.tar.gz
 tar xzvf netmrg.tar.gz</programlisting>
@@ -153,8 +153,8 @@ mysql -u root -p
 		</listitem>
 		<listitem>
 			<para>
-modify your apache config (commonly in 
-<computeroutput>/etc/httpd/conf/httpd.conf</computeroutput> to alias /netmrg 
+Modify your apache config (commonly in 
+<computeroutput>/etc/httpd/conf/httpd.conf</computeroutput>) to alias /netmrg 
 to the installed web directory (commonly 
 <computeroutput>/usr/local/var/www/netmrg/webfiles</computeroutput>)
 			</para>
@@ -171,7 +171,7 @@ or run 'crontab -e' as root. For 'crontab -e', use an entry similar to this:
 		</listitem>
 		<listitem>
 			<para>
-point your web browser at your install, and start graphing things!  The default 
+Point your web browser at your install, and start graphing things!  The default 
 login is <userinput>admin</userinput> and the default password is 
 <userinput>nimda</userinput>.  Point your web browser at the host you built 
 this on (something similar to <computeroutput>http://yourhost.com/netmrg/</computeroutput>
