@@ -63,7 +63,9 @@ function dodisplay()
 		make_display_item("editfield".($i%2),
 			array("text" => $row["name"], "href" => "monitors.php?sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}"),
 			array("text" => $SUB_DEVICE_TYPES[$row["type"]]),
-			array("text" => formatted_link("Parameters", "sub_dev_param.php?dev_id={$_REQUEST['dev_id']}&sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
+			array("text" =>
+				formatted_link("Add Templates", "graphs.php?action=applytemplates&sub_dev_id={$row['id']}") . "&nbsp;" .
+				formatted_link("Parameters", "sub_dev_param.php?dev_id={$_REQUEST['dev_id']}&sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
 				formatted_link("View", "view.php?action=view&object_type=subdevice&object_id={$row['id']}") . "&nbsp;" .
 				formatted_link("Duplicate", "{$_SERVER['PHP_SELF']}?action=duplicate&dev_id={$_REQUEST['dev_id']}&sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
 				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id={$_REQUEST['dev_id']}&sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .

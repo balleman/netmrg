@@ -30,8 +30,8 @@ switch ($_REQUEST['action'])
 		break;
 	case 'edit':			edit();				break;
 	case 'add':				edit();				break;
-	case 'applytemplate':	applytemplate();	break;
-	case 'doapplytemplate': doapplytemplate();	break;
+	case 'applytemplates':	applytemplates();	break;
+	case 'doapplytemplates':	doapplytemplates();	break;
 	default:				display();
 }
 
@@ -123,25 +123,50 @@ function duplicate()
 	exit(0);
 } // end duplicate()
 
-function applytemplate()
+function applytemplates()
 {
 	check_auth($PERMIT["ReadWrite"]);
-	$q = db_query("SELECT name FROM graphs WHERE id = {$_REQUEST['id']}");
-	$r = db_fetch_array($q);
-	$template_name = $r['name'];
-	begin_page("graphs.php", "Apply Template");
-	make_edit_table("Apply Template ($template_name)");
-	make_edit_select_subdevice(-1);
-	make_edit_hidden("action", "doapplytemplate");
-	make_edit_hidden("id", $_REQUEST['id']);
+
+	begin_page("graphs.php", "Apply Templates");
+	js_checkbox_utils("edit");
+	make_edit_table("Apply Templates");
+
+	echo "<tr><td>";
+	make_plain_display_table("Template Graphs",
+		checkbox_toolbar("edit"), ""
+	); // end make_display_table();
+
+	$query = "SELECT * FROM graphs WHERE type='template' ORDER BY name";
+
+	$graph_results = db_query($query);
+
+	while ( $graph_row = db_fetch_array($graph_results) )
+	{
+		make_edit_checkbox($graph_row["name"],
+			"graph[{$graph_row["id"]}]",
+			$_REQUEST["graph"][$graph_row["id"]]);
+	} // end graphs
+
+	echo "</table>";
+	echo "</td></tr>";
+
+	$sub_dev = (!empty($_REQUEST["sub_dev_id"])) ? $_REQUEST["sub_dev_id"] : -1;
+	make_edit_select_subdevice($sub_dev);
+
+	make_edit_hidden("action", "doapplytemplates");
 	make_edit_submit_button();
 	make_edit_end();
-} // end applytemplate()
+} // end applytemplates()
 
-function doapplytemplate()
+function doapplytemplates()
 {
 	check_auth($PERMIT["ReadWrite"]);
-	apply_template($_REQUEST['subdev_id'], $_REQUEST['id']);
+
+	while (list($key,$value) = each($_REQUEST["graph"]))
+	{
+		apply_template($_REQUEST['subdev_id'], $key);
+	}
+
 	header("Location: {$_SERVER['PHP_SELF']}?type=template");
 	exit(0);
 } // end doapplytemplate()
@@ -187,7 +212,7 @@ function display()
 		if ($graph_row['type'] == "template")
 		{
 			$apply_template_link = "&nbsp;" . 
-				formatted_link("Apply Template To...", "{$_SERVER['PHP_SELF']}?action=applytemplate&id=$graph_id");
+				formatted_link("Apply Template To...", "{$_SERVER['PHP_SELF']}?action=applytemplates&graph[$graph_id]=on");
 		}
 		else
 		{
@@ -207,11 +232,16 @@ function display()
 ?>
 <tr>
 	<td colspan="5" class="editheader" nowrap="nowrap">
-		<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked graphs ?')){document.form.submit();}" href="#">Delete All Checked</a>
+		&lt;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked graphs ?')){document.form.submit();}" href="#">Delete All Checked</a>&gt;
 		&nbsp;&nbsp;
-		<a class="editheaderlink" onclick="document.form.action.value='multiduplicate';document.form.submit();" href="#">Duplicate All Checked</a>
+		&lt;<a class="editheaderlink" onclick="document.form.action.value='multiduplicate';document.form.submit();" href="#">Duplicate All Checked</a>&gt;
+		&nbsp;&nbsp;
+		&lt;<a class="editheaderlink" onclick="document.form.action.value='applytemplates';document.form.submit();" href="#">Apply Templates</a>&gt;
 	</td>
 </tr>
+<?php
+	make_status_line("{$_REQUEST["type"]} graph", $graph_total);
+?>
 </table>
 </form>
 <?php
