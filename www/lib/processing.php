@@ -631,15 +631,20 @@ function duplicate_subdevice($subdev_id, $new_parent = -1)
 	{
 		$name = "name";
 	}
-
+	
 	// duplicate subdevice
-	db_query("INSERT INTO sub_devices (dev_id, type, name) SELECT $new_parent, type, $name FROM sub_devices WHERE id=$subdev_id");
+	db_query("CREATE TEMPORARY TABLE tmp_sub_devices SELECT id, dev_id, type, name FROM sub_devices WHERE id=$subdev_id");
+	db_query("INSERT INTO sub_devices (dev_id, type, name) SELECT $new_parent, type, $name FROM tmp_sub_devices WHERE id=$subdev_id");
 	$new_subdev_id = db_insert_id();
-
+	db_query("DROP TABLE tmp_sub_devices");
+	
 	// duplicate parameters
+	db_query("CREATE TEMPORARY TABLE tmp_sub_dev_variables
+		SELECT sub_dev_id, name, value, type FROM sub_dev_variables WHERE sub_dev_id=$subdev_id");
 	db_query("INSERT INTO sub_dev_variables (sub_dev_id, name, value, type)
-				SELECT $new_subdev_id, name, value, type FROM sub_dev_variables WHERE sub_dev_id=$subdev_id");
-
+		SELECT $new_subdev_id, name, value, type FROM tmp_sub_dev_variables WHERE sub_dev_id=$subdev_id");
+	db_query("DROP TABLE tmp_sub_dev_variables");
+	
 	if ($new_parent != "dev_id")
 	{
 		// translate subdevices on device view
@@ -649,23 +654,26 @@ function duplicate_subdevice($subdev_id, $new_parent = -1)
 			db_query("UPDATE view SET subdev_id=$new_subdev_id WHERE id={$row['id']}");
 		}
 	}
-
+	
 	// duplicate monitors
 	$res = db_query("SELECT id FROM monitors WHERE sub_dev_id=$subdev_id");
 	while ($row = db_fetch_array($res))
 	{
 		duplicate_monitor($row['id'], $new_subdev_id);
 	}
-
-}
+} // end duplicate_subdevice();
 
 function duplicate_monitor($mon_id, $new_parent = "sub_dev_id")
 {
 	// duplicate monitor
+	db_query("CREATE TEMPORARY TABLE tmp_monitors
+		SELECT id, sub_dev_id, data_type, min_val, max_val, test_type, test_id, test_params FROM monitors
+		WHERE id=$mon_id");
 	db_query("INSERT INTO monitors (sub_dev_id, data_type, min_val, max_val, test_type, test_id, test_params)
-				SELECT $new_parent, data_type, min_val, max_val, test_type, test_id, test_params FROM monitors
-				WHERE id=$mon_id");
+		SELECT $new_parent, data_type, min_val, max_val, test_type, test_id, test_params FROM tmp_monitors
+		WHERE id=$mon_id");
 	$new_mon_id = db_insert_id();
+	db_query("DROP TABLE tmp_monitors");
 
 	// duplicate events
 	$res = db_query("SELECT id FROM events WHERE mon_id=$mon_id");
@@ -673,7 +681,7 @@ function duplicate_monitor($mon_id, $new_parent = "sub_dev_id")
 	{
 		duplicate_event($row['id'], $new_mon_id);
 	}
-}
+} // end duplicate_monitor();
 
 function duplicate_event($ev_id, $new_parent = -1)
 {
@@ -688,29 +696,40 @@ function duplicate_event($ev_id, $new_parent = -1)
 	}
 
 	// duplicate event
+	db_query("CREATE TEMPORARY TABLE tmp_events
+		SELECT id, mon_id, trigger_type, situation, name
+		FROM events WHERE id=$ev_id");
 	db_query("INSERT INTO events (mon_id, trigger_type, situation, name)
-				SELECT $new_parent, trigger_type, situation, $name
-				FROM events WHERE id=$ev_id");
+		SELECT $new_parent, trigger_type, situation, $name
+		FROM tmp_events WHERE id=$ev_id");
 	$new_ev_id = db_insert_id();
-
+	db_query("DROP TABLE tmp_events");
+	
 	// duplicate conditions
+	db_query("CREATE TEMPORARY TABLE tmp_conditions
+		SELECT event_id, value, condition, logic_condition, value_type
+		FROM conditions WHERE event_id=$ev_id");
 	db_query("INSERT INTO conditions (event_id, value, condition, logic_condition, value_type)
-				SELECT $new_ev_id, value, condition, logic_condition, value_type
-				FROM conditions WHERE event_id=$ev_id");
-
+		SELECT $new_ev_id, value, condition, logic_condition, value_type
+		FROM tmp_conditions WHERE event_id=$ev_id");
+	db_query("DROP TABLE tmp_conditions");
+	
 	// duplicate responses
 	$res = db_query("SELECT id FROM responses WHERE event_id = $ev_id");
 	while ($row = db_fetch_array($res))
 	{
 		duplicate_response($row['id'], $new_ev_id);
 	}
-}
+} // end duplicate_event();
 
 function duplicate_response($rsp_id, $new_parent = "event_id")
 {
+	db_query("CREATE TEMPORARY TABLE tmp_responses
+		SELECT id, event_id, notification_id, parameters FROM responses WHERE id=$rsp_id");
 	db_query("INSERT INTO responses (event_id, notification_id, parameters)
-				SELECT $new_parent, notification_id, parameters FROM responses WHERE id=$rsp_id");
-}
+		SELECT $new_parent, notification_id, parameters FROM tmp_responses WHERE id=$rsp_id");
+	db_query("DROP TABLE tmp_responses");
+} // end duplicate_response();
 
 
 
