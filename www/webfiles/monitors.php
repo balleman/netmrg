@@ -28,13 +28,31 @@ switch($_REQUEST["action"])
 	
 	case "dodelete":
 		check_auth($PERMIT["ReadWrite"]);
-		do_delete();
+		delete_monitor($_REQUEST['mon_id']);
+		redirect();
+		break;
+	
+	case "multidodelete":
+		check_auth($PERMIT["ReadWrite"]);
+		while (list($key,$value) = each($_REQUEST["monitor"]))
+		{
+			delete_monitor($key);
+		}
 		redirect();
 		break;
 		
 	case "duplicate":
 		check_auth($PERMIT["ReadWrite"]);
 		duplicate_monitor($_REQUEST['mon_id']);
+		redirect();
+		break;
+	
+	case "multiduplicate":
+		check_auth($PERMIT["ReadWrite"]);
+		while (list($key,$value) = each($_REQUEST["monitor"]))
+		{
+			duplicate_monitor($key);
+		}
 		redirect();
 		break;
 	
@@ -55,6 +73,13 @@ switch($_REQUEST["action"])
 function do_list()
 {
 	begin_page("monitor.php", "Monitors", 1);
+	js_checkbox_utils();
+	?>
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+	<input type="hidden" name="action" value="">
+	<input type="hidden" name="sub_dev_id" value="<?php echo $_REQUEST['sub_dev_id']; ?>">
+	<?php
+
 	if (preg_match("/snmp_cache_view.php.*type=interface/", $_SERVER["HTTP_REFERER"]))
 	{
 		PrepGroupNavHistory("int_snmp_cache_view", $_REQUEST["dev_id"]);
@@ -69,6 +94,7 @@ function do_list()
 	js_confirm_dialog("del", "Are you sure you want to delete monitor ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}&mon_id=");
 	make_display_table("Monitors for " . get_dev_sub_device_name($_REQUEST["sub_dev_id"]),
 		"{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}",
+		array("text" => checkbox_toolbar()),
 		array("text" => "Test"),
 		array("text" => "Data"),
 		array("text" => "Graph")
@@ -140,6 +166,7 @@ function do_list()
 		$java_name = addslashes($html_name);
 
 		make_display_item("editfield".($mon_count%2),
+			array("checkboxname" => "monitor", "checkboxid" => $mon_row['id']),
 			array("text" => $html_name, "href" => "events.php?mon_id={$mon_row['id']}&tripid={$_REQUEST['tripid']}"),
 			array("text" => $data),
 			array("text" => $graph),
@@ -151,9 +178,19 @@ function do_list()
 		$mon_count++;
 
 	} // end for each monitor
+	?>
+	<tr>
+		<td colspan="5" class="editheader" nowrap="nowrap">
+			&lt;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked graphs ?')){document.form.submit();}" href="#">Delete All Checked</a>&gt;
+			&nbsp;&nbsp;
+			&lt;<a class="editheaderlink" onclick="document.form.action.value='multiduplicate';document.form.submit();" href="#">Duplicate All Checked</a>&gt;
+		</td>
+	</tr>
+	<?php
 	make_status_line("monitor", $mon_count);
 	?>
 	</table>
+	</form>
 	<?php
 
 	end_page();
@@ -381,11 +418,5 @@ function do_edit()
 		tuned=0 $db_end");
 	
 } // end do_edit()
-
-
-function do_delete()
-{
-	delete_monitor($_REQUEST["mon_id"]);
-} // end do_delete()
 
 ?>
