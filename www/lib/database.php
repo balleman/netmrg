@@ -39,13 +39,13 @@ function db_connect()
 
 
 // Obtain data from a table
-function db_query($query_string)
+function db_query($query_string, $unsafe = false)
 {
 	$query_result = mysql_query($query_string, $GLOBALS["netmrg"]["dbconn"]);
 	// if there was an error, handle it
-	if (mysql_errno($GLOBALS["netmrg"]["dbconn"]))
+	if (mysql_errno($GLOBALS["netmrg"]["dbconn"]) && !$unsafe)
 	{
-		if ($GLOBALS["netmrg"]["dbdebug"]) 	 
+		if ($GLOBALS["netmrg"]["dbdebug"])
 		{ 	 
 			die("<b>DB_ERROR:</b> Couldn't execute query:<br>\n<pre>$query_string</pre><br>\n<pre>".mysql_error()."</pre><br>\n\n"); 	 
 		} // end if we're debuging things 	 
