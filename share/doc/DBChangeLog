@@ -1,13 +1,2 @@
-2003.08.08  v0.10pre1  balleman
-  CREATE TABLE `highlight_periods` (
-`id` INT NOT NULL AUTO_INCREMENT ,
-`name` VARCHAR( 250 ) NOT NULL ,
-`legend` VARCHAR( 250 ) NOT NULL ,
-`color` VARCHAR( 7 ) NOT NULL ,
-`start` INT NOT NULL ,
-`end` INT NOT NULL ,
-PRIMARY KEY ( `id` )
-);
-
 2003.08.05  v0.10pre1  balleman
   alter table snmp_interface_cache add column ifSpeed int(11) not null;

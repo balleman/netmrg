@@ -9,7 +9,6 @@ page titles should reflect where you're at
 view page should reflect status information
   (based on status of monitors of graphs)
 user preferences
-  ability for user to change their own password
   themes
 a device's type can affect the list of tests that can be performed on it
 when looking at a device's graphs, you should be able to click next to it
@@ -67,11 +66,10 @@ make icons for links on various pages
 
 
 == balleman ==
-gatherer
-  XML-based configuration
-web/graphing
-  HRULE capability
-
+  - ability to compile against librrd instead of using a pipe (should be able to compile for either)
+  - portability
+   - freebsd
+   - solaris
 
 == far-away features ==
 customized 'view' page
