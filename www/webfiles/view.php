@@ -79,7 +79,26 @@ function display_edit()
 		$row["type"] = "graph";
 		$row["graph_id"] = 0;
 		$row["separator_text"] = "";
-		$row['subdev_id'] = 0;
+		if ($_REQUEST["object_type"] == "subdevice")
+		{
+			$row['subdev_id'] = $_REQUEST["object_id"];
+		}
+		elseif ($_REQUEST["object_type"] == "device")
+		{
+			$q1 = db_query("SELECT id FROM sub_devices WHERE dev_id = {$_REQUEST['object_id']}");
+			if ($r1 = db_fetch_array($q1))
+			{
+				$row['subdev_id'] = $r1['id'];
+			}
+			else
+			{
+				$row['subdev_id'] = 0;
+			}
+		}
+		else
+		{
+			$row['subdev_id'] = 0;
+		}
 		break;
 
 		case "edit":
