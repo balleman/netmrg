@@ -139,6 +139,7 @@ Event are met, the appropriate response is performed.
 	<itemizedlist>
 		<listitem><para><ulink url="http://www.php.net/"><application>PHP</application></ulink>, Version >= 4.1</para></listitem>
 		<listitem><para><ulink url="http://www.mysql.com/"><application>MySQL</application></ulink>, Version >= 3.23</para></listitem>
+		<listitem><para><ulink url="http://www.rrdtool.org/"><application>RRDTOOL</application></ulink>, Version >= 1.0.28</para></listitem>
 		<listitem><para><ulink url="http://xmlsoft.org/"><application>Libxml2</application></ulink>, Version >= 2.30</para></listitem>
 		<listitem><para><ulink url="http://gcc.gnu.org/libstdc++/"><application>Libstdc++</application></ulink>, Version >= 3.2</para><para>Versions earlier than this may compile just fine, but may experience runtime issues.  Specifically, we experienced software crashes on an SMP machine running version 2.96 that were resolved by upgrading to 3.2.</para></listitem>
 		<listitem><para><ulink url="http://net-snmp.sf.net/"><application>NET/UCD-SNMP</application></ulink>, Version >= 4.2.2</para></listitem>
