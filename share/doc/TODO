@@ -18,7 +18,7 @@ get new netmrg monitoring something (duo)
 prevent a group being its own parent (during editing)
 page titles should reflect where you're at
 ability to go 'up' a level when browsing 'Groups' et al
-view page should reflect status information
+view page should reflect status information (based on status of monitors of graphs)
 monitors.php:
   add javascript check so you can't enter a minimum < maximum
 ability for user to change their own password
@@ -44,6 +44,7 @@ these pages don't do auth
 == balleman ==
 clean up UI for templates
 make template rendering more efficient
+audit queries for use of index
 netmrg.cc
   more comprehensive way of setting debug levels needed
 
