@@ -90,11 +90,13 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 void do_snmp_disk_recache(DeviceInfo *info, MYSQL *mysql)
 {
 	// clear cache for this device
-        db_update(mysql, info, "DELETE FROM snmp_disk_cache WHERE dev_id=" + inttostr((*info).device_id));
+	db_update(mysql, info, "DELETE FROM snmp_disk_cache WHERE dev_id=" + inttostr((*info).device_id));
 
-	list<SNMPPair> ifIndexList = snmp_walk(*info, "dskIndex");
+	// try UCD Disk MIB
+	
+	list<SNMPPair> dskIndexList = snmp_walk(*info, "dskIndex");
 
-	for (list<SNMPPair>::iterator current = ifIndexList.begin(); current != ifIndexList.end(); current++)
+	for (list<SNMPPair>::iterator current = dskIndexList.begin(); current != dskIndexList.end(); current++)
 	{
 		string dskIndex  = (*current).value;
 		string dskPath   = snmp_get(*info, "dskPath."   + dskIndex);	U_to_NULL(dskPath);
@@ -105,6 +107,35 @@ void do_snmp_disk_recache(DeviceInfo *info, MYSQL *mysql)
 			"disk_index  = "	+ dskIndex 			+ ", "  +
 			"disk_device = "	+ dskDevice			+ ", " +
 			"disk_path   = "	+ dskPath);
+	}
+	
+	// try Windows Disk MIB
+	
+	if (dskIndexList.empty())
+	{
+		string dskPath, dskIndex;
+		dskIndexList = snmp_walk(*info, ".1.3.6.1.2.1.25.2.3.1.1");
+		for (list<SNMPPair>::iterator current = dskIndexList.begin(); current != dskIndexList.end(); current++)
+		{
+			dskIndex  = (*current).value;
+			dskPath   = snmp_get(*info, ".1.3.6.1.2.1.25.2.3.1.3." + dskIndex); U_to_NULL(dskPath);
+			if (dskPath[1] == '\\' && dskPath[2] == '"' &&
+			    dskPath[dskPath.size()-3] == '\\' && dskPath[dskPath.size()-2] == '"')
+				{
+					dskPath.erase(1, 2);
+					dskPath.erase(dskPath.size()-3, 2);
+				}
+			string::size_type i = dskPath.find(" ", 0);
+			if (i != string::npos)
+			{
+				dskPath = dskPath.substr(0, i+1) + "'";
+			}
+			db_update(mysql, info, string("INSERT INTO snmp_disk_cache SET ")	+
+				"dev_id = "             + inttostr((*info).device_id)			+ ", "  +
+				"disk_index  = "        + dskIndex								+ ", "  +
+				"disk_device = "        + dskPath								+ ", "  +
+				"disk_path   = "        + dskPath);
+		}
 	}
 
 }

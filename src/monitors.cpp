@@ -18,7 +18,8 @@
 
 string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 {
-	string test_result = "U";
+	string test_result = "U", temp;
+	float disk_total, disk_used;
 
 	switch(info.test_id)
 	{
@@ -29,7 +30,34 @@ string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 		// TNT "good" modems (that is, available modems - suspect modems)
 		case 2:		test_result = snmp_diff(info, ".1.3.6.1.4.1.529.15.1.0", ".1.3.6.1.4.1.529.15.3.0");
 					break;
+					
+		// UCD CPU combined load (user + system)
+		case 3:		test_result = inttostr(
+							strtoint(snmp_get(info, ".1.3.6.1.4.1.2021.11.9.0")) +
+							strtoint(snmp_get(info, ".1.3.6.1.4.1.2021.11.10.0"))
+						      );
+					break;
 
+		// Windows disk usage %
+		case 4:
+					temp = snmp_get(info, expand_parameters(info, ".1.3.6.1.2.1.25.2.3.1.5.%dskIndex%"));
+					disk_total = (float) strtoul(temp.c_str(), NULL, 10);
+					temp = snmp_get(info, expand_parameters(info, ".1.3.6.1.2.1.25.2.3.1.6.%dskIndex%"));
+					disk_used  = (float) strtoul(temp.c_str(), NULL, 10);
+					if (disk_total != 0)
+						test_result = inttostr((int) (100*disk_used/disk_total));
+					break;
+
+		// UCD Swap utilization %
+		case 5:
+					temp = snmp_get(info, ".1.3.6.1.4.1.2021.4.3.0");
+					disk_total = (float) strtoul(temp.c_str(), NULL, 10);
+					temp = snmp_get(info, ".1.3.6.1.4.1.2021.4.4.0");
+					disk_used  = (float) strtoul(temp.c_str(), NULL, 10);
+					if (disk_total != 0)
+						test_result = inttostr((int) (100 - 100*disk_used/disk_total));
+					break;
+					
 		default:	debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown Internal Test (" + inttostr(info.test_id) + ")");
 	}
 
@@ -142,18 +170,25 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 		else
 		{
 			FILE *p_handle;
-			char temp [100] = "";
+			char temp [256] = "";
 
-			p_handle = popen(command.c_str(), "r");
-			fgets(temp, 100, p_handle);
-			pclose(p_handle);
-
-			value = string(temp);
-
-			if (value == "")
+			if ((p_handle = popen(command.c_str(), "r")) == NULL)
 			{
-				debuglogger(DEBUG_GATHERER, LEVEL_WARNING, &info, "No data returned from script test.");
+				debuglogger(DEBUG_GATHERER, LEVEL_ERROR, &info, "popen() failed.");
 				value = "U";
+			}
+			else
+			{
+				fgets(temp, 256, p_handle);
+				pclose(p_handle);
+
+				value = string(temp);
+
+				if (value == "")
+				{
+					debuglogger(DEBUG_GATHERER, LEVEL_WARNING, &info, "No data returned from script test.");
+					value = "U";
+				}
 			}
 		}
 	}

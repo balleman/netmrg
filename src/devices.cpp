@@ -187,7 +187,7 @@ void process_device(int dev_id)
 	// connect to db, get info for this device
 
 	debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Starting device thread.");
-	db_connect(&mysql);
+	if (!db_connect(&mysql)) return;
 	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, "MySQL connection established.");
 
 	string query = 	string("SELECT ") 		+
