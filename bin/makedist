@@ -7,7 +7,7 @@
 
 progname="netmrg"
 version=`cat share/doc/VERSION`
-cvsver=`echo $version | sed -e 's/\./_/'`
+cvsver=`echo $version | sed -e 's/\./_/g'`
 this="$progname-$version"
 pkgdir="/tmp"
 
