@@ -1,0 +1,41 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR NetMRG Development Team <devel@netmrg.net>
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: Devel Forum at http://lists.netmrg.net\n"
+"POT-Creation-Date: 2004-12-12 19:29-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/settings.cpp:117
+msgid "Parsing config section"
+msgstr ""
+
+#: src/settings.cpp:190
+msgid "Second stage parser not aware of this section."
+msgstr ""
+
+#: src/settings.cpp:205
+msgid "Failed to parse configuration file"
+msgstr ""
+
+#: src/settings.cpp:213
+msgid "Empty configuration file"
+msgstr ""
+
+#: src/settings.cpp:220
+msgid "Configuration file of the wrong type.  Root node is not 'netmrg.'"
+msgstr ""
+
+#: src/settings.cpp:265
+msgid "Unexpected section in configuration file: "
+msgstr ""
