@@ -148,7 +148,6 @@ void snmp_walk()
 	netsnmp_session		session, *ss;
 	netsnmp_pdu		*pdu, *response;
 	netsnmp_variable_list	*vars;
-	int			arg;
 	oid			name[MAX_OID_LEN];
 	size_t			name_length;
 	oid			root[MAX_OID_LEN];
@@ -216,40 +215,44 @@ void snmp_walk()
 			else
 			{
 				running = 0;
-				if (response->errstat == SNMP_ERR_NOSUCHNAME) {
-				printf("End of MIB\n");
+				if (response->errstat == SNMP_ERR_NOSUCHNAME)
+				{
+					printf("End of MIB\n");
+				}
+				else
+				{
+					fprintf(stderr, "Error in packet.\nReason: %s\n", snmp_errstring(response->errstat));
+					if (response->errindex != 0)
+					{
+						fprintf(stderr, "Failed object: ");
+						for (count = 1, vars = response->variables; vars && count != response->errindex; vars = vars->next_variable, count++)
+						if (vars)
+						fprint_objid(stderr, vars->name, vars->name_length);
+						fprintf(stderr, "\n");
+					}
+					exitval = 2;
+				}
+			}
+		}
+		else
+		{
+			if (status == STAT_TIMEOUT)
+			{
+				fprintf(stderr, "Timeout: No Response from %s\n", session.peername);
+				running = 0;
+				exitval = 1;
 			}
 			else
 			{
-				fprintf(stderr, "Error in packet.\nReason: %s\n", snmp_errstring(response->errstat));
-				if (response->errindex != 0)
-				{
-					fprintf(stderr, "Failed object: ");
-					for (count = 1, vars = response->variables; vars && count != response->errindex; vars = vars->next_variable, count++)
-					if (vars)
-					fprint_objid(stderr, vars->name, vars->name_length);
-					fprintf(stderr, "\n");
-				}
-				exitval = 2;
-			}
+				snmp_sess_perror("snmpwalk", ss);
+				running = 0;
+				exitval = 1;
+        		}
 		}
-	}
-	else if (status == STAT_TIMEOUT)
-	{
-		fprintf(stderr, "Timeout: No Response from %s\n", session.peername);
-		running = 0;
-		exitval = 1;
-	}
-	else
-	{
-		snmp_sess_perror("snmpwalk", ss);
-		running = 0;
-		exitval = 1;
-        }
 
-	if (response)
-		snmp_free_pdu(response);
-}
+		if (response)
+			snmp_free_pdu(response);
+	}
 
 	if (numprinted == 0 && status == STAT_SUCCESS)
 	{
