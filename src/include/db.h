@@ -12,7 +12,7 @@
 
 #include "common.h"
 #include "types.h"
-#include <mysql.h>
+#include <mysql/mysql.h>
 
 int				db_connect(MYSQL *connection);
 MYSQL_RES *		db_query(MYSQL *mysql, DeviceInfo *info, string query);
