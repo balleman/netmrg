@@ -1,0 +1,19 @@
+0.79.0a
+	- First version with a change log.
+	- alternating table row colors
+	- numeric sorting of if_index in snmp_cache
+	- working multiple simultaneous pthreads
+	- tiered deletion (facilitating orphan prevention)
+	- make color selections static
+        - allow for nested groups
+	- removed cookie expiration for device tree
+	- fixed some major inefficiencies in the device tree
+	- popup color chooser
+	- javascript-based delete confirmation
+
+0.79.1a
+        - sub-devices and database restructuring.
+	- menu and title bar redesign
+
+0.79.2a
+	- reconstruction of C++ code

@@ -1,0 +1,87 @@
+<?
+
+########################################################
+#                                                      #
+#           NetMRG Integrator                          #
+#           Web Interface                              #
+#                                                      #
+#           Sub-Devices Editing Page                   #
+#           sub_devices.php                            #
+#                                                      #
+#     Copyright (C) 2001-2002 Brady Alleman.           #
+#     brady@pa.net - www.treehousetechnologies.com     #
+#                                                      #
+########################################################
+
+require_once("/var/www/netmrg/lib/stat.php");
+require_once(netmrg_root() . "lib/format.php");
+require_once(netmrg_root() . "lib/processing.php");
+require_once(netmrg_root() . "lib/auth.php");
+
+if (!isset($action))
+{
+        // Display the list of sub-devices for a particular device.
+
+	check_auth(1);
+        begin_page();
+
+	$results = do_query("SELECT sub_devices.name, sub_devices.id FROM sub_devices WHERE sub_devices.dev_id=$dev_id");
+
+	$custom_add_link = "$SCRIPT_NAME?action=add&dev_id=$dev_id";
+	make_display_table("Sub-Devices for " . get_device_name($dev_id), "Sub-Devices", "");
+
+	for ($i = 0; $i < mysql_num_rows($results); $i++)
+	{
+		$row = mysql_fetch_array($results);
+		make_display_item($row["name"], "./monitors.php?sub_dev_id=" . $row["id"], formatted_link("Parameters", "sub_dev_param.php?dev_id=$dev_id&sub_dev_id=" . $row["id"]) . "&nbsp;" .formatted_link("Edit", "$SCRIPT_NAME?action=edit&dev_id=$dev_id&sub_dev_id=" . $row["id"]) . "&nbsp;" . formatted_link("Delete", ""), "");
+	}
+
+	?></table><?
+
+	end_page();
+}
+
+if ($action == "doedit")
+{
+        if ($sub_dev_id == 0) {
+		$db_cmd = "INSERT INTO";
+		$db_end = "";
+	} else {
+		$db_cmd = "UPDATE";
+		$db_end = "WHERE id=$sub_dev_id";
+	}
+
+	do_update("$db_cmd sub_devices SET
+                        name=\"$name\",
+			type=$type,
+			dev_id=$dev_id
+			$db_end");
+
+        header("Location: " . $SCRIPT_NAME . "?dev_id=$dev_id");
+}
+
+if (($action == "edit") || ($action == "add"))
+{
+	check_auth(2);
+	begin_page();
+
+	if ($sub_dev_id > 0)
+	{
+		$query = do_query("SELECT * FROM sub_devices WHERE id = $sub_dev_id");
+		$row   = mysql_fetch_array($query);
+	}
+
+	make_edit_table("Sub-Device Properties");
+        make_edit_text("Name:", name, 40, 80, $row["name"]);
+	make_edit_select_from_table("Sub-Device Type:", type, sub_dev_types, $row["type"]);
+	make_edit_hidden("action","doedit");
+	make_edit_hidden("sub_dev_id",$sub_dev_id);
+	make_edit_hidden("dev_id", $dev_id);
+	make_edit_submit_button();
+	make_edit_end();
+	end_page();
+
+}
+
+
+?>
