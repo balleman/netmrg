@@ -13,7 +13,7 @@
 
 using std::string;
 
-const int settings_count = 10;
+const int settings_count = 11;
 
 enum Setting 
 {
@@ -23,8 +23,11 @@ enum Setting
 	setDBDB,
 	setThreadCount,
 	setThreadSleep,
-	setRoot,
-	setRRDTOOL
+	setPathRRDTOOL,
+	setPathLockFile,
+	setPathRuntimeFile,
+	setPathLibexec,
+	setPathRRDs
 };
 
 // functions to set and get settings
@@ -36,5 +39,8 @@ void		set_setting_int(Setting, long int);
 // functions to load settings
 void		load_settings_default();
 void		load_settings_file(const string & filename);
+
+// other settings functions
+void		print_settings();
 
 #endif

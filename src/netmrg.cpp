@@ -93,7 +93,7 @@ void run_netmrg()
 	debuglogger(DEBUG_GLOBAL, LEVEL_NOTICE, NULL, "NetMRG starting.");
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Start time is " + inttostr(start_time));
 
-	if (file_exists(LOCKFILE))
+	if (file_exists(get_setting(setPathLockFile)))
 	{
 		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Critical:  Lockfile exists.  Is another NetMRG running?");
 		exit(254);
@@ -101,7 +101,7 @@ void run_netmrg()
 
 	// create lockfile
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Creating Lockfile.");
-	if ((lockfile = fopen(LOCKFILE,"w+")) != NULL)
+	if ((lockfile = fopen(get_setting(setPathLockFile).c_str(),"w+")) != NULL)
 	{
 		fprintf(lockfile, "%ld", (long int) start_time);
 		fclose(lockfile);
@@ -213,12 +213,12 @@ void run_netmrg()
 	// determine runtime and store it
 	long int run_time = time( NULL ) - start_time;
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Runtime: " + inttostr(run_time));
-	runtime = fopen(RUNTIME_FILE,"w+");
+	runtime = fopen(get_setting(setPathRuntimeFile).c_str(),"w+");
 	fprintf(runtime, "%ld", run_time);
 	fclose(runtime);
 
 	// remove lock file
-	unlink(LOCKFILE);
+	unlink(get_setting(setPathLockFile).c_str());
 }
 
 void show_version()
@@ -240,6 +240,7 @@ void show_usage()
 	printf("\nMode of Operation:\n");
 	printf("-i <devid>  Recache the interfaces of device <devid>\n");
 	printf("-d <devid>  Recache the disks of device <devid>\n");
+	printf("-K <file>   Parse config file <file> (for syntax checking)\n");
 	printf("If no mode is specified, the default is to gather data for all enabled devices.\n");
 	
 	printf("\nLogging:\n");
@@ -306,9 +307,9 @@ int main(int argc, char **argv)
 {
 	int option_char;
 	load_settings_default();
-	//load_settings_file(CONFIG_FILE);
+	load_settings_file(DEF_CONFIG_FILE);
 
-	while ((option_char = getopt(argc, argv, "hvqi:d:c:l:H:D:u:p:t:C:")) != EOF)
+	while ((option_char = getopt(argc, argv, "hvqi:d:c:l:H:D:u:p:t:C:K:")) != EOF)
 		switch (option_char)
 		{
 			case 'h': 	show_usage();
@@ -340,6 +341,10 @@ int main(int argc, char **argv)
 			case 't':	set_setting(setThreadCount, optarg);
 						break;
 			case 'C':	load_settings_file(optarg);
+						break;
+			case 'K':	load_settings_file(optarg);
+						print_settings();
+						exit(0);
 						break;
 			
 		}

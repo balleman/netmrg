@@ -13,6 +13,7 @@
 #include "rrd.h"
 #include "utils.h"
 #include "locks.h"
+#include "settings.h"
 
 // RRDTOOL Pipe
 FILE *rrdtool_pipe;
@@ -20,7 +21,7 @@ FILE *rrdtool_pipe;
 void rrd_init()
 {
 	debuglogger(DEBUG_GLOBAL + DEBUG_RRD, LEVEL_INFO, NULL, "Initializing RRDTOOL pipe.");
-	string rrdtool = RRDTOOL;
+	string rrdtool = get_setting(setPathRRDTOOL) + " - ";
 	if (!(get_debug_components() & DEBUG_RRD) || !(get_debug_level() & LEVEL_DEBUG))
 		rrdtool = rrdtool + " >/dev/null";
 	rrdtool_pipe = popen(rrdtool.c_str(), "w");
@@ -55,7 +56,7 @@ void rrd_cmd(DeviceInfo info, string cmd)
 
 string get_rrd_file(string mon_id)
 {
-	string filename = string(PREFIX) + "/var/lib/netmrg/rrd/mon_" + mon_id + ".rrd";
+	string filename = get_setting(setPathRRDs) + "/mon_" + mon_id + ".rrd";
 	return filename;
 }
 
