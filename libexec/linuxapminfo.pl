@@ -44,6 +44,11 @@ elsif ($ARGV[0] eq "-t")
 		print "$1\n";
 		exit(0);
 	} # end if found min left
+	elsif ($apmline =~ /(\w+)\s+\?$/)
+	{
+		print "U\n";
+		exit(0);
+	} # end if indef minutes left
 } # end if time remaining
 
 print "U\n";
