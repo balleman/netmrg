@@ -141,17 +141,23 @@ function display_edit()
 function do_add()
 {
 	check_auth(2);
-	$_REQUEST['graph_id'] = (($_REQUEST['type'] == 'graph') ? $_REQUEST['graph_id_custom'] : $_REQUEST['graph_id_template']);
-
+	
+	$_REQUEST["graph_id"] = "";
+	
+	if ($_REQUEST["type"] == "graph" && !empty($_REQUEST['graph_id_custom']))
+		$_REQUEST['graph_id'] = $_REQUEST['graph_id_custom'];
+	else if($_REQUEST["type"] == "template" && !empty($_REQUEST['graph_id_template']))
+		$_REQUEST['graph_id'] = $_REQUEST['graph_id_template'];
+		
 	db_update("INSERT INTO view SET
 		object_id={$_REQUEST['object_id']},
 		object_type='{$_REQUEST['object_type']}',
-		graph_id={$_REQUEST['graph_id']},
+		graph_id='{$_REQUEST['graph_id']}',
 		type='{$_REQUEST['type']}',
 		separator_text='{$_REQUEST['separator_text']}',
 		pos={$_REQUEST['pos']},
 		subdev_id={$_REQUEST['subdev_id']}");
-
+	
 	header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&action=list");
 	exit(0);
 }

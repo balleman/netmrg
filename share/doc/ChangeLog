@@ -1,3 +1,6 @@
+2004.05.08  v0.15cvs  silfreed
+  - bug#0000186 - default view add custom graph db error
+
 2004.05.06  v0.15cvs  balleman
   - bug#0000188 - Select All/None/Invert for checkboxes
   - bug#0000190 - Intelligent Subdev Defaults
