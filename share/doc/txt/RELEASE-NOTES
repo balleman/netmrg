@@ -1,6 +1,17 @@
 
                           Chapter 2. Revision History
 
+     * 0.15
+
+       2004.05.20
+
+       Minor Bugfixes and Feature Enhancements; fixes for various db errors
+       (including the infamous one on snmp_cache_view.php), better
+       cross-platform compilation, select all/none/invert checkbox support,
+       support for choosing what graph to apply to an interface, better
+       support for php < 4.2.0, and some security fixes for single-view-only
+       users.
+
      * 0.14
 
        2004.03.10
@@ -56,3 +67,11 @@
        2003.07.28
 
        Initial publication
+
+References
+
+   Visible links
+   1. file:///home/silfreed/cvs/netmrg/share/doc/txt/index.html
+   2. file:///home/silfreed/cvs/netmrg/share/doc/txt/overview.html
+   3. file:///home/silfreed/cvs/netmrg/share/doc/txt/intro.html
+   4. file:///home/silfreed/cvs/netmrg/share/doc/txt/concepts.html
