@@ -1100,7 +1100,10 @@ void run_netmrg()
 
 	// RRDTOOL command pipe setup
 	debuglogger(DEBUG_GLOBAL + DEBUG_RRD, NULL, "Initializing RRDTOOL pipe.");
-	rrdtool_pipe = popen(RRDTOOL, "w");
+	string rrdtool = RRDTOOL;
+	if (!(debug_level && DEBUG_RRD))
+		rrdtool = rrdtool + " >/dev/null";
+	rrdtool_pipe = popen(rrdtool.c_str(), "w");
 	// sets buffering to one line
 	setlinebuf(rrdtool_pipe);
 
@@ -1223,7 +1226,7 @@ void run_netmrg()
 
 	// determine runtime and store it
 	run_time = time( NULL ) - start_time;
-	fprintf( stdout , "Runtime: %d\n", run_time);
+	debuglogger(DEBUG_GLOBAL, NULL, "Runtime: " + inttostr(run_time));
 	lockfile = fopen("/var/www/netmrg/dat/runtime","w+");
 	fprintf(lockfile, "%d", run_time);
 	fclose(lockfile);

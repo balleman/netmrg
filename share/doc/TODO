@@ -46,7 +46,6 @@ graph templates
 make events/responses work again
 snmp cacher rewrite
 netmrg.cc
-  -q needs to make rrdtool quiet as well
   more comprehensive way of setting debug levels needed
 
 == before going public ==
