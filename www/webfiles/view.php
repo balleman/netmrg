@@ -56,7 +56,7 @@ if (!empty($_REQUEST["action"]))
 	}
 	else if ($_REQUEST["action"] == "move")
 	{
-		// do moving and stuff (... and things)
+		// do moving
 		do_update("UPDATE view SET pos=".$_REQUEST["val"]." 
 			WHERE pos_id=".$_REQUEST["pos_id"]." 
 			AND pos_id_type=".$_REQUEST["pos_id_type"]." 

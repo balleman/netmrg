@@ -109,11 +109,11 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 			WHERE grp_id={$_REQUEST['grp_id']}
 			ORDER BY $orderby");
 
-	} // end if we havea group id or not
+	} // end if we have group id or not
 
 	$dev_total = mysql_num_rows($dev_results);
 
-	# For each device
+	// For each device
 	for ($dev_count = 1; $dev_count <= $dev_total; ++$dev_count)
 	{
 		$dev_row = mysql_fetch_array($dev_results);
@@ -123,10 +123,11 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 			formatted_link("View Interface Cache", "snmp_cache_view.php?dev_id=$dev_id") . "&nbsp;" .
 			formatted_link("Recache Interfaces", "recache.php?dev_id=$dev_id") . "&nbsp;" .
 			formatted_link("Recache Disks", "recache.php?dev_id=$dev_id&type=disk"), "",
+			formatted_link("View", "view.php?pos_id_type=1&pos_id=$dev_id") . "&nbsp;" .
 			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST["grp_id"]}") . "&nbsp;" .
 			formatted_link("Delete", "javascript:del('" . $dev_row["name"] . "', '" . $dev_row["id"] . "')"), "");
 
-	} # end devices
+	} // end devices
 
 ?>
 </table>

@@ -90,6 +90,7 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 
 		make_display_item($grp_row["name"], $group_link,
 			$grp_row["comment"],"",
+			formatted_link("View", "view.php?pos_id_type=0&pos_id={$grp_row['id']}") . "&nbsp;" .
 			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&grp_id=$grp_id") . "&nbsp;" .
 			formatted_link("Delete", "javascript:del('" . $grp_row["name"] . "', '" . $grp_row["id"] . "')"), "");
 	} // end foreach group
