@@ -563,7 +563,7 @@ CREATE TABLE versioninfo (
 -- Dumping data for table 'versioninfo'
 --
 
-INSERT INTO versioninfo VALUES ('Main','0.10pre1');
+INSERT INTO versioninfo VALUES ('Main','0.10pre2');
 
 --
 -- Table structure for table 'view'
