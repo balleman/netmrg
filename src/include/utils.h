@@ -90,6 +90,7 @@ string			count_file_lines(DeviceInfo info);
 string			read_value_from_file(DeviceInfo info);
 void 			U_to_NULL(string & input);
 uint			worstof(uint a, uint b);
+string			format_time_elapsed(long long int num_secs);
 
 // debugging functions
 void			init_logging();

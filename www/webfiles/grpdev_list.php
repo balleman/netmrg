@@ -99,7 +99,8 @@ function display()
 	
 	$dev_results = db_query("
 		SELECT devices.name AS name, devices.ip, devices.id, devices.snmp_version,
-			count(snmp.ifIndex) AS interface_count, count(disk.disk_index) AS disk_count
+			count(snmp.ifIndex) AS interface_count, count(disk.disk_index) AS disk_count, 
+			devices.snmp_uptime, devices.disabled, devices.snmp_avoided
 		FROM dev_parents
 		LEFT JOIN devices ON dev_parents.dev_id=devices.id
 		LEFT JOIN snmp_interface_cache snmp ON devices.id=snmp.dev_id
@@ -115,6 +116,7 @@ function display()
 	make_display_table($title, $addlink,
 		array("text" => checkbox_toolbar("dev")),
 		array("text" => "Name"),
+		array("text" => "Availability"),
 		array("text" => "SNMP Options")
 	);
 	
@@ -131,10 +133,28 @@ function display()
 			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk&tripid={$_REQUEST['tripid']}") . " " .
 		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Disks",
 			"recache.php?dev_id=$dev_id&type=disk&tripid={$_REQUEST['tripid']}");
+			
+		if ($dev_row['disabled'] == 1)
+		{
+			$availability = "Disabled";
+		}
+		elseif ($dev_row['snmp_avoided'] == 1)
+		{
+			$availability = "SNMP failed";
+		}
+		elseif ( ($dev_row['snmp_avoided'] == 0) && ($dev_row['snmp_uptime'] == 0) )
+		{
+			$availability = "Pending Initial Gathering";
+		}
+		else
+		{
+			$availability = "SNMP Uptime: " . format_time_elapsed($dev_row['snmp_uptime']/100);
+		}
 		
 		make_display_item("editfield".($count%2),
 			array("checkboxname" => "dev_id", "checkboxid" => $dev_row['id']),
 			array("text" => $dev_row["name"], "href" => "sub_devices.php?dev_id=$dev_id&tripid={$_REQUEST['tripid']}"),
+			array("text" => $availability),
 			array("text" => $links),
 			array("text" => formatted_link("View", "view.php?action=view&object_type=device&object_id=$dev_id") . "&nbsp;" .
 				formatted_link("Duplicate", "devices.php?action=duplicate&dev_id=$dev_id&grp_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .

@@ -500,3 +500,35 @@ uint worstof(uint a, uint b)
 {
 	return (a > b) ? a : b;
 }
+
+string format_time_elapsed(long long int num_secs)
+{
+	char temp[80];
+	string temp1 = "";
+	
+	// Makes a string from a 'seconds elapsed' integer
+	long long int the_secs = num_secs;
+	long long int new_secs = num_secs % 86400;
+	int days = (num_secs - new_secs) / 86400;
+	num_secs = new_secs;
+	new_secs = num_secs % 3600;
+	long long int hours = (num_secs - new_secs) / 3600;
+	num_secs = new_secs;
+	new_secs = num_secs % 60;
+	long long int mins = (num_secs - new_secs) / 60;
+
+	if (the_secs > 0)
+	{
+		if (days > 0)
+		{
+			temp1 = inttostr(days) + " days, ";
+		}
+		snprintf(temp, 80, "%02d:%02d:%02d", hours, mins, new_secs);
+		return temp1 + string(temp);
+	}
+	else
+	{
+		return "Zilch";
+	}
+	
+} // end format_time_elapsed

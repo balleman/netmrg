@@ -247,7 +247,9 @@ void process_device(int dev_id)
 		{
 			// get uptime
 			info.snmp_uptime = get_snmp_uptime(info);
-			debuglogger(DEBUG_SNMP, LEVEL_INFO, &info, "SNMP Uptime is " + inttostr(info.snmp_uptime));
+			debuglogger(DEBUG_SNMP, LEVEL_INFO, &info, "SNMP Uptime is " + 
+			format_time_elapsed(info.snmp_uptime / 100) + 
+			+ " (" + inttostr(info.snmp_uptime) + " centiseconds)");
 
 			// store new uptime
 			db_update(&mysql, &info, "UPDATE devices SET snmp_uptime=" + inttostr(info.snmp_uptime) +
@@ -352,7 +354,8 @@ void process_device(int dev_id)
 	// process sub-devices
 	status = process_sub_devices(info, &mysql);
 
-	db_update(&mysql, &info, "UPDATE devices SET status=" + inttostr(status) + " WHERE id=" + inttostr(dev_id));
+	db_update(&mysql, &info, "UPDATE devices SET status=" + inttostr(status) + 
+		", snmp_avoided=" + inttostr(info.snmp_avoid) + " WHERE id=" + inttostr(dev_id));
 
 	if (info.snmp_sess_p)
 	{

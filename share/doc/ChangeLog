@@ -1,3 +1,6 @@
+2004.10.05  v0.17  balleman
+  - bug#0000282 - SNMP uptime should be displayed in a nice format
+
 2004.10.04  v0.17  balleman
   - bug#0000283 - docs on notifications.php are wrong
   - bug#0000290 - negative (inverted) values not working
