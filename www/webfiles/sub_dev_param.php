@@ -17,9 +17,8 @@ if (empty($_REQUEST["action"]))
 	// Display the list of sub-devices for a particular device.
 
 	begin_page("sub_dev_param.php", "Sub Device Parameters");
-	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
+	DrawGroupNavHistory("sub_device", $_REQUEST["sub_dev_id"]);
 	js_confirm_dialog("del", "Are you sure you want to delete subdevice parameter ", "", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&name=");
-
 
 	$results = db_query("SELECT name, value FROM sub_dev_variables WHERE type='static' AND sub_dev_id={$_REQUEST['sub_dev_id']}");
 
@@ -82,12 +81,12 @@ elseif ($_REQUEST["action"] == "doedit")
 	$_REQUEST['value'] = db_escape_string($_REQUEST['value']);
 	
 	db_update("$db_cmd sub_dev_variables SET
-                        name=\"{$_REQUEST['name']}\",
+			name=\"{$_REQUEST['name']}\",
 			value=\"{$_REQUEST['value']}\",
 			sub_dev_id={$_REQUEST['sub_dev_id']}
 			$db_end");
 
-        header("Location: " . $_SERVER["PHP_SELF"] . "?sub_dev_id={$_REQUEST['sub_dev_id']}");
+	header("Location: " . $_SERVER["PHP_SELF"] . "?sub_dev_id={$_REQUEST['sub_dev_id']}");
 }
 
 elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
@@ -111,9 +110,9 @@ elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 		$row["value"] = "";
 	}
 
-        make_edit_text("Name:", "name", 40, 80, $row["name"]);
+	make_edit_text("Name:", "name", 40, 80, $row["name"]);
 	make_edit_text("Value:", "value", 40, 80, $row["value"]);
-        make_edit_hidden("type", $_REQUEST['action']);
+	make_edit_hidden("type", $_REQUEST['action']);
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("sub_dev_id",$_REQUEST["sub_dev_id"]);
 	make_edit_submit_button();
@@ -128,6 +127,5 @@ elseif ($_REQUEST["action"] == "dodelete")
 	db_update("DELETE FROM sub_dev_variables WHERE sub_dev_id={$_REQUEST['sub_dev_id']} AND name='{$_REQUEST['name']}' AND type='static'");
 	header("Location: " . $_SERVER["PHP_SELF"] . "?sub_dev_id={$_REQUEST['sub_dev_id']}");
 }
-
 
 ?>
