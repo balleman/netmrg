@@ -104,8 +104,7 @@ if (!empty($_REQUEST["action"]))
 
 } // end if an action was defined
 
-refresh_tag();
-begin_page("view.php", "View");
+begin_page("view.php", "View", 1);
 
 $view_select = "
     SELECT * FROM view

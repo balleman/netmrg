@@ -84,8 +84,7 @@ else
 
 function do_list()
 {
-	refresh_tag();
-	begin_page("monitor.php", "Monitors");
+	begin_page("monitor.php", "Monitors", 1);
 
 	js_confirm_dialog("del", "Are you sure you want to delete monitor ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&mon_id=");
 	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}";

@@ -11,7 +11,6 @@
 
 require_once("../include/config.php");
 check_auth(1);
-refresh_tag();
 
 if (!isset($_REQUEST['index']))
 {
@@ -59,9 +58,9 @@ if (isset($order_by))
 	$query .= " ORDER BY $order_by";
 }
 
-begin_page("event_log.php", "Event Log");
+begin_page("event_log.php", "Event Log", 1);
 
-make_plain_display_table("Event Log", "Date/Time", "", "Time Since Last Change", "" , "Event", "");
+make_plain_display_table("Event Log", "Date/Time", "#", "Time Since Last Change", "#" , "Event", "#");
 $handle = do_query($query);
 $num = mysql_num_rows($handle);
 for ($i = 0; $i < $num; $i++)

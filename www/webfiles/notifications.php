@@ -63,7 +63,7 @@ begin_page("notifications.php", "Notifications");
 js_confirm_dialog("del", "Are you sure you want to delete notification ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&id=");
 
 // Display a list
-make_display_table("Notifications", "Name", "", "Command", "");
+make_display_table("Notifications", "Name", "#", "Command", "#S");
 
 $res = do_query("SELECT * FROM notifications");
 

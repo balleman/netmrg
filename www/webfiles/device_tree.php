@@ -133,26 +133,23 @@ setcookie("netmrgDevTree[monitor]", implode(",", $_COOKIE["netmrgDevTree"]["moni
 ?>
 
 
-<?
-refresh_tag();
-begin_page("device_tree.php", "Device Tree");
+<?php
+begin_page("device_tree.php", "Device Tree", 1);
 ?>
-<table width="100%" border="0" cellspacing="2" cellpadding="2" align="center">
+<table style="border-collapse: collapse;" width="100%" border="0" cellspacing="2" cellpadding="2" align="center">
 	<tr>
-		<td colspan="6" bgcolor="<?php print(get_color_by_name("edit_main_header")); ?>">
-		<font color="<?php print(get_color_by_name("edit_main_header_text")); ?>">
-		<b>Device Tree</b>
-		</font>
+		<td class="editmainheader" colspan="6">
+		Device Tree
 		</td>
 	</tr>
-	<tr bgcolor="<?php print(get_color_by_name("edit_header")); ?>">
+	<tr>
 
-	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Group</font></b></td>
-	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Device</font></b></td>
-	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Sub-Device</font></b></td>
-	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Monitors</font></b></td>
-	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Events</font></b></td>
-	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Status</font></b></td>
+	<td class="editheader" width="">Group</td>
+	<td class="editheader" width="">Device</td>
+	<td class="editheader" width="">Sub-Device</td>
+	<td class="editheader" width="">Monitors</td>
+	<td class="editheader" width="">Events</td>
+	<td class="editheader" width="">Status</td>
 
 
 <?php

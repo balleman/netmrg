@@ -90,8 +90,7 @@ function show_a_graph()
 
 } // end show_a_graph
 
-refresh_tag();
-begin_page("enclose_graph.php", "Graph");
+begin_page("enclose_graph.php", "Graph", 1);
 show_a_graph();
 
 if ((!empty($_REQUEST["show_children"])) && ($_REQUEST["show_children"] == 1))

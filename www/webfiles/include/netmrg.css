@@ -164,6 +164,64 @@ A:hover.menuitem, A:active.menuitem
 	padding-left: 3px;
 }
 
+.editmainheader
+{
+	background-color : #A8C0E0;
+	color : black;
+	font-family : sans-serif;
+	font-size : 12px;
+	font-weight : bold;
+	padding : 0px;
+}
+
+.editheader
+{
+	background-color : #000088;
+	color : #E0E0E0;
+	font-family : sans-serif;
+	font-size : 12px;
+	font-weight : bold;
+	padding : 1px;
+	border : 2px solid white;
+}
+
+.editheaderlink
+{
+	background-color : #000088;
+	color : #E0E0E0;
+	font-family : sans-serif;
+	font-size : 12px;
+	font-weight : bold;
+}
+
+.editfield0
+{
+	background-color : #CECECE;
+	color : black;
+	font-family : sans-serif;
+	font-size : 12px;
+	padding : 1px;
+	border : 2px solid white;
+}
+
+.editfield1
+{
+	background-color : #E4E4E4;
+	color : black;
+	font-family : sans-serif;
+	font-size : 12px;
+	padding : 1px;
+	border : 2px solid white;
+}
+
+.customaddlink, A.customaddlink, A:visited.customaddlink
+{
+	color : #FFFF00;
+	font-family : sans-serif;
+	font-size : 12px;
+	font-weight : bold;
+}
+
 .error
 {
 	color : red;

@@ -20,7 +20,15 @@ function space_to_nbsp($input)
 	return str_replace(" ", "&nbsp;", $input);
 }
 
-function begin_page($pagename = "", $prettyname = "")
+
+/**
+* begin_page($pagename, $prettyname)
+*
+* starts the page w/ basic HTML
+*   $pagename : page that this is
+*   $prettyname : shown in the title bar
+*/
+function begin_page($pagename = "", $prettyname = "", $refresh=0)
 {
 	// Define the initial formating for the page
 	global $menu_id, $menu_stat, $user_name;
@@ -32,9 +40,14 @@ function begin_page($pagename = "", $prettyname = "")
 	} // end if
 
 	?>
-	<html>
-	<head>
-		<title><?php
+<?php echo '<?xml version="1.0" encoding="UTF-8"?>'; ?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<title><?php
 	if (!empty($prettyname))
 	{
 		echo "$prettyname - ";
@@ -45,13 +58,16 @@ function begin_page($pagename = "", $prettyname = "")
 		echo " - {$GLOBALS['netmrg']['company']}";
 	} // end if company
 	?></title>
-		<link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/include/netmrg.css">
-	</head>
-	<body>
+	<link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/include/netmrg.css">
+<?php if ($refresh) { ?>
+	<meta http-equiv="refresh" content="300">
+<?php } ?>
+</head>
+<body>
 <?php
 if (!empty($pagename)) {
 ?>
-	<!-- <?php echo $pagename; ?> -->
+<!-- <?php echo $pagename; ?> -->
 <?php
 } // end if there's a pagename, output it
 ?>
@@ -62,7 +78,7 @@ if (!empty($pagename)) {
 	</td>
 	<td class="title_name" rowspan="2" width="100%">
 		<a href="<?php echo $GLOBALS["netmrg"]["webhost"].$GLOBALS["netmrg"]["webroot"]; ?>" class="title_name">
-		<? echo $GLOBALS["netmrg"]["name"]; ?>
+		<?php echo $GLOBALS["netmrg"]["name"]; ?>
 		</a>
 	</td>
 	<td class="company" align="right" valign="top">
@@ -132,65 +148,47 @@ function end_page()
 #
 #+++++++++++++++++++++++++++++++++++++++++++++
 
+// Makes a display table
+// Title: Table's displayed title
+// All others:  format of heading,link,heading,link...
 function make_display_table($title)
 {
-	// Makes a display table
-	// Title: Table's displayed title
-	// All others:  format of heading,link,heading,link...
-
 	global $custom_add_link, $uplink;
 ?>
 
-	<table width="100%" border="0" cellspacing="2" cellpadding="2" align="center">
+	<table style="border-collapse: collapse;" width="100%" cellpadding="0" cellspacing="0" border="0">
 	<tr>
-		<td colspan="<?php print((func_num_args() -1) / 2 + 2); ?>" bgcolor="<?php print(get_color_by_name("edit_main_header")); ?>">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
-				<tr><td>
-
-				<font color="<?php print(get_color_by_name("edit_main_header_text")); ?>">
-				<big><strong><?php print($title); ?></strong></big>
-				</font>
-
-				</td><td align="right">
-
-				<font color="<?php print(get_color_by_name("edit_main_header_text")); ?>">
-                                <big><strong><?php print($uplink); ?></strong></big>
-                                </font>
-
-				</td></tr>
-			</table>
+		<td class="editmainheader" colspan="<?php print((func_num_args() - 1)/2); ?>">
+			<?php echo "$title\n"; ?>
+		</td><td class="editmainheader" align="right">
+			<?php echo "$uplink\n"; ?>
 		</td>
-
 	</tr>
-	<tr bgcolor="<?php print(get_color_by_name("edit_header")); ?>">
+	<tr>
 
 <?php
 	for ($item_num = 0; $item_num <= ((func_num_args() - 1) / 2 - 1); ++$item_num) {
 ?>
-		<td width="<?php print(80 / ((func_num_args() -1) / 2 + 2)); ?>%">
-			<a href="<?php print(func_get_arg($item_num * 2 + 2)); ?>">
-			<font color="<?php print(get_color_by_name("edit_header_text")); ?>">
-			<strong>
+		<td class="editheader" width="<?php print(80 / ((func_num_args() -1) / 2 + 2)); ?>%">
+			<a class="editheaderlink" href="<?php print(func_get_arg($item_num * 2 + 2)); ?>">
 			<?php
 				$text = func_get_arg($item_num * 2 + 1);
 				if ($text != "") { print($text); } else { print("&nbsp;"); }
 			?>
-			</strong>
-			</font>
 			</a>
 		</td>
 <?php
 	} // end for
 ?>
-		<td width="5%" align="right">
-		<a href="<?php
+		<td class="editheader" width="5%" align="right">
+		<a class="customaddlink" href="<?php
 		if (!isset($custom_add_link)) {
 			echo "{$_SERVER['PHP_SELF']}?action=add";
 		} else {
 			echo $custom_add_link;
 		}
 		?>">
-		<font color="#FFFF00"><b>Add</b></font></a>&nbsp;
+		Add</a>
 		</td>
 	</tr>
 
@@ -204,26 +202,30 @@ function make_display_item()
 	// Makes an item for a displayed table
 	?>
 
-	<tr bgcolor="<?php print(get_color_by_name("edit_fields")); ?>">
+	<tr>
 
 	<?php
 
 	for ($item_num = 0; $item_num <= ((func_num_args() / 2) - 1); ++$item_num) {
 
-		if (func_get_arg($item_num * 2 + 1) != "") {
-			// We have a link
-			?>
-				<td><a href="<?php print(func_get_arg($item_num * 2 + 1));?>"><?php print(func_get_arg($item_num * 2));?></a></td>
-			<?php
-		} else {
-			// We don't have a link
-			?>
-				<td>
-					<?php
-					$text = func_get_arg($item_num * 2);
-					if ($text != "") { print($text); } else { print("&nbsp;"); }
-					?></td>
-			<?php
+		// We have a link
+		if (func_get_arg($item_num * 2 + 1) != "")
+		{
+		?>
+		<td class="editfield0"><a href="<?php print(func_get_arg($item_num * 2 + 1));?>"><?php print(func_get_arg($item_num * 2));?></a></td>
+		<?php
+		}
+		// We don't have a link
+		else
+		{
+		?>
+		<td class="editfield0">
+		<?php
+			$text = func_get_arg($item_num * 2);
+			if ($text != "") { print($text); } else { print("&nbsp;"); }
+		?>
+		</td>
+		<?php
 		} //end if
 	} // end for
 
@@ -239,27 +241,22 @@ function make_plain_display_table($title)
 {
 ?>
 
-	<table width="100%" border="0" cellspacing="2" cellpadding="2" align="center">
+	<table style="border-collapse: collapse;" width="100%" border="0">
 	<tr>
-		<td colspan="<?php print((func_num_args() -1) / 2 + 2); ?>" bgcolor="<?php print(get_color_by_name("edit_main_header")); ?>">
-		<font color="<?php print(get_color_by_name("edit_main_header_text")); ?>">
-		<b><?php print($title); ?></b>
-		</font>
+		<td class="editmainheader" colspan="<?php print((func_num_args() -1) / 2 + 2); ?>">
+		<?php print($title); ?>
 		</td>
 	</tr>
-	<tr bgcolor="<?php print(get_color_by_name("edit_header")); ?>">
-
+	<tr>
 	<?php
 
 	for ($item_num = 0; $item_num <= ((func_num_args() - 1) / 2 - 1); ++$item_num) {
 
 	?>
-		<td width="<?php print(80 / ((func_num_args() -1) / 2 + 2)); ?>%">
-			<b><a href="<?php print(func_get_arg($item_num * 2 + 2)); ?>">
-			<font color="<?php print(get_color_by_name("edit_header_text")); ?>">
+		<td class="editheader" width="<?php print(80 / ((func_num_args() -1) / 2 + 2)); ?>%">
+			<a class="editheaderlink" href="<?php print(func_get_arg($item_num * 2 + 2)); ?>">
 			<?php print(func_get_arg($item_num * 2 + 1)); ?>
-			</font>
-			</a></b>
+			</a>
 		</td>
 	<?php
 
@@ -291,10 +288,8 @@ function make_edit_table($title)
 	<?php make_table_tag(); ?>
 
 	<tr>
-		<td bgcolor="<?php print(get_color_by_name("edit_main_header")); ?>">
-			<font color="<?php print(get_color_by_name("edit_main_header_text")); ?>">
-			<big><strong><?php print($title); ?></strong></big>
-			</font>
+		<td class="editmainheader">
+			<?php print($title); ?>
 		</td>
 	</tr>
 	<?php
@@ -317,9 +312,10 @@ function make_edit_group($title, $options = "")
 	// Makes a group bar in an edit table
 	?>
 
-	<tr bgcolor="<?php print(get_color_by_name("edit_header")); ?>" <?php print($options); ?>><td>
-	<font color="<?php print(get_color_by_name("edit_header_text")); ?>">
-	<strong><?php print($title); ?></strong></font></td></tr>
+	<tr <?php print($options); ?>>
+	<td class="editheader">
+	<?php print($title); ?>
+	</td></tr>
 
 	<?php
 
@@ -342,8 +338,8 @@ function make_edit_label($contents)
 function make_edit_select($header, $name, $select_options = "")
 {
 ?>
-	<tr><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>">
-	<b><?php print($header) ?></b><br>
+	<tr><td class="editfield0">
+	<b><?php print($header) ?></b><br />
 	<select name="<?php print($name); ?>"<?php echo " $select_options"; ?>>
 <?php
 } // end make_edit_select
@@ -450,9 +446,9 @@ function make_edit_text($header, $name, $size, $maxlength, $value)
 	// Creates a form text edit control
 	?>
 
-	<tr><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>">
+	<tr><td class="editfield0">
 
-	<b><?php print($header) ?></b><br>
+	<b><?php print($header) ?></b><br />
 
 	<input type="text" name="<?php print($name) ?>" size="<?php print($size) ?>" maxlength="<?php print($maxlength) ?>" value="<?php print($value); ?>"><br><br>
 
@@ -467,14 +463,14 @@ function make_edit_color($header, $name, $value)
 
         ?>
 
-	<tr><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>">
+	<tr><td class="editfield0">
 
-	<?php print('<b>' . $header . '</b><br>'); ?>
+	<?php print('<b>' . $header . '</b><br />'); ?>
 
 	<input id="<?php print($name); ?>field" type="text" name="<?php print($name) ?>" size="10" maxlength="7" value="<?php print($value); ?>">
 
         <input type="button" name="<?php print($name . 'cbtn'); ?>" value="Choose" onClick="colorDialog('<?php print($name); ?>')">
-	<br><br>
+	<br /><br />
 
 	</td></tr>
 
@@ -488,7 +484,8 @@ function make_edit_password($header, $name, $size, $maxlength, $value, $options 
         // Creates a form text edit control
         ?>
 
-        <tr <?php print($options); ?>><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>">
+        <tr <?php print($options); ?>>
+	<td class="editfield0">
 
         <b><?php print($header) ?></b><br>
 
@@ -518,7 +515,7 @@ function make_edit_submit_button()
 	// Creates a form submit button
 	?>
 
-	<tr><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>" align="right">
+	<tr><td class="editfield0" align="right">
 
 	<input type="submit" name="Submit" value="Save Changes">
         <input type="button" name="Cancel" value="Cancel Changes" OnClick="history.back(1);">
@@ -532,7 +529,7 @@ function make_edit_submit_button()
 function make_edit_checkbox($header, $name, $checked)
 {
 	// Creates a form checkbox
-	?><tr><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>"><?php
+	?><tr><td class="editfield0"><?php
 
 	if ($checked) {
 	?>
@@ -619,11 +616,6 @@ function formatted_link_disabled($text)
 	return "&lt;$text&gt;";  
 
 }  // end formatted_link_disabled
-
-function refresh_tag()
-{
-        echo("<META HTTP-EQUIV=\"refresh\" CONTENT=\"300\">");
-}
 
 function js_confirm_dialog($function_name, $before = "", $after = "", $url_base = "")
 {
