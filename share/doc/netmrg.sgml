@@ -162,6 +162,7 @@ made by your <command>tar</command> command and type the following:
 <programlisting>./configure
 make
 make install</programlisting>
+			<note><para>If <command>configure</command> fails to locate the needed libraries they can be manually specified.  Run <command>./configure -hr</command> for details on the necessary options.</para></note>
 		</listitem>
 		<listitem>
 			<para>Setup the database</para>
@@ -361,6 +362,43 @@ and please change your password!
 			</orderedlist>
 		</listitem>
 	</orderedlist>
+</chapter>
+<chapter>
+	<title>Manual Pages</title>
+	<refentry id="netmrg-gatherer">
+		<refmeta>
+			<refentrytitle>netmrg-gatherer</refentrytitle>
+			<manvolnum>1</manvolnum>
+		</refmeta>
+		<refnamediv>
+			<refname>netmrg-gatherer</refname>
+			<refpurpose>Gathers data from device.</refpurpose>
+		</refnamediv>
+		<refsynopsisdiv>
+			<cmdsynopsis>
+				<command>/usr/local/bin/netmrg-gatherer</command>
+				<arg choice="opt">
+					<option>-vhq</option>
+				</arg>
+				<arg choice="opt">-C <replaceable>config file</replaceable></arg>
+				<arg choice="opt">-K <replaceable>config file</replaceable></arg>
+				<arg choice="opt">-t <replaceable>num threads</replaceable></arg>
+				<arg choice="opt">-c <replaceable>component mask</replaceable></arg>
+				<arg choice="opt">-l <replaceable>level mask</replaceable></arg>
+				<arg choice="opt">-H <replaceable>db host</replaceable></arg>
+				<arg choice="opt">-D <replaceable>db name</replaceable></arg>
+				<arg choice="opt">-u <replaceable>db user</replaceable></arg>
+				<arg choice="opt">-p <replaceable>db password</replaceable></arg>
+				<arg choice="opt">-i <replaceable>device id</replaceable></arg>
+				<arg choice="opt">-d <replaceable>device id</replaceable></arg>
+			</cmdsynopsis>
+		</refsynopsisdiv>
+		<refsect1><title>Description</title>
+			<para>
+<command>netmrg-gatherer</command> performs tests on all enabled hosts in NetMRG.  It will store results in RRD files using RRDTOOL(1) and perform actions in response to events.
+			</para>
+		</refsect1>
+	</refentry>
 </chapter>
 <appendix>
 	<title>Contact Information</title>
