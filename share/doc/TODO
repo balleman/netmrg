@@ -60,6 +60,7 @@ version bump in:
   share/netmrg.sql
   share/doc/VERSION
   www/lib/stat.php
+  share/netmrg.spec
 copy items from DBChangeLog to www/webfiles/updater.php
 generate new template database
 generate new docs
@@ -68,8 +69,9 @@ tag CVS (ex: netmrg-0_10)
 build tarball
   - upload to devel, maybe release
 for !devel releases, build RPM from tarball
-update www.netmrg.net
-update lists.netmrg.net
-update freshmeat.net
-update sourceforge.net
+update demo.netmrg.net
+announce on www.netmrg.net
+announce on lists.netmrg.net
+announce on freshmeat.net
+upload to sourceforge.net
 
