@@ -305,6 +305,25 @@ function get_sub_device_name($sub_dev_id)
 }
 
 
+/**
+* GetNumAssocItems($object_type, $object_id)
+*
+* $object_type = (group, device, monitor, event)
+* $object_id = id
+*/
+function GetNumAssocItems($object_type, $object_id)
+{
+	$db_result = db_query("
+		SELECT count(*) AS count
+		FROM view, graphs
+		WHERE view.graph_id = graphs.id
+		AND object_type='$object_type'
+		AND object_id='$object_id'");
+	$row = db_fetch_array($db_result);
+	return $row["count"];
+} // end GetNumAssocItems();
+
+
 // Recursive Deletion Section (for orphan prevention if nothing else)
 
 

@@ -36,7 +36,7 @@ public website
 make netmrg xhtml compliant
 make icons for links on various pages
   - make svg images for most actions
-    * edit interfaces
+    * edit interfaces (view graph w/ assoc items & w/o)
 these pages don't do auth
   - enclose_graph.php get_graph.php view.php
 
