@@ -1,4 +1,4 @@
-%define _localdatadir /var
+%define _localdatadir %{_var}
 
 Summary: Network Monitoring package using PHP, MySQL, and RRDtool
 Name: netmrg

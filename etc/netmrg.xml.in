@@ -7,11 +7,11 @@
 	</database>
 	<paths>
 		<rrdtool>@RRDTOOL@</rrdtool>
-		<lockfile>@prefix@/var/log/netmrg/lockfile</lockfile>
-		<runtimefile>@prefix@/var/log/netmrg/runtime</runtimefile>
-		<libexec>@exec_prefix@/libexec/netmrg</libexec>
-		<rrds>@prefix@/var/lib/netmrg/rrd</rrds>
-		<webfileroot>@prefix@/var/www/netmrg</webfileroot>
+		<lockfile>@localstatedir@/log/netmrg/lockfile</lockfile>
+		<runtimefile>@localstatedir@/log/netmrg/runtime</runtimefile>
+		<libexec>@libexecdir@/netmrg</libexec>
+		<rrds>@localstatedir@/lib/netmrg/rrd</rrds>
+		<webfileroot>@localstatedir@/www/netmrg</webfileroot>
 	</paths>
 	<threads>
 		<count>5</count>

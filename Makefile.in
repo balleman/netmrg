@@ -114,7 +114,7 @@ netmrg_var_log_DATA =
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
-CONFIG_CLEAN_FILES = bin/netmrg_cron.sh src/include/netmrg.h \
+CONFIG_CLEAN_FILES = subst bin/netmrg_cron.sh src/include/netmrg.h \
 	www/include/config.php
 SCRIPTS = $(bin_SCRIPTS) $(netmrg_libexec_SCRIPTS)
 
@@ -131,7 +131,7 @@ RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
 DIST_COMMON = README INSTALL Makefile.am Makefile.in aclocal.m4 \
 	config.guess config.sub configure configure.ac depcomp \
-	install-sh missing mkinstalldirs
+	install-sh missing mkinstalldirs subst.in
 DIST_SUBDIRS = $(SUBDIRS)
 all: all-recursive
 
@@ -152,6 +152,8 @@ $(srcdir)/configure:  $(srcdir)/configure.ac $(ACLOCAL_M4) $(CONFIGURE_DEPENDENC
 
 $(ACLOCAL_M4):  configure.ac 
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
+subst: $(top_builddir)/config.status subst.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 bin/netmrg_cron.sh: $(top_builddir)/config.status $(top_srcdir)/bin/netmrg_cron.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 src/include/netmrg.h: $(top_builddir)/config.status $(top_srcdir)/src/include/netmrg.h.in
@@ -437,7 +439,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/bin $(distdir)/etc $(distdir)/src/include $(distdir)/www/include
+	$(mkinstalldirs) $(distdir)/. $(distdir)/bin $(distdir)/etc $(distdir)/src/include $(distdir)/www/include
 	@list='$(DISTFILES)'; for file in $$list; do \
 	  if test -f $$file || test -d $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \

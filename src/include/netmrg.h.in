@@ -23,12 +23,12 @@
 
 
 // Paths
-#define DEF_CONFIG_FILE     "@exec_prefix@/etc/netmrg.xml"
-#define DEF_LOCKFILE        "@prefix@/var/log/netmrg/lockfile"
-#define DEF_RUNTIME_FILE    "@prefix@/var/log/netmrg/runtime"
+#define DEF_CONFIG_FILE     "@sysconfdir@/netmrg.xml"
+#define DEF_LOCKFILE        "@localstatedir@/log/netmrg/lockfile"
+#define DEF_RUNTIME_FILE    "@localstatedir@/log/netmrg/runtime"
 #define DEF_RRDTOOL         "@RRDTOOL@"
-#define DEF_RRDS            "@prefix@/var/lib/netmrg/rrd"
-#define DEF_LIBEXEC         "@prefix@/libexec/netmrg/"
+#define DEF_RRDS            "@localstatedir@/lib/netmrg/rrd"
+#define DEF_LIBEXEC         "@libexecdir@/netmrg/"
 
 // Threading
 #define DEF_THREAD_COUNT    5						// number of simultaneous threads

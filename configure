@@ -1679,7 +1679,7 @@ fi
 subdirs="$subdirs src"
 
 
-                                                                                ac_config_files="$ac_config_files Makefile bin/netmrg_cron.sh etc/Makefile etc/netmrg.conf etc/netmrg.xml src/include/netmrg.h www/Makefile www/include/config.php"
+                                                                                          ac_config_files="$ac_config_files Makefile subst bin/netmrg_cron.sh etc/Makefile etc/netmrg.conf etc/netmrg.xml src/include/netmrg.h www/Makefile www/include/config.php"
 
 
 cat >confcache <<\_ACEOF
@@ -2233,6 +2233,7 @@ do
   case "$ac_config_target" in
   # Handling of arguments.
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+  "subst" ) CONFIG_FILES="$CONFIG_FILES subst" ;;
   "bin/netmrg_cron.sh" ) CONFIG_FILES="$CONFIG_FILES bin/netmrg_cron.sh" ;;
   "etc/Makefile" ) CONFIG_FILES="$CONFIG_FILES etc/Makefile" ;;
   "etc/netmrg.conf" ) CONFIG_FILES="$CONFIG_FILES etc/netmrg.conf" ;;
@@ -2722,4 +2723,9 @@ echo "$as_me: error: $ac_sub_configure failed for $ac_dir" >&2;}
     cd $ac_popdir
   done
 fi
+
+
+perl subst etc/netmrg.conf
+perl subst etc/netmrg.xml
+perl subst src/include/netmrg.h
 

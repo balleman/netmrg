@@ -1,5 +1,5 @@
-Alias /netmrg "@prefix@/var/www/netmrg/webfiles"
-<Directory "@prefix@/var/www/netmrg/webfiles">
+Alias /netmrg "@localstatedir@/www/netmrg/webfiles"
+<Directory "@localstatedir@/www/netmrg/webfiles">
     Options Indexes
     AllowOverride None
     Order allow,deny
