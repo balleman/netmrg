@@ -193,7 +193,10 @@ function draw_group($grp_id, $depth, &$rowcount, $init = false)
 	{
 		$grp_id = $grp_row["id"];
 		$grp_action = "";
-
+		$editgroup = ($_SESSION["netmrgsess"]["permit"] > 0) ? '<a class="editfield'.($rowcount%2).'" href="grpdev_list.php?parent_id='.$grp_id.'">'.
+		'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="center" />'.
+		'</a>'."\n" : "";
+		
 		// draw +- and create link for group to expand/collapse
 		if (in_array($grp_id, $_COOKIE["netmrgDevTree"]["group"]))
 		{
@@ -223,6 +226,7 @@ make_nbsp($depth * 4) .
 '<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&type=1&group_id='.$grp_id.'">'.
 '<img src="'.get_image_by_name("slideshow").'" width="15" height="15" border="0" alt="View" title="Slide Show" align="center" />'."\n".
 '</a>'."\n".
+$editgroup.
 '</td></tr></table>'."\n"
 				),
 				array(),
@@ -249,6 +253,7 @@ make_nbsp($depth * 4) .
 '<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&type=1&group_id='.$grp_id.'">'.
 '<img src="'.get_image_by_name("slideshow").'" width="15" height="15" border="0" alt="View" title="Slide Show" align="center" />'."\n".
 '</a>'."\n".
+$editgroup.
 '</td></tr></table>'."\n"
 				),
 				array(),
@@ -277,8 +282,8 @@ make_nbsp($depth * 4) .
 				$device_id = $dev_row["id"];
 				$device_action = "";
 				$editdevice = ($_SESSION["netmrgsess"]["permit"] > 0) ? '<a class="editfield'.($rowcount%2).'" href="sub_devices.php?dev_id='.$device_id.'">'.
-'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="center" />'.
-'</a>'."\n" : "";
+				'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="center" />'.
+				'</a>'."\n" : "";
 				
 				// draw +- and create link for device to expand/collapse
 				if (in_array($device_id, $_COOKIE["netmrgDevTree"]["device"]))
@@ -350,7 +355,10 @@ $editdevice.
 					{
 						$subdev_id = $subdev_row["id"];
 						$subdev_action = "";
-
+						$editsubdevice = ($_SESSION["netmrgsess"]["permit"] > 0) ? '<a class="editfield'.($rowcount%2).'" href="monitors.php?sub_dev_id='.$subdev_id.'">'.
+						'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="center" />'.
+						'</a>'."\n" : "";
+						
 						// draw +- and create link for monitor expand/collapse
 						if (in_array($subdev_id, $_COOKIE["netmrgDevTree"]["subdevice"]))
 						{
@@ -377,6 +385,7 @@ $editdevice.
 '<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=subdevice&object_id='.$subdev_id.'">'.
 '<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
 '</a>'."\n".
+$editsubdevice.
 '</td></tr></table>'."\n"
 								),
 								array(),
@@ -399,6 +408,7 @@ $editdevice.
 '<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=subdevice&object_id='.$subdev_id.'">'.
 '<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
 '</a>'."\n".
+$editsubdevice.
 '</td></tr></table>'."\n"
 								),
 								array(),
@@ -419,7 +429,10 @@ $editdevice.
 							{
 								$mon_id = $mon_row["id"];
 								$monitor_action = "";
-
+								$editmonitor = ($_SESSION["netmrgsess"]["permit"] > 0) ? '<a class="editfield'.($rowcount%2).'" href="events.php?mon_id='.$mon_id.'">'.
+								'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="center" />'.
+								'</a>'."\n" : "";
+								
 								// draw +- and create link for monitor expand/collapse
 								if (in_array($mon_id, $_COOKIE["netmrgDevTree"]["monitor"]))
 								{
@@ -444,6 +457,7 @@ $editdevice.
 '<a class="editfield'.($rowcount%2).'" href="enclose_graph.php?type=mon&id='.$mon_id.'">'.
 '<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center"/>'.
 '</a>'."\n".
+$editmonitor.
 '</td></tr></table>'."\n"
 									),
 									array(),
