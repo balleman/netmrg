@@ -1,7 +1,8 @@
 == global ==
+bug in database has 'Root' group in mon_devices having ID 1 (not 0)
+page titles should reflect where you're at
 netmrg.cc
   most (all?) output from netmrg.cc should be debug output
-bug in database has 'Root' group in mon_devices having ID 1 (not 0)
 recache.php
   A couple notices in snmp_caching.php on line 115
 deleting a device doesn't delete the dev_parents entries
@@ -11,22 +12,22 @@ snmp_cache_view.php:
   link it with the device
 sub_devices.php: 
   can't delete sub devices
-make custom_graphs.php delete action a javascript
 monitors.php:
   deleting a monitor doesn't work
   add javascript check so you can't enter a minimum < maximum
-sub_dev_param.php:
-  Notice: Undefined variable: sub_dev_id in /var/www/netmrg/www/sub_dev_param.php on line 25
-  DB_ERROR: Couldn't execute query:
-  SELECT name, value FROM sub_dev_variables WHERE sub_dev_id=
-  You have an error in your SQL syntax near '' at line 1
-page titles should reflect where you're at
-"show summed" support in custom_graphs.php
-redo custom_graphs.php to use unified add/edit code
+custom_graphs.php:
+  "show summed" support
+  redo to use unified add/edit code
+  make delete action a javascript
 fix move-up/move-down in views and graph-items
 view page should reflect status information
 add support for 'unfiled' montiors (should only be things that were put 
   in the database incorrectly)
+last_status.php:
+  DB_ERROR: Couldn't execute query:
+  SELECT mon_monitors.id, mon_test.name as test_name, mon_devices.ip AS ip, mon_test.cmd AS cmd, mon_monitors.params AS params, mon_devices.name AS dev_name, mon_test.name as test_name FROM mon_monitors LEFT JOIN mon_test ON mon_monitors.test_id=mon_test.id LEFT JOIN mon_devices ON mon_monitors.device_id=mon_devices.id WHERE mon_monitors.device_id=5
+  Table 'netmrg.mon_test' doesn't exist
+
 
 == silfreed ==
 move 'company' to config.php and use it in the header
@@ -41,3 +42,4 @@ get auth w/ php sessions to work
 graph templates
 make events/responses work again
 snmp cacher rewrite
+
