@@ -1,5 +1,6 @@
 <?
 
+/*
 ########################################################
 #                                                      #
 #           NetMRG Integrator                          #
@@ -15,6 +16,7 @@
 #     brady@pa.net - www.treehousetechnologies.com     #
 #                                                      #
 ########################################################
+*/
 
 require_once("/var/www/netmrg/lib/stat.php");
 require_once(netmrg_root() . "lib/format.php");
@@ -22,17 +24,34 @@ require_once(netmrg_root() . "lib/graphing.php");
 
 function tailer()
 {
-	GLOBAL $type, $id, $togglelegend, $hist, $show_children;
-	$toggle = 1 - $togglelegend;
-	$newhist = 1 - $hist;
-	$new_show_children = 1 - $show_children;
+	GLOBAL $_REQUEST;
+
+	if (empty($_REQUEST["togglelegend"]))
+	{
+		$_REQUEST["togglelegend"] = 0;
+	}
+	
+	if (empty($_REQUEST["hist"]))
+	{
+		$_REQUEST["hist"] = 0;
+	}
+	
+	if (empty($REQUEST["show_children"]))
+	{
+		$_REQUEST["show_children"] = 0;
+	}
+
+
+	$toggle = 1 - $_REQUEST["togglelegend"];
+	$newhist = 1 - $_REQUEST["hist"];
+	$new_show_children = 1 - $_REQUEST["show_children"];
 	?>
 	<div align="right">
 	<br>
-	<a href="./enclose_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=<? print($newhist) ?>&togglelegend=<? print($togglelegend) ?>&show_children=<? print($show_children) ?>">Toggle History</a><br>
-	<a href="./enclose_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=<? print($hist) ?>&togglelegend=<? print($toggle) ?>&show_children=<? print($show_children) ?>">Toggle Legend</a><br>
-	<? if ($type == "custom") {
-	?><a href="./enclose_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=<? print($hist) ?>&togglelegend=<? print($togglelegend) ?>&show_children=<? print($new_show_children) ?>">Toggle Children</a><br>
+	<a href="./enclose_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($newhist) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>&show_children=<? print($_REQUEST["show_children"]) ?>">Toggle History</a><br>
+	<a href="./enclose_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($_REQUEST["hist"]) ?>&togglelegend=<? print($toggle) ?>&show_children=<? print($_REQUEST["show_children"]) ?>">Toggle Legend</a><br>
+	<? if ($_REQUEST["type"] == "custom") {
+	?><a href="./enclose_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($_REQUEST["hist"]) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>&show_children=<? print($new_show_children) ?>">Toggle Children</a><br>
 	<? } ?>
 	<Br>
 	<a href="javascript:history.back(1)">Back</a>
@@ -43,23 +62,24 @@ function tailer()
 
 function show_a_graph()
 {
-	GLOBAL $type, $id, $togglelegend, $hist, $show_source;
-	if ($hist == 0)
+	GLOBAL $_REQUEST;
+
+	if (empty($_REQUEST["hist"]) || ($_REQUEST["hist"] == 0))
 	{
 		?>
 		<div align="center">
-		<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&togglelegend=<? print($togglelegend) ?>">
+		<img src="./get_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>">
 		</div>
 		<?
-	
-		if ($show_source == 1)
+
+		if (!empty($_REQUEST["show_source"]))
 		{
 			print("<pre>" . get_graph_command($type, $id, 0, $togglelegend) . "</pre>");
 		}
-	} 
+	}
 	else
 	{
-	
+
 		?>
 		<div align="center">
 		<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=0&togglelegend=<? print($togglelegend) ?>">
@@ -77,9 +97,9 @@ refresh_tag();
 begin_page();
 show_a_graph();
 
-if ($show_children == 1)
+if ((!empty($_REQUEST["show_children"])) && ($_REQUEST["show_children"] == 1))
 {
-	$query = do_query("SELECT * FROM graph_ds WHERE graph_id=$id ORDER BY position,id ");
+	$query = do_query("SELECT * FROM graph_ds WHERE graph_id={$_REQUEST["id"]} ORDER BY position,id ");
 	$count = mysql_num_rows($query);
 	$old_id = $id;
 	for ($i = 0; $i < $count; $i++)

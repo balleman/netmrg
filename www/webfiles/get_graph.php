@@ -21,6 +21,18 @@ header ("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 header ("Cache-Control: no-cache, must-revalidate");  // HTTP/1.1
 header ("Pragma: no-cache");                          // HTTP/1.0
 header("Content-type: image/png");
-PassThru(get_graph_command($type, $id, $hist, $togglelegend));
+
+if (empty($_REQUEST["hist"]))
+{
+        $_REQUEST["hist"] = 0;
+}
+
+if (empty($_REQUEST["togglelegend"]))
+{
+        $_REQUEST["togglelegend"] = 0;
+}
+
+
+PassThru(get_graph_command($_REQUEST["type"], $_REQUEST["id"], $_REQUEST["hist"], $_REQUEST["togglelegend"]));
 
 ?>

@@ -136,14 +136,16 @@ if ($type == "custom_ds") {
 
 if ($type == "custom") {
 	
+        $options = "";	
+
 	$graph_results = do_query("SELECT * FROM graphs WHERE id=$id");
 	$graph_row = mysql_fetch_array($graph_results);
-	
+
 	if ($togglelegend == 1) { $graph_row["show_legend"] = (1 - $graph_row["show_legend"]); }
 	if ($graph_row["show_legend"] == 0) { $options = "-g "; }
 	
 	$command = get_path_by_name("rrdtool") . " graph - -s " . $start . " -e " . $end_time . " --alt-autoscale-max --title \"" . $graph_row["name"] . "\" -w " . 
-			   $graph_row["xsize"] . " -h " . $graph_row["ysize"] . " -v \"" . $graph_row["vert_label"] . 
+			   $graph_row["xsize"] . " -h " . $graph_row["ysize"] . " -v \"" . $graph_row["vert_label"] .
 			   "\" --imgformat PNG $options";
 	
 	$padded_length = 5;
