@@ -74,7 +74,7 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 	$test_row = mysql_fetch_array($test_results);
 	$notify_id  = $test_row["id"];
 
-	make_display_item($test_row["name"],"",$test_row["cmd"],"","Edit","{$_SERVER['PHP_SELF']}?action=edit&notify_id=$notify_id","Delete","{$_SERVER['PHP_SELF']}?action=delete&notify_id=$notify_id");
+	make_display_item($test_row["name"],"",$test_row["cmd"],"",formatted_link("Edit","{$_SERVER['PHP_SELF']}?action=edit&notify_id=$notify_id") . formatted_link("Delete", "{$_SERVER['PHP_SELF']}?action=delete&notify_id=$notify_id"), "");
 } // end for
 
 ?>

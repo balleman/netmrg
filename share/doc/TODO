@@ -33,7 +33,6 @@ research message board/mailing list
   - thread view
 CSS-ificiation
   - sub-pages need redone (ick)
-mon_notify.php / format.php bug in make_display_table()
 get auth w/ php sessions to work
   - redirections for users w/o proper auth levels is broken
   - include check for REMOTE_ADDR in check_auth
