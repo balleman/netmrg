@@ -1,0 +1,109 @@
+A, A:visited
+{
+	color : blue;
+	text-decoration: none;
+}
+
+A:hover, A:active
+{
+	color : dark-orange;
+	text-decoration: underline;
+}
+
+BODY
+{
+	FONT-FAMILY: sans-serif;
+	FONT-SIZE: 10px;
+	MARGIN-TOP: 0px;
+	MARGIN-BOTTOM: 0px;
+	MARGIN-LEFT: 0px;
+	MARGIN-RIGHT: 0px;
+}
+
+TABLE, TR, TD
+{
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	FONT-SIZE: 10px;
+}
+
+TR.title, TD.title
+{
+	Height: 50px;
+}
+
+TABLE.full, TR.full, TD.full
+{
+	Height: 100%;
+	Width: 100%;
+}
+
+TD.menu 
+{
+	FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+	FONT-SIZE: 12px;
+	WIDTH: 125px;
+}
+
+.title_name
+{
+	font-family : monospace;
+	font-size : 14px;
+	font-weight : bold;
+	color : maroon;
+	background-color : navy;
+}
+
+A.title_name, A:visited.title_name
+{
+	font-family : monospace;
+	font-size : 14px;
+	font-weight : bold;
+	color : maroon;
+	background-color : navy;
+	text-decoration : none;
+}
+
+A:hover.title_name, A:active.title_name
+{
+	font-family : monospace;
+	font-size : 14px;
+	font-weight : bold;
+	color : dark-orange;
+	background-color : navy;
+	text-decoration : underline;
+}
+
+.company
+{
+	font-family : monospace;
+	font-size : 12px;
+	font-weight : bold;
+	color : maroon;
+	background-color : navy;
+}
+
+A.company, A:visited.company
+{
+	font-family : monospace;
+	font-size : 12px;
+	font-weight : bold;
+	color : maroon;
+	background-color : navy;
+	text-decoration : none;
+}
+
+A:hover.company, A:active.company
+{
+	font-family : monospace;
+	font-size : 12px;
+	font-weight : bold;
+	color : dark-orange;
+	background-color : navy;
+	text-decoration : underline;
+}
+
+.error
+{
+	color : red;
+}
+
