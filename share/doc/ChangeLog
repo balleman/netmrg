@@ -1,3 +1,6 @@
+2004.05.27  v0.16cvs  silfreed
+  - bug#0000209 - docs should be a little prettier
+
 2004.05.26  v0.16cvs  silfreed
   - bug#0000215 - fix view.php edit template/custom graph selection
   - bug#0000206 - make edit_rrd.pl as shell script and auto-confisize it
