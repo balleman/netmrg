@@ -22,7 +22,7 @@ ini_set("REGISTER_GLOBALS", 0);
 /***** CONFIG *****/
 // Cosmetic Variables
 $GLOBALS["netmrg"]["version"]		= "0.79.3a";
-$GLOBALS["netmrg"]["name"]		= "NetMRG";
+$GLOBALS["netmrg"]["name"]          = "NetMRG";
 $GLOBALS["netmrg"]["company"]		= "Generic Company";
 $GLOBALS["netmrg"]["companylink"]	= "http://netmrg.net";
 
@@ -52,6 +52,7 @@ if (!isset($_SESSION["netmrgsess"]) || !is_array($_SESSION["netmrgsess"]))
 	$_SESSION["netmrgsess"]["password"] = "";
 	$_SESSION["netmrgsess"]["remote_addr"] = "";
 	$_SESSION["netmrgsess"]["permit"] = "";
+	$_SESSION["netmrgsess"]["accessTime"] = "";
 } // end if the netmrg session array doesn't exist yet, make it
 
 

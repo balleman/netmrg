@@ -26,9 +26,12 @@ function check_user_pass($user, $pass)
 	$auth_valid = false;
 	$auth_select = "SELECT 1 FROM user WHERE user='$user' AND pass=ENCRYPT('$pass', pass)";
 	$auth_result = do_query($auth_select);
-	if (mysql_num_rows($auth_result) > 0) { 
+	if (mysql_num_rows($auth_result) > 0)
+	{
 		$auth_valid = true;
-	} else 	{ 
+	}
+	else
+	{ 
 		$auth_valid = false;
 	} # end if we have a result or not
 
@@ -45,8 +48,8 @@ function check_user_pass($user, $pass)
 */
 function IsLoggedIn()
 {
-	if (check_user_pass($_SESSION["netmrgsess"]["username"], $_SESSION["netmrgsess"]["password"]) && 
-		$_SESSION["netmrgsess"]["remote_addr"] == $_SERVER["REMOTE_ADDR"])
+	if (check_user_pass($_SESSION["netmrgsess"]["username"], $_SESSION["netmrgsess"]["password"])
+		&& $_SESSION["netmrgsess"]["remote_addr"] == $_SERVER["REMOTE_ADDR"])
 	{
 		return true;
 	} // end if the username/password checks out and the ips match
@@ -109,6 +112,26 @@ function view_check_auth($pos_id, $pos_id_type)
 		exit;
 	}
 } // end view_check_auth()
+
+
+/**
+* ResetAuth()
+*
+* reset authentication variables
+*/
+function ResetAuth()
+{
+	if (isset($_SESSION["netmrgsess"]))
+	{
+		unset($_SESSION["netmrgsess"]);
+		$_SESSION["netmrgsess"] = array();
+		$_SESSION["netmrgsess"]["username"] = "";
+		$_SESSION["netmrgsess"]["password"] = "";
+		$_SESSION["netmrgsess"]["remote_addr"] = "";
+		$_SESSION["netmrgsess"]["permit"] = "";
+		$_SESSION["netmrgsess"]["accessTime"] = "";
+	} // end if isset netmrg session
+} // end ResetAuth()
 
 
 /**

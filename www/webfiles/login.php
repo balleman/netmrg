@@ -26,10 +26,7 @@ if (IsLoggedIn())
 
 if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "logout")
 {
-	$_SESSION["netmrgsess"]["username"] = "";
-	$_SESSION["netmrgsess"]["password"] = "";
-	$_SESSION["netmrgsess"]["remote_addr"] = "";
-	$_SESSION["netmrgsess"]["permit"] = "";
+	ResetAuth();
 } // end if the action is to logout
 
 if (!empty($_REQUEST["user_name"]))
@@ -41,6 +38,7 @@ if (!empty($_REQUEST["user_name"]))
 		$_SESSION["netmrgsess"]["password"] = $_REQUEST["password"];
 		$_SESSION["netmrgsess"]["remote_addr"] = $_SERVER["REMOTE_ADDR"];
 		$_SESSION["netmrgsess"]["permit"] = get_permit();
+		$_SESSION["netmrgsess"]["accessTime"] = time();
 	}
 	else
 	{
