@@ -1,0 +1,427 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>Tests</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
+REL="HOME"
+TITLE="The NetMRG Reference"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Web Interface Descriptions"
+HREF="webpagedesc.html"><LINK
+REL="PREVIOUS"
+TITLE="Graphing"
+HREF="graphing.html"><LINK
+REL="NEXT"
+TITLE="Notifications"
+HREF="notifications.html"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+><IMG
+SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="graphing.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="notifications.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><H1
+><A
+NAME="TESTS"
+></A
+>Tests</H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN1385"
+></A
+><H2
+>Name</H2
+>Tests&nbsp;--&nbsp;Tests represent actions taken to gather data.</DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN1388"
+></A
+><H2
+>Overview</H2
+><P
+>A monitor can be thought of as a specific instantiation of a test.  There are currently four types of tests supported by <TT
+CLASS="APPLICATION"
+>NetMRG</TT
+>: Scripts, SNMP, SQL, and Internal.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN1392"
+></A
+><H2
+>Scripts</H2
+><P
+>Arbitrary scripts can be executed and their output or return values used as values to be monitored.</P
+><DIV
+CLASS="REFSECT2"
+><A
+NAME="AEN1395"
+></A
+><H3
+>Edit</H3
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Name</B
+></TT
+> - An description used to identify the test.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Command</B
+></TT
+> - The program to execute for this test.  If the value of this field does not start with a slash, it is assumed that the command is located in the default NetMRG tests directory.  Commands are passed to a shell for execution by the gatherer.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Data Type</B
+></TT
+> - The type of data gathered from the program.
+				<P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Standard Out</B
+></TT
+> - Data from the program's standard output is returned.  The program should output data on one line which should be a numeric value or "U" to specify an unknown value.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Error Code</B
+></TT
+> - The integer return code from the executed program is returned.</P
+></LI
+></UL
+></P
+></LI
+></UL
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN1414"
+></A
+><H2
+>SNMP</H2
+><P
+>SNMP (Simple Network Management Protocol) is widely used for accessing statistics on network infrastructure and hosts.</P
+><DIV
+CLASS="REFSECT2"
+><A
+NAME="AEN1417"
+></A
+><H3
+>Edit</H3
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Name</B
+></TT
+> - An description used to identify the test.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>SNMP OID</B
+></TT
+> - The OID to be obtained.  The value may be numeric or of any form your Net-SNMP library can understand.  Because the installed MIBs can vary from machine to machine, use of numeric (or at least common) values is preferred.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Type</B
+></TT
+> - specifies whether to GET or WALK the OID
+				<P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Direct (Get)</B
+></TT
+> - The specific OID specified will be returned.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Nth Item (Walk)</B
+></TT
+> - The OID specified will be walked until the Nth item is encountered.  This item will be returned.</P
+></LI
+></UL
+></P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Item #</B
+></TT
+> - Specifies which item to return when doing an SNMP walk.  This option has no effect on SNMP GETs.</P
+></LI
+></UL
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN1439"
+></A
+><H2
+>SQL</H2
+><P
+>SQL (more specifically, MySQL) tests are useful when you have data that is otherwise in-accessable, or takes a long time to gather.  Rather than making the netmrg-gatherer run a script test that will take a long time, consider writing the script to run periodically (out of Cron, for example) and dumping its output into a MySQL database for NetMRG to gather later.  This greatly reduces NetMRG's runtime.</P
+><DIV
+CLASS="REFSECT2"
+><A
+NAME="AEN1442"
+></A
+><H3
+>Edit</H3
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Name</B
+></TT
+> - An description used to identify the test.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Host</B
+></TT
+> - The host running the MySQL server you wish to connect to.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>User</B
+></TT
+> - The MySQL user to connect as.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Password</B
+></TT
+> - The password for the MySQL user.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Query</B
+></TT
+> - The SQL query to perform.</P
+><DIV
+CLASS="NOTE"
+><P
+></P
+><TABLE
+CLASS="NOTE"
+WIDTH="90%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="./stylesheet-images/note.gif"
+HSPACE="5"
+ALT="Note"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>No default database is specified, so be sure to include the database name in the table names that you use in your query.</P
+></TD
+></TR
+></TABLE
+></DIV
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Column Number</B
+></TT
+> - The column to return.  NetMRG will collect the value from this column in the first row of the result set.</P
+></LI
+></UL
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN1465"
+></A
+><H2
+>Internal</H2
+><P
+>Internal tests are compiled into the gatherer.  These tests typically start as script tests, and are then migrated to the gatherer for efficiency.  At the moment, the gatherer source code is the only documentation for such tests, however some are obvious.  The intention is to expand this category to include DSO-based test packages.</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="graphing.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="notifications.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Graphing</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="webpagedesc.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Notifications</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

@@ -25,7 +25,7 @@ echo "Building TXT files"
 docbook2html -d share/doc/netmrg.dsl#html2txt -o share/doc/txt share/doc/netmrg.sgml
 txtfiles="install.html revisions.html upgrade.html"
 for i in $txtfiles ; do
-	links -dump share/doc/txt/$i | grep -v '   Link:' > share/doc/txt/$i.txt
+	links -dump -no-numbering share/doc/txt/$i | grep -v '   Link:' > share/doc/txt/$i.txt
 done
 rm -f share/doc/txt/*.html
 mv share/doc/txt/install.html.txt share/doc/txt/INSTALL

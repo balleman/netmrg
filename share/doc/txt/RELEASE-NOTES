@@ -1,6 +1,21 @@
 
                           Chapter 2. Revision History
 
+     * 0.18
+
+       2004.10.25
+
+       Major Bug Fixes; Fixed an issue preventing form submissions on some
+       browsers, fixed PHP string escaping problems, fixed inability to
+       create inverted stacked graphs, and fixed parameter substituion and
+       documentation regarding notifications and responses. Added better
+       support on FreeBSDs (4.8-5.2) and x86-64 architectures (Linux and
+       FreeBSD), the ability to multiply summed values, MySQL timeouts,
+       simple value parsing (to get the numeric content out of quoted
+       numbers, etc), graphic icons for most actions, support for a default
+       external auth user (with regards to permissions), and cleaned up the
+       gatherer build process output.
+
      * 0.17
 
        2004.09.13
@@ -88,11 +103,3 @@
        2003.07.28
 
        Initial publication
-
-References
-
-   Visible links
-   1. file:///home/silfreed/cvs/netmrg/share/doc/txt/index.html
-   2. file:///home/silfreed/cvs/netmrg/share/doc/txt/overview.html
-   3. file:///home/silfreed/cvs/netmrg/share/doc/txt/intro.html
-   4. file:///home/silfreed/cvs/netmrg/share/doc/txt/concepts.html

@@ -2,7 +2,7 @@
 <HTML
 ><HEAD
 ><TITLE
->Conditions</TITLE
+>Admin</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
@@ -13,11 +13,11 @@ REL="UP"
 TITLE="Web Interface Descriptions"
 HREF="webpagedesc.html"><LINK
 REL="PREVIOUS"
-TITLE="Events"
-HREF="events.html"><LINK
+TITLE="Notifications"
+HREF="notifications.html"><LINK
 REL="NEXT"
-TITLE="Reporting"
-HREF="reporting.html"></HEAD
+TITLE="Help"
+HREF="help.html"></HEAD
 ><BODY
 CLASS="REFENTRY"
 BGCOLOR="#FFFFFF"
@@ -46,7 +46,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="events.html"
+HREF="notifications.html"
 ACCESSKEY="P"
 >&#60;&#60;&#60; Previous</A
 ></TD
@@ -60,7 +60,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="reporting.html"
+HREF="help.html"
 ACCESSKEY="N"
 >Next &#62;&#62;&#62;</A
 ></TD
@@ -71,134 +71,53 @@ ALIGN="LEFT"
 WIDTH="100%"></DIV
 ><H1
 ><A
-NAME="CONDITIONS"
+NAME="ADMIN"
 ></A
->Conditions</H1
+>Admin</H1
 ><DIV
 CLASS="REFNAMEDIV"
 ><A
-NAME="AEN1310"
+NAME="AEN1511"
 ></A
 ><H2
 >Name</H2
->Conditions&nbsp;--&nbsp;A collection of paramenters to trigger an Event</DIV
+>Admin&nbsp;--&nbsp;Administrative functions not related to the reporting or gathering of information.</DIV
 ><DIV
 CLASS="REFSECT1"
 ><A
-NAME="AEN1313"
+NAME="AEN1514"
 ></A
 ><H2
 >Description</H2
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN1315"
+NAME="AEN1516"
 ></A
 ><H3
->List</H3
+>Users</H3
 ><P
->list of conditions for an event</P
+>The area where you manage users that are allowed to view or modify graphs and parameters in NetMRG.  If you're using External Auth, you will also need to come here to create users to setup permissions for them to access your NetMRG installation.</P
 ></DIV
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN1318"
+NAME="AEN1519"
 ></A
 ><H3
->Edit</H3
+>Prefs</H3
 ><P
->edit info about an condition</P
+>Preferences for your users (such as auto-scroll in the Slide Show, or changing your password).  If you're an admin, you will be able to change your users' prefs here, or you will only be able to change your own.</P
+></DIV
+><DIV
+CLASS="REFSECT2"
+><A
+NAME="AEN1522"
+></A
+><H3
+>Logout</H3
 ><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Logical Operation</B
-></TT
-> - the logical operator (<TT
-CLASS="GUILABEL"
-><B
->AND</B
-></TT
-> or <TT
-CLASS="GUILABEL"
-><B
->OR</B
-></TT
->) to apply between this condition and the previous one.  This parameter is not valid, nor is displayed, for the first condition in a set of conditions.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Value Type</B
-></TT
-> - the type of data about the Monitor to be used for comparision.</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Current Value</B
-></TT
-> - the current value of the Monitor</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Delta Value</B
-></TT
-> - the difference between the current value and the previous value.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Rate of Change</B
-></TT
-> - the delta value divided by the difference in timestamps between the current and previous values.  When using counters, this gives you the "per second" value.</P
-></LI
-></UL
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Condition</B
-></TT
-> - the arithmetic operator to use when comparing the <TT
-CLASS="GUILABEL"
-><B
->Value Type</B
-></TT
-> of the Monitor and the <TT
-CLASS="GUILABEL"
-><B
->Value</B
-></TT
-> of the Condition.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Value</B
-></TT
-> - the number used for comparision.</P
-></LI
-></UL
+>Logout of NetMRG.  NetMRG will keep its session active for 24 hours; this may allow other users to come and use your computer to view or modify your graphs if you don't close your browser.  Logging out of NetMRG will prevent accidental (or malevolent) activities in your NetMRG installation.</P
 ></DIV
 ></DIV
 ><DIV
@@ -217,7 +136,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="events.html"
+HREF="notifications.html"
 ACCESSKEY="P"
 >&#60;&#60;&#60; Previous</A
 ></TD
@@ -235,7 +154,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="reporting.html"
+HREF="help.html"
 ACCESSKEY="N"
 >Next &#62;&#62;&#62;</A
 ></TD
@@ -245,7 +164,7 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Events</TD
+>Notifications</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
@@ -259,7 +178,7 @@ ACCESSKEY="U"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->Reporting</TD
+>Help</TD
 ></TR
 ></TABLE
 ></DIV

@@ -1,0 +1,269 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>Interface and Disk Cache Tutorial</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
+REL="HOME"
+TITLE="The NetMRG Reference"
+HREF="index.html"><LINK
+REL="UP"
+TITLE="Installation"
+HREF="installation.html"><LINK
+REL="PREVIOUS"
+TITLE="Graph Tutorial"
+HREF="graphtutorial.html"><LINK
+REL="NEXT"
+TITLE="Feature Guide"
+HREF="featureguide.html"></HEAD
+><BODY
+CLASS="CHAPTER"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+SUMMARY="Header navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+><IMG
+SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="graphtutorial.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+></TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="featureguide.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="CHAPTER"
+><H1
+><A
+NAME="INTDISKTUTORIAL"
+></A
+>Chapter 12. Interface and Disk Cache Tutorial</H1
+><P
+>The Interface and Disk Cache (that is available next to your device names under the <TT
+CLASS="GUILABEL"
+><B
+>Groups</B
+></TT
+> menu) are quick tools for setting up interfaces and disk graphs on your devices.</P
+><P
+>These caches provide useful mechanisms for indexing disks and interfaces.  For example, commonly you want to graph your interfaces by their ifName (interface name) which is commonly something like 'Se2/1'.  Doing a lookup each time you gather data would be very time-consuming, so the cache allows you monitor an interface by using it's name, and NetMRG will do the mapping to the correct ifIndex.  NetMRG will do the same thing for disks</P
+><P
+></P
+><UL
+><LI
+><P
+>The options from next to your device are as follows</P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>View Interface Cache</B
+></TT
+>: This is only available after you have cached your interfaces.  Most of the management is done through here</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Recache Interfaces</B
+></TT
+>: If you add or remove interfaces to your device, this can force a recache.  You can also setup NetMRG to automatically recache your interfaces when the device reboots or the number of interfaces changes by editing your device.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>View Disk Cache</B
+></TT
+>: Like the interface cache; the list of disks that NetMRG currently knows about.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Recache Disks</B
+></TT
+>: You'll probably only do this once when you create your device (unless you add/remove disks a lot).</P
+></LI
+></OL
+></LI
+><LI
+><P
+>Inside the Interface Cache</P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Checkboxes</B
+></TT
+>: You can select multiple interfaces to monitor by using the '*' (all), '0' (none), and '-' (inverse) items, or by clicking each checkbox individually.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>View</B
+></TT
+>: View the graph that has been created by clicking 'monitor/graph'.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Monitors</B
+></TT
+>: View the monitors under the subdevice that was created by clicking 'monitor/graph'.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Monitor/Graph</B
+></TT
+>: Apply the graph template selected in the dropdown box by clicking this item</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Dropdown box</B
+></TT
+>: The list of graph templates that are available in your NetMRG installation; it's very useful when you have different types of interfaces with different monitors you want applied to an interface (maybe you have one graph with a maximum line, or different multiplers to show bits instead of bytes).</P
+></LI
+></OL
+></LI
+><LI
+><P
+>Inside the Disk Cache</P
+><P
+></P
+><OL
+TYPE="1"
+><LI
+><P
+>The options inside the Disk Cache are very similar to the Interface Cache.  Refer there for their descriptions.</P
+></LI
+></OL
+></LI
+></UL
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+SUMMARY="Footer navigation table"
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="graphtutorial.html"
+ACCESSKEY="P"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="index.html"
+ACCESSKEY="H"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="featureguide.html"
+ACCESSKEY="N"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Graph Tutorial</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="installation.html"
+ACCESSKEY="U"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Feature Guide</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

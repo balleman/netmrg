@@ -2,7 +2,7 @@
 <HTML
 ><HEAD
 ><TITLE
->Conditions</TITLE
+>Graphing</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
@@ -13,11 +13,11 @@ REL="UP"
 TITLE="Web Interface Descriptions"
 HREF="webpagedesc.html"><LINK
 REL="PREVIOUS"
-TITLE="Events"
-HREF="events.html"><LINK
-REL="NEXT"
 TITLE="Reporting"
-HREF="reporting.html"></HEAD
+HREF="reporting.html"><LINK
+REL="NEXT"
+TITLE="Tests"
+HREF="tests.html"></HEAD
 ><BODY
 CLASS="REFENTRY"
 BGCOLOR="#FFFFFF"
@@ -46,7 +46,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="events.html"
+HREF="reporting.html"
 ACCESSKEY="P"
 >&#60;&#60;&#60; Previous</A
 ></TD
@@ -60,7 +60,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="reporting.html"
+HREF="tests.html"
 ACCESSKEY="N"
 >Next &#62;&#62;&#62;</A
 ></TD
@@ -71,134 +71,45 @@ ALIGN="LEFT"
 WIDTH="100%"></DIV
 ><H1
 ><A
-NAME="CONDITIONS"
+NAME="GRAPHING"
 ></A
->Conditions</H1
+>Graphing</H1
 ><DIV
 CLASS="REFNAMEDIV"
 ><A
-NAME="AEN1310"
+NAME="AEN1370"
 ></A
 ><H2
 >Name</H2
->Conditions&nbsp;--&nbsp;A collection of paramenters to trigger an Event</DIV
+>Graphing&nbsp;--&nbsp;Where graphs (compositions of one or more monitors) are created.</DIV
 ><DIV
 CLASS="REFSECT1"
 ><A
-NAME="AEN1313"
+NAME="AEN1373"
 ></A
 ><H2
 >Description</H2
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN1315"
+NAME="AEN1375"
 ></A
 ><H3
->List</H3
+>Custom Graphs</H3
 ><P
->list of conditions for an event</P
+>Custom Graphs are graphs meant to only be used once.  If you have an application where you are going to apply the same type of monitors to more than one device (even if the parameters are different), use a template graph.</P
 ></DIV
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN1318"
+NAME="AEN1378"
 ></A
 ><H3
->Edit</H3
+>Template Graphs</H3
 ><P
->edit info about an condition</P
+>Graphs intended to be used more than once.  Template graphs are applied to a sub-device at the view level.  It will look for the same type of monitors as it was created with and use the matching monitor types from whichever sub-device was selected.</P
 ><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Logical Operation</B
-></TT
-> - the logical operator (<TT
-CLASS="GUILABEL"
-><B
->AND</B
-></TT
-> or <TT
-CLASS="GUILABEL"
-><B
->OR</B
-></TT
->) to apply between this condition and the previous one.  This parameter is not valid, nor is displayed, for the first condition in a set of conditions.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Value Type</B
-></TT
-> - the type of data about the Monitor to be used for comparision.</P
-><P
-></P
-><UL
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Current Value</B
-></TT
-> - the current value of the Monitor</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Delta Value</B
-></TT
-> - the difference between the current value and the previous value.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Rate of Change</B
-></TT
-> - the delta value divided by the difference in timestamps between the current and previous values.  When using counters, this gives you the "per second" value.</P
-></LI
-></UL
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Condition</B
-></TT
-> - the arithmetic operator to use when comparing the <TT
-CLASS="GUILABEL"
-><B
->Value Type</B
-></TT
-> of the Monitor and the <TT
-CLASS="GUILABEL"
-><B
->Value</B
-></TT
-> of the Condition.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Value</B
-></TT
-> - the number used for comparision.</P
-></LI
-></UL
+>Template graphs also have the added benefit of being applied to a sub-device, allowing you to automatically create the same monitor types inside a new sub-device, quickly adding more monitors to your device.</P
 ></DIV
 ></DIV
 ><DIV
@@ -217,7 +128,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="events.html"
+HREF="reporting.html"
 ACCESSKEY="P"
 >&#60;&#60;&#60; Previous</A
 ></TD
@@ -235,7 +146,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="reporting.html"
+HREF="tests.html"
 ACCESSKEY="N"
 >Next &#62;&#62;&#62;</A
 ></TD
@@ -245,7 +156,7 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Events</TD
+>Reporting</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
@@ -259,7 +170,7 @@ ACCESSKEY="U"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->Reporting</TD
+>Tests</TD
 ></TR
 ></TABLE
 ></DIV

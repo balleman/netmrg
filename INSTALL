@@ -15,9 +15,9 @@
        make                                                            
        make install                                                    
 
-       [5]Note If configure fails to locate the needed libraries they  
-               can be manually specified. Run ./configure --help for   
-               details on the necessary options.                       
+       Note If configure fails to locate the needed libraries they can 
+            be manually specified. Run ./configure --help for details  
+            on the necessary options.                                  
 
     3. Setup the database
 
@@ -86,11 +86,3 @@
        default login is admin and the default password is nimda. Point your
        web browser at the host you built this on (something similar to
        http://yourhost.com/netmrg/) and please change your password!
-
-References
-
-   Visible links
-   1. file:///home/silfreed/cvs/netmrg/share/doc/txt/index.html
-   2. file:///home/silfreed/cvs/netmrg/share/doc/txt/installation.html
-   3. file:///home/silfreed/cvs/netmrg/share/doc/txt/satisfyreq.html
-   4. file:///home/silfreed/cvs/netmrg/share/doc/txt/upgrade.html

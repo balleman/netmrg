@@ -2,7 +2,7 @@
 <HTML
 ><HEAD
 ><TITLE
->Conditions</TITLE
+>Notifications</TITLE
 ><META
 NAME="GENERATOR"
 CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
@@ -13,11 +13,11 @@ REL="UP"
 TITLE="Web Interface Descriptions"
 HREF="webpagedesc.html"><LINK
 REL="PREVIOUS"
-TITLE="Events"
-HREF="events.html"><LINK
+TITLE="Tests"
+HREF="tests.html"><LINK
 REL="NEXT"
-TITLE="Reporting"
-HREF="reporting.html"></HEAD
+TITLE="Admin"
+HREF="admin.html"></HEAD
 ><BODY
 CLASS="REFENTRY"
 BGCOLOR="#FFFFFF"
@@ -46,7 +46,7 @@ WIDTH="10%"
 ALIGN="left"
 VALIGN="bottom"
 ><A
-HREF="events.html"
+HREF="tests.html"
 ACCESSKEY="P"
 >&#60;&#60;&#60; Previous</A
 ></TD
@@ -60,7 +60,7 @@ WIDTH="10%"
 ALIGN="right"
 VALIGN="bottom"
 ><A
-HREF="reporting.html"
+HREF="admin.html"
 ACCESSKEY="N"
 >Next &#62;&#62;&#62;</A
 ></TD
@@ -71,44 +71,32 @@ ALIGN="LEFT"
 WIDTH="100%"></DIV
 ><H1
 ><A
-NAME="CONDITIONS"
+NAME="NOTIFICATIONS"
 ></A
->Conditions</H1
+>Notifications</H1
 ><DIV
 CLASS="REFNAMEDIV"
 ><A
-NAME="AEN1310"
+NAME="AEN1471"
 ></A
 ><H2
 >Name</H2
->Conditions&nbsp;--&nbsp;A collection of paramenters to trigger an Event</DIV
+>Notifications&nbsp;--&nbsp;Configuration for notifying users when events occur.</DIV
 ><DIV
 CLASS="REFSECT1"
 ><A
-NAME="AEN1313"
+NAME="AEN1474"
 ></A
 ><H2
 >Description</H2
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN1315"
-></A
-><H3
->List</H3
-><P
->list of conditions for an event</P
-></DIV
-><DIV
-CLASS="REFSECT2"
-><A
-NAME="AEN1318"
+NAME="AEN1476"
 ></A
 ><H3
 >Edit</H3
 ><P
->edit info about an condition</P
-><P
 ></P
 ><UL
 ><LI
@@ -116,89 +104,77 @@ NAME="AEN1318"
 ><TT
 CLASS="GUILABEL"
 ><B
->Logical Operation</B
+>Name</B
 ></TT
-> - the logical operator (<TT
-CLASS="GUILABEL"
-><B
->AND</B
-></TT
-> or <TT
-CLASS="GUILABEL"
-><B
->OR</B
-></TT
->) to apply between this condition and the previous one.  This parameter is not valid, nor is displayed, for the first condition in a set of conditions.</P
+> - A name used to identifiy the notification.</P
 ></LI
 ><LI
 ><P
 ><TT
 CLASS="GUILABEL"
 ><B
->Value Type</B
+>Command</B
 ></TT
-> - the type of data about the Monitor to be used for comparision.</P
+> - A shell-interpreted command to run to notify the user of an event.  Parameter expansions will be made to this field as outlined below.</P
+></LI
+><LI
 ><P
+><TT
+CLASS="GUILABEL"
+><B
+>Disabled</B
+></TT
+> - When selected, the specified will not be run.  Useful for temporary suspension of notifications.</P
+></LI
+></UL
+></DIV
+><DIV
+CLASS="REFSECT2"
+><A
+NAME="AEN1488"
+></A
+><H3
+>Variable Substitutions</H3
+><P
+>			The following parameters will be substituted in the command field:
+			<P
 ></P
 ><UL
 ><LI
 ><P
-><TT
-CLASS="GUILABEL"
-><B
->Current Value</B
-></TT
-> - the current value of the Monitor</P
+>%dev_name% - The device's name</P
 ></LI
 ><LI
 ><P
-><TT
-CLASS="GUILABEL"
-><B
->Delta Value</B
-></TT
-> - the difference between the current value and the previous value.</P
+>%ip% - The IP or host name for the device</P
 ></LI
 ><LI
 ><P
-><TT
-CLASS="GUILABEL"
-><B
->Rate of Change</B
-></TT
-> - the delta value divided by the difference in timestamps between the current and previous values.  When using counters, this gives you the "per second" value.</P
+>%event_name% - The name of the triggered event causing the notification.</P
+></LI
+><LI
+><P
+>%situation% - The situation of the triggered event (Normal, Warning, etc.)</P
+></LI
+><LI
+><P
+>%current_value% - The monitor's last gathered value.</P
+></LI
+><LI
+><P
+>%delta_value% - The change between the monitor's last gathered value and the previous.</P
+></LI
+><LI
+><P
+>%rate_value% - The rate-of-change based on the last two gathered values and the time difference between them.</P
+></LI
+><LI
+><P
+>%last_value% - The value from the gathering period before last.</P
 ></LI
 ></UL
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Condition</B
-></TT
-> - the arithmetic operator to use when comparing the <TT
-CLASS="GUILABEL"
-><B
->Value Type</B
-></TT
-> of the Monitor and the <TT
-CLASS="GUILABEL"
-><B
->Value</B
-></TT
-> of the Condition.</P
-></LI
-><LI
-><P
-><TT
-CLASS="GUILABEL"
-><B
->Value</B
-></TT
-> - the number used for comparision.</P
-></LI
-></UL
+>
+			</P
 ></DIV
 ></DIV
 ><DIV
@@ -217,7 +193,7 @@ WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
 ><A
-HREF="events.html"
+HREF="tests.html"
 ACCESSKEY="P"
 >&#60;&#60;&#60; Previous</A
 ></TD
@@ -235,7 +211,7 @@ WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
 ><A
-HREF="reporting.html"
+HREF="admin.html"
 ACCESSKEY="N"
 >Next &#62;&#62;&#62;</A
 ></TD
@@ -245,7 +221,7 @@ ACCESSKEY="N"
 WIDTH="33%"
 ALIGN="left"
 VALIGN="top"
->Events</TD
+>Tests</TD
 ><TD
 WIDTH="34%"
 ALIGN="center"
@@ -259,7 +235,7 @@ ACCESSKEY="U"
 WIDTH="33%"
 ALIGN="right"
 VALIGN="top"
->Reporting</TD
+>Admin</TD
 ></TR
 ></TABLE
 ></DIV
