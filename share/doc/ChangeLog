@@ -1,3 +1,7 @@
+2003.07.16  v0.8  silfreed
+  - restructured cvs tree
+  - added kevin's latest autoconf patch
+
 2003.07.14  v0.8  silfreed
   - posted beta.netmrg.net to be live at www.netmrg.net
   - added makecvssnap to create cvs snapshots
