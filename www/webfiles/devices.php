@@ -126,7 +126,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 				formatted_link("Recache Disks",		"recache.php?dev_id=$dev_id&type=disk")),
 			array("text" => formatted_link("View",			"view.php?object_type=device&object_id=$dev_id") . "&nbsp;" .
 				formatted_link("Edit",			"{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST["grp_id"]}") . "&nbsp;" .
-				formatted_link("Delete",		"javascript:del('" . $dev_row["name"] . "', '" . $dev_row["id"] . "')"))
+				formatted_link("Delete",		"javascript:del('" . addslashes($dev_row["name"]) . "', '" . $dev_row["id"] . "')"))
 		); // end make_display_item();
 
 	} // end devices

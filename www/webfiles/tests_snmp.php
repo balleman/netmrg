@@ -70,7 +70,7 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 		array("text" => $test_row["name"]),
 		array("text" => $test_row["oid"]),
 		array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&test_id=" . $test_row["id"]) . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('" . $test_row["name"] . "', '" . $test_row["id"] . "')"))
+			formatted_link("Delete", "javascript:del('" . addslashes($test_row["name"]) . "', '" . $test_row["id"] . "')"))
 	); // end make_display_item();
 } // end tests
 

@@ -134,7 +134,7 @@ if (empty($_REQUEST["action"]))
 			array("text" => formatted_link("View", "enclose_graph.php?type=custom&id=" . $graph_row["id"]) . "&nbsp;" .
 				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"])),
 			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .
-				formatted_link("Delete", "javascript:del('{$graph_row['name']}', '$graph_id')"))
+				formatted_link("Delete", "javascript:del('".addslashes($graph_row['name'])."', '$graph_id')"))
 		); // end make_display_item();
 	} // end graphs
 

@@ -144,7 +144,7 @@ function do_list()
 				<td>'. $mon_row["last_time"] .'</td></tr>
 			</table>';
 
-		$short_name = get_short_monitor_name($mon_row["id"]);
+		$short_name = addslashes(get_short_monitor_name($mon_row["id"]));
 
 		make_display_item("editfield".($mon_count%2),
 			array("text" => $short_name, "href" => "events.php?mon_id={$mon_row['id']}"),

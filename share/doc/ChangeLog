@@ -1,5 +1,6 @@
 2003.04.21  v0.8  silfreed
   - bug#4 : device_tree.php expand/collapse bug
+  - bug#3 : fixed javascript bug w/ slashes
 
 2003.04.17  v0.8  silfreed
   - format.php:

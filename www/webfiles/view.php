@@ -198,7 +198,7 @@ if (empty($_REQUEST["action"]))
 				array("text" => $move_up . "&nbsp;" .
 					$move_down . "&nbsp;" .
 					formatted_link("Edit", "{$_SERVER['PHP_SELF']}?id={$row['id']}&action=edit") . "&nbsp;" .
-					formatted_link("Delete","javascript:del('{$row['name']}', '{$row['id']}')") . "&nbsp;" .
+					formatted_link("Delete","javascript:del('".addslashes($row['name'])."', '{$row['id']}')") . "&nbsp;" .
 					$extra_options)
 			); // end make_display_item();
 		}

@@ -171,7 +171,7 @@ if (empty($_REQUEST["action"]))
 			array("text" => formatted_link("View", "enclose_graph.php?type=custom_ds&id=" . $ds_row["id"]) . "&nbsp;" .
 				$move_up . "&nbsp;" . $move_down),
 			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id=$id&graph_id={$_REQUEST['graph_id']}") . "&nbsp;" .
-				formatted_link("Delete", "javascript:del('" . $ds_row["label"] . "', '" . $ds_row["id"] . "')"))
+				formatted_link("Delete", "javascript:del('" . addslashes($ds_row["label"]) . "', '" . $ds_row["id"] . "')"))
 		); // end make_display_item();
 
 

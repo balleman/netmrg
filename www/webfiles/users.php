@@ -92,7 +92,7 @@ for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 		array("text" => $user_row["fullname"]),
 		array("text" => $GLOBALS['PERMIT_TYPES'][$user_row['permit']]),
 		array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&user_id=$user_id") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('{$user_row['user']}', '{$user_row['id']}')"))
+			formatted_link("Delete", "javascript:del('".addslashes($user_row['user'])."', '{$user_row['id']}')"))
 	); // end make_display_item();
 
 } // end users

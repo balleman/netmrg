@@ -67,7 +67,7 @@ function do_display()
 			array("text" => $triggered),
 			array("text" => formatted_link("Modify Conditions", "conditions.php?event_id={$row['id']}") . "&nbsp;" .
 				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
-				formatted_link("Delete", "javascript:del('" . $row['name'] . "','" . $row['id'] . "')"))
+				formatted_link("Delete", "javascript:del('" . addslashes($row['name']) . "','" . $row['id'] . "')"))
 		); // end make_display_item();
 		$rowcount++;
 	} // end while rows left
