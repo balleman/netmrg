@@ -1,3 +1,6 @@
+2003.11.17  v0.10  balleman
+  - add debug messages for thread locking
+
 2003.11.17  v0.10  silfreed
   - bug#0000092 - test_* pages should redirect after saves
   - bug#0000093 - download page needs 'binary release' support and

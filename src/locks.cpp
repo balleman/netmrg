@@ -8,6 +8,7 @@
 ********************************************/
 
 #include "locks.h"
+#include "utils.h"
 #include <pthread.h>
 
 // Create mutex locks
@@ -20,32 +21,44 @@ static pthread_mutex_t pipe_lock			= PTHREAD_MUTEX_INITIALIZER;
 
 pthread_mutex_t* get_lock(Lock myLock)
 {
-	pthread_mutex_t *ret_val;
-
 	switch (myLock)
 	{
-		case lkActiveThreads:	ret_val = &active_threads_lock;	break;
-		case lkMySQL:			ret_val = &mysql_lock;			break;
-		case lkSNMP:			ret_val = &snmp_lock;			break;
-		case lkRRD:				ret_val = &rrdtool_lock;		break;
-		case lkSettings:		ret_val = &settings_lock;		break;
-		case lkPipe:			ret_val = &pipe_lock;			break;
+		case lkActiveThreads:	return &active_threads_lock;
+		case lkMySQL:			return &mysql_lock;
+		case lkSNMP:			return &snmp_lock;
+		case lkRRD:				return &rrdtool_lock;
+		case lkSettings:		return &settings_lock;
+		case lkPipe:			return &pipe_lock;
 	}
+}
 
-	return ret_val;
+string get_lock_name(Lock myLock)
+{
+	switch (myLock)
+	{
+		case lkActiveThreads:	return "ActiveThreads";
+		case lkMySQL:			return "MySQL";
+		case lkSNMP:			return "SNMP";
+		case lkRRD:				return "RRD";
+		case lkSettings:		return "Settings";
+		case lkPipe:			return "Pipe";
+	}
 }
 
 void mutex_lock(Lock myLock)
 {
+	debuglogger(DEBUG_THREAD, LEVEL_DEBUG, NULL, "Locking " + get_lock_name(myLock));
 	pthread_mutex_lock(get_lock(myLock));
 }
 
 void mutex_unlock(Lock myLock)
 {
+	debuglogger(DEBUG_THREAD, LEVEL_DEBUG, NULL, "Unlocking " + get_lock_name(myLock));
 	pthread_mutex_unlock(get_lock(myLock));
 }
 
 int	mutex_trylock(Lock myLock)
 {
+	debuglogger(DEBUG_THREAD, LEVEL_DEBUG, NULL, "Trying to lock " + get_lock_name(myLock));
 	return pthread_mutex_trylock(get_lock(myLock));
-}                                                      
+}
