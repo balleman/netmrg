@@ -22,6 +22,7 @@ $GLOBALS["netmrg"]["dbdebug"]           = false;
 
 // Path Config
 $GLOBALS["netmrg"]["libdir"]            = "..";
+$prefix = "@prefix@";
 $GLOBALS["netmrg"]["xmlfile"]           = "@sysconfdir@/netmrg.xml";
 
 // Authentication Config
