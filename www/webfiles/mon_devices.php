@@ -53,7 +53,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 			{
 				do_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id=" . mysql_insert_id());
 			} // end if dev+id = 0
-		} # done editing
+		} // done editing
 	} // end if we editing
 
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doaddtogrp")
@@ -66,9 +66,9 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	{
 		check_auth(2);
 		delete_device($_REQUEST["dev_id"]);
-	} # done deleting
+	} // done deleting
 
-	# Display a list
+	// Display a list
 	if (isset($_REQUEST["grp_id"]))
 	{
 		$group_results = do_query("SELECT * FROM mon_groups WHERE id={$_REQUEST['grp_id']}");

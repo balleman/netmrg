@@ -14,8 +14,6 @@ monitors.php:
   add javascript check so you can't enter a minimum < maximum
 custom_graphs.php:
   "show summed" support
-  redo to use unified add/edit code
-  make delete action a javascript
 fix move-up/move-down in views and graph-items
 view page should reflect status information
 add support for 'unfiled' devices (should only be things that were put
