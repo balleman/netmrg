@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <syslog.h>
+#include <ctype.h>
 
 #include "utils.h"
 #include "db.h"
