@@ -167,7 +167,7 @@ CREATE TABLE graph_ds (
   graph_id int(11) NOT NULL default '0',
   label varchar(100) NOT NULL default '',
   alignment tinyint(2) NOT NULL default '1',
-  stats set('CURRENT','AVERAGE','MAXIMUM','SUMS','INTEGER') NOT NULL default 'CURRENT,AVERAGE,MAXIMUM',
+  stats set('CURRENT','AVERAGE','MAXIMUM','SUMS','INTEGER','MULTSUM') NOT NULL default 'CURRENT,AVERAGE,MAXIMUM',
   position int(11) NOT NULL default '0',
   multiplier varchar(100) NOT NULL default '1',
   start_time varchar(20) NOT NULL default '',
@@ -475,6 +475,7 @@ INSERT INTO tests_internal VALUES (3,'UCD CPU Load (user + system)');
 INSERT INTO tests_internal VALUES (4,'Windows Disk Usage (percent)');
 INSERT INTO tests_internal VALUES (5,'UCD Swap Usage (percent)');
 INSERT INTO tests_internal VALUES (6,'Read Value from File');
+INSERT INTO tests_internal VALUES (7,'SNMP Failure');
 
 --
 -- Table structure for table `tests_script`
@@ -574,6 +575,7 @@ CREATE TABLE tests_sql (
   password varchar(50) NOT NULL default '',
   query varchar(255) NOT NULL default '',
   column_num tinyint(4) NOT NULL default '0',
+  timeout int(11) NOT NULL default '10',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -582,11 +584,64 @@ CREATE TABLE tests_sql (
 --
 
 
-INSERT INTO tests_sql VALUES (1,'MySQL Questions',8,'localhost','root','sqlroot','show status like \"Questions\"',1);
-INSERT INTO tests_sql VALUES (3,'NetMRG - Active Script Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=1',0);
-INSERT INTO tests_sql VALUES (4,'NetMRG - Active SNMP Monitors',8,'localhost','netmrgread','netmrgread',' select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=2',0);
-INSERT INTO tests_sql VALUES (5,'NetMRG - Active SQL Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=3',0);
-INSERT INTO tests_sql VALUES (6,'NetMRG - Active Internal Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=4',0);
+INSERT INTO tests_sql VALUES (1,'MySQL Questions',8,'localhost','root','sqlroot','show status like \"Questions\"',1,10);
+INSERT INTO tests_sql VALUES (3,'NetMRG - Active Script Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=1',0,10);
+INSERT INTO tests_sql VALUES (4,'NetMRG - Active SNMP Monitors',8,'localhost','netmrgread','netmrgread',' select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=2',0,10);
+INSERT INTO tests_sql VALUES (5,'NetMRG - Active SQL Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=3',0,10);
+INSERT INTO tests_sql VALUES (6,'NetMRG - Active Internal Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=4',0,10);
+
+--
+-- Table structure for table `updates`
+--
+
+CREATE TABLE updates (
+  update_version varchar(16) NOT NULL default '',
+  name varchar(160) NOT NULL default '',
+  version_applied_to varchar(16) NOT NULL default '',
+  dateapplied datetime NOT NULL default '0000-00-00 00:00:00'
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table `updates`
+--
+
+
+INSERT INTO updates VALUES ('0.10pre2','Graph Options','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.10pre2','Graph Options2','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.10pre2','Graph Item Times','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.10pre2','Graph Item Times2','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.10pre2','Graph Title','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.10pre2','Graph Item Muliplier','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.10pre2','SNMP ifSpeed','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.10pre2','Graph Title Fill-in','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.12','SNMP Version Support','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.12','SNMP Timeout','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.12','User Prefs','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.12','User Prefs Slideshow Default','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.14','SNMP Recache Method','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.14','SNMP Recache Method Default','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.14','SNMP Recache Method Default2','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.14','SNMP Recache Method Default3','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.14','SNMP Recache Drop','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.14','SNMP ifNumber Drop','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.14','Log Table','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.14','User Index Drop','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.14','User Unique Index','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.16','Device SNMP Uptime Check Option','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.16','SNMP Test Type','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.16','Graph Min/Max','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.17','Internal Test Name Lengthen','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.17','Script Test Name Lengthen','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.17','SQL Test Name Lengthen','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.17','New Internal Test - Lucent TNT Good Modems','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.17','New Internal Test - UCD CPU Load','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.17','New Internal Test - Windows Disk Usage','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.17','New Internal Test - UCD Swap Usage','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.17','New Internal Test - Read Value from File','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.17','User Disabled Support','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO updates VALUES ('0.18','Graph Multiply Sum Support','0.17','2004-10-25 20:59:35');
+INSERT INTO updates VALUES ('0.18','New Internal Test - SNMP Failure','0.17','2004-10-25 20:59:35');
+INSERT INTO updates VALUES ('0.18','SQL Test Timeout','0.17','2004-10-25 20:59:35');
 
 --
 -- Table structure for table `user`
