@@ -1,3 +1,9 @@
+2003.09.27  v0.10pre2  silfreed
+  - bug#0000059: sqaushed by adding grp nav to snmp_cache_view.php
+  - make the device tree have it's 'view' images next to the device it 
+    represents
+  - bug#0000070: header redirect on devices.php after db updates
+
 2003.09.24  v0.10pre2  balleman
   - bug#0000060: yesterday's highlight should be displayed on daily graphs
   - bug#0000069: infinite graph items shouldn't be included in "totals"

@@ -53,18 +53,25 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 				db_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id=" . db_insert_id());
 			} // end if dev+id = 0
 		} // done editing
+		
+		header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
+		exit();
 	} // end if we editing
 
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doaddtogrp")
 	{
 		check_auth(2);
 		db_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id={$_REQUEST['dev_id']}");
+		header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
+		exit();
 	} // end if we're adding to a group
 
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "dodelete")
 	{
 		check_auth(2);
 		delete_device($_REQUEST["dev_id"]);
+		header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
+		exit();
 	} // done deleting
 
 	// Display a list
