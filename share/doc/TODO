@@ -11,7 +11,6 @@ more detailed README
 == before going public ==
 website
 get new netmrg monitoring something (duo)
-find a mailing list/message board
 
 
 == global ==
@@ -33,9 +32,6 @@ format.php
 
 == silfreed ==
 design public website
-research message board/mailing list
-  - searchable archives
-  - thread view
 CSS-ificiation
   - sub-pages need redone (ick)
 
@@ -57,3 +53,5 @@ customized 'view' page
     (makes it easier to compare some graphs)
   - ability to move graphs up/down despite their original ordering (session fun)
   - nestable conditions for events
+fast-fourier transforms for what data 'should look like'
+
