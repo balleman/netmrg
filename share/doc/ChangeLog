@@ -1,3 +1,6 @@
+2004.11.23  v0.18.2  keb
+  - bug#0000352 - Escaping issues in graphing.php
+
 2004.11.19  v0.18.2  keb
   - bug#0000341 - Root group should always be returned from the Get*Groups functions
 
@@ -15,7 +18,7 @@
   - bug#0000335 - disabled quickprint option so mandrake should work
   - bug#0000331 - snmp failure internal test doesn't work
   - bug#0000321 - don't use ifName if it is not unique in the cache
-  
+
 2004.11.04  v0.18.1  silfreed
   - bug#0000329 - escaping problems in snmp_cache_view.php
 
@@ -35,7 +38,7 @@
   - bug#0000313 - internal test for snmp availability
   - bug#0000293 - SQL timeouts
   - bug#0000247 - simple parsing of snmp values
-  
+
 2004.10.16  v0.17  keb
   - bug#0000315 - netmrg build should have cleaner output
   - add more control over the install files in www/
@@ -67,7 +70,7 @@
 2004.09.21  v0.17  balleman
   - bug#0000288 - escape colons in graph item titles
   - bug#0000300 - graph sums don't take multipliers into account
-  
+
 2004.09.21  v0.17  silfreed
   - bug#0000299 - IE users can't submit forms
 
@@ -94,7 +97,7 @@
 
 2004.09.11  v0.17cvs  silfreed
   - bug#0000200 - Need a tutorial on how to create custom/template graphs
-  - bug#0000259 - It should be noted that RRDs and variables aren't usable 
+  - bug#0000259 - It should be noted that RRDs and variables aren't usable
     until after the gatherer runs
   - bug#0000275 - Tutorial on our Interface cache and Disk Cache
   - bug#0000276 - Document how variable substitution works
@@ -129,7 +132,7 @@
   - bug#0000107 - graph_items.php should have checkbox support
   - cleanup of graph_items.php / refactor graph item move
   - gradient feature on graph_items.php
-  
+
 2004.08.31  v0.17cvs  balleman
   - bug#0000263 - internal test for reading a value from a file
 
@@ -155,7 +158,7 @@
   - bug#0000258 - "Previous Value" should be available when processing conditions
   - bug#0000232 - correctly order cisco names on snmp interface cache page
   - bug#0000231 - make subdevice page sorting aware of cisco names
-  
+
 2004.08.24  v0.17cvs  silfreed
   - bug#0000257 - doing a delayed insert for dynamic variables lowers mysql overhead
 
@@ -165,7 +168,7 @@
   - added the rest of the included internal tests to tests_internal in the default database
   - bug#0000236 - escaping fields displayed by rrdtool
   - bug#0000158 - "advanced" monitor graphs, broken by timeframe changes, now fixed
-  
+
 2004.08.20  v0.17cvs  balleman
   - bug#0000243 - gatherer man-page updates
   - bug#0000252 - status line, quick implementation
@@ -200,7 +203,7 @@
 2004.06.15  v0.17cvs  balleman
   - bug#0000211 - colorized gatherer output
   - bug#0000234 - change time frame for a view
-  
+
 2004.06.14  v0.17cvs  balleman
   - version bump to 0.17cvs
   - bug#0000233 - 'disable snmp uptime check' should default to off
@@ -222,7 +225,7 @@
 2004.05.31  v0.16cvs  balleman
   - bug#0000214 - syslog support
   - bug#0000157 - become a daemon
-  
+
 2004.05.27  v0.16cvs  keb
   - cleanup subst perl script and make it stop using the .in files
   - bug#0000147 - fix warnings caused by autoconf PACKAGE_* defines
@@ -247,7 +250,7 @@
   - bug#0000208 - when adding a group, remember your parent
   - bug#0000202 - ignore snmp uptime option
   - bug#0000187 - Nth subitem of an OID
-  
+
 2004.05.24  v0.16cvs  silfreed
   - bug#0000197 - SVO users can't see custom graphs
   - bug#0000204 - SVO users can't see devices in subgroups when they're
@@ -503,7 +506,7 @@
 
 2003.09.27  v0.10pre2  silfreed
   - bug#0000059: sqaushed by adding grp nav to snmp_cache_view.php
-  - make the device tree have it's 'view' images next to the device it 
+  - make the device tree have it's 'view' images next to the device it
     represents
   - bug#0000070: header redirect on devices.php after db updates
   - bug#0000067: fixed notifications.php's docs a bit to make them more
@@ -541,7 +544,7 @@
   - bug#0000041: add navigational history to the top of pages underneath 'Groups'
 
 2003.09.11  v0.10pre1  balleman
-  - bug#0000045: modularize SNMP further so that sessions aren't created on 
+  - bug#0000045: modularize SNMP further so that sessions aren't created on
       each SNMP query
   - bug#0000044: rojer's patches - error handling, windows disk mappings,
       and a series of new 'internal' tests.
@@ -554,7 +557,7 @@
   - bug#0000024: the 'next' link shouldn't always work now
   - bug#0000027: when adding a monitor, it won't select the first item in the
       database - it should just select the first item
-  - bug#0000035: deleting a group wasn't deleting devices because of the 
+  - bug#0000035: deleting a group wasn't deleting devices because of the
       dev_parents change.
   - bug#0000034: wrapper script complains about more errors
 
@@ -658,7 +661,7 @@
   - reworking 'views' in preparation of graph templating
 
 2003.04.01  v0.8  silfreed
-  - making subpages CSS happy; still need to alternate list items 
+  - making subpages CSS happy; still need to alternate list items
 
 2003.03.31  v0.8  balleman
   - killed remainder of "mon_" files and tables
