@@ -102,7 +102,11 @@ if (empty($_REQUEST["action"]))
 {
 	begin_page("custom_graphs.php", "Custom Graphs");
 	js_confirm_dialog("del", "Are you sure you want to delete graph ", "?", "{$_SERVER['PHP_SELF']}?action=dodelete&graph_id=");
-	make_display_table("Graphs","Name","{$_SERVER['PHP_SELF']}?order_by=name","Comment","{$_SERVER['PHP_SELF']}?order_by=comment","","");
+	make_display_table("Graphs", "", 
+		array("text" => "Name", "href" => "{$_SERVER['PHP_SELF']}?order_by=name"),
+		array("text" => "Comment", "href" => "{$_SERVER['PHP_SELF']}?order_by=comment"),
+		array()
+	); // end make_display_table();
 
 	$query = "SELECT * FROM graphs";
 
@@ -124,12 +128,14 @@ if (empty($_REQUEST["action"]))
 		$graph_id  = $graph_row["id"];
 		$temp_comment = str_replace("%n","<br>",$graph_row["comment"]);
 
-		make_display_item($graph_row["name"],"graph_items.php?graph_id=$graph_id",
-		  $temp_comment,"",
-		  formatted_link("View", "enclose_graph.php?type=custom&id=" . $graph_row["id"]) . "&nbsp;" .
-		  formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"]),"",
-		  formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .
-		  formatted_link("Delete", "javascript:del('{$graph_row['name']}', '$graph_id')"), "");
+		make_display_item("editfield".(($graph_count-1)%2),
+			array("text" => $graph_row["name"], "href" => "graph_items.php?graph_id=$graph_id"),
+			array("text" => $temp_comment, "href" => ""),
+			array("text" => formatted_link("View", "enclose_graph.php?type=custom&id=" . $graph_row["id"]) . "&nbsp;" .
+				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"])),
+			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('{$graph_row['name']}', '$graph_id')"))
+		); // end make_display_item();
 	} // end graphs
 
 ?></table><?php

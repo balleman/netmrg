@@ -36,16 +36,17 @@ function do_display()
 	begin_page("events.php", "Events");
 
 	$title = "Events for " . get_monitor_name($_REQUEST['mon_id']);
-	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&mon_id={$_REQUEST['mon_id']}";
 	js_confirm_dialog("del", "Are you sure you want to delete event ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&mon_id={$_REQUEST['mon_id']}&id=");
-	make_display_table($title,
-				"Name", "",
-				"Trigger Options", "",
-				"Situation", "",
-				"Status", "");
+	make_display_table($title, "{$_SERVER['PHP_SELF']}?action=add&mon_id={$_REQUEST['mon_id']}",
+		array("text" => "Name"),
+		array("text" => "Trigger Options"),
+		array("text" => "Situation"),
+		array("text" => "Status")
+	); // end make_display_table();
 
 	$query = do_query("SELECT * FROM events WHERE mon_id = {$_REQUEST['mon_id']}");
 
+	$rowcount = 0;
 	while (($row = mysql_fetch_array($query)) != NULL)
 	{
 		if ($row['last_status'] == 1)
@@ -59,11 +60,17 @@ function do_display()
 			$name = $row['name'];
 		}
 
-		make_display_item($name, "responses.php?event_id={$row['id']}", $GLOBALS['TRIGGER_TYPES'][$row['trigger_type']], "", $GLOBALS['SITUATIONS'][$row['situation']], "", $triggered, "",
-			formatted_link("Modify Conditions", "conditions.php?event_id={$row['id']}") . "&nbsp;" .
-			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('" . $row['name'] . "','" . $row['id'] . "')"), "");
-	}
+		make_display_item("editfield".($rowcount%2),
+			array("text" => $name, "href" => "responses.php?event_id={$row['id']}"),
+			array("text" => $GLOBALS['TRIGGER_TYPES'][$row['trigger_type']]),
+			array("text" => $GLOBALS['SITUATIONS'][$row['situation']]),
+			array("text" => $triggered),
+			array("text" => formatted_link("Modify Conditions", "conditions.php?event_id={$row['id']}") . "&nbsp;" .
+				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('" . $row['name'] . "','" . $row['id'] . "')"))
+		); // end make_display_item();
+		$rowcount++;
+	} // end while rows left
 	?>
 	</table>
 	<?php

@@ -87,8 +87,12 @@ function do_list()
 	begin_page("monitor.php", "Monitors", 1);
 
 	js_confirm_dialog("del", "Are you sure you want to delete monitor ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&mon_id=");
-	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}";
-	make_display_table("Monitors for " . get_sub_device_name($_REQUEST["sub_dev_id"]),"Test","", "Data", "", "Graph","");
+	make_display_table("Monitors for " . get_sub_device_name($_REQUEST["sub_dev_id"]),
+		"{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}",
+		array("text" => "Test"),
+		array("text" => "Data"),
+		array("text" => "Graph")
+	); // end make_display_table();
 
 	$mon_results = do_query("SELECT * FROM monitors WHERE sub_dev_id={$_REQUEST['sub_dev_id']}");
 	$mon_total = mysql_num_rows($mon_results);
@@ -142,10 +146,13 @@ function do_list()
 
 		$short_name = get_short_monitor_name($mon_row["id"]);
 
-		make_display_item($short_name, "events.php?mon_id={$mon_row['id']}",
-			$data, "", $graph, "",
-			formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&mon_id=$mon_id&sub_dev_id={$_REQUEST['sub_dev_id']}") . "&nbsp;" .
-			formatted_link("Delete","javascript:del('$short_name', '$mon_id')"), "");
+		make_display_item("editfield".($mon_count%2),
+			array("text" => $short_name, "href" => "events.php?mon_id={$mon_row['id']}"),
+			array("text" => $data),
+			array("text" => $graph),
+			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&mon_id=$mon_id&sub_dev_id={$_REQUEST['sub_dev_id']}") . "&nbsp;" .
+				formatted_link("Delete","javascript:del('$short_name', '$mon_id')"))
+		); // end make_display_item();
 
 	} // end for each monitor
 

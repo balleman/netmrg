@@ -55,9 +55,10 @@ function do_display()
 		$nologic = "";
 	}
 
-	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&event_id={$_REQUEST['event_id']}$nologic";
 	js_confirm_dialog("del", "Are you sure you want to delete condition ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&event_id={$_REQUEST['event_id']}&id=");
-	make_display_table("Conditions", "Condition", "");
+	make_display_table("Conditions", "{$_SERVER['PHP_SELF']}?action=add&event_id={$_REQUEST['event_id']}$nologic", 
+		array("text" => "Condition")
+	); // end make_display_table();
 
 	for ($i = 0; $i < $rows; $i++)
 	{
@@ -72,9 +73,11 @@ function do_display()
 		{
 			$nologic = "&nologic=1";
 		}
-		make_display_item($condition_name, "",
-			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}$nologic") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('" . $condition_name . "','" . $row['id'] . "')"), "");
+		make_display_item("editfield".($i%2),
+			array("text" => $condition_name),
+			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}$nologic") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('" . $condition_name . "','" . $row['id'] . "')"))
+		); // end make_display_item();
 	}
 	?>
 	</table>

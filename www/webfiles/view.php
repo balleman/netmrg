@@ -148,8 +148,11 @@ if (empty($_REQUEST["action"]))
 	{
 		js_confirm_dialog("del", "Do you want to remove ", " from this view?", "{$_SERVER['PHP_SELF']}?action=dodelete&object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&id=");
 
-		$custom_add_link = "{$_SERVER['PHP_SELF']}?object_type=".$_REQUEST["object_type"]."&object_id=".$_REQUEST["object_id"]."&pos=" . ($num + 1) . "&action=add";
-		make_display_table("Edit View", "Item", "", "Type", "");
+		make_display_table("Edit View", 
+			"{$_SERVER['PHP_SELF']}?object_type=".$_REQUEST["object_type"]."&object_id=".$_REQUEST["object_id"]."&pos=" . ($num + 1) . "&action=add",
+			array("text" => "Item"),
+			array("text" => "Type")
+		); // end make_display_table();
 
 		for ($i = 0; $i < $num; $i++)
 		{
@@ -189,14 +192,15 @@ if (empty($_REQUEST["action"]))
 				$extra_options = "";
 			}
 
-			make_display_item(
-				$name, "",
-				ucfirst($row["type"]), "",
-				$move_up . "&nbsp;" .
-				$move_down . "&nbsp;" .
-				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?id={$row['id']}&action=edit") . "&nbsp;" .
-				formatted_link("Delete","javascript:del('{$row['name']}', '{$row['id']}')") . "&nbsp;" .
-				$extra_options, "");
+			make_display_item("editfield".($i%2),
+				array("text" => $name),
+				array("text" => ucfirst($row["type"])),
+				array("text" => $move_up . "&nbsp;" .
+					$move_down . "&nbsp;" .
+					formatted_link("Edit", "{$_SERVER['PHP_SELF']}?id={$row['id']}&action=edit") . "&nbsp;" .
+					formatted_link("Delete","javascript:del('{$row['name']}', '{$row['id']}')") . "&nbsp;" .
+					$extra_options)
+			); // end make_display_item();
 		}
 
 		print("</table>");

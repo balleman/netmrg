@@ -66,7 +66,11 @@ $num = mysql_num_rows($handle);
 for ($i = 0; $i < $num; $i++)
 {
 	$row = mysql_fetch_array($handle);
-	make_display_item(date("Y/m/d H:i:s",$row["date"]), "", format_time_elapsed($row["time_since_last_change"]), "", get_img_tag_from_status($row["situation"]) . " " . $row['dev_name'] . ": " . $row['ev_name'],"");
+	make_display_item("editfield".($i%2),
+		array("text" => date("Y/m/d H:i:s",$row["date"])),
+		array("text" => format_time_elapsed($row["time_since_last_change"])),
+		array("text" => get_img_tag_from_status($row["situation"]) . " " . $row['dev_name'] . ": " . $row['ev_name'])
+	); // end make_display_item();
 } // end for each row in event log
 print("</table>");
 echo('<br>');

@@ -185,7 +185,7 @@ A:hover.menuitem, A:active.menuitem
 	border : 2px solid white;
 }
 
-.editheaderlink
+.editheaderlink, A.editheaderlink, A:visited.editheaderlink
 {
 	background-color : #000088;
 	color : #E0E0E0;
@@ -204,6 +204,16 @@ A:hover.menuitem, A:active.menuitem
 	border : 2px solid white;
 }
 
+A.editfield0, A:visited.editfield0
+{
+	background-color : #CECECE;
+	color : black;
+	font-family : sans-serif;
+	font-size : 12px;
+	padding : 0px;
+	border : 0px;
+}
+
 .editfield1
 {
 	background-color : #E4E4E4;
@@ -212,6 +222,16 @@ A:hover.menuitem, A:active.menuitem
 	font-size : 12px;
 	padding : 1px;
 	border : 2px solid white;
+}
+
+A.editfield1, A:visited.editfield1
+{
+	background-color : #E4E4E4;
+	color : black;
+	font-family : sans-serif;
+	font-size : 12px;
+	padding : 0px;
+	border : 0px;
 }
 
 .customaddlink, A.customaddlink, A:visited.customaddlink

@@ -23,6 +23,9 @@ else
 } // end if action is set or not
 
 
+begin_page("notifications.php", "Notifications");
+js_confirm_dialog("del", "Are you sure you want to delete notification ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&id=");
+
 if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
 {
 
@@ -59,11 +62,11 @@ if (!empty($action) && $action == "dodelete")
 	exit(0);
 } // done deleting
 
-begin_page("notifications.php", "Notifications");
-js_confirm_dialog("del", "Are you sure you want to delete notification ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&id=");
-
 // Display a list
-make_display_table("Notifications", "Name", "#", "Command", "#S");
+make_display_table("Notifications", "", 
+	array("text" => "Name"),
+	array("text" => "Command")
+); // end make_display_table();
 
 $res = do_query("SELECT * FROM notifications");
 
@@ -72,9 +75,12 @@ for ($i = 0; $i < mysql_num_rows($res); $i++)
 {
 	$row = mysql_fetch_array($res);
 
-	make_display_item($row["name"], "", $row["command"], "",
-		formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
-		formatted_link("Delete", "javascript:del('{$row['name']}', '{$row['id']}')"), "");
+	make_display_item("editfield".($i%2),
+		array("text" => $row["name"]),
+		array("text" => $row["command"]),
+		array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
+			formatted_link("Delete", "javascript:del('{$row['name']}', '{$row['id']}')"))
+	); // end make_display_item();
 }
 
 ?>

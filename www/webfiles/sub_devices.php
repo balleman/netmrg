@@ -21,20 +21,25 @@ if (!isset($_REQUEST["action"]))
 
 	$results = do_query("SELECT name, id, type FROM sub_devices WHERE sub_devices.dev_id={$_REQUEST['dev_id']} ORDER BY name");
 
-	$custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&dev_id={$_REQUEST['dev_id']}";
-	make_display_table("Sub-Devices for " . get_device_name($_REQUEST["dev_id"]), "Sub-Devices", "", "Type", "");
+	make_display_table("Sub-Devices for " . get_device_name($_REQUEST["dev_id"]),
+		"{$_SERVER['PHP_SELF']}?action=add&dev_id={$_REQUEST['dev_id']}",
+		array("text" => "Sub-Devices"),
+		array("text" => "Type")
+	); // end make_display_table();
 
 	GLOBAL $SUB_DEVICE_TYPES;
 
 	for ($i = 0; $i < mysql_num_rows($results); $i++)
 	{
 		$row = mysql_fetch_array($results);
-		make_display_item($row["name"], "monitors.php?sub_dev_id=" . $row["id"],
-			$SUB_DEVICE_TYPES[$row["type"]], "",
-			formatted_link("Parameters", "sub_dev_param.php?dev_id={$_REQUEST['dev_id']}&sub_dev_id=" . $row["id"]) . "&nbsp;" .
-			formatted_link("View", "view.php?object_type=subdevice&object_id={$row['id']}") . "&nbsp;" . 
-			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id={$_REQUEST['dev_id']}&sub_dev_id=" . $row["id"]) . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('{$row['name']}','{$row['id']}')"), "");
+		make_display_item("editfield".($i%2),
+			array("text" => $row["name"], "href" => "monitors.php?sub_dev_id=" . $row["id"]),
+			array("text" => $SUB_DEVICE_TYPES[$row["type"]]),
+			array("text" => formatted_link("Parameters", "sub_dev_param.php?dev_id={$_REQUEST['dev_id']}&sub_dev_id=" . $row["id"]) . "&nbsp;" .
+				formatted_link("View", "view.php?object_type=subdevice&object_id={$row['id']}") . "&nbsp;" . 
+				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id={$_REQUEST['dev_id']}&sub_dev_id=" . $row["id"]) . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('{$row['name']}','{$row['id']}')"))
+		); // end make_display_item();
 	}
 
 	?></table><?php

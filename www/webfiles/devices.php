@@ -65,6 +65,8 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	} // done deleting
 
 	// Display a list
+	$title = "";
+	$addlink = "";
 	if (isset($_REQUEST["grp_id"]))
 	{
 		$group_results = do_query("SELECT * FROM groups WHERE id={$_REQUEST['grp_id']}");
@@ -72,7 +74,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 
 		$title = "Monitored Devices in Group '" . $group_array["name"] . "'";
 
-		$custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&grp_id={$_REQUEST['grp_id']}";
+		$addlink = "{$_SERVER['PHP_SELF']}?action=add&grp_id={$_REQUEST['grp_id']}";
 
 	}
 	else
@@ -82,9 +84,10 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	} // end if we have a group id
 	begin_page("devices.php", "Devices");
 	js_confirm_dialog("del", "Are you sure you want to delete device ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&grp_id={$_REQUEST['grp_id']}&dev_id=");
-	make_display_table($title,
-	   "Name", "{$_SERVER['PHP_SELF']}?orderby=name",
-	   "SNMP Options","");
+	make_display_table($title, $addlink,
+		array("text" => "Name", "href" => "{$_SERVER['PHP_SELF']}?orderby=name"),
+		array("text" => "SNMP Options")
+	);
 
 	if (!isset($orderby)) { $orderby = "name"; };
 
@@ -115,14 +118,16 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 		$dev_row = mysql_fetch_array($dev_results);
 		$dev_id  = $dev_row["id"];
 
-		make_display_item($dev_row["name"], "sub_devices.php?dev_id=$dev_id",
-			formatted_link("View Interface Cache",	"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface") . "&nbsp;" .
-			formatted_link("Recache Interfaces",	"recache.php?dev_id=$dev_id&type=interface") . "&nbsp;" .
-			formatted_link("View Disk Cache",	"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk") . "&nbsp;" . 
-			formatted_link("Recache Disks",		"recache.php?dev_id=$dev_id&type=disk"), "",
-			formatted_link("View",			"view.php?object_type=device&object_id=$dev_id") . "&nbsp;" .
-			formatted_link("Edit",			"{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST["grp_id"]}") . "&nbsp;" .
-			formatted_link("Delete",		"javascript:del('" . $dev_row["name"] . "', '" . $dev_row["id"] . "')"), "");
+		make_display_item("editfield".(($dev_count-1)%2),
+			array("text" => $dev_row["name"], "href" => "sub_devices.php?dev_id=$dev_id"),
+			array("text" => formatted_link("View Interface Cache",	"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface") . "&nbsp;" .
+				formatted_link("Recache Interfaces",	"recache.php?dev_id=$dev_id&type=interface") . "&nbsp;" .
+				formatted_link("View Disk Cache",	"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk") . "&nbsp;" . 
+				formatted_link("Recache Disks",		"recache.php?dev_id=$dev_id&type=disk")),
+			array("text" => formatted_link("View",			"view.php?object_type=device&object_id=$dev_id") . "&nbsp;" .
+				formatted_link("Edit",			"{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST["grp_id"]}") . "&nbsp;" .
+				formatted_link("Delete",		"javascript:del('" . $dev_row["name"] . "', '" . $dev_row["id"] . "')"))
+		); // end make_display_item();
 
 	} // end devices
 

@@ -1,3 +1,10 @@
+2003.04.17  v0.8  silfreed
+  - format.php:
+    * cleanup/documentation
+    * reworking make_display_table() and make_display_item() to get
+      rid of $custom_add_link and make the code easier to read/use
+  - www/*.php: modifying all pages that use above functions to use new way
+
 2003.04.15  v0.8  balleman
   - reworking 'views' in preparation of graph templating
 

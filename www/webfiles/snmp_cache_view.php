@@ -115,10 +115,11 @@ function view_disk_cache()
 	for ($i = 0; $i < mysql_num_rows($handle); $i++)
 	{                   
 		$row = mysql_fetch_array($handle);
-                make_display_item(
-			$row['disk_index'], "",
-			$row['disk_device'], "",
-			$row['disk_path'], "");
+                make_display_item("editfield".($i%2),
+			array("text" => $row['disk_index']),
+			array("text" => $row['disk_device']),
+			array("text" => $row['disk_path'])
+		); // end make_display_item();
 	}
 	
 	echo("</table>");
@@ -178,15 +179,16 @@ function view_interface_cache()
 				$status .= $GLOBALS['INTERFACE_TYPE'][$row['ifType']];
 			}
 		}
-		make_display_item(
-			$row["ifIndex"],	"",
-			$status, 		"",
-			$row["ifName"],		"",
-			$row["ifDescr"],	"",
-			$row["ifAlias"],	"",
-			$row["ifIP"],		"",
-			$row["ifMAC"],		"",
-			formatted_link("Graph Traffic","snmp_cache_view.php?graph=1&dev_id=" . $row["dev_id"] . "&index=" . $row["ifIndex"]), "");
+		make_display_item("editfield".($i%2),
+			array("text" => $row["ifIndex"]),
+			array("text" => $status),
+			array("text" => $row["ifName"]),
+			array("text" => $row["ifDescr"]),
+			array("text" => $row["ifAlias"]),
+			array("text" => $row["ifIP"]),
+			array("text" => $row["ifMAC"]),
+			array("text" => formatted_link("Graph Traffic","snmp_cache_view.php?graph=1&dev_id=" . $row["dev_id"] . "&index=" . $row["ifIndex"]))
+		); // end make_display_item();
 	} // end for each row
 	echo("</table>");
 	end_page();

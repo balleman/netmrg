@@ -37,22 +37,29 @@ function display_list()
 {
 	begin_page("responses.php", "Responses");
 	js_confirm_dialog("del", "Are you sure you want to delete response ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&event_id={$_REQUEST['event_id']}&id=");
-	$GLOBALS['custom_add_link'] = "responses.php?action=add&event_id={$_REQUEST['event_id']}";
-	make_display_table("Responses", "Name", "", "Parameters", "");
+	make_display_table("Responses", "responses.php?action=add&event_id={$_REQUEST['event_id']}", 
+		array("text" => "Name"),
+		array("text" => "Parameters")
+	);
 
 	$res = do_query("	SELECT responses.id, notifications.name, responses.parameters
 				FROM responses, notifications
 				WHERE responses.notification_id=notifications.id
 				AND event_id={$_REQUEST['event_id']}");
+	$rowcount = 0;
 	while ($row = mysql_fetch_array($res))
 	{
-		make_display_item($row['name'], "", $row['parameters'], "",
-			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('{$row['name']} - {$row['parameters']}','{$row['id']}')"), "");
+		make_display_item("editfield".($rowcount%2),
+			array("text" => $row['name']),
+			array("text" => $row['parameters']),
+			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('{$row['name']} - {$row['parameters']}','{$row['id']}')"))
+		); // end make_display_item();
+		$rowcount++;
 	}
-
+	
 	end_page();
-}
+} // end display_list();
 
 function display_edit()
 {

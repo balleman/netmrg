@@ -42,9 +42,10 @@ check_auth(2);
 	# Display a list
 	begin_page("dev_types.php", "Device Types");
 	js_confirm_dialog("del", "Are you sure you want to delete device type ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&id=");
-	make_display_table("Device Types",
-	   "Name", "{$_SERVER['PHP_SELF']}?orderby=name",
-	   "Comment", "{$_SERVER['PHP_SELF']}?orderby=comment");
+	make_display_table("Device Types", "",
+		array("text" => "Name", "href" => "{$_SERVER['PHP_SELF']}?orderby=name"),
+		array("text" => "Comment", "href" => "{$_SERVER['PHP_SELF']}?orderby=comment")
+	); // end make_display_table();
 
 	if (!isset($_REQUEST["orderby"]))
 	{
@@ -64,10 +65,12 @@ check_auth(2);
 		$row = mysql_fetch_array($grp_results);
 		$id  = $row["id"];
 
-		make_display_item(	$row["name"],"",
-			$row["comment"],"",
-			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id=$id") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('" . $row["name"] . "', '" . $row["id"] . "')"), "");
+		make_display_item("editfield".(($grp_count-1)%2),
+			array("text" => $row["name"]),
+			array("text" => $row["comment"]),
+			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id=$id") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('" . $row["name"] . "', '" . $row["id"] . "')"))
+		); // end make_display_item();
 	} // end foreach group
 
 ?>

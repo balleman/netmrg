@@ -1,34 +1,44 @@
 <?php
-/********************************************
-* NetMRG Integrator
-*
+/**
 * format.php
-* Site Format Module
 *
+* Functions used to format various parts of NetMRG
 * see doc/LICENSE for copyright information
-********************************************/
+*
+* @author Brady Alleman <brady@thtech.net>
+* @author Douglas E. Warner <silfreed@silfreed.net>
+*/
 
 
-#+++++++++++++++++++++++++++++++++++++++++++++
-#
-#        Site-Wide Display Functions
-#
-#+++++++++++++++++++++++++++++++++++++++++++++
+/*********************************************
+*
+*        Site-Wide Display Functions
+*
+*********************************************/
 
+/**
+* space_to_nbsp()
+*
+* converts all spaces in the string to non-breaking spaces
+*
+* @param string $input string w/ spaces to have replaced
+*/
 function space_to_nbsp($input)
 {
 	return str_replace(" ", "&nbsp;", $input);
-}
+} // end space_to_nbsp();
 
 
 /**
-* begin_page($pagename, $prettyname)
+* begin_page()
 *
 * starts the page w/ basic HTML
-*   $pagename : page that this is
-*   $prettyname : shown in the title bar
+*
+* @param string $pagename    page that this is
+* @param string $prettyname  shown in the title bar
+* @param boolean $refresh    whether to refresh this page or not
 */
-function begin_page($pagename = "", $prettyname = "", $refresh=0)
+function begin_page($pagename = "", $prettyname = "", $refresh = 0)
 {
 	// Define the initial formating for the page
 	global $menu_id, $menu_stat, $user_name;
@@ -126,7 +136,12 @@ if (!empty($pagename)) {
 } // end begin_page()
 
 
-// Define the final formatting for the page
+/**
+* end_page();
+*
+* defines things that go at the end of the page
+*
+*/
 function end_page() 
 {
 ?>
@@ -142,96 +157,101 @@ function end_page()
 
 
 
-#+++++++++++++++++++++++++++++++++++++++++++++
-#
-#        List Display Functions
-#
-#+++++++++++++++++++++++++++++++++++++++++++++
+/*********************************************
+*
+*        List Display Functions
+*
+*********************************************/
 
-// Makes a display table
-// Title: Table's displayed title
-// All others:  format of heading,link,heading,link...
-function make_display_table($title)
+/**
+* make_display_table()
+*
+* displays the beginnings of a table with a specific title
+*
+* @param string $title    the title of the table
+* @param string $addlink  the link to use to add something if it doesn't 
+*                         refer to this page
+* @param array $header_element  an array containing 'text' describing the link
+*                         and 'href' that the text points at.  this can be an
+*                         arbitrary number of array items, and they can be empty
+*/
+function make_display_table($title, $addlink = "")
 {
-	global $custom_add_link, $uplink;
-?>
 
+?>
 	<table style="border-collapse: collapse;" width="100%" cellpadding="0" cellspacing="0" border="0">
 	<tr>
-		<td class="editmainheader" colspan="<?php print((func_num_args() - 1)/2); ?>">
+		<td class="editmainheader" colspan="<?php echo ((func_num_args() - 2) + 1); ?>">
 			<?php echo "$title\n"; ?>
-		</td><td class="editmainheader" align="right">
-			<?php echo "$uplink\n"; ?>
 		</td>
 	</tr>
 	<tr>
-
 <?php
-	for ($item_num = 0; $item_num <= ((func_num_args() - 1) / 2 - 1); ++$item_num) {
+	for ($item_num = 2; $item_num < func_num_args(); $item_num++)
+	{
+		$curitem = func_get_arg($item_num);
 ?>
-		<td class="editheader" width="<?php print(80 / ((func_num_args() -1) / 2 + 2)); ?>%">
-			<a class="editheaderlink" href="<?php print(func_get_arg($item_num * 2 + 2)); ?>">
-			<?php
-				$text = func_get_arg($item_num * 2 + 1);
-				if ($text != "") { print($text); } else { print("&nbsp;"); }
-			?>
-			</a>
+		<td class="editheader" width="<?php echo (80 / (func_num_args() - 2)); ?>%">
+			<a class="editheaderlink" href="<?php 
+			if (!empty($curitem["href"])) { echo $curitem["href"]; } else { echo "#"; } ?>"><?php
+			if (!empty($curitem["text"])) { echo $curitem["text"]; } else { echo "&nbsp;"; }
+			?></a>
 		</td>
 <?php
 	} // end for
 ?>
 		<td class="editheader" width="5%" align="right">
 		<a class="customaddlink" href="<?php
-		if (!isset($custom_add_link)) {
-			echo "{$_SERVER['PHP_SELF']}?action=add";
-		} else {
-			echo $custom_add_link;
-		}
-		?>">
-		Add</a>
-		</td>
-	</tr>
-
-
-	<?php
-
-} // end make_display_table
-
-function make_display_item()
-{
-	// Makes an item for a displayed table
-	?>
-
-	<tr>
-
-	<?php
-
-	for ($item_num = 0; $item_num <= ((func_num_args() / 2) - 1); ++$item_num) {
-
-		// We have a link
-		if (func_get_arg($item_num * 2 + 1) != "")
+		if (!empty($addlink))
 		{
-		?>
-		<td class="editfield0"><a href="<?php print(func_get_arg($item_num * 2 + 1));?>"><?php print(func_get_arg($item_num * 2));?></a></td>
-		<?php
-		}
-		// We don't have a link
+			echo $addlink;
+		} // end if empty link, refer to self
 		else
 		{
-		?>
-		<td class="editfield0">
-		<?php
-			$text = func_get_arg($item_num * 2);
-			if ($text != "") { print($text); } else { print("&nbsp;"); }
-		?>
+			echo "{$_SERVER['PHP_SELF']}?action=add";
+		} // end else print link
+		?>">Add</a>
 		</td>
-		<?php
-		} //end if
+	</tr>
+<?php
+} // end make_display_table
+
+
+/**
+* make_display_item
+*
+* makes an item that is displayed in a table
+*
+* @param string $style   the current style of this row
+* @param array $element  an array containing 'text' describing the link
+*                        and 'href' that the text points at.  this can be an
+*                        arbitrary number of array items, and they can be empty
+*/
+function make_display_item($style = "editfield0")
+{
+	if (empty($style))
+	{
+		$style = "editfield0";
+	} // end if no style
+?>
+	<tr>
+<?php
+	for ($item_num = 1; $item_num < (func_num_args()); $item_num++)
+	{
+		$curitem = func_get_arg($item_num);
+?>
+		<td class="<?php echo $style ?>">
+		<a class="<?php echo $style ?>" href="<?php 
+		if (!empty($curitem["href"])) { echo $curitem["href"]; } else { echo "#"; } ?>"><?php
+		if (!empty($curitem["text"])) { echo $curitem["text"]; } else { echo "&nbsp;"; }
+		?></a>
+		</td>
+<?php
 	} // end for
-
-	?> </tr> <?php
-
-} // end make_display_item
+?>
+	</tr>
+<?php
+} // end make_display_item()
 
 
 //   Makes a display table
@@ -274,7 +294,7 @@ function make_plain_display_table($title)
 
 function make_table_tag()
 {
-	?><table width="100%" border="0" cellspacing="2" cellpadding="2" align="center"><?php
+	?><table style="border-collapse: collapse;" width="100%" border="0" cellspacing="2" cellpadding="2" align="center"><?php
 }
 
 

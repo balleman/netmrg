@@ -128,13 +128,17 @@ if (empty($_REQUEST["action"]))
 		FROM graph_ds
 		WHERE graph_ds.graph_id={$_REQUEST['graph_id']}
 		ORDER BY position, id");
-
+	
 	$ds_total = mysql_num_rows($ds_results);
-
-        $custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&graph_id={$_REQUEST['graph_id']}&edit_monitor=1&position=" . ($ds_total + 1);
-
-	?><img align="center" src="get_graph.php?type=custom&id=<?php echo $_REQUEST["graph_id"]; ?>"><br><?php
-	make_display_table("Graph Items","Label","","Type", "", "","");
+	
+?>
+	<img align="center" src="get_graph.php?type=custom&id=<?php echo $_REQUEST["graph_id"]; ?>"><br>
+<?php
+	make_display_table("Graph Items", "{$_SERVER['PHP_SELF']}?action=add&graph_id={$_REQUEST['graph_id']}&edit_monitor=1&position=" . ($ds_total + 1),
+		array("text" => "Label"),
+		array("text" => "Type"),
+		array()
+	); // end make_display_table();
 
 	for ($ds_count = 0; $ds_count < $ds_total; $ds_count++)
 	{
@@ -161,12 +165,14 @@ if (empty($_REQUEST["action"]))
 			$move_down = formatted_link("Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&graph_id={$_REQUEST['graph_id']}&id=$ds_count");
 		}
 
-		make_display_item($ds_row["label"], "",
-			color_block($ds_row["color"]) . "&nbsp;&nbsp;" . $RRDTOOL_ITEM_TYPES[$ds_row["type"]], "",
-			formatted_link("View", "enclose_graph.php?type=custom_ds&id=" . $ds_row["id"]) . "&nbsp;" .
-			$move_up . "&nbsp;" . $move_down, "",
-			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id=$id&graph_id={$_REQUEST['graph_id']}") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('" . $ds_row["label"] . "', '" . $ds_row["id"] . "')"), "");
+		make_display_item("editfield".($ds_count%2),
+			array("text" => $ds_row["label"]),
+			array("text" => color_block($ds_row["color"]) . "&nbsp;&nbsp;" . $RRDTOOL_ITEM_TYPES[$ds_row["type"]]),
+			array("text" => formatted_link("View", "enclose_graph.php?type=custom_ds&id=" . $ds_row["id"]) . "&nbsp;" .
+				$move_up . "&nbsp;" . $move_down),
+			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id=$id&graph_id={$_REQUEST['graph_id']}") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('" . $ds_row["label"] . "', '" . $ds_row["id"] . "')"))
+		); // end make_display_item();
 
 
 	} // end for

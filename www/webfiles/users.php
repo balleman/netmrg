@@ -69,7 +69,11 @@ if (!empty($action) && $action == "dodelete")
 // Display a list
 
 begin_page("users.php", "User Management");
-make_display_table("Users","User ID","","Name", "", "Permissions","");
+make_display_table("Users", "", 
+	array("text" => "User ID"),
+	array("text" => "Name"),
+	array("text" => "Permissions")
+); // end make_display_table();
 
 $user_results = do_query("SELECT * FROM user ORDER BY user.user");
 
@@ -83,11 +87,13 @@ for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 	$user_row = mysql_fetch_array($user_results);
 	$user_id  = $user_row["id"];
 
-	make_display_item($user_row["user"],"",
-		$user_row["fullname"], "",
-		$GLOBALS['PERMIT_TYPES'][$user_row['permit']],"",
-		formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&user_id=$user_id") . "&nbsp;" .
-		formatted_link("Delete", "javascript:del('{$user_row['user']}', '{$user_row['id']}')"), "");
+	make_display_item("editfield".(($user_count-1)%2),
+		array("text" => $user_row["user"]),
+		array("text" => $user_row["fullname"]),
+		array("text" => $GLOBALS['PERMIT_TYPES'][$user_row['permit']]),
+		array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&user_id=$user_id") . "&nbsp;" .
+			formatted_link("Delete", "javascript:del('{$user_row['user']}', '{$user_row['id']}')"))
+	); // end make_display_item();
 
 } // end users
 

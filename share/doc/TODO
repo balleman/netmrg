@@ -23,8 +23,6 @@ snmp_cache_view.php:
 view page should reflect status information
 monitors.php:
   add javascript check so you can't enter a minimum < maximum
-format.php
-  no more $custom_add_link!
 ability for user to change their own password
 a device's type can affect the list of tests that can be performed on it
 when looking at a device's graphs, you should be able to click next to it
@@ -37,7 +35,7 @@ checkboxes on most pages - provide for massive deletes, duplications, etc
 public website
   - flesh out content
 CSS-ificiation
-  - alternating colors for items
+  - alternating colors for items (make_edit*)
 make netmrg xhtml compliant
 make icons for links on various pages
   - make svg images for most actions

@@ -20,13 +20,21 @@ if (empty($_REQUEST["action"]))
 
 	$results = do_query("SELECT name, value FROM sub_dev_variables WHERE sub_dev_id={$_REQUEST['sub_dev_id']}");
 
-	$custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}";
-	make_display_table("Parameters for " . get_sub_device_name($_REQUEST["sub_dev_id"]), "Name", "", "Value", "");
+	make_display_table("Parameters for " . get_sub_device_name($_REQUEST["sub_dev_id"]), 
+		"{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}",
+		array("text" => "Name"),
+		array("text" => "Value")
+	); // end make_display_table();
 
 	for ($i = 0; $i < mysql_num_rows($results); $i++)
 	{
 		$row = mysql_fetch_array($results);
-		make_display_item($row["name"], "", $row["value"], "", formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&sub_dev_id={$_REQUEST['sub_dev_id']}&name=" . $row["name"]) . "&nbsp;" . formatted_link("Delete", ""), "");
+		make_display_item("editfield".($i%2),
+			array("text" => $row["name"]),
+			array("text" => $row["value"]),
+			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&sub_dev_id={$_REQUEST['sub_dev_id']}&name=" . $row["name"]) . "&nbsp;" . 
+				formatted_link("Delete", ""), "")
+		); // end make_display_item();
 	}
 
 	?></table><?php

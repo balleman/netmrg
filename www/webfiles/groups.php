@@ -43,9 +43,10 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 	// Display a list
 	begin_page("groups.php", "Groups");
 	js_confirm_dialog("del", "Are you sure you want to delete group ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&grp_id=");
-	make_display_table("Device Groups",
-	   "Name", "{$_SERVER['PHP_SELF']}?orderby=name",
-	   "Comment", "{$_SERVER['PHP_SELF']}?orderby=comment");
+	make_display_table("Device Groups", "", 
+		array("text" => "Name", "href" => "{$_SERVER['PHP_SELF']}?orderby=name"),
+		array("text" => "Comment", "href" => "{$_SERVER['PHP_SELF']}?orderby=comment")
+	); // end make_display_table();
 
 	if (!isset($_REQUEST["orderby"]))
 	{ 
@@ -85,11 +86,13 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 			$group_link = "devices.php?grp_id=$grp_id";
 		} // end if we have children
 
-		make_display_item($grp_row["name"], $group_link,
-			$grp_row["comment"],"",
-			formatted_link("View", "view.php?object_type=group&object_id={$grp_row['id']}") . "&nbsp;" .
-			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&grp_id=$grp_id") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('" . $grp_row["name"] . "', '" . $grp_row["id"] . "')"), "");
+		make_display_item("editfield".(($grp_count-1)%2),
+			array("text" => $grp_row["name"], "href" => $group_link),
+			array("text" => $grp_row["comment"]),
+			array("text" => formatted_link("View", "view.php?object_type=group&object_id={$grp_row['id']}") . "&nbsp;" .
+				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&grp_id=$grp_id") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('" . $grp_row["name"] . "', '" . $grp_row["id"] . "')"))
+		); // end make_display_item();
 	} // end foreach group
 
 ?>

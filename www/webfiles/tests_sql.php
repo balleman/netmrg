@@ -57,7 +57,12 @@ if ($action == "dodelete")
 
 // Display a list
 
-make_display_table("SQL Tests", "Name", "", "Host", "", "User", "", "Query", "");
+make_display_table("SQL Tests", "", 
+	array("text" => "Name"),
+	array("text" => "Host"),
+	array("text" => "User"),
+	array("text" => "Query")
+); // end make_display_table();
 
 $test_results = do_query("SELECT * FROM tests_sql ORDER BY name");
 $test_total = mysql_num_rows($test_results);
@@ -67,12 +72,14 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 {
 	$test_row = mysql_fetch_array($test_results);
 
-	make_display_item($test_row["name"], "",
-		$test_row["host"], "",
-		$test_row["user"], "",
-		$test_row["query"], "",
-		formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&test_id=" . $test_row["id"]) . "&nbsp;" .
-		formatted_link("Delete", "javascript:del('" . $test_row["name"] . "', '" . $test_row["id"] . "')"), "");
+	make_display_item("editfield".(($test_count-1)%2),
+		array("text" => $test_row["name"]),
+		array("text" => $test_row["host"]),
+		array("text" => $test_row["user"]),
+		array("text" => $test_row["query"]),
+		array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&test_id=" . $test_row["id"]) . "&nbsp;" .
+			formatted_link("Delete", "javascript:del('" . $test_row["name"] . "', '" . $test_row["id"] . "')"))
+	); // end make_display_item();
 } // end tests
 
 ?>
