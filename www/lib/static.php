@@ -10,6 +10,41 @@
 
 
 /***** CONSTANTS *****/
+$GLOBALS["netmrg"]["verhist"] = array(
+	"0.10pre1" => 1
+); // end verhist
+
+$MENU = array(
+	"Monitoring" => array(
+		array("name" => "Groups", "link" => "groups.php", "descr" => "", "authLevelRequired" => 1),
+		array("name" => "Device Types", "link" => "dev_types.php", "descr" => "", "authLevelRequired" => 2),
+		array("name" => "Notifications", "link" => "notifications.php", "descr" => "", "authLevelRequired" => 2)
+	),
+	"Reporting" => array(
+		array("name" => "Device Tree", "link" => "device_tree.php", "descr" => "", "authLevelRequired" => 0),
+		array("name" => "Event Log", "link" => "event_log.php", "descr" => "Display a list of the most recent events.", "authLevelRequired" => 1),
+		array("name" => "Slide Show", "link" => "view.php?action=slideshow", "descr" => "Displays all devices, one page at a time.", "authLevelRequired" => 1)
+	),
+	"Graphing" => array(
+		array("name" => "Custom Graphs", "link" => "graphs.php?type=custom", "descr" => "", "authLevelRequired" => 1),
+		array("name" => "Template Graphs", "link" => "graphs.php?type=template", "descr" => "", "authLevelRequired" => 1)
+	),
+	"Tests" => array(
+		array("name" => "Scripts", "link" => "tests_script.php", "descr" => "External Programs", "authLevelRequired" => 2),
+		array("name" => "SNMP", "link" => "tests_snmp.php", "descr" => "SNMP Queries", "authLevelRequired" => 2),
+		array("name" => "SQL", "link" => "tests_sql.php", "descr" => "Database Queries", "authLevelRequired" => 2)
+	),
+	"Admin" => array(
+		array("name" => "Users", "link" => "users.php", "descr" => "User Management", "authLevelRequired" => 3),
+		array("name" => "Prefs", "link" => "user_prefs.php", "descr" => "Personal Preferences", "authLevelRequired" => 0),
+		array("name" => "Logout", "link" => "logout.php", "descr" => "End your NetMRG Session.", "authLevelRequired" => 0)
+	),
+	"Help" => array(
+		array("name" => "About", "link" => "about.php", "descr" => "", "authLevelRequired" => 0)
+	)
+); // end $MENU
+
+
 $ALIGN_ARRAY = array(
 			1	=>	"Left",
 			2	=>	"Right",
@@ -110,37 +145,6 @@ $INTERFACE_TYPE = array(
 			117	=>	"Gigabit Ethernet",
 			134	=>	"ATM Subinterface"
 			);
-
-
-$MENU = array(
-	"Monitoring" => array(
-		array("name" => "Groups", "link" => "groups.php", "descr" => "", "authLevelRequired" => 1),
-		array("name" => "Device Types", "link" => "dev_types.php", "descr" => "", "authLevelRequired" => 2),
-		array("name" => "Notifications", "link" => "notifications.php", "descr" => "", "authLevelRequired" => 2)
-	),
-	"Reporting" => array(
-		array("name" => "Device Tree", "link" => "device_tree.php", "descr" => "", "authLevelRequired" => 0),
-		array("name" => "Event Log", "link" => "event_log.php", "descr" => "Display a list of the most recent events.", "authLevelRequired" => 1),
-		array("name" => "Slide Show", "link" => "view.php?action=slideshow", "descr" => "Displays all devices, one page at a time.", "authLevelRequired" => 1)
-	),
-	"Graphing" => array(
-		array("name" => "Custom Graphs", "link" => "graphs.php?type=custom", "descr" => "", "authLevelRequired" => 1),
-		array("name" => "Template Graphs", "link" => "graphs.php?type=template", "descr" => "", "authLevelRequired" => 1)
-	),
-	"Tests" => array(
-		array("name" => "Scripts", "link" => "tests_script.php", "descr" => "External Programs", "authLevelRequired" => 2),
-		array("name" => "SNMP", "link" => "tests_snmp.php", "descr" => "SNMP Queries", "authLevelRequired" => 2),
-		array("name" => "SQL", "link" => "tests_sql.php", "descr" => "Database Queries", "authLevelRequired" => 2)
-	),
-	"Admin" => array(
-		array("name" => "Users", "link" => "users.php", "descr" => "User Management", "authLevelRequired" => 3),
-		array("name" => "Prefs", "link" => "user_prefs.php", "descr" => "Personal Preferences", "authLevelRequired" => 0),
-		array("name" => "Logout", "link" => "logout.php", "descr" => "End your NetMRG Session.", "authLevelRequired" => 0)
-	),
-	"Help" => array(
-		array("name" => "About", "link" => "about.php", "descr" => "", "authLevelRequired" => 0)
-	)
-); // end $MENU
 
 
 // Return the path to an image based on the internal name of the image.

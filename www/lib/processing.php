@@ -739,7 +739,7 @@ function GetDBVersion()
 */
 function UpdaterNeedsRun()
 {
-	return ($GLOBALS["netmrg"]["version"] != GetDBVersion());
+	return ($GLOBALS["netmrg"]["verhist"][$GLOBALS["netmrg"]["version"]] > $GLOBALS["netmrg"]["verhist"][GetDBVersion()]);
 } // end UpdaterNeedsRun();
 
 
