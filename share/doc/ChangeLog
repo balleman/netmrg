@@ -1,3 +1,6 @@
+2003.11.26  v0.10  balleman
+  - bug#0000120 - gatherer should check db version
+
 2003.11.24  v0.10  silfreed
   - bug#0000115 - add checkbox support to disks on snmp_cache_view.php
   - bug#0000088 - added slide show pref to user_prefs.php, use pref in view.php,

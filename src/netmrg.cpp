@@ -81,23 +81,10 @@ void remove_lockfile()
 // set things up, and spawn the threads for data gathering
 void run_netmrg()
 {
-
-	MYSQL			mysql;
-	MYSQL_RES		*mysql_res;
-	MYSQL_ROW		mysql_row;
-	time_t			start_time;
-	FILE			*lockfile;
-	FILE			*runtime;
-	long int		num_rows	= 0;
-	pthread_t*		threads		= NULL;
-	int*			ids			= NULL;
-	string			temp_string;
-
-	start_time = time( NULL );
-	
 	setlinebuf(stdout);
 
 	debuglogger(DEBUG_GLOBAL, LEVEL_NOTICE, NULL, "NetMRG starting.");
+	time_t start_time = time(NULL);
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Start time is " + inttostr(start_time));
 
 	if (file_exists(get_setting(setPathLockFile)))
@@ -107,6 +94,7 @@ void run_netmrg()
 	}
 
 	// create lockfile
+	FILE *lockfile;
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Creating Lockfile.");
 	if ((lockfile = fopen(get_setting(setPathLockFile).c_str(),"w+")) != NULL)
 	{
@@ -129,23 +117,37 @@ void run_netmrg()
 	atexit(rrd_cleanup);
 
 	// open mysql connection for initial queries
+	MYSQL			mysql;
+	MYSQL_RES		*mysql_res;
+	MYSQL_ROW		mysql_row;
 	if (!db_connect(&mysql))
 	{
 		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Critical: Master database connection failed.");
 		exit(3);
 	}
 
+	// verify the database version matches the gatherer version
+	mysql_res = db_query(&mysql, NULL, "SELECT version FROM versioninfo WHERE module = 'Main'");
+	mysql_row = mysql_fetch_row(mysql_res);
+	if (mysql_row[0] != NETMRG_VERSION)
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, string("Critical: Database version (") + mysql_row[0] + ") and gatherer version (" + NETMRG_VERSION + ") do not match.");
+		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Log into the web interface to perform the database upgrade.");
+		exit(4);
+	}
+	mysql_free_result(mysql_res);
+	
 	// request list of devices to process
 	mysql_res = db_query(&mysql, NULL, "SELECT id FROM devices WHERE disabled=0 ORDER BY id");
 
-	num_rows	= mysql_num_rows(mysql_res);
-	threads		= new pthread_t[num_rows];
-	ids			= new int[num_rows];
+	long int num_rows	=	mysql_num_rows(mysql_res);
+	pthread_t* threads	=   new pthread_t[num_rows];
+	int* ids			=	new int[num_rows];
 
 	// reading settings isn't necessarily efficient.  storing them locally.
 	int			THREAD_COUNT = get_setting_int(setThreadCount);
 	long int	THREAD_SLEEP = get_setting_int(setThreadSleep);
-	
+
 	int dev_counter = 0;
 
 	// deploy more threads as needed
@@ -171,7 +173,7 @@ void run_netmrg()
 				dev_counter++;
 				active_threads++;
 			}
-			
+
 			mutex_unlock(lkActiveThreads);
 		}
 		else
@@ -217,6 +219,7 @@ void run_netmrg()
 	// determine runtime and store it
 	long int run_time = time( NULL ) - start_time;
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Runtime: " + inttostr(run_time));
+	FILE *runtime;
 	if (runtime = fopen(get_setting(setPathRuntimeFile).c_str(),"w+"))
 	{
 		fprintf(runtime, "%ld", run_time);

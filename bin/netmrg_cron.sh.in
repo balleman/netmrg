@@ -39,6 +39,10 @@ elif [ $exitval == 3 ] ; then
 	echo "NetMRG failed to establish a database connection" | mail -s "NetMRG database connect failed at $curdate" $mailto
 	mv -f $output $output.$curdate
 	mv -f $error $error.$curdate
+elif [ $exitval == 4 ] ; then
+	echo "NetMRG database version mismatch.  Please run updater." | mail -s "NetMRG database version mismatch at $curdate" $mailto
+	mv -f $output $output.$curdate
+	mv -f $error $error.$curdate
 elif [ $exitval == 254 ] ; then
 	echo "NetMRG lockfile present at start. Perhaps another copy is running" | mail -s "NetMRG lockfile is present at $curdate" $mailto
 	mv -f $output $output.$curdate
