@@ -113,12 +113,22 @@ if (!empty($_REQUEST["action"]))
 			// we're just starting a slideshow, not in the middle of one.
 			$myq = db_query("SELECT object_type, object_id FROM view LEFT JOIN devices ON view.object_id=devices.id
 								WHERE object_type='device' AND devices.disabled=0 GROUP BY object_type, object_id LIMIT 0,1");
-			$myr = db_fetch_array($myq);
-			$_REQUEST["object_type"] = $myr["object_type"];
-			$_REQUEST["object_id"] = $myr["object_id"];
-			$_REQUEST["slide"] = 0;
-			header("Location: {$_SERVER['PHP_SELF']}?action=slideshow&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&slide={$_REQUEST['slide']}");
-			exit(0);
+			if (db_num_rows($myq) > 0)
+			{
+				$myr = db_fetch_array($myq);
+				$_REQUEST["object_type"] = $myr["object_type"];
+				$_REQUEST["object_id"] = $myr["object_id"];
+				$_REQUEST["slide"] = 0;
+				header("Location: {$_SERVER['PHP_SELF']}?action=slideshow&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&slide={$_REQUEST['slide']}");
+				exit(0);
+			}
+			else
+			{
+				begin_page("view.php", "Slide Show", 1);
+				echo("No active devices with views to display.");
+				end_page();
+				exit(0);
+			}
 		}
 		$slideshow = true;
 		unset($_REQUEST['action']);
