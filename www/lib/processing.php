@@ -343,7 +343,7 @@ function delete_group($group_id)
 
 function delete_device($device_id)
 {
-	
+
         // delete the device
 	do_update("DELETE FROM mon_devices WHERE id=$device_id");
 
@@ -356,18 +356,40 @@ function delete_device($device_id)
 	// remove associated graphs
 	do_update("DELETE FROM view WHERE pos_id_type=1 AND pos_id=$device_id");
 
+	// remove group associations
+	do_update("DELETE FROM dev_parents WHERE dev_id=$device_id");
 
-	$monitors_handle = do_query("SELECT id FROM mon_monitors WHERE device_id=$device_id");
 
-	for ($i = 0; $i < mysql_num_rows($monitors_handle); $i++) {
-	        $monitor_row = mysql_fetch_array($monitors_handle);
-	        delete_monitor($monitor_row["id"]);
+	$subdev_handle = do_query("SELECT id FROM sub_devices WHERE dev_id=$device_id");
+
+	for ($i = 0; $i < mysql_num_rows($subdev_handle); $i++)
+	{
+	        $subdev_row = mysql_fetch_array($subdev_handle);
+	        delete_subdevice($subdev_row["id"]);
 	}
+}
+
+function delete_subdevice($subdev_id)
+{
+	// delete the subdevice
+	do_update("DELETE FROM sub_devices WHERE id=$subdev_id");
+
+	// delete the subdevice parameters
+	do_update("DELETE FROM sub_dev_variables WHERE sub_dev_id=$subdev_id");
+
+	$monitors_handle = do_query("SELECT id FROM monitors WHERE sub_dev_id=$subdev_id");
+
+	for ($i = 0; $i < mysql_num_rows($monitors_handle); $i++)
+	{
+		$monitor_row = mysql_fetch_array($monitors_handle);
+		delete_monitor($monitor_row["id"]);
+	}
+
 }
 
 function delete_monitor($monitor_id)
 {
-	do_update("DELETE FROM mon_monitors WHERE id=$monitor_id");
+	do_update("DELETE FROM monitors WHERE id=$monitor_id");
 
 	$events_handle = do_query("SELECT id FROM mon_events WHERE monitors_id=$monitor_id");
 	for ($i = 0; $i < mysql_num_rows($events_handle); $i++)

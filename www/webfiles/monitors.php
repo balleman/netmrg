@@ -129,10 +129,12 @@ function do_list()
 		 </table>
 		 ";
 
-		make_display_item(get_short_monitor_name($mon_row["id"]), "",
+		$short_name = get_short_monitor_name($mon_row["id"]);
+
+		make_display_item($short_name, "",
 			$data, "", $graph, "",
 			formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&mon_id=$mon_id&sub_dev_id={$_REQUEST['sub_dev_id']}") . "&nbsp;" .
-			formatted_link("Delete","javascript:del('', '$mon_id')"), "");
+			formatted_link("Delete","javascript:del('$short_name', '$mon_id')"), "");
 
 	} // end for each monitor
 

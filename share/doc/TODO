@@ -14,10 +14,7 @@ deleting a device doesn't delete the dev_parents entries
 ability to go 'up' a level when browsing 'Groups' et al
 snmp_cache_view.php:
   "Make Graph" needs overhauled
-sub_devices.php: 
-  can't delete sub devices
 monitors.php:
-  deleting a monitor doesn't work
   add javascript check so you can't enter a minimum < maximum
 custom_graphs.php:
   "show summed" support
