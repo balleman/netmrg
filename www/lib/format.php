@@ -328,6 +328,7 @@ function make_display_table($title, $addlink = "")
 *                        arbitrary number of array items, and they can be empty
 *                        'checkboxname' : name of checkboxes
 *                        'checkboxid' : id to use in checkbox
+*                        'checkdisabled' : true if checkbox is disabled
 */
 function make_display_item($style = "editfield0")
 {
@@ -482,10 +483,21 @@ function make_edit_label($contents)
         // Creates a table row and cell, allowing arbitrary contents to be inserted
 
         ?>
-	<tr><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>">
+	<tr><td class="editfield0">
 	<?php print ($contents); ?>
 	</td></tr>
 	<?php
+}
+
+
+// Creates a table row and cell, allowing arbitrary contents to be inserted
+function make_edit_section($contents)
+{
+?>
+	<tr><td class="editsection">
+	<?php print ($contents); ?>
+	</td></tr>
+<?php
 }
 
 
@@ -521,7 +533,7 @@ function make_edit_select_end()
 * $select_options = things like javascript that apply to this select box
 * $begin_array_list = array of key=>value pairs to include at the beginning of the option list
 * $end_array_list = array of key=>value pairs to include at the end of the option list
-* $where = where clause for query 
+* $where = where clause for query
 */
 function make_edit_select_from_table($header, $name, $table_name, $selected, $select_options = "", $begin_array_list = array(), $end_array_list = array(), $where = "1")
 {
@@ -682,7 +694,7 @@ function make_edit_submit_button()
 
 } // end make_edit_submit_button
 
-function make_edit_checkbox($header, $name, $checked)
+function make_edit_checkbox($header, $name, $checked=false)
 {
 	// Creates a form checkbox
 	?><tr><td class="editfield0"><?php

@@ -306,7 +306,7 @@ function get_group_status($grp_id)
 	{
 		$status = $grp_status;
 	}
-	
+
 	return $status;
 
 } // end get_group_status()
@@ -751,11 +751,11 @@ function update_group($id, $grp_name, $grp_comment, $parent_id)
 */
 function GetUserPref($module, $pref)
 {
-	$sql = "SELECT user_pref.value
-		FROM user, user_pref
-		WHERE user.username = '{$_SESSION['netmrgsess']['username']}'
-		AND user.id = user_pref.id
-		AND module = '$module' AND pref = '$pref'";
+	$sql = "SELECT user_prefs.value
+		FROM user, user_prefs
+		WHERE user.user = '{$_SESSION['netmrgsess']['username']}'
+		AND user.id = user_prefs.id
+		AND user_prefs.module = '$module' AND user_prefs.pref = '$pref'";
 	$handle = db_query($sql);
 	if (db_num_rows($handle) > 0)
 	{
@@ -764,6 +764,33 @@ function GetUserPref($module, $pref)
 	} // end if a result
 	return "";
 } // end GetUserPref();
+
+
+/**
+* SetUserPref($module, $pref, $value)
+*
+* sets the $value for the $module and $pref
+*/
+function SetUserPref($module, $pref, $value)
+{
+	$sql = "SELECT user_prefs.id
+		FROM user, user_prefs
+		WHERE user.user = '{$_SESSION['netmrgsess']['username']}'
+		AND user.id = user_prefs.id
+		AND user_prefs.module = '$module' AND user_prefs.pref = '$pref'";
+	$handle = db_query($sql);
+	if (db_num_rows($handle) > 0)
+	{
+		$row = db_fetch_array($handle);
+		$update_query = "UPDATE user_prefs SET value = '$value' WHERE id = '{$row['id']}'";
+	} // end if a result
+	else
+	{
+		$update_query = "INSERT INTO user_prefs
+			SET module = '$module', pref = '$pref', value = '$value'";
+	} // end no result
+	db_query($update_query);
+} // end SetUserPref();
 
 
 /**

@@ -67,8 +67,13 @@ function edit($uid)
 	make_edit_hidden("uid", $uid);
 
 	// edit password
+	make_edit_section('Password');
 	make_edit_password("Password:", "password", "25", "50", "");
 	make_edit_password("Verify Password:", "vpassword", "25", "50", "");
+
+	// slide show
+	make_edit_section('Slide Show');
+	make_edit_checkbox("Auto Scroll", "ss_auto_scroll", GetUserPref("SlideShow", "AutoScroll"));
 
 	make_edit_submit_button();
 	make_edit_end();
@@ -116,6 +121,10 @@ function update($uid)
 			WHERE id = '$uid'");
 		array_push($results, "Password updated successfully.");
 	} // end if ! password
+
+	// update slide show auto scroll
+	SetUserPref("SlideShow", "AutoScroll", !empty($_REQUEST["ss_auto_scroll"]));
+	array_push($results, "Slide Show Auto Scroll was set to ".(!empty($_REQUEST["ss_auto_scroll"]) ? "true" : "false"));
 
 	// print results
 	if (count($results) == 0)

@@ -198,7 +198,9 @@ if (!empty($_REQUEST["action"]))
 
 } // end if an action was defined
 
-if ($slideshow)
+if ($slideshow
+	&& GetUserPref("SlideShow", "AutoScroll") !== ""
+	&& GetUserPref("SlideShow", "AutoScroll"))
 {
 	begin_page("view.php", "View", 1, "onLoad=start() onClick=toggle()");
 }

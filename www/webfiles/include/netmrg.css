@@ -37,7 +37,7 @@ TABLE.full, TR.full, TD.full
 	width: 100%;
 }
 
-TD.menu 
+TD.menu
 {
 	font-family: sans-serif;
 	font-size: 12px;
@@ -197,6 +197,17 @@ A:hover.menuitem, A:active.menuitem
 {
 	background-color : #000088;
 	color : #E0E0E0;
+	font-family : sans-serif;
+	font-size : 12px;
+	font-weight : bold;
+	padding : 1px;
+	border : 2px solid white;
+}
+
+.editsection
+{
+	background-color : #DADADA;
+	color : #404040;
 	font-family : sans-serif;
 	font-size : 12px;
 	font-weight : bold;
