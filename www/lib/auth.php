@@ -278,15 +278,15 @@ function ResetAuth()
 
 
 /**
-* get_permit()
+* get_permit($user)
 *
-* gets the logged in user's permission level
+* gets the user's permission level
 */
-function get_permit()
+function get_permit($user)
 {
 	if (IsLoggedIn())
 	{
-		$sql = "SELECT permit FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."'";
+		$sql = "SELECT permit FROM user WHERE user='".$user."'";
 		$handle = db_query($sql);
 		$row = db_fetch_array($handle);
 		return $row["permit"];
