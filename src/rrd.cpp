@@ -55,7 +55,7 @@ void rrd_cmd(DeviceInfo info, string cmd)
 
 string get_rrd_file(string mon_id)
 {
-	string filename = string(NETMRG_ROOT) + "/var/lib/rrd/mon_" + mon_id + ".rrd";
+	string filename = string(PREFIX) + "/var/lib/netmrg/rrd/mon_" + mon_id + ".rrd";
 	return filename;
 }
 
