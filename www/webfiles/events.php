@@ -113,9 +113,9 @@ function do_edit()
 {
 	check_auth(2);
 
-        if ($_REQUEST['id'] == 0)
+	if ($_REQUEST['id'] == 0)
 	{
-                $pre  = "INSERT INTO";
+		$pre  = "INSERT INTO";
 		$post = ", mon_id={$_REQUEST['mon_id']}";
 	}
 	else
@@ -124,17 +124,15 @@ function do_edit()
 		$post = "WHERE id = {$_REQUEST['id']}";
 	}
 
-        db_update("$pre events SET name = '{$_REQUEST['name']}', trigger_type={$_REQUEST['trigger_type']}, situation={$_REQUEST['situation']} $post");
-
-        header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}");
+	$_REQUEST['name'] = db_escape_string($_REQUEST['name']);	
+	db_update("$pre events SET name = '{$_REQUEST['name']}', trigger_type={$_REQUEST['trigger_type']}, situation={$_REQUEST['situation']} $post");
+	header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}");
 }
 
 function do_delete()
 {
 	check_auth(2);
-
-        delete_event($_REQUEST['id']);
-
+	delete_event($_REQUEST['id']);
 	header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}");
 }
 ?>

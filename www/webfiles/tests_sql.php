@@ -40,6 +40,13 @@ if ($action == "doedit")
 		$db_cmd = "UPDATE";
 		$db_end = "WHERE id={$_REQUEST['test_id']}";
 	}
+	
+	$_REQUEST['test_name'] = db_escape_string($_REQUEST['test_name']);
+	$_REQUEST['host'] = db_escape_string($_REQUEST['host']);
+	$_REQUEST['sql_user'] = db_escape_string($_REQUEST['sql_user']);
+	$_REQUEST['sql_password'] = db_escape_string($_REQUEST['sql_password']);
+	$_REQUEST['query'] = db_escape_string($_REQUEST['query']);
+	$_REQUEST['column_num'] = $_REQUEST['column_num'] * 1;
 
 	db_update("$db_cmd tests_sql SET name='{$_REQUEST['test_name']}', 
 		sub_dev_type={$_REQUEST['dev_type']}, host='{$_REQUEST['host']}', 

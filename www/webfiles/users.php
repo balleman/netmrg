@@ -42,6 +42,7 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 
 	if (!empty($_REQUEST["pass"]))
 	{
+		$_REQUEST['pass'] = db_escape_string($_REQUEST['pass']);
 		$pass_cmd = "pass = ENCRYPT('{$_REQUEST['pass']}',md5('{$_REQUEST['pass']}')), ";
 	}
 	else
@@ -49,6 +50,9 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 		$pass_cmd = "";
 	}
 
+	$_REQUEST['user'] = db_escape_string($_REQUEST['user']);
+	$_REQUEST['fullname'] = db_escape_string($_REQUEST['fullname']);
+	
 	db_update("$db_cmd user SET user='{$_REQUEST['user']}',
 		fullname='{$_REQUEST['fullname']}', $pass_cmd
 		permit='{$_REQUEST['permit']}', group_id='{$_REQUEST['group_id']}' $db_end");

@@ -1,5 +1,6 @@
 2003.05.08  v0.8  balleman
   - abstract all mysql_* calls to db_* calls
+  - db_escape_string deployed where seemingly useful
 
 2003.05.06  v0.8  balleman
   - "Make Graph" functionality restored for interfaces

@@ -55,6 +55,9 @@ elseif ($_REQUEST["action"] == "doedit")
 		$db_end = "WHERE name=\"{$_REQUEST['oldname']}\" AND sub_dev_id={$_REQUEST['sub_dev_id']}";
 	}
 
+	$_REQUEST['name'] = db_escape_string($_REQUEST['name']);
+	$_REQUEST['value'] = db_escape_string($_REQUEST['value']);
+	
 	db_update("$db_cmd sub_dev_variables SET
                         name=\"{$_REQUEST['name']}\",
 			value=\"{$_REQUEST['value']}\",

@@ -455,6 +455,8 @@ function generic_update($sql, $id)
 
 function sql_group($grp_name, $grp_comment, $parent_id)
 {
+	$grp_name = db_escape_string($grp_name);
+	$grp_comment = db_escape_string($grp_comment);
 	return "groups SET name=\"$grp_name\", comment=\"$grp_comment\", parent_id=$parent_id";
 }
 
@@ -468,26 +470,6 @@ function create_group($grp_name, $grp_comment, $parent_id)
 function update_group($id, $grp_name, $grp_comment, $parent_id)
 {
 	generic_update(sql_group($grp_name, $grp_comment, $parent_id), $id);
-}
-
-
-// Graph Items
-
-function sql_graph_item($src_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier, $position)
-{
-	return "graph_ds SET src_id=$src_id, color=\"$color\", type=$type, label=\"$label\", align=$align, graph_id=$graph_id, show_stats=$show_stats, show_indicator=$show_indicator, hrule_value=\"$hrule_value\", hrule_color=\"$hrule_color\", hrule_label=\"$hrule_label\", show_inverted=$show_inverted, alt_graph_id=$alt_graph_id, use_alt=$use_alt, multiplier=$multiplier, position=$position";
-}
-
-
-function create_graph_item($src_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier, $position)
-{
-	generic_insert(sql_graph_item($src_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier, $position));
-}
-
-
-function update_graph_item($id, $src_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier, $position)
-{
-	generic_update(sql_graph_item($src_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier, $position), $id);
 }
 
 ?>

@@ -34,6 +34,9 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 			if (!isset($_REQUEST["disabled"])) { $_REQUEST["disabled"] = 0; }
 			if (!isset($_REQUEST["snmp_check_ifnumber"])) { $_REQUEST["snmp_check_ifnumber"] = 0; }
 	        if (!isset($_REQUEST["snmp_enabled"])) { $_REQUEST["snmp_enabled"] = 0; }
+			$_REQUEST['dev_name'] = db_escape_string($_REQUEST['dev_name']);
+			$_REQUEST['dev_ip'] = db_escape_string($_REQUEST['dev_ip']);
+			$_REQUEST['snmp_read_community'] = db_escape_string($_REQUEST['snmp_read_community']);
 			db_update("$db_cmd devices SET 
 				name='{$_REQUEST['dev_name']}',
 				ip='{$_REQUEST['dev_ip']}',

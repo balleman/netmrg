@@ -59,6 +59,8 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
 		$db_cmd = "UPDATE";
 		$db_end = "WHERE id={$_REQUEST['sub_dev_id']}";
 	}
+	
+	$_REQUEST['name'] = db_escape_string($_REQUEST['name']);
 
 	db_update("$db_cmd sub_devices SET
 		name='{$_REQUEST['name']}',
