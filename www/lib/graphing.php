@@ -247,9 +247,9 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 
 				if ($graph_row["disp_sum"])
 				{
-					$sum_cmd = $GLOBALS['netmrg']['fileroot'] . "bin/rrdsum.pl " . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . " -" . $sum_time . " now " . $sum_time;
+					$sum_text = $GLOBALS['netmrg']['fileroot'] . "/bin/rrdsum.pl " . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . " -" . $sum_time . " now " . $sum_time;
 					$sum_val = `$sum_cmd`;
-					$sum_text = sprintf("%.0f",$sum_val);
+					$sum_text = sprintf("%.0f", $sum_val);
 					$command .= ' GPRINT:data' . $ds_count . ':AVERAGE:"$sum_label Sum\\:" $sum_text"';
 				}
 		}
@@ -263,7 +263,7 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 
 				if ($graph_row["disp_sum"])
 				{
-					$sum_cmd = $GLOBALS['netmrg']['fileroot'] . "bin/rrdsum.pl " . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . ".rrd -" . $sum_time . " now " . $sum_time;
+					$sum_cmd = $GLOBALS['netmrg']['fileroot'] . "/bin/rrdsum.pl " . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["src_id"] . ".rrd -" . $sum_time . " now " . $sum_time;
 					$sum_val = `$sum_cmd`;
 					$sum_text = sanitize_number($sum_val);
 					$command .="     $sum_label Sum\\: $sum_text";

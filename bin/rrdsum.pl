@@ -45,8 +45,10 @@ foreach $i (@stuff)
 	
 		$sum = $sum + $val;
 
-		$count++;
+		#$count++;
 	}
+	
+	$count++;
 }
 
 $average = $sum / $count;
