@@ -238,7 +238,7 @@ void show_usage()
 	printf("\nMode of Operation:\n");
 	printf("-i <devid>  Recache the interfaces of device <devid>\n");
 	printf("-d <devid>  Recache the disks of device <devid>\n");
-	printf("-K <file>   Parse config file <file> (for syntax checking)\n");
+	printf("-K <file>   Parse config file <file>, or default if omitted (for syntax checking)\n");
 	printf("If no mode is specified, the default is to gather data for all enabled devices.\n");
 
 	printf("\nLogging:\n");
@@ -347,7 +347,7 @@ int main(int argc, char **argv)
 	load_settings_file(DEF_CONFIG_FILE);
 	string temppass;
 
-	while ((option_char = getopt(argc, argv, "hvXqasmi:d:c:l:H:D:u:p::t:C:K:")) != EOF)
+	while ((option_char = getopt(argc, argv, "hvXqasmi:d:c:l:H:D:u:p::t:C:K::")) != EOF)
 		switch (option_char)
 		{
 			case 'h': 	show_usage();
@@ -426,7 +426,12 @@ int main(int argc, char **argv)
 						break;
 			case 'C':	load_settings_file(optarg);
 						break;
-			case 'K':	load_settings_file(optarg);
+			case 'K':	set_debug_level(LEVEL_DEBUG);
+						set_debug_components(DEBUG_GLOBAL);
+						if (optarg != NULL)
+						{
+							load_settings_file(optarg);
+						}
 						print_settings();
 						exit(0);
 						break;

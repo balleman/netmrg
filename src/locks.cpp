@@ -85,3 +85,4 @@ void netmrg_cond_wait(Cond myCond, Lock myLock)
 {
 	pthread_cond_wait(get_cond(myCond), get_lock(myLock));
 }
+

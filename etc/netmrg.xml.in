@@ -4,6 +4,8 @@
 		<user>netmrguser</user>
 		<password>netmrgpass</password>
 		<db>netmrg</db>
+		<socket></socket>
+		<port></port>
 	</database>
 	<paths>
 		<rrdtool>@RRDTOOL@</rrdtool>
@@ -15,7 +17,6 @@
 	</paths>
 	<threads>
 		<count>5</count>
-		<sleep>10000</sleep>
 	</threads>
 	<website>
 		<company>Generic Company</company>

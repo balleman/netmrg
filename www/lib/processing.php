@@ -146,7 +146,6 @@ function rrd_legend_escape($string)
 	return (":\"" . $string . "\"");
 }
 
-
 function get_microtime()
 {
     list($usec, $sec) = explode(" ", microtime());
@@ -1046,11 +1045,13 @@ function GetXMLConfig()
 	$GLOBALS["netmrg"]["dbname"]      = $xmlconfig["NETMRG"][0]["DATABASE"][0]["DB"][0]["VALUE"];
 	$GLOBALS["netmrg"]["dbuser"]      = $xmlconfig["NETMRG"][0]["DATABASE"][0]["USER"][0]["VALUE"];
 	$GLOBALS["netmrg"]["dbpass"]      = $xmlconfig["NETMRG"][0]["DATABASE"][0]["PASSWORD"][0]["VALUE"];
+	$GLOBALS["netmrg"]["dbsock"]      = $xmlconfig["NETMRG"][0]["DATABASE"][0]["SOCKET"][0]["VALUE"];
+	$GLOBALS["netmrg"]["dbport"]      = $xmlconfig["NETMRG"][0]["DATABASE"][0]["PORT"][0]["VALUE"];
 
 	// Path Config
-	$GLOBALS["netmrg"]["rrdtool"]        = $xmlconfig["NETMRG"][0]["PATHS"][0]["RRDTOOL"][0]["VALUE"];
-	$GLOBALS["netmrg"]["rrdroot"]        = $xmlconfig["NETMRG"][0]["PATHS"][0]["RRDS"][0]["VALUE"];
-	$GLOBALS["netmrg"]["fileroot"]       = $xmlconfig["NETMRG"][0]["PATHS"][0]["WEBFILEROOT"][0]["VALUE"];
+	$GLOBALS["netmrg"]["rrdtool"]     = $xmlconfig["NETMRG"][0]["PATHS"][0]["RRDTOOL"][0]["VALUE"];
+	$GLOBALS["netmrg"]["rrdroot"]     = $xmlconfig["NETMRG"][0]["PATHS"][0]["RRDS"][0]["VALUE"];
+	$GLOBALS["netmrg"]["fileroot"]    = $xmlconfig["NETMRG"][0]["PATHS"][0]["WEBFILEROOT"][0]["VALUE"];
 
 } // end GetXMLConfig();
 

@@ -45,21 +45,22 @@ void load_settings_default()
 {
 	// threads
 	set_setting_int(setThreadCount, DEF_THREAD_COUNT);
-	set_setting_int(setThreadSleep, DEF_THREAD_SLEEP);
-	
+
 	// database
 	set_setting(setDBHost, DEF_DB_HOST);
 	set_setting(setDBUser, DEF_DB_USER);
 	set_setting(setDBPass, DEF_DB_PASS);
-	set_setting(setDBDB, DEF_DB_DB);
-	
+	set_setting(setDBDB,   DEF_DB_DB);
+	set_setting(setDBSock, DEF_DB_SOCK);
+	set_setting_int(setDBPort, DEF_DB_PORT);
+
 	// paths
 	set_setting(setPathRRDTOOL, DEF_RRDTOOL);
 	set_setting(setPathLockFile, DEF_LOCKFILE);
 	set_setting(setPathRuntimeFile, DEF_RUNTIME_FILE);
 	set_setting(setPathLibexec, DEF_LIBEXEC);
 	set_setting(setPathRRDs, DEF_RRDS);
-	
+
 	// other
 	set_setting_int(setPollInterval, DEF_POLL_INTERVAL);
 	set_setting_int(setMaxDeviceLogEntries, DEF_MAX_DEV_LOG);
@@ -72,10 +73,11 @@ void print_settings()
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "User: " + get_setting(setDBUser));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Pass: " + get_setting(setDBPass));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "DB:   " + get_setting(setDBDB));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Sock: " + get_setting(setDBSock));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Port: " + get_setting(setDBPort));
 
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "-- Threads --");
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Count: " + get_setting(setThreadCount));
-	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Sleep: " + get_setting(setThreadSleep));
 
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "-- Paths --");
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "RRDTOOL:      " + get_setting(setPathRRDTOOL));
@@ -102,9 +104,9 @@ void parse_config_section(xmlDocPtr doc, xmlNodePtr cur, string section)
 	// parses a section of an already loaded config file
 	xmlChar * value;
 	string val_str;
-	
+
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Parsing config section '" + section + "'");
-	
+
 	cur = cur->xmlChildrenNode;
 	while (cur != NULL)
 	{
@@ -114,43 +116,46 @@ void parse_config_section(xmlDocPtr doc, xmlNodePtr cur, string section)
 		{
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "host"))
 				set_setting(setDBHost, val_str);
-			
+
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "user"))
 				set_setting(setDBUser, val_str);
-				
+
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "password"))
 				set_setting(setDBPass, val_str);
-				
+
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "db"))
 				set_setting(setDBDB, val_str);
+
+			if (!xmlStrcmp(cur->name, (const xmlChar *) "socket"))
+				set_setting(setDBSock, val_str);
+
+			if (!xmlStrcmp(cur->name, (const xmlChar *) "port"))
+				set_setting(setDBPort, val_str);
 		}
 		else
 		if (section == "paths")
 		{
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "rrdtool"))
 				set_setting(setPathRRDTOOL, val_str);
-			
+
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "lockfile"))
 				set_setting(setPathLockFile, val_str);
-				
+
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "runtimefile"))
 				set_setting(setPathRuntimeFile, val_str);
-				
+
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "libexec"))
 				set_setting(setPathLibexec, val_str);
-				
+
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "rrds"))
 				set_setting(setPathRRDs, val_str);
-			
+
 		}
 		else
 		if (section == "threads")
 		{
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "count"))
 				set_setting(setThreadCount, val_str);
-			
-			if (!xmlStrcmp(cur->name, (const xmlChar *) "sleep"))
-				set_setting(setThreadSleep, val_str);
 		}
 		else
 		if (section == "polling")
@@ -176,32 +181,32 @@ void load_settings_file(const string & filename)
 	// parses xml-based config file
 	xmlDocPtr doc;
 	xmlNodePtr cur;
-	
+
 	doc = xmlParseFile(filename.c_str());
 	if (doc == NULL)
 	{
 		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Failed to parse configuration file (" + filename + ")");
 		return;
 	}
-	
+
 	cur = xmlDocGetRootElement(doc);
-	
+
 	if (cur == NULL)
 	{
 		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Empty configuration file (" + filename + ")");
 		xmlFreeDoc(doc);
 		return;
 	}
-	
+
 	if (xmlStrcmp(cur->name, (const xmlChar *) "netmrg"))
 	{
 		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Configuration file of the wrong type.  Root node is not 'netmrg.' (" + filename + ")");
 		xmlFreeDoc(doc);
 		return;
 	}
-	
+
 	cur = cur->xmlChildrenNode;
-	
+
 	// read each section of the config file
 	while (cur != NULL)
 	{
@@ -241,10 +246,10 @@ void load_settings_file(const string & filename)
 		}
 		else
 		debuglogger(DEBUG_GLOBAL, LEVEL_NOTICE, NULL, "Unexpected section '" + xmltostring(cur->name) + "' in configuration file.");
-		
+
 		cur = cur->next;
 	}
-	
+
 	xmlFreeDoc(doc);
 }
 

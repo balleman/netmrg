@@ -31,13 +31,14 @@
 
 // Threading
 #define DEF_THREAD_COUNT    5						// number of simultaneous threads
-#define DEF_THREAD_SLEEP    10000					// number of microseconds between thread count checks
 
 // Database Credentials
 #define DEF_DB_HOST         "localhost"
 #define DEF_DB_USER         "netmrgwrite"
 #define DEF_DB_PASS         "netmrgwrite"
 #define DEF_DB_DB           "netmrg"
+#define DEF_DB_SOCK         ""
+#define DEF_DB_PORT         0
 
 // Other
 #define DEF_POLL_INTERVAL   300

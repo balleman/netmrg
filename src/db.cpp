@@ -20,9 +20,22 @@
 
 int db_connect(MYSQL *connection)
 {
+	const char * socket = NULL;
+	if (get_setting(setDBSock) != "")
+	{
+		socket = get_setting(setDBSock).c_str();
+	}
+
+	int port = 0;
+	if (get_setting_int(setDBPort) > 0)
+	{
+		port = get_setting_int(setDBPort);
+	}
+
 	netmrg_mutex_lock(lkMySQL);
 	mysql_init(connection);
-	if (!(mysql_real_connect(connection, get_setting(setDBHost).c_str(), get_setting(setDBUser).c_str(), get_setting(setDBPass).c_str(), get_setting(setDBDB).c_str(), 0, NULL, 0)))
+
+	if (!(mysql_real_connect(connection, get_setting(setDBHost).c_str(), get_setting(setDBUser).c_str(), get_setting(setDBPass).c_str(), get_setting(setDBDB).c_str(), port, socket, 0)))
 	{
 		netmrg_mutex_unlock(lkMySQL);
 		debuglogger(DEBUG_MYSQL, LEVEL_ERROR, NULL, "MySQL Connection Failure. (" + string(mysql_error(connection)) + ")");

@@ -16,9 +16,23 @@
 */
 function db_connect()
 {
-	$conn = mysql_connect($GLOBALS["netmrg"]["dbhost"], $GLOBALS["netmrg"]["dbuser"], $GLOBALS["netmrg"]["dbpass"]) or 
+	$dbhost = "";
+	if ($GLOBALS["netmrg"]["dbsock"] != "")
+	{
+		$dbhost = $GLOBALS["netmrg"]["dbhost"] . ":" . $GLOBALS["netmrg"]["dbsock"];
+	}
+	elseif ($GLOBALS["netmrg"]["dbport"] > 0)
+	{
+		$dbhost = $GLOBALS["netmrg"]["dbhost"] . ":" . $GLOBALS["netmrg"]["dbport"];
+	}
+	else
+	{
+		$dbhost = $GLOBALS["netmrg"]["dbhost"];
+	}
+
+	$conn = mysql_connect($dbhost, $GLOBALS["netmrg"]["dbuser"], $GLOBALS["netmrg"]["dbpass"]) or
 		die("<b>DB_ERROR:</b>: Cannot connect to the database server.");
-	mysql_select_db($GLOBALS["netmrg"]["dbname"], $conn) or 
+	mysql_select_db($GLOBALS["netmrg"]["dbname"], $conn) or
 		die("<b>DB_ERROR:</b> Cannot connect to the database.");
 	return $conn;
 } // end db_connect();

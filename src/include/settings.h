@@ -13,7 +13,7 @@
 
 using std::string;
 
-const int settings_count = 13;
+const int settings_count = 14;
 
 enum Setting
 {
@@ -21,8 +21,9 @@ enum Setting
 	setDBUser,
 	setDBPass,
 	setDBDB,
+	setDBSock,
+	setDBPort,
 	setThreadCount,
-	setThreadSleep,
 	setPathRRDTOOL,
 	setPathLockFile,
 	setPathRuntimeFile,
