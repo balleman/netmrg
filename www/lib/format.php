@@ -57,9 +57,12 @@ if (!empty($pagename)) {
 ?>
 <table class="titletable" cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
-	<td class="title_name" valign="top" rowspan="2" width="100%">
+	<td class="main" rowspan="2" width="30">
+		<img src="img/netmrg-logo-2003.01.11-xsmall.png" name="NetMRG" alt="NetMRG" width="30" height="30" border="0">
+	</td>
+	<td class="title_name" rowspan="2" width="100%">
 		<a href="<?php echo $GLOBALS["netmrg"]["webhost"].$GLOBALS["netmrg"]["webroot"]; ?>" class="title_name">
-		<?php echo $GLOBALS["netmrg"]["name"]; ?>
+		<? echo $GLOBALS["netmrg"]["name"]; ?>
 		</a>
 	</td>
 	<td class="company" align="right" valign="top">
