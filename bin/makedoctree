@@ -35,13 +35,13 @@ foreach my $ver (@versions)
 
 	# get the version specified
 	# docfile
-	my $doccontents = `$cvs co -p -r $ver $docfile 2> /dev/null`;
+	my $doccontents = `$cvs co -r $ver -p $docfile 2> /dev/null`;
 	open (DOC, ">$curdir/$shortdocfile");
 	print DOC $doccontents;
 	close (DOC);
 
 	#stylesheet
-	my $sscontents = `$cvs co -p -r $ver $stylesheet 2> /dev/null`;
+	my $sscontents = `$cvs co -r $ver -p $stylesheet 2> /dev/null`;
 	open (SS, ">$curdir/$shortssfile");
 	print SS $sscontents;
 	close (SS);
