@@ -1,3 +1,6 @@
+2004.09.01  v0.17cvs  balleman
+  - bug#0000265 - column size for tests_internal.name not large enough
+
 2004.08.31  v0.17cvs  balleman
   - bug#0000263 - internal test for reading a value from a file
 

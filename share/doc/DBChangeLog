@@ -1,4 +1,7 @@
 2004.08.31  v0.17cvs  balleman
+  ALTER TABLE `tests_internal` CHANGE `name` `name` VARCHAR( 200 ) NOT NULL ;
+  ALTER TABLE `tests_script` CHANGE `name` `name` VARCHAR( 200 ) NOT NULL ;
+  ALTER TABLE `tests_sql` CHANGE `name` `name` VARCHAR( 200 ) NOT NULL ;
   INSERT INTO tests_internal VALUES (2,'Lucent TNT "Good" Modems (available modems minus suspect modems)');
   INSERT INTO tests_internal VALUES (3,'UCD CPU Load (user + system)');
   INSERT INTO tests_internal VALUES (4,'Windows Disk Usage (percent)');
