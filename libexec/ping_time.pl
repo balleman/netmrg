@@ -4,7 +4,7 @@
 
 ($ip) = @ARGV;
 
-@result = `ping -n -c 6 -i 0.03 -w 3 $ip 2>/dev/null`;
+@result = `ping -n -c 6 -i 0.2 -w 3 $ip 2>/dev/null`;
 $result = $result[$#result];
 $result =~ s/.*= //;
 $result =~ s/\/.*//;
