@@ -15,7 +15,6 @@
 
 require_once("../include/config.php");
 check_auth(3);
-begin_page("users.php", "User Management");
 
 if (!empty($_REQUEST["action"]))
 {
@@ -54,20 +53,27 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 		$pass_cmd = "";
 	}
 
-	do_update("$db_cmd user SET user='{$_REQUEST['user']}', 
-		fullname='{$_REQUEST['fullname']}', $pass_cmd 
-		permit='{$_REQUEST['permit']}', view_type='{$_REQUEST['view_type']}', 
+	do_update("$db_cmd user SET user='{$_REQUEST['user']}',
+		fullname='{$_REQUEST['fullname']}', $pass_cmd
+		permit='{$_REQUEST['permit']}', view_type='{$_REQUEST['view_type']}',
 		view_id='{$_REQUEST['view_id']}' $db_end");
+		
+	header("Location: {$_SERVER['PHP_SELF']}");
+	exit(0);
 } // done editing
 
 if (!empty($action) && $action == "dodelete")
 {
 	do_update("DELETE FROM user WHERE id='{$_REQUEST['user_id']}'");
+	header("Location: {$_SERVER['PHP_SELF']}");
+	exit(0);
+
 } // done deleting
 
 
 // Display a list
 
+begin_page("users.php", "User Management");
 make_display_table("Users","User ID","","Name", "", "Permissions","");
 
 $user_results = do_query("
@@ -75,8 +81,9 @@ SELECT user.id, user.user, user.view_type, user.view_id, user.fullname, user.per
 
 $user_total = mysql_num_rows($user_results);
 
+js_confirm_dialog("del", "Are you sure you want to delete user ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&user_id=");
+
 // For each user
-GLOBAL $PERMIT_TYPES;
 for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 {
 	$user_row = mysql_fetch_array($user_results);
@@ -84,9 +91,9 @@ for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 
 	make_display_item($user_row["user"],"",
 		$user_row["fullname"], "",
-		$PERMIT_TYPES[$user_row['permit']],"",
+		$GLOBALS['PERMIT_TYPES'][$user_row['permit']],"",
 		formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&user_id=$user_id") . "&nbsp;" .
-		formatted_link("Delete", "{$_SERVER['PHP_SELF']}?action=delete&user_id=$user_id"), "");
+		formatted_link("Delete", "javascript:del('{$user_row['user']}', '{$user_row['id']}')"), "");
 
 } // end users
 
@@ -98,6 +105,8 @@ for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 if (!empty($action) && ($action == "edit" || $action == "add"))
 {
 // Display editing screen
+
+	begin_page("users.php", "User Management");
 
 	if ($action == "add")
 	{
@@ -115,8 +124,7 @@ if (!empty($action) && ($action == "edit" || $action == "add"))
 	make_edit_text("User ID:", "user", "25", "50", $user_row["user"]);
 	make_edit_text("Full Name", "fullname", "25", "75", $user_row["fullname"]);
 	make_edit_password("Password:", "pass", "25", "50", "");
-	GLOBAL $PERMIT_TYPES;
-	make_edit_select_from_array("Permit Type:", "permit", $PERMIT_TYPES, $user_row["permit"]);
+	make_edit_select_from_array("Permit Type:", "permit", $GLOBALS['PERMIT_TYPES'], $user_row["permit"]);
 	make_edit_text("View Type", "view_type", "5", "5", $user_row["view_type"]);
 	make_edit_text("View ID", "view_id", "5", "5", $user_row["view_id"]);
 	make_edit_hidden("action", "doedit");
@@ -125,27 +133,6 @@ if (!empty($action) && ($action == "edit" || $action == "add"))
 	make_edit_end();
 
 } // End editing screen
-
-if (!empty($action) && $action == "delete")
-{
-// Display delete confirmation
-?>
-<font size="4" color="#800000">Confirm Delete</font><br><br>
-
-Are you sure you want to delete this test?
-
-<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-<input type="submit" value="Yes">
-<input type="hidden" name="user_id" value="<?php echo $_REQUEST["user_id"]; ?>">
-<input type="hidden" name="action" value="dodelete">
-</form>
-<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-<input type="submit" value="No">
-</form>
-
-<?php
-
-} // end delete confirmation
 
 end_page();
 
