@@ -9,14 +9,24 @@
 ********************************************/
 
 
-// Obtain data from a table
-function db_query($query_string)
+/**
+* db_connect()
+*
+* connect to the database
+*/
+function db_connect()
 {
-	//echo("\n\n~~~ " . $query_string . " ~~~\n\n");
 	mysql_connect($GLOBALS["netmrg"]["dbhost"], $GLOBALS["netmrg"]["dbreaduser"], $GLOBALS["netmrg"]["dbreadpass"]) or 
 		die("<b>DB_ERROR:</b>: Cannot connect to the database server.");
 	mysql_select_db($GLOBALS["netmrg"]["dbname"]) or 
 		die("<b>DB_ERROR:</b> Cannot connect to the database.");
+} // end db_connect();
+
+
+// Obtain data from a table
+function db_query($query_string)
+{
+	//echo("\n\n~~~ " . $query_string . " ~~~\n\n");
 	$query_result = mysql_query($query_string) or
 		die("<b>DB_ERROR:</b> Couldn't execute query:<br>\n$query_string<br>\n".mysql_error());
 
