@@ -26,11 +26,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <string>
-
-#if HAVE_GETOPT_H
-	#include <getopt.h>
-#endif
-
 #include <errno.h>
 #include <list>
 #include <iostream>

@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.13 $)
+AC_REVISION($Revision: 1.14 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -181,8 +181,7 @@ AC_CHECK_HEADERS( \
 	cstdlib \
 	string \
 	list \
-	unistd.h \
-	getopt.h
+	unistd.h
 )
 
 ## Determine XML2 include path
