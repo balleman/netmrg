@@ -13,22 +13,40 @@
 
 static string current_settings[settings_count];
 
-const string & get_setting(Setting x)
+string get_setting(Setting x)
 {
-	return current_settings[x];
+	mutex_lock(lkSettings);
+	string temp = current_settings[x];
+	mutex_unlock(lkSettings);
+	return temp;
 }
 
-int get_setting_int(Setting x)
+long int get_setting_int(Setting x)
 {
 	return strtoint(get_setting(x));
 }
 
 void set_setting(Setting x, const string & newvalue)
 {
+	mutex_lock(lkSettings);
 	current_settings[x] = newvalue;
+	mutex_unlock(lkSettings);
 }
 
-void set_setting_int(Setting x, int newvalue)
+void set_setting_int(Setting x, long int newvalue)
 {
 	set_setting(x, inttostr(newvalue));
+}
+
+void load_default_settings()
+{
+	// threads
+	set_setting_int(setThreadCount, DEF_THREAD_COUNT);
+	set_setting_int(setThreadSleep, DEF_THREAD_SLEEP);
+	
+	// database
+	set_setting(setDBHost, DEF_DB_HOST);
+	set_setting(setDBUser, DEF_DB_USER);
+	set_setting(setDBPass, DEF_DB_PASS);
+	set_setting(setDBDB, DEF_DB_DB);
 }

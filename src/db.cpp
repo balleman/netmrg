@@ -11,6 +11,7 @@
 #include "config.h"
 #include "locks.h"
 #include "utils.h"
+#include "settings.h"
 
 
 // db_connect
@@ -20,16 +21,12 @@
 void db_connect(MYSQL *connection)
 {
 	mutex_lock(lkMySQL);
-	
 	mysql_init(connection);
-
-	if (!(mysql_real_connect(connection, MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB, 0, NULL, 0)))
+	if (!(mysql_real_connect(connection, get_setting(setDBHost).c_str(), get_setting(setDBUser).c_str(), get_setting(setDBPass).c_str(), get_setting(setDBDB).c_str(), 0, NULL, 0)))
 	{
 		debuglogger(DEBUG_MYSQL, LEVEL_ERROR, NULL, "MySQL Connection Failure.");
 	}
-
 	mutex_unlock(lkMySQL);
-
 }
 
 // db_query

@@ -17,20 +17,23 @@ const int settings_count = 10;
 
 enum Setting 
 {
-	SET_DB_HOST,
-	SET_DB_USER,
-	SET_DB_PASS,
-	SET_DB_DB,
-	SET_THREAD_COUNT,
-	SET_THREAD_SLEEP,
-	SET_ROOT,
-	SET_RRDTOOL
+	setDBHost,
+	setDBUser,
+	setDBPass,
+	setDBDB,
+	setThreadCount,
+	setThreadSleep,
+	setRoot,
+	setRRDTOOL
 };
 
 // functions to set and get settings
-const string &	get_setting(Setting);
-int				get_setting_int(Setting);
-void			set_setting(Setting, const string &);
-void			set_setting_int(Setting, int);
+string		get_setting(Setting);
+long int	get_setting_int(Setting);
+void		set_setting(Setting, const string &);
+void		set_setting_int(Setting, long int);
+
+// functions to load settings
+void		load_default_settings();
 
 #endif

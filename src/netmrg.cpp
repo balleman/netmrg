@@ -283,11 +283,11 @@ int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 {
 	// just like setup_interface_parameters, but for disks instead
 
-	string          index   = "";
-	string          value   = "";
+	string		index   = "";
+	string		value   = "";
 
-	MYSQL_RES       *mysql_res;
-	MYSQL_ROW       mysql_row;
+	MYSQL_RES	*mysql_res;
+	MYSQL_ROW	mysql_row;
 
 	int		retval	= 0;
 
@@ -298,7 +298,7 @@ int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 		if (current->name == "dskIndex")
 		{
 			index = "disk_index";
-                	break;
+			break;
 		}
 		else
 		if (current->name == "dskPath")
@@ -379,11 +379,11 @@ string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 	{
 		// count lines in a file
 		case 1:		test_result = count_file_lines(info);
-				break;
+					break;
 		
 		// TNT "good" modems (that is, available modems - suspect modems)
 		case 2:		test_result = snmp_diff(info, ".1.3.6.1.4.1.529.15.1.0", ".1.3.6.1.4.1.529.15.3.0");
-				break;
+					break;
 
 		default:	debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown Internal Test (" + inttostr(info.test_id) + ")");
 	}
@@ -968,6 +968,10 @@ void run_netmrg()
 	threads		= new pthread_t[num_rows];
 	ids			= new int[num_rows];
 
+	// reading settings isn't necessarily efficient.  storing them locally.
+	int			THREAD_COUNT = get_setting_int(setThreadCount);
+	long int	THREAD_SLEEP = get_setting_int(setThreadSleep);
+	
 	int dev_counter = 0;
 
 	// deploy more threads as needed
@@ -983,7 +987,7 @@ void run_netmrg()
 						inttostr(active_threads));
 				last_active_threads = active_threads;
 			}
-			while ((active_threads < NTHREADS) && (dev_counter < num_rows))
+			while ((active_threads < THREAD_COUNT) && (dev_counter < num_rows))
 			{
 				mysql_row = mysql_fetch_row(mysql_res);
 				int dev_id = strtoint(string(mysql_row[0]));
@@ -1139,6 +1143,7 @@ void external_snmp_recache(int device_id, int type)
 int main(int argc, char **argv)
 {
 	int option_char;
+	load_default_settings();
 
 	while ((option_char = getopt(argc, argv, "hvqi:d:c:l:")) != EOF)
 		switch (option_char)
