@@ -23,8 +23,6 @@ else
 } // end if action is set or not
 
 
-begin_page("notifications.php", "Notifications");
-js_confirm_dialog("del", "Are you sure you want to delete notification ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&id=");
 
 if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
 {
@@ -63,6 +61,9 @@ if (!empty($action) && $action == "dodelete")
 } // done deleting
 
 // Display a list
+begin_page("notifications.php", "Notifications");
+js_confirm_dialog("del", "Are you sure you want to delete notification ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&id=");
+
 make_display_table("Notifications", "", 
 	array("text" => "Name"),
 	array("text" => "Command")
@@ -90,6 +91,8 @@ for ($i = 0; $i < db_num_rows($res); $i++)
 
 if (!empty($action) && ($action == "edit" || $action == "add"))
 {
+begin_page("notifications.php", "Notifications");
+
 	// Display editing screen
 	check_auth(2);
 	if ($action == "add")
