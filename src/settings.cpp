@@ -199,6 +199,11 @@ void load_settings_file(const string & filename)
 			parse_config_section(doc, cur, "threads");
 		}
 		else
+		if (!xmlStrcmp(cur->name, (const xmlChar *) "website"))
+		{
+			// this is used by the website, we ignore it.
+		}
+		else
 		if (!xmlStrcmp(cur->name, (const xmlChar *) "text"))
 		{
 			// this seems to happen after every section.  ignore it.
