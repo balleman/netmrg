@@ -878,9 +878,30 @@ their NetMRG administrator.
 		<refsect1><title>Description</title>
 			<refsect2><title>List</title>
 				<para>list of events for a monitor</para>
+				<note><para>Events displayed in bold are currently triggered.</para></note>
 			</refsect2>
 			<refsect2><title>Edit</title>
 				<para>edit info about an event</para>
+				<itemizedlist>
+					<listitem><para><guilabel>Name</guilabel> - a name for the event, unique within a device.  This name is used when displaying entries in the Event Log.</para></listitem>
+					<listitem><para><guilabel>Trigger Type</guilabel> - when to trigger an event.  When events are triggered, they are logged in the Event Log and any Responses associated with the event are executed.</para>
+						<itemizedlist>
+							<listitem><para><guilabel>On Change</guilabel> - The event is triggered when its conditions are met, and the conditions had not been met on the last run.  Example:  If you have an event to warn you when CPU Usage climbs above 80%, it will trigger this condition if the previous value was 72 and the current value 85, but not if the previous value was 82 and the current value 85.  This prevents duplicate triggerings to a situation spanning multiple polling intervals.</para></listitem>
+							<listitem><para><guilabel>Never (disabled)</guilabel> - This event is ignored and responses for it are not processed.</para></listitem>
+						</itemizedlist>
+						</listitem>
+					<listitem><para><guilabel>Situation</guilabel> - the severity of the situation the event indicates.</para>
+						<itemizedlist>
+							<listitem><para><guilabel>Disabled</guilabel> - the tested service is in a non-operational, yet normal, condition.</para></listitem>
+							<listitem><para><guilabel>Normal</guilabel> - the tested service is operating normally.</para></listitem>
+							<listitem><para><guilabel>Warning</guilabel> - the tested service is operating in a degraded condition.</para></listitem>
+							<listitem><para><guilabel>Critical</guilabel> - the tested service is not operating acceptably.</para></listitem>
+						</itemizedlist>
+						<note>
+							<para>Situations for an event propagate up the Device Tree.  Each level takes on the worst situation of its descendents.  For example, if you have a <guilabel>Critical</guilabel> situation, the Event as well as the Monitor, Sub-Device, Device, and Groups above that Event will take on the situation <guilabel>Critical</guilabel> as well.</para>
+						</note>
+						</listitem>
+				</itemizedlist>
 			</refsect2>
 		</refsect1>
 	</refentry>
@@ -890,7 +911,7 @@ their NetMRG administrator.
 		</refmeta>
 		<refnamediv>
 			<refname>Conditions</refname>
-			<refpurpose>A container for a collection of paramenters to activate an event</refpurpose>
+			<refpurpose>A collection of paramenters to trigger an Event</refpurpose>
 		</refnamediv>
 		<refsect1><title>Description</title>
 			<refsect2><title>List</title>
@@ -898,6 +919,18 @@ their NetMRG administrator.
 			</refsect2>
 			<refsect2><title>Edit</title>
 				<para>edit info about an condition</para>
+				<itemizedlist>
+					<listitem><para><guilabel>Logical Operation</guilabel> - the logical operator (<guilabel>AND</guilabel> or <guilabel>OR</guilabel>) to apply between this condition and the previous one.  This parameter is not valid, nor is displayed, for the first condition in a set of conditions.</para></listitem>
+					<listitem><para><guilabel>Value Type</guilabel> - the type of data about the Monitor to be used for comparision.</para>
+						<itemizedlist>
+							<listitem><para><guilabel>Current Value</guilabel> - the current value of the Monitor</para></listitem>
+							<listitem><para><guilabel>Delta Value</guilabel> - the difference between the current value and the previous value.</para></listitem>
+							<listitem><para><guilabel>Rate of Change</guilabel> - the delta value divided by the difference in timestamps between the current and previous values.  When using counters, this gives you the "per second" value.</para></listitem>
+						</itemizedlist>
+						</listitem>
+					<listitem><para><guilabel>Condition</guilabel> - the arithmetic operator to use when comparing the <guilabel>Value Type</guilabel> of the Monitor and the <guilabel>Value</guilabel> of the Condition.</para></listitem>
+					<listitem><para><guilabel>Value</guilabel> - the number used for comparision.</para></listitem>
+				</itemizedlist>
 			</refsect2>
 		</refsect1>
 	</refentry>
