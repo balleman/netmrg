@@ -244,17 +244,17 @@ function edit()
 		";
 
 	// if we've been passed a test type
-	if (isset($_REQUEST["type"]))
+	if (!empty($_REQUEST["type"]))
 	{
 		$mon_row["test_type"] = $_REQUEST["type"];
 	} // end if test type is set
 	// else default to test type 1 (script)
-	else
+	else if (empty($mon_row["test_type"]))
 	{
 		$mon_row["test_type"] = 1;
 	} // end if no test type
 	GLOBAL $TEST_TYPES;
-	make_edit_select_from_array("Monitoring Type:","test_type", $TEST_TYPES, $mon_row["test_type"], "onChange='redisplay(form.test_type.options[selectedIndex].value);'");
+	make_edit_select_from_array("Monitoring Type:", "test_type", $TEST_TYPES, $mon_row["test_type"], "onChange='redisplay(form.test_type.options[selectedIndex].value);'");
 
 	if ($mon_row["test_type"] == 1)
 	{
