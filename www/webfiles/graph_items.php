@@ -21,17 +21,18 @@ if (empty($_REQUEST["action"])) { $_REQUEST["action"] = ""; }
 if ($_REQUEST["action"] == "doedit")
 {
 	check_auth(2);
-	if (empty($_REQUEST["show_stats"])) { $_REQUEST["show_stats"] = 0; }
-	if (empty($_REQUEST["show_indicator"])) { $_REQUEST["show_indicator"] = 0; }
-	if (empty($_REQUEST["show_inverted"])) { $_REQUEST["show_inverted"] = 0; }
-	if (empty($_REQUEST["use_alt"])) { $_REQUEST["use_alt"] = 0; }
+	if (empty($_REQUEST["show_stats"])) 		{ $_REQUEST["show_stats"] = 0; 		}
+	if (empty($_REQUEST["show_indicator"])) 	{ $_REQUEST["show_indicator"] = 0; 	}
+	if (empty($_REQUEST["show_inverted"])) 		{ $_REQUEST["show_inverted"] = 0; 	}
+	if (empty($_REQUEST["use_alt"])) 		{ $_REQUEST["use_alt"] = 0; 		}
+	
 	if ($_REQUEST["id"] == 0)
 	{
-		create_graph_item($_REQUEST["mon_id"], $_REQUEST["color"], $_REQUEST["type"], $_REQUEST["label"], $_REQUEST["align"], $_REQUEST["graph_id"], $_REQUEST["show_stats"], $_REQUEST["show_indicator"], $_REQUEST["hrule_value"], $_REQUEST["hrule_color"], $_REQUEST["hrule_label"], $_REQUEST["show_inverted"], $_REQUEST["alt_graph_id"], $_REQUEST["use_alt"], $_REQUEST["multiplier"]);
+		create_graph_item($_REQUEST["mon_id"], $_REQUEST["color"], $_REQUEST["type"], $_REQUEST["label"], $_REQUEST["align"], $_REQUEST["graph_id"], $_REQUEST["show_stats"], $_REQUEST["show_indicator"], $_REQUEST["hrule_value"], $_REQUEST["hrule_color"], $_REQUEST["hrule_label"], $_REQUEST["show_inverted"], $_REQUEST["alt_graph_id"], $_REQUEST["use_alt"], $_REQUEST["multiplier"], $_REQUEST["position"]);
 	}
 	else
 	{
-		update_graph_item($_REQUEST["id"], $_REQUEST["mon_id"], $_REQUEST["color"], $_REQUEST["type"], $_REQUEST["label"], $_REQUEST["align"], $_REQUEST["graph_id"], $_REQUEST["show_stats"], $_REQUEST["show_indicator"], $_REQUEST["hrule_value"], $_REQUEST["hrule_color"], $_REQUEST["hrule_label"], $_REQUEST["show_inverted"], $_REQUEST["alt_graph_id"], $_REQUEST["use_alt"], $_REQUEST["multiplier"]);
+		update_graph_item($_REQUEST["id"], $_REQUEST["mon_id"], $_REQUEST["color"], $_REQUEST["type"], $_REQUEST["label"], $_REQUEST["align"], $_REQUEST["graph_id"], $_REQUEST["show_stats"], $_REQUEST["show_indicator"], $_REQUEST["hrule_value"], $_REQUEST["hrule_color"], $_REQUEST["hrule_label"], $_REQUEST["show_inverted"], $_REQUEST["alt_graph_id"], $_REQUEST["use_alt"], $_REQUEST["multiplier"], $_REQUEST["position"]);
 	}
 
 	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
@@ -108,7 +109,7 @@ if (empty($_REQUEST["action"]))
 
 	$ds_total = mysql_num_rows($ds_results);
 
-        $custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&graph_id={$_REQUEST['graph_id']}&edit_monitor=1";
+        $custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&graph_id={$_REQUEST['graph_id']}&edit_monitor=1&position=" . ($ds_total + 1);
 
 	?><img align="center" src="get_graph.php?type=custom&id=<?php echo $_REQUEST["graph_id"]; ?>"><br><?php
 	make_display_table("Graph Items","Label","","Type", "", "","");
@@ -155,23 +156,42 @@ if (empty($_REQUEST["action"]))
 if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 {
 
+        check_auth(2);
+        begin_page();
+
         if ($_REQUEST["action"] == "add")
 	{
 	        $_REQUEST["id"] = 0;
+		$ds_row["type"] = 0;
+		$ds_row["color"] = "#0000AA";
+		$ds_row["align"] = 0;
+		$ds_row["show_stats"] = 0;
+		$ds_row["show_inverted"] = 0;
+		$ds_row["multiplier"] = 1;
+		$ds_row["show_indicator"] = 0;
+		$ds_row["hrule_value"] = 0;
+		$ds_row["hrule_color"] = "#FF0000";
+		$ds_row["hrule_label"] = "";
+		$ds_row["use_alt"] = 0;
+		$ds_row["alt_graph_id"] = 0;
+		$ds_row["label"] = "";
+		$ds_row["src_id"] = 0;
+		$ds_row["id"] = 0;
+		$ds_row["position"] = $_REQUEST["position"];
         }
+	else
+	{
+		$ds_results = do_query("SELECT * FROM graph_ds WHERE id={$_REQUEST['id']}");
+	        $ds_row = mysql_fetch_array($ds_results);
+	}
 	
+	$ds_row["graph_id"] = $_REQUEST["graph_id"];
+
 	if (empty($_REQUEST["edit_monitor"]))
 	{
 		$_REQUEST["edit_monitor"] = 0;
 	}
 	
-	check_auth(2);
-	begin_page();
-	$ds_results = do_query("SELECT * FROM graph_ds WHERE id={$_REQUEST['id']}");
-	$ds_row = mysql_fetch_array($ds_results);
-
-	$ds_row["graph_id"] = $_REQUEST["graph_id"];
-
 	js_color_dialog();
 	make_edit_table("Edit Graph Item");
 	make_edit_text("Item Label:","label","50","100",$ds_row["label"]);
@@ -204,6 +224,7 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("graph_id",$ds_row["graph_id"]);
 	make_edit_hidden("id",$ds_row["id"]);
+	make_edit_hidden("position", $ds_row["position"]);
 	make_edit_submit_button();
 	make_edit_end();
 
