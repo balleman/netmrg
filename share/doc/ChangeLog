@@ -1,3 +1,6 @@
+2003.10.25  v0.10  balleman
+  - bug#0000083 - indent nested groups on device tree
+
 2003.10.24  v0.10  silfreed
   - updated viewgraph-off.png to be more apparent that there's nothing in it
     (made it gray insted of black)
@@ -9,7 +12,6 @@
   - updated device page docs with new SNMP options
   - parse out SNMPv2 'bad oid' msgs
 
->>>>>>> 1.95
 2003.10.18  v0.10  silfreed
   - bug#0000077 - deleting a device from a group deleted that device completely
 

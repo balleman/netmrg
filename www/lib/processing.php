@@ -77,15 +77,25 @@ function sanitize_number($number, $round_to = 5)
 
 function make_spaces($length)
 {
-	$spaces = "";
+	return repeat_string(" ", $length);
+} // end make_spaces
 
-	for ($i = 0; $i < $length; $i++)
+function make_nbsp($length)
+{
+	return repeat_string("&nbsp;", $length);
+} // end make_nbsp
+
+function repeat_string($string, $count)
+{
+	$res = "";
+
+	for ($i = 0; $i < $count; $i++)
 	{
-		$spaces = $spaces . " ";
+		$res = $res . $string;
 	}
 
-	return($spaces);
-} // end make_spaces
+	return $res;
+} // end repeat_string
 
 
 // prepends spaces to a string to cause it to be a certain length

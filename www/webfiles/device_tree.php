@@ -203,8 +203,9 @@ function draw_group($grp_id, $depth, &$rowcount, $init = false)
 			make_display_item("editfield".($rowcount%2),
 				array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
+make_nbsp($depth * 4) . 
 '<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$grp_action.'&groupid='.$grp_id.'">'."\n".
-'<img src="' . $img . '" border="0" width="9" height="9">' . $grp_row["name"] ."\n".
+'<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $grp_row["name"] ."\n".
 '</a>'."\n".
 '</td><td align="right">'."\n".
 '<a class="editfield'.($rowcount%2).'" href="view.php?object_type=group&object_id='.$grp_id.'">'."\n".
@@ -225,8 +226,9 @@ function draw_group($grp_id, $depth, &$rowcount, $init = false)
 			make_display_item("editfield".($rowcount%2),
 				array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
+make_nbsp($depth * 4) . 
 '<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$grp_action.'&groupid='.$grp_id.'">'.
-'<img src="' . $img . '" border="0" width="9" height="9">' . $grp_row["name"] .
+'<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $grp_row["name"] .
 '</a>'."\n".
 '</td><td align="right">'."\n".
 '<a class="editfield'.($rowcount%2).'" href="view.php?object_type=group&object_id='.$grp_id.'">'.
@@ -280,7 +282,7 @@ function draw_group($grp_id, $depth, &$rowcount, $init = false)
 						array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
 '<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$device_action.'&deviceid='.$device_id.'">'.
-'<img src="' . $img . '" border="0" width="9" height="9">' . $dev_row["name"] .
+'<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $dev_row["name"] .
 '</a>'."\n".
 '</td><td align="right">'."\n".
 '<a class="editfield'.($rowcount%2).'" href="view.php?object_type=device&object_id='.$device_id.'">'.
@@ -302,7 +304,7 @@ function draw_group($grp_id, $depth, &$rowcount, $init = false)
 						array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
 '<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$device_action.'&deviceid='.$device_id.'">'.
-'<img src="' . $img . '" border="0" width="9" height="9">' . $dev_row["name"] .
+'<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $dev_row["name"] .
 '</a>'."\n".
 '</td><td align="right">'."\n".
 '<a class="editfield'.($rowcount%2).'" href="view.php?object_type=device&object_id='.$device_id.'">'.
@@ -349,7 +351,7 @@ function draw_group($grp_id, $depth, &$rowcount, $init = false)
 								array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
 '<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$subdev_action.'&subdevid='.$subdev_id.'">'.
-'<img src="'. $img . '" border="0" width="9" height="9">' . $subdev_row['name'].
+'<img src="'. $img . '" border="0" width="9" height="9">' . "&nbsp;" . $subdev_row['name'].
 '</a>'."\n".
 '</td><td align="right">'."\n".
 '<a class="editfield'.($rowcount%2).'" href="view.php?object_type=subdevice&object_id='.$subdev_id.'">'.
@@ -371,7 +373,7 @@ function draw_group($grp_id, $depth, &$rowcount, $init = false)
 								array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
 '<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$subdev_action.'&subdevid='.$subdev_id.'">'.
-'<img src="'. $img . '" border="0" width="9" height="9">' . $subdev_row['name'].
+'<img src="'. $img . '" border="0" width="9" height="9">' . "&nbsp;" . $subdev_row['name'].
 '</a>'."\n".
 '</td><td align="right">'."\n".
 '<a class="editfield'.($rowcount%2).'" href="view.php?object_type=subdevice&object_id='.$subdev_id.'">'.
@@ -416,7 +418,7 @@ function draw_group($grp_id, $depth, &$rowcount, $init = false)
 									array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
 '<a class="editfield'.($rowcount%2).'" href="'. $_SERVER["PHP_SELF"] . '?action='.$monitor_action.'&monid='.$mon_id.'">'.
-'<img src="' . $img . '" border="0" width="9" height="9">' . get_short_monitor_name($mon_row["id"]).
+'<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . get_short_monitor_name($mon_row["id"]).
 '</a>'."\n".
 '</td><td align="right">'."\n".
 '<a class="editfield'.($rowcount%2).'" href="enclose_graph.php?type=mon&id='.$mon_id.'">'.
