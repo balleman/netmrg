@@ -77,22 +77,22 @@ NAME="CONDITIONS"
 ><DIV
 CLASS="REFNAMEDIV"
 ><A
-NAME="AEN999"
+NAME="AEN1035"
 ></A
 ><H2
 >Name</H2
->Conditions&nbsp;--&nbsp;A container for a collection of paramenters to activate an event</DIV
+>Conditions&nbsp;--&nbsp;A collection of paramenters to trigger an Event</DIV
 ><DIV
 CLASS="REFSECT1"
 ><A
-NAME="AEN1002"
+NAME="AEN1038"
 ></A
 ><H2
 >Description</H2
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN1004"
+NAME="AEN1040"
 ></A
 ><H3
 >List</H3
@@ -102,12 +102,103 @@ NAME="AEN1004"
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN1007"
+NAME="AEN1043"
 ></A
 ><H3
 >Edit</H3
 ><P
 >edit info about an condition</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Logical Operation</B
+></TT
+> - the logical operator (<TT
+CLASS="GUILABEL"
+><B
+>AND</B
+></TT
+> or <TT
+CLASS="GUILABEL"
+><B
+>OR</B
+></TT
+>) to apply between this condition and the previous one.  This parameter is not valid, nor is displayed, for the first condition in a set of conditions.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Value Type</B
+></TT
+> - the type of data about the Monitor to be used for comparision.</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Current Value</B
+></TT
+> - the current value of the Monitor</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Delta Value</B
+></TT
+> - the difference between the current value and the previous value.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Rate of Change</B
+></TT
+> - the delta value divided by the difference in timestamps between the current and previous values.  When using counters, this gives you the "per second" value.</P
+></LI
+></UL
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Condition</B
+></TT
+> - the arithmetic operator to use when comparing the <TT
+CLASS="GUILABEL"
+><B
+>Value Type</B
+></TT
+> of the Monitor and the <TT
+CLASS="GUILABEL"
+><B
+>Value</B
+></TT
+> of the Condition.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Value</B
+></TT
+> - the number used for comparision.</P
+></LI
+></UL
 ></DIV
 ></DIV
 ><DIV

@@ -83,8 +83,8 @@ Douglas E. Warner
               Events -- A container for a collection of actions
                       to take based on monitor values
 
-              Conditions -- A container for a collection of
-                      paramenters to activate an event
+              Conditions -- A collection of paramenters to
+                      trigger an Event
 
    13. Contact Information
 
@@ -667,8 +667,7 @@ II. Web Interface Descriptions
    Events -- A container for a collection of actions to take
           based on monitor values
 
-   Conditions -- A container for a collection of paramenters to
-          activate an event
+   Conditions -- A collection of paramenters to trigger an Event
 
 Groups
 
@@ -939,16 +938,53 @@ List
 
    list of events for a monitor
 
+   Note
+
+   Events displayed in bold are currently triggered.
+
 Edit
 
    edit info about an event
+
+     * Name  - a name for the event, unique within a device. This
+       name is used when displaying entries in the Event Log.
+     * Trigger  Type  - when to trigger an event. When events are
+       triggered,  they  are  logged  in  the  Event  Log and any
+       Responses associated with the event are executed.
+          + On   Change   -  The  event  is  triggered  when  its
+            conditions  are  met, and the conditions had not been
+            met on the last run. Example: If you have an event to
+            warn  you  when  CPU  Usage climbs above 80%, it will
+            trigger  this  condition if the previous value was 72
+            and  the  current  value  85, but not if the previous
+            value  was 82 and the current value 85. This prevents
+            duplicate   triggerings   to   a  situation  spanning
+            multiple polling intervals.
+          + Never   (disabled)   -  This  event  is  ignored  and
+            responses for it are not processed.
+     * Situation  -  the  severity  of  the  situation  the event
+       indicates.
+          + Disabled    -    the   tested   service   is   in   a
+            non-operational, yet normal, condition.
+          + Normal - the tested service is operating normally.
+          + Warning  -  the  tested  service  is  operating  in a
+            degraded condition.
+          + Critical  -  the  tested  service  is  not  operating
+            acceptably.
+
+   Note
+
+   Situations for an event propagate up the Device Tree. Each
+   level takes on the worst situation of its descendents. For
+   example, if you have a Critical situation, the Event as well
+   as the Monitor, Sub-Device, Device, and Groups above that
+   Event will take on the situation Critical as well.
 
 Conditions
 
 Name
 
-   Conditions -- A  container  for a collection of paramenters to
-   activate an event
+   Conditions -- A collection of paramenters to trigger an Event
 
 Description
 
@@ -959,6 +995,24 @@ List
 Edit
 
    edit info about an condition
+
+     * Logical  Operation  -  the logical operator (AND or OR) to
+       apply  between  this  condition and the previous one. This
+       parameter  is  not  valid, nor is displayed, for the first
+       condition in a set of conditions.
+     * Value Type - the type of data about the Monitor to be used
+       for comparision.
+          + Current Value - the current value of the Monitor
+          + Delta  Value  -  the  difference  between the current
+            value and the previous value.
+          + Rate  of  Change  -  the  delta  value divided by the
+            difference  in  timestamps  between  the  current and
+            previous  values. When using counters, this gives you
+            the "per second" value.
+     * Condition  - the arithmetic operator to use when comparing
+       the  Value  Type  of  the  Monitor  and  the  Value of the
+       Condition.
+     * Value - the number used for comparision.
      _________________________________________________________
 
 Chapter 13. Contact Information

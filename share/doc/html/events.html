@@ -98,16 +98,171 @@ NAME="AEN990"
 >List</H3
 ><P
 >list of events for a monitor</P
+><DIV
+CLASS="NOTE"
+><P
+></P
+><TABLE
+CLASS="NOTE"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="./stylesheet-images/note.gif"
+HSPACE="5"
+ALT="Note"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>Events displayed in bold are currently triggered.</P
+></TD
+></TR
+></TABLE
+></DIV
 ></DIV
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN993"
+NAME="AEN995"
 ></A
 ><H3
 >Edit</H3
 ><P
 >edit info about an event</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Name</B
+></TT
+> - a name for the event, unique within a device.  This name is used when displaying entries in the Event Log.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Trigger Type</B
+></TT
+> - when to trigger an event.  When events are triggered, they are logged in the Event Log and any Responses associated with the event are executed.</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>On Change</B
+></TT
+> - The event is triggered when its conditions are met, and the conditions had not been met on the last run.  Example:  If you have an event to warn you when CPU Usage climbs above 80%, it will trigger this condition if the previous value was 72 and the current value 85, but not if the previous value was 82 and the current value 85.  This prevents duplicate triggerings to a situation spanning multiple polling intervals.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Never (disabled)</B
+></TT
+> - This event is ignored and responses for it are not processed.</P
+></LI
+></UL
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Situation</B
+></TT
+> - the severity of the situation the event indicates.</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Disabled</B
+></TT
+> - the tested service is in a non-operational, yet normal, condition.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Normal</B
+></TT
+> - the tested service is operating normally.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Warning</B
+></TT
+> - the tested service is operating in a degraded condition.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Critical</B
+></TT
+> - the tested service is not operating acceptably.</P
+></LI
+></UL
+><DIV
+CLASS="NOTE"
+><P
+></P
+><TABLE
+CLASS="NOTE"
+WIDTH="90%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="./stylesheet-images/note.gif"
+HSPACE="5"
+ALT="Note"></TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>Situations for an event propagate up the Device Tree.  Each level takes on the worst situation of its descendents.  For example, if you have a <TT
+CLASS="GUILABEL"
+><B
+>Critical</B
+></TT
+> situation, the Event as well as the Monitor, Sub-Device, Device, and Groups above that Event will take on the situation <TT
+CLASS="GUILABEL"
+><B
+>Critical</B
+></TT
+> as well.</P
+></TD
+></TR
+></TABLE
+></DIV
+></LI
+></UL
 ></DIV
 ></DIV
 ><DIV
