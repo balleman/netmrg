@@ -20,7 +20,8 @@ require_once("/var/www/netmrg/lib/stat.php");
 require_once(netmrg_root() . "lib/format.php");
 require_once(netmrg_root() . "lib/graphing.php");
 
-function tailer() {
+function tailer()
+{
 	GLOBAL $type, $id, $togglelegend, $hist, $show_children;
 	$toggle = 1 - $togglelegend;
 	$newhist = 1 - $hist;
@@ -30,64 +31,79 @@ function tailer() {
 	<br>
 	<a href="./enclose_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=<? print($newhist) ?>&togglelegend=<? print($togglelegend) ?>&show_children=<? print($show_children) ?>">Toggle History</a><br>
 	<a href="./enclose_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=<? print($hist) ?>&togglelegend=<? print($toggle) ?>&show_children=<? print($show_children) ?>">Toggle Legend</a><br>
-	<? if ($type == "custom") { 
+	<? if ($type == "custom") {
 	?><a href="./enclose_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=<? print($hist) ?>&togglelegend=<? print($togglelegend) ?>&show_children=<? print($new_show_children) ?>">Toggle Children</a><br>
 	<? } ?>
 	<Br>
 	<a href="javascript:history.back(1)">Back</a>
 	</div>
 	<?
-} # end tailer
 
-function show_a_graph() {
+} // end tailer
+
+function show_a_graph()
+{
 	GLOBAL $type, $id, $togglelegend, $hist, $show_source;
-	if ($hist == 0) {
-	?>
+	if ($hist == 0)
+	{
+		?>
+		<div align="center">
+		<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&togglelegend=<? print($togglelegend) ?>">
+		</div>
+		<?
+	
+		if ($show_source == 1)
+		{
+			print("<pre>" . get_graph_command($type, $id, 0, $togglelegend) . "</pre>");
+		}
+	} 
+	else
+	{
+	
+		?>
+		<div align="center">
+		<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=0&togglelegend=<? print($togglelegend) ?>">
+		<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=1&togglelegend=<? print($togglelegend) ?>">
+		<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=2&togglelegend=<? print($togglelegend) ?>">
+		<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=3&togglelegend=<? print($togglelegend) ?>">
+		</div>
+        	<?
 
+	} // end if
 
-	<div align="center">
-	<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&togglelegend=<? print($togglelegend) ?>">
-	</div>
-	<?
-if ($show_source == 1) { print("<pre>" . get_graph_command($type, $id, 0, $togglelegend) . "</pre>");	}
-	} else {
+} // end show_a_graph
 
-	?>
-	<div align="center">
-	<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=0&togglelegend=<? print($togglelegend) ?>">
-	<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=1&togglelegend=<? print($togglelegend) ?>">
-	<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=2&togglelegend=<? print($togglelegend) ?>">
-	<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=3&togglelegend=<? print($togglelegend) ?>">
-
-	</div>
-
-	<?
-
-	} # end if
-
-} # end show_a_graph
 refresh_tag();
 begin_page();
 show_a_graph();
-if ($show_children == 1) {
 
+if ($show_children == 1)
+{
 	$query = do_query("SELECT * FROM graph_ds WHERE graph_id=$id ORDER BY position,id ");
 	$count = mysql_num_rows($query);
 	$old_id = $id;
-	for ($i = 0; $i < $count; $i++) {
-	$row = mysql_fetch_array($query);
-		if ($row["use_alt"] == 0) {
+	for ($i = 0; $i < $count; $i++)
+	{
+		$row = mysql_fetch_array($query);
+
+		if ($row["use_alt"] == 0)
+		{
 			$type = "custom_ds";
 			$id = $row["id"];
-		} else {
+		}
+		else
+		{
 			$type = "custom";
 			$id = $row["alt_graph_id"];
 		}
-	show_a_graph();
+
+		show_a_graph();
 	}
+
 	$type = "custom";
 	$id = $old_id;
 }
+
 tailer();
 end_page();
 
