@@ -1,3 +1,6 @@
+2004.08.24  v0.17cvs  silfreed
+  - bug#0000257 - doing a delayed insert for dynamic variables lowers mysl overhead
+
 2004.08.21  v0.17cvs  balleman
   - bug#0000241 - setting for syslog facility
   - bug#0000250 - internal ucd user+system monitor should return U's when necessary
