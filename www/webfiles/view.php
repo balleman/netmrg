@@ -200,7 +200,7 @@ else
 if (empty($_REQUEST["action"]))
 {
 	$view_select =
-		"SELECT		view.id, pos, graphs.name, graph_id, separator_text, subdev_id, pos, view.type AS type
+		"SELECT		view.id, pos, graphs.name, graphs.title, graph_id, separator_text, subdev_id, pos, view.type AS type
 		 FROM		view
 	 	 LEFT JOIN 	graphs ON view.graph_id=graphs.id
 	 	 WHERE 		object_type='{$_REQUEST['object_type']}'
@@ -286,12 +286,12 @@ if (empty($_REQUEST["action"]))
 			switch ($row['type'])
 			{
 				case 'graph':
-				$name = $row['name'];
+				$name = $row['title'];
 				$extra_options = formatted_link("Edit Graph", "graph_items.php?graph_id={$row['graph_id']}");
 				break;
 				
 				case 'template':
-				$name = expand_parameters($row['name'], $row['subdev_id']);
+				$name = expand_parameters($row['title'], $row['subdev_id']);
 				$extra_options = formatted_link("Edit Template", "graph_items.php?graph_id={$row['graph_id']}");
 				break;
 				

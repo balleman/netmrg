@@ -27,6 +27,15 @@ function view_cache()
 
 function make_graph()
 {
+	switch($_REQUEST['type'])
+	{
+		case "interface":	make_interface_graph(); break;
+		case "disk":		make_disk_graph(); break;
+	}
+}
+
+function make_interface_graph()
+{
 	check_auth(2);
 
 	// get snmp index data
@@ -67,6 +76,45 @@ function make_graph()
 
 }
 
+function make_disk_graph()
+{
+	check_auth(2);
+
+	// get snmp index data
+	$q_snmp = db_query("SELECT * FROM snmp_disk_cache WHERE dev_id={$_REQUEST['dev_id']} AND disk_index='{$_REQUEST['index']}'");
+	$r_snmp = db_fetch_array($q_snmp);
+
+	if (isset($r_snmp["disk_path"]) && !empty($r_snmp["disk_path"]))
+	{
+		$index_type = "dskPath";
+		$index_value = $r_snmp["disk_path"];
+	}
+	elseif (isset($r_snmp["disk_device"]) && !empty($r_snmp["disk_device"]))
+	{
+		$index_type = "dskDevice";
+		$index_value = $r_snmp["disk_device"];
+	}
+	else
+	{
+		$index_type = "dskIndex";
+		$index_value = "dsk_index";
+	}
+
+	// create the subdevice
+	db_update("INSERT INTO sub_devices SET dev_id={$_REQUEST['dev_id']}, type=3, name='$index_value'");
+	$sd_id = db_insert_id();
+	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='$index_type', value='$index_value'");
+	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='dskIndex', value='{$_REQUEST['index']}', type='dynamic'");
+
+	// add monitors and associate template
+	apply_template($sd_id, $GLOBALS["netmrg"]["disktemplateid"]);
+
+	// redirect
+	header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&type=disk&action=view");
+	exit(0);
+
+}
+
 function view_disk_cache()
 {
 	check_auth(1);
@@ -78,17 +126,43 @@ function view_disk_cache()
 	make_plain_display_table("$dev_name - Disk Cache",
 		"Index", "",
 		"Device", "",
-		"Path", "");
+		"Path", "",
+		"", "");
 	
 	$handle = db_query($query);
 	
 	for ($i = 0; $i < db_num_rows($handle); $i++)
 	{                   
 		$row = db_fetch_array($handle);
-                make_display_item("editfield".($i%2),
+				$links = "";
+		$s_query = db_query("SELECT sub.id AS id FROM sub_devices sub, sub_dev_variables var 
+					WHERE sub.dev_id={$_REQUEST['dev_id']} 
+					AND sub.id=var.sub_dev_id 
+					AND var.name='dskIndex' 
+					AND var.value={$row['disk_index']}");
+		$s_row = db_fetch_array($s_query);
+		if (isset($s_row['id']))
+		{
+			$links .= formatted_link("View", "view.php?object_type=subdevice&object_id={$s_row['id']}");
+			$links .= "&nbsp;";
+			$links .= formatted_link("Monitors", "monitors.php?sub_dev_id={$s_row['id']}");
+			$links .= "&nbsp;";
+			$links .= formatted_link_disabled("Monitor/Graph");
+		}
+		else
+		{
+			$links .= formatted_link_disabled("View");
+			$links .= "&nbsp";
+			$links .= formatted_link_disabled("Monitors");
+			$links .= "&nbsp;";
+			$links .= formatted_link("Monitor/Graph", "snmp_cache_view.php?action=graph&type=disk&dev_id=" . $row["dev_id"] . "&index=" . $row["disk_index"]);
+		}
+
+		make_display_item("editfield".($i%2),
 			array("text" => $row['disk_index']),
 			array("text" => $row['disk_device']),
-			array("text" => $row['disk_path'])
+			array("text" => $row['disk_path']),
+			array("text" => $links)
 		); // end make_display_item();
 	}
 	
@@ -171,12 +245,9 @@ function view_interface_cache()
 			$links .= "&nbsp";
 			$links .= formatted_link_disabled("Monitors");
 			$links .= "&nbsp;";
-			$links .= formatted_link("Monitor/Graph", "snmp_cache_view.php?action=graph&dev_id=" . $row["dev_id"] . "&index=" . $row["ifIndex"]);
+			$links .= formatted_link("Monitor/Graph", "snmp_cache_view.php?action=graph&type=interface&dev_id=" . $row["dev_id"] . "&index=" . $row["ifIndex"]);
 		}
 
-		
-		
-		
 		make_display_item("editfield".($i%2),
 			array("text" => $row["ifIndex"]),
 			array("text" => $status),
