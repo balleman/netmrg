@@ -1,3 +1,6 @@
+2003.04.21  v0.8  balleman
+  - graph templating exists (and works!)
+
 2003.04.21  v0.8  silfreed
   - bug#2 : can't fix ifName/IfDescr <Graph Traffic> link
   - bug#3 : fixed javascript bug w/ slashes

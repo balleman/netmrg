@@ -205,7 +205,7 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 
         for (list<SNMPPair>::iterator current = ifIPList.begin(); current != ifIPList.end(); current++)
 	{
-	 	string ip 	= (*current).oid;
+		string ip 	= (*current).oid;
 		string ifIndex	= (*current).value;
 
 		db_update(mysql, info, string("UPDATE snmp_interface_cache SET ifIP = '") +
@@ -239,7 +239,7 @@ void do_snmp_disk_recache(DeviceInfo *info, MYSQL *mysql)
 
 void process_responses(DeviceInfo info, MYSQL *mysql)
 {
-        MYSQL_RES	*mysql_res;
+	MYSQL_RES	*mysql_res;
 	MYSQL_ROW	mysql_row;
 
 	string query = 	string("SELECT	notifications.command, responses.parameters, responses.id ") 	+
@@ -401,7 +401,7 @@ uint process_events(DeviceInfo info, MYSQL *mysql)
 int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 {
 
-        // This function examines the parameters for the subdevice and determines if any
+	// This function examines the parameters for the subdevice and determines if any
 	// are to be used as SNMP index values.  If so, it adds parameters with all available
 	// information from the snmp_cache, so that things like %ifIndex% and %ifName% in monitors
 	// will get expanded into the correct values when the monitors are processed.
@@ -791,16 +791,16 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 	switch (info.test_type)
 	{
 		case  1:	info.curr_val = process_script_monitor(info, mysql);
-				break;
+					break;
 
 		case  2:	info.curr_val = process_snmp_monitor(info, mysql);
-				break;
+					break;
 
-                case  3:        info.curr_val = process_sql_monitor(info, mysql);
-                                break;
+		case  3:	info.curr_val = process_sql_monitor(info, mysql);
+					break;
 
 		case  4:	info.curr_val = process_internal_monitor(info, mysql);
-				break;
+					break;
 
 		default:	{
 					debuglogger(DEBUG_MONITOR, &info, "Unknown test type (" +
@@ -854,7 +854,7 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 	// create an array containing the parameters for the subdevice
 
 	string query =
-	        string("SELECT name, value FROM sub_dev_variables WHERE sub_dev_id = ") +
+		string("SELECT name, value FROM sub_dev_variables WHERE type = 'static' AND sub_dev_id = ") +
 		inttostr(info.subdevice_id);
 
         mysql_res = db_query(mysql, &info, query);
@@ -874,16 +874,28 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 		case 1:			break; // group
 
 		case 2:			subdev_status = setup_interface_parameters(&info, mysql);
-					break; // interface
+						break; // interface
 
 		case 3:			subdev_status = setup_disk_parameters(&info, mysql);
-					break; // disk
+						break; // disk
 
-		default:                debuglogger(DEBUG_SUBDEVICE, &info, "Unknown subdevice type (" +
-					inttostr(info.subdevice_type) + ")");
-					subdev_status = -3;
+		default:		debuglogger(DEBUG_SUBDEVICE, &info, "Unknown subdevice type (" +
+						inttostr(info.subdevice_type) + ")");
+						subdev_status = -3;
 
 	}  // end subdevice type switch
+	
+	// delete the old dynamic entries from the cache
+	db_update(mysql, &info, "DELETE FROM sub_dev_variables WHERE type = 'dynamic' AND sub_dev_id = "
+		+ inttostr(info.subdevice_id));
+		
+	// insert the new dynamic entries
+	for (list<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
+	{
+		db_update(mysql, &info, "INSERT INTO sub_dev_variables SET type = 'dynamic', sub_dev_id = "
+			+ inttostr(info.subdevice_id) + ", name = '" + current->name + "', value = '" + current->value
+			+ "'");
+	}
 	
 	if (subdev_status < 0)
 	{
@@ -966,7 +978,7 @@ uint process_sub_devices(DeviceInfo info, MYSQL *mysql)
 
 	MYSQL_RES	*mysql_res;
 	MYSQL_ROW	mysql_row;
-        uint		status = 0;
+	uint		status = 0;
 
 	string query = string("SELECT id, type FROM sub_devices WHERE dev_id=") + inttostr(info.device_id);
 
@@ -1003,26 +1015,30 @@ void process_device(int dev_id)
 	debuglogger(DEBUG_DEVICE, &info, "MySQL connection established.");
 
 	string query = 	string("SELECT ") 		+
-			string("name, ")  		+	// 0
-			string("ip, ")			+ 	// 1
-			string("snmp_enabled, ")	+	// 2
-			string("snmp_read_community, ")	+	// 3
-			string("snmp_recache, ")	+	// 4
-			string("snmp_uptime, ")		+	// 5
-			string("snmp_ifnumber, ")	+	// 6
-			string("snmp_check_ifnumber ")	+	// 7
-			string("FROM devices ")		+
+			string("name, ")				+ // 0
+			string("ip, ")					+ // 1
+			string("snmp_enabled, ")		+ // 2
+			string("snmp_read_community, ")	+ // 3
+			string("snmp_recache, ")		+ // 4
+			string("snmp_uptime, ")			+ // 5
+			string("snmp_ifnumber, ")		+ // 6
+			string("snmp_check_ifnumber ")	+ // 7
+			string("FROM devices ")			+
 			string("WHERE id=") + inttostr(dev_id);
 
 	mysql_res = db_query(&mysql, &info, query);
 	mysql_row = mysql_fetch_row(mysql_res);
 
-	info.name 			= mysql_row[0];
-	info.ip				= mysql_row[1];
-	info.snmp_read_community 	= mysql_row[3];
-
+	info.name					= mysql_row[0];
+	info.ip						= mysql_row[1];
+	info.snmp_read_community	= mysql_row[3];
+	
+	// setup device-wide parameters
+	info.parameters.push_front(ValuePair("dev_name", mysql_row[0]));
+	info.parameters.push_front(ValuePair("ip", mysql_row[1]));
+	info.parameters.push_front(ValuePair("snmp_read_community", mysql_row[3]));
+	
 	// get SNMP-level info, if SNMP is used.
-
 	if (strtoint(mysql_row[2]) == 1)
 	{
 		// get uptime

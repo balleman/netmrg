@@ -31,7 +31,7 @@ if (empty($_REQUEST["togglelegend"]))
 	$_REQUEST["togglelegend"] = 0;
 }
 
-$command = get_graph_command($_REQUEST["type"], $_REQUEST["id"], $_REQUEST["hist"], $_REQUEST["togglelegend"]);
+$command = get_graph_command($_REQUEST["type"], $_REQUEST["id"], $_REQUEST["hist"], $_REQUEST["togglelegend"], $_REQUEST["type"] == "template");
 
 if (!isset($debug))
 {

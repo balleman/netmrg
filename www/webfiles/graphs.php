@@ -2,8 +2,8 @@
 /********************************************
 * NetMRG Integrator
 *
-* custom_graphs.php
-* Custom Graphs Configuration Page
+* graphs.php
+* Graphs Configuration Page
 *
 * see doc/LICENSE for copyright information
 ********************************************/
@@ -20,7 +20,7 @@ if ($_REQUEST["action"] == "doedit")
 	if (empty($_REQUEST["graph_id"]))
 	{
 		$command = "INSERT INTO";
-		$where = "";
+		$where = ", type='{$_REQUEST['type']}'";
 	}
 	else
 	{
@@ -36,12 +36,12 @@ if ($_REQUEST["action"] == "doedit")
 	{
 		if ($_REQUEST["return_type"] == "traffic")
 		{
-			Header("Location: snmp_cache_view.php?dev_id={$_REQUEST['return_id']}");
+			header("Location: snmp_cache_view.php?dev_id={$_REQUEST['return_id']}");
 		} // end if return type is traffic
 	}
 	else
 	{
-		header("Location: {$_SERVER['PHP_SELF']}");
+		header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
 		exit(0);
 	} // end if return type
 
@@ -53,7 +53,7 @@ if ($_REQUEST["action"] == "dodelete")
 	check_auth(2);
 	delete_graph($_REQUEST["graph_id"]);
 
-	header("Location: {$_SERVER['PHP_SELF']}");
+	header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
 	exit(0);
 } // done deleting
 
@@ -100,15 +100,15 @@ if ($_REQUEST["action"] == "duplicate")
 
 if (empty($_REQUEST["action"]))
 {
-	begin_page("custom_graphs.php", "Custom Graphs");
-	js_confirm_dialog("del", "Are you sure you want to delete graph ", "?", "{$_SERVER['PHP_SELF']}?action=dodelete&graph_id=");
-	make_display_table("Graphs", "", 
+	begin_page("graphs.php", ucfirst($_REQUEST['type']) . " Graphs");
+	js_confirm_dialog("del", "Are you sure you want to delete graph ", "?", "{$_SERVER['PHP_SELF']}?action=dodelete&type={$_REQUEST['type']}&graph_id=");
+	make_display_table(ucfirst($_REQUEST['type']) . " Graphs", "graphs.php?action=add&type={$_REQUEST['type']}", 
 		array("text" => "Name", "href" => "{$_SERVER['PHP_SELF']}?order_by=name"),
 		array("text" => "Comment", "href" => "{$_SERVER['PHP_SELF']}?order_by=comment"),
 		array()
 	); // end make_display_table();
 
-	$query = "SELECT * FROM graphs";
+	$query = "SELECT * FROM graphs WHERE type='{$_REQUEST['type']}'";
 
 	if (isset($_REQUEST["order_by"]))
 	{
@@ -134,7 +134,7 @@ if (empty($_REQUEST["action"]))
 			array("text" => formatted_link("View", "enclose_graph.php?type=custom&id=" . $graph_row["id"]) . "&nbsp;" .
 				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"])),
 			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .
-				formatted_link("Delete", "javascript:del('".addslashes($graph_row['name'])."', '$graph_id')"))
+				formatted_link("Delete", "javascript:del('{$graph_row['name']}', '$graph_id')"))
 		); // end make_display_item();
 	} // end graphs
 
@@ -146,7 +146,7 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 {
 	// Display editing screen
 	check_auth(2);
-	begin_page("custom_graphs.php", "Custom Graphs");
+	begin_page("graphs.php", "Graphs");
 
 	if ($_REQUEST["action"] == "edit")
 	{
@@ -163,16 +163,22 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	}
 
 	make_edit_table("Edit Graph");
-	make_edit_text("Name:","graph_name","25","100",$graph_row["name"]);
-	make_edit_text("Comment:","graph_comment","50","200",$graph_row["comment"]);
-	make_edit_text("Vertical Label:","vert_label","50","100",$graph_row["vert_label"]);
-	make_edit_text("Width:","width","4","4",$graph_row["width"]);
-	make_edit_text("Height:","height","4","4",$graph_row["height"]);
+	make_edit_text("Name:", "graph_name", "25", "100", $graph_row["name"]);
+	make_edit_text("Comment:", "graph_comment", "50", "200", $graph_row["comment"]);
+	make_edit_text("Vertical Label:", "vert_label", "50", "100", $graph_row["vert_label"]);
+	make_edit_text("Width:", "width", "4", "4", $graph_row["width"]);
+	make_edit_text("Height:", "height", "4", "4", $graph_row["height"]);
 
 	if ($_REQUEST["action"] == "edit")
 	{
-		make_edit_hidden("graph_id",$_REQUEST["graph_id"]);
+		make_edit_hidden("graph_id", $_REQUEST["graph_id"]);
+		make_edit_hidden("type", $graph_row['type']);
 	}
+	else
+	{
+		make_edit_hidden("type", $_REQUEST['type']);
+	}
+	
 	make_edit_hidden("action","doedit");
 
 	if (!empty($_REQUEST["return_type"]))

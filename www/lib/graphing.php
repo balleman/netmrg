@@ -8,11 +8,38 @@
 * see doc/LICENSE for copyright information
 ********************************************/
 
+/**
+* dereference_templated_monitor()
+*
+* determines the actual monitor referenced in a graph template
+*
+* @param int $mon_id      the monitor id as defined in the graph template
+* @param int $subdev_id   the subdevice id to which the template is applied
+*/
+function dereference_templated_monitor($mon_id, $subdev_id)
+{
+	if ($mon_id > 0)
+	{
+	
+		$query	= do_query("SELECT test_id, test_type, test_params FROM monitors WHERE id=$mon_id");
+		$row	= mysql_fetch_array($query);
+
+		$query2	= do_query("SELECT id FROM monitors WHERE sub_dev_id=$subdev_id AND test_id={$row['test_id']} AND test_type={$row['test_type']} AND test_params='{$row['test_params']}'");
+		$row2   = mysql_fetch_array($query2);
+	
+		return $row2["id"];
+	}
+	else
+	{
+		return $mon_id;
+	}
+}
+
 
 function get_graph_command($type, $id, $hist, $togglelegend)
 {
 
-	// Determine what domain the graph is for
+	// Determine the time domain of the graph
 
 	$end_time = "-360";
 
@@ -54,9 +81,10 @@ function get_graph_command($type, $id, $hist, $togglelegend)
 
 	switch ($type)
 	{
-		case "mon":	return monitor_graph_command($id, $start_time, $end_time);
-		case "tinymon": return tiny_monitor_graph_command($id, $start_time, $end_time);
-		case "custom":  return custom_graph_command($id, $start_time, $end_time, $togglelegend, $break_time, $sum_label, $sum_time);
+		case "mon":			return monitor_graph_command($id, $start_time, $end_time);
+		case "tinymon":		return tiny_monitor_graph_command($id, $start_time, $end_time);
+		case "custom":		return custom_graph_command($id, $start_time, $end_time, $togglelegend, $break_time, $sum_label, $sum_time, false);
+		case "template":	return custom_graph_command($id, $start_time, $end_time, $togglelegend, $break_time, $sum_label, $sum_time, true);
 	}
 
 }
@@ -165,7 +193,7 @@ function tiny_monitor_graph_command($id, $start_time, $end_time)
 
 	}*/
 
-function custom_graph_command($id, $start_time, $end_time, $togglelegend, $break_time, $sum_label, $sum_time)
+function custom_graph_command($id, $start_time, $end_time, $togglelegend, $break_time, $sum_label, $sum_time, $templated)
 {
 	$options = "";
 
@@ -174,6 +202,16 @@ function custom_graph_command($id, $start_time, $end_time, $togglelegend, $break
 
 	//if ($togglelegend == 1) { $graph_row["show_legend"] = (1 - $graph_row["show_legend"]); }
 	//if ($graph_row["show_legend"] == 0) { $options = "-g "; }
+	
+	
+	if ($templated)
+	{	
+		$graph_row['name'] = expand_parameters($graph_row['name'], $_REQUEST['subdev_id']);
+		$graph_row['vert_label'] = expand_parameters($graph_row['vert_label'], $_REQUEST['subdev_id']);
+		$graph_row['comment'] = expand_parameters($graph_row['comment'], $_REQUEST['subdev_id']);
+	}
+	
+	
 
 	// initial definition
 	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time . " --alt-autoscale-max --title \"" . $graph_row["name"] . "\" -w " .
@@ -210,6 +248,11 @@ function custom_graph_command($id, $start_time, $end_time, $togglelegend, $break
 
 		$ds_row = mysql_fetch_array($ds_results);
 		$ds_row["type"] = $GLOBALS["RRDTOOL_ITEM_TYPES"][$ds_row["type"]];
+		
+		if ($templated)
+		{
+			$ds_row["mon_id"] = dereference_templated_monitor($ds_row["mon_id"], $_REQUEST['subdev_id']);
+		}
 
 		// Data is from a monitor
 		if ($ds_row['mon_id'] >= 0)

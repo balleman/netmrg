@@ -382,12 +382,13 @@ function make_edit_select_end()
 * $header = select title name
 * $name = select box form name
 * $table_name = mysql table field
-* $selected = mysql index to be selected (if any)
+* $selected = row id to be selected (if any)
 * $select_options = things like javascript that apply to this select box
 * $begin_array_list = array of key=>value pairs to include at the beginning of the option list
 * $end_array_list = array of key=>value pairs to include at the end of the option list
+* $where = where clause for query 
 */
-function make_edit_select_from_table($header, $name, $table_name, $selected, $select_options = "", $begin_array_list = array(), $end_array_list = array())
+function make_edit_select_from_table($header, $name, $table_name, $selected, $select_options = "", $begin_array_list = array(), $end_array_list = array(), $where = "1")
 {
 	make_edit_select($header, $name, $select_options);
 
@@ -398,7 +399,7 @@ function make_edit_select_from_table($header, $name, $table_name, $selected, $se
 		make_edit_select_option($value, $key, ($key == $selected));
 	} // end while we have array list
 
-	$item_results = do_query("SELECT * FROM $table_name ORDER BY name,id");
+	$item_results = do_query("SELECT * FROM $table_name WHERE $where ORDER BY name,id");
 	$item_total = mysql_num_rows($item_results);
 
 	for ($item_count = 1; $item_count <= $item_total; ++$item_count)
@@ -567,7 +568,7 @@ function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 {
 	// Creates an edit select box for the selection of "monitors"
 
-	make_edit_select("Monitor:","mon_id");
+	make_edit_select("Monitor:", "mon_id");
 
 	// loop through things to put @ the end of the select box
 	while (list($key, $value) = each($prepended_array))
@@ -578,16 +579,16 @@ function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 
 
 	$mon_results = do_query("
-	SELECT  monitors.id AS id,
-                devices.name AS dev_name,
-                sub_devices.name AS sub_name
+	SELECT	monitors.id			AS id,
+			devices.name		AS dev_name,
+			sub_devices.name	AS sub_name
 
-	FROM monitors
+	FROM	monitors
 
-        LEFT JOIN sub_devices ON monitors.sub_dev_id=sub_devices.id
-        LEFT JOIN devices ON sub_devices.dev_id=devices.id
+	LEFT JOIN sub_devices ON monitors.sub_dev_id=sub_devices.id
+	LEFT JOIN devices ON sub_devices.dev_id=devices.id
 
-        ORDER BY dev_name, sub_name, id
+	ORDER BY dev_name, sub_name, id
 
         ");
 
@@ -599,7 +600,7 @@ function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 		$mon_row = mysql_fetch_array($mon_results);
 		$mon_id = $mon_row["id"];
 		$mon_name = get_monitor_name($mon_id);
-	        make_edit_select_option($mon_name, $mon_id, $mon_id_curr == $mon_id);
+	        make_edit_select_option($mon_name, $mon_id, $mon_id_cur == $mon_id);
 	}
 
 	make_edit_select_end();
@@ -607,6 +608,48 @@ function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 
 } // end make_edit_select_monitor
 
+function make_edit_select_subdevice($subdev_id_cur, $prepended_array = array())
+{
+	// Creates an edit select box for the selection of "subdevices"
+
+	make_edit_select("Subdevice:", "subdev_id");
+
+	// loop through things to put @ the end of the select box
+	while (list($key, $value) = each($prepended_array))
+	{
+		make_edit_select_option($value, $key, ($key == $subdev_id_cur));
+
+	} // end while we have array list
+
+
+	$subdev_results = do_query("
+	SELECT	devices.name AS dev_name,
+			sub_devices.name AS sub_name,
+			sub_devices.id AS id
+
+	FROM	sub_devices
+
+	LEFT JOIN devices ON sub_devices.dev_id=devices.id
+	
+	ORDER BY dev_name, sub_name, id
+
+        ");
+
+	$subdev_total = mysql_num_rows($subdev_results);
+
+	for ($subdev_count = 1; $subdev_count <= $subdev_total; ++$subdev_count)
+	{
+
+		$subdev_row = mysql_fetch_array($subdev_results);
+		$subdev_id = $subdev_row["id"];
+		$subdev_name = get_sub_device_name($subdev_id);
+	        make_edit_select_option($subdev_name, $subdev_id, $subdev_id_cur == $subdev_id);
+	}
+
+	make_edit_select_end();
+
+
+} // end make_edit_select_subdevice
 
 // Special Functions
 

@@ -123,7 +123,8 @@ $MENU = array(
 		array("name" => "Event Log", "link" => "event_log.php", "descr" => "Display a list of the most recent events.", "authLevelRequired" => 1)
 	),
 	"Graphing" => array(
-		array("name" => "Custom Graphs", "link" => "custom_graphs.php", "descr" => "", "authLevelRequired" => 1)
+		array("name" => "Custom Graphs", "link" => "graphs.php?type=custom", "descr" => "", "authLevelRequired" => 1),
+		array("name" => "Template Graphs", "link" => "graphs.php?type=template", "descr" => "", "authLevelRequired" => 1)
 	),
 	"Tests" => array(
 		array("name" => "Scripts", "link" => "tests_script.php", "descr" => "External Programs", "authLevelRequired" => 2),

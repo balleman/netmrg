@@ -145,6 +145,19 @@ function isin($haystack, $needle)
 	return is_integer(strpos($haystack, $needle));
 }
 
+function expand_parameters($input, $subdev_id)
+{
+	$query = do_query("SELECT * FROM sub_dev_variables WHERE type='dynamic' AND sub_dev_id=$subdev_id");
+	
+	while (($row = mysql_fetch_array($query)) != NULL)
+	{
+		$input = str_replace("%" . $row['name'] . "%", $row['value'], $input);
+	}
+	
+	return $input;
+
+}
+
 // Recursive status determination section
 
 
@@ -380,10 +393,10 @@ function delete_response($response_id)
 function delete_graph($graph_id)
 {
 	// delete the graph
-	do_update("DELETE FROM graphs WHERE id=$graph_id");
+	do_update("DELETE FROM graphs WHERE id = $graph_id");
 
 	// delete the graphs from associated graphs
-	do_update("DELETE FROM view WHERE graph_id_type='custom' AND graph_id=$graph_id");
+	do_update("DELETE FROM view WHERE graph_id = $graph_id AND (type = 'graph' OR type = 'template')");
 
 	$ds_handle = do_query("SELECT id FROM graph_ds WHERE graph_id=$graph_id");
 

@@ -18,7 +18,7 @@ if (empty($_REQUEST["action"]))
 	check_auth(1);
 	begin_page("sub_dev_param.php", "Sub Device Parameters");
 
-	$results = do_query("SELECT name, value FROM sub_dev_variables WHERE sub_dev_id={$_REQUEST['sub_dev_id']}");
+	$results = do_query("SELECT name, value FROM sub_dev_variables WHERE type='static' AND sub_dev_id={$_REQUEST['sub_dev_id']}");
 
 	make_display_table("Parameters for " . get_sub_device_name($_REQUEST["sub_dev_id"]), 
 		"{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}",

@@ -1,6 +1,5 @@
 == showstoppers for 0.9 ==
-graph templating
-device duplication
+device, graph duplication
 more detailed INSTALL
 more detailed README
 Usage information (description of every page)
@@ -28,6 +27,7 @@ when looking at a device's graphs, you should be able to click next to it
   and follow it to the next device (if applicable)
 ensure proper escaping in all queries
 checkboxes on most pages - provide for massive deletes, duplications, etc
+enclose_graph.php needs rewritten from the ground up
 
 
 == silfreed ==
@@ -40,7 +40,8 @@ make icons for links on various pages
 
 
 == balleman ==
-graph templates
+clean up UI for templates
+make template rendering more efficient
 netmrg.cc
   more comprehensive way of setting debug levels needed
 
