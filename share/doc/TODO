@@ -54,6 +54,11 @@ distributed netmrg
     * if the [boss] notices that a [worker] forgot to clock out, it clocks
       them out itself
     * [worker]s report their [job_result]s back
+    * have the [boss] keep a schedule in a MySQL Heap table.  It can reschedule
+      items by just bumping them up in the queue
+      [worker]s can then just poll the mysql table for new tasks for it
+      If the website allows for certain devices to only be polled by certain 
+      [worker]s, then the [boss] can just assign tasks to that [worker]
 wizards
   - /wizard dir
   - index.php reads in other files to know name, description, etc
