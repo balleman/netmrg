@@ -15,7 +15,7 @@ rm -rf $pkgdir/$this/
 rm -f $pkgdir/$this.tar.gz
 rm -f $pkgdir/$this.tar.bz2
 
-svn export http://svn.$progname.net/branches/$progname-$cvsver $pkgdir/$this
+svn export -q http://svn.$progname.net/branches/$progname-$cvsver $pkgdir/$this
 tar -C $pkgdir -czf $pkgdir/$this.tar.gz  $this
 tar -C $pkgdir -cjf $pkgdir/$this.tar.bz2 $this
 

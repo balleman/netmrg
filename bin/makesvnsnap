@@ -14,7 +14,7 @@ pkgdir="/tmp"
 rm -rf $tmpdir/$this
 rm -f $this.tar.gz
 
-svn export http://svn.$progname.net/trunk $tmpdir/$this
+svn export -q http://svn.$progname.net/trunk $tmpdir/$this
 tar -C $tmpdir -czf $pkgdir/$this.tar.gz $this
 
 rm -rf $tmpdir/$this
