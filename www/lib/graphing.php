@@ -298,12 +298,12 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 				$ds_row["mon_id"] = dereference_templated_monitor($ds_row["mon_id"], $_REQUEST['subdev_id']);
 			}
 
-			$rawness = (($ds_row["multiplier"] == 1) && !$time_shaping) ? "" : "raw_";
+			$rawness = (($ds_row["multiplier"] == "1") && !$time_shaping) ? "" : "raw_";
 			$command .= " DEF:" . $rawness . "data" . $ds_count . "="  . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":AVERAGE " .
 						" DEF:" . $rawness . "data" . $ds_count . "l=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":LAST " .
 						" DEF:" . $rawness . "data" . $ds_count . "m=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":MAX ";
 
-			if (($ds_row["multiplier"] != 1) || $time_shaping)
+			if (($ds_row["multiplier"] != "1") || $time_shaping)
 			{
 				if ($templated)
 				{
