@@ -1,5 +1,6 @@
 2004.08.29  v0.17cvs  silfreed
   - bug#0000244 - global define for permit values
+  - bug#0000248 - notifications.php has escaping issues
 
 2004.08.29  v0.17cvs  keb
   - ability to duplicate multiple graphs at once

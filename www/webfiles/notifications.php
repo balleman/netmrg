@@ -44,6 +44,7 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 			$db_end = "WHERE id='{$_REQUEST['id']}'";
 		}
 		if (empty($_REQUEST["disabled"])) { $_REQUEST["disabled"] = ""; }
+		$_REQUEST['command'] = db_escape_string($_REQUEST['command']);
 		db_update("$db_cmd notifications SET name='{$_REQUEST['name']}',
 			command='{$_REQUEST['command']}', disabled='{$_REQUEST['disabled']}'
 			$db_end");
