@@ -402,6 +402,30 @@ and please change your password!
 	</orderedlist>
 </chapter>
 <chapter>
+	<title>External Authentication</title>
+	<para>
+	NetMRG handles authentication internally by default, checking passwords against 
+	its own database.  It is possible for NetMRG to use other systems for username/password 
+	authentication.  This is accomplished by handing off the authentication task to the HTTP server.
+	</para>
+	<note><para>
+	You must still create accounts in NetMRG for each user when using external authentication in order
+	to assign them permissions and rights.
+	</para></note>
+	<para>
+	Details on methods of authentication using the <ulink url="http://www.apache.org/"><application>Apache</application>
+	 web server</ulink> are available <ulink url="http://httpd.apache.org/docs-2.0/howto/auth.html">here</ulink>.  
+	There are add-on modules for <application>Apache</application> that allow for various authentication mechanisms, 
+	including LDAP and custom database authentication systems.  Using <application>Apache</application>-based 
+	authentication, it is possible for an organization to maintain users and passwords in one location for a variety
+	of web-based services, only needing to set up application-specific permissions in each application.
+	</para>
+	<para>
+	To enable external authentication, edit <filename>config.php</filename> and set 
+	<computeroutput>externalAuth</computeroutput> to <computeroutput>true</computeroutput>.
+	</para>
+</chapter>
+<chapter>
 	<title>Manual Pages</title>
 	<refentry id="netmrg-gatherer">
 		<refmeta>
