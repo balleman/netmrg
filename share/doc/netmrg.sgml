@@ -18,33 +18,33 @@
 		<year>2003</year>
 		<holder>Brady Alleman and Douglas E. Warner</holder>
 	</copyright>
-	
+
 	<legalnotice id="license">
 		<para>This project is licensed under the terms of the MIT License.</para>
 		<para>
-Permission is hereby granted, free of charge, to any person obtaining a copy 
-of this software and associated documentation files (the "Software"), to deal 
-in the Software without restriction, including without limitation the rights 
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell 
-copies of the Software, and to permit persons to whom the Software is 
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 		</para>
 		<para>
-The above copyright notice and this permission notice shall be included in 
+The above copyright notice and this permission notice shall be included in
 all copies or substantial portions of the Software.
 		</para>
 		<para>
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 		</para>
 		<para>
-All product names are property of their respective owners.  Such names are used 
-for identification purposes only and are not indicative of endorsement by or of 
+All product names are property of their respective owners.  Such names are used
+for identification purposes only and are not indicative of endorsement by or of
 any company, organization, product, or platform.
 		</para>
 	</legalnotice>
@@ -61,11 +61,21 @@ any company, organization, product, or platform.
 	<title>Revision History</title>
 	<itemizedlist>
 		<listitem>
+			<para>0.12</para>
+			<para>2003.12.15</para>
+			<para>
+Major Feature Enhancents and Bugfixes; added SNMPv2 support, fixed a bug that
+would cause a device to be deleted from all groups, fixed session timeout
+when using external auth, added checkbox support to interface/disk cache pages, slide show
+enhancements, fixed permission issue where unauthorized users could view/edit test_* pages
+			</para>
+		</listitem>
+		<listitem>
 			<para>0.10</para>
 			<para>2003.10.05</para>
 			<para>
-Major bug fix; fixes a db error when trying to view monitors, a bug that would 
-always set the width and height to zero when creating graphs, and makes conditions 
+Major bug fix; fixes a db error when trying to view monitors, a bug that would
+always set the width and height to zero when creating graphs, and makes conditions
 with 'rate of change' work.  Many documentation upgrades.
 			</para>
 		</listitem>
@@ -74,8 +84,8 @@ with 'rate of change' work.  Many documentation upgrades.
 			<para>2003.09.15</para>
 			<para>
 This release focuses on adding new features and sqaushing bugs.  In addition,
-there is now an 'updater.php' that is required to be run between versions.  A 
-minor change needs to be made to everyone's 'netmrg.xml' to add an 'externalauth' 
+there is now an 'updater.php' that is required to be run between versions.  A
+minor change needs to be made to everyone's 'netmrg.xml' to add an 'externalauth'
 field inside the 'website' section.
 			</para>
 		</listitem>

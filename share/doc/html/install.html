@@ -5,8 +5,7 @@
 >Installation Procedure</TITLE
 ><META
 NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.76b+
-"><LINK
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
 REL="HOME"
 TITLE="The NetMRG Reference"
 HREF="index.html"><LINK
@@ -161,9 +160,9 @@ CLASS="COMMAND"
 >Setup the database</P
 ><P
 >Now we need to setup the database.  Please change at least the password 
-(<TT
+(<SAMP
 CLASS="COMPUTEROUTPUT"
->netmrgpass</TT
+>netmrgpass</SAMP
 > below).
 			</P
 ><TABLE
@@ -185,16 +184,16 @@ mysql -u root -p
 ><LI
 ><P
 >You need to modify your apache config in order to make your NetMRG installation 
-live (commonly in <TT
+live (commonly in <SAMP
 CLASS="COMPUTEROUTPUT"
->/etc/httpd/conf/httpd.conf</TT
+>/etc/httpd/conf/httpd.conf</SAMP
 >).
 			</P
 ><P
 >The first is to alias /netmrg to the installed web directory (commonly 
-<TT
+<SAMP
 CLASS="COMPUTEROUTPUT"
->/usr/local/var/www/netmrg/webfiles</TT
+>/usr/local/var/www/netmrg/webfiles</SAMP
 >).
 			</P
 ><TABLE
@@ -333,21 +332,17 @@ CLASS="PROGRAMLISTING"
 ><LI
 ><P
 >Point your web browser at your install, and start graphing things!  The default 
-login is <TT
+login is <KBD
 CLASS="USERINPUT"
-><B
->admin</B
-></TT
+>admin</KBD
 > and the default password is 
-<TT
+<KBD
 CLASS="USERINPUT"
-><B
->nimda</B
-></TT
+>nimda</KBD
 >.  Point your web browser at the host you built 
-this on (something similar to <TT
+this on (something similar to <SAMP
 CLASS="COMPUTEROUTPUT"
->http://yourhost.com/netmrg/</TT
+>http://yourhost.com/netmrg/</SAMP
 >) 
 and please change your password!
 			</P

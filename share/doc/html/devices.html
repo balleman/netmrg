@@ -5,8 +5,7 @@
 >Devices</TITLE
 ><META
 NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.76b+
-"><LINK
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
 REL="HOME"
 TITLE="The NetMRG Reference"
 HREF="index.html"><LINK
@@ -77,7 +76,7 @@ NAME="DEVICES"
 ><DIV
 CLASS="REFNAMEDIV"
 ><A
-NAME="AEN656"
+NAME="AEN681"
 ></A
 ><H2
 >Name</H2
@@ -85,14 +84,14 @@ NAME="AEN656"
 ><DIV
 CLASS="REFSECT1"
 ><A
-NAME="AEN659"
+NAME="AEN684"
 ></A
 ><H2
 >Description</H2
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN661"
+NAME="AEN686"
 ></A
 ><H3
 >List</H3
@@ -200,7 +199,7 @@ CLASS="GUILABEL"
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN696"
+NAME="AEN721"
 ></A
 ><H3
 >Add</H3
@@ -243,12 +242,23 @@ CLASS="GUILABEL"
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN709"
+NAME="AEN734"
 ></A
 ><H3
 >Edit</H3
 ><P
 >Edit info about a device</P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>General</B
+></TT
+></P
 ><P
 ></P
 ><UL
@@ -277,7 +287,7 @@ CLASS="GUILABEL"
 ><B
 >Device Type</B
 ></TT
-> - type of device (currently not used)</P
+> - Type of device (currently not used)</P
 ></LI
 ><LI
 ><P
@@ -286,16 +296,29 @@ CLASS="GUILABEL"
 ><B
 >Disabled</B
 ></TT
-> - don't gather data for this box</P
+> - Don't gather data for this device</P
+></LI
+></UL
 ></LI
 ><LI
 ><P
 ><TT
 CLASS="GUILABEL"
 ><B
->This device uses SNMP</B
+>SNMP</B
 ></TT
-> - whether this device is SNMP Queriable</P
+></P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>SNMP Support</B
+></TT
+> - The version of SNMP to use when querying this device, if any.</P
 ></LI
 ><LI
 ><P
@@ -304,8 +327,21 @@ CLASS="GUILABEL"
 ><B
 >SNMP Read Community</B
 ></TT
-> - The SNMPv1 community string for this device</P
+> - The SNMP community string to use when querying this device.</P
 ></LI
+></UL
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>SNMP Caching</B
+></TT
+></P
+><P
+></P
+><UL
 ><LI
 ><P
 ><TT
@@ -325,11 +361,53 @@ CLASS="GUILABEL"
 > - An easier option to make the gatherer recache interfaces when the interface count changes (like when you add or remove a card from a router)</P
 ></LI
 ></UL
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Advanced SNMP Options</B
+></TT
+></P
+><P
+></P
+><UL
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>SNMP UDP Port</B
+></TT
+> - UDP port to direct SNMP queries to (default is 161).</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>SNMP Timeout (microseconds)</B
+></TT
+> - Number of microseconds to wait for a response to a query before retrying (default is 1000000 or 1 second).  An exponential backoff is used after each failed query; this is the initial delay.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>SNMP Retries</B
+></TT
+> - Number of times to query the device before giving up (default is 3).</P
+></LI
+></UL
+></LI
+></UL
 ></DIV
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN737"
+NAME="AEN787"
 ></A
 ><H3
 >SNMP Cache View</H3
@@ -338,7 +416,7 @@ NAME="AEN737"
 ><DIV
 CLASS="REFSECT3"
 ><A
-NAME="AEN740"
+NAME="AEN790"
 ></A
 ><H4
 >Interface Cache</H4
@@ -442,7 +520,7 @@ CLASS="GUILABEL"
 ><DIV
 CLASS="REFSECT3"
 ><A
-NAME="AEN774"
+NAME="AEN824"
 ></A
 ><H4
 >Disk Cache</H4

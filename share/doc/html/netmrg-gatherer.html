@@ -5,8 +5,7 @@
 >netmrg-gatherer</TITLE
 ><META
 NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.76b+
-"><LINK
+CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
 REL="HOME"
 TITLE="The NetMRG Reference"
 HREF="index.html"><LINK
@@ -77,7 +76,7 @@ NAME="NETMRG-GATHERER"
 ><DIV
 CLASS="REFNAMEDIV"
 ><A
-NAME="AEN473"
+NAME="AEN478"
 ></A
 ><H2
 >Name</H2
@@ -85,7 +84,7 @@ NAME="AEN473"
 ><DIV
 CLASS="REFSYNOPSISDIV"
 ><A
-NAME="AEN476"
+NAME="AEN481"
 ></A
 ><H2
 >Synopsis</H2
@@ -98,7 +97,7 @@ CLASS="COMMAND"
 ><DIV
 CLASS="REFSECT1"
 ><A
-NAME="AEN480"
+NAME="AEN485"
 ></A
 ><H2
 >Description</H2
@@ -119,9 +118,9 @@ CLASS="VARIABLELIST"
 ><DL
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-h</TT
+>-h</VAR
 > </P
 ></DT
 ><DD
@@ -130,9 +129,9 @@ CLASS="OPTION"
 ></DD
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-v</TT
+>-v</VAR
 > </P
 ></DT
 ><DD
@@ -141,14 +140,12 @@ CLASS="OPTION"
 ></DD
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-t</TT
-> <TT
+>-t</VAR
+> <VAR
 CLASS="REPLACEABLE"
-><I
->num threads</I
-></TT
+>num threads</VAR
 > </P
 ></DT
 ><DD
@@ -168,14 +165,45 @@ CLASS="VARIABLELIST"
 ><DL
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-l</TT
-> <TT
+>-a</VAR
+> </P
+></DT
+><DD
+><P
+>All.  Displays all log messages.</P
+></DD
+><DT
+><P
+> <VAR
+CLASS="OPTION"
+>-m</VAR
+> </P
+></DT
+><DD
+><P
+>Most.  Displays more messages than default.</P
+></DD
+><DT
+><P
+> <VAR
+CLASS="OPTION"
+>-q</VAR
+> </P
+></DT
+><DD
+><P
+>Quiet.  Silences all output.</P
+></DD
+><DT
+><P
+> <VAR
+CLASS="OPTION"
+>-l</VAR
+> <VAR
 CLASS="REPLACEABLE"
-><I
->level mask</I
-></TT
+>level mask</VAR
 > </P
 ></DT
 ><DD
@@ -184,14 +212,12 @@ CLASS="REPLACEABLE"
 ></DD
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-c</TT
-> <TT
+>-c</VAR
+> <VAR
 CLASS="REPLACEABLE"
-><I
->component mask</I
-></TT
+>component mask</VAR
 > </P
 ></DT
 ><DD
@@ -200,17 +226,14 @@ CLASS="REPLACEABLE"
 ></DD
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-q</TT
+>-s</VAR
 > </P
 ></DT
 ><DD
 ><P
->Quiet.  Silences all output.  This is the same as specifying <TT
-CLASS="OPTION"
->-l0 -c0</TT
-></P
+>Safe.  Tries to keep sensitive information out of the displayed messages.</P
 ></DD
 ></DL
 ></DIV
@@ -225,14 +248,12 @@ CLASS="VARIABLELIST"
 ><DL
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-C</TT
-> <TT
+>-C</VAR
+> <VAR
 CLASS="REPLACEABLE"
-><I
->config file</I
-></TT
+>config file</VAR
 > </P
 ></DT
 ><DD
@@ -241,14 +262,12 @@ CLASS="REPLACEABLE"
 ></DD
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-K</TT
-> <TT
+>-K</VAR
+> <VAR
 CLASS="REPLACEABLE"
-><I
->config file</I
-></TT
+>config file</VAR
 > </P
 ></DT
 ><DD
@@ -268,14 +287,12 @@ CLASS="VARIABLELIST"
 ><DL
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-H</TT
-> <TT
+>-H</VAR
+> <VAR
 CLASS="REPLACEABLE"
-><I
->host</I
-></TT
+>host</VAR
 > </P
 ></DT
 ><DD
@@ -284,14 +301,12 @@ CLASS="REPLACEABLE"
 ></DD
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-D</TT
-> <TT
+>-D</VAR
+> <VAR
 CLASS="REPLACEABLE"
-><I
->database</I
-></TT
+>database</VAR
 > </P
 ></DT
 ><DD
@@ -300,14 +315,12 @@ CLASS="REPLACEABLE"
 ></DD
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-u</TT
-> <TT
+>-u</VAR
+> <VAR
 CLASS="REPLACEABLE"
-><I
->user name</I
-></TT
+>user name</VAR
 > </P
 ></DT
 ><DD
@@ -316,14 +329,12 @@ CLASS="REPLACEABLE"
 ></DD
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-p</TT
->  [<TT
+>-p</VAR
+>  [<VAR
 CLASS="REPLACEABLE"
-><I
->password</I
-></TT
+>password</VAR
 >] </P
 ></DT
 ><DD
@@ -343,14 +354,12 @@ CLASS="VARIABLELIST"
 ><DL
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-i</TT
-> <TT
+>-i</VAR
+> <VAR
 CLASS="REPLACEABLE"
-><I
->device id</I
-></TT
+>device id</VAR
 > </P
 ></DT
 ><DD
@@ -359,14 +368,12 @@ CLASS="REPLACEABLE"
 ></DD
 ><DT
 ><P
-> <TT
+> <VAR
 CLASS="OPTION"
->-d</TT
-> <TT
+>-d</VAR
+> <VAR
 CLASS="REPLACEABLE"
-><I
->device id</I
-></TT
+>device id</VAR
 > </P
 ></DT
 ><DD

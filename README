@@ -5,7 +5,7 @@ Brady Alleman
 
 Douglas E. Warner
 
-   Copyright © 2003 by Brady Alleman and Douglas E. Warner
+   Copyright © 2003 Brady Alleman and Douglas E. Warner
 
    This project is licensed under the terms of the MIT License.
 
@@ -111,6 +111,15 @@ Chapter 1. Introduction
 
 Chapter 2. Revision History
 
+     * 0.12
+       2003.12.15
+       Major   Feature  Enhancents  and  Bugfixes;  added  SNMPv2
+       support,  fixed  a  bug  that  would  cause a device to be
+       deleted  from all groups, fixed session timeout when using
+       external  auth,  added  checkbox support to interface/disk
+       cache  pages,  slide  show  enhancements, fixed permission
+       issue  where  unauthorized  users  could  view/edit test_*
+       pages
      * 0.10
        2003.10.05
        Major  bug  fix;  fixes  a  db  error  when trying to view
@@ -280,7 +289,7 @@ Chapter 7. Satisfying Requirements
    depending  on  the  options  you selected when installing your
    operating system.
 
-     * Red Had Linux
+     * Red Hat Linux
           + In order to satisfy the libstdc++ requirement, Redhat
             8.0 or above is required. NetMRG may not be stable on
             older versions of libstdc++.
@@ -458,9 +467,9 @@ Chapter 10. NetMRG Tutorial
          e. In  the  IP or Host Name textbox, enter a domain name
             or  IP  address  of your device. Domain names must be
             resolvable from your monitoring host.
-         f. Ensure  that  the  This  device uses SNMP checkbox is
-            checked.
-         g. In  the SNMP Read Community textbox, enter the SNMPv1
+         f. In  the SNMP Support dropdown, select the appropriate
+            version. If unsure, select SNMPv1.
+         g. In  the  SNMP  Read Community textbox, enter the SNMP
             community string for your device.
          h. Click  the  Save  Changes  button  to create your new
             device.
@@ -607,6 +616,18 @@ Description
 
    Debugging / Verbosity Options
 
+   -a
+
+          All. Displays all log messages.
+
+   -m
+
+          Most. Displays more messages than default.
+
+   -q
+
+          Quiet. Silences all output.
+
    -l level mask
 
           Only  outputs  messages  that match the specified level
@@ -617,10 +638,10 @@ Description
           Only   outputs   messages   that  match  the  specified
           component mask.
 
-   -q
+   -s
 
-          Quiet.  Silences  all  output.  This  is  the  same  as
-          specifying -l0 -c0
+          Safe.  Tries  to  keep sensitive information out of the
+          displayed messages.
 
    Configuration File Options
 
@@ -757,21 +778,35 @@ Edit
 
    Edit info about a device
 
-     * Name - Name of a device; commonly the hostname
-     * IP  or  Hostname  -  IP address of the device, or hostname
-       (must be resolvable by the monitoring box)
-     * Device Type - type of device (currently not used)
-     * Disabled - don't gather data for this box
-     * This  device  uses  SNMP  -  whether  this  device is SNMP
-       Queriable
-     * SNMP Read Community - The SNMPv1 community string for this
-       device
-     * Do  not  cache  interface mappings - Recache interfaces on
-       every gather (in case indexes for interfaces change often)
-     * Clear  interface  cache  when interface count changes - An
-       easier option to make the gatherer recache interfaces when
-       the interface count changes (like when you add or remove a
-       card from a router)
+     * General
+          + Name - Name of a device; commonly the hostname
+          + IP  or  Hostname  -  IP  address  of  the  device, or
+            hostname (must be resolvable by the monitoring box)
+          + Device Type - Type of device (currently not used)
+          + Disabled - Don't gather data for this device
+     * SNMP
+          + SNMP  Support  -  The  version  of  SNMP  to use when
+            querying this device, if any.
+          + SNMP  Read  Community  - The SNMP community string to
+            use when querying this device.
+     * SNMP Caching
+          + Do  not cache interface mappings - Recache interfaces
+            on  every  gather  (in  case  indexes  for interfaces
+            change often)
+          + Clear  interface cache when interface count changes -
+            An   easier  option  to  make  the  gatherer  recache
+            interfaces  when  the  interface  count changes (like
+            when you add or remove a card from a router)
+     * Advanced SNMP Options
+          + SNMP  UDP  Port  - UDP port to direct SNMP queries to
+            (default is 161).
+          + SNMP  Timeout (microseconds) - Number of microseconds
+            to  wait  for  a  response to a query before retrying
+            (default  is  1000000  or  1  second). An exponential
+            backoff  is used after each failed query; this is the
+            initial delay.
+          + SNMP  Retries  -  Number of times to query the device
+            before giving up (default is 3).
 
 SNMP Cache View
 

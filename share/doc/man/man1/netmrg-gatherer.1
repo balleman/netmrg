@@ -3,7 +3,7 @@
 .\" <http://shell.ipoline.com/~elmert/comp/docbook2X/> 
 .\" Please send any bug reports, improvements, comments, patches, 
 .\" etc. to Steve Cheng <steve@ggi-project.org>.
-.TH "NETMRG-GATHERER" "1" "06 October 2003" "" "Manual Pages"
+.TH "NETMRG-GATHERER" "1" "15 December 2003" "" "Manual Pages"
 
 .SH NAME
 netmrg-gatherer \- Gathers data from devices.
@@ -26,14 +26,23 @@ Displays software version and exits.
 Run no more than the specified number of threads simultaneously.
 "DEBUGGING / VERBOSITY OPTIONS"
 .TP
+\fB   -a  \fR
+All.  Displays all log messages.
+.TP
+\fB   -m  \fR
+Most.  Displays more messages than default.
+.TP
+\fB   -q  \fR
+Quiet.  Silences all output.
+.TP
 \fB   -l \fIlevel mask\fB  \fR
 Only outputs messages that match the specified level mask.
 .TP
 \fB   -c \fIcomponent mask\fB  \fR
 Only outputs messages that match the specified component mask.
 .TP
-\fB   -q  \fR
-Quiet.  Silences all output.  This is the same as specifying \fB-l0 -c0\fR
+\fB   -s  \fR
+Safe.  Tries to keep sensitive information out of the displayed messages.
 "CONFIGURATION FILE OPTIONS"
 .TP
 \fB   -C \fIconfig file\fB  \fR

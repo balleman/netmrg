@@ -1,6 +1,16 @@
 
                           Chapter 2. Revision History
 
+     * 0.12
+
+       2003.12.15
+
+       Major Feature Enhancents and Bugfixes; added SNMPv2 support, fixed a
+       bug that would cause a device to be deleted from all groups, fixed
+       session timeout when using external auth, added checkbox support to
+       interface/disk cache pages, slide show enhancements, fixed permission
+       issue where unauthorized users could view/edit test_* pages
+
      * 0.10
 
        2003.10.05
