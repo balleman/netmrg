@@ -31,8 +31,7 @@ last_status.php:
 
 == silfreed ==
 CSS-ificiation
-  - lessen use of images so the page is 'lighter'
-  - menu needs to be more lightweight
+  - sub-pages need redone (ick)
 fix everything so register_globals can be off
 get auth w/ php sessions to work
   - include check for REMOTE_ADDR
