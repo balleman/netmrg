@@ -176,7 +176,7 @@ function view_disk_cache()
 		$s_row = db_fetch_array($s_query);
 		if (isset($s_row['id']))
 		{
-			$links .= formatted_link("View", "view.php?object_type=subdevice&object_id={$s_row['id']}");
+			$links .= formatted_link("View", "view.php?action=view&object_type=subdevice&object_id={$s_row['id']}");
 			$links .= "&nbsp;";
 			$links .= formatted_link("Monitors", "monitors.php?sub_dev_id={$s_row['id']}");
 			$links .= "&nbsp;";
@@ -276,7 +276,7 @@ function view_interface_cache()
 		$s_row = db_fetch_array($s_query);
 		if (isset($s_row['id']))
 		{
-			$links .= formatted_link("View", "view.php?object_type=subdevice&object_id={$s_row['id']}");
+			$links .= formatted_link("View", "view.php?action=view&object_type=subdevice&object_id={$s_row['id']}");
 			$links .= "&nbsp;";
 			$links .= formatted_link("Monitors", "monitors.php?sub_dev_id={$s_row['id']}");
 			$links .= "&nbsp;";
