@@ -132,7 +132,7 @@ function applytemplates()
 	make_edit_table("Apply Templates");
 
 	echo "<tr><td>";
-	make_plain_display_table("Template Graphs",
+	make_plain_display_table("",
 		checkbox_toolbar("edit"), ""
 	); // end make_display_table();
 
