@@ -1,3 +1,6 @@
+2003.07.02  v0.8  silfreed
+  - new bugtracker using mantisbt (http://mantisbt.sourceforge.net)
+
 2003.05.26  v0.8  silfreed
   - bug#7 : status images not vertically centered
   - bug#8 : monitors.php: no script options for new monitor
