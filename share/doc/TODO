@@ -53,9 +53,9 @@ get a real directory tree
   ideal install
     $(EPREFIX)/bin (netmrg-gatherer)
     $(EPREFIX)/libexec (tests)
-    $(PREFIX)/share/netmrg (images, db)
-    $(PREFIX)/share/doc/netmrg (docs)
-    $(PREFIX)/var/netmrg (include, lib, webfiles)
+    $(EPREFIX)/share/netmrg (images, db)
+    $(EPREFIX)/share/doc/netmrg (docs)
+    $(PREFIX)/var/www/netmrg (include, lib, webfiles)
     $(PREFIX)/var/lib/netmrg (rrd)
     $(PREFIX)/var/log/netmrg (lockfile)
 
