@@ -250,7 +250,7 @@ function GraphCheckAuth($type, $id)
 		&& !in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups)
 		&& $_SESSION["netmrgsess"]["permit"] == 0)
 	{
-		readfile($GLOBALS["netmrg"]["fileroot"]."/www/img/access_denied.png");
+		readfile($GLOBALS["netmrg"]["fileroot"]."/webfiles/img/access_denied.png");
 		exit;
 	}
 } // end GraphCheckAuth();

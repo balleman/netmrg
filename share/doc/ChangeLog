@@ -1,3 +1,6 @@
+2004.05.19  v0.15cvs  silfreed
+  - bug#0000196 - access denied graphic not displaying
+
 2004.05.18  v0.15cvs  balleman
   - bug#0000195 - notifications.php errors
 
