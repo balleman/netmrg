@@ -170,13 +170,18 @@ function edit()
 
 	begin_page("monitor.php", "Monitors");
 
+	// if we're editing a monitor
 	if ($_REQUEST["action"] == "edit")
 	{
 		make_edit_table("Edit Monitor");
-	} else {
+	} // end if edit
+	// if we're adding a monitor
+	else
+	{
 		make_edit_table("Add Monitor");
-	}
+	} // end else add
 
+	// if we're editing a monitor
 	if ($_REQUEST["action"] == "edit")
 	{
 		$mon_results = db_query("
@@ -194,7 +199,8 @@ function edit()
 			");
 		$mon_row = db_fetch_array($mon_results);
 
-	}
+	} // end if editing a monitor
+	// if we're adding a monitor
 	else
 	{
 		$mon_id = 0;
@@ -212,13 +218,16 @@ function edit()
 		}
 		$mon_row["test_params"] = "";
 		$_REQUEST["mon_id"] = 0;
-	}
+	} // end if adding a monitor
 
+	// TODO
 	if (isset($_REQUEST["sub_dev_id"]))
 	{
 		$mon_row["sub_dev_id"] = $_REQUEST["sub_dev_id"];
 		$dev_thingy = "&sub_dev_id={$_REQUEST['sub_dev_id']}";
-	} else {
+	}
+	else
+	{
 		$dev_thingy = "";
 	}
 
@@ -234,10 +243,16 @@ function edit()
 		</script>
 		";
 
+	// if we've been passed a test type
 	if (isset($_REQUEST["type"]))
 	{
 		$mon_row["test_type"] = $_REQUEST["type"];
-	}
+	} // end if test type is set
+	// else default to test type 1 (script)
+	else
+	{
+		$mon_row["test_type"] = 1;
+	} // end if no test type
 	GLOBAL $TEST_TYPES;
 	make_edit_select_from_array("Monitoring Type:","test_type", $TEST_TYPES, $mon_row["test_type"], "onChange='redisplay(form.test_type.options[selectedIndex].value);'");
 
