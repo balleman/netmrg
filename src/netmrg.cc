@@ -1405,7 +1405,7 @@ void try_snmpwalk()
 
 	init_snmp("snmpapp");
 	SOCK_STARTUP;
-	snmp_walk(info, "ifInOctets");
+	snmp_walk(info, "sysdescr");
 	SOCK_CLEANUP;
 }
 
