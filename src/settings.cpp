@@ -90,7 +90,7 @@ void print_settings()
 string xmltostring(const xmlChar * input)
 {
 	char temp[1024];
-	sprintf(temp, "%s", input);
+	snprintf(temp, 1023, "%s", input);
 	return string(temp);
 }
 
