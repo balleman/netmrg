@@ -38,6 +38,7 @@ long long int get_snmp_uptime(DeviceInfo info)
 
 } // end getuptime
 
+/*
 void logevent(string dev_name, string event_text, int situation, long long int time_since_last_change)
 {
 
@@ -56,3 +57,5 @@ void snmp_recache(int device_id)
         system(command.c_str());
 
 } // end snmp_recache
+
+*/

@@ -7,7 +7,8 @@ all : clean netmrg
 netmrg : 
 		$(OBJS)
 		$(CC) -Wall -g -c utils.cpp
-		$(CC) $(CFLAGS) utils.o netmrg.cc -o netmrg -L/usr/lib/mysql -I/usr/include/mysql -I./ -I/usr/include/ucd-snmp $(OBJS) $(LDFLAGS)
+		$(CC) -Wall -g -c locks.cpp
+		$(CC) $(CFLAGS) utils.o locks.o netmrg.cc -o netmrg -L/usr/lib/mysql -I/usr/include/mysql -I./ -I/usr/include/ucd-snmp $(OBJS) $(LDFLAGS)
 
 
 clean :

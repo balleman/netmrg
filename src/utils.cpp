@@ -126,8 +126,6 @@ int get_debug_level()
 
 void debuglogger(int level, DeviceInfo *info_in, string message)
 {
-	extern int debug_levels;
-
 	DeviceInfo info;
 
 	if (info_in != NULL)

@@ -25,7 +25,6 @@
 #include <mysql.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <pthread.h>
 #include <string>
 #include <ucd-snmp/ucd-snmp-config.h>
 #include <ucd-snmp/ucd-snmp-includes.h>
@@ -44,15 +43,10 @@ FILE *rrdtool_pipe;
 
 int active_threads = 0;
 
-// Create mutex locks
-pthread_mutex_t active_threads_lock 	= PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t mysql_lock 		= PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t snmp_lock 		= PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t rrdtool_lock 		= PTHREAD_MUTEX_INITIALIZER;
-
 // Include the NetMRG Libraries
 #include "types.h"
 #include "utils.h"
+#include "locks.h"
 #include <netmrg-snmp.cc>
 #include <netmrg-db.cc>
 #include <netmrg-misc.cc>
@@ -69,9 +63,9 @@ void rrd_cmd(DeviceInfo info, string cmd)
 	debuglogger(DEBUG_RRD, &info, "RRD: '" + cmd + "'");
 	cmd = " " + cmd + "\n";
 
-	pthread_mutex_lock(&rrdtool_lock);
+	mutex_lock(lkRRD);
 	fprintf(rrdtool_pipe, cmd.c_str());
-	pthread_mutex_unlock(&rrdtool_lock);
+	mutex_unlock(lkRRD);
 }
 
 // get_rrd_file
@@ -160,14 +154,15 @@ void update_monitor_rrd(DeviceInfo info, RRDInfo rrd)
 
 MYSQL db_connect(MYSQL connection)
 {
-	pthread_mutex_lock(&mysql_lock);
+	mutex_lock(lkMySQL);
 
 	if (!(mysql_connect(&connection, MYSQL_HOST, MYSQL_USER, MYSQL_PASS)))
 	{
 		debuglogger(DEBUG_MYSQL, NULL, "MySQL Connection Failure.");
 		pthread_exit(NULL);
 	}
-	pthread_mutex_unlock(&mysql_lock);
+	
+	mutex_unlock(lkMySQL);
 
 	if (mysql_select_db(&connection, MYSQL_DB))
 	{
@@ -687,16 +682,16 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
                         string(mysql_row[2]) + "', '" + test_query + "', '" +
                         string(mysql_row[4]) + "')");
 
-                pthread_mutex_lock(&mysql_lock);
+                mutex_lock(lkMySQL);
 
 	        if (!(mysql_connect(&test_mysql,mysql_row[0],mysql_row[1],mysql_row[2])))
 	        {
-        		pthread_mutex_unlock(&mysql_lock);
+        		mutex_unlock(lkMySQL);
                         debuglogger(DEBUG_GATHERER, &info, "Test MySQL Connection Failure.");
         	}
                 else
                 {
-                        pthread_mutex_unlock(&mysql_lock);
+                        mutex_unlock(lkMySQL);
 
                         if (mysql_query(&test_mysql, test_query.c_str()))
 	                {
@@ -1060,7 +1055,7 @@ void process_device(int dev_id)
 		debuglogger(DEBUG_SNMP, &info, "SNMP Uptime is " + inttostr(info.snmp_uptime));
 
 		// store new uptime
-		do_mysql_update("UPDATE mon_devices SET snmp_uptime=" + inttostr(info.snmp_uptime) +
+		db_update(&mysql, &info, "UPDATE mon_devices SET snmp_uptime=" + inttostr(info.snmp_uptime) +
 				" WHERE id=" + inttostr(dev_id));
 
 		if (info.snmp_uptime == 0)
@@ -1099,7 +1094,7 @@ void process_device(int dev_id)
 				{
 					// ifNumber changed
 					info.snmp_recache = 1;
-					do_mysql_update("UPDATE mon_devices SET snmp_ifnumber = " +
+					db_update(&mysql, &info, "UPDATE mon_devices SET snmp_ifnumber = " +
 						inttostr(info.snmp_ifnumber) + string(" WHERE id = ") +
 						inttostr(dev_id));
 					debuglogger(DEBUG_SNMP, &info,
@@ -1147,9 +1142,9 @@ void *child(void * arg)
 
 	process_device(device_id);
 
-	pthread_mutex_lock(&active_threads_lock);
+	mutex_lock(lkActiveThreads);
 	active_threads--;
-	pthread_mutex_unlock(&active_threads_lock);
+	mutex_unlock(lkActiveThreads);
 
 	debuglogger(DEBUG_THREAD, NULL, "Thread Ended.");
 
@@ -1218,7 +1213,7 @@ void run_netmrg()
 	int last_active_threads = 0;
 	while (dev_counter < num_rows)
 	{
-		if (pthread_mutex_trylock(&active_threads_lock) != EBUSY)
+		if (mutex_trylock(lkActiveThreads) != EBUSY)
 		{
 			if (last_active_threads != active_threads)
 			{
@@ -1237,7 +1232,8 @@ void run_netmrg()
 				dev_counter++;
 				active_threads++;
 			}
-			pthread_mutex_unlock(&active_threads_lock);
+			
+			mutex_unlock(lkActiveThreads);
 		}
 		else
 		{
@@ -1250,7 +1246,7 @@ void run_netmrg()
 	int canexit = 0;
 	while (canexit == 0)
 	{
-		if (pthread_mutex_trylock(&active_threads_lock) != EBUSY)
+		if (mutex_trylock(lkActiveThreads) != EBUSY)
 		{
 	                if (last_active_threads != active_threads)
         	        {
@@ -1262,7 +1258,7 @@ void run_netmrg()
 
 			if (active_threads == 0) canexit = 1;
 
-			pthread_mutex_unlock(&active_threads_lock);
+			mutex_unlock(lkActiveThreads);
 		}
 		else
 		{

@@ -93,9 +93,9 @@ string snmp_get(DeviceInfo info, string oidstring)
 	session.community = u_string(info.snmp_read_community, u_temp);
 	session.community_len = info.snmp_read_community.length();
 
-	pthread_mutex_lock(&snmp_lock);
+	mutex_lock(lkSNMP);
 	sessp = snmp_sess_open(&session);	/* establish the session */
-	pthread_mutex_unlock(&snmp_lock);
+	mutex_unlock(lkSNMP);
 
 	if (!sessp)
 	{
@@ -153,17 +153,7 @@ string snmp_get(DeviceInfo info, string oidstring)
 	}
 }
 
-struct SNMPPair
-{
-	string  oid;
-	string  value;
 
-	SNMPPair(string setoid, string setvalue)
-	{
-		oid   = setoid;
-		value = setvalue;
-	}
-};
 
 list<SNMPPair> snmp_trim_rootoid(list<SNMPPair> input, string rootoid)
 {
@@ -220,9 +210,9 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 	session.community = u_string(info.snmp_read_community, u_temp);
 	session.community_len = info.snmp_read_community.length();
 
-	pthread_mutex_lock(&snmp_lock);
+	mutex_lock(lkSNMP);
 	ss = snmp_sess_open(&session);
-	pthread_mutex_unlock(&snmp_lock);
+	mutex_unlock(lkSNMP);
 
 
 	if (ss == NULL)

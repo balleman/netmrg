@@ -125,4 +125,20 @@ struct RRDInfo
 	}
 };
 
+// SNMPPair
+// essentially the same as ValuePair, but for
+// oid/value pairs needed for SNMP walks
+
+struct SNMPPair
+{
+	string  oid;
+	string  value;
+
+	SNMPPair(string setoid, string setvalue)
+	{
+		oid   = setoid;
+		value = setvalue;
+	}
+};
+
 #endif
