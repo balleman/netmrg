@@ -64,7 +64,7 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 	for (list<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
 	{
 		db_update(mysql, &info, "INSERT INTO sub_dev_variables SET type = 'dynamic', sub_dev_id = "
-			+ inttostr(info.subdevice_id) + ", name = '" + current->name + "', value = '" + current->value
+			+ inttostr(info.subdevice_id) + ", name = '" + current->name + "', value = '" + db_escape(current->value)
 			+ "'");
 	}
 	
