@@ -276,7 +276,10 @@ make_nbsp($depth * 4) .
 			{
 				$device_id = $dev_row["id"];
 				$device_action = "";
-
+				$editdevice = ($_SESSION["netmrgsess"]["permit"] > 0) ? '<a class="editfield'.($rowcount%2).'" href="sub_devices.php?dev_id='.$device_id.'">'.
+'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
+'</a>'."\n" : "";
+				
 				// draw +- and create link for device to expand/collapse
 				if (in_array($device_id, $_COOKIE["netmrgDevTree"]["device"]))
 				{
@@ -303,6 +306,7 @@ make_nbsp($depth * 4) .
 '<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=device&object_id='.$device_id.'">'.
 '<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
 '</a>'."\n".
+$editdevice.
 '</td></tr></table>'."\n"
 						),
 						array(),
@@ -325,6 +329,7 @@ make_nbsp($depth * 4) .
 '<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=device&object_id='.$device_id.'">'.
 '<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
 '</a>'."\n".
+$editdevice.
 '</td></tr></table>'."\n"
 						),
 						array(),

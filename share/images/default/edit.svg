@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN"
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
 "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 <svg
-   id="svg607"
-   sodipodi:version="0.34"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg607"
+   sodipodi:version="0.34"
    width="500pt"
    height="500pt"
    xml:space="preserve"
-   sodipodi:docbase="/home/silfreed/cvs/netmrg/share/images/default"
-   sodipodi:docname="/home/silfreed/cvs/netmrg/share/images/default/edit-pencil.svg"><defs
+   sodipodi:docbase="/home/silfreed/cvs/netmrg/share/images/default/"
+   sodipodi:docname="/home/silfreed/cvs/netmrg/share/images/default/edit.svg"><defs
    id="defs609"><linearGradient
    id="linearGradient625"><stop
    style="stop-color:#ffff8d;stop-opacity:1;"
@@ -62,11 +62,11 @@
    gridspacingy="14.17323pt"
    gridspacingx="14.17323pt" /><path
    transform="matrix(0.769976,-0.638073,0.591991,0.805944,0,0)"
-   style="font-size:12;fill:url(#radialGradient616);fill-rule:nonzero;"
+   style="font-size:12;fill:url(#radialGradient616);fill-rule:nonzero;stroke:#000000;stroke-opacity:1;stroke-width:2.5021;stroke-dasharray:none;"
    d="M -212.6268 376.0793 L -210.5904 476.1499 L 389.676 485.2956 L 389.676 363.5726 L -212.6268 376.0793 z "
    id="path611"
    sodipodi:nodetypes="ccccc" /><rect
-   style="font-size:12;fill:url(#radialGradient624);fill-rule:evenodd;"
+   style="font-size:12;fill:url(#radialGradient624);fill-rule:evenodd;stroke:#000000;stroke-opacity:1;stroke-width:1.2513;stroke-dasharray:none;"
    id="rect617"
    width="90.4096393"
    height="123.846422"
@@ -75,7 +75,7 @@
    ry="61.9232033"
    rx="45.2048196"
    transform="matrix(0.790726,-0.61217,0.662142,0.749379,0,0)" /><path
-   style="font-size:12;fill:url(#linearGradient615);fill-rule:evenodd;"
+   style="font-size:12;fill:url(#linearGradient615);fill-rule:evenodd;stroke:#000000;stroke-opacity:1;stroke-width:1.25;stroke-dasharray:none;"
    d="M 59.00952 438.4667 L 23.17143 527.6095 L 119.8476 517.9524 L 59.00952 438.4667 z "
    id="path619"
    sodipodi:nodetypes="cccc" /></svg>

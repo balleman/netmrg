@@ -2,6 +2,7 @@
   - bug#0000215 - fix view.php edit template/custom graph selection
   - bug#0000206 - make edit_rrd.pl as shell script and auto-confisize it
   - SVO users can view items in views attached to a subgroup
+  - bug#0000063 - get into edit mode from device tree
 
 2004.05.25  v0.16cvs  balleman
   - bug#0000208 - when adding a group, remember your parent

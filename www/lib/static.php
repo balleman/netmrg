@@ -193,6 +193,9 @@ function get_image_by_name($img_name)
 	switch ($img_name)
 	{
 		// graphics
+		case "edit" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['edit']}";
+			break;
 		case "logo" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['logo']}";
 			break;
