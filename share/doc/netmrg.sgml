@@ -622,14 +622,34 @@ their NetMRG administrator.
 				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-v</option></arg></cmdsynopsis></term>
 					<listitem><para>Displays software version and exits.</para></listitem>
-				</varlistentry>              
+				</varlistentry>
+			</variablelist>
+			<variablelist>
+				<title>Operating Options</title>
 				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-t</option> <replaceable>num threads</replaceable></arg></cmdsynopsis></term>
 					<listitem><para>Run no more than the specified number of threads simultaneously.</para></listitem>
 				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-X</option></arg></cmdsynopsis></term>
+					<listitem><para>Become a daemon.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-M</option> <replaceable>mode</replaceable></arg></cmdsynopsis></term>
+					<listitem><para>Mode of operation.  This option controls the manner in which the gatherer operates.  The modes currently supported are "once" (the default, best used manually or via cron) which runs all tests once then exits, and "wait" (best used when daemonized) which will run all tests, wait for the gatherer interval to expire, and then repeat.</para></listitem>
+				</varlistentry>
 			</variablelist>
+			<note><para>To run <application>netmrg-gatherer</application> daemonized, the recommended set of options at this point is "-X -S -M wait" which will daemonize, repeat the gather cycle on each interval, and write output to syslog.</para></note>
 			<variablelist>
-				<title>Debugging / Verbosity Options</title>
+				<title>Logging, Debugging and Verbosity Options</title>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-S</option></arg></cmdsynopsis></term>
+					<listitem><para>Syslog.  Logs messages to syslog instead of stdout.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-b</option></arg></cmdsynopsis></term>
+					<listitem><para>Bland.  Disables color output.  By default, <application>netmrg-gatherer</application> will display color output when connected to a terminal, but will use bland output when its output is written to a file.  This option should only be needed when the detection mechanism has failed, or the user doesn't want to see colors when running the program by hand.</para></listitem>
+				</varlistentry>
 				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-a</option></arg></cmdsynopsis></term>
 					<listitem><para>All.  Displays all log messages.</para></listitem>

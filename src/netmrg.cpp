@@ -264,7 +264,7 @@ void show_usage()
 
 	printf("\nLogging:\n");
 	printf("-S          Syslog; output logs to syslog instead of stdout.\n");
-	printf("-b			Bland; disable color output.\n");
+	printf("-b          Bland; disable color output.\n");
 	printf("-a          All; display all debug messages.\n");
 	printf("-m          Most; display more than the default.\n");
 	printf("-q          Quiet; display no debug messages.\n");
