@@ -77,13 +77,13 @@ install_sh = @install_sh@
 
 # options to install files in the www directory
 netmrg_wwwdir = $(localstatedir)/www/$(PACKAGE)
-nobase_netmrg_www_SCRIPTS = ./*
+nobase_netmrg_www_DATA = ./*
 subdir = www
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_CLEAN_FILES =
-SCRIPTS = $(nobase_netmrg_www_SCRIPTS)
-
 DIST_SOURCES =
+DATA = $(nobase_netmrg_www_DATA)
+
 DIST_COMMON = Makefile.am Makefile.in
 all: all-am
 
@@ -93,17 +93,16 @@ $(srcdir)/Makefile.in:  Makefile.am  $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 	  $(AUTOMAKE) --foreign  www/Makefile
 Makefile:  $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@ $(am__depfiles_maybe)
-nobase_netmrg_wwwSCRIPT_INSTALL = $(install_sh_SCRIPT)
+uninstall-info-am:
+nobase_netmrg_wwwDATA_INSTALL = $(install_sh_DATA)
 
-uninstall-nobase_netmrg_wwwSCRIPTS:
+uninstall-nobase_netmrg_wwwDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(nobase_netmrg_www_SCRIPTS)'; for p in $$list; do \
-	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
-	  f=`echo "$$p" | sed 's|[^/]*$$||'`"$$f"; \
+	@list='$(nobase_netmrg_www_DATA)'; for p in $$list; do \
+	  f="$$p"; \
 	  echo " rm -f $(DESTDIR)$(netmrg_wwwdir)/$$f"; \
 	  rm -f $(DESTDIR)$(netmrg_wwwdir)/$$f; \
 	done
-uninstall-info-am:
 tags: TAGS
 TAGS:
 
@@ -135,7 +134,7 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(SCRIPTS)
+all-am: Makefile $(DATA)
 
 installdirs:
 	$(mkinstalldirs) $(DESTDIR)$(netmrg_wwwdir)
@@ -180,7 +179,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-nobase_netmrg_wwwSCRIPTS
+install-data-am: install-nobase_netmrg_wwwDATA
 
 install-exec-am:
 
@@ -198,31 +197,31 @@ mostlyclean: mostlyclean-am
 
 mostlyclean-am: mostlyclean-generic
 
-uninstall-am: uninstall-info-am uninstall-nobase_netmrg_wwwSCRIPTS
+uninstall-am: uninstall-info-am uninstall-nobase_netmrg_wwwDATA
 
 .PHONY: all all-am check check-am clean clean-generic distclean \
 	distclean-generic distdir dvi dvi-am info info-am install \
 	install-am install-data install-data-am install-exec \
 	install-exec-am install-info install-info-am install-man \
-	install-nobase_netmrg_wwwSCRIPTS install-strip installcheck \
+	install-nobase_netmrg_wwwDATA install-strip installcheck \
 	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-generic \
 	uninstall uninstall-am uninstall-info-am \
-	uninstall-nobase_netmrg_wwwSCRIPTS
+	uninstall-nobase_netmrg_wwwDATA
 
 @SET_MAKE@
 
 # override the default netmrg_www install
-install-nobase_netmrg_wwwSCRIPTS: $(nobase_netmrg_www_SCRIPTS)
+install-nobase_netmrg_wwwDATA: $(nobase_netmrg_www_DATA)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(netmrg_wwwdir)
-	@list='$(nobase_netmrg_www_SCRIPTS)'; for p in `find $$list -name 'CVS' -prune -o -name '*\.in' -prune -o -name 'Makefile*' -prune -o -type f -print`; do \
+	@list='$(nobase_netmrg_www_DATA)'; for p in `find $$list -name 'CVS' -prune -o -name '*\.in' -prune -o -name 'Makefile*' -prune -o -type f -print`; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  if test -f $$d$$p; then \
 	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
 	    f=`echo "$$p" | sed 's|[^/]*$$||'`"$$f"; \
-	    echo " $(nobase_netmrg_wwwSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_wwwdir)/$$f"; \
-	    $(nobase_netmrg_wwwSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_wwwdir)/$$f; \
+	    echo " $(nobase_netmrg_wwwDATA_INSTALL) $$d$$p $(DESTDIR)$(netmrg_wwwdir)/$$f"; \
+	    $(nobase_netmrg_wwwDATA_INSTALL) $$d$$p $(DESTDIR)$(netmrg_wwwdir)/$$f; \
 	  else :; fi; \
 	done
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
