@@ -22,8 +22,8 @@ if (empty($_REQUEST["action"])) $_REQUEST["action"] = "";
 
 switch ($_REQUEST["action"])
 {
-	case "view":
-	case "list":		do_view();			break;
+	case "list":		check_auth(2);
+	case "view":		do_view();			break;
 	case "edit":
 	case "add":			display_edit();		break;
 	case "slideshow":	do_slideshow();		break;
