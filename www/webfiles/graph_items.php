@@ -49,6 +49,9 @@ function doedit()
 	if (isset($_REQUEST["show_sums"]))
 		$stats .= "SUMS,";
 		
+	if (isset($_REQUEST["multiply_sum"]))
+		$stats .= "MULTSUM,";
+		
 	$stats = substr($stats, 0, -1);
 
 	if ($_REQUEST["id"] == 0)
@@ -356,7 +359,8 @@ function edit()
 	make_edit_checkbox("Show Average Value", "show_average", isin($ds_row["stats"], "AVERAGE"));
 	make_edit_checkbox("Show Maximum Value", "show_maximum", isin($ds_row["stats"], "MAXIMUM"));
 	make_edit_checkbox("Show Only Integers", "show_integer", isin($ds_row["stats"], "INTEGER"));
-	make_edit_checkbox("Show Sums",		 "show_sums",    isin($ds_row["stats"], "SUMS"));
+	make_edit_checkbox("Show Sums", "show_sums", isin($ds_row["stats"], "SUMS"));
+	make_edit_checkbox("Apply Multiplier to Sums", "multiply_sum", isin($ds_row['stats'], "MULTSUM"));
 	if (!empty($_REQUEST["showadvanced"]))
 	{
 		make_edit_group("Advanced");

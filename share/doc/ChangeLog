@@ -1,6 +1,7 @@
 2004.09.21  v0.17  balleman
   - bug#0000288 - escape colons in graph item titles
-
+  - bug#0000300 - graph sums don't take multipliers into account
+  
 2004.09.21  v0.17  silfreed
   - bug#0000299 - IE users can't submit forms
 

@@ -369,6 +369,10 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 			if ($ds_row['mon_id'] > 0)
 			{
 				$sum_val = rrd_sum($ds_row['mon_id'], -1 * $timeframe['sum_time'], "now", $timeframe['sum_time']);
+				if (isin($ds_row["stats"], "MULTSUM"))
+				{
+					$sum_val = $sum_val * $ds_row['multiplier'];
+				}
 				$total_sum += $sum_val;
 			}
 			elseif ($ds_row['mon_id'] == -2)
