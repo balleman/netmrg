@@ -28,6 +28,18 @@
 	<para>Welcome to NetMRG!  NetMRG is a database-driven network monitoring and graphing tool for use on Linux systems.  It offers an intuitive web-based configuration, customized monitoring capabilities for unusual situations, a fast multi-threaded polling application, and brilliant graphs rendered by <ulink url="http://www.rrdtool.org/"><Application>RRDTOOL</Application></ulink>.</para>
 	<para>This document aims to guide you swiftly through the installation and configuration of NetMRG, as well as act as a reference for those with existing installations.  We hope that you find it useful.</para>
 </preface>
+<chapter>
+	<title>System Structure</title>
+	<para>NetMRG is a complex system of interconnected components.  They are:
+		<itemizedlist>
+			<listitem><para>Gatherer</para><para>The Gatherer is a multi-threaded C++ program that interacts with the Database and RRDTOOL to gather and store data.  The program is run by cron, or another scheduling system of your choice, on five minute intervals.</para></listitem>
+			<listitem><para>Web Interface</para><para>The Web Interface consists of several PHP scripts, static HTML files and images, as well as CSS for formatting.  It interacts with the Database for the storage of configuration data and with RRDTOOL for the rendering of graphs for presentation.</para></listitem>
+			<listitem><para>Database</para><para>The Database is a relational database running on <ulink url="http://www.mysql.com/"><application>MySQL</application></ulink>.  It is utilized by the Web Interface and the Gatherer.</para></listitem>
+			<listitem><para>RRDTOOL</para><para><ulink url="http://www.rrdtool.org/"><application>RRDTOOL</application></ulink> is a graphing system based upon round-robin databases (RRDs).  It is used for both storing data into the databases and creating graphs using the databases.</para></listitem>
+			<listitem><para>RRDs</para><para>RRDs are the round-robin databases used by RRDTOOL.  They are individual files that are writable by the Gatherer and readable by the Web Interface.</para></listitem>
+		</itemizedlist>
+	</para> 
+</chapter>
 <appendix>
 	<title>Database Structure</title>
 	<para>NetMRG's database structure is wonderful...</para>
