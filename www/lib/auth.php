@@ -231,9 +231,11 @@ function GraphCheckAuth($type, $id)
 			break;
 		
 		case "template" :
+		case "template_item" :
 			$object_id_groups = GetSubdeviceGroups($id);
 			break;
 		
+		// needs fixed for custom_items
 		case "custom" :
 			$object_id_groups = GetCustomGraphGroups($id);
 			break;

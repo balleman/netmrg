@@ -44,6 +44,9 @@ switch($_REQUEST["type"])
 		GraphCheckAuth($_REQUEST["type"], $_REQUEST["subdev_id"]);
 		break;
 	
+	case "template_item" :
+		GraphCheckAuth($_REQUEST["type"], $_REQUEST["subdev_id"]);
+	
 	default :
 		GraphCheckAuth($_REQUEST["type"], $_REQUEST["id"]);
 		break;
