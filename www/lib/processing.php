@@ -553,13 +553,21 @@ function GetGroups($type,$id)
 			break;
 		case "subdevice":
 			$query = "
-				SELECT groups.id AS group_id 
-				FROM groups, dev_parents, devices, sub_devices 
-				WHERE sub_devices.id = '$id' 
-				AND sub_devices.dev_id = devices.id
-				AND devices.id = dev_parents.dev_id
-				AND dev_parents.grp_id = groups.id
-				GROUP BY group_id";
+				(
+					SELECT groups.id AS group_id 
+					FROM groups, dev_parents, devices, sub_devices 
+					WHERE sub_devices.id = '$id' 
+					AND sub_devices.dev_id = devices.id
+					AND devices.id = dev_parents.dev_id
+					AND dev_parents.grp_id = groups.id
+					GROUP BY group_id
+				) UNION (
+					SELECT object_id AS group_id
+					FROM view
+					WHERE object_type='group'
+					AND subdev_id = '$id'
+					GROUP BY group_id
+				)";
 			break;
 		case "monitor":
 			$query = "

@@ -1,5 +1,6 @@
 2004.11.23  v0.18.2  keb
   - bug#0000352 - Escaping issues in graphing.php
+  - bug#0000348 - More SVO "Access denied" issues
 
 2004.11.19  v0.18.2  keb
   - bug#0000341 - Root group should always be returned from the Get*Groups functions

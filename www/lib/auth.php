@@ -139,6 +139,7 @@ function check_auth($level)
 */
 function view_check_auth($object_id, $object_type)
 {
+	global $PERMIT;
 	check_auth($PERMIT["SingleViewOnly"]);
 	
 	// the groups this object_id is in
@@ -165,6 +166,7 @@ function view_check_auth($object_id, $object_type)
 */
 function EncloseGraphCheckAuth($type, $id)
 {
+	global $PERMIT;
 	check_auth($PERMIT["SingleViewOnly"]);
 
 	// the groups this object_id is in
@@ -207,6 +209,7 @@ function EncloseGraphCheckAuth($type, $id)
 */
 function GraphCheckAuth($type, $id)
 {
+	global $PERMIT;
 	check_auth($PERMIT["SingleViewOnly"]);
 
 	// the groups this object_id is in
