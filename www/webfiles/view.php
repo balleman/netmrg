@@ -228,7 +228,7 @@ if (empty($_REQUEST["action"]))
 					break;
 				
 				case "separator":
-					echo '<table width="100%" bgcolor="#0011AA"><tr><td><b><font color="AAAAAA">' . $row["separator_text"] . '</font></b></td></tr></table>'."\n";
+					echo '<table width="100%" ><tr><td class="editheader">' . $row["separator_text"] . '</td></tr></table>'."\n";
 					break;
 			} // end switch row type
 		} // end while each row
