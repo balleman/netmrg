@@ -148,6 +148,7 @@ function view_disk_cache()
 	$query = "SELECT * FROM snmp_disk_cache WHERE dev_id={$_REQUEST['dev_id']} ORDER BY disk_index";
 	$dev_name = get_device_name($_REQUEST['dev_id']);
 
+	js_checkbox_utils();
 	begin_page("snmp_cache_view.php", "$dev_name - Disk Cache");
 	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 
@@ -158,7 +159,7 @@ function view_disk_cache()
 	<input type="hidden" name="tripid" value="<?php echo $_REQUEST["tripid"]; ?>">
 <?php
 	make_plain_display_table("$dev_name - Disk Cache",
-		"", "",
+		checkbox_toolbar(), "",
 		"Index", "",
 		"Device", "",
 		"Path", "",
@@ -230,6 +231,7 @@ function view_interface_cache()
 
 	$dev_name = get_device_name($_REQUEST['dev_id']);
 
+	js_checkbox_utils();
 	begin_page("snmp_cache_view.php", "$dev_name - Interface Cache");
 	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 
@@ -240,7 +242,7 @@ function view_interface_cache()
 	<input type="hidden" name="tripid" value="<?php echo $_REQUEST["tripid"]; ?>">
 <?php
 	make_plain_display_table("$dev_name - Interface Cache",
-		"", "",
+		checkbox_toolbar(), "",
 		"Index",        "$sort_href=ifIndex",
 		"Status",       "",
 		"Name",         "$sort_href=ifName",

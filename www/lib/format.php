@@ -480,9 +480,16 @@ function make_plain_display_table($title)
 
 	?>
 		<td class="editheader" width="<?php print(80 / ((func_num_args() -1) / 2 + 2)); ?>%">
-			<a class="editheaderlink" href="<?php print(func_get_arg($item_num * 2 + 2)); ?>">
-			<?php print(func_get_arg($item_num * 2 + 1)); ?>
-			</a>
+			<?php if (func_get_arg($item_num * 2 + 2) != "")
+			{
+				?><a class="editheaderlink" href="<?php print(func_get_arg($item_num * 2 + 2)); ?>"><?php
+			}
+			print(func_get_arg($item_num * 2 + 1)); ?>
+			<?php if (func_get_arg($item_num * 2 + 2) != "")
+			{
+				?></a><?php
+			}
+			?>
 		</td>
 	<?php
 
@@ -928,21 +935,66 @@ function image_link_disabled($img_name, $title)
 	return '<img src="'.get_image_by_name($img_name . "-disabled").'" width="15" height="15" border="0" alt="' . $title . '" title="' . $title . '" align="middle" />'."\n";
 }
 
+
+/*
+	JavaScript Code Blocks
+*/
+
 function js_confirm_dialog($function_name, $before = "", $after = "", $url_base = "")
 {
 
 ?>
-        <script type="text/javascript">
+	<script type="text/javascript">
 		function <?php echo($function_name); ?>(prompt, url)
 		{
-        		if (window.confirm('<?php print($before); ?>' + prompt + '<?php print($after); ?>'))
+			if (window.confirm('<?php print($before); ?>' + prompt + '<?php print($after); ?>'))
 			{
-                                window.location = '<?php print($url_base); ?>' + url;
-                        }
+				window.location = '<?php print($url_base); ?>' + url;
+			}
 		}
-        </script>
+	</script>
 <?php
 
+}
+
+function js_checkbox_utils()
+{
+
+?>
+	<script type="text/javascript">
+		function checkbox_utils(method)
+		{
+			for (i = 0; i < document.form.elements.length; i++)
+			{
+				if ( (document.form.elements[i].type == 'checkbox') && (document.form.elements[i].disabled == false) )
+				{
+					if (method == 0)
+					{
+						document.form.elements[i].checked = false;
+					}
+					else if (method == 1)
+					{
+						document.form.elements[i].checked = true;
+					}
+					else
+					{
+						document.form.elements[i].checked =
+							! document.form.elements[i].checked;
+					}
+				}
+			}
+		}
+	</script>
+<?php
+
+}
+
+function checkbox_toolbar()
+{
+	return
+		"<a href='#' class='editheaderlink' onClick='checkbox_utils(1);'>[*]</a> " .
+		"<a href='#' class='editheaderlink' onClick='checkbox_utils(0);'>[0]</a> " .
+		"<a href='#' class='editheaderlink' onClick='checkbox_utils(-1);'>[-]</a>";
 }
 
 function js_color_dialog()
