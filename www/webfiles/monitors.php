@@ -253,6 +253,15 @@ function edit()
 			
 			return true;
 		}
+		
+		function make_min_undefined()
+		{
+			document.editform.min_val.value = 'U';
+		}
+		function make_max_undefined()
+		{
+			document.editform.max_val.value = 'U';
+		}
 		</script>
 		";
 
@@ -312,6 +321,9 @@ function edit()
 	}
 	
 	make_edit_text("Maximum Value:", "max_val", "10", "20", $mon_row["max_val"]);
+	
+	make_edit_label('[<a href="javascript:make_min_undefined();">make minimum undefined</a>]
+		[<a href="javascript:make_max_undefined();">make maximum undefined</a>]');
 
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("mon_id",$_REQUEST["mon_id"]);
