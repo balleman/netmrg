@@ -114,7 +114,7 @@ function do_list()
 		$java_name = addslashes($html_name);
 
 		make_display_item("editfield".($mon_count%2),
-			array("text" => $html_name, "href" => "events.php?mon_id={$mon_row['id']}"),
+			array("text" => $html_name, "href" => "events.php?mon_id={$mon_row['id']}&tripid={$_REQUEST['tripid']}"),
 			array("text" => $data),
 			array("text" => $graph),
 			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&mon_id=$mon_id&sub_dev_id={$_REQUEST['sub_dev_id']}") . "&nbsp;" .

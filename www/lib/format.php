@@ -207,71 +207,122 @@ function end_page()
 */
 function DrawGroupNavHistory($type, $id)
 {
+	// default trip id
+	if (empty($_REQUEST["tripid"]))
+	{
+		srand();
+		$_REQUEST["tripid"] = md5(time()*rand());
+	} // end if no trip id
+	$tripid = $_REQUEST["tripid"];
+	
+	// bread crumb type order
+	$bc_types = array(
+		"group" => 0,
+		"device" => 1,
+		"sub_device" => 2,
+		"monitor" => 3,
+		"event" => 4
+	); // end if bread crumb type order
+	
 	// setup array to hold group nav
-	if (!isset($_SESSION["netmrgsess"]["grpnav"]) || !is_array($_SESSION["netmrgsess"]["grpnav"]))
+	if (!isset($_SESSION["netmrgsess"]["grpnav"]))
 	{
 		$_SESSION["netmrgsess"]["grpnav"] = array();
-		$_SESSION["netmrgsess"]["grpnav"]["group"] = "";
-		$_SESSION["netmrgsess"]["grpnav"]["device"] = "";
-		$_SESSION["netmrgsess"]["grpnav"]["sub_device"] = "";
-		$_SESSION["netmrgsess"]["grpnav"]["monitor"] = "";
-		$_SESSION["netmrgsess"]["grpnav"]["event"] = "";
-	} // end if we haven't done this yet
-	
-	// assign the id to the type
-	$_SESSION["netmrgsess"]["grpnav"][$type] = $id;
-	
-	// for each type, add the history to an array
-	$hist = array();
-	switch ($type)
+	} // end if no group nav array
+	if (!isset($_SESSION["netmrgsess"]["grpnav"][$tripid]))
 	{
-		case "event" : 
-			$t = ' : ';
-			if ($type != "event") $t .= '<a href="responses.php?event_id='.$_SESSION["netmrgsess"]["grpnav"]["event"].'">';
-			$t .= get_event_name($_SESSION["netmrgsess"]["grpnav"]["event"]);
-			if ($type != "event") $t .= "</a>\n";
-			array_push($hist, $t);
-
-		case "monitor" :
-			$t = ' : ';
-			if ($type != "monitor") $t .= '<a href="events.php?mon_id='.$_SESSION["netmrgsess"]["grpnav"]["monitor"].'">';
-			$t .= get_short_monitor_name($_SESSION["netmrgsess"]["grpnav"]["monitor"]);
-			if ($type != "monitor") $t .= "</a>\n";
-			array_push($hist, $t);
-
-		case "sub_device" :
-			$t = ' : ';
-			if ($type != "sub_device") $t .= '<a href="monitors.php?sub_dev_id='.$_SESSION["netmrgsess"]["grpnav"]["sub_device"].'">';
-			$t .= get_sub_device_name($_SESSION["netmrgsess"]["grpnav"]["sub_device"]);
-			if ($type != "sub_device") $t .= "</a>\n";
-			array_push($hist, $t);
-
-		case "device" :
-			$t = ' : ';
-			if ($type != "device") $t .= '<a href="sub_devices.php?dev_id='.$_SESSION["netmrgsess"]["grpnav"]["device"].'">';
-			$t .= get_device_name($_SESSION["netmrgsess"]["grpnav"]["device"]);
-			if ($type != "device") $t .= "</a>\n";
-			array_push($hist, $t);
-
-		case "group" :
-			$t = ' : ';
-			if ($type != "group") $t .= '<a href="devices.php?grp_id='.$_SESSION["netmrgsess"]["grpnav"]["group"].'">';
-			$t .= get_group_name($_SESSION["netmrgsess"]["grpnav"]["group"]);
-			if ($type != "group") $t .= "</a>\n";
-			array_push($hist, $t);
-	} // end switch type
+		$_SESSION["netmrgsess"]["grpnav"][$tripid] = array();
+	} // end if no group nav trip array
 	
+	// push type onto breadcrumbs
+	/**
+	* breadcrumbs = array(
+	*   "type" => (group|device|sub_device|monitor|event),
+	*   "id"   => x
+	* );
+	*/
+	$last_type = "";
+	$last_id = "";
+	if (count($_SESSION["netmrgsess"]["grpnav"][$tripid]) != 0)
+	{
+		$last_type = $_SESSION["netmrgsess"]["grpnav"][$tripid][count($_SESSION["netmrgsess"]["grpnav"][$tripid])-1]["type"];
+		$last_id = $_SESSION["netmrgsess"]["grpnav"][$tripid][count($_SESSION["netmrgsess"]["grpnav"][$tripid])-1]["id"];
+	} // end if we have some bread crumbs already
+	if (count($_SESSION["netmrgsess"]["grpnav"][$tripid]) == 0
+		|| $bc_types[$last_type] <= $bc_types[$type])
+	{
+		if (($type == $last_type && $id != $last_id)
+			|| ($id == $last_id && $type != $last_type)
+			|| ($type != $last_type && $id != $last_id))
+		{
+			if (!in_array(array("type" => $type, "id" => $id), $_SESSION["netmrgsess"]["grpnav"][$tripid]))
+			{
+				array_push($_SESSION["netmrgsess"]["grpnav"][$tripid], array("type" => $type, "id" => $id));
+			} // end if we haven't already pushed this item on
+		} // end if type and id are different from last 
+	} // end if we can push the breadcrumb onto our history
+	
+	// loop through each breadcrumb and display it
 ?>
 	<table style="border-collapse: collapse;" width="100%" cellpadding="0" cellspacing="0" border="0">
 	<tr><td class="editmainheader">
-		History : 
-        <a href="groups.php">All Groups</a>
+		History
 <?php
-	// loop through the history backwards
-	for($i = count($hist)-1; $i >= 0; $i--)
+	$count = 0;
+	foreach ($_SESSION["netmrgsess"]["grpnav"][$tripid] as $breadcrumb)
 	{
-		echo $hist[$i];
-	} // end for history
+		// skip to the end if we've past where we should be
+		if ($bc_types[$breadcrumb["type"]] > $bc_types[$type])
+		{
+			$_SESSION["netmrgsess"]["grpnav"][$tripid] = array_slice($_SESSION["netmrgsess"]["grpnav"][$tripid], 0, $count);
+			continue;
+		} // end if we're past our current type
+		
+		// display the proper link
+		switch ($breadcrumb["type"])
+		{
+			case "event" : 
+				$t = ' : ';
+				if ($type != "event") $t .= '<a href="responses.php?event_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= get_event_name($breadcrumb["id"]);
+				if ($type != "event") $t .= "</a>\n";
+				print $t;
+				break;
+				
+			case "monitor" :
+				$t = ' : ';
+				if ($type != "monitor") $t .= '<a href="events.php?mon_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= get_short_monitor_name($breadcrumb["id"]);
+				if ($type != "monitor") $t .= "</a>\n";
+				print $t;
+				break;
+				
+			case "sub_device" :
+				$t = ' : ';
+				if ($type != "sub_device") $t .= '<a href="monitors.php?sub_dev_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= get_sub_device_name($breadcrumb["id"]);
+				if ($type != "sub_device") $t .= "</a>\n";
+				print $t;
+				break;
+				
+			case "device" :
+				$t = ' : ';
+				if ($type != "device") $t .= '<a href="sub_devices.php?dev_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= get_device_name($breadcrumb["id"]);
+				if ($type != "device") $t .= "</a>\n";
+				print $t;
+				break;
+				
+			case "group" :
+				$t = ' : ';
+				if ($type != "group" || ($type == "group" && $id != $breadcrumb["id"])) $t .= '<a href="grpdev_list.php?parent_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= ($breadcrumb["id"] == 0) ? "All Groups" : get_group_name($breadcrumb["id"]);
+				if ($type != "group" || ($type == "group" && $id != $breadcrumb["id"])) $t .= "</a>\n";
+				print $t;
+				break;
+		} // end switch type
+		$count++;
+	} // end foreach breadcrumb
 ?>
 	</td></tr>
 	</table>

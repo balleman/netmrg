@@ -20,7 +20,7 @@ $GLOBALS["netmrg"]["verhist"] = array(
 
 $MENU = array(
 	"Monitoring" => array(
-		array("name" => "Groups", "link" => "groups.php", "descr" => "", "authLevelRequired" => 1),
+		array("name" => "Groups", "link" => "grpdev_list.php", "descr" => "", "authLevelRequired" => 1),
 		array("name" => "Device Types", "link" => "dev_types.php", "descr" => "", "authLevelRequired" => 2),
 		array("name" => "Notifications", "link" => "notifications.php", "descr" => "", "authLevelRequired" => 2)
 	),

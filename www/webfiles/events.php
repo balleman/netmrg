@@ -62,7 +62,7 @@ function do_display()
 		}
 
 		make_display_item("editfield".($rowcount%2),
-			array("text" => $name, "href" => "responses.php?event_id={$row['id']}"),
+			array("text" => $name, "href" => "responses.php?event_id={$row['id']}&tripid={$_REQUEST['tripid']}"),
 			array("text" => $GLOBALS['TRIGGER_TYPES'][$row['trigger_type']]),
 			array("text" => $GLOBALS['SITUATIONS'][$row['situation']]),
 			array("text" => $triggered),

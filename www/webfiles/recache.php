@@ -25,13 +25,13 @@ if (isset($_REQUEST['type']) && isset($_REQUEST['dev_id']))
 function do_interface_recache($dev_id)
 {
 	system($GLOBALS['netmrg']['binary'] . " -qi $dev_id");
-	header("Location: snmp_cache_view.php?action=view&type=interface&dev_id=$dev_id");
+	header("Location: snmp_cache_view.php?action=view&type=interface&dev_id=$dev_id&tripid={$_REQUEST['tripid']}");
 }
 
 function do_disk_recache($dev_id)
 {
 	system($GLOBALS['netmrg']['binary'] . " -qd $dev_id");
-	header("Location: snmp_cache_view.php?action=view&type=disk&dev_id=$dev_id");
+	header("Location: snmp_cache_view.php?action=view&type=disk&dev_id=$dev_id&tripid={$_REQUEST['tripid']}");
 }
 
 ?>

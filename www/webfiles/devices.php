@@ -14,39 +14,45 @@ check_auth(1);
 
 if (!isset($_REQUEST['action']))
 {
-	$_REQUEST['action'] = "";
+	$_REQUEST['action'] = "add";
 }
 
 switch ($_REQUEST["action"])
 {
 	case "doadd":
 	case "doedit":
-					doedit();
-					break;
+		doedit();
+		break;
+		
+	case "delete":
 	case "dodelete":
-					dodelete();
-					break;
+		dodelete();
+		break;
+		
 	case "doaddtogrp":
-					doaddtogrp();
-					break;
+		doaddtogrp();
+		break;
+		
 	case "addtogrp":
-					displayaddtogrp();
-					break;
+		displayaddtogrp();
+		break;
+		
 	case "add":
-					displayadd();
-					break;
+		displayadd();
+		break;
+		
 	case "addnew":
 	case "edit":
-					displayedit();
-					break;
+		displayedit();
+		break;
+		
 	case "duplicate":
-					doduplicate();
-					break;
-	default:
-					displaylist();
-					break;
+		doduplicate();
+		break;
 }
 
+
+/***** FUNCTIONS *****/
 function doedit()
 {
 	check_auth(2);
@@ -86,7 +92,7 @@ function doedit()
 		} // end if dev+id = 0
 	} // done editing
 
-	header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
+	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
 } // end if we editing
 
@@ -94,7 +100,7 @@ function doaddtogrp()
 {
 	check_auth(2);
 	db_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id={$_REQUEST['dev_id']}");
-	header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
+	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}");
 	exit();
 } // end if we're adding to a group
 
@@ -102,7 +108,7 @@ function dodelete()
 {
 	check_auth(2);
 	delete_device($_REQUEST["dev_id"], $_REQUEST["grp_id"]);
-	header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
+	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
 } // done deleting
 
@@ -110,106 +116,23 @@ function doduplicate()
 {
 	check_auth(2);
 	duplicate_device($_REQUEST['dev_id']);
-	header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
+	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
 } // done duplicating
-
-function displaylist()
-{
-	// Display a list
-	$title = "";
-	$addlink = "";
-	if (isset($_REQUEST["grp_id"]))
-	{
-		$group_results = db_query("SELECT * FROM groups WHERE id={$_REQUEST['grp_id']}");
-		$group_array = db_fetch_array($group_results);
-
-		$title = "Monitored Devices in Group '" . $group_array["name"] . "'";
-
-		$addlink = "{$_SERVER['PHP_SELF']}?action=add&grp_id={$_REQUEST['grp_id']}";
-
-	}
-	else
-	{
-		$title = "Monitored Devices";
-
-	} // end if we have a group id
-	begin_page("devices.php", "Devices");
-	DrawGroupNavHistory("group", $_REQUEST["grp_id"]);
-	js_confirm_dialog("del", "Are you sure you want to delete device ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&grp_id={$_REQUEST['grp_id']}&dev_id=");
-	make_display_table($title, $addlink,
-		array("text" => "Name"),
-		array("text" => "SNMP Options")
-	);
-
-	if (!isset($orderby)) { $orderby = "name"; };
-
-	if (!(isset($_REQUEST["grp_id"])))
-	{
-		$dev_results = db_query("
-			SELECT devices.name AS name, devices.ip, devices.id
-			FROM devices
-			ORDER BY $orderby");
-
-	}
-	else
-	{
-		$dev_results = db_query("
-			SELECT devices.name AS name, devices.ip, devices.id, devices.snmp_version,
-				count(snmp.ifIndex) AS interface_count, count(disk.disk_index) AS disk_count
-			FROM dev_parents
-			LEFT JOIN devices ON dev_parents.dev_id=devices.id
-			LEFT JOIN snmp_interface_cache snmp ON devices.id=snmp.dev_id
-			LEFT JOIN snmp_disk_cache disk ON devices.id=disk.dev_id
-			WHERE grp_id={$_REQUEST['grp_id']}
-			GROUP BY devices.id
-			ORDER BY $orderby");
-
-	} // end if we have group id or not
-
-	$dev_total = db_num_rows($dev_results);
-
-	// For each device
-	for ($dev_count = 1; $dev_count <= $dev_total; ++$dev_count)
-	{
-		$dev_row = db_fetch_array($dev_results);
-		$dev_id  = $dev_row["id"];
-		$links   =
-		cond_formatted_link($dev_row["interface_count"] > 0, "View&nbsp;Interface&nbsp;Cache",
-			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface") . " " .
-		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Interfaces",
-			"recache.php?dev_id=$dev_id&type=interface") . " " .
-		cond_formatted_link($dev_row["disk_count"] > 0, "View&nbsp;Disk&nbsp;Cache",
-			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk") . " " .
-		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Disks",
-			"recache.php?dev_id=$dev_id&type=disk");
-
-		make_display_item("editfield".(($dev_count-1)%2),
-			array("text" => $dev_row["name"], "href" => "sub_devices.php?dev_id=$dev_id"),
-			array("text" => $links),
-			array("text" => formatted_link("View", "view.php?action=view&object_type=device&object_id=$dev_id") . "&nbsp;" .
-				formatted_link("Duplicate", "{$_SERVER['PHP_SELF']}?action=duplicate&dev_id=$dev_id&grp_id={$_REQUEST['grp_id']}") . "&nbsp;" .
-				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST['grp_id']}") . "&nbsp;" .
-				formatted_link("Delete", "javascript:del('" . addslashes($dev_row["name"]) . "', '" . $dev_row["id"] . "')"))
-		); // end make_display_item();
-
-	} // end devices
-
-	?>
-	</table>
-	<?php
-	end_page();
-} // End displaylist
 
 function displayadd()
 {
 	check_auth(2);
 	begin_page("devices.php", "Add Device");
-	echo("<big><b>
-		<a href='{$_SERVER['PHP_SELF']}?grp_id={$_REQUEST['grp_id']}&action=addnew'>Create a new device</a><br><br>
-		<a href='{$_SERVER['PHP_SELF']}?grp_id={$_REQUEST['grp_id']}&action=addtogrp>Add an existing device to this group</a>
-		</b></big>");
-
+	echo "<big><b>\n";
+	echo '<a href="';
+	echo "devices.php?grp_id={$_REQUEST['grp_id']}&action=addnew&tripid={$_REQUEST['tripid']}";
+	echo '">Create a new device</a><br><br>'."\n";
+	echo '<a href="';
+	echo "devices.php?grp_id={$_REQUEST['grp_id']}&action=addtogrp&tripid={$_REQUEST['tripid']}";
+	echo '">Add an existing device to this group</a>'."\n";
+	echo "</b></big>\n";
+	
 	end_page();
 } // end if add
 
@@ -222,6 +145,7 @@ function displayaddtogrp()
 	make_edit_select_from_table("Device:","dev_id","devices",-1);
 	make_edit_hidden("action","doaddtogrp");
 	make_edit_hidden("grp_id",$_REQUEST["grp_id"]);
+	make_edit_hidden("tripid",$_REQUEST["tripid"]);
 	make_edit_submit_button();
 	make_edit_end();
 	end_page();
@@ -276,6 +200,7 @@ function displayedit()
 	make_edit_hidden("dev_id", $dev_id);
 	make_edit_hidden("action", "doedit");
 	make_edit_hidden("grp_id", $_REQUEST["grp_id"]);
+	make_edit_hidden("tripid",$_REQUEST["tripid"]);
 	make_edit_submit_button();
 	make_edit_end();
 	end_page();
