@@ -38,5 +38,9 @@
 #include "gettext.h"
 #define _(String) gettext(String)
 
+#if HAVE_SYS_WAIT_H
+# include <sys/wait.h>
+#endif
+
 #endif /* NETMRG_COMMON_H */
 
