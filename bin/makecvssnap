@@ -11,7 +11,7 @@ this="$progname-$version"
 tmpdir="/tmp"
 pkgdir="/tmp"
 
-cd $pkgdir
+cd $tmpdir
 
 rm -rf $progname
 rm -f $this.tar.gz
