@@ -61,7 +61,7 @@ if ($login_valid == true) {
 else
 {
 
-	begin_page();
+	begin_page("login.php");
 
 ?>
 	<br><br>

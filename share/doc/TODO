@@ -2,4 +2,8 @@ fix everything so register_globals can be off
 get auth w/ php sessions to work
   - include check for REMOTE_ADDR
   - if you go back to index.php, the session breaks
+convert everything to using config.php
+  - setup database to connect using these variables
+  - add include for config.php in every web page
+  - move all other includes into config.php so they're not duplicated
 

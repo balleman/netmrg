@@ -28,7 +28,7 @@ require_once(netmrg_root() . "lib/auth.php");
 
 
 
-function begin_page()
+function begin_page($pagename = "")
 {
 	// Define the initial formating for the page
 
@@ -48,6 +48,13 @@ function begin_page()
 		<link rel="stylesheet" type="text/css" href="./css/main.css">
 	</head>
 	<body bgcolor="<? print(get_color_by_name("site_background")); ?>" text="<? print(get_color_by_name("site_text")); ?>" link="<? print(get_color_by_name("site_link")); ?>" vlink="<? print(get_color_by_name("site_vlink")); ?>" alink="<? print(get_color_by_name("site_alink")); ?>">
+<?
+if (!empty($pagename)) {
+?>
+	<!-- <? echo $pagename; ?> -->
+<?
+} // end if there's a pagename, output it
+?>
 	<table cellspacing="0" cellpadding="0" border="0" class="full">
 	<tr bgcolor="#001080" class="title">
 		<td class="title" width="125px" background="<? echo(get_image_by_name("tex_blue")); ?>"><a href="http://netmrg.net/"><img border="0" align="left" src="<? print(get_image_by_name("top"));?>"</a></td>
