@@ -29,6 +29,7 @@
 #include <getopt.h>
 #include <errno.h>
 #include <list>
+#include <iostream>
 
 using namespace std;
 
@@ -252,7 +253,7 @@ void show_usage()
 	printf("-H <host>   Use database server on <host>\n");
 	printf("-D <db>     Use database named <db>\n");
 	printf("-u <user>   Use database user name <user>\n");
-	printf("-p <pass>   Use database password <pass>\n");
+	printf("-p <pass>   Use database password <pass>, will prompt for password if <pass> is omitted\n");
 		
 	printf("\n");
 }
@@ -308,8 +309,9 @@ int main(int argc, char **argv)
 	int option_char;
 	load_settings_default();
 	load_settings_file(DEF_CONFIG_FILE);
+	string temppass;
 
-	while ((option_char = getopt(argc, argv, "hvqi:d:c:l:H:D:u:p:t:C:K:")) != EOF)
+	while ((option_char = getopt(argc, argv, "hvqi:d:c:l:H:D:u:p::t:C:K:")) != EOF)
 		switch (option_char)
 		{
 			case 'h': 	show_usage();
@@ -336,7 +338,23 @@ int main(int argc, char **argv)
 						break;
 			case 'u':	set_setting(setDBUser, optarg);
 						break;
-			case 'p':	set_setting(setDBPass, optarg);
+			case 'p':	if (optarg != NULL)
+						{
+							// if password specified, use it
+							temppass = string(optarg);
+							// obscure password from process listing
+							while (*optarg) *optarg++= 'x';
+						}
+						else
+						{
+							// if password not specified, prompt for it
+							// this needs replaced with something much better - 
+							// seems that there is no good and portable mechanism for 
+							// reading hidden passwords...
+							cout << "Password: ";
+							cin >> temppass;
+						}
+						set_setting(setDBPass, temppass);
 						break;
 			case 't':	set_setting(setThreadCount, optarg);
 						break;

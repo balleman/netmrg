@@ -1,3 +1,7 @@
+2003.08.02  v0.10pre1 balleman
+  - kill bug#0000008 - hide password on command line
+  - add password prompting capability
+
 2003.07.28  v0.8  silfreed
   - lots of doc upgrades
   - makedoctree addition to make docs for the website
