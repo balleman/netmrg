@@ -46,7 +46,6 @@ research message board/mailing list
   - thread view
 CSS-ificiation
   - sub-pages need redone (ick)
-menu uses a './' in the link.. must.. kill.. dot...
 mon_notify.php / format.php bug in make_display_table()
 fix everything so register_globals can be off
   - SCRIPT*

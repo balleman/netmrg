@@ -17,7 +17,7 @@
 function display_menu()
 {
 
-	$menu_q = do_query("SELECT * FROM menu WHERE state=0 ORDER BY groupid,priority");
+	$menu_q = do_query("SELECT * FROM menu ORDER BY groupid,priority");
 	
 	echo '<table class="menutable" cellpadding="0" cellspacing="0" border="0">'."\n";
 	
