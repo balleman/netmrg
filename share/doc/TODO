@@ -28,6 +28,8 @@ format.php
   no more $custom_add_link!
 ability for user to change their own password
 a device's type can affect the list of tests that can be performed on it
+when looking at a device's graphs, you should be able to click next to it
+  and follow it to the next device (if applicable)
 
 == silfreed ==
 design public website
