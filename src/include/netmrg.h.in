@@ -23,9 +23,11 @@
 
 
 // Paths
-#define CONFIG_FILE			"/etc/netmrg.conf"
-#define NETMRG_ROOT			"@prefix@"
-#define RRDTOOL				"/usr/bin/rrdtool - "
+#define CONFIG_FILE                     "@exec_prefix@/etc/netmrg.conf"
+#define NETMRG_ROOT                     "@prefix@"
+#define PREFIX                          "@prefix@"
+#define EXEC_PREFIX                     "@exec_prefix@"
+#define RRDTOOL                         "/usr/bin/rrdtool - "
 
 // Threading
 #define DEF_THREAD_COUNT	5						// number of simultaneous threads

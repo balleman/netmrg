@@ -37,6 +37,7 @@ get a real directory tree
       www -> var/webfiles
     ends up like
       bin
+      etc
       libexec
       share
         /doc
@@ -52,6 +53,7 @@ get a real directory tree
         /lib
   ideal install
     $(EPREFIX)/bin (netmrg-gatherer)
+    $(EPREFIX)/etc (netmrg.conf)
     $(EPREFIX)/libexec (tests)
     $(EPREFIX)/share/netmrg (images, db)
     $(EPREFIX)/share/doc/netmrg (docs)
