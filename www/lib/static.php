@@ -139,35 +139,56 @@ $MENU = array(
 function get_image_by_name($img_name)
 {
 	$image = "";
-	$dir   = "img";
 
 	switch ($img_name)
 	{
-		// headers
-		case "top"       :  $image = "$dir/newtop.png"; break;
-		case "buffer"    :  $image = "$dir/buffer.jpg"; break;
-		case "tex_top"   :  $image = "$dir/tex_top.gif"; break;
-		case "tex_side"  :  $image = "$dir/tex_side.gif"; break;
-		case "tex_blue"  :  $image = "$dir/tex_blue.png"; break;
-		case "tex_tan"   :  $image = "$dir/tex_tan.png"; break;
+		// graphics
+		case "logo" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['logo']}";
+			break;
+		case "disk" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['disk']}";
+			break;
+		case "arrow" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow']}";
+			break;
+		case "viewgraph" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['viewgraph']}";
+			break;
 
 		// LEDs
-		case "blue_led_on"    :  $image = "$dir/status-unknown-triggered.png"; break;
-		case "blue_led_off"   :  $image = "$dir/status-unknown-nottriggered.png"; break;
-		case "green_led_on"   :  $image = "$dir/status-green-triggered.png"; break;
-		case "green_led_off"  :  $image = "$dir/status-green-nottriggered.png"; break;
-		case "yellow_led_on"  :  $image = "$dir/status-yellow-triggered.png"; break;
-		case "yellow_led_off" :  $image = "$dir/status-yellow-nottriggered.png"; break;
-		case "red_led_on"     :  $image = "$dir/status-red-triggered.png"; break;
-		case "red_led_off"    :  $image = "$dir/status-red-nottriggered.png"; break;
+		case "blue_led_on" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['status-unknown-trig']}";
+			break;
+		case "blue_led_off" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['status-unknown-untrig']}";
+			break;
+		case "green_led_on" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['status-good-trig']}";
+			break;
+		case "green_led_off" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['status-good-untrig']}";
+			break;
+		case "yellow_led_on" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['status-warning-trig']}";
+			break;
+		case "yellow_led_off" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['status-warning-untrig']}";
+			break;
+		case "red_led_on" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['status-critical-trig']}";
+			break;
+		case "red_led_off" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['status-critical-untrig']}";
+			break;
 
 		// Tree Expand/Collapse
-		case "hide"  :  $image = "$dir/hide.gif"; break;
-		case "show"  :  $image = "$dir/show.gif"; break;
+		case "hide"  :  $image = "{$GLOBALS['netmrg']['staticimagedir']}/hide.gif"; break;
+		case "show"  :  $image = "{$GLOBALS['netmrg']['staticimagedir']}/show.gif"; break;
 	}
 
 	return $image;
-} // end get_image_by_name
+} // end get_image_by_name();
 
 
 $alt_color = 0;

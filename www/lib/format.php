@@ -58,7 +58,7 @@ if (!empty($pagename)) {
 <table class="titletable" cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>
 	<td class="main" rowspan="2" width="30">
-		<img src="img/netmrg-logo-small.png" name="NetMRG" alt="NetMRG" width="35" height="35" border="0">
+		<img src="<?php echo get_image_by_name("logo"); ?>" alt="logo" border="0">
 	</td>
 	<td class="title_name" rowspan="2" width="100%">
 		<a href="<?php echo $GLOBALS["netmrg"]["webhost"].$GLOBALS["netmrg"]["webroot"]; ?>" class="title_name">
