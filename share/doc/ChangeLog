@@ -1,3 +1,6 @@
+2003.09.29  v0.10pre2  silfreed
+  - documentation updates
+
 2003.09.27  v0.10pre2  silfreed
   - bug#0000059: sqaushed by adding grp nav to snmp_cache_view.php
   - make the device tree have it's 'view' images next to the device it 

@@ -49,6 +49,7 @@ any company, organization, product, or platform.
 		</para>
 	</legalnotice>
 </bookinfo>
+
 <part>
 <title>Overview</title>
 <chapter id="intro">
@@ -77,6 +78,7 @@ field inside the 'website' section.
 	</itemizedlist>
 </chapter>
 </part>
+
 <part>
 <title>Concepts</title>
 <chapter id="sytemstruct">
@@ -164,6 +166,7 @@ Event are met, the appropriate response is performed.
 	</itemizedlist>
 </chapter>
 </part>
+
 <part>
 <title>Installation</title>
 <chapter id="softwarereq">
@@ -427,7 +430,7 @@ their NetMRG administrator.
 					<para>Click on <guilabel>Template Graphs</guilabel> in the <guilabel>Graphing</guilabel> menu.</para>
 				</listitem>
 				<listitem>
-					<para>Click on the <guilabel>Apply Template To...</guilabel> next to the <computeroutput>%dev_name% - CPU Utilization</computeroutput> template graph.</para>
+					<para>Click on the <guilabel>Apply Template To...</guilabel> next to the <computeroutput>Linux Box - CPU Utilization</computeroutput> template graph.</para>
 				</listitem>
 				<listitem>
 					<para>In the <guilabel>Subdevice</guilabel> drop down box, select <computeroutput>My Server - System</computeroutput>.</para>
@@ -450,7 +453,7 @@ their NetMRG administrator.
 					<para>Click on the name of your group to expand it.</para>
 				</listitem>
 				<listitem>
-					<para>Click on the graph icon beside your device.</para>
+					<para>Click on the graph icon beside your device (orange graphs mean there are graphs associated with this device, black means there are no graphs attached to this device.</para>
 				</listitem>
 				<listitem>
 					<para><emphasis>You should now see graphs!</emphasis>  If you don't, you may need to wait for the gatherer to perform another cycle.</para>
@@ -460,6 +463,7 @@ their NetMRG administrator.
 	</orderedlist>
 </chapter>
 </part>
+
 <part>
 <title>Feature Guides</title>
 <chapter id="extauth">
@@ -511,10 +515,12 @@ their NetMRG administrator.
 	</orderedlist>
 </chapter>
 </part>
+
 <part>
 <title>Reference</title>
-<chapter id="manpage">
+<reference id="manpage">
 	<title>Manual Pages</title>
+	
 	<refentry id="netmrg-gatherer">
 		<refmeta>
 			<refentrytitle>netmrg-gatherer</refentrytitle>
@@ -532,7 +538,7 @@ their NetMRG administrator.
 		</refsynopsisdiv>
 		<refsect1><title>Description</title>
 			<para>
-<command>netmrg-gatherer</command> performs tests on all enabled hosts in NetMRG.  It will store results in RRD files using RRDTOOL(1) and perform actions in response to events.
+				<command>netmrg-gatherer</command> performs tests on all enabled hosts in NetMRG.  It will store results in RRD files using RRDTOOL(1) and perform actions in response to events.
 			</para>
 			<variablelist>
 				<title>Global Options</title>
@@ -543,7 +549,7 @@ their NetMRG administrator.
 				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-v</option></arg></cmdsynopsis></term>
 					<listitem><para>Displays software version and exits.</para></listitem>
-				</varlistentry>
+				</varlistentry>              
 				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-t</option> <replaceable>num threads</replaceable></arg></cmdsynopsis></term>
 					<listitem><para>Run no more than the specified number of threads simultaneously.</para></listitem>
@@ -608,8 +614,87 @@ their NetMRG administrator.
 			<note><para>Recaching options are intended for use by the web interface.  These options should not be generally used by end users.</para></note>
 		</refsect1>
 	</refentry>
-</chapter>
+</reference>
+<reference id="webpagedesc">
+	<title>Web Interface Descriptions</title>
+	<refentry id="Groups">
+		<refmeta>
+			<refentrytitle>Groups</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Groups</refname>
+			<refpurpose>A container for a collection of devices</refpurpose>
+		</refnamediv>
+		<refsect1><title>Group List</title>
+			<para>list of all groups</para>
+		</refsect1>
+		<refsect1><title>Group Edit</title>
+			<para>Edit info about a group</para>
+		</refsect1>
+	</refentry>
+	<refentry id="Devices">
+		<refmeta>
+			<refentrytitle>Devices</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Devices</refname>
+			<refpurpose>A container for a collection of sub-devices</refpurpose>
+		</refnamediv>
+		<refsect1><title>Device List</title>
+			<para>list of devices in a group</para>
+		</refsect1>
+	</refentry>
+	<refentry id="Sub-Devices">
+		<refmeta>
+			<refentrytitle>Sub Devices</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Sub Devices</refname>
+			<refpurpose>A container for a collection of monitors</refpurpose>
+		</refnamediv>
+		<refsect1><title>Sub Device List</title>
+			<para>list of sub devices in a device</para>
+		</refsect1>
+	</refentry>
+	<refentry id="Monitors">
+		<refmeta>
+			<refentrytitle>Monitors</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Monitors</refname>
+			<refpurpose>A container for a collection of tracked values</refpurpose>
+		</refnamediv>
+		<refsect1><title>Monitor List</title>
+			<para>list of monitors for a sub-device</para>
+		</refsect1>
+	</refentry>
+	<refentry id="Events">
+		<refmeta>
+			<refentrytitle>Events</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Events</refname>
+			<refpurpose>A container for a collection of actions to take based on monitor values</refpurpose>
+		</refnamediv>
+		<refsect1><title>Event List</title>
+			<para>list of events for a monitor</para>
+		</refsect1>
+	</refentry>
+	<refentry id="Conditions">
+		<refmeta>
+			<refentrytitle>Conditions</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Conditions</refname>
+			<refpurpose>A container for a collection of paramenters to activate an event</refpurpose>
+		</refnamediv>
+		<refsect1><title>Condition List</title>
+			<para>list of conditions for an event</para>
+		</refsect1>
+	</refentry>
+</reference>
 </part>
+
 <chapter id="contact">
 	<title>Contact Information</title>
 	<para>We have great aspirations for what NetMRG could become, but as with all open-source software, such aspriations can only be achieved with the active participation of the open-source community.  Please do your part and support software that you use by helping to answer support questions on forums and report bugs to developers.  Thanks!</para>
