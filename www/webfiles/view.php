@@ -20,7 +20,7 @@
 */
 
 require_once("../include/config.php");
-view_check_auth();
+view_check_auth($_REQUEST["pos_id"], $_REQUEST["pos_id_type"]);
 
 if (!empty($_REQUEST["full_edit"]))
 {

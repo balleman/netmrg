@@ -33,10 +33,15 @@ CSS-ificiation
   - sub-pages need redone (ick)
 mon_notify.php / format.php bug in make_display_table()
 get auth w/ php sessions to work
-  - include check for REMOTE_ADDR
+  - redirections for users w/o proper auth levels is broken
+  - include check for REMOTE_ADDR in check_auth
   - set a standard for auth checks
-    * think a combination of IsLoggedIn and check_auth(_level) would be good
+    * think a combination of IsLoggedIn and check_auth would be good
     * what exactly are the different auth levels?
+      - single view - "?"
+      - read all - "read"
+      - read/write - "?"
+      - read/write/user manage - "admin"
 
 == balleman ==
 graph templates

@@ -46,13 +46,19 @@ function check_user_pass($user, $pass)
 function IsLoggedIn()
 {
 	if (check_user_pass($_SESSION["netmrgsess"]["username"], $_SESSION["netmrgsess"]["password"]) && 
-		$_SESSION["netmrgsess"]["remote_addr"] == $_SERVER["REMOTE_ADDR"]) {
+		$_SESSION["netmrgsess"]["remote_addr"] == $_SERVER["REMOTE_ADDR"])
+	{
 		return true;
-	} # end if the username/password checks out and the ips match
+	} // end if the username/password checks out and the ips match
 	return false;
 } // end IsLoggedIn();
 
 
+/**
+* get_full_name($user)
+*
+* gets $user's full name
+*/
 function get_full_name($user)
 {
 	$q = do_query("SELECT fullname FROM user WHERE user='$user'");
@@ -61,6 +67,12 @@ function get_full_name($user)
 } // end get_full_name()
 
 
+/**
+* check_auth($level)
+*
+* checks the logged in user's auth level to be sure they have
+* at least auth level $level.  If not, send them away
+*/
 function check_auth($level)
 {
 	$valid_user = check_user_pass($_SESSION["netmrgsess"]["username"], $_SESSION["netmrgsess"]["password"]);
@@ -79,9 +91,14 @@ function check_auth($level)
 } // end check_auth()
 
 
-function view_check_auth()
+/**
+* view_check_auth()
+*
+* called from the 'view.php' page
+* checks that the user is allowed to see this page
+*/
+function view_check_auth($pos_id, $pos_id_type)
 {
-	global $pos_id, $pos_id_type;
 	check_auth(0);
 	$handle = do_query("SELECT * FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrgsess"]["password"]."',pass)");
 	$row = mysql_fetch_array($handle);
@@ -95,17 +112,15 @@ function view_check_auth()
 
 
 /**
-* DEPRICATED
+* get_permit()
+*
+* gets the logged in user's permission level
 */
-function cache_auth()
-{
-} // end save_auth()
-
-
 function get_permit()
 {
-	if (!empty($_SESSION["netmrgsess"]["username"]) && !empty($_SESSION["netmrgsess"]["password"])) {
-		$sql = "SELECT * FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrgsess"]["password"]."',pass)";
+	if (!empty($_SESSION["netmrgsess"]["username"]) && !empty($_SESSION["netmrgsess"]["password"]))
+	{
+		$sql = "SELECT permit FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrgsess"]["password"]."',pass)";
 		$handle = do_query($sql);
 		$row = mysql_fetch_array($handle);
 		return $row["permit"];
@@ -115,14 +130,24 @@ function get_permit()
 } // end get_permit()
 
 
+/**
+* view_redirect()
+*
+* redirects the logged in user to the 'view' page
+* if they only have 'single view' priviledges or they
+* weren't on their way to somewhere else
+*/
 function view_redirect()
 {
 	$sql = "SELECT * FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrgsess"]["password"]."',pass)";
 	$handle = do_query($sql);
 	$row = mysql_fetch_array($handle);
-	if (empty($_SESSION["netmrgsess"]["redir"]) || (get_permit() == 0)) {
+	if (empty($_SESSION["netmrgsess"]["redir"]) || (get_permit() == 0))
+	{
 		header("Location: {$GLOBALS['netmrg']['webroot']}/view.php?pos_id_type={$row['view_type']}&pos_id={$row['view_id']}");
-	} else {
+	}
+	else
+	{
 		$redir = $_SESSION["netmrgsess"]["redir"];
 		unset($_SESSION["netmrgsess"]["redir"]);
 		header("Location: $redir");

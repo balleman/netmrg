@@ -36,7 +36,7 @@ $GLOBALS["netmrg"]["dbwritepass"] = "netmrgwrite";
 
 // Path Config
 $GLOBALS["netmrg"]["fileroot"] = "/var/www/netmrg";
-$GLOBALS["netmrg"]["webhost"] = "http://gunter.home.silfreed.net";
+$GLOBALS["netmrg"]["webhost"] = "http://localhost";
 $GLOBALS["netmrg"]["webroot"] = "/netmrg";
 
 
@@ -48,6 +48,7 @@ if (!isset($_SESSION["netmrgsess"]) || !is_array($_SESSION["netmrgsess"])) {
 	$_SESSION["netmrgsess"]["username"] = "";
 	$_SESSION["netmrgsess"]["password"] = "";
 	$_SESSION["netmrgsess"]["remote_addr"] = "";
+	$_SESSION["netmrgsess"]["permit"] = "";
 } // end if the netmrg session array doesn't exist yet, make it
 
 
