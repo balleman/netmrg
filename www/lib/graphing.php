@@ -19,7 +19,7 @@ require_once(netmrg_root() . "lib/processing.php");
 
 function get_graph_command($type, $id, $hist, $togglelegend) {
 
-# Determine what domain the graph is for
+// Determine what domain the graph is for
 
 $end_time = "-360";
 
@@ -74,7 +74,8 @@ if ($type == "tinymon")
 		"AREA:data1#151590");
 }
 
-if ($type == "custom_ds") {
+if ($type == "custom_ds")
+{
 	
 	$results = do_query("
 	SELECT
@@ -95,24 +96,46 @@ if ($type == "custom_ds") {
 	LEFT JOIN graphs ON graph_ds.graph_id=graphs.id
 	WHERE graph_ds.id=$id");
 	$row = mysql_fetch_array($results);
-	
-	if ($row["type"] == "STACK") { $row["type"] = "AREA"; }
-	if ($row["multiplier"] == "") { $row["multiplier"] = 1; }
-	
-	if ($row["show_indicator"]) { 
-		$append = " HRULE:" . $row["hrule_value"] . $row["hrule_color"];
-		if ($row["hrule_label"] != "") { $append .= ":\"" . $row["hrule_label"] . '"'; }
-		} else { $append = ""; }
-	if ($ds_row["multiplier"] == 0) { $ds_row["multiplier"] = 1; }
 
-        if ($ds_row["disp_integer_only"]) 
+	if ($row["type"] == "STACK")
+	{
+		$row["type"] = "AREA";
+	}
+
+	if ($row["multiplier"] == "")
+	{
+		$row["multiplier"] = 1;
+	}
+
+	if ($row["show_indicator"])
+	{
+		$append = " HRULE:" . $row["hrule_value"] . $row["hrule_color"];
+
+		if ($row["hrule_label"] != "")
+		{
+			$append .= ":\"" . $row["hrule_label"] . '"';
+		}
+	}
+	else
+	{
+		$append = "";
+	}
+	
+	if ($row["multiplier"] == 0)
+	{
+		$ds_row["multiplier"] = 1;
+	}
+
+        if ($row["disp_integer_only"])
 	{
         	$gprint =
         	"GPRINT:data1l:LAST:\"Current\\:%8.2lf %s\" " .
                 "GPRINT:data1:AVERAGE:\"Average\\:%8.2lf %s\" " .
                 "GPRINT:data1m:MAX:\"Maximum\\:%8.2lf %s\\n\"";
 
-	} else {
+	}
+	else
+	{
 
 		$gprint =
 		"GPRINT:data1l:LAST:\"Current\\:%5.0lf %s\" " .
@@ -121,22 +144,23 @@ if ($type == "custom_ds") {
 	}
 
 
-	Return(get_path_by_name("rrdtool") . " graph - -s " . $start . " -e " . $end_time . 
+	Return(get_path_by_name("rrdtool") . " graph - -s " . $start . " -e " . $end_time .
 			" --title=\"" . $row["title"] . "\" --imgformat PNG -v \"" . $row["vert"] . "\" " .
 			"DEF:raw_data1=" . netmrg_root() . "rrd/mon_" . $row["src_id"] . ".rrd:mon_" . $row["src_id"] . ":AVERAGE " .
 			"DEF:raw_data1l=" . netmrg_root() . "rrd/mon_" . $row["src_id"] . ".rrd:mon_" . $row["src_id"] . ":LAST " .
 			"DEF:raw_data1m=" . netmrg_root() . "rrd/mon_" . $row["src_id"] . ".rrd:mon_" . $row["src_id"] . ":MAX " .
-	            	"CDEF:data1=raw_data1," . $row["multiplier"] . ",* " . 
-        	        "CDEF:data1l=raw_data1l," . $row["multiplier"] . ",* " . 
+	            	"CDEF:data1=raw_data1," . $row["multiplier"] . ",* " .
+        	        "CDEF:data1l=raw_data1l," . $row["multiplier"] . ",* " .
 	                "CDEF:data1m=raw_data1m," . $row["multiplier"] . ",* " .
 			$row["type"] . ":data1" . $row["color"] .":\"" . $row["label"] . "\" " .
-			$gprint . $append); 
-	 
+			$gprint . $append);
+
 }
 
-if ($type == "custom") {
-	
-        $options = "";	
+if ($type == "custom")
+{
+
+        $options = "";
 
 	$graph_results = do_query("SELECT * FROM graphs WHERE id=$id");
 	$graph_row = mysql_fetch_array($graph_results);

@@ -27,7 +27,6 @@ begin_page();
 <b>The Network Monitoring, Reporting, and Graphing Tool</b>
 <br><br>
 Version <b><? echo $_GLOBALS["netmrg"]["version"]; ?></b><br>
-October 2002<br>
 <br>
 <br>
 Copyright &copy; 2001-2002 <a href="http://www.treehousetechnologies.net/brady/">Brady Alleman</a>.<br>

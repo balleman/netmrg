@@ -36,7 +36,7 @@ function tailer()
 		$_REQUEST["hist"] = 0;
 	}
 	
-	if (empty($REQUEST["show_children"]))
+	if (empty($_REQUEST["show_children"]))
 	{
 		$_REQUEST["show_children"] = 0;
 	}
@@ -48,10 +48,10 @@ function tailer()
 	?>
 	<div align="right">
 	<br>
-	<a href="./enclose_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($newhist) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>&show_children=<? print($_REQUEST["show_children"]) ?>">Toggle History</a><br>
-	<a href="./enclose_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($_REQUEST["hist"]) ?>&togglelegend=<? print($toggle) ?>&show_children=<? print($_REQUEST["show_children"]) ?>">Toggle Legend</a><br>
+	<a href="<? print($_SERVER["PHP_SELF"]); ?>?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($newhist) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>&show_children=<? print($_REQUEST["show_children"]) ?>">Toggle History</a><br>
+	<a href="<? print($_SERVER["PHP_SELF"]); ?>?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($_REQUEST["hist"]) ?>&togglelegend=<? print($toggle) ?>&show_children=<? print($_REQUEST["show_children"]) ?>">Toggle Legend</a><br>
 	<? if ($_REQUEST["type"] == "custom") {
-	?><a href="./enclose_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($_REQUEST["hist"]) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>&show_children=<? print($new_show_children) ?>">Toggle Children</a><br>
+	?><a href="<? print($_SERVER["PHP_SELF"]); ?>?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($_REQUEST["hist"]) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>&show_children=<? print($new_show_children) ?>">Toggle Children</a><br>
 	<? } ?>
 	<Br>
 	<a href="javascript:history.back(1)">Back</a>
@@ -68,7 +68,7 @@ function show_a_graph()
 	{
 		?>
 		<div align="center">
-		<img src="./get_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>">
+		<img src="get_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>">
 		</div>
 		<?
 
@@ -82,10 +82,10 @@ function show_a_graph()
 
 		?>
 		<div align="center">
-		<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=0&togglelegend=<? print($togglelegend) ?>">
-		<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=1&togglelegend=<? print($togglelegend) ?>">
-		<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=2&togglelegend=<? print($togglelegend) ?>">
-		<img src="./get_graph.php?type=<? print($type) ?>&id=<? print($id) ?>&hist=3&togglelegend=<? print($togglelegend) ?>">
+		<img src="get_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=0&togglelegend=<? print($_REQUEST["togglelegend"]) ?>">
+		<img src="get_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=1&togglelegend=<? print($_REQUEST["togglelegend"]) ?>">
+		<img src="get_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=2&togglelegend=<? print($_REQUEST["togglelegend"]) ?>">
+		<img src="get_graph.php?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=3&togglelegend=<? print($_REQUEST["togglelegend"]) ?>">
 		</div>
         	<?
 
@@ -101,27 +101,27 @@ if ((!empty($_REQUEST["show_children"])) && ($_REQUEST["show_children"] == 1))
 {
 	$query = do_query("SELECT * FROM graph_ds WHERE graph_id={$_REQUEST["id"]} ORDER BY position,id ");
 	$count = mysql_num_rows($query);
-	$old_id = $id;
+	$old_id = $_REQUEST["id"];
 	for ($i = 0; $i < $count; $i++)
 	{
 		$row = mysql_fetch_array($query);
 
 		if ($row["use_alt"] == 0)
 		{
-			$type = "custom_ds";
-			$id = $row["id"];
+			$_REQUEST["type"] = "custom_ds";
+			$_REQUEST["id"] = $row["id"];
 		}
 		else
 		{
-			$type = "custom";
-			$id = $row["alt_graph_id"];
+			$_REQUEST["type"] = "custom";
+			$_REQUEST["id"] = $row["alt_graph_id"];
 		}
 
 		show_a_graph();
 	}
 
-	$type = "custom";
-	$id = $old_id;
+	$_REQUEST["type"] = "custom";
+	$_REQUEST["id"] = $old_id;
 }
 
 tailer();
