@@ -9,8 +9,13 @@ all : $(FILES)
 	@$(BATIK) -h 15 delete.svg
 	@$(BATIK) -h 15 disk.svg
 	@$(BATIK) -h 15 duplicate.svg
+	@$(BATIK) -h 15 recachedisk.svg
+	@$(BATIK) -h 15 recacheinterface.svg
+	@$(BATIK) -h 15 parameters.svg
 	@$(BATIK) -h 15 slideshow.svg
 	@$(BATIK) -h 15 view.svg
+	@$(BATIK) -h 15 viewdisk.svg
+	@$(BATIK) -h 15 viewinterface.svg
 	@$(BATIK) -h 15 viewgraph-on.svg
 	@$(BATIK) -h 15 viewgraph-off.svg
 	@$(BATIK) -h 35 -d netmrg-logo-small.png netmrg-logo.svg

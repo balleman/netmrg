@@ -286,6 +286,9 @@ function get_image_by_name($img_name)
 		case "duplicate" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['duplicate']}";
 			break;
+		case "parameters" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['parameters']}";
+			break;
 		case "arrow-up" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow-up']}";
 			break;
@@ -312,6 +315,18 @@ function get_image_by_name($img_name)
 			break;
 		case "slideshow" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['slideshow']}";
+			break;
+		case "recachedisk" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['recachedisk']}";
+			break;
+		case "viewdisk" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['viewdisk']}";
+			break;
+		case "recacheinterface" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['recacheinterface']}";
+			break;
+		case "viewinterface" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['viewinterface']}";
 			break;
 		case "view" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['view']}";

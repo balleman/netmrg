@@ -126,13 +126,13 @@ function display()
 		$dev_id  = $dev_row["id"];
 		$links   =
 		cond_formatted_link($dev_row["interface_count"] > 0, "View&nbsp;Interface&nbsp;Cache",
-			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface&tripid={$_REQUEST['tripid']}") . " " .
+			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface&tripid={$_REQUEST['tripid']}", "", "viewinterface") . " " .
 		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Interfaces",
-			"recache.php?dev_id=$dev_id&type=interface&tripid={$_REQUEST['tripid']}") . " " .
+			"recache.php?dev_id=$dev_id&type=interface&tripid={$_REQUEST['tripid']}", "", "recacheinterface") . " " .
 		cond_formatted_link($dev_row["disk_count"] > 0, "View&nbsp;Disk&nbsp;Cache",
-			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk&tripid={$_REQUEST['tripid']}") . " " .
+			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk&tripid={$_REQUEST['tripid']}", "", "viewdisk") . " " .
 		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Disks",
-			"recache.php?dev_id=$dev_id&type=disk&tripid={$_REQUEST['tripid']}");
+			"recache.php?dev_id=$dev_id&type=disk&tripid={$_REQUEST['tripid']}", "", "recachedisk");
 			
 		if ($dev_row['disabled'] == 1)
 		{
