@@ -21,8 +21,8 @@ my $battery_status = 0;
 my $battery_maxcapacity = 0;
 my $battery_curcapacity = 0;
 my $battery_dischargerate = 0;
-my $time_remaining = 0;
-my $percent_left = 0;
+my $time_remaining = "U";
+my $percent_left = "U";
 
 
 ### argument processing
@@ -100,7 +100,7 @@ elsif ($ARGV[0] eq "-th")
 
 elsif ($ARGV[0] eq "-tm")
 {
-	print int($time_remaining*60);
+	print int($time_remaining*60) if ($time_remaining ne "U");
 	print "\n";
 } # end if time left (minutes)
 
