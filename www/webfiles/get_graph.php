@@ -77,6 +77,7 @@ if (isset($_REQUEST["debug"])) { $timer->addmarker("after exec command"); }
 
 if (isset($_REQUEST["debug"]))
 {
+	echo("<br><br>");
 	$timer->stop();
 	$timer->debug();
 	$timer->showtime();
