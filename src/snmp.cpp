@@ -48,7 +48,16 @@ string snmp_value(string input)
 {
 	input = input.erase(0, input.find(":",0) + 1);
 	input = input.erase(0, input.find("=",0) + 1);
-	input = token_replace(input, " ", "");
+	while (input[0] == ' ')
+	{
+		input = input.erase(0, 1);
+	}
+	while (input[input.length() -1] == ' ')
+	{
+		input = input.erase(input.length() - 1, input.length());
+	}
+	//input = token_replace(input, " ", "");
+
 
 	return input;
 }

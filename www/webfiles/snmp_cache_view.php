@@ -147,7 +147,7 @@ function view_interface_cache()
 		{
 			if (isset($GLOBALS['INTERFACE_TYPE'][$row['ifType']]))
 			{
-				$status .= $GLOBALS['INTERFACE_TYPE'][$row['ifType']];
+				$status .= space_to_nbsp($GLOBALS['INTERFACE_TYPE'][$row['ifType']]);
 			}
 		}
 		$links = "";

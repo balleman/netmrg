@@ -97,6 +97,7 @@ $INTERFACE_TYPE = array(
 			24	=>	"Loopback",
 			28	=>	"SLIP",
 			32	=>	"Frame Relay",
+			33	=>	"RS232",
 			37	=>	"ATM",
 			39	=>	"SDH",
 			45	=>	"V.35",
@@ -106,7 +107,8 @@ $INTERFACE_TYPE = array(
 			53	=>	"Virtual",
 			71	=>	"802.11",
 			107	=>	"IMA",
-			117	=>	"Gigabit Ethernet"
+			117	=>	"Gigabit Ethernet",
+			134	=>	"ATM Subinterface"
 			);
 
 
