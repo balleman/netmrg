@@ -34,6 +34,13 @@ if ($_SESSION["netmrgsess"]["permit"] != 3
 	exit(0);
 } // end if not user to edit or admin
 
+// check that user is not the default map user
+if ($_SESSION["netmrgsess"]["username"] == $GLOBALS["netmrg"]["defaultMapUser"])
+{
+	header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
+	exit(0);
+} // end if default map user
+
 
 // check what to do
 switch ($_REQUEST['action'])

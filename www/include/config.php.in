@@ -38,6 +38,7 @@ session_start();
 if (!isset($_SESSION["netmrgsess"]) || !is_array($_SESSION["netmrgsess"]))
 {
 	$_SESSION["netmrgsess"] = array();
+	$_SESSION["netmrgsess"]["prettyname"] = "";
 	$_SESSION["netmrgsess"]["username"] = "";
 	$_SESSION["netmrgsess"]["password"] = "";
 	$_SESSION["netmrgsess"]["accessTime"] = "";

@@ -1,5 +1,6 @@
 2004.11.08  v0.18.1  silfreed
   - bug#0000325 - Access denied to custom graphs attached to subdevice and group
+  - bug#0000316 - NETMRG_DEFAULT_MAP should not be allowed to edit prefs
 
 2004.11.06  v0.18.1  keb
   - bug#0000271 - checkbox options should have a standard layout
