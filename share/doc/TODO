@@ -25,7 +25,6 @@ a device's type can affect the list of tests that can be performed on it
 when looking at a device's graphs, you should be able to click next to it
   and follow it to the next device (if applicable)
 ensure proper escaping in all queries
-fix auth in select pages (view, enclose_graph)
 
 
 == silfreed ==
@@ -39,6 +38,7 @@ make icons for links on various pages
     * edit interfaces
 these pages don't do auth
   - enclose_graph.php get_graph.php view.php
+check external_auth
 
 
 == balleman ==
