@@ -19,78 +19,97 @@ require_once(netmrg_root() . "lib/auth.php");
 require_once(netmrg_root() . "lib/processing.php");
 check_auth(1);
 
-if ($action == "doedit") {
-check_auth(2);
-if (!isset($show_stats)) { $show_stats = 0; }
-if (!isset($show_indicator)) { $show_indicator = 0; }
-if (!isset($show_inverted)) { $show_inverted = 0; }
-if (!isset($use_alt)) { $use_alt = 0; }
-if ($id == 0) {
-create_graph_item($mon_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier);
-} else {
-update_graph_item($id, $mon_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier);
-}
-} # done adding/editing
+if ($action == "doedit")
+{
+	check_auth(2);
+	if (!isset($show_stats)) { $show_stats = 0; }
+	if (!isset($show_indicator)) { $show_indicator = 0; }
+	if (!isset($show_inverted)) { $show_inverted = 0; }
+	if (!isset($use_alt)) { $use_alt = 0; }
+	if ($id == 0)
+	{
+		create_graph_item($mon_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier);
+	} 
+	else
+	{
+		update_graph_item($id, $mon_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier);
+	}
 
-if ($action == "move") {
-# do moving and stuff (... and things)
-do_update("UPDATE graph_ds SET position=$val WHERE id=$id");
-unset($action);
-} # end do move
+} // done adding/editing
 
-if ($action == "dodelete") {
-check_auth(2);
-delete_ds($id);
-} # done deleting
+if ($action == "move")
+{
+	// do moving and stuff (... and things)
+	do_update("UPDATE graph_ds SET position=$val WHERE id=$id");
+	unset($action);
 
-if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd")) {
-# Change databases if necessary and then display list
-begin_page();
+} // end do move
 
-$where = "";
-if (isset($graph_id)) { $where = " WHERE graph_ds.graph_id=$graph_id"; $delete_append = "&graph_id=$graph_id"; }
+if ($action == "dodelete")
+{
+	check_auth(2);
+	delete_ds($id);
 
-js_confirm_dialog("del", "Are you sure you want to delete graph item ", "?", "$SCRIPT_NAME?action=dodelete" . $delete_append . "&id=");
+} // done deleting
 
-$ds_results = do_query("
-SELECT
-graphs.name AS name,
-graph_ds.label AS label,
-graph_ds.id AS id,
-graph_ds.position AS pos
-FROM graph_ds
-LEFT JOIN graphs ON graph_ds.graph_id=graphs.id" . $where . " ORDER BY position, id");
-$ds_total = mysql_num_rows($ds_results);
+if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
+{
+	// Change databases if necessary and then display list
+	begin_page();
 
-if (isset($graph_id)) {
-$custom_add_link = "$SCRIPT_NAME?action=add&graph_id=$graph_id&edit_monitor=1";}
+	$where = "";
+	if (isset($graph_id)) 
+	{ 
+		$where = " WHERE graph_ds.graph_id=$graph_id"; $delete_append = "&graph_id=$graph_id";
+	}
 
-make_display_table("Custom Graph Data Sources","Graph","","Item Label","","","");
+	js_confirm_dialog("del", "Are you sure you want to delete graph item ", "?", "$SCRIPT_NAME?action=dodelete" . $delete_append . "&id=");
 
-for ($ds_count = 1; $ds_count <= $ds_total; ++$ds_count) {
-# For each group
+	$ds_results = do_query("
+		SELECT
+		graphs.name AS name,
+		graph_ds.label AS label,
+		graph_ds.id AS id,
+		graph_ds.position AS pos
+		FROM graph_ds
+		LEFT JOIN graphs ON graph_ds.graph_id=graphs.id" . $where . " ORDER BY position, id");
 
-$ds_row = mysql_fetch_array($ds_results);
-$id  = $ds_row["id"];
+	$ds_total = mysql_num_rows($ds_results);
 
-if (isset($graph_id)) {
-$graph_id_tag = "&graph_id=$graph_id";
-}
+	if (isset($graph_id))
+	{
+		$custom_add_link = "$SCRIPT_NAME?action=add&graph_id=$graph_id&edit_monitor=1";
+	}
 
-make_display_item($ds_row["name"],"",
-$ds_row["label"],"",
-formatted_link("View", "./enclose_graph.php?type=custom_ds&id=" . $ds_row["id"]) . "&nbsp;" .
-formatted_link("Move Up", "$SCRIPT_NAME?action=move&val=" . ($ds_row["pos"] - 1) . "&id=" . $ds_row["id"] . "$graph_id_tag") . "&nbsp;" .
-formatted_link("Move Down", "$SCRIPT_NAME?action=move&val=" . ($ds_row["pos"] + 1) . "&id=" . $ds_row["id"] . "$graph_id_tag"), "",
-formatted_link("Edit", "$SCRIPT_NAME?action=edit&id=$id") . "&nbsp;" .
-formatted_link("Delete", "javascript:del('" . $ds_row["label"] . "', '" . $ds_row["id"] . "')"), "");
+	?><img align="center" src="get_graph.php?type=custom&id=<? echo($graph_id); ?>"><br><?
+	make_display_table("Graph Data Sources","Graph","","Item Label","","","");
+
+	for ($ds_count = 1; $ds_count <= $ds_total; ++$ds_count)
+	{
+		// For each graph item
+
+		$ds_row = mysql_fetch_array($ds_results);
+		$id  = $ds_row["id"];
+
+		if (isset($graph_id))
+		{
+			$graph_id_tag = "&graph_id=$graph_id";
+		}
+
+		make_display_item($ds_row["name"],"",
+			$ds_row["label"],"",
+			formatted_link("View", "./enclose_graph.php?type=custom_ds&id=" . $ds_row["id"]) . "&nbsp;" .
+			formatted_link("Move Up", "$SCRIPT_NAME?action=move&val=" . ($ds_row["pos"] - 1) . "&id=" . $ds_row["id"] . "$graph_id_tag") . "&nbsp;" .
+			formatted_link("Move Down", "$SCRIPT_NAME?action=move&val=" . ($ds_row["pos"] + 1) . "&id=" . $ds_row["id"] . "$graph_id_tag"), "",
+			formatted_link("Edit", "$SCRIPT_NAME?action=edit&id=$id") . "&nbsp;" .
+			formatted_link("Delete", "javascript:del('" . $ds_row["label"] . "', '" . $ds_row["id"] . "')"), "");
 
 
-}
+	} // end for
 
 ?></table><?
 
-} # end no action
+} // end no action
 
 if (($action == "edit") || ($action == "add"))
 {
@@ -158,7 +177,7 @@ if (($action == "edit") || ($action == "add"))
         make_edit_submit_button();
         make_edit_end();
 
-} # End editing screen
+} // End editing screen
 
 end_page();
 

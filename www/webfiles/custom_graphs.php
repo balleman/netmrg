@@ -112,7 +112,7 @@ if (!isset($action))
 {
 
 	begin_page();
-	make_display_table("Custom Graphs","Name","$SCRIPT_NAME?order_by=name","Comment","$SCRIPT_NAME?order_by=comment","","");
+	make_display_table("Graphs","Name","$SCRIPT_NAME?order_by=name","Comment","$SCRIPT_NAME?order_by=comment","","");
 	$query = "SELECT * FROM graphs";
 	if (isset($order_by)) { $query .= " ORDER BY $order_by"; } else { $query .= " ORDER BY name"; }
 	$graph_results = do_query($query);
@@ -120,7 +120,7 @@ if (!isset($action))
 
 	for ($graph_count = 1; $graph_count <= $graph_total; ++$graph_count)
 	{
-		graph_row = mysql_fetch_array($graph_results);
+		$graph_row = mysql_fetch_array($graph_results);
 		$graph_id  = $graph_row["id"];
 		$temp_comment = str_replace("%n","<br>",$graph_row["comment"]);
 
