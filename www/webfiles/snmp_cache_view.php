@@ -26,6 +26,18 @@ switch ($_REQUEST['action'])
 		header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&type=interface&action=view");
 		exit(0);
 		break;
+	case "graphmultidisk":
+		if (isset($_REQUEST["dindex"]))
+		{
+			while (list($key,$value) = each($_REQUEST["dindex"]))
+			{
+				make_disk_graph($_REQUEST["dev_id"], $key);
+			} // end while each interface
+		} // end for each interface
+		// redirect to keep us from doing this again
+		header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&type=disk&action=view");
+		exit(0);
+		break;
 }
 
 function view_cache()
@@ -47,7 +59,12 @@ function make_graph()
 			header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&type=interface&action=view");
 			exit(0);
 			break;
-		case "disk":		make_disk_graph(); break;
+		case "disk":
+			make_disk_graph($_REQUEST["dev_id"], $_REQUEST["index"]);
+			// redirect
+			header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&type=disk&action=view");
+			exit(0);
+			break;
 	}
 }
 
@@ -89,12 +106,12 @@ function make_interface_graph($dev_id, $index)
 
 }
 
-function make_disk_graph()
+function make_disk_graph($dev_id, $index)
 {
 	check_auth(2);
 
 	// get snmp index data
-	$q_snmp = db_query("SELECT * FROM snmp_disk_cache WHERE dev_id={$_REQUEST['dev_id']} AND disk_index='{$_REQUEST['index']}'");
+	$q_snmp = db_query("SELECT * FROM snmp_disk_cache WHERE dev_id='$dev_id' AND disk_index='$index'");
 	$r_snmp = db_fetch_array($q_snmp);
 
 	if (isset($r_snmp["disk_path"]) && !empty($r_snmp["disk_path"]))
@@ -114,17 +131,13 @@ function make_disk_graph()
 	}
 
 	// create the subdevice
-	db_update("INSERT INTO sub_devices SET dev_id={$_REQUEST['dev_id']}, type=3, name='$index_value'");
+	db_update("INSERT INTO sub_devices SET dev_id='$dev_id', type=3, name='$index_value'");
 	$sd_id = db_insert_id();
 	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='$index_type', value='$index_value'");
-	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='dskIndex', value='{$_REQUEST['index']}', type='dynamic'");
+	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='dskIndex', value='$index', type='dynamic'");
 
 	// add monitors and associate template
 	apply_template($sd_id, $GLOBALS["netmrg"]["disktemplateid"]);
-
-	// redirect
-	header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&type=disk&action=view");
-	exit(0);
 
 }
 
@@ -137,7 +150,13 @@ function view_disk_cache()
 	begin_page("snmp_cache_view.php", "$dev_name - Disk Cache");
 	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 
+?>
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+	<input type="hidden" name="action" value="">
+	<input type="hidden" name="dev_id" value="<?php echo $_REQUEST["dev_id"]; ?>">
+<?php
 	make_plain_display_table("$dev_name - Disk Cache",
+		"", "",
 		"Index", "",
 		"Device", "",
 		"Path", "",
@@ -173,14 +192,17 @@ function view_disk_cache()
 		}
 
 		make_display_item("editfield".($i%2),
+			array("checkboxname" => "dindex", "checkboxid" => $row["disk_index"], "checkdisabled" => isset($s_row['id'])),
 			array("text" => $row['disk_index']),
 			array("text" => $row['disk_device']),
 			array("text" => $row['disk_path']),
 			array("text" => $links)
 		); // end make_display_item();
 	}
-	
-	echo("</table>");
+
+	echo('<tr><td colspan="9" class="editheader" nowrap="nowrap"><a class="editheaderlink" onclick="document.form.action.value=\'graphmultidisk\';document.form.submit();" href="#">Monitor/Graph All Checked</a></td></tr>'."\n");
+	echo("</table>\n");
+	echo("</form>\n");
 	end_page();
 }
 
