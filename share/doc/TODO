@@ -2,6 +2,7 @@
 easier && more documented builds in freebsd
 bug#0000020: custom polling intervals
 bug#0000031: users changing their own passwords (requires foundation for user prefs)
+portability issues: bugs# 29 and 32
 
 
 == global ==
