@@ -1148,6 +1148,17 @@ function update_group($id, $grp_name, $grp_comment, $parent_id)
 
 
 /**
+* addslashes_deep($value)
+*
+* adds slashes to all values inside $value
+*/
+function addslashes_deep($value)
+{
+	return is_array($value) ? array_map('addslashes_deep', $value) : addslashes($value);
+} // end addslashes_deep();
+
+
+/**
 * GetUserPref($module, $pref)
 *
 * returns the value for the $module and $pref wanted for user $uid
