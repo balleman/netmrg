@@ -1266,11 +1266,20 @@ int main(int argc, char **argv)
 	while ((option_char = getopt (argc, argv, "hvqi:d:")) != EOF)
 		switch (option_char)
 		{
-			case 'h': show_usage(); exit(0); break;
-			case 'v': show_version(); exit(0); break;
-			case 'q': set_debug_level(0); break;
-			case 'i': external_snmp_recache(strtoint(optarg), 1); exit(0); break;
-			case 'd': external_snmp_recache(strtoint(optarg), 2); exit(0); break;
+			case 'h': 	show_usage();
+						exit(0); 
+						break;
+			case 'v': 	show_version();
+						exit(0);
+						break;
+			case 'q': 	set_debug_level(0);
+						break;
+			case 'i': 	external_snmp_recache(strtoint(optarg), 1);
+						exit(0);
+						break;
+			case 'd': 	external_snmp_recache(strtoint(optarg), 2);
+						exit(0);
+						break;
 		}
 
 	run_netmrg();
