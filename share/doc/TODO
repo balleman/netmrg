@@ -10,7 +10,6 @@ snmp_cache_view.php:
 
 
 == before going public ==
-website
 get new netmrg monitoring something (duo)
 
 
@@ -26,10 +25,12 @@ ensure proper escaping in all queries
 
 == silfreed ==
 public website
-  - flesh out content
-  - download management (release, devel, cvs tree)
-checkboxes on most pages - provide for massive deletes, duplications, etc
+  - add news section
+  - link to documentation
+    * auto checkout latest documentation - better yet, version the documentation
+      and link to the most recent
 ability to go 'up' a level when browsing 'Groups' et al
+checkboxes on most pages - provide for massive deletes, duplications, etc
 make netmrg xhtml compliant
 make icons for links on various pages
   - make svg images for most actions
