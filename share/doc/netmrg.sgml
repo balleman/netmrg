@@ -796,7 +796,7 @@ their NetMRG administrator.
 						<para><guilabel>Data</guilabel> - Information about the last gather of this monitor</para>
 						<itemizedlist>
 							<listitem><para><guilabel>Value</guilabel> - value gathered in the last run</para></listitem>
-							<listitem><para><guilabel>Rate of Change</guilabel> - Difference between the current value and the last value</para></listitem>
+							<listitem><para><guilabel>Rate of Change</guilabel> - Difference between the current value and the last value, divided by the time between samples</para></listitem>
 							<listitem><para><guilabel>Time Stamp</guilabel> - Date/Time of last gather for this monitor</para></listitem>
 						</itemizedlist>
 					</listitem>
@@ -809,7 +809,51 @@ their NetMRG administrator.
 			<refsect2><title>Edit</title>
 				<para>edit info about a monitor</para>
 				<itemizedlist>
-					<listitem><para><guilabel></guilabel> - </para></listitem>
+					<listitem><para><guilabel>Monitoring Type</guilabel> - specifies the type of test used for this monitor (Script, SNMP, SQL, or Internal)</para></listitem>
+					<listitem><para><guilabel>Test Options</guilabel> - this section varies depending on the setting of <guilabel>Monitoring Type</guilabel></para>
+						<itemizedlist>
+							<listitem><para><guilabel>Script Options</guilabel></para>
+								<itemizedlist>
+									<listitem><para><guilabel>Script Test</guilabel> - specifies which script to run</para></listitem>
+									<listitem><para><guilabel>Parameters</guilabel> - specifies a string which will be appended to the script's parameters.  Parameter expansions are honored in this field.</para></listitem>
+								</itemizedlist>
+							</listitem>
+							<listitem><para><guilabel>SNMP Options</guilabel></para>
+								<itemizedlist>
+									<listitem><para><guilabel>SNMP Test</guilabel> - specifies which SNMP test to run</para></listitem>
+									<listitem><para><guilabel>Parameters</guilabel> - specifies a string which will replace the expansion <computeroutput>%parameters%</computeroutput> in SNMP OIDs.</para></listitem>
+								</itemizedlist>
+							</listitem>
+							<listitem><para><guilabel>SQL Options</guilabel></para>
+								<itemizedlist>
+									<listitem><para><guilabel>SQL Test</guilabel> - specifies which SQL test to run</para></listitem>
+									<listitem><para><guilabel>Parameters</guilabel> - specifies a string which will replace the expansion <computeroutput>%parameters%</computeroutput> in SQL queries.</para></listitem>
+								</itemizedlist>
+							</listitem>
+							<listitem><para><guilabel>Internal Options</guilabel></para>
+								<itemizedlist>
+									<listitem><para><guilabel>Internal Test</guilabel> - specifies which internal test to run</para></listitem>
+									<listitem><para><guilabel>Parameters</guilabel> - specifies a string used by the internal test</para></listitem>
+								</itemizedlist>
+							</listitem>
+						</itemizedlist>
+						</listitem>
+						<listitem><para><guilabel>Graphing Options</guilabel></para>
+							<itemizedlist>
+								<listitem><para><guilabel>Data Type</guilabel> - the <application>RRDTOOL</application> data type for this monitor</para>
+									<itemizedlist>
+										<listitem><para><guilabel>Absolute</guilabel> - a counter reset when read</para></listitem>
+										<listitem><para><guilabel>Counter</guilabel> - an incrementing value interpreted as a rate (such as calculating your average speed with odometer readings)</para></listitem>
+										<listitem><para><guilabel>Derive</guilabel> - a counter without overflow protection, permits graphing of negative rates</para></listitem>
+										<listitem><para><guilabel>Gauge</guilabel> - the value read is the value used, such as temperatures</para></listitem>
+									</itemizedlist>	
+									<para>For a more complete discussion on when to use which data type, see the <ulink url="http://people.ee.ethz.ch/~oetiker/webtools/rrdtool/manual/rrdcreate.html">RRD Create manual page</ulink>.</para>
+								</listitem>
+								<listitem><para><guilabel>Minimum Value</guilabel> - the minimum value accepted by <application>RRDTOOL</application> as valid.</para></listitem>
+								<listitem><para><guilabel>Maximum Value</guilabel> - the maximum value accepted by <application>RRDTOOL</application> as valid.</para></listitem>
+							</itemizedlist>
+						</listitem>
+					
 				</itemizedlist>
 			</refsect2>
 		</refsect1>
