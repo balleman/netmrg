@@ -10,7 +10,7 @@
 /*
 
    NetMRG Monitoring Procedure
-   Copyright 2001-2004 Brady Alleman.  All Rights Reserved.
+   Copyright 2001-2005 Brady Alleman.  All Rights Reserved.
 
    MySQL examples from http://mysql.turbolift.com/mysql/chapter4.php3
    pthreads examples from http://www.math.arizona.edu/swig/pthreads/threads.html
@@ -30,6 +30,7 @@
 #include <list>
 #include <iostream>
 #include <termios.h>
+#include <signal.h>
 
 using namespace std;
 
@@ -89,19 +90,37 @@ void run_netmrg()
 {
 	init_logging();	
 	debuglogger(DEBUG_GLOBAL, LEVEL_NOTICE, NULL, "NetMRG starting.");
-
+	
+	pid_t mypid = getpid();
+	FILE *lockfile;
+	
+	// check for existing lockfile
 	if (file_exists(get_setting(setPathLockFile)))
 	{
-		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Critical:  Lockfile exists.  Is another NetMRG running?");
-		exit(254);
+		lockfile = fopen(get_setting(setPathLockFile).c_str(), "r");
+		pid_t otherpid;
+		fscanf(lockfile, "%d", &otherpid);
+		fclose(lockfile);
+		
+		// if we could have sent the signal, or if the problem wasn't finding the PID, die.
+		if ( (kill(otherpid, 0) != -1) || (errno != ESRCH) )
+		{
+			debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, 
+				"Critical:  Another instance of NetMRG appears to be running. (PID " + inttostr(otherpid) + ")");
+			exit(254);
+		}
+		else
+		{
+			debuglogger(DEBUG_GLOBAL, LEVEL_NOTICE, NULL, "Removing stale lock file.");
+			remove_lockfile();
+		}
 	}
 
 	// create lockfile
-	FILE *lockfile;
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Creating Lockfile.");
 	if ((lockfile = fopen(get_setting(setPathLockFile).c_str(),"w+")) != NULL)
 	{
-		fprintf(lockfile, "netmrg lock file.");
+		fprintf(lockfile, "%d", mypid);
 		fclose(lockfile);
 		atexit(remove_lockfile);
 	}
