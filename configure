@@ -271,7 +271,7 @@ PACKAGE_VERSION='0.8'
 PACKAGE_STRING='NetMRG 0.8'
 PACKAGE_BUGREPORT=''
 
-ac_default_prefix=/var/www/netmrg
+ac_default_prefix=/usr/local
 ac_subdirs_all="$ac_subdirs_all src"
 ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO AMTAR install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM AWK SET_MAKE subdirs LIBOBJS LTLIBOBJS'
 ac_subst_files=''
@@ -1201,6 +1201,12 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
+
+#
+# Autoconf is dumb and doesn't expand ${prefix} for this variable
+# If it does this in the future, this can probably be removed
+#
+exec_prefix="/usr/local"
 
 
 am__api_version="1.6"
