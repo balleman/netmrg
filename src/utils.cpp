@@ -64,7 +64,7 @@ string token_replace(string &source, string token, string value)
 {
 	string::size_type i;
 
-	while ((i = source.find(token)) >= 0)
+	while ((i = source.find(token)) != string::npos)
 	{
 		source.replace(i, token.length(), value);
 	}
