@@ -26,12 +26,16 @@
 #include <net-snmp-includes.h>
 #include <config_api.h>
 #include <mib_api.h>
+#define SNMP_SET_OIDS netsnmp_ds_set_int(NETSNMP_DS_LIBRARY_ID, NETSNMP_DS_LIB_OID_OUTPUT_FORMAT, NETSNMP_OID_OUTPUT_NUMERIC)
+#define SNMP_SET_LIBS netsnmp_ds_set_boolean(NETSNMP_DS_LIBRARY_ID, NETSNMP_DS_LIB_PRINT_NUMERIC_ENUM, 1)
 #else
 #define DS_APP_DONT_FIX_PDUS 0
 #include <ucd-snmp-config.h>
 #include <ucd-snmp-includes.h>
 #include <system.h>
 #include <mib.h>
+#define SNMP_SET_OIDS ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_OIDS)
+#define SNMP_SET_LIBS ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_ENUM)
 #endif
 
 void snmp_init()
@@ -41,14 +45,8 @@ void snmp_init()
 	SOCK_STARTUP;
 	struct snmp_session session;
 	snmp_sess_init(&session);
-	
-#ifdef HAVE_NET_SNMP
-	netsnmp_ds_set_int(NETSNMP_DS_LIBRARY_ID, NETSNMP_DS_LIB_OID_OUTPUT_FORMAT, NETSNMP_OID_OUTPUT_NUMERIC);
-	netsnmp_ds_set_boolean(NETSNMP_DS_LIBRARY_ID, NETSNMP_DS_LIB_PRINT_NUMERIC_ENUM, 1);
-#else
-	ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_OIDS);
-	ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_ENUM);
-#endif
+	SNMP_SET_OIDS;
+	SNMP_SET_LIBS;
 }
 
 void snmp_cleanup()

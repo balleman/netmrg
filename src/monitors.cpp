@@ -16,6 +16,12 @@
 #include "events.h"
 #include "settings.h"
 
+#ifdef OLD_MYSQL
+#define MYSQL_CONNECT(a,b,c,d,e,f,g,h) mysql_connect(a,b,c,d)
+#else
+#define MYSQL_CONNECT(a,b,c,d,e,f,g,h) mysql_real_connect(a,b,c,d,e,f,g,h)
+#endif
+
 string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 {
 	string test_result = "U", temp;
@@ -88,13 +94,9 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 			string(mysql_row[4]) + "')");
 
 		mutex_lock(lkMySQL);
-#ifndef OLD_MYSQL
 		mysql_init(&test_mysql);
 
-		if (!(mysql_real_connect(&test_mysql,host.c_str(),user.c_str(),password.c_str(), NULL, 0, NULL, 0)))
-#else
-		if (!(mysql_connect(&test_mysql,host.c_str(),user.c_str(),password.c_str())))
-#endif
+		if (!(MYSQL_CONNECT(&test_mysql,host.c_str(),user.c_str(),password.c_str(), NULL, 0, NULL, 0)))
 		{
 			mutex_unlock(lkMySQL);
 			debuglogger(DEBUG_GATHERER, LEVEL_WARNING, &info, "Test MySQL Connection Failure.");

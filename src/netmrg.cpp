@@ -46,6 +46,13 @@ int active_threads = 0;
 #include "mappings.h"
 #include "devices.h"
 
+#ifdef OLD_MYSQL
+#define MYSQL_THREAD_INIT
+#define MYSQL_THREAD_END
+#else
+#define MYSQL_THREAD_INIT mysql_thread_init()
+#define MYSQL_THREAD_END mysql_thread_end()
+#endif
 
 
 // child - the thread spawned to process each device
@@ -53,9 +60,7 @@ void *child(void * arg)
 {
 	int device_id = *(int *) arg;
 
-#ifndef OLD_MYSQL
-	mysql_thread_init();
-#endif
+	MYSQL_THREAD_INIT;
 
 	process_device(device_id);
 
@@ -64,9 +69,7 @@ void *child(void * arg)
 	mutex_unlock(lkActiveThreads);
 	debuglogger(DEBUG_THREAD, LEVEL_NOTICE, NULL, "Thread Ended.");
 
-#ifndef OLD_MYSQL
-	mysql_thread_end();
-#endif
+	MYSQL_THREAD_END;
 
 	pthread_exit(0);
 
