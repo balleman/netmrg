@@ -29,7 +29,9 @@ function do_edit()
 	{
 		$db_cmd = "INSERT INTO";
 		$db_end = "";
-	} else {
+	}
+	else
+	{
 		$db_cmd = "UPDATE";
 		$db_end = "WHERE id='{$_REQUEST['mon_id']}'";
 	}
