@@ -1,11 +1,12 @@
 == showstoppers for 0.9 ==
-device, graph duplication
+device duplication
 more detailed INSTALL
 more detailed README
 Usage information (description of every page)
 'makedist' script
 snmp_cache_view.php:
   need a "Graph All" feature
+  depends on: checkbox/group actions
 
 
 == before going public ==

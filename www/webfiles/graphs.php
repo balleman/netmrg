@@ -32,19 +32,8 @@ if ($_REQUEST["action"] == "doedit")
 			width={$_REQUEST['width']}, height={$_REQUEST['height']},
 			vert_label=\"{$_REQUEST['vert_label']}\" $where");
 
-	if (isset($_REQUEST["return_type"]))
-	{
-		if ($_REQUEST["return_type"] == "traffic")
-		{
-			header("Location: snmp_cache_view.php?dev_id={$_REQUEST['return_id']}");
-		} // end if return type is traffic
-	}
-	else
-	{
-		header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
-		exit(0);
-	} // end if return type
-
+	header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
+	exit(0);
 
 } // done editing
 
@@ -61,40 +50,30 @@ if ($_REQUEST["action"] == "duplicate")
 {
 	$graph_handle = do_query("SELECT * FROM graphs WHERE id={$_REQUEST["id"]}");
 	$graph_row    = mysql_fetch_array($graph_handle);
-	/*$new_handle   = do_update("INSERT INTO graphs SET name='" . $graph_row["name"] . " (copy)',
-		comment='" . $graph_row["comment"] . "', xsize=" . $graph_row["xsize"] . ', ysize=' . $graph_row["ysize"] .
-		', vert_label="' . $graph_row["vert_label"] . '", show_legend=' .
-	$graph_row["show_legend"] . ', show_total_line=' .
-	$graph_row["show_total_line"] . ', show_total_stats=' .
-	$graph_row["show_total_stats"] . ', show_summed=' .
-	$graph_row["show_summed"] . ', disp_integer_only=' .
-	$graph_row["disp_integer_only"]);*/
+	do_update("INSERT INTO graphs SET name='" . mysql_escape_string($graph_row['name']) . " (duplicate)', " . 
+	"comment='" . mysql_escape_string($graph_row['comment']) . "', " .
+	"width={$graph_row['width']}, height={$graph_row['height']}, " .
+	"vert_label='" . mysql_escape_string($graph_row['vert_label']) . "', " .
+	"type='{$graph_row['type']}'");
 
 	$new_id = mysql_insert_id();
 
 	$ds_handle = do_query("SELECT * FROM graph_ds WHERE graph_id='{$_REQUEST['id']}'");
-	$ds_count = mysql_num_rows($ds_handle);
-	for ($i = 0; $i < $ds_count; $i++)
+	for ($i = 0; $i < mysql_num_rows($ds_handle); $i++)
 	{
 		$ds_row = mysql_fetch_array($ds_handle);
-		do_update("INSERT INTO graph_ds SET " .
-		'src_type=' . $ds_row["src_type"] . ',' .
-		'src_id=' . $ds_row["src_id"] . ',' .
-		'color="' . $ds_row["color"] . '",' .
-		'type=' . $ds_row["type"] . ',' .
-		'graph_id=' . $new_id . ',' .
-		'label="' . $ds_row["label"] . '",' .
-		'align=' . $ds_row["align"] . ',' .
-		'show_stats=' . $ds_row["show_stats"] . ',' .
-		'show_indicator=' . $ds_row["show_indicator"] . ',' .
-		'hrule_value="' . $ds_row["hrule_value"] . '",' .
-		'hrule_color="' . $ds_row["hrule_color"] . '",' .
-		'hrule_label="' . $ds_row["hrule_label"] . '",' .
-                'multiplier="'  . $ds_row["multiplier"]  . '",' .
-		'position="'	. $ds_row["position"]    . '"');
-	} // end for
+		do_update("INSERT INTO graph_ds SET graph_id=$new_id, " .
+		"mon_id={$ds_row['mon_id']}, " . 
+		"color='" . mysql_escape_string($ds_row['color']) . "', " .
+		"type={$ds_row['type']}, " .
+		"label='" . mysql_escape_string($ds_row['label']) . "', " .
+		"alignment={$ds_row['alignment']}, " .
+		"stats='{$ds_row['stats']}', " .
+		"position={$ds_row['position']}, " .
+		"multiplier={$ds_row['multiplier']}");
+	} // end for each ds
 
-	header("Location: {$_SERVER["PHP_SELF"]}");
+	header("Location: {$_SERVER["PHP_SELF"]}?type={$graph_row['type']}");
 	exit(0);
 } // done duplicating.
 

@@ -34,7 +34,7 @@ begin_page("about.php", "About");
 <br>
 
 <b>Suggestions and Comments</b><br>
-<a href="http://raxnet.net/">Ian Berry</a> has a lot of insight into graphing software.<br>
+<a href="http://raxnet.net/">Ian Berry</a>, the main developer of <a href="http://raxnet.net/products/cacti/">Cacti</a>, has a lot of insight into graphing software.<br>
 <a href="http://haller.ws/">Patrick Haller</a> got me started on pthreads debugging.<br>
 
 <br>

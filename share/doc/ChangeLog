@@ -1,5 +1,6 @@
 2003.05.06  v0.8  balleman
   - "Make Graph" functionality restored for interfaces
+  - graph duplication fixed (custom and template)
 
 2003.04.21  v0.8  balleman
   - graph templating exists (and works!)
