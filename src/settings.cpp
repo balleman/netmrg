@@ -61,11 +61,15 @@ void load_settings_default()
 	set_setting(setPathRuntimeFile, DEF_RUNTIME_FILE);
 	set_setting(setPathLibexec, DEF_LIBEXEC);
 	set_setting(setPathRRDs, DEF_RRDS);
+	set_setting(setPathLocale, DEF_LOCALE);
 
 	// other
 	set_setting_int(setPollInterval, DEF_POLL_INTERVAL);
 	set_setting_int(setMaxDeviceLogEntries, DEF_MAX_DEV_LOG);
 	set_setting(setSyslogFacility, DEF_SYSLOG_FACILITY);
+
+	// update intl info
+	setup_intl();
 }
 
 void print_settings()
@@ -88,6 +92,7 @@ void print_settings()
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Runtime File: " + get_setting(setPathRuntimeFile));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Libexec:      " + get_setting(setPathLibexec));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "RRDs:         " + get_setting(setPathRRDs));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Locale:       " + get_setting(setPathLocale));
 
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "-- Other --");
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Poll Interval:   " + get_setting(setPollInterval));
@@ -109,7 +114,7 @@ void parse_config_section(xmlDocPtr doc, xmlNodePtr cur, string section)
 	xmlChar * value;
 	string val_str;
 
-	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Parsing config section '" + section + "'");
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, (string)_("Parsing config section") + " '" + section + "'");
 
 	cur = cur->xmlChildrenNode;
 	while (cur != NULL)
@@ -157,6 +162,9 @@ void parse_config_section(xmlDocPtr doc, xmlNodePtr cur, string section)
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "rrds"))
 				set_setting(setPathRRDs, val_str);
 
+			if (!xmlStrcmp(cur->name, (const xmlChar *) "locale"))
+				set_setting(setPathLocale, val_str);
+
 		}
 		else
 		if (section == "threads")
@@ -179,7 +187,7 @@ void parse_config_section(xmlDocPtr doc, xmlNodePtr cur, string section)
 				set_setting(setSyslogFacility, val_str);
 		}
 		else
-		debuglogger(DEBUG_GLOBAL, LEVEL_WARNING, NULL, "Second stage parser not aware of this section.");
+		debuglogger(DEBUG_GLOBAL, LEVEL_WARNING, NULL, (string)_("Second stage parser not aware of this section."));
 		xmlFree(value);
 		cur = cur->next;
 	} // end while not null
@@ -194,7 +202,7 @@ void load_settings_file(const string & filename)
 	doc = xmlParseFile(filename.c_str());
 	if (doc == NULL)
 	{
-		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Failed to parse configuration file (" + filename + ")");
+		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, (string)_("Failed to parse configuration file") + " (" + filename + ")");
 		return;
 	}
 
@@ -202,14 +210,14 @@ void load_settings_file(const string & filename)
 
 	if (cur == NULL)
 	{
-		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Empty configuration file (" + filename + ")");
+		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, (string)_("Empty configuration file") + " (" + filename + ")");
 		xmlFreeDoc(doc);
 		return;
 	}
 
 	if (xmlStrcmp(cur->name, (const xmlChar *) "netmrg"))
 	{
-		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Configuration file of the wrong type.  Root node is not 'netmrg.' (" + filename + ")");
+		debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, (string)_("Configuration file of the wrong type.  Root node is not 'netmrg.'") + " (" + filename + ")");
 		xmlFreeDoc(doc);
 		return;
 	}
@@ -254,11 +262,27 @@ void load_settings_file(const string & filename)
 			// this seems to happen after every section.  ignore it.
 		}
 		else
-		debuglogger(DEBUG_GLOBAL, LEVEL_NOTICE, NULL, "Unexpected section '" + xmltostring(cur->name) + "' in configuration file.");
+		debuglogger(DEBUG_GLOBAL, LEVEL_NOTICE, NULL, (string)_("Unexpected section in configuration file: ") + xmltostring(cur->name));
 
 		cur = cur->next;
 	}
 
 	xmlFreeDoc(doc);
+
+	// settings may have changed, reset intl info to be safe
+	setup_intl();
+}
+
+// setup_intl - internationalization support
+void setup_intl()
+{
+	// use language settings from the environment
+	setlocale(LC_ALL, "");
+
+	// set the location of translation tables for the domain
+	bindtextdomain("netmrg", get_setting(setPathLocale).c_str());
+
+	// select the domain
+	textdomain("netmrg");
 }
 

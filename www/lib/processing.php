@@ -1251,6 +1251,7 @@ function GetXMLConfig()
 	$GLOBALS["netmrg"]["rrdtool"]     = $xmlconfig["NETMRG"][0]["PATHS"][0]["RRDTOOL"][0]["VALUE"];
 	$GLOBALS["netmrg"]["rrdroot"]     = $xmlconfig["NETMRG"][0]["PATHS"][0]["RRDS"][0]["VALUE"];
 	$GLOBALS["netmrg"]["fileroot"]    = $xmlconfig["NETMRG"][0]["PATHS"][0]["WEBFILEROOT"][0]["VALUE"];
+	$GLOBALS["netmrg"]["locale"]      = $xmlconfig["NETMRG"][0]["PATHS"][0]["LOCALE"][0]["VALUE"];
 
 } // end GetXMLConfig();
 

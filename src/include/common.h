@@ -35,5 +35,8 @@
 #  include <netinet/in.h>
 #endif
 
+#include "gettext.h"
+#define _(String) gettext(String)
+
 #endif /* NETMRG_COMMON_H */
 

@@ -13,7 +13,7 @@
 
 using std::string;
 
-const int settings_count = 16;
+const int settings_count = 17;
 
 enum Setting
 {
@@ -28,6 +28,7 @@ enum Setting
 	setPathLockFile,
 	setPathRuntimeFile,
 	setPathLibexec,
+	setPathLocale,
 	setPathRRDs,
 	setPollInterval,
 	setMaxDeviceLogEntries,
@@ -45,7 +46,8 @@ void		set_setting_int(Setting, long int);
 void		load_settings_default();
 void		load_settings_file(const string & filename);
 
-// other settings functions
+// other functions
 void		print_settings();
+void		setup_intl();
 
 #endif

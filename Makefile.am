@@ -2,7 +2,11 @@
 
 include $(top_srcdir)/Make.inc
 
-SUBDIRS	= src www etc var .
+SUBDIRS	= m4 po src www etc var .
+
+ACLOCAL_AMFLAGS = -I m4
+
+EXTRA_DIST = config.rpath ABOUT-NLS
 
 install : all install-recursive
 

@@ -70,6 +70,14 @@ GetXMLConfig();
 
 
 
+/***** INTERNATIONALIZATION *****/
+// Specify location of translation tables
+bindtextdomain("netmrg", $GLOBALS['netmrg']['locale']);
+// Choose domain
+textdomain("netmrg");
+
+
+
 /***** INCLUDES *****/
 require_once($GLOBALS["netmrg"]["libdir"]."/lib/database.php");
 require_once($GLOBALS["netmrg"]["libdir"]."/lib/static.php");

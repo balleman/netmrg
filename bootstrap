@@ -2,17 +2,18 @@
 
 set -x
 
-aclocal
+aclocal -I m4
 
 autoheader
 
 automake --foreign --add-missing --copy \
 	Makefile \
 	etc/Makefile \
+	m4/Makefile \
 	src/Makefile \
-	www/Makefile \
 	var/Makefile \
 	var/lib/Makefile \
-	var/lib/rrd/Makefile
+	var/lib/rrd/Makefile \
+	www/Makefile
 
 autoconf

@@ -104,7 +104,7 @@ notify other package maintainers
 # ./bootstrap
 cvs commit -f aclocal.m4 Makefile.in etc/Makefile.in www/Makefile.in \
   var/Makefile.in var/lib/Makefile.in var/lib/rrd/Makefile.in \
-  src/Makefile.in src/include/config.h.in configure
+  src/Makefile.in m4/Makefile.in src/include/config.h.in configure
 
 == branching cvs ==
 cvs tag -b -r HEAD netmrg-0_17

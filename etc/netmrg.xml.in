@@ -15,6 +15,7 @@
 		<libexec>@libexecdir@/netmrg</libexec>
 		<rrds>@localstatedir@/lib/netmrg/rrd</rrds>
 		<webfileroot>@localstatedir@/www/netmrg</webfileroot>
+		<locale>@datadir@/netmrg/locale</locale>
 	</paths>
 	<threads>
 		<count>5</count>

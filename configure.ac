@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,0.18.2)
-AC_REVISION($Revision: 1.36 $)
+AC_REVISION($Revision: 1.37 $)
 AC_CONFIG_SRCDIR(src/netmrg.cpp)
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
@@ -388,6 +388,8 @@ if test "$HAVE_NET_SNMP" = "no"; then
 	AC_MSG_ERROR(Cannot find UCD-SNMP libraries))
 fi
 
+# Internationalization support
+AM_GNU_GETTEXT([external])
 
 #
 #  Run configure in directories
@@ -404,6 +406,8 @@ AC_CONFIG_FILES( \
 	etc/init.d-netmrg \
 	etc/netmrg.conf \
 	etc/netmrg.xml \
+	m4/Makefile \
+	po/Makefile.in \
 	src/Makefile \
 	src/include/netmrg.h \
 	var/Makefile \
@@ -411,6 +415,7 @@ AC_CONFIG_FILES( \
 	var/lib/rrd/Makefile \
 	www/Makefile \
 	www/include/config.php
+
 )
 
 AC_OUTPUT
