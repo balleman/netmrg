@@ -21,8 +21,6 @@
 
 require_once("../include/config.php");
 view_check_auth();
-refresh_tag();
-begin_page();
 
 if (!empty($_REQUEST["full_edit"]))
 {
@@ -37,37 +35,70 @@ if (!empty($_REQUEST["action"]))
 {
 	if ($_REQUEST["action"] == "doadd")
 	{
-		do_update("INSERT INTO view SET 
-			pos_id=".$_REQUEST["pos_id"].", 
-			pos_id_type=".$_REQUEST["pos_id_type"].", 
-			graph_id=".$_REQUEST["graph_id"].", 
-			graph_id_type=\"custom\"");
+		do_update("INSERT INTO view SET
+			pos_id=".$_REQUEST["pos_id"].",
+			pos_id_type=".$_REQUEST["pos_id_type"].",
+			graph_id=".$_REQUEST["graph_id"].",
+			graph_id_type=\"custom\",
+			pos={$_REQUEST['pos']}");
 		$_REQUEST["action"] = "";
 		$full_edit = 1;
 
 	}
-	else if ($_REQUEST["action"] == "dodelete")
+	elseif ($_REQUEST["action"] == "dodelete")
 	{
-		do_update("DELETE FROM view 
-			WHERE pos_id=".$_REQUEST["pos_id"]." 
-			AND pos_id_type=".$_REQUEST["pos_id_type"]." 
+		do_update("DELETE FROM view
+			WHERE pos_id=".$_REQUEST["pos_id"]."
+			AND pos_id_type=".$_REQUEST["pos_id_type"]."
 			AND graph_id=".$_REQUEST["graph_id"]);
 		$_REQUEST["action"] = "";
 		$full_edit = 1;
 
 	}
-	else if ($_REQUEST["action"] == "move")
+	elseif ($_REQUEST["action"] == "move")
 	{
-		// do moving
-		do_update("UPDATE view SET pos=".$_REQUEST["val"]." 
-			WHERE pos_id=".$_REQUEST["pos_id"]." 
-			AND pos_id_type=".$_REQUEST["pos_id_type"]." 
-			AND graph_id=".$_REQUEST["graph_id"]);
-		$_REQUEST["action"] = "";
+		$query = do_query("
+			SELECT graph_id, pos
+			FROM view
+			WHERE pos_id={$_REQUEST['pos_id']}
+			AND pos_id_type={$_REQUEST['pos_id_type']}
+			ORDER BY pos");
+
+		for ($i = 0; $i < mysql_num_rows($query); $i++)
+		{
+			$row = mysql_fetch_array($query);
+
+			if ($_REQUEST['direction'] == "up")
+			{
+				if (($_REQUEST['id'] - 1) == $i)
+				{
+					$next_row = mysql_fetch_array($query);
+					do_update("UPDATE view SET pos = {$next_row['pos']} WHERE pos_id = {$_REQUEST['pos_id']} AND pos_id_type = {$_REQUEST['pos_id_type']} AND graph_id = {$row['graph_id']}");
+					do_update("UPDATE view SET pos = {$row['pos']} WHERE pos_id = {$_REQUEST['pos_id']} AND pos_id_type = {$_REQUEST['pos_id_type']} AND graph_id = {$next_row['graph_id']}");
+					break;
+				}
+			}
+			else
+			{
+				if ($_REQUEST['id'] == $i)
+				{
+					$next_row = mysql_fetch_array($query);
+					do_update("UPDATE view SET pos = {$next_row['pos']} WHERE pos_id = {$_REQUEST['pos_id']} AND pos_id_type = {$_REQUEST['pos_id_type']} AND graph_id = {$row['graph_id']}");
+					do_update("UPDATE view SET pos = {$row['pos']} WHERE pos_id = {$_REQUEST['pos_id']} AND pos_id_type = {$_REQUEST['pos_id_type']} AND graph_id = {$next_row['graph_id']}");
+					break;
+				}
+			}
+		}
+
+		header("Location: {$_SERVER['PHP_SELF']}?pos_id={$_REQUEST['pos_id']}&pos_id_type={$_REQUEST['pos_id_type']}&full_edit=1");
+		exit(0);
 
 	} // end if we have an action to perform
 
 } // end if an action was defined
+
+refresh_tag();
+begin_page();
 
 $view_select = "
     SELECT * FROM view
@@ -115,15 +146,33 @@ if (empty($_REQUEST["action"]))
 	{
 		js_confirm_dialog("del", "Do you want to remove ", " from this view?", "{$_SERVER['PHP_SELF']}?action=dodelete&pos_id_type={$_REQUEST['pos_id_type']}&pos_id={$_REQUEST['pos_id']}&graph_id=");
 
-		$custom_add_link = "./view.php?pos_id_type=".$_REQUEST["pos_id_type"]."&pos_id=".$_REQUEST["pos_id"]."&action=add";
+		$custom_add_link = "view.php?pos_id_type=".$_REQUEST["pos_id_type"]."&pos_id=".$_REQUEST["pos_id"]."&pos=" . ($num + 1) . "&action=add";
 		make_display_table("Edit View","Graph","");
 
 		for ($i = 0; $i < $num; $i++)
 		{
+			if ($i == 0)
+			{
+				$move_up = formatted_link_disabled("Move Up");
+			}
+			else
+			{
+				$move_up = formatted_link("Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&pos_id={$_REQUEST['pos_id']}&pos_id_type={$_REQUEST['pos_id_type']}&id=$i");
+			}
+
+			if ($i == ($num - 1))
+			{
+				$move_down = formatted_link_disabled("Move Down");
+			}
+			else
+			{
+				$move_down = formatted_link("Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&pos_id={$_REQUEST['pos_id']}&pos_id_type={$_REQUEST['pos_id_type']}&id=$i");
+			}
+
 			$row = mysql_fetch_array($view_result);
 			make_display_item($row["name"],"",
-				formatted_link("Move Up", "{$_SERVER['PHP_SELF']}?action=move&val=" . ($row["pos"] - 1) . "&pos_id=" . $row["pos_id"] . "&pos_id_type=" . $row["pos_id_type"] . "&graph_id=" . $row["graph_id"] . "&full_edit=1") . "&nbsp;" .
-				formatted_link("Move Down", "{$_SERVER['PHP_SELF']}?action=move&val=" . ($row["pos"] + 1) . "&pos_id=" . $row["pos_id"] . "&pos_id_type=" . $row["pos_id_type"] . "&graph_id=" . $row["graph_id"] . "&full_edit=1") . "&nbsp;" .
+				$move_up . "&nbsp;" .
+				$move_down . "&nbsp;" .
 				formatted_link("Delete","javascript:del('{$row['name']}', '{$row['graph_id']}')"), "");
 		}
 
@@ -143,31 +192,10 @@ if (!empty($_REQUEST["action"]))
 		make_edit_hidden("pos_id",$_REQUEST["pos_id"]);
 		make_edit_hidden("pos_id_type",$_REQUEST["pos_id_type"]);
 		make_edit_hidden("action","doadd");
+		make_edit_hidden("pos", $_REQUEST['pos']);
 		make_edit_submit_button();
 		make_edit_end();
 	}
-	else if ($_REQUEST["action"] == "delete")
-	{
-		// Display delete confirmation
-?>
-
-	<font size="4" color="#800000">Confirm Delete</font><br><br>
-
-	Are you sure you want to delete this graph from this view?
-
-	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-	<input type="submit" value="Yes">
-	<input type="hidden" name="pos_id" value="<?php echo $_REQUEST["pos_id"]; ?>">
-	<input type="hidden" name="pos_id_type" value="<?php echo $_REQUEST["$pos_id_type"]; ?>">
-	<input type="hidden" name="graph_id" value="<?php echo $_REQUEST["$graph_id"]; ?>">
-	<input type="hidden" name="action" value="dodelete">
-	</form>
-	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
-	<input type="submit" value="No">
-	</form>
-
-<?php
-	} // end if action is to do something
 } // end if action is defined
 
 
