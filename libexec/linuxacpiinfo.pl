@@ -90,7 +90,7 @@ $percent_left = sprintf("%.2f", $battery_curcapacity/$battery_maxcapacity*100);
 ### do what the user wanted
 if ($ARGV[0] eq "-p")
 {
-	print $percent_left."\n";
+	print int($percent_left)."\n";
 } # end if percent left
 
 elsif ($ARGV[0] eq "-th")
@@ -100,7 +100,7 @@ elsif ($ARGV[0] eq "-th")
 
 elsif ($ARGV[0] eq "-tm")
 {
-	print ($time_remaining*60);
+	print int($time_remaining*60);
 	print "\n";
 } # end if time left (minutes)
 
