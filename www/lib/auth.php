@@ -13,10 +13,6 @@
 #                                                      #
 ########################################################
 
-require_once("../include/config.php");
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root(). "lib/database.php");
-
 
 /**
 * check_user_pass($user, $pass);
@@ -30,17 +26,31 @@ function check_user_pass($user, $pass)
 	$auth_valid = false;
 	$auth_select = "SELECT 1 FROM user WHERE user='$user' AND pass=ENCRYPT('$pass', pass)";
 	$auth_result = do_query($auth_select);
-	if (mysql_num_rows($auth_result) > 0)
-	{ 
+	if (mysql_num_rows($auth_result) > 0) { 
 		$auth_valid = true;
-	} 
-	else 
-	{ 
+	} else 	{ 
 		$auth_valid = false;
-	}
+	} # end if we have a result or not
 
 	return $auth_valid;
 } // end check_user_pass()
+
+
+/**
+* IsLoggedIn();
+*
+* verifies a username and password in the session 
+* agains what's in the database
+* and that the user isn't spoofing their ip
+*/
+function IsLoggedIn()
+{
+	if (check_user_pass($_SESSION["netmrg"]["username"], $_SESSION["netmrg"]["password"]) && 
+		$_SESSION["netmrg"]["remote_addr"] == $_SERVER["REMOTE_ADDR"]) {
+		return true;
+	} # end if the username/password checks out and the ips match
+	return false;
+} // end IsLoggedIn();
 
 
 function get_full_name($user)
@@ -53,24 +63,19 @@ function get_full_name($user)
 
 function check_auth($level)
 {
-	$valid_user = false;
-
-	if (!empty($_SESSION["netmrg"]["username"]) && !empty($_SESSION["netmrg"]["password"])) {
-		$valid_user = check_user_pass($_SESSION["netmrg"]["username"], $_SESSION["netmrg"]["password"]);
- 	} // end if a username and password has been set, try to auth
+	$valid_user = check_user_pass($_SESSION["netmrg"]["username"], $_SESSION["netmrg"]["password"]);
 
 	if ($valid_user == false) {
 		# Hacker Alert!
-		setcookie("redir", $_SERVER["REQUEST_URI"]);
-		header("Location: ./login.php?action=invalid");
+		$_SESSION["netmrg"]["redir"] = $_SERVER["REQUEST_URI"];
+		header("Location: {$GLOBALS['netmrg']['webroot']}/login.php?action=invalid");
 		exit;
 
 	} else if (get_permit() < $level) {
-		#setcookie("redir",$REQUEST_URI);
-		header("Location: ./login.php?action=denied");
+		header("Location: {$GLOBALS['netmrg']['webroot']}/login.php?action=denied");
 		exit;
 
-	}
+	} # end if this is a valid user
 } // end check_auth()
 
 
@@ -80,10 +85,10 @@ function view_check_auth()
 	check_auth(0);
 	$handle = do_query("SELECT * FROM user WHERE user='".$_SESSION["netmrg"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrg"]["password"]."',pass)");
 	$row = mysql_fetch_array($handle);
-	if (!((($row["view_id"] == $pos_id) && ($row["view_type"] == $pos_id_type)) || (get_permit() > 0)))
+	if (!(($row["view_id"] == $pos_id && $row["view_type"] == $pos_id_type) || get_permit() > 0))
 	{
 		$_SESSION["netmrg"]["redir"] = $_SERVER["REQUEST_URI"];
-		header("Location: ./login.php?action=denied");
+		header("Location: {$GLOBALS['netmrg']['webroot']}/login.php?action=denied");
 		exit;
 	}
 } // end view_check_auth()
@@ -105,24 +110,23 @@ function get_permit()
 		$row = mysql_fetch_array($handle);
 		return $row["permit"];
 	} // end if there is somebody logged in, get their permissions
+
 	return false;
 } // end get_permit()
+
 
 function view_redirect()
 {
 	$sql = "SELECT * FROM user WHERE user='".$_SESSION["netmrg"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrg"]["password"]."',pass)";
 	$handle = do_query($sql);
 	$row = mysql_fetch_array($handle);
-	if (empty($_SESSION["netmrg"]["redir"]) || (get_permit() == 0))
-	{
-		header("Location: ./view.php?pos_id_type=" . $row["view_type"] . "&pos_id=" . $row["view_id"]);
-	}
-	else
-	{
+	if (empty($_SESSION["netmrg"]["redir"]) || (get_permit() == 0)) {
+		header("Location: {$GLOBALS['netmrg']['webroot']}/view.php?pos_id_type={$row['view_type']}&pos_id={$row['view_id']}");
+	} else {
 		$redir = $_SESSION["netmrg"]["redir"];
 		unset($_SESSION["netmrg"]["redir"]);
 		header("Location: $redir");
-	}
+	} # end if we don't have a redir page or we do
 } // end view_redirect()
 
 ?>

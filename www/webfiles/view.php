@@ -18,10 +18,7 @@
 ########################################################
 
 require_once("../include/config.php");
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
 require_once(netmrg_root() . "lib/graphing.php");
-require_once(netmrg_root() . "lib/auth.php");
 view_check_auth();
 refresh_tag();
 begin_page();

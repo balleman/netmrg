@@ -20,21 +20,21 @@ error_reporting(E_ALL);
 
 /***** CONFIG *****/
 // Cosmetic Variables
-$_GLOBALS["netmrg"]["version"] = "0.79.3a";
-$_GLOBALS["netmrg"]["name"] = "NetMRG";
-$_GLOBALS["netmrg"]["company"] = "Generic Company";
+$GLOBALS["netmrg"]["version"] = "0.79.3a";
+$GLOBALS["netmrg"]["name"] = "NetMRG";
+$GLOBALS["netmrg"]["company"] = "Generic Company";
 
 // DB Config
-$_GLOBALS["netmrg"]["dbhost"] = "localhost";
-$_GLOBALS["netmrg"]["dbname"] = "netmrg";
-$_GLOBALS["netmrg"]["dbreaduser"] = "netmrgread";
-$_GLOBALS["netmrg"]["dbreadpass"] = "netmrgread";
-$_GLOBALS["netmrg"]["dbwriteuser"] = "netmrgwrite";
-$_GLOBALS["netmrg"]["dbwritepass"] = "netmrgwrite";
+$GLOBALS["netmrg"]["dbhost"] = "localhost";
+$GLOBALS["netmrg"]["dbname"] = "netmrg";
+$GLOBALS["netmrg"]["dbreaduser"] = "netmrgread";
+$GLOBALS["netmrg"]["dbreadpass"] = "netmrgread";
+$GLOBALS["netmrg"]["dbwriteuser"] = "netmrgwrite";
+$GLOBALS["netmrg"]["dbwritepass"] = "netmrgwrite";
 
 // Path Config
-$_GLOBALS["netmrg"]["fileroot"] = "/var/www/netmrg";
-$_GLOBALS["netmrg"]["webroot"] = "/netmrg";
+$GLOBALS["netmrg"]["fileroot"] = "/var/www/netmrg";
+$GLOBALS["netmrg"]["webroot"] = "/netmrg";
 
 
 
@@ -42,14 +42,18 @@ $_GLOBALS["netmrg"]["webroot"] = "/netmrg";
 session_start();
 if (!isset($_SESSION["netmrg"]) || !is_array($_SESSION["netmrg"])) {
 	$_SESSION["netmrg"] = array();
+	$_SESSION["netmrg"]["username"] = "";
+	$_SESSION["netmrg"]["password"] = "";
+	$_SESSION["netmrg"]["remote_addr"] = "";
 } // end if the netmrg session array doesn't exist yet, make it
 
 
 
 /***** INCLUDES *****/
-require_once($_GLOBALS["netmrg"]["fileroot"]."/lib/stat.php");
-require_once($_GLOBALS["netmrg"]["fileroot"]."/lib/format.php");
-require_once($_GLOBALS["netmrg"]["fileroot"]."/lib/auth.php");
+require_once($GLOBALS["netmrg"]["fileroot"]."/lib/database.php");
+require_once($GLOBALS["netmrg"]["fileroot"]."/lib/stat.php");
+require_once($GLOBALS["netmrg"]["fileroot"]."/lib/format.php");
+require_once($GLOBALS["netmrg"]["fileroot"]."/lib/auth.php");
 
 
 

@@ -14,18 +14,20 @@
 ########################################################
 
 require_once("../include/config.php");
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
-require_once(netmrg_root() . "lib/auth.php");
 
 
 $login_valid = false;
 $login_error = "";
 
+if (IsLoggedIn()) {
+	view_redirect();
+} # end if we've alread seen this page
+
 if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "logout")
 {
-	unset($_SESSION["netmrg"]);
-	unset($action);
+	$_SESSION["netmrg"]["username"] = "";
+	$_SESSION["netmrg"]["password"] = "";
+	$_SESSION["netmrg"]["remote_addr"] = "";
 } // end if the action is to logout
 
 if (!empty($_REQUEST["user_name"])) {
@@ -34,7 +36,7 @@ if (!empty($_REQUEST["user_name"])) {
 		$login_valid = true;
 		$_SESSION["netmrg"]["username"] = $_REQUEST["user_name"];
 		$_SESSION["netmrg"]["password"] = $_REQUEST["password"];
-		$_SESSION["netmrg"]["remoteip"] = $_SERVER["REMOTE_ADDR"];
+		$_SESSION["netmrg"]["remote_addr"] = $_SERVER["REMOTE_ADDR"];
 	}
 	else
 	{
@@ -43,18 +45,17 @@ if (!empty($_REQUEST["user_name"])) {
 }// end if there was a username
 
 if ($login_valid == true) {
-	if (get_permit() == 0)
-	{
+	if (get_permit() == 0) {
 		view_redirect();
-		exit;
-	}
+	} # end if we are permitted
 
-	if (!empty($_REQEST["action"]))
-	{
-		header("Location: ./index.php?action=$action");
-	}
-	else
-	{
+	if (!empty($_REQEST["action"])) {
+		if ($_REQUEST["action"] == "denied") {
+			$login_error = "Your last action was DENIED";
+		} else if ($_REQUEST["action"] == "invalid") {
+			$login_error = "Your last action was INVALID";
+		} # end if action was denied or invalid
+	} else {
 		view_redirect();
 	}
 }
