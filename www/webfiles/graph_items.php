@@ -53,12 +53,15 @@ if ($_REQUEST["action"] == "doedit")
 	$_REQUEST['color'] = db_escape_string($_REQUEST['color']);
 	$_REQUEST['label'] = db_escape_string($_REQUEST['label']);
 	$_REQUEST['multiplier'] = db_escape_string($_REQUEST['multiplier']);
+	$_REQUEST['start_time'] = db_escape_string($_REQUEST['start_time']);
+	$_REQUEST['end_time'] = db_escape_string($_REQUEST['end_time']);
 	
 	$graph_ds_query = "$pre graph_ds
 		SET mon_id='{$_REQUEST['mon_id']}', color='{$_REQUEST['color']}', 
 		 type='{$_REQUEST['type']}', graph_id='{$_REQUEST['graph_id']}', 
 		 label='{$_REQUEST['label']}', alignment='{$_REQUEST['alignment']}', 
-		 stats='$stats', position='{$_REQUEST['position']}', multiplier='{$_REQUEST['multiplier']}'
+		 stats='$stats', position='{$_REQUEST['position']}', multiplier='{$_REQUEST['multiplier']}', 
+		 start_time='{$_REQUEST['start_time']}', end_time='{$_REQUEST['end_time']}' 
 		 $post";
 	db_update($graph_ds_query);
 
@@ -196,7 +199,7 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 
 	if ($_REQUEST["action"] == "add")
 	{
-	        $_REQUEST["id"] = 0;
+		$_REQUEST["id"] = 0;
 		$ds_row["type"] = 0;
 		$ds_row["color"] = "#0000AA";
 		$ds_row["alignment"] = 0;
@@ -206,11 +209,13 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 		$ds_row["id"] = 0;
 		$ds_row["position"] = $_REQUEST["position"];
 		$ds_row["stats"] = "CURRENT,AVERAGE,MAXIMUM";
+		$ds_row["start_time"] = "";
+		$ds_row["end_time"] = "";
         }
 	else
 	{
 		$ds_results = db_query("SELECT * FROM graph_ds WHERE id={$_REQUEST['id']}");
-	        $ds_row = db_fetch_array($ds_results);
+		$ds_row = db_fetch_array($ds_results);
 	}
 
 	$ds_row["graph_id"] = $_REQUEST["graph_id"];
@@ -223,10 +228,10 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	js_color_dialog();
 	make_edit_table("Edit Graph Item");
 	make_edit_text("Item Label:","label","50","100",$ds_row["label"]);
-        make_edit_select_from_array("Item Type:", "type", $GLOBALS['RRDTOOL_ITEM_TYPES'], $ds_row["type"]);
+	make_edit_select_from_array("Item Type:", "type", $GLOBALS['RRDTOOL_ITEM_TYPES'], $ds_row["type"]);
 	make_edit_color("Item Color:", "color", $ds_row["color"]);
 
-        make_edit_group("Data");
+	make_edit_group("Data");
 	if ($_REQUEST["edit_monitor"] == 1)
 	{
 		make_edit_select_monitor($ds_row["mon_id"], $GLOBALS['SPECIAL_MONITORS']);
@@ -255,6 +260,9 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	make_edit_checkbox("Show Maximum Value", "show_maximum", isin($ds_row["stats"], "MAXIMUM"));
 	make_edit_checkbox("Show Only Integers", "show_integer", isin($ds_row["stats"], "INTEGER"));
 	make_edit_checkbox("Show Sums",		 "show_sums",    isin($ds_row["stats"], "SUMS"));
+	make_edit_group("Advanced");
+	make_edit_text("Start Time", "start_time", "20", "20", $ds_row["start_time"]);
+	make_edit_text("End Time", "end_time", "20", "20", $ds_row["end_time"]);
 
 	make_edit_hidden("action", "doedit");
 	make_edit_hidden("graph_id", $ds_row["graph_id"]);

@@ -114,6 +114,8 @@ function align_right_split($string, $length)
 // manipulates a string by applying the appropriate padding method
 function do_align($string, $length, $method)
 {
+	if ($string == "") return "";	
+
 	switch ($method)
 	{
 		case 1:
@@ -129,6 +131,13 @@ function do_align($string, $length, $method)
 
 	return($result);
 } // end do_align
+
+function rrd_legend_escape($string)
+{
+	if ($string == "") return "";
+	
+	return (":\"" . $string . "\"");
+}
 
 
 function get_microtime()

@@ -127,7 +127,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 	{	
 		$fields = array($graph_row['title'], $graph_row['vert_label'], $graph_row['comment']);
 		$fields = expand_parameters($fields, $_REQUEST['subdev_id']);
-		$graph_row['title'] 			= $fields[0];
+		$graph_row['title'] 		= $fields[0];
 		$graph_row['vert_label'] 	= $fields[1];
 		$graph_row['comment'] 		= $fields[2];
 	}
@@ -196,21 +196,51 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 		{
 			$ds_row["type"] = "AREA";
 		}
-		
-		if ($templated)
-		{
-			$ds_row["mon_id"] = dereference_templated_monitor($ds_row["mon_id"], $_REQUEST['subdev_id']);
-		}
 
+		// time periods
+		if (($ds_row['start_time'] != "") && ($ds_row['end_time'] != ""))
+		{
+			if (strpos($ds_row['start_time'], "+") !== false)
+			{
+				$ds_row['start_time'] = strtotime(substr($ds_row['start_time'],1));
+			}
+			
+			if (strpos($ds_row['end_time'], "+") !== false)
+			{
+				$ds_row['end_time'] = strtotime(substr($ds_row['end_time'],1));
+			}
+			
+			if ($sum_time != 86400)
+			{
+				$ds_row['start_time'] = 0;
+				$ds_row['end_time'] = 0;
+			}
+			
+			$time_pre		= "TIME,{$ds_row['start_time']},{$ds_row['end_time']},LIMIT,UN,UNKN,";
+			$time_post		= ",IF";
+			$time_shaping	= true;
+		}
+		else
+		{
+			$time_shaping	= false;
+			$time_pre		= "";
+			$time_post		= "";
+		}
+				
 		// Data is from a monitor
 		if ($ds_row['mon_id'] >= 0)
 		{
-			$rawness = ($ds_row["multiplier"] == 1) ? "" : "raw_"; 
-			$command .= " DEF:" . $rawness . "data" . $ds_count . "=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":AVERAGE " .
+			if ($templated)
+			{
+				$ds_row["mon_id"] = dereference_templated_monitor($ds_row["mon_id"], $_REQUEST['subdev_id']);
+			}
+		
+			$rawness = (($ds_row["multiplier"] == 1) && !$time_shaping) ? "" : "raw_"; 
+			$command .= " DEF:" . $rawness . "data" . $ds_count . "="  . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":AVERAGE " .
 						" DEF:" . $rawness . "data" . $ds_count . "l=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":LAST " .
 						" DEF:" . $rawness . "data" . $ds_count . "m=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd:mon_" . $ds_row["mon_id"] . ":MAX ";
 
-			if ($ds_row["multiplier"] != 1)
+			if (($ds_row["multiplier"] != 1) || $time_shaping)
 			{
 				if ($templated)
 				{
@@ -218,9 +248,9 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 					$ds_row["multiplier"] = $fields[0];
 				}
 				$ds_row["multiplier"] = simple_math_parse($ds_row["multiplier"]);
-				$command .= "CDEF:data" . $ds_count . "=raw_data" . $ds_count . "," . $ds_row["multiplier"] . ",* ";
-				$command .= "CDEF:data" . $ds_count . "l=raw_data" . $ds_count . "l," . $ds_row["multiplier"] . ",* ";
-				$command .= "CDEF:data" . $ds_count . "m=raw_data" . $ds_count . "m," . $ds_row["multiplier"] . ",* ";
+				$command .= "CDEF:data" . $ds_count . "="  . $time_pre . "raw_data" . $ds_count . "," . $ds_row["multiplier"] . ",*" . $time_post . " ";
+				$command .= "CDEF:data" . $ds_count . "l=" . $time_pre . "raw_data" . $ds_count . "l," . $ds_row["multiplier"] . ",*" . $time_post . " ";
+				$command .= "CDEF:data" . $ds_count . "m=" . $time_pre . "raw_data" . $ds_count . "m," . $ds_row["multiplier"] . ",*" . $time_post . " ";
 			}
 		}
 		// Data is from a fixed value
@@ -231,20 +261,29 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 				$fields = expand_parameters(array($ds_row["multiplier"]), $_REQUEST['subdev_id']);
 				$ds_row["multiplier"] = $fields[0];
 			}
-			$ds_row["multiplier"] = simple_math_parse($ds_row["multiplier"]);
-			$command .= "CDEF:data" . $ds_count . "=zero,UN,1,1,IF," . $ds_row["multiplier"] . ",* ";
-			$command .= "CDEF:data" . $ds_count . "l=zero,UN,1,1,IF," . $ds_row["multiplier"] . ",* ";
-			$command .= "CDEF:data" . $ds_count . "m=zero,UN,1,1,IF," . $ds_row["multiplier"] . ",* ";
+			if ($ds_row["multiplier"] != "INF")
+			{
+				$ds_row["multiplier"] = simple_math_parse($ds_row["multiplier"]);
+				$command .= "CDEF:data" . $ds_count . "="  . $time_pre . "zero,UN,1,1,IF," . $ds_row["multiplier"] . ",*" . $time_post . " ";
+				$command .= "CDEF:data" . $ds_count . "l=" . $time_pre . "zero,UN,1,1,IF," . $ds_row["multiplier"] . ",*" . $time_post . " ";
+				$command .= "CDEF:data" . $ds_count . "m=" . $time_pre . "zero,UN,1,1,IF," . $ds_row["multiplier"] . ",*" . $time_post . " ";
+			}
+			else
+			{
+				$command .= "CDEF:data" . $ds_count . "="  . $time_pre . "zero,UN,INF,INF,IF" . $time_post . " ";
+				$command .= "CDEF:data" . $ds_count . "l=" . $time_pre . "zero,UN,INF,INF,IF" . $time_post . " ";
+				$command .= "CDEF:data" . $ds_count . "m=" . $time_pre . "zero,UN,INF,INF,IF" .  $time_post. " ";
+			}
 		}
 		// Data is the sum of all prior items
 		elseif ($ds_row['mon_id'] == -2)
 		{
-			$command .= "CDEF:data" . $ds_count . "="  . $CDEF_A . "," . $ds_row["multiplier"] . ",* ";
-			$command .= "CDEF:data" . $ds_count . "l=" . $CDEF_L . "," . $ds_row["multiplier"] . ",* ";
-			$command .= "CDEF:data" . $ds_count . "m=" . $CDEF_M . "," . $ds_row["multiplier"] . ",* ";
+			$command .= "CDEF:data" . $ds_count . "="  . $time_pre . $CDEF_A . "," . $ds_row["multiplier"] . ",*" . $time_post . " ";
+			$command .= "CDEF:data" . $ds_count . "l=" . $time_pre . $CDEF_L . "," . $ds_row["multiplier"] . ",*" . $time_post . " ";
+			$command .= "CDEF:data" . $ds_count . "m=" . $time_pre . $CDEF_M . "," . $ds_row["multiplier"] . ",*" . $time_post . " ";
 		}
 
-		$command .= $ds_row["type"] . ":data" . $ds_count . $ds_row["color"] .":\"" . do_align($ds_row["label"], $padded_length, $ds_row["alignment"]) . "\" ";
+		$command .= $ds_row["type"] . ":data" . $ds_count . $ds_row["color"] . rrd_legend_escape(do_align($ds_row["label"], $padded_length, $ds_row["alignment"])) . " ";
 
 		// define the formatting string
 		if (isin($ds_row["stats"], "INTEGER"))
@@ -287,7 +326,8 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 			$command .= " COMMENT:\"$sum_label Sum: $sum_text\" ";
 		}
 
-		$command .= 'COMMENT:"\\n" ';
+		if ($ds_row['label'] != "")
+			$command .= 'COMMENT:"\\n" ';
 
 		// add to the running total CDEF
 		$CDEF_A .= ",data" . $ds_count . ",UN,0,data" . $ds_count . ",IF,+";
