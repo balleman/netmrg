@@ -31,6 +31,7 @@ $dbupdates = array(
 "ALTER TABLE snmp_interface_cache ADD COLUMN ifSpeed int(11) NOT NULL;",
 "UPDATE graphs SET title = name WHERE title = '';"
 	), // end 0.10pre1
+	"0.10pre2" => array(), // end 0.10pre2
 	"0.10" => array(
 "ALTER TABLE `devices` CHANGE `snmp_enabled` `snmp_version` TINYINT( 4 ) DEFAULT '1' NOT NULL ;",
 "ALTER TABLE `devices` ADD `snmp_timeout` INT UNSIGNED DEFAULT '1000000' NOT NULL AFTER `snmp_version` ,
@@ -44,7 +45,8 @@ $dbupdates = array(
   KEY uid (uid),
   KEY uid_module_pref (uid, module, pref));",
 "INSERT INTO user_prefs (uid, module, pref, value) SELECT id, 'SlideShow', 'AutoScroll', 1 FROM user;"
-	) // end 0.10
+	), // end 0.10
+	"0.12" => array() // end 0.12
 ); // end $dbupdates;
 
 // check what to do
@@ -53,7 +55,7 @@ switch ($_REQUEST['action'])
 	case "update":
 		update($dbupdates);
 		break;
-		
+
 	case "prompt":
 	default:
 		prompt();
@@ -72,13 +74,13 @@ switch ($_REQUEST['action'])
 function prompt()
 {
 	begin_page("updater.php", "Updater");
-	
+
 	$dbver = GetDBVersion();
-	
+
 	if ($dbver != $GLOBALS["netmrg"]["version"])
 	{
 ?>
-The current database needs to be updated from version 
+The current database needs to be updated from version
 <b><?php echo $dbver; ?></b> to <b><?php echo $GLOBALS["netmrg"]["version"] ?></b><br />
 <br />
 <?php
@@ -90,7 +92,7 @@ The current database needs to be updated from version
 	else
 	{
 ?>
-Your database is already at the latest version, 
+Your database is already at the latest version,
 <b><?php echo $dbver; ?></b>.  No upgrade is needed.
 <?php
 	} // end if no changes
@@ -106,10 +108,10 @@ Your database is already at the latest version,
 function update($dbupdates)
 {
 	begin_page("updater.php", "Updater");
-	
+
 	$dbver = GetDBVersion();
 	$doupdates = false;
-	
+
 	while (list($dbupver, $dbqueries) = each($dbupdates))
 	{
 		if ($dbupver == $dbver)
@@ -120,7 +122,7 @@ function update($dbupdates)
 		{
 			break;
 		} // end if we're at the current version
-		
+
 		if ($doupdates)
 		{
 			echo "<b>$dbupver</b><br />\n";
@@ -132,10 +134,10 @@ function update($dbupdates)
 			echo "<br /><br />\n";
 		} // end if we're to do the updates
 	} // end foreach version
-	
+
 	// update the database version
 	UpdateDBVersion($GLOBALS["netmrg"]["version"]);
-	
+
 	if ($doupdates)
 	{
 		echo "All updates were completed successfully.<br />\n";
