@@ -6,7 +6,7 @@
 #
 
 progname="netmrg"
-version=`cat doc/VERSION`
+version=`cat share/doc/VERSION`
 this="$progname-$version"
 pkgdir="/tmp"
 
