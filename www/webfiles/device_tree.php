@@ -28,7 +28,7 @@ else
 {
 	if (!empty($_COOKIE["netmrgDevTree"]["group"]))
 	{
-		$_COOKIE["netmrgDevTree"]["group"] = explode(",", $_COOKIE["netmrgDevTree"]["group"]);
+		$_COOKIE["netmrgDevTree"]["group"] = unserialize(urldecode($_COOKIE["netmrgDevTree"]["group"]));
 	}
 	else
 	{
@@ -37,7 +37,7 @@ else
 
 	if (!empty($_COOKIE["netmrgDevTree"]["device"]))
 	{
-		$_COOKIE["netmrgDevTree"]["device"] = explode(",", $_COOKIE["netmrgDevTree"]["device"]);
+		$_COOKIE["netmrgDevTree"]["device"] = unserialize(urldecode($_COOKIE["netmrgDevTree"]["device"]));
 	}
 	else
 	{
@@ -46,7 +46,7 @@ else
 
 	if (!empty($_COOKIE["netmrgDevTree"]["subdevice"]))
 	{
-		$_COOKIE["netmrgDevTree"]["subdevice"] = explode(",", $_COOKIE["netmrgDevTree"]["subdevice"]);
+		$_COOKIE["netmrgDevTree"]["subdevice"] = unserialize(urldecode($_COOKIE["netmrgDevTree"]["subdevice"]));
 	}
 	else
 	{
@@ -55,7 +55,7 @@ else
 
 	if (!empty($_COOKIE["netmrgDevTree"]["monitor"]))
 	{
-		$_COOKIE["netmrgDevTree"]["monitor"] = explode(",", $_COOKIE["netmrgDevTree"]["monitor"]);
+		$_COOKIE["netmrgDevTree"]["monitor"] = unserialize(urldecode($_COOKIE["netmrgDevTree"]["monitor"]));
 	}
 	else
 	{
@@ -70,22 +70,34 @@ if (!empty($_REQUEST["action"]))
 	{
 		if (!empty($_REQUEST["groupid"]))
 		{
-			array_push($_COOKIE["netmrgDevTree"]["group"], $_REQUEST["groupid"]);
+			if (!in_array($_REQUEST["groupid"], $_COOKIE["netmrgDevTree"]["group"]))
+			{
+				array_push($_COOKIE["netmrgDevTree"]["group"], $_REQUEST["groupid"]);
+			} // end if id not in array, put it there
 		} // end if group id
 
 		else if (!empty($_REQUEST["deviceid"]))
 		{
-			array_push($_COOKIE["netmrgDevTree"]["device"], $_REQUEST["deviceid"]);
+			if (!in_array($_REQUEST["deviceid"], $_COOKIE["netmrgDevTree"]["device"]))
+			{
+				array_push($_COOKIE["netmrgDevTree"]["device"], $_REQUEST["deviceid"]);
+			} // end if id not in array, put it there
 		} // end if device id
 
 		else if (!empty($_REQUEST["subdevid"]))
 		{
-			array_push($_COOKIE["netmrgDevTree"]["subdevice"], $_REQUEST["subdevid"]);
+			if (!in_array($_REQUEST["subdevid"], $_COOKIE["netmrgDevTree"]["subdevice"]))
+			{
+				array_push($_COOKIE["netmrgDevTree"]["subdevice"], $_REQUEST["subdevid"]);
+			} // end if id not in array, put it there
 		}
 
 		else if (!empty($_REQUEST["monid"]))
 		{
-			array_push($_COOKIE["netmrgDevTree"]["monitor"], $_REQUEST["monid"]);
+			if (!in_array($_REQUEST["monid"], $_COOKIE["netmrgDevTree"]["monitor"]))
+			{
+				array_push($_COOKIE["netmrgDevTree"]["monitor"], $_REQUEST["monid"]);
+			} // end if id not in array, put it there
 		} // end if monitor id
 	} // end if we need to expand something
 
@@ -124,12 +136,11 @@ if (!empty($_REQUEST["action"]))
 		} // end if monitor id
 	} // end if we need to colapse something
 } // end if we need to do something
-
 // set our new cookie to last for a week (7days * 24hrs * 60min * 60sec)
-setcookie("netmrgDevTree[group]", implode(",", $_COOKIE["netmrgDevTree"]["group"]), time()+604800);
-setcookie("netmrgDevTree[device]", implode(",", $_COOKIE["netmrgDevTree"]["device"]), time()+604800);
-setcookie("netmrgDevTree[subdevice]", implode(",", $_COOKIE["netmrgDevTree"]["subdevice"]), time()+604800);
-setcookie("netmrgDevTree[monitor]", implode(",", $_COOKIE["netmrgDevTree"]["monitor"]), time()+604800);
+setcookie("netmrgDevTree[group]", urlencode(serialize($_COOKIE["netmrgDevTree"]["group"])), time()+604800);
+setcookie("netmrgDevTree[device]", urlencode(serialize($_COOKIE["netmrgDevTree"]["device"])), time()+604800);
+setcookie("netmrgDevTree[subdevice]", urlencode(serialize($_COOKIE["netmrgDevTree"]["subdevice"])), time()+604800);
+setcookie("netmrgDevTree[monitor]", urlencode(serialize($_COOKIE["netmrgDevTree"]["monitor"])), time()+604800);
 ?>
 
 

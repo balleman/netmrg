@@ -34,8 +34,6 @@ checkboxes on most pages - provide for massive deletes, duplications, etc
 == silfreed ==
 public website
   - flesh out content
-CSS-ificiation
-  - alternating colors for items (make_edit*)
 make netmrg xhtml compliant
 make icons for links on various pages
   - make svg images for most actions
