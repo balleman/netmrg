@@ -125,43 +125,38 @@ tar xzvf netmrg.tar.gz
 		</listitem>
 		<listitem>
 			<para>
-				<command>cd</command> into the directory made by your 
-				<command>tar</command> command and type the following:
+Now we need to compile and install the source. <command>cd</command> into the directory 
+made by your <command>tar</command> command and type the following:
 			</para>
 			<programlisting>
-				./configure
-				make
-				make install
-			</programlisting>
-		</listitem>
-		<listitem>
-			<para>modify you apache config to alias /netmrg to /var/www/netmrg/www</para>
-			<programlisting>
-Alias /netmrg "/var/www/netmrg/www"
+./configure
+make
+make install
 			</programlisting>
 		</listitem>
 		<listitem>
 			<para>setup the database</para>
+			<para>
+Now we need to setup the database.  Please change at least the password 
+(<computeroutput>netmrgpass</computeroutput> below).
 			<programlisting>
 mysqladmin create netmrg
-mysql netmrg < netmrg.mysql
-mysql
-> grant select on netmrg.* to netmrgread@localhost identified by 'netmrgread';
-> grant all on netmrg.* to netmrgwrite@localhost identified by 'netmrgwrite';
+mysql -u root -p netmrg < share/db/netmrg.mysql
+mysql -u root -p
+> grant all on netmrg.* to netmrguser@localhost identified by 'netmrgpass';
 			</programlisting>
 		</listitem>
 		<listitem>
-			<para>add a user for yourself</para>
+			<para>
+modify you apache config (commonly in 
+<computeroutput>/etc/httpd/conf/httpd.conf</computeroutput> to alias /netmrg 
+to the installed web directory (commonly 
+<computeroutput>/usr/local/var/www/netmrg/webfiles</computeroutput>)
+			</para>
 			<programlisting>
-mysql netmrg
-> INSERT INT user SET
-> user = "admin", pass = encrypt("pass", md5("pass")),
-> permit = 3, view_type = 0, view_id = 19, fullname = "Administrator";
+Example:
+Alias /netmrg "/usr/local/var/www/netmrg/webfiles"
 			</programlisting>
-		</listitem>
-		<listitem>
-			<para>compile NetMRG</para>
-			<para>cd into the src directory for your installation (usually /var/www/netmrg/src)</para>
 		</listitem>
 		<listitem>
 			<para>setup crontab</para>
@@ -170,15 +165,15 @@ You can setup the crontab entries in two places: either edit /etc/crontab,
 or run 'crontab -e' as root. For 'crontab -e', use an entry similar to this:
 			</para>
 			<programlisting>
-*/5 * * * * /var/www/netmrg/src/netmrg > /var/www/netmrg/dat/output 2> /var/www/netmrg/dat/errors
+*/5 * * * * /usr/local/bin/netmrg_cron.sh
 			</programlisting>
 		</listitem>
 		<listitem>
 			<para>
-point your web browser at your install, and start graphing things!
-Your installation will be what you setup in the second step.  It will commonly be
-something similar to http://yourhost.com/netmrg/
-Login with the username and password you setup in step 4.
+point your web browser at your install, and start graphing things!  The default 
+login is <userinput>admin</userinput> and the default password is 
+<userinput>nimda</userinput>.  Point your webbrowser at the host you built 
+this on (something similar to <computeroutput>http://yourhost.com/netmrg/<computeroutput>
 			</para>
 		</listitem>
 	</orderedlist>
