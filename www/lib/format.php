@@ -337,83 +337,67 @@ function make_edit_label($contents)
 }
 
 
+// Creates a form select control
 function make_edit_select($header, $name, $options = "", $select_options = "")
 {
-	// Creates a form select control
-	?>
-
+?>
 	<tr <?php print($options); ?>><td bgcolor="<?php print(get_color_by_name("edit_fields")); ?>">
-
 	<b><?php print($header) ?></b><br>
-
-	<select name="<?php print($name) ?>" <?php print($select_options); ?>>
-
-	<?php
+	<select name="<?php print($name); ?>" <?php print($select_options); ?>>
+<?php
 } // end make_edit_select
 
 
+// Creates a form select control
 function make_edit_select_end()
 {
-	// Creates a form select control
-	?>
-
-	</select><br><br></td></tr>
-
-	<?php
+?>
+	</select>
+	<br /><br />
+	</td></tr>
+<?php
 } // end make_edit_select_end
 
 
+// Creates a select control with items named by the table's name field, and id'd by tables id field
 function make_edit_select_from_table($header, $name, $table_name, $selected, $options = "", $select_options = "")
 {
-	// Creates a select control with items named by the table's name field, and id'd by tables id field
-
 	make_edit_select($header, $name, $options, $select_options);
 
 	$item_results = do_query("SELECT * FROM $table_name ORDER BY name,id");
 	$item_total = mysql_num_rows($item_results);
 
-	for ($item_count = 1; $item_count <= $item_total; ++$item_count) {
+	for ($item_count = 1; $item_count <= $item_total; ++$item_count)
+	{
+		$item_row  = mysql_fetch_array($item_results);
+		$item_name = $item_row["name"];
+		$item_id   = $item_row["id"];
+		$item_selected = ($item_id == $selected);
 
-	$item_row  = mysql_fetch_array($item_results);
-	$item_name = $item_row["name"];
-	$item_id   = $item_row["id"];
-	$item_selected = ($item_id == $selected);
-
-	make_edit_select_option($item_name, $item_id, $item_selected);
-
+		make_edit_select_option($item_name, $item_id, $item_selected);
 	} // end for
 
 	make_edit_select_end();
-
 } // end make_edit_select_end
 
 
+// Creates a form select control
 function make_edit_select_option($name, $value, $selected)
 {
-	// Creates a form select control
-
 	if ($selected)
 	{
-
-        	?>
-
-        	<option value="<?php print($value) ?>" SELECTED><?php print($name); ?></option>
-
-        	<?php
-
+?>
+		<option value="<?php print($value); ?>" SELECTED><?php print($name); ?></option>
+<?php
 	}
 	else
 	{
-
-        	?>
-
-        	<option value="<?php print($value) ?>"><?php print($name); ?></option>
-
-        	<?php
-
+?>
+		<option value="<?php print($value); ?>"><?php print($name); ?></option>
+<?php
 	} // end else
-
 } // end make_edit_select_option
+
 
 function make_edit_text($header, $name, $size, $maxlength, $value, $options = "")
 {

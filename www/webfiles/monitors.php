@@ -16,10 +16,12 @@
 require_once("../include/config.php");
 check_auth(1);
 
+
 function redirect()
 {
 	header("Location: {$GLOBALS['netmrg']['webroot']}/monitors.php?sub_dev_id={$_REQUEST['sub_dev_id']}");
 } // end redirect()
+
 
 function do_edit()
 {
@@ -49,13 +51,16 @@ function do_edit()
 		min_val={$_REQUEST['min_val']},
 		max_val={$_REQUEST['max_val']},
 		tuned=0 $db_end");
+
 } // end do_edit()
+
 
 function do_delete()
 {
 	check_auth(2);
 	delete_monitor($_REQUEST["mon_id"]);
 } // end do_delete()
+
 
 if (empty($_REQUEST["action"]))
 {
@@ -78,7 +83,8 @@ else if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 else
 {
 	do_list();
-}
+} // end if action
+
 
 function do_list()
 {
@@ -90,13 +96,11 @@ function do_list()
 	$custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}";
 	make_display_table("Monitors for " . get_sub_device_name($_REQUEST["sub_dev_id"]),"Test","", "Data", "", "Graph","");
 
-
 	$mon_results = do_query("SELECT * FROM monitors WHERE sub_dev_id={$_REQUEST['sub_dev_id']}");
 	$mon_total = mysql_num_rows($mon_results);
 
 	for ($mon_count = 0; $mon_count < $mon_total; $mon_count++)
 	{
-
 		$mon_row = mysql_fetch_array($mon_results);
 		$mon_id  = $mon_row[0];
 
@@ -118,16 +122,19 @@ function do_list()
 			$rate_of_change = sanitize_number($mon_row["delta_val"] / $mon_row["delta_time"],2);
 		} // end if delta
 
-                $data =
-		"<table border='0' cellpadding='2' cellspacing='2' align='left' width='100%' height='100%'>
-		 <tr><td bgcolor='#eeeeee' width='50%'>Value</td>
-		 <td>" . sanitize_number($mon_row["last_val"]) . "</td></tr>
-		 <tr><td bgcolor='#eeeeee'>Rate of Change</td>
-		 <td>" . $rate_of_change . "</td></tr>
-		 <tr><td bgcolor='#eeeeee'>Time Stamp</td>
-		 <td>" . $mon_row["last_time"] . "</td></tr>
-		 </table>
-		 ";
+ 		$data = '<table border="0" cellpadding="2" cellspacing="2" align="left" width="100%" height="100%">
+			<tr>
+				<td bgcolor="#eeeeee" width="50%">Value</td>
+				<td>'. sanitize_number($mon_row["last_val"]) .'</td>
+			</tr>
+			<tr>
+				<td bgcolor="#eeeeee">Rate of Change</td>
+				<td>'. $rate_of_change .'</td>
+			</tr>
+			<tr>
+				<td bgcolor="#eeeeee">Time Stamp</td>
+				<td>'. $mon_row["last_time"] .'</td></tr>
+			</table>';
 
 		$short_name = get_short_monitor_name($mon_row["id"]);
 
@@ -145,6 +152,7 @@ function do_list()
 	end_page();
 
 } // end do_list()
+
 
 function edit()
 {
@@ -171,7 +179,7 @@ function edit()
 			monitors.test_id                AS test_id,
 			monitors.test_params            AS test_params
 			FROM monitors
-			WHERE monitors.id={$_REQUEST['mon_id']}
+			WHERE monitors.id='{$_REQUEST['mon_id']}'
 			");
 		$mon_row = mysql_fetch_array($mon_results);
 
@@ -215,10 +223,10 @@ function edit()
 		</script>
 		");
 
-	if (isset($type))
+	if (isset($_REQUEST["type"]))
 	{
-		if ($type == 0) { $type = 4; }
-		$mon_row["test_type"] = $type;
+		if ($_REQUEST["type"] == 0) { $_REQUEST["type"] = 4; }
+		$mon_row["test_type"] = $_REQUEST["type"];
 	}
 	make_edit_select_from_table("Monitoring Type:","test_type", "test_types",$mon_row["test_type"], "", "onChange='redisplay(this.selectedIndex);'");
 
@@ -275,6 +283,6 @@ function edit()
 
 	end_page();
 
-}
+} // end edit();
 
 ?>
