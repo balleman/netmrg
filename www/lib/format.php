@@ -143,8 +143,7 @@ function DisplayPageHeader($pagename = "", $prettyname = "", $refresh = false, $
 */
 function DisplayTopMenu()
 {
-	global $MENU2;
-	$MENU = $MENU2;
+	global $MENU;
 	
 	$menu_count = 0;
 	
@@ -164,7 +163,8 @@ function DisplayTopMenu()
 				$item_under_current_menu = true;
 			} // end if we're in this group, display its menu items
 			
-			if ($_SESSION["netmrgsess"]["permit"] >= $menuitem["authLevelRequired"])
+			if ($_SESSION["netmrgsess"]["permit"] >= $menuitem["authLevelRequired"]
+				&& $menuitem["display"] !== false)
 			{
 				$item_output .= '		<li>'.MakeNavURI($menuitem["name"], $menuitem["link"], $menuitem["descr"])."</li>\n";
 			} // end if we have enough permissions to view this link
@@ -198,51 +198,6 @@ function DisplayTopMenu()
 	
 	echo "</div> <!-- end #topmenu -->\n\n";
 } // end DisplayTopMenu();
-
-
-/**
-* display_menu()
-*
-* draws our menu from the $MENU variable defined in static.php
-*/
-function display_menu()
-{
-	global $MENU;
-	
-	echo '<div id="sidemenu">'."\n";
-	
-	while (list($menuname, $menuitems) = each($MENU))
-	{
-		// foreach menu item
-		$item_output = "";
-		foreach ($menuitems as $menuitem)
-		{
-			if ($_SESSION["netmrgsess"]["permit"] >= $menuitem["authLevelRequired"])
-			{
-				$item_output .= '		<li><a href="'. htmlentities($menuitem["link"]) .'" title="'. $menuitem["descr"] .'">';
-				$item_output .= $menuitem["name"];
-				$item_output .= "</a></li>\n";
-			} // end if we have enough permissions to view this link
-		} // end foreach menu item
-		
-		// if we had some item output (ie, we had auth to view at least ONE item in this submenu)
-		if (!empty($item_output))
-		{
-			// output the head
-			echo '	<h2>'.$menuname."</h2>\n";
-			echo "	<ul>\n";
-
-			// echo the items
-			echo $item_output;
-
-			// echo the bottom part
-			echo "	</ul>\n";
-		} // end if item output wasn't empty
-		
-	} // end while we still have menu items
-	
-	echo "</div> <!-- end #sidemenu -->\n\n";
-} // end display_menu();
 
 
 /**
