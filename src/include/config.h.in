@@ -30,6 +30,9 @@
 /* Define to 1 if you have the <list> header file. */
 #undef HAVE_LIST
 
+/* Define to 1 if you have the `llround' function. */
+#undef HAVE_LLROUND
+
 /* scanf supports long long */
 #undef HAVE_LONG_LONG_SCANF
 
