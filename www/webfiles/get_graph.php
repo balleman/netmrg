@@ -76,7 +76,7 @@ if (isset($_REQUEST["debug"])) { $timer->addmarker("after get command"); }
 if (isset($_REQUEST["debug"])) { $timer->addmarker("before exec command"); }
 if (isset($_REQUEST['debug']))
 {
-	echo($command);
+	echo(rrdtool_syntax_highlight($command));
 	exec($command);
 }
 else

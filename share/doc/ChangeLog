@@ -1,5 +1,6 @@
 2003.10.25  v0.10  balleman
   - bug#0000083 - indent nested groups on device tree
+  - trivial rrdtool syntax highlighting
 
 2003.10.24  v0.10  silfreed
   - updated viewgraph-off.png to be more apparent that there's nothing in it

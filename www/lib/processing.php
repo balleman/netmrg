@@ -77,25 +77,13 @@ function sanitize_number($number, $round_to = 5)
 
 function make_spaces($length)
 {
-	return repeat_string(" ", $length);
+	return str_repeat(" ", $length);
 } // end make_spaces
 
 function make_nbsp($length)
 {
-	return repeat_string("&nbsp;", $length);
+	return str_repeat("&nbsp;", $length);
 } // end make_nbsp
-
-function repeat_string($string, $count)
-{
-	$res = "";
-
-	for ($i = 0; $i < $count; $i++)
-	{
-		$res = $res . $string;
-	}
-
-	return $res;
-} // end repeat_string
 
 
 // prepends spaces to a string to cause it to be a certain length
@@ -221,6 +209,27 @@ function rrd_sum($mon_id, $start, $end = "now", $resolution = 86400)
 	$total_sum = $average * $resolution;
 	pclose($rrd_handle);
 	return $total_sum;
+}
+
+/**
+* rrdtool_syntax_highlight($txt)
+*
+* $txt		= a string normally passed to rrdtool
+*/
+function rrdtool_syntax_highlight($txt)
+{
+	$txt = preg_replace("/(#[0-9,a-f,A-F]+)/", "<span style='color:#0F4B47'>\\1</span>", $txt);
+	$txt = preg_replace("/(\s)DEF:/", "\\1<span style='color:blue'>DEF</span>:", $txt);
+	$txt = str_replace("\\n", "<span style='color:red'>\\n</span>", $txt);
+	$txt = str_replace("CDEF", "<span style='color:green'>CDEF</span>", $txt);
+	$txt = preg_replace("/(\s)(AREA|STACK|LINE1|LINE2|LINE3|HRULE|VRULE):/", "\\1<span style='color:orange'>\\2</span>:", $txt);
+	$txt = preg_replace("/:(MAX|AVERAGE|LAST)/", ":<span style='color:brown'>\\1</span>", $txt);
+	$txt = preg_replace("/(\s)(GPRINT|PRINT|COMMENT):/", "\\1<span style='color:red'>\\2</span>:", $txt);
+	$txt = preg_replace("/(data\d+[lm]*)/", "<span style='color:#344D6C'>\\1</span>", $txt);
+	//$txt = preg_replace("/=(.*\.rrd):/", "=<span style='color:grey'>\\1</span>:", $txt);
+	//$txt = preg_replace("/(\s)(\-+)(\s)/", "\\1<span style='color:red'>\\2</span>\\3", $txt);
+	//$txt = preg_replace("/:(\".*\") /", ":<span style='color:purple'>\\1</span>", $txt);
+	return $txt;
 }
 
 // Templating Functions
