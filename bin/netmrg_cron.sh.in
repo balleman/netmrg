@@ -5,11 +5,17 @@
 # a shell script to remove lockfiles and rotate output if it died
 #
 
+prefix="@prefix@"
+exec_prefix="@exec_prefix@"
+localstatedir="@localstatedir@"
+prog="@PACKAGE@"
+
 mailto="root"
-netmrg="@exec_prefix@/bin/netmrg-gatherer"
-lockfile="@prefix@/var/log/netmrg/lockfile"
-output="@prefix@/var/log/netmrg/lastrun.log"
-error="@prefix@/var/log/netmrg/lastrun.err"
+logdir="$localstatedir/log/$prog"
+netmrg="$bindir/netmrg-gatherer"
+lockfile="$logdir/lockfile"
+output="$logdir/lastrun.log"
+error="$logdir/lastrun.err"
 curdate=`date +%s`
 
 if [ -e $lockfile ] ; then
