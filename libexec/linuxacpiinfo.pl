@@ -27,16 +27,16 @@ my $percent_left = 0;
 
 ### argument processing
 if (scalar(@ARGV) != 1
-	|| ($ARGV[0] ne "-p" && $ARGV[0] ne "-th" && $ARGV[0] ne "-tm" && $ARGV[0] ne "-a")
+	|| ($ARGV[0] ne "-p" && $ARGV[0] ne "-th" && $ARGV[0] ne "-tm" && $ARGV[0] ne "-V")
 	)
 {
 	print "U\n";
 	print "\n";
-	print "$0 [-p|-tm|-th|-a]\n";
+	print "$0 [-p|-tm|-th|-a|-V]\n";
 	print "   -p: Report Percent Left\n";
 	print "  -th: Report Time Remaining (in hours)\n";
 	print "  -tm: Report Time Remaining (in minutes)\n";
-	print "   -a: Report AC status\n";
+	print "   -V: acpi -V compatibility\n";
 	print "\n";
 	exit(1);
 } # end if not enough parameters
@@ -104,14 +104,44 @@ elsif ($ARGV[0] eq "-tm")
 	print "\n";
 } # end if time left (minutes)
 
-elsif ($ARGV[0] eq "-a")
+elsif ($ARGV[0] eq "-V")
 {
-	print $ac_status."\n";
+#$ acpi -V
+#     Battery 1: unknown, 100%
+#     Thermal 1: ok, 43.0 degrees C
+#  AC Adapter 1: on-line
+#$ acpi -V
+#     Battery 1: charging, 97%, 00:26:45 until charged
+#     Thermal 1: ok, 39.0 degrees C
+#  AC Adapter 1: on-line
+#$ acpi -V
+#     Battery 1: discharging, 71%, 02:12:12 remaining
+#     Thermal 1: ok, 48.0 degrees C
+#  AC Adapter 1: off-line
+	print "	Battery 1: ".$battery_status.", ";
+	print int($percent_left)."%";
+	if ($battery_status eq "discharging")
+	{
+		my $hours_remaining = int($time_remaining);
+		my $minutes_remaining = ($time_remaining * 60) % 60;
+		my $seconds_remaining = ($time_remaining * 3600) % 60;
+		print ", ";
+		printf("%.2d", $hours_remaining);
+		print ":";
+		printf("%.2d", $minutes_remaining);
+		print ":";
+		printf("%.2d", $seconds_remaining);
+		print " remaining";
+	} # end if discharging
+	print "\n";
+	print "	Thermal 1: ok, 30.0 degrees C\n";
+	print "	AC Adapter 1: ".$ac_status."\n";
 } # end if ac status
 
 
 ### DEBUG
 #print "AC Status: $ac_status\n";
+#print "BAT Status: $battery_status\n";
 #print "BAT Max Capacity: $battery_maxcapacity\n";
 #print "BAT Current Capacity: $battery_curcapacity\n";
 #print "BAT Discharge Rate: $battery_dischargerate\n";
