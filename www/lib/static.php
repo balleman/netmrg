@@ -16,7 +16,7 @@ $GLOBALS["netmrg"]["verhist"] = array(
 	"0.10" => 3,
 	"0.12" => 4,
 	"0.13" => 5,
-	"0.14cvs" => 6
+	"0.14" => 6,
 ); // end verhist
 
 $MENU = array(
