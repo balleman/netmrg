@@ -107,7 +107,7 @@ if (!empty($action) && ($action == "edit" || $action == "add"))
 	make_edit_table("Edit Notificiation Method");
 	make_edit_text("Name:", "name", "50", "100", $row["name"]);
 	make_edit_text("Command:", "command", "50","200", $row["command"]);
-	echo("<tr><td>You may use keywords %dev_name, %ip, %test_name, %test_result in your command parameters</td></tr>");
+	make_edit_label("You may use keywords %dev_name%, %ip%, %test_name%, %test_result% in your command parameters");
 	make_edit_checkbox("Disabled", "disabled", $row["disabled"]);
 	make_edit_hidden("id", $id);
 	make_edit_hidden("action", "doedit");
