@@ -1,0 +1,2 @@
+2003.08.05  v0.10pre1  balleman
+  alter table snmp_interface_cache add column ifSpeed int(11) not null;
