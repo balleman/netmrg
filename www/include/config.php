@@ -12,9 +12,10 @@
 #                                                      #
 ########################################################
 
-/** error_reporting **/
+/***** GLOBAL SETTINGS *****/ 
 error_reporting(E_ALL);
 //error_reporting(E_WARNING | E_ERROR);
+ini_set("REGISTER_GLOBALS", 0);
 
 
 
