@@ -2,6 +2,7 @@
   - bug#0000375 - Gatherer can crash with certain versions of net-snmp against broken agents
   - bug#0000359 - error code scripts don't really return the error code
   - bug#0000358 - Duplicating a device does not duplicate status of "Disable SNMP Uptime Check"
+  - bug#0000368 - RFE: Pass parameters as environment variables
 
 2004.12.20  v0.18.2  keb
   - bug#0000369 - 'Delete' under device groups fails with no device selected

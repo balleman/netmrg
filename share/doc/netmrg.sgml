@@ -13,9 +13,9 @@
 			<surname>Warner</surname>
 		</author>
 	</authorgroup>
-	<pubdate>2004</pubdate>
+	<pubdate>2005</pubdate>
 	<copyright>
-		<year>2003-2004</year>
+		<year>2003-2005</year>
 		<holder>Brady Alleman and Douglas E. Warner</holder>
 	</copyright>
 
@@ -1321,6 +1321,9 @@ will be automatically updated to the latest version that has all updates applied
 					<listitem><para><guilabel>Error Code</guilabel> - The integer return code from the executed program is returned.</para></listitem>
 				</itemizedlist></para></listitem>
 			</itemizedlist>
+			<note><para>In addition to passing scripts parameters directly, NetMRG sets up environment variables for all of the
+			available parameters, prepending "netmrg_" to the parameter name.  For example, the environment variable 
+			"netmrg_ip" will contain the IP address of the host for which this test is being run.</para></note>
 			</refsect2>
 		</refsect1>
 		<refsect1><title>SNMP</title>

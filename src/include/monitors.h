@@ -24,7 +24,9 @@ string	process_snmp_monitor(DeviceInfo info, MYSQL *mysql);
 
 // support functions
 void	update_monitor_db(DeviceInfo info, MYSQL *mysql, RRDInfo rrd);
-string	expand_parameters(DeviceInfo info, string input);
+string	expand_parameters(DeviceInfo &info, string input);
+void    export_params_to_env(DeviceInfo &info);
+void    remove_params_from_env(DeviceInfo &info);
 
 
 #endif

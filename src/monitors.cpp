@@ -187,6 +187,8 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 		string command = expand_parameters(info, string(mysql_row[0]));
 		if (command[0] != '/')
 			command = get_setting(setPathLibexec) + "/" + command;
+			
+		export_params_to_env(info);
 
 		debuglogger(DEBUG_GATHERER, LEVEL_INFO, &info, "Sending '" + command + "' to shell.");
 
@@ -236,6 +238,7 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 				}
 			}
 		}
+		remove_params_from_env(info);
 	}
 	else
 	{
@@ -444,12 +447,30 @@ void update_monitor_db(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 //
 // expand parameters within a string
 
-string expand_parameters(DeviceInfo info, string input)
+string expand_parameters(DeviceInfo &info, string input)
 {
 	for (list<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
 	{
 		input = token_replace(input, "%" + current->name + "%", current->value);
 	}
 	return input;
+}
+
+void export_params_to_env(DeviceInfo &info)
+{
+	for (list<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
+	{
+		string name = "netmrg_" + current->name;
+		setenv(name.c_str(), current->value.c_str(), 1);
+	}
+}
+
+void remove_params_from_env(DeviceInfo &info)
+{
+	for (list<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
+	{
+		string name = "netmrg_" + current->name;
+		unsetenv(name.c_str());
+	}
 }
 
