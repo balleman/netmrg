@@ -19,9 +19,7 @@ void do_mysql_update(string query)
 {
 
         MYSQL mysql;
-        MYSQL_RES *res;
-        MYSQL_ROW row;
-
+	
 	pthread_mutex_lock(&mysql_lock);
         if (!(mysql_connect(&mysql,"localhost","netmrgwrite","netmrgwrite")))
         exiterr(1);

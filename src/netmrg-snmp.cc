@@ -10,7 +10,7 @@
 // snmpget - perform an snmpget on a host using the provided information
 string snmpget(DeviceInfo info, string oidstring) 
 {
-	struct	snmp_session session, *ss;
+	struct	snmp_session session;
 	void 	*sessp;
 	struct 	snmp_pdu *pdu;
 	struct 	snmp_pdu *response;
@@ -20,8 +20,6 @@ string snmpget(DeviceInfo info, string oidstring)
 
 	struct 	variable_list *vars;
 	int 	status;
-	int 	count=1;
-	int	failures=0;
 
         string 	result;
         char 	temp [250];

@@ -35,6 +35,8 @@
 	#define _P __P
 #endif
 
+using namespace std;
+
 #define NETMRG_ROOT 		"/var/www/netmrg/"
 #define RRDTOOL 		"/usr/bin/rrdtool - "
 
@@ -806,7 +808,7 @@ void process_sub_device(DeviceInfo info, MYSQL *mysql)
 
         mysql_res = db_query(mysql, &info, query);
 
-	for (int i = 0; i < mysql_num_rows(mysql_res); i++)
+	for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
 	{
 	        mysql_row = mysql_fetch_row(mysql_res);
 
@@ -852,7 +854,7 @@ void process_sub_device(DeviceInfo info, MYSQL *mysql)
 
 	mysql_res = db_query(mysql, &info, query);
 
-	for (int i = 0; i < mysql_num_rows(mysql_res); i++)
+	for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
 	{
 		mysql_row = mysql_fetch_row(mysql_res);
 
@@ -908,7 +910,7 @@ void process_sub_devices(DeviceInfo info, MYSQL *mysql)
 
 	mysql_res = db_query(mysql, &info, query);
 
-	for (int i = 0; i < mysql_num_rows(mysql_res); i++)
+	for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
 	{
 		mysql_row = mysql_fetch_row(mysql_res);
 		info.subdevice_id 	= strtoint(mysql_row[0]);
@@ -1065,20 +1067,13 @@ void run_netmrg()
 	MYSQL			mysql;
 	MYSQL_RES		*mysql_res;
 	MYSQL_ROW		mysql_row;
-	int			i		= 0;
 	time_t			start_time;
 	time_t			run_time;
 	FILE			*lockfile;
 	long int		num_rows	= 0;
-	int			thread_counter	= 0;
-	int temp;
-	int worker;
 	pthread_t*		threads		= NULL;
 	int*			ids		= NULL;
-	int			errcode;
-	int			*status;
 	string			temp_string;
-	char			temp_cstr [100];
 
 	start_time = time( NULL );
 	debuglogger(DEBUG_GLOBAL, NULL, "NetMRG starting.");
@@ -1093,7 +1088,7 @@ void run_netmrg()
 	// create lockfile
 	debuglogger(DEBUG_GLOBAL, NULL, "Creating Lockfile.");
 	lockfile = fopen("/var/www/netmrg/dat/lockfile","w+");
-	fprintf(lockfile, "%d", start_time);
+	fprintf(lockfile, "%d", (long int) start_time);
 	fclose(lockfile);
 
 	// SNMP library initialization
@@ -1200,7 +1195,7 @@ void run_netmrg()
 	{
 		printf("ATTENTION: Creating Status Report.\n");
 		lockfile = fopen("/var/www/netmrg/dat/status_report","w+");
-		for (i = 0; i < mysql_num_rows(mysql_res); i++)
+		for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
 		{
 			mysql_row = mysql_fetch_row(mysql_res);
 			fprintf(lockfile,
@@ -1233,7 +1228,7 @@ void run_netmrg()
 	run_time = time( NULL ) - start_time;
 	debuglogger(DEBUG_GLOBAL, NULL, "Runtime: " + inttostr(run_time));
 	lockfile = fopen("/var/www/netmrg/dat/runtime","w+");
-	fprintf(lockfile, "%d", run_time);
+	fprintf(lockfile, "%d", (long int) run_time);
 	fclose(lockfile);
 
 	// remove lock file
