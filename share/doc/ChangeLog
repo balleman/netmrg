@@ -1,3 +1,6 @@
+2004.09.21  v0.17  silfreed
+  - bug#0000299 - IE users can't submit forms
+
 2004.09.19  v0.17  silfreed
   - bug#0000295 - db_escape_string can't be conditional
 
