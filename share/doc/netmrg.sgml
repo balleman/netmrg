@@ -113,6 +113,16 @@ Event are met, the appropriate response is performed.
 	</itemizedlist>
 </chapter>
 <chapter>
+	<title>Software Requirements</title>
+	<para>NetMRG Requires the following packages for compilation.</para>
+	<itemizedlist>
+		<listitem><para><ulink url="http://www.php.net/"><application>PHP</application></ulink>, Version >= 4.1</para></listitem>
+		<listitem><para><ulink url="http://www.mysql.com/"><application>MySQL</application></ulink>, Version >= 3.23</para></listitem>
+		<listitem><para><ulink url="http://xmlsoft.org/"><application>Libxml2</application></ulink>, Version >= 2.30</para></listitem>
+		<listitem><para><ulink url="http://gcc.gnu.org/libstdc++/"><application>Libstdc++</application></ulink>, Version >= 3.2</para><para>Versions earlier than this may compile just fine, but may experience runtime issues.  Specifically, we experienced software crashes on an SMP machine running version 2.96 that were resolved by upgrading to 3.2.</para></listitem>
+	</itemizedlist>
+</chapter>
+<chapter>
 	<title>Installation Proceedure</title>
 	<orderedlist>
 		<listitem>
