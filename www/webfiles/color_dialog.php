@@ -29,7 +29,7 @@ require_once("../include/config.php");
 
 <title>Choose Color</title>
 
-<SCRIPT LANGUAGE="JavaScript">
+<script language="JavaScript">
 <!-- Begin
 function showColor(val) {
 window.opener.document.editform.<?php print($field); ?>.value = val;

@@ -48,7 +48,7 @@ if (isset($mon_id))
 
 	$title = "Events for Specific Monitor";
 
-	$custom_add_link = "$SCRIPT_NAME?action=add&mon_id=$mon_id";
+	$custom_add_link = "{$_SERVER['PHP_SELF']}?action=add&mon_id=$mon_id";
 
 } else {
 
@@ -56,7 +56,7 @@ if (isset($mon_id))
 
 }
 begin_page();
-js_confirm_dialog("del", "Are you sure you want to delete event ", " and all associated items?", "$SCRIPT_NAME?action=dodelete&mon_id=$mon_id&event_id=");
+js_confirm_dialog("del", "Are you sure you want to delete event ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&mon_id=$mon_id&event_id=");
 make_display_table("Events","Display Name","","Result to Trigger","","Trigger Condition","","When to Trigger","","Situation","");
 
 $query = "
@@ -102,7 +102,7 @@ make_display_item(get_monitor_name($mon_row["mon_id"]),"",
 				  $mon_row["condition"],"",
 				  $mon_row["options"],"",
 				  $mon_row["situation"],"",
-				  "Edit","$SCRIPT_NAME?action=edit&event_id=$event_id",
+				  "Edit","{$_SERVER['PHP_SELF']}?action=edit&event_id=$event_id",
                   "Delete","javascript:del('" . $mon_row["display_name"] . "', '" . $event_id . "')");
 
 } # end devices
@@ -163,12 +163,12 @@ if ($action == "delete")
 
 Are you sure you want to delete this event?
 
-<form action="<?php print("$SCRIPT_NAME"); ?>" method="post">
+<form action="<?php print("{$_SERVER['PHP_SELF']}"); ?>" method="post">
 <input type="submit" value="Yes">
 <input type="hidden" name="event_id" value="<?php print("$event_id"); ?>">
 <input type="hidden" name="action" value="dodelete">
 </form>
-<form action="<?php print("$SCRIPT_NAME"); ?>" method="post">
+<form action="<?php print("{$_SERVER['PHP_SELF']}"); ?>" method="post">
 <input type="submit" value="No">
 </form>
 

@@ -32,8 +32,6 @@ research message board/mailing list
 CSS-ificiation
   - sub-pages need redone (ick)
 mon_notify.php / format.php bug in make_display_table()
-fix everything so register_globals can be off
-  - SCRIPT*
 get auth w/ php sessions to work
   - include check for REMOTE_ADDR
   - set a standard for auth checks
