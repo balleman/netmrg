@@ -4,6 +4,7 @@
       database - it should just select the first item
   - bug#0000035: deleting a group wasn't deleting devices because of the 
       dev_parents change.
+  - bug#0000034: wrapper script complains about more errors
 
 2003.08.27  v0.10pre1 balleman
   - kill feature#28 graph dissection ("show children") feature restored
