@@ -91,6 +91,7 @@ void print_settings()
 
 string xmltostring(const xmlChar * input)
 {
+	if (input == NULL) return string("");
 	char temp[1024];
 	snprintf(temp, 1023, "%s", input);
 	return string(temp);
