@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth(1);
+check_auth($PERMIT["ReadAll"]);
 
 if (isset($_REQUEST['action']))
 {
@@ -32,7 +32,7 @@ function do_display()
 
 	// Display a list
 
-	check_auth(1);
+	check_auth($PERMIT["ReadAll"]);
 	begin_page("events.php", "Events");
 	DrawGroupNavHistory("monitor", $_REQUEST["mon_id"]);
 
@@ -81,7 +81,7 @@ function do_display()
 
 function display_edit()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	begin_page("events.php", "Edit Event");
 
 	if ($_REQUEST['action'] == "add")
@@ -114,7 +114,7 @@ function display_edit()
 
 function do_edit()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 
 	if ($_REQUEST['id'] == 0)
 	{
@@ -134,7 +134,7 @@ function do_edit()
 
 function do_delete()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	delete_event($_REQUEST['id']);
 	header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&tripid={$_REQUEST['tripid']}");
 }

@@ -30,7 +30,7 @@ function dodisplay()
 {
 	// Display the list of sub-devices for a particular device.
 
-	check_auth(1);
+	check_auth($PERMIT["ReadAll"]);
 	begin_page("sub_devices.php", "Sub Device");
 	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 	js_confirm_dialog("del", "Are you sure you want to delete subdevice ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}&sub_dev_id=");
@@ -101,7 +101,7 @@ function doedit()
 
 function dodelete()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	delete_subdevice($_REQUEST["sub_dev_id"]);
 	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
@@ -109,7 +109,7 @@ function dodelete()
 
 function doduplicate()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	duplicate_subdevice($_REQUEST['sub_dev_id']);
 	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
@@ -117,7 +117,7 @@ function doduplicate()
 
 function displayedit()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	begin_page("sub_devices.php", "Add/Edit Sub Device");
 
 	if ($_REQUEST["action"] == "add")

@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth(1);
+check_auth($PERMIT["ReadAll"]);
 
 if (!isset($_REQUEST['action']))
 {
@@ -41,7 +41,7 @@ end_page();
 
 function doedit()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	if (empty($_REQUEST["graph_id"]))
 	{
 		$command = "INSERT INTO";
@@ -85,7 +85,7 @@ function doedit()
 
 function dodelete()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	
 	if (isset($_REQUEST["graph"]))
 	{
@@ -105,7 +105,7 @@ function dodelete()
 
 function duplicate()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 
 	if (isset($_REQUEST["graph"]))
 	{
@@ -125,7 +125,7 @@ function duplicate()
 
 function applytemplate()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	$q = db_query("SELECT name FROM graphs WHERE id = {$_REQUEST['id']}");
 	$r = db_fetch_array($q);
 	$template_name = $r['name'];
@@ -140,7 +140,7 @@ function applytemplate()
 
 function doapplytemplate()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	apply_template($_REQUEST['subdev_id'], $_REQUEST['id']);
 	header("Location: {$_SERVER['PHP_SELF']}?type=template");
 	exit(0);
@@ -221,7 +221,7 @@ function display()
 function edit()
 {
 	// Display editing screen
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	begin_page("graphs.php", "Graphs");
 
 	if ($_REQUEST["action"] == "edit")

@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth(3);
+check_auth($PERMIT["Admin"]);
 
 // check default action
 if (empty($_REQUEST['action']))

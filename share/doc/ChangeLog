@@ -1,3 +1,6 @@
+2004.08.29  v0.17cvs  silfreed
+  - bug#0000244 - global define for permit values
+
 2004.08.29  v0.17cvs  keb
   - ability to duplicate multiple graphs at once
 

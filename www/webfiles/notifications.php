@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth(1);
+check_auth($PERMIT["ReadAll"]);
 
 if (!empty($_REQUEST["action"]))
 {
@@ -29,7 +29,7 @@ if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($a
 
 if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	if (!isset($disabled)) { $disabled = 0; }
 	if ($action == "doedit")
 	{
@@ -94,7 +94,7 @@ if (!empty($action) && ($action == "edit" || $action == "add"))
 begin_page("notifications.php", "Notifications");
 
 	// Display editing screen
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	if ($action == "add")
 	{
 		$id = 0;

@@ -10,7 +10,7 @@
 
 require_once("../include/config.php");
 
-check_auth(2);
+check_auth($PERMIT["ReadWrite"]);
 
 if (isset($_REQUEST['type']) && isset($_REQUEST['dev_id']))
 {

@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth(1);
+check_auth($PERMIT["ReadAll"]);
 
 
 if (empty($_REQUEST["action"]))
@@ -18,7 +18,7 @@ if (empty($_REQUEST["action"]))
 
 if ($_REQUEST["action"] == "doedit")
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
         
 	$stats = "";
 
@@ -72,7 +72,7 @@ if ($_REQUEST["action"] == "doedit")
 
 if ($_REQUEST["action"] == "move")
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 
 	// do moving
 	$query = db_query("
@@ -114,7 +114,7 @@ if ($_REQUEST["action"] == "move")
 
 if ($_REQUEST["action"] == "dodelete")
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	delete_ds($_REQUEST['id']);
 	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
 	exit(0);
@@ -123,7 +123,7 @@ if ($_REQUEST["action"] == "dodelete")
 
 if ($_REQUEST["action"] == "duplicate")
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	duplicate_graph_item($_REQUEST['id']);
 	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
 	exit(0);
@@ -209,7 +209,7 @@ if (empty($_REQUEST["action"]))
 if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 {
 
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	begin_page("graph_items.php", "Add/Edit Graph Item");
 
 	if ($_REQUEST["action"] == "add")

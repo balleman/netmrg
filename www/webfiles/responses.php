@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth(1);
+check_auth($PERMIT["ReadAll"]);
 
 if (!isset($_REQUEST["action"]))
 	$action = "";
@@ -97,7 +97,7 @@ function display_edit()
 
 function do_edit()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	
 	if ($_REQUEST['id'] == 0)
 	{
@@ -117,7 +117,7 @@ function do_edit()
 
 function do_delete()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	delete_response($_REQUEST['id']);
 	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");
 }

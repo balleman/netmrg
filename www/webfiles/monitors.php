@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth(1);
+check_auth($PERMIT["ReadAll"]);
 
 // set default action
 if (empty($_REQUEST["action"]))
@@ -21,19 +21,19 @@ if (empty($_REQUEST["action"]))
 switch($_REQUEST["action"])
 {
 	case "doedit":
-		check_auth(2);
+		check_auth($PERMIT["ReadWrite"]);
 		do_edit();
 		redirect();
 		break;
 	
 	case "dodelete":
-		check_auth(2);
+		check_auth($PERMIT["ReadWrite"]);
 		do_delete();
 		redirect();
 		break;
 		
 	case "duplicate":
-		check_auth(2);
+		check_auth($PERMIT["ReadWrite"]);
 		duplicate_monitor($_REQUEST['mon_id']);
 		redirect();
 		break;

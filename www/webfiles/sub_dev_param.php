@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth(1);
+check_auth($PERMIT["ReadAll"]);
 
 if (empty($_REQUEST["action"]))
 {
@@ -65,7 +65,7 @@ if (empty($_REQUEST["action"]))
 
 elseif ($_REQUEST["action"] == "doedit")
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
         if ($_REQUEST["type"] == "add")
 	{
 		$db_cmd = "INSERT INTO";
@@ -91,7 +91,7 @@ elseif ($_REQUEST["action"] == "doedit")
 
 elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	begin_page("sub_dev_param.php", "Add/Edit Sub Device Parameter");
        	make_edit_table("Sub-Device Parameter");
 
@@ -124,7 +124,7 @@ elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 
 elseif ($_REQUEST["action"] == "dodelete")
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	$_REQUEST['name'] = db_escape_string($_REQUEST['name']);
 	db_update("DELETE FROM sub_dev_variables WHERE sub_dev_id={$_REQUEST['sub_dev_id']} AND name='{$_REQUEST['name']}' AND type='static'");
 	header("Location: " . $_SERVER["PHP_SELF"] . "?sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}");

@@ -70,7 +70,7 @@ function make_graph()
 
 function make_interface_graph($dev_id, $index)
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 
 	// get snmp index data
 	$q_snmp = db_query("SELECT * FROM snmp_interface_cache WHERE dev_id='$dev_id' AND ifIndex='$index'");
@@ -108,7 +108,7 @@ function make_interface_graph($dev_id, $index)
 
 function make_disk_graph($dev_id, $index)
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 
 	// get snmp index data
 	$q_snmp = db_query("SELECT * FROM snmp_disk_cache WHERE dev_id='$dev_id' AND disk_index='$index'");
@@ -144,7 +144,7 @@ function make_disk_graph($dev_id, $index)
 
 function view_disk_cache()
 {
-	check_auth(1);
+	check_auth($PERMIT["ReadAll"]);
 	$query = "SELECT * FROM snmp_disk_cache WHERE dev_id={$_REQUEST['dev_id']} ORDER BY disk_index";
 	$dev_name = get_device_name($_REQUEST['dev_id']);
 
@@ -211,7 +211,7 @@ function view_disk_cache()
 
 function view_interface_cache()
 {
-	check_auth(1);
+	check_auth($PERMIT["ReadAll"]);
 	$sort_href = "{$_SERVER['PHP_SELF']}?action=view&type=interface&dev_id={$_REQUEST['dev_id']}&order_by";
 	$handle = db_query("SELECT * FROM snmp_interface_cache snmp WHERE snmp.dev_id={$_REQUEST['dev_id']}");
 	$results = array();

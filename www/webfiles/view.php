@@ -23,14 +23,14 @@ if (empty($_REQUEST["action"])) $_REQUEST["action"] = "";
 switch ($_REQUEST["action"])
 {
 	case "list":
-		check_auth(2);
+		check_auth($PERMIT["ReadWrite"]);
 	case "view":
 		do_view();
 		break;
 	
 	case "edit":
 	case "add":
-		check_auth(2);
+		check_auth($PERMIT["ReadWrite"]);
 		display_edit();
 		break;
 	
@@ -140,7 +140,7 @@ function display_edit()
 
 function do_add()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	
 	$_REQUEST["graph_id"] = "";
 	
@@ -164,7 +164,7 @@ function do_add()
 
 function do_edit()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 
 	$_REQUEST['graph_id'] = (($_REQUEST['type'] == 'graph') ? $_REQUEST['graph_id_custom'] : $_REQUEST['graph_id_template']);
 
@@ -181,7 +181,7 @@ function do_edit()
 
 function do_delete()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 
 	$q = db_query("SELECT pos FROM view WHERE id=" . $_REQUEST["id"]);
 	$r = db_fetch_array($q);
@@ -201,7 +201,7 @@ function do_delete()
 
 function do_move()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	
 	$query = db_query("
 		SELECT 	id, pos

@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth(1);
+check_auth($PERMIT["ReadAll"]);
 
 // if no action, set a default one
 if (empty($_REQUEST["action"]))
@@ -23,29 +23,29 @@ if (empty($_REQUEST["action"]))
 switch ($_REQUEST["action"])
 {
 	case "edit" :
-		check_auth(2);
+		check_auth($PERMIT["ReadWrite"]);
 		edit();
 		break;
 		
 	case "add"  :
-		check_auth(2);
+		check_auth($PERMIT["ReadWrite"]);
 		add();
 		break;
 		
 	case "update" :
-		check_auth(2);
+		check_auth($PERMIT["ReadWrite"]);
 		update_group($_REQUEST["grp_id"], $_REQUEST["grp_name"], $_REQUEST["grp_comment"], $_REQUEST["parent_id"]);
 		display();
 		break;
 		
 	case "insert" :
-		check_auth(2);
+		check_auth($PERMIT["ReadWrite"]);
 		create_group($_REQUEST["grp_name"], $_REQUEST["grp_comment"], $_REQUEST["parent_id"]);
 		display();
 		break;
 		
 	case "delete" :
-		check_auth(2);
+		check_auth($PERMIT["ReadWrite"]);
 		delete_group($_REQUEST["grp_id"]);
 		display();
 		break;

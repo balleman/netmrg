@@ -10,12 +10,12 @@
 
 
 require_once("../include/config.php");
-check_auth(1);
+check_auth($PERMIT["ReadAll"]);
 
 
 if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQUEST["action"] == "dodelete") || ($_REQUEST["action"] == "doadd"))
 {
-check_auth(2);
+check_auth($PERMIT["ReadWrite"]);
 
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
 	{
@@ -34,7 +34,7 @@ check_auth(2);
 
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "dodelete")
 	{
-		check_auth(2);
+		check_auth($PERMIT["ReadWrite"]);
 		db_update("DELETE FROM dev_types WHERE id={$_REQUEST['id']}");
 	} // done deleting
 
@@ -81,7 +81,7 @@ check_auth(2);
 if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["action"] == "add"))
 {
 	// Display editing screen
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	begin_page("dev_types.php", "Device Types");
 	if ($_REQUEST["action"] == "add")
 	{

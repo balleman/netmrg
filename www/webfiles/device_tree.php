@@ -12,7 +12,7 @@
 require_once("../include/config.php");
 
 // require at least read
-check_auth(0);
+check_auth($PERMIT["SingleViewOnly"]);
 
 
 // setup cookies

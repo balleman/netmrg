@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth(1);
+check_auth($PERMIT["ReadAll"]);
 
 if (isset($_REQUEST['action']))
 {
@@ -41,7 +41,7 @@ function do_display()
 
 	// Display a list
 
-	check_auth(1);
+	check_auth($PERMIT["ReadAll"]);
 	begin_page("conditions.php", "Conditions");
 	DrawGroupNavHistory("event", $_REQUEST["event_id"]);
 
@@ -90,7 +90,7 @@ function do_display()
 
 function display_edit()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	begin_page("conditions.php", "Edit Conditions");
 
 	if ($_REQUEST['action'] == "add")
@@ -133,7 +133,7 @@ function display_edit()
 
 function do_edit()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 
         if ($_REQUEST['id'] == 0)
 	{
@@ -154,7 +154,7 @@ function do_edit()
 
 function do_delete()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 
         db_update("DELETE FROM conditions WHERE id = {$_REQUEST['id']}");
 

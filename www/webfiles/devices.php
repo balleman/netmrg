@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth(1);
+check_auth($PERMIT["ReadAll"]);
 
 if (!isset($_REQUEST['action']))
 {
@@ -55,7 +55,7 @@ switch ($_REQUEST["action"])
 /***** FUNCTIONS *****/
 function doedit()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
 	{
 		if ($_REQUEST["dev_id"] == 0)
@@ -100,7 +100,7 @@ function doedit()
 
 function doaddtogrp()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	db_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id={$_REQUEST['dev_id']}");
 	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}");
 	exit();
@@ -108,7 +108,7 @@ function doaddtogrp()
 
 function dodelete()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	delete_device($_REQUEST["dev_id"], $_REQUEST["grp_id"]);
 	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
@@ -116,7 +116,7 @@ function dodelete()
 
 function doduplicate()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	duplicate_device($_REQUEST['dev_id']);
 	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
@@ -124,7 +124,7 @@ function doduplicate()
 
 function displayadd()
 {
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	begin_page("devices.php", "Add Device");
 	echo "<big><b>\n";
 	echo '<a href="';
@@ -141,7 +141,7 @@ function displayadd()
 function displayaddtogrp()
 {
 
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	begin_page("devices.php", "Add Device Group");
 	make_edit_table("Add Existing Device to a Group");
 	make_edit_select_from_table("Device:","dev_id","devices",-1);
@@ -156,7 +156,7 @@ function displayaddtogrp()
 function displayedit()
 {
 	// Display editing screen
-	check_auth(2);
+	check_auth($PERMIT["ReadWrite"]);
 	begin_page("devices.php", "Edit Device");
 
 	if ($_REQUEST["action"] == "addnew")

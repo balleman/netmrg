@@ -65,6 +65,13 @@ if ( !empty($_SESSION["netmrgsess"]["slideshow"])
 	array_push($MENU["Reporting"], array("name" => "&nbsp&nbsp;Resume Slide Show", "link" => "view.php?action=slideshow&jump=$rss_jump", "descr" => "Resumes slide show in progress.", "authLevelRequired" => 1));
 } // end if in the middle of a slide show
 
+$PERMIT = array(
+	'Disabled'       => -1,
+	'SingleViewOnly' => 0,
+	'ReadAll'        => 1,
+	'ReadWrite'      => 2,
+	'Admin'          => 3
+	); // end $PERMIT
 
 $ALIGN_ARRAY = array(
 			1	=>	"Left",
