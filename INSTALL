@@ -1,32 +1,78 @@
-1) untar to some directory like /var/www/ (it will untar into a 'netmrg' 
-directory)
+                             Software Requirements
 
-2) modify you apache config to alias /netmrg to /var/www/netmrg/www
-  Alias /netmrg "/var/www/netmrg/www"
+   NetMRG Requires the following packages for compilation.
 
-3) setup the database
-mysqladmin create netmrg
-mysql netmrg < netmrg.mysql
-mysql
-> grant select on netmrg.* to netmrgread@localhost identified by 'netmrgread';
-> grant all on netmrg.* to netmrgwrite@localhost identified by 'netmrgwrite';
+     * PHP, Version >= 4.1
 
-4) add a user for yourself
-mysql netmrg
-> INSERT INT user SET
-> user = "admin", pass = encrypt("pass", md5("pass")), 
-> permit = 3, view_type = 0, view_id = 19, fullname = "Administrator";
+     * MySQL, Version >= 3.23
 
-5) compile NetMRG
-cd into the src directory for your installation (usually /var/www/netmrg/src)
+     * RRDTOOL, Version >= 1.0.28
 
-6) setup crontab
-You can setup the crontab entries in two places: either edit /etc/crontab, 
-or run 'crontab -e' as root. For 'crontab -e', use an entry similar to this:
-*/5 * * * * /var/www/netmrg/src/netmrg > /var/www/netmrg/dat/output 2> /var/www/netmrg/dat/errors
+     * Libxml2, Version >= 2.30
 
-7) point your web browser at your install, and start graphing things!
-Your installation will be what you setup in the second step.  It will commonly be 
-something similar to http://yourhost.com/netmrg/
-Login with the username and password you setup in step 4.
+     * Libstdc++, Version >= 3.2
+
+       Versions earlier than this may compile just fine, but may experience
+       runtime issues. Specifically, we experienced software crashes on an
+       SMP machine running version 2.96 that were resolved by upgrading to
+       3.2.
+
+     * NET/UCD-SNMP, Version >= 4.2.2
+
+     ----------------------------------------------------------------------
+
+                             Installation Procedure
+
+    1. Untar to some directory like /tmp/ (it will untar into a 'netmrg'
+       directory)
+
+       cd /tmp                                                         
+       wget http://www.netmrg.net/download/release/netmrg.tar.gz       
+       tar xzvf netmrg.tar.gz                                          
+
+    2. Now we need to compile and install the source. cd into the directory
+       made by your tar command and type the following:
+
+       ./configure                                                     
+       make                                                            
+       make install                                                    
+
+    3. Setup the database
+
+       Now we need to setup the database. Please change at least the password
+       (netmrgpass below).
+
+     mysqladmin create netmrg                                                    
+     mysql -u root -p netmrg < share/netmrg.mysql                                
+     mysql -u root -p                                                            
+     > grant all on netmrg.* to netmrguser@localhost identified by 'netmrgpass'; 
+
+    4. Modify your apache config (commonly in /etc/httpd/conf/httpd.conf) to
+       alias /netmrg to the installed web directory (commonly
+       /usr/local/var/www/netmrg/webfiles)
+
+       Example:                                                        
+       Alias /netmrg "/usr/local/var/www/netmrg/webfiles"              
+
+    5. Setup Permissions
+
+       NetMRG does not need superuser permissions to run, therefore we will
+       setup a user for it.
+
+       # useradd netmrg                                                
+       # chown netmrg:netmrg /usr/local/var/log/netmrg                 
+       # chown netmrg:netmrg /usr/local/var/lib/netmrg/rrd             
+
+    6. Setup crontab
+
+       You can setup the crontab entries in two places: either edit
+       /etc/crontab, or run 'crontab -e' as root. For 'crontab -e', use an
+       entry similar to this:
+
+       */5 * * * * /usr/local/bin/netmrg_cron.sh                       
+
+    7. Point your web browser at your install, and start graphing things! The
+       default login is admin and the default password is nimda. Point your
+       web browser at the host you built this on (something similar to
+       http://yourhost.com/netmrg/) and please change your password!
 
