@@ -5,6 +5,9 @@ more detailed INSTALL
 more detailed README
 Usage information (description of every page)
 'makedist' script
+snmp_cache_view.php:
+  "Make Graph" needs overhauled
+  need a "Graph All" feature
 
 
 == before going public ==
@@ -13,13 +16,9 @@ get new netmrg monitoring something (duo)
 
 
 == global ==
-device duplication
 prevent a group being its own parent (during editing)
 page titles should reflect where you're at
 ability to go 'up' a level when browsing 'Groups' et al
-snmp_cache_view.php:
-  "Make Graph" needs overhauled
-  need a "Graph All" feature
 view page should reflect status information
 monitors.php:
   add javascript check so you can't enter a minimum < maximum
@@ -54,7 +53,7 @@ customized 'view' page
   - ability to move graphs up/down despite their original ordering (session fun)
 fast-fourier transforms for what data 'should look like'
 themes/skins for UI and graphs
-  - I'd like to see a neon theme ;)
+  - I'd like to see a neon theme ;) - balleman
 distributed netmrg
   - have other netmrg installs that can report back to a master install that
     maintains all the rrd files.

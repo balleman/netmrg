@@ -1,6 +1,7 @@
 2003.04.21  v0.8  silfreed
-  - bug#4 : device_tree.php expand/collapse bug
+  - bug#2 : can't fix ifName/IfDescr <Graph Traffic> link
   - bug#3 : fixed javascript bug w/ slashes
+  - bug#4 : device_tree.php expand/collapse bug
 
 2003.04.17  v0.8  silfreed
   - format.php:
