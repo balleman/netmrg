@@ -41,7 +41,6 @@ int active_threads = 0;
 #include "snmp.h"
 #include "db.h"
 #include "rrd.h"
-#include <netmrg-misc.cc>
 
 // update_monitor_db
 //
@@ -72,7 +71,7 @@ void update_monitor_db(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 {
 	// clear cache for this device
-        db_update(mysql, info, "DELETE FROM snmp_interface_cache WHERE dev_id=" + inttostr((*info).device_id));
+	db_update(mysql, info, "DELETE FROM snmp_interface_cache WHERE dev_id=" + inttostr((*info).device_id));
 
 	list<SNMPPair> ifIndexList = snmp_walk(*info, "ifIndex");
 

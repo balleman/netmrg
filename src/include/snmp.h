@@ -21,6 +21,7 @@ string snmp_get(DeviceInfo info, string oidstring);
 list<SNMPPair> snmp_trim_rootoid(list<SNMPPair> input, string rootoid);
 list<SNMPPair> snmp_swap_index_value(list<SNMPPair> input);
 list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring);
+long long int get_snmp_uptime(DeviceInfo info);
 
 #endif
 

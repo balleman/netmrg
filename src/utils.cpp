@@ -27,20 +27,19 @@ int file_exists(string filename)
 // stripnl - given a string, return a string without new line at the end
 string stripnl(string input)
 {
+	string temp_str;
 
-        string temp_str;
-
-        if (input[input.length() - 1] == '\n')
-        {
-	        temp_str = input.substr(0, input.length() - 1);
-        }
+	if (input[input.length() - 1] == '\n')
+	{
+		temp_str = input.substr(0, input.length() - 1);
+	}
 	else
 	{
-	        temp_str = input;
-        }
-
-        return temp_str;
-
+		temp_str = input;
+	}
+	
+	return temp_str;
+	
 } // end stripnl
 
 // token_replace - replace a token with a value throughout a string
@@ -60,24 +59,23 @@ string token_replace(string &source, string token, string value)
 // u_string - cast a string into a u_char array
 u_char *u_string(string source, u_char *out)
 {
-        return (unsigned char *)source.c_str();
+	return (unsigned char *)source.c_str();
 }
 
 
 string inttostr(long long int int_to_convert)
 {
-        char temp_str[100];
+	char temp_str[100];
 
-        sprintf(temp_str, "%qd", int_to_convert);
+	sprintf(temp_str, "%qd", int_to_convert);
 
-        return string(temp_str);
+	return string(temp_str);
 
 } // end inttostr
 
 long long int strtoint(string string_to_convert)
 {
-        return strtoq(string_to_convert.c_str(), NULL, 10);
-
+	return strtoq(string_to_convert.c_str(), NULL, 10);
 } // end strtoint
 
 string inttopadstr(int integer, int padlen)
@@ -192,11 +190,11 @@ string count_file_lines(DeviceInfo info)
 					linecount++;
 				}
 			}
-                	fclose(fhandle);
+			fclose(fhandle);
 		}
 		else
 		{
-                	debuglogger(DEBUG_MONITOR, &info, "Internal Test: Line Count: Unable to read file (" + info.test_params + ")");
+			debuglogger(DEBUG_MONITOR, &info, "Internal Test: Line Count: Unable to read file (" + info.test_params + ")");
 			return "U";
 		}
   	}
@@ -207,4 +205,16 @@ string count_file_lines(DeviceInfo info)
 	}
 
 	return inttostr(linecount);
+}
+
+void U_to_NULL(string *input)
+{
+	if ((*input) == "U")
+	{
+		(*input) = "NULL";
+	}
+	else
+	{
+		(*input) = string("'") + (*input) + string("'");
+	}
 }

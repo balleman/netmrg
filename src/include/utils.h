@@ -24,22 +24,23 @@ const int DEBUG_SUBDEVICE	= 8;
 const int DEBUG_MONITOR		= 16;
 const int DEBUG_EVENT		= 32;
 const int DEBUG_RESPONSE	= 64;
-const int DEBUG_RRD		= 128;
+const int DEBUG_RRD			= 128;
 const int DEBUG_SNMP		= 256;
 const int DEBUG_GATHERER	= 512;
 const int DEBUG_MYSQL		= 1024;
 
-int 		file_exists(string filename);
-string  	stripnl(string input);
-string		token_replace(string &source, string token, string value);
-u_char		*u_string(string source, u_char *out);
-string		inttostr(long long int int_to_convert);
+int 			file_exists(string filename);
+string  		stripnl(string input);
+string			token_replace(string &source, string token, string value);
+u_char			*u_string(string source, u_char *out);
+string			inttostr(long long int int_to_convert);
 long long int 	strtoint(string string_to_convert);
-string		inttopadstr(int integer, int padlen);
-string		count_file_lines(DeviceInfo info);
+string			inttopadstr(int integer, int padlen);
+string			count_file_lines(DeviceInfo info);
+void 			U_to_NULL(string *input);
 
 // debugging functions
-int		get_debug_level();
+int			get_debug_level();
 void		set_debug_level(int level);
 void 		debuglogger(int level, const DeviceInfo *, const string & message);
 

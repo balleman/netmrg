@@ -46,15 +46,8 @@ void snmp_cleanup()
 
 string snmp_value(string input)
 {
-	//uint size = input.length() + 1;
-
-	//while (input.length() < size)
-	//{
-	//	size  = input.length();
-		input = input.erase(0, input.find(":",0) + 1);
-		input = input.erase(0, input.find("=",0) + 1);
-	//}
-
+	input = input.erase(0, input.find(":",0) + 1);
+	input = input.erase(0, input.find("=",0) + 1);
 	input = token_replace(input, " ", "");
 
 	return input;
@@ -94,15 +87,15 @@ string snmp_get(DeviceInfo info, string oidstring)
 	struct 	variable_list *vars;
 	int 	status;
 
-        string 	result;
-        char 	temp [250];
-        u_char 	u_temp [250];
+	string 	result;
+	char 	temp [250];
+	u_char 	u_temp [250];
 
-        char 	tempname[128];
+	char 	tempname[128];
 
-        debuglogger(DEBUG_SNMP, &info, "SNMP Query ('" +
-                info.ip + "', '" + info.snmp_read_community + "', '" +
-                oidstring + "')");
+	debuglogger(DEBUG_SNMP, &info, "SNMP Query ('" +
+		info.ip + "', '" + info.snmp_read_community + "', '" +
+		oidstring + "')");
 
 	snmp_sess_init(&session);
 
@@ -128,52 +121,48 @@ string snmp_get(DeviceInfo info, string oidstring)
 	}
 	else
 	{
+		// Create the PDU for the data for our request.
+		pdu = snmp_pdu_create(SNMP_MSG_GET);
 
-	/*
-	* Create the PDU for the data for our request.
-	*/
-	pdu = snmp_pdu_create(SNMP_MSG_GET);
-
-	strcpy(tempname, oidstring.c_str());
-	if (!snmp_parse_oid(tempname, anOID, &anOID_len))
-       	{
-		return(string("U"));
-	}
-	else
-        snmp_add_null_var(pdu, anOID, anOID_len);
-
-	status = snmp_sess_synch_response(sessp, pdu, &response);
-
-	/*
-	* Process the response.
-	*/
-
-	if (status == STAT_SUCCESS && response->errstat == SNMP_ERR_NOERROR)
-	{
-
-	/*
-	* SUCCESS: Print the result variables
-	*/
-
-		if (status == STAT_SUCCESS)
+		strcpy(tempname, oidstring.c_str());
+		if (!snmp_parse_oid(tempname, anOID, &anOID_len))
 		{
-			vars = response->variables;
-			result = snmp_result(vars);
-                        result = snmp_value(result);
-                }
+			return(string("U"));
+		}
 		else
+		snmp_add_null_var(pdu, anOID, anOID_len);
+
+		status = snmp_sess_synch_response(sessp, pdu, &response);
+
+		/*
+		* Process the response.
+		*/
+
+		if (status == STAT_SUCCESS && response->errstat == SNMP_ERR_NOERROR)
 		{
-                	result = string("U");
-                }
 
-	}
+		/*
+		* SUCCESS: Print the result variables
+		*/
 
-	if (response) snmp_free_pdu(response);
-	snmp_sess_close(sessp);
+			if (status == STAT_SUCCESS)
+			{
+				vars = response->variables;
+				result = snmp_result(vars);
+				result = snmp_value(result);
+			}
+			else
+			{
+				result = string("U");
+			}
+		}
 
-        if (result.length() == 0) { result = "U"; }
+		if (response) snmp_free_pdu(response);
+		snmp_sess_close(sessp);
 
-	return result;
+		if (result.length() == 0) { result = "U"; }
+
+		return result;
 	}
 }
 
@@ -331,4 +320,25 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 
 	return results;
 }
+
+long long int get_snmp_uptime(DeviceInfo info)
+{
+	string uptime;
+	char unparsed[100];
+	char * parsed;
+
+	uptime = snmp_get(info, string("system.sysUpTime.0"));
+
+	if (uptime != "")
+	{
+		strcpy(unparsed,uptime.c_str());
+		parsed = strtok(unparsed, "()");
+		return strtoint(string(parsed));
+	}
+	else
+	{
+		return 0;
+	}
+
+} // end get_snmp_uptime()
 
