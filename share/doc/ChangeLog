@@ -1,6 +1,12 @@
+2004.03.10  v0.14cvs  keb
+  - bug#0000166 - fix bug where user can't modify preferences
+
 2004.03.08  v0.14cvs  silfreed
   - bug#0000164 - fix breadcrumbs
   - bug#0000160 - fix device duplication
+
+2004.03.07  v0.14cvs  keb
+  - bug#0000147 - fix thread warnings
 
 2004.02.28  v0.14cvs  balleman
   - bug#0000158 - support 'advanced' features on monitor graphs
