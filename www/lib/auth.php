@@ -139,31 +139,13 @@ function check_auth($level)
 */
 function view_check_auth($object_id, $object_type)
 {
-	check_auth(0);
+	check_auth($PERMIT["SingleViewOnly"]);
 	
 	// the groups this object_id is in
-	$object_id_groups = array();
-	
-	// check what groups this object_id is in
-	switch ($object_type)
-	{
-		case "group" :
-			$object_id_groups = GetGroupParents($object_id);
-			array_push($object_id_groups, $object_id);
-			break;
-
-		case "device" :
-			$object_id_groups = GetDeviceGroups($object_id);
-			break;
-
-		case "subdevice" :
-			$object_id_groups = GetSubdeviceGroups($object_id);
-			break;
-	
-	} // end switch object type
+	$object_id_groups = GetGroups($object_type,$object_id);
 	
 	if (!in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups)
-		&& $_SESSION["netmrgsess"]["permit"] == 0)
+		&& $_SESSION["netmrgsess"]["permit"] == $PERMIT["SingleViewOnly"])
 	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
 		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
@@ -183,7 +165,7 @@ function view_check_auth($object_id, $object_type)
 */
 function EncloseGraphCheckAuth($type, $id)
 {
-	check_auth(0);
+	check_auth($PERMIT["SingleViewOnly"]);
 
 	// the groups this object_id is in
 	$object_id_groups = array();
@@ -192,21 +174,20 @@ function EncloseGraphCheckAuth($type, $id)
 	{
 		case "mon" :
 		case "tinymon" :
-			$object_id_groups = GetMonitorGroups($id);
+			$object_id_groups = GetGroups("monitor",$id);
 			break;
 
 		case "template" :
-			$object_id_groups = GetSubdeviceGroups($id);
+			$object_id_groups = GetGroups("subdevice",$id);
 			break;
 
 		case "custom" :
-			$object_id_groups = GetCustomGraphGroups($id);
+			$object_id_groups = GetGroups("customgraph",$id);
 			break;
 	} // end switch graph type
 
-	if (count($object_id_groups) == 1
-		&& !in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups)
-		&& $_SESSION["netmrgsess"]["permit"] == 0)
+	if (!in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups)
+		&& $_SESSION["netmrgsess"]["permit"] == $PERMIT["SingleViewOnly"])
 	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
 		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
@@ -226,7 +207,7 @@ function EncloseGraphCheckAuth($type, $id)
 */
 function GraphCheckAuth($type, $id)
 {
-	check_auth(0);
+	check_auth($PERMIT["SingleViewOnly"]);
 
 	// the groups this object_id is in
 	$object_id_groups = array();
@@ -235,23 +216,22 @@ function GraphCheckAuth($type, $id)
 	{
 		case "mon" :
 		case "tinymon" :
-			$object_id_groups = GetMonitorGroups($id);
+			$object_id_groups = GetGroups("monitor",$id);
 			break;
 
 		case "template" :
 		case "template_item" :
-			$object_id_groups = GetSubdeviceGroups($id);
+			$object_id_groups = GetGroups("subdevice",$id);
 			break;
 
 		case "custom" :
 		case "custom_item" :
-			$object_id_groups = GetCustomGraphGroups($id);
+			$object_id_groups = GetGroups("customgraph",$id);
 			break;
 	} // end switch graph type
 
-	if (count($object_id_groups) == 1
-		&& !in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups)
-		&& $_SESSION["netmrgsess"]["permit"] == 0)
+	if (!in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups)
+		&& $_SESSION["netmrgsess"]["permit"] == $PERMIT["SingleViewOnly"])
 	{
 		readfile($GLOBALS["netmrg"]["fileroot"]."/webfiles/img/access_denied.png");
 		exit;

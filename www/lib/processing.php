@@ -524,127 +524,86 @@ function GetGroupParents($group_id)
 		array_push($group_arr, $group_item);
 	} // end while more parents
 	
+	// Always include the Root group
+	array_push($group_arr, 0);
+	
 	return $group_arr;
 } // end GetGroupParents();
 
 
 /**
-* GetDeviceGroups($device_id);
+* GetGroups($type,$id);
 *
-* returns the groups that this device is in as an array
-*
-*/
-function GetDeviceGroups($device_id)
-{
-	$db_result = db_query("
-		SELECT groups.id AS group_id 
-		FROM groups, dev_parents, devices
-		WHERE devices.id = '$device_id' 
-		AND devices.id = dev_parents.dev_id
-		AND dev_parents.grp_id = groups.id
-		GROUP BY group_id");
-
-	$group_arr = array();
-	while ($r = mysql_fetch_array($db_result))
-	{
-		array_push($group_arr, $r["group_id"]);
-		$group_arr = array_merge($group_arr, GetGroupParents($r["group_id"]));
-	} // end while we have results
-	
-	return $group_arr;
-} // end GetDeviceGroups();
-
-
-/**
-* GetSubdeviceGroups($subdevice_id);
-*
-* returns the groups that this subdevice is in as an array
+* returns an array of groups that this $type is in
 *
 */
-function GetSubdeviceGroups($subdevice_id)
+function GetGroups($type,$id)
 {
-	$db_result = db_query("
-		SELECT groups.id AS group_id 
-		FROM groups, dev_parents, devices, sub_devices 
-		WHERE sub_devices.id = '$subdevice_id' 
-		AND sub_devices.dev_id = devices.id
-		AND devices.id = dev_parents.dev_id
-		AND dev_parents.grp_id = groups.id
-		GROUP BY group_id");
-
 	$group_arr = array();
+	switch ($type)
+	{
+		case "group":
+			$query = "SELECT '$id' as group_id";
+			break;
+		case "device":
+			$query = "
+				SELECT groups.id AS group_id 
+				FROM groups, dev_parents, devices
+				WHERE devices.id = '$id' 
+				AND devices.id = dev_parents.dev_id
+				AND dev_parents.grp_id = groups.id
+				GROUP BY group_id";
+			break;
+		case "subdevice":
+			$query = "
+				SELECT groups.id AS group_id 
+				FROM groups, dev_parents, devices, sub_devices 
+				WHERE sub_devices.id = '$id' 
+				AND sub_devices.dev_id = devices.id
+				AND devices.id = dev_parents.dev_id
+				AND dev_parents.grp_id = groups.id
+				GROUP BY group_id";
+			break;
+		case "monitor":
+			$query = "
+				SELECT groups.id AS group_id
+				FROM groups, dev_parents, devices, sub_devices, monitors
+				WHERE monitors.id = '$id'
+				AND sub_devices.id = monitors.sub_dev_id
+				AND sub_devices.dev_id = devices.id
+				AND devices.id = dev_parents.dev_id
+				AND dev_parents.grp_id = groups.id
+				GROUP BY group_id";
+			break;
+		case "customgraph":
+			$query = "
+				SELECT object_id, object_type
+				FROM view
+				WHERE type = 'graph'
+				AND graph_id = '$id'";
+			break;
+		default:
+			// an unknown type should have no groups
+			return $group_arr;
+	} // end switch($type)
+
+	$db_result = db_query($query);
+
 	while ($r = mysql_fetch_array($db_result))
 	{
-		array_push($group_arr, $r["group_id"]);
-		$group_arr = array_merge($group_arr, GetGroupParents($r["group_id"]));
-	} // end while we have results
-	
-	return $group_arr;
-} // end GetSubdeviceGroups();
-
-
-/**
-* GetMonitorGroups($monitor_id);
-*
-* returns the groups that this monitor is in as an array
-*
-*/
-function GetMonitorGroups($monitor_id)
-{
-	$db_result = db_query("
-		SELECT groups.id AS group_id
-		FROM groups, dev_parents, devices, sub_devices, monitors
-		WHERE monitors.id = '$monitor_id'
-		AND sub_devices.id = monitors.sub_dev_id
-		AND sub_devices.dev_id = devices.id
-		AND devices.id = dev_parents.dev_id
-		AND dev_parents.grp_id = groups.id
-		GROUP BY group_id");
-
-	$group_arr = array();
-	while ($r = mysql_fetch_array($db_result))
-	{
-		array_push($group_arr, $r["group_id"]);
-		$group_arr = array_merge($group_arr, GetGroupParents($r["group_id"]));
-	} // end while we have results
-	
-	return $group_arr;
-} // end GetMonitorGroups();
-
-
-/**
-* GetCustomGraphGroups($customgraph_id);
-*
-* returns the groups that this custom graph is in as an array
-*
-*/
-function GetCustomGraphGroups($customgraph_id)
-{
-	$db_result = db_query("
-		SELECT object_id, object_type
-		FROM view
-		WHERE type = 'graph'
-		AND graph_id = '$customgraph_id'");
-	
-	$group_arr = array();
-	while ($r = mysql_fetch_array($db_result))
-	{
-		if ($r["object_type"] == "group")
+		if ($type == "customgraph")
 		{
-			array_push($group_arr, $r["object_id"]);
-		} // end if group id, push it on
-		else if ($r["object_type"] == "device")
+			$group_arr = array_merge($group_arr, GetGroups($r["object_type"],$r["object_id"]));
+		}
+		else
 		{
-			$group_arr = array_merge($group_arr, GetDeviceGroups($r["object_id"]));
-		} // end if device id, get groups
-		else if ($r["object_type"] == "subdevice")
-		{
-			$group_arr = array_merge($group_arr, GetSubdeviceGroups($r["object_id"]));
-		} // end if subdevice id, get groups
+			array_push($group_arr, $r["group_id"]);
+			$group_arr = array_merge($group_arr, GetGroupParents($r["group_id"]));
+		}
 	} // end while we have results
 	
 	return $group_arr;
-} // end GetCustomGraphGroups();
+} // end GetGroups();
 
 
 /**

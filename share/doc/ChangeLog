@@ -1,3 +1,6 @@
+2004.11.19  v0.18.2  keb
+  - bug#0000341 - Root group should always be returned from the Get*Groups functions
+
 2004.11.16  v0.18.2  keb
   - bug#0000345 - get_graph.php needs cleaned up
 
