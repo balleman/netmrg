@@ -372,31 +372,86 @@ and please change your password!
 		</refmeta>
 		<refnamediv>
 			<refname>netmrg-gatherer</refname>
-			<refpurpose>Gathers data from device.</refpurpose>
+			<refpurpose>Gathers data from devices.</refpurpose>
 		</refnamediv>
 		<refsynopsisdiv>
 			<cmdsynopsis>
 				<command>/usr/local/bin/netmrg-gatherer</command>
-				<arg choice="opt">
-					<option>-vhq</option>
-				</arg>
-				<arg choice="opt">-C <replaceable>config file</replaceable></arg>
-				<arg choice="opt">-K <replaceable>config file</replaceable></arg>
-				<arg choice="opt">-t <replaceable>num threads</replaceable></arg>
-				<arg choice="opt">-c <replaceable>component mask</replaceable></arg>
-				<arg choice="opt">-l <replaceable>level mask</replaceable></arg>
-				<arg choice="opt">-H <replaceable>db host</replaceable></arg>
-				<arg choice="opt">-D <replaceable>db name</replaceable></arg>
-				<arg choice="opt">-u <replaceable>db user</replaceable></arg>
-				<arg choice="opt">-p <arg choice="opt"><replaceable>db password</replaceable></arg></arg>
-				<arg choice="opt">-i <replaceable>device id</replaceable></arg>
-				<arg choice="opt">-d <replaceable>device id</replaceable></arg>
+				<arg choice="opt">OPTIONS</arg>
 			</cmdsynopsis>
 		</refsynopsisdiv>
 		<refsect1><title>Description</title>
 			<para>
 <command>netmrg-gatherer</command> performs tests on all enabled hosts in NetMRG.  It will store results in RRD files using RRDTOOL(1) and perform actions in response to events.
 			</para>
+			<variablelist>
+				<title>Global Options</title>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-h</option></arg></cmdsynopsis></term>
+					<listitem><para>Displays usage information and exits.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-v</option></arg></cmdsynopsis></term>
+					<listitem><para>Displays software version and exits.</para></listitem>
+				</varlistentry>
+			</variablelist>
+			<variablelist>
+				<title>Debugging / Verbosity Options</title>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-l</option> <replaceable>level mask</replaceable></arg></cmdsynopsis></term>
+					<listitem><para>Only outputs messages that match the specified level mask.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-c</option> <replaceable>component mask</replaceable></arg></cmdsynopsis></term>
+					<listitem><para>Only outputs messages that match the specified component mask.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-q</option></arg></cmdsynopsis></term>
+					<listitem><para>Quiet.  Silences all output.  This is the same as specifying <option>-l0 -c0</option></para></listitem>
+				</varlistentry>
+			</variablelist>
+			<variablelist>
+				<title>Configuration File Options</title>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-C</option> <replaceable>config file</replaceable></arg></cmdsynopsis></term>
+					<listitem><para>Uses the specified XML configuration file.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-K</option> <replaceable>config file</replaceable></arg></cmdsynopsis></term>
+					<listitem><para>Parses the specified XML configuration file and exits.</para></listitem>
+				</varlistentry>
+			</variablelist>
+			<variablelist>
+				<title>Database Options</title>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-H</option> <replaceable>host</replaceable></arg></cmdsynopsis></term>
+					<listitem><para>Uses the specified host name for connecting to the database.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-D</option> <replaceable>database</replaceable></arg></cmdsynopsis></term>
+					<listitem><para>Uses the specified database name.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-u</option> <replaceable>user name</replaceable></arg></cmdsynopsis></term>
+					<listitem><para>Uses the specified user name for connecting to the database.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-p</option> <arg choice="opt"><replaceable>password</replaceable></arg></arg></cmdsynopsis></term>
+					<listitem><para>Uses the specified password for connecting to the database.  If no password is specified, the user is prompted to enter one.</para></listitem>
+				</varlistentry>
+			</variablelist>
+			<variablelist>
+				<title>Recaching Options</title>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-i</option> <replaceable>device id</replaceable></arg></cmdsynopsis></term>
+					<listitem><para>Performs an interface recache on the specified device.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-d</option> <replaceable>device id</replaceable></arg></cmdsynopsis></term>
+					<listitem><para>Performs a disk recache on the specified device.</para></listitem>
+				</varlistentry>
+			</variablelist>
+			<note><para>Recaching options are intended for use by the web interface.  These options should not be generally used by end users.</para></note>
 		</refsect1>
 	</refentry>
 </chapter>
