@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.15 $)
+AC_REVISION($Revision: 1.16 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -82,6 +82,7 @@ case $host_alias in
     AC_DEFINE(HAVE_LONG_LONG_SCANF, 1, scanf supports long long);;
 *freebsd*)
     LIBS="$LIBS -pthread"
+    CPPFLAGS="$CPPFLAGS -I/usr/local/include"
     AC_DEFINE(HAVE_LIBPTHREAD, 1);;
 esac
 
