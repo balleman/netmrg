@@ -18,7 +18,7 @@ ini_set("REGISTER_GLOBALS", 0);
 /***** CONFIG *****/
 // Cosmetic Variables
 $GLOBALS["netmrg"]["version"]		= "0.8";
-$GLOBALS["netmrg"]["name"]          = "NetMRG";
+$GLOBALS["netmrg"]["name"]		= "NetMRG";
 $GLOBALS["netmrg"]["company"]		= "Generic Company";
 $GLOBALS["netmrg"]["companylink"]	= "http://netmrg.net";
 
@@ -34,6 +34,7 @@ $GLOBALS["netmrg"]["dbwritepass"]	= "netmrgwrite";
 $GLOBALS["netmrg"]["rrdtool"]		= "/usr/bin/rrdtool";
 $GLOBALS["netmrg"]["rrdroot"]		= "/var/www/netmrg/rrd";
 $GLOBALS["netmrg"]["fileroot"]		= "/var/www/netmrg";
+$GLOBALS["netmrg"]["binary"]		= "/var/www/netmrg/src/netmrg";
 $GLOBALS["netmrg"]["webhost"]		= "http://localhost";
 $GLOBALS["netmrg"]["webroot"]		= "/netmrg";
 

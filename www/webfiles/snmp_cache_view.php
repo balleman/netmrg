@@ -137,7 +137,7 @@ function view_interface_cache()
 		$row = mysql_fetch_array($handle);
 		$status =  $GLOBALS['INTERFACE_STATUS'][$row['ifAdminStatus']] . "/";
 		$status .= $GLOBALS['INTERFACE_STATUS'][$row['ifOperStatus']] . " ";
-		$status .= sanitize_number($row['ifSpeed'], 0) . "B/s";
+		$status .= $GLOBALS['INTERFACE_TYPE'][$row['ifType']];
 		make_display_item(
 			$row["ifIndex"],	"",
 			$status, 		"",

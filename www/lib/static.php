@@ -68,9 +68,36 @@ $VALUE_TYPES = array(
 			2	=>	"Rate of Change");
 
 $INTERFACE_STATUS = array(
-			0	=>	"Down",
 			1	=>	"Up",
-			2	=>	"Testing");
+			2	=>	"Down",
+			3	=>	"Testing",
+			4	=>	"Unknown",
+			5	=>	"Dormant",
+			6	=>	"Lower Layer Down"
+			);
+			
+$INTERFACE_TYPE = array(
+                        6	=>	"Ethernet",
+			15	=>	"FDDI",
+			18	=>	"DS1",
+			20	=>	"BRI",
+			21	=>	"PRI",
+			22	=>	"PTP Serial",
+			23	=>	"PPP",
+			24	=>	"Loopback",
+			32	=>	"Frame Relay",
+			37	=>	"ATM",
+			39	=>	"SDH",
+			45	=>	"V.35",
+			46	=>	"HSSI",
+			47	=>	"HIPPI",
+			49	=>	"AAL5",
+			71	=>	"802.11",
+			107	=>	"IMA"
+			);
+
+
+
 
 
 $MENU = array(

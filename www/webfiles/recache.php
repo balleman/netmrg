@@ -1,4 +1,4 @@
-<?php 
+<?php
 /********************************************
 * NetMRG Integrator
 *
@@ -10,23 +10,25 @@
 
 require_once("../include/config.php");
 
-$handle = do_query("SELECT * FROM mon_devices WHERE id={$_REQUEST['dev_id']}");
-$row = mysql_fetch_array($handle);
-begin_page("recache.php", "SNMP Recache");
-
-echo "<PRE>";
-
-if (!empty($_REQUEST["type"]) && $_REQUEST["type"] == "disk")
+if (isset($_REQUEST['type']) && isset($_REQUEST['dev_id']))
 {
-	cache_disks($row);
+	switch ($_REQUEST['type'])
+	{
+		case "interface":	do_interface_recache($_REQUEST['dev_id']); 	break;
+		case "disk":		do_disk_recache($_REQUEST['dev_id']); 		break;
+	}
 }
-else
+
+function do_interface_recache($dev_id)
 {
-	cache_device($row);
-} // end if type
+	system($GLOBALS['netmrg']['binary'] . " -qi $dev_id");
+	header("Location: snmp_cache_view.php?action=view&type=interface&dev_id=$dev_id");
+}
 
-echo "</PRE>";
-
-end_page();
+function do_disk_recache($dev_id)
+{
+	system($GLOBALS['netmrg']['binary'] . " -qd $dev_id");
+	header("Location: snmp_cache_view.php?action=view&type=disk&dev_id=$dev_id");
+}
 
 ?>

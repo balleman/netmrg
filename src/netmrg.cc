@@ -275,14 +275,14 @@ MYSQL db_connect(MYSQL connection)
 {
 	pthread_mutex_lock(&mysql_lock);
 
-	if (!(mysql_connect(&connection,MYSQL_HOST,MYSQL_USER,MYSQL_PASS)))
+	if (!(mysql_connect(&connection, MYSQL_HOST, MYSQL_USER, MYSQL_PASS)))
 	{
 		debuglogger(DEBUG_MYSQL, NULL, "MySQL Connection Failure.");
 		pthread_exit(NULL);
 	}
 	pthread_mutex_unlock(&mysql_lock);
 
-	if (mysql_select_db(&connection,MYSQL_DB))
+	if (mysql_select_db(&connection, MYSQL_DB))
 	{
 		debuglogger(DEBUG_MYSQL, NULL, "MySQL Database Selection Failure.");
 		pthread_exit(NULL);
@@ -365,7 +365,7 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 		string ifName  = snmp_get(*info, "ifName."  + ifIndex);			U_to_NULL(&ifName);
 		string ifDescr = snmp_get(*info, "ifDescr." + ifIndex);			U_to_NULL(&ifDescr);
 		string ifAlias = snmp_get(*info, "ifAlias." + ifIndex);			U_to_NULL(&ifAlias);
-		string ifSpeed = snmp_get(*info, "ifSpeed." + ifIndex);
+		string ifType  = snmp_get(*info, "ifType."  + ifIndex);
 		string ifMAC   = snmp_get(*info, "ifPhysAddress." + ifIndex);           U_to_NULL(&ifMAC);
 		string ifOperStatus  = snmp_get(*info, "ifOperStatus."  + ifIndex);
 		string ifAdminStatus = snmp_get(*info, "ifAdminStatus." + ifIndex);
@@ -376,7 +376,7 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 			"ifName = "		+ ifName			+ ", "  +
 			"ifDescr = "		+ ifDescr			+ ", "  +
 			"ifAlias = "		+ ifAlias			+ ", "  +
-			"ifSpeed = '"		+ ifSpeed			+ "', " +
+			"ifType = '"		+ ifType			+ "', " +
 			"ifMAC = "		+ ifMAC				+ ", "  +
 			"ifOperStatus = '" 	+ ifOperStatus			+ "', " +
 			"ifAdminStatus = '" 	+ ifAdminStatus			+ "'");
@@ -1429,28 +1429,40 @@ void show_usage()
 	printf("-v          Display Version\n");
 	printf("-h          Show usage (you are here)\n");
 	printf("-q          Quiet; display no debug messages\n");
+	printf("-i <devid>  Recache the interfaces of device <devid>\n");
 	printf("\n");
 }
 
-void try_snmpwalk()
+void external_interface_recache(int device_id)
 {
-	DeviceInfo info;
-	list<SNMPPair> results;
+	MYSQL 		mysql;
+	MYSQL_RES	*mysql_res;
+	MYSQL_ROW	mysql_row;
+        DeviceInfo	info;
 
-	info.ip = "127.0.0.1";
-	info.snmp_read_community = "public";
+	mysql = db_connect(mysql);
+	info.device_id = device_id;
+
+	mysql_res = db_query(&mysql, &info, "SELECT ip, snmp_read_community, snmp_enabled FROM mon_devices WHERE id=" + inttostr(device_id));
+        mysql_row = mysql_fetch_row(mysql_res);
+
+	if (strtoint(mysql_row[2]) != 1)
+	{
+		debuglogger(DEBUG_GLOBAL, &info, "Can't recache interfaces on a device without SNMP.");
+		exit(1);
+	}
+
+	info.ip 			= mysql_row[0];
+	info.snmp_read_community	= mysql_row[1];
+
+	mysql_free_result(mysql_res);
 
 	snmp_init();
-	results = snmp_walk(info, "ifIndex");
-	//do_snmp_interface_recache(&info);
+	do_snmp_interface_recache(&info, &mysql);
 	snmp_cleanup();
 
-	results = snmp_trim_rootoid(results, ".1.3.6.1.2.1.2.2.1.1.");
+	mysql_close(&mysql);
 
-	for (list<SNMPPair>::iterator current = results.begin(); current != results.end(); current++)
-	{
-		debuglogger(DEBUG_SNMP, &info, (*current).oid + " " + (*current).value);
-	}
 }
 
 // main - the body of the program
@@ -1458,13 +1470,13 @@ int main(int argc, char **argv)
 {
 	int option_char;
 
-	while ((option_char = getopt (argc, argv, "hvqX")) != EOF)
+	while ((option_char = getopt (argc, argv, "hvqi:")) != EOF)
 		switch (option_char)
 		{
 			case 'h': show_usage(); exit(0); break;
 			case 'v': show_version(); exit(0); break;
 			case 'q': debug_level = 0; break;
-			case 'X': try_snmpwalk(); exit(0); break;
+			case 'i': external_interface_recache(strtoint(optarg)); exit(0); break;
 		}
 
 	run_netmrg();

@@ -115,13 +115,13 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 		$dev_row = mysql_fetch_array($dev_results);
 		$dev_id  = $dev_row["id"];
 
-		make_display_item(	$dev_row["name"],"sub_devices.php?dev_id=$dev_id",
-			formatted_link("View Interface Cache", "snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface") . "&nbsp;" .
-			formatted_link("Recache Interfaces", "recache.php?dev_id=$dev_id") . "&nbsp;" .
-			formatted_link("Recache Disks", "recache.php?dev_id=$dev_id&type=disk"), "",
-			formatted_link("View", "view.php?pos_id_type=1&pos_id=$dev_id") . "&nbsp;" .
-			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST["grp_id"]}") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('" . $dev_row["name"] . "', '" . $dev_row["id"] . "')"), "");
+		make_display_item($dev_row["name"], "sub_devices.php?dev_id=$dev_id",
+			formatted_link("View Interface Cache",	"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface") . "&nbsp;" .
+			formatted_link("Recache Interfaces",	"recache.php?dev_id=$dev_id&type=interface") . "&nbsp;" .
+			formatted_link("Recache Disks",		"recache.php?dev_id=$dev_id&type=disk"), "",
+			formatted_link("View",			"view.php?pos_id_type=1&pos_id=$dev_id") . "&nbsp;" .
+			formatted_link("Edit",			"{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST["grp_id"]}") . "&nbsp;" .
+			formatted_link("Delete",		"javascript:del('" . $dev_row["name"] . "', '" . $dev_row["id"] . "')"), "");
 
 	} // end devices
 
