@@ -3,6 +3,7 @@
   - bug#0000250 - internal ucd user+system monitor should return U's when necessary
   - added the rest of the included internal tests to tests_internal in the default database
   - bug#0000236 - escaping fields displayed by rrdtool
+  - bug#0000158 - "advanced" monitor graphs, broken by timeframe changes, now fixed
   
 2004.08.20  v0.17cvs  balleman
   - bug#0000243 - gatherer man-page updates

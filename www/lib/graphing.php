@@ -77,7 +77,7 @@ function monitor_graph_command($id, $timeframe)
 
 		}
 
-		if (strpos($end_time, " ") !== false)
+		if (strpos($timeframe['end_time'], " ") !== false)
 		{
 			$timeframe['end_time'] = strtotime(substr($timeframe['end_time'],1));
 		}
