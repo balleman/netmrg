@@ -17,7 +17,6 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <pthread.h>
-#include <string.h>
 #include <string>
 #include <ucd-snmp/ucd-snmp-config.h>
 #include <ucd-snmp/ucd-snmp-includes.h>
@@ -27,13 +26,6 @@
 #include <errno.h>
 #include <ucd-snmp/mib.h>
 #include <slist.h>
-#include <getopt.h>
-
-#ifdef __linux__
-	#define _REENTRANT
-	#define _POSIX_SOURCE
-	#define _P __P
-#endif
 
 using namespace std;
 
@@ -1068,7 +1060,6 @@ void run_netmrg()
 	MYSQL_RES		*mysql_res;
 	MYSQL_ROW		mysql_row;
 	time_t			start_time;
-	time_t			run_time;
 	FILE			*lockfile;
 	long int		num_rows	= 0;
 	pthread_t*		threads		= NULL;
@@ -1088,7 +1079,7 @@ void run_netmrg()
 	// create lockfile
 	debuglogger(DEBUG_GLOBAL, NULL, "Creating Lockfile.");
 	lockfile = fopen("/var/www/netmrg/dat/lockfile","w+");
-	fprintf(lockfile, "%d", (long int) start_time);
+	fprintf(lockfile, "%ld", (long int) start_time);
 	fclose(lockfile);
 
 	// SNMP library initialization
@@ -1225,10 +1216,10 @@ void run_netmrg()
 	debuglogger(DEBUG_GLOBAL, NULL, "Cleaned up SNMP.");
 
 	// determine runtime and store it
-	run_time = time( NULL ) - start_time;
+	long int run_time = time( NULL ) - start_time;
 	debuglogger(DEBUG_GLOBAL, NULL, "Runtime: " + inttostr(run_time));
 	lockfile = fopen("/var/www/netmrg/dat/runtime","w+");
-	fprintf(lockfile, "%d", (long int) run_time);
+	fprintf(lockfile, "%ld", run_time);
 	fclose(lockfile);
 
 	// remove lock file
