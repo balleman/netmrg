@@ -55,11 +55,30 @@ function do_display()
 function display_edit()
 {
 	begin_page();
-	
+
+	if ($_REQUEST['action'] == "add")
+	{
+		$row['id'] 		= 0;
+		$row['mon_id'] 		= $_REQUEST['mon_id'];
+		$row['name']		= "";
+		$row['trigger_type']	= 2;
+		$row['situation']	= 1;
+	}
+	else
+	{
+		$query = do_query("SELECT * FROM events WHERE id={$_REQUEST['id']}");
+		$row   = mysql_fetch_array($query);
+	}
+
 	make_edit_table("Edit Event");
-
-
-        make_edit_end();
+        make_edit_text("Name:", "name", "25", "100", $row['name']);
+	make_edit_select_from_array("Trigger Type:", "trigger_type", $GLOBALS['TRIGGER_TYPES'], $row['trigger_type']);
+        make_edit_select_from_array("Situation:", "situation", $GLOBALS['SITUATIONS'], $row['situation']);
+	make_edit_hidden("mon_id", $row['mon_id']);
+	make_edit_hidden("id", $row['id']);
+	make_edit_hidden("action", "doedit");
+	make_edit_submit_button();
+	make_edit_end();
 	end_page();
 
 }

@@ -34,7 +34,7 @@ $TEST_TYPES = array(
 			2	=>	"SNMP",
 			3	=>	"SQL",
 			4	=>	"Internal");
-			
+
 $PERMIT_TYPES = array(
 			0	=>	"Single View Only",
 			1	=>	"Read All",
@@ -45,6 +45,17 @@ $SUB_DEVICE_TYPES = array(
 			1	=>	"Group",
 			2	=>	"Interface",
 			3	=>	"Disk");
+
+$TRIGGER_TYPES = array(
+			1	=>	"Always",
+			2	=>	"On Change",
+			3	=>	"Never (disabled)");
+
+$SITUATIONS = array(
+			0	=>	"Disabled",
+			1	=>	"Normal",
+			2	=>	"Warning",
+			3	=>	"Critical");
 
 
 
