@@ -287,7 +287,14 @@ function get_permit($user)
 	if (IsLoggedIn())
 	{
 		global $PERMIT;
-		$sql = "SELECT IF(disabled=0, permit, '".$PERMIT["Disabled"]."') AS permit FROM user WHERE user='".$user."'";
+		if ($GLOBALS["netmrg"]["verhist"][$GLOBALS["netmrg"]["dbversion"]] >= $GLOBALS["netmrg"]["verhist"]["0.17"])
+		{
+			$sql = "SELECT IF(disabled=0, permit, '".$PERMIT["Disabled"]."') AS permit FROM user WHERE user='".$user."'";
+		} // end if the disabled column works
+		else
+		{
+			$sql = "SELECT permit FROM user WHERE user='".$user."'";
+		} // end if no disabled column
 		$handle = db_query($sql);
 		$row = db_fetch_array($handle);
 		return $row["permit"];

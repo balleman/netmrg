@@ -75,7 +75,8 @@ require_once($GLOBALS["netmrg"]["imagebasedir"]."/imagespec.php");
 
 
 /***** STARTUP *****/
-$GLOBALS["netmrg"]["dbconn"] = db_connect();
+$GLOBALS["netmrg"]["dbconn"]    = db_connect();
+$GLOBALS["netmrg"]["dbversion"] = GetDBVersion();
 
 
 

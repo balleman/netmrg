@@ -2,6 +2,8 @@
   - updated bugs.pa.net to mantis 0.19.0, enabled sponsorships
   - bug#0000280 - Using checkbox delete in conditions.php gives errors when nothing is checked
   - bug#0000279 - new groups are always added with the Root parent
+  - fixed 'disabled user check' to take into account if we were 0.17 or not
+    (so updates can proceed)
 
 2004.09.13  v0.17cvs  keb
   - bug#0000271 - checkbox options should have a standard layout
