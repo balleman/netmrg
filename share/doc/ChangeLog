@@ -1,5 +1,6 @@
 2004.07.18  v0.17cvs  silfreed
   - bug#0000114 - checkboxes to delete users on users.php
+  - bug#0000201 - summary of each section in netmrg
 
 2004.06.30  v0.17cvs  balleman
   - bug#0000239 - variable substitution for notifications

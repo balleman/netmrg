@@ -702,6 +702,30 @@ their NetMRG administrator.
 </reference>
 <reference id="webpagedesc">
 	<title>Web Interface Descriptions</title>
+	<refentry id="Monitoring">
+		<refmeta>
+			<refentrytitle>Monitoring</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Monitoring</refname>
+			<refpurpose>Items associated with setting up gathering of information</refpurpose>
+		</refnamediv>
+		<refsect1><title>Description</title>
+			<refsect2><title>Groups</title>
+				<para>Management of <guilabel>Groups</guilabel>, Devices, Sub-devices, Monitors, Events, and the Notifications used by the events.</para>
+			</refsect2>
+			<refsect2><title>Device Types</title>
+				<para>Types of devices; unused at this point.</para>
+			</refsect2>
+			<refsect2><title>Notifications</title>
+				<para>Types of notifications that can be tied to events.</para>
+				<itemizedlist>
+					<listitem><para><userinput>Name</userinput> - Descriptive name of the notification</para></listitem>
+					<listitem><para><userinput>Command</userinput> - Command to execute for the notification.  Notifications that start with a '/' will use the ful path the the specified command, whereas commands without a starting '/' will start using NetMRG's libexec directory.  Parameter substitution is fully functional here, as well.</para></listitem>
+				</itemizedlist>
+			</refsect2>
+		</refsect1>
+	</refentry>
 	<refentry id="Groups">
 		<refmeta>
 			<refentrytitle>Groups</refentrytitle>
@@ -1030,6 +1054,109 @@ their NetMRG administrator.
 					<listitem><para><guilabel>Condition</guilabel> - the arithmetic operator to use when comparing the <guilabel>Value Type</guilabel> of the Monitor and the <guilabel>Value</guilabel> of the Condition.</para></listitem>
 					<listitem><para><guilabel>Value</guilabel> - the number used for comparision.</para></listitem>
 				</itemizedlist>
+			</refsect2>
+		</refsect1>
+	</refentry>
+	<refentry id="Reporting">
+		<refmeta>
+			<refentrytitle>Reporting</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Reporting</refname>
+			<refpurpose>Items whose purpose is to display and report information to the user.</refpurpose>
+		</refnamediv>
+		<refsect1><title>Description</title>
+			<refsect2><title>Device Tree</title>
+				<para>Displays graphs attached to Groups, Devices, etc, down to the monitor level.  Graph icons next to each level represent where views are attached to items.  Orange icons mean one or more graphs are linked here; grey icons mean there are non currently.</para>
+				<para>Groups will have a Slide Show icon next to them which will show all views in subgroups and devices underneath this group.</para>
+				<para>Most items will also have a pencil icon (when a user has Read/Write permissions) in order to quickly edit this item.</para>
+			</refsect2>
+			<refsect2><title>Event Log</title>
+				<para>When events are triggered, the record of their status changes can be viewed here.</para>
+			</refsect2>
+			<refsect2><title>Slide Show</title>
+				<para>Starts an in-order or random slide show of all views.  A 'Resume Slide Show' link will also appear to go back to the place where you left off if you leave the slide show.  If you have auto-scroll enabled, clicking anywhere on the page will pause the slideshow, and clicking again will resume scrolling.</para>
+			</refsect2>
+		</refsect1>
+	</refentry>
+	<refentry id="Graphing">
+		<refmeta>
+			<refentrytitle>Graphing</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Graphing</refname>
+			<refpurpose>Where graphs (compositions of one or more monitors) are created.</refpurpose>
+		</refnamediv>
+		<refsect1><title>Description</title>
+			<refsect2><title>Custom Graphs</title>
+				<para>Custom Graphs are graphs meant to only be used once.  If you have an application where you are going to apply the same type of monitors to more than one device (even if the parameters are different), use a template graph.</para>
+			</refsect2>
+			<refsect2><title>Template Graphs</title>
+				<para>Graphs intended to be used more than once.  Template graphs are applied to a sub-device at the view level.  It will look for the same type of monitors as it was created with and use the matching monitor types from whichever sub-device was selected.</para>
+				<para>Template graphs also have the added benefit of being applied to a sub-device, allowing you to automatically create the same monitor types inside a new sub-device, quickly adding more monitors to your device.</para>
+			</refsect2>
+		</refsect1>
+	</refentry>
+	<refentry id="Tests">
+		<refmeta>
+			<refentrytitle>Tests</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Tests</refname>
+			<refpurpose>The basis for all monitors; all monitors are based on the tests defined here.</refpurpose>
+		</refnamediv>
+		<refsect1><title>Description</title>
+			<refsect2><title>Scripts</title>
+				<para>Arbitrary scripts can be executed and their output or return values used as values to be monitored.</para>
+			</refsect2>
+			<refsect2><title>SNMP</title>
+				<para>SNMP (Simple Network Management Protocol) is the basis for much network monitoring.  Many devices support it through OID (Object Identifiers).  These values can be monitored over the network without physical access to the device you would like to monitor.</para>
+			</refsect2>
+			<refsect2><title>SQL</title>
+				<para>SQL (more specifically, MySQL) tests are useful when you have data that is otherwise in-accessable, or takes a long time to gather.  Rather than making the netmrg-gatherer run a script test that will take a long time, consider writing the script to run periodically (out of Cron, for example) and dumping its output into a MySQL database for NetMRG to gather later.  This greatly reduces NetMRG's runtime.</para>
+			</refsect2>
+		</refsect1>
+	</refentry>
+	<refentry id="Admin">
+		<refmeta>
+			<refentrytitle>Admin</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Admin</refname>
+			<refpurpose>Administrative functions not related to the reporting or gathering of information.</refpurpose>
+		</refnamediv>
+		<refsect1><title>Description</title>
+			<refsect2><title>Users</title>
+				<para>The area where you manage users that are allowed to view or modify graphs and parameters in NetMRG.  If you're using External Auth, you will also need to come here to create users to setup permissions for them to access your NetMRG installation.</para>
+			</refsect2>
+			<refsect2><title>Prefs</title>
+				<para>Preferences for your users (such as auto-scroll in the Slide Show, or changing your password).  If you're an admin, you will be able to change your users' prefs here, or you will only be able to change your own.</para>
+			</refsect2>
+			<refsect2><title>Logout</title>
+				<para>Logout of NetMRG.  NetMRG will keep its session active for 24 hours; this may allow other users to come and use your computer to view or modify your graphs if you don't close your browser.  Logging out of NetMRG will prevent accidental (or malevolent) activities in your NetMRG installation.</para>
+			</refsect2>
+		</refsect1>
+	</refentry>
+	<refentry id="Help">
+		<refmeta>
+			<refentrytitle>Help</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Help</refname>
+			<refpurpose>How to get assistance with NetMRG.</refpurpose>
+		</refnamediv>
+		<refsect1><title>Description</title>
+			<refsect2><title>About</title>
+				<para>Some basic information about NetMRG, its authors, the license, and credits to noteworthy contributors.</para>
+			</refsect2>
+			<refsect2><title>Manual</title>
+				<para>A link to the NetMRG Manual.</para>
+			</refsect2>
+			<refsect2><title>Forum</title>
+				<para>A link to the best place to go for useability questions.</para>
+			</refsect2>
+			<refsect2><title>Bugs</title>
+				<para>If you think you have found a bug, submit it here.</para>
 			</refsect2>
 		</refsect1>
 	</refentry>
