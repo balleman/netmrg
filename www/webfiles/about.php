@@ -31,12 +31,8 @@ Version <b><?php echo $GLOBALS["netmrg"]["version"]; ?></b><br>
 
 Copyright &copy; 2001-2003 <a href="http://thtech.net/brady/">Brady Alleman</a> and <a href="http://silfreed.net/">Douglas E. Warner</a>.<br>
 
-</big>
-<big>
 <br><br>
-
-Portions of this project were developed for <a href="http://www.ctinetworks.com/">CTI|Networks</a>.<br>
-<a href="http://raxnet.net/">Ian Berry</a> and <a href="http://haller.ws/">Patrick Haller</a> offered suggestions.<br>
+Special thanks to our <a href="contributors.php">other contributors</a>.
 
 </big>
 <br><br><br>
