@@ -17,6 +17,7 @@
 #                                                      #
 ########################################################
 
+require_once("../include/config.php");
 require_once("/var/www/netmrg/lib/stat.php");
 require_once(netmrg_root() . "lib/format.php");
 require_once(netmrg_root() . "lib/graphing.php");
@@ -25,37 +26,49 @@ view_check_auth();
 refresh_tag();
 begin_page();
 
-if ($action == "doadd")
-{
-	do_update("INSERT INTO view SET pos_id=$pos_id, pos_id_type=$pos_id_type, graph_id=$graph_id, graph_id_type=\"custom\"");
-	unset($action);
-	$full_edit = 1;
-}
+$full_edit = 0;
 
-if ($action == "dodelete")
-{
-	do_update("DELETE FROM view WHERE pos_id=$pos_id AND pos_id_type=$pos_id_type AND graph_id=$graph_id");
-	unset($action);
-	$full_edit = 1;
-}
+if (!empty($_REQUEST["action"])) {
+	if ($_REQUEST["action"] == "doadd")
+	{
+		do_update("INSERT INTO view SET 
+			pos_id=".$_REQUEST["pos_id"].", 
+			pos_id_type=".$_REQUEST["pos_id_type"].", 
+			graph_id=".$_REQUEST["graph_id"].", 
+			graph_id_type=\"custom\"");
+		unset($action);
+		$full_edit = 1;
 
-if ($action == "move")
-{
-	// do moving and stuff (... and things)
-	do_update("UPDATE view SET pos=$val WHERE pos_id=$pos_id AND pos_id_type=$pos_id_type AND graph_id=$graph_id");
-	unset($action);
+	} else if ($_REQUEST["action"] == "dodelete") {
+		do_update("DELETE FROM view 
+			WHERE pos_id=".$_REQUEST["pos_id"]." 
+			AND pos_id_type=".$_REQUEST["pos_id_type"]." 
+			AND graph_id=".$_REQUEST["graph_id"]);
+		unset($action);
+		$full_edit = 1;
 
-} // end do move
+	} else if ($_REQUEST["action"] == "move") {
+		// do moving and stuff (... and things)
+		do_update("UPDATE view SET pos=".$_REQUEST["val"]." 
+			WHERE pos_id=".$_REQUEST["pos_id"]." 
+			AND pos_id_type=".$_REQUEST["pos_id_type"]." 
+			AND graph_id=".$_REQUEST["graph_id"]);
+		unset($action);
+
+	} // end if we have an action to perform
+
+} // end if an action was defined
 
 $query = do_query("
 	SELECT * FROM view
 	LEFT JOIN graphs ON view.graph_id=graphs.id
-	WHERE pos_id_type=$pos_id_type AND pos_id=$pos_id
+	WHERE pos_id_type=".$_REQUEST["pos_id_type"]." 
+	AND pos_id=".$_REQUEST["pos_id"]."
 	ORDER BY pos");
 
 $num = mysql_num_rows($query);
 
-if (!isset($action))
+if (!isset($_REQUEST["action"]))
 {
 	if ($full_edit != 1)
 	{
@@ -106,24 +119,20 @@ if (!isset($action))
 	}
 }
 
-if ($action == "add")
-{
-	make_edit_table("Add Graph to View");
-	make_edit_select_from_table("Graph:","graph_id","graphs",0);
-	make_edit_hidden("pos_id",$pos_id);
-	make_edit_hidden("pos_id_type",$pos_id_type);
-	make_edit_hidden("action","doadd");
-	make_edit_submit_button();
-	make_edit_end();
 
-}
-
-
-if ($action == "delete")
-{
-	// Display delete confirmation
-
-	?>
+if (!empty($_REQUEST["action"])) {
+	if ($_REQUEST["action"] == "add")
+	{
+		make_edit_table("Add Graph to View");
+		make_edit_select_from_table("Graph:","graph_id","graphs",0);
+		make_edit_hidden("pos_id",$pos_id);
+		make_edit_hidden("pos_id_type",$pos_id_type);
+		make_edit_hidden("action","doadd");
+		make_edit_submit_button();
+		make_edit_end();
+	} else if ($_REQUEST["action"] == "delete") {
+		// Display delete confirmation
+?>
 
 	<font size="4" color="#800000">Confirm Delete</font><br><br>
 
@@ -140,9 +149,9 @@ if ($action == "delete")
 	<input type="submit" value="No">
 	</form>
 
-	<?
-
-} // end delete confirmation
+<?
+	} // end if action is to do something
+} // end if action is defined
 
 
 end_page();

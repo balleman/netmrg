@@ -13,91 +13,116 @@
 #                                                      #
 ########################################################
 
+require_once("../include/config.php");
 require_once("/var/www/netmrg/lib/stat.php");
 require_once(netmrg_root(). "lib/database.php");
 
+
+/**
+* check_user_pass($user, $pass);
+*
+* verifies a username and password agains what's in the database
+*   $user = username
+*   $pass = password
+*/
 function check_user_pass($user, $pass)
 {
-	$res = 0;
-	$sql = "SELECT 1 FROM user WHERE user='$user' AND pass=ENCRYPT('$pass', pass)";
-	$handle = do_query($sql);
-	$num = mysql_num_rows($handle);
-	if ($num == 1)
+	$auth_valid = false;
+	$auth_select = "SELECT 1 FROM user WHERE user='$user' AND pass=ENCRYPT('$pass', pass)";
+	$auth_result = do_query($auth_select);
+	if (mysql_num_rows($auth_result) > 0)
 	{ 
-		$res = 1; 
+		$auth_valid = true;
 	} 
 	else 
 	{ 
-		$res = 0;
+		$auth_valid = false;
 	}
-	return $res;
 
-} # end check_user_pass
+	return $auth_valid;
+} // end check_user_pass()
+
 
 function get_full_name($user)
 {
 	$q = do_query("SELECT fullname FROM user WHERE user='$user'");
 	$r = mysql_fetch_array($q);
 	return $r["fullname"];
-}
+} // end get_full_name()
 
-function check_auth($level) {
 
-global $user_name, $password, $REQUEST_URI;
-$res = check_user_pass($user_name, $password);
-if ($res != 1) {
-	# Hacker Alert!
-	setcookie("redir",$REQUEST_URI);
-	header("Location: ./login.php?action=invalid");
-	exit;
-	} else {
-	if (get_permit() < $level) {
+function check_auth($level)
+{
+	$valid_user = false;
+
+	if (!empty($_SESSION["netmrg"]["username"]) && !empty($_SESSION["netmrg"]["password"])) {
+		$valid_user = check_user_pass($_SESSION["netmrg"]["username"], $_SESSION["netmrg"]["password"]);
+ 	} // end if a username and password has been set, try to auth
+
+	if ($valid_user == false) {
+		# Hacker Alert!
+		setcookie("redir", $_SERVER["REQUEST_URI"]);
+		header("Location: ./login.php?action=invalid");
+		exit;
+
+	} else if (get_permit() < $level) {
 		#setcookie("redir",$REQUEST_URI);
 		header("Location: ./login.php?action=denied");
 		exit;
-		}
+
 	}
+} // end check_auth()
 
-} #end check_auth
 
-function view_check_auth() {
-global $user_name, $password, $pos_id, $pos_id_type, $REQUEST_URI;
-check_auth(0);
-$handle = do_query("SELECT * FROM user WHERE user='$user_name' AND pass=ENCRYPT('$password','$password')");
-$row = mysql_fetch_array($handle);
-if (!((($row["view_id"] == $pos_id) && ($row["view_type"] == $pos_id_type)) || (get_permit() > 0)))
+function view_check_auth()
+{
+	global $pos_id, $pos_id_type;
+	check_auth(0);
+	$handle = do_query("SELECT * FROM user WHERE user='".$_SESSION["netmrg"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrg"]["password"]."',pass)");
+	$row = mysql_fetch_array($handle);
+	if (!((($row["view_id"] == $pos_id) && ($row["view_type"] == $pos_id_type)) || (get_permit() > 0)))
 	{
-	setcookie("redir",$REQUEST_URI);
-	header("Location: ./login.php?action=denied");
-	exit;
+		$_SESSION["netmrg"]["redir"] = $_SERVER["REQUEST_URI"];
+		header("Location: ./login.php?action=denied");
+		exit;
 	}
+} // end view_check_auth()
 
-} # end view_check_auth
 
-function cache_auth() {
-global $user_name, $password;
-setcookie("user_name", $user_name);
-setcookie("password", $password);
-} # end save_auth
+/**
+* DEPRICATED
+*/
+function cache_auth()
+{
+} // end save_auth()
 
-function get_permit() {
-global $user_name, $password;
-$sql = "SELECT * FROM user WHERE user='$user_name' AND pass=ENCRYPT('$password','$password')";
-$handle = do_query($sql);
-$row = mysql_fetch_array($handle);
-return $row["permit"];
-}
 
-function view_redirect() {
-global $user_name, $password, $redir;
-$sql = "SELECT * FROM user WHERE user='$user_name' AND pass=ENCRYPT('$password','$password')";
-$handle = do_query($sql);
-$row = mysql_fetch_array($handle);
-if (($redir == "") || (get_permit() == 0))
-	{ header("Location: ./view.php?pos_id_type=" . $row["view_type"] . "&pos_id=" . $row["view_id"]); }
+function get_permit()
+{
+	if (!empty($_SESSION["netmrg"]["username"]) && !empty($_SESSION["netmrg"]["password"])) {
+		$sql = "SELECT * FROM user WHERE user='".$_SESSION["netmrg"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrg"]["password"]."',pass)";
+		$handle = do_query($sql);
+		$row = mysql_fetch_array($handle);
+		return $row["permit"];
+	} // end if there is somebody logged in, get their permissions
+	return false;
+} // end get_permit()
+
+function view_redirect()
+{
+	$sql = "SELECT * FROM user WHERE user='".$_SESSION["netmrg"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrg"]["password"]."',pass)";
+	$handle = do_query($sql);
+	$row = mysql_fetch_array($handle);
+	if (empty($_SESSION["netmrg"]["redir"]) || (get_permit() == 0))
+	{
+		header("Location: ./view.php?pos_id_type=" . $row["view_type"] . "&pos_id=" . $row["view_id"]);
+	}
 	else
-	{ header("Location: $redir"); 
-	  setcookie("redir", "", time() - 3600); }
-}
+	{
+		$redir = $_SESSION["netmrg"]["redir"];
+		unset($_SESSION["netmrg"]["redir"]);
+		header("Location: $redir");
+	}
+} // end view_redirect()
 
 ?>

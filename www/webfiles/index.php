@@ -18,19 +18,24 @@ require_once(netmrg_root() . "lib/format.php");
 require_once(netmrg_root() . "lib/auth.php");
 check_auth(1);
 
-if (isset($action))
+if (!empty($action))
 {
         begin_page();
-        ?>
+?>
 
-        <font size="5" color="#000080">Welcome to the NetMRG Integrator</font>
+	<font size="5" color="#000080">Welcome to the NetMRG Integrator</font>
 
-        <?
-        if ($action == "denied") { echo "<br><b> Your last action was DENIED </b><br>"; }
-        if ($action == "invalid") { echo "<br><b> Your credentials were REJECTED </b><br>"; }
-        end_page();
+<?
+	if ($action == "denied") {
+		echo "<br><b> Your last action was DENIED </b><br>";
+	} else if ($action == "invalid") {
+		echo "<br><b> Your credentials were REJECTED </b><br>";
+	}
+	end_page();
+
 } else {
-        header("Location: login.php");
-       }
+	header("Location: login.php");
+
+} // end if there is an action or not
 
 ?>
