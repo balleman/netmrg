@@ -4,6 +4,7 @@
   - bug#0000110 - tests_sql.php checkboxes
   - bug#0000103 - events.php checkboxes
   - bug#0000104 - responses.php checkboxes
+  - bug#0000105 - conditions.php checkboxes
 
 2004.09.11  v0.17cvs  silfreed
   - bug#0000200 - Need a tutorial on how to create custom/template graphs

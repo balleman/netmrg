@@ -24,7 +24,8 @@ if (isset($_REQUEST['action']))
 		 	break;
 		case "doedit":
 			do_edit();
-	 		break;
+			break;
+		case "multidodelete":
 		case "dodelete":
 			do_delete();
 			break;
@@ -43,6 +44,13 @@ function do_display()
 
 	check_auth($PERMIT["ReadAll"]);
 	begin_page("conditions.php", "Conditions");
+	js_checkbox_utils();
+	?>
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+	<input type="hidden" name="action" value="">
+	<input type="hidden" name="event_id" value="<?php echo $_REQUEST['event_id']; ?>">
+	<input type="hidden" name="tripid" value="<?php echo $_REQUEST['tripid']; ?>">
+	<?php
 	PrepGroupNavHistory("event", $_REQUEST["event_id"]);
 	DrawGroupNavHistory("event", $_REQUEST["event_id"]);
 
@@ -59,6 +67,7 @@ function do_display()
 
 	js_confirm_dialog("del", "Are you sure you want to delete condition ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}&id=");
 	make_display_table("Conditions", "{$_SERVER['PHP_SELF']}?action=add&event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}$nologic", 
+		array("text" => checkbox_toolbar()),
 		array("text" => "Condition")
 	); // end make_display_table();
 
@@ -76,14 +85,22 @@ function do_display()
 			$nologic = "&nologic=1";
 		}
 		make_display_item("editfield".($i%2),
+			array("checkboxname" => "condition", "checkboxid" => $row['id']),
 			array("text" => $condition_name),
 			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}&tripid={$_REQUEST['tripid']}$nologic") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('" . $condition_name . "','" . $row['id'] . "')"))
 		); // end make_display_item();
 	}
+	?>
+	<tr>
+		<td colspan="3" class="editheader" nowrap="nowrap">
+			&lt;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked sub-devices?')){document.form.submit();}" href="#">Delete All Checked</a>&gt;
+	</tr>
+	<?php
 	make_status_line("condition", $rows);
 	?>
 	</table>
+	</form>
 	<?php
 	end_page();
 } // end do_display();
@@ -136,9 +153,9 @@ function do_edit()
 {
 	check_auth($PERMIT["ReadWrite"]);
 
-        if ($_REQUEST['id'] == 0)
+	if ($_REQUEST['id'] == 0)
 	{
-                $pre  = "INSERT INTO";
+		$pre  = "INSERT INTO";
 		$post = ", event_id={$_REQUEST['event_id']}";
 	}
 	else
@@ -147,18 +164,26 @@ function do_edit()
 		$post = "WHERE id = {$_REQUEST['id']}";
 	}
 
-        db_update("$pre conditions SET logic_condition={$_REQUEST['logic_condition']}, value_type={$_REQUEST['value_type']}, condition={$_REQUEST['condition']}, value={$_REQUEST['value']} $post");
+	db_update("$pre conditions SET logic_condition={$_REQUEST['logic_condition']}, value_type={$_REQUEST['value_type']}, condition={$_REQUEST['condition']}, value={$_REQUEST['value']} $post");
 
-        header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");
+	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");
 } // end do_edit();
 
 
 function do_delete()
 {
 	check_auth($PERMIT["ReadWrite"]);
-
-        db_update("DELETE FROM conditions WHERE id = {$_REQUEST['id']}");
-
+	if (isset($_REQUEST['condition']))
+	{
+		while (list($key,$value) = each($_REQUEST["condition"]))
+		{
+			db_update("DELETE FROM conditions WHERE id = '$key'");
+		}
+	}
+	else
+	{
+		db_update("DELETE FROM conditions WHERE id = {$_REQUEST['id']}");
+	}
 	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");
 } // end do_delete();
 
