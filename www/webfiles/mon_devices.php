@@ -159,44 +159,30 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	$dev_ip = $dev_row["ip"];
 	if ($_REQUEST["action"] == "addnew") {
 		$dev_row["check_if_number"] = 1;
+		$dev_row["dev_type"] = "";
+		$dev_row["disabled"] = 0;
+		$dev_row["snmp_enabled"] = 0;
+		$dev_row["snmp_read_community"] = "";
+		$dev_row["snmp_recache"] = 0;
+		$dev_row["snmp_check_ifnumber"] = 0;
 	}
 
-	if ($_REQUEST["action"] == "addnew") {
-		make_edit_table("Add Device");
-		make_edit_group("General");
-		make_edit_text("Name:","dev_name","25","100","");
-		make_edit_text("IP or Host Name:","dev_ip","25","100","");
-		make_edit_select_from_table("Device Type:","dev_type","mon_device_types","");
-		make_edit_checkbox("Disabled (do not monitor this device)","disabled","");
-		make_edit_group("SNMP");
-		make_edit_checkbox("This device uses SNMP", "snmp_enabled", "");
-		make_edit_text("SNMP Read Community:","snmp_read_community",50,200,"");
-		make_edit_checkbox("Do not cache interface mappings","snmp_recache","");
-		make_edit_checkbox("Clear interface cache when interface count changes","snmp_check_ifnumber","");
-		make_edit_hidden("dev_id", $dev_id);
-		make_edit_hidden("action","doedit");
-		make_edit_hidden("grp_id",$_REQUEST["grp_id"]);
-		make_edit_submit_button();
-		make_edit_end();
-
-	} else {
-		make_edit_table("Edit Device");
-		make_edit_group("General");
-		make_edit_text("Name:","dev_name","25","100",$dev_name);
-		make_edit_text("IP or Host Name:","dev_ip","25","100",$dev_ip);
-		make_edit_select_from_table("Device Type:","dev_type","mon_device_types",$dev_row["dev_type"]);
-		make_edit_checkbox("Disabled (do not monitor this device)","disabled",$dev_row["disabled"]);
-		make_edit_group("SNMP");
-		make_edit_checkbox("This device uses SNMP", "snmp_enabled", $dev_row["snmp_enabled"]);
-		make_edit_text("SNMP Read Community:","snmp_read_community",50,200,$dev_row["snmp_read_community"]);
-		make_edit_checkbox("Do not cache interface mappings","snmp_recache",$dev_row["snmp_recache"]);
-		make_edit_checkbox("Clear interface cache when interface count changes","snmp_check_ifnumber",$dev_row["snmp_check_ifnumber"]);
-		make_edit_hidden("dev_id", $_REQUEST["dev_id"]);
-		make_edit_hidden("action","doedit");
-		make_edit_hidden("grp_id",$_REQUEST["grp_id"]);
-		make_edit_submit_button();
-		make_edit_end();
-	} // end if addnew or edit
+	make_edit_table("Edit Device");
+	make_edit_group("General");
+	make_edit_text("Name:","dev_name","25","100",$dev_name);
+	make_edit_text("IP or Host Name:","dev_ip","25","100",$dev_ip);
+	make_edit_select_from_table("Device Type:","dev_type","mon_device_types",$dev_row["dev_type"]);
+	make_edit_checkbox("Disabled (do not monitor this device)","disabled",$dev_row["disabled"]);
+	make_edit_group("SNMP");
+	make_edit_checkbox("This device uses SNMP", "snmp_enabled", $dev_row["snmp_enabled"]);
+	make_edit_text("SNMP Read Community:","snmp_read_community",50,200,$dev_row["snmp_read_community"]);
+	make_edit_checkbox("Do not cache interface mappings","snmp_recache",$dev_row["snmp_recache"]);
+	make_edit_checkbox("Clear interface cache when interface count changes","snmp_check_ifnumber",$dev_row["snmp_check_ifnumber"]);
+	make_edit_hidden("dev_id", $dev_id);
+	make_edit_hidden("action","doedit");
+	make_edit_hidden("grp_id",$_REQUEST["grp_id"]);
+	make_edit_submit_button();
+	make_edit_end();
 
 } // end if edit
 
