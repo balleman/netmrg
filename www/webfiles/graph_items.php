@@ -180,7 +180,7 @@ if (empty($_REQUEST["action"]))
 		make_display_item("editfield".($ds_count%2),
 			array("text" => $ds_row["label"]),
 			array("text" => color_block($ds_row["color"]) . "&nbsp;&nbsp;" . $RRDTOOL_ITEM_TYPES[$ds_row["type"]]),
-			array("text" => formatted_link("View", "enclose_graph.php?type=custom_ds&id=" . $ds_row["id"]) . "&nbsp;" .
+			array("text" => formatted_link("View", "enclose_graph.php?type=custom_item&id=" . $ds_row["id"]) . "&nbsp;" .
 				$move_up . "&nbsp;" . $move_down),
 			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id=$id&graph_id={$_REQUEST['graph_id']}") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('" . addslashes($ds_row["label"]) . "', '" . $ds_row["id"] . "')"))
