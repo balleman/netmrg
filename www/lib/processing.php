@@ -573,20 +573,41 @@ function GetUsername($uid)
 function duplicate_device($dev_id)
 {
 	// duplicate device
-	db_query("INSERT INTO devices
-				(name, ip, snmp_read_community, dev_type, snmp_recache, disabled, snmp_check_ifnumber, snmp_version, snmp_timeout, snmp_retries, snmp_port)
-				SELECT concat(name, ' (duplicate)'), ip, snmp_read_community, dev_type, snmp_recache, disabled, snmp_check_ifnumber, snmp_version, snmp_timeout, snmp_retries, snmp_port FROM devices
-				WHERE id=$dev_id");
+	db_query("CREATE TEMPORARY TABLE tmpdev 
+		SELECT id, name, ip, snmp_read_community, dev_type, snmp_recache_method, 
+			disabled, snmp_avoided, snmp_uptime, snmp_ifnumber, snmp_version, snmp_timeout, 
+			snmp_retries, snmp_port 
+			FROM devices
+			WHERE id='$dev_id'");
+	db_query("
+		INSERT INTO devices
+		(name, ip, snmp_read_community, dev_type, snmp_recache_method, disabled,  
+			snmp_avoided, snmp_uptime, snmp_ifnumber, snmp_version, snmp_timeout, 
+			snmp_retries, snmp_port)
+		SELECT concat(name, ' (duplicate)'), ip, snmp_read_community, dev_type, snmp_recache_method, 
+			disabled, snmp_avoided, snmp_uptime, snmp_ifnumber, snmp_version, snmp_timeout, 
+			snmp_retries, snmp_port 
+			FROM tmpdev
+			WHERE id='$dev_id'");
 	$new_dev_id = db_insert_id();
-
+	db_query("DROP TABLE tmpdev");
+	
 	// duplicate parent associations
-	db_query("INSERT INTO dev_parents (grp_id, dev_id) SELECT grp_id, $new_dev_id FROM dev_parents WHERE dev_id=$dev_id");
-
+	db_query("CREATE TEMPORARY TABLE tmp_dev_parents
+		SELECT grp_id, dev_id FROM dev_parents WHERE dev_id=$dev_id");
+	db_query("INSERT INTO dev_parents (grp_id, dev_id) 
+		SELECT grp_id, $new_dev_id FROM tmp_dev_parents WHERE dev_id=$dev_id");
+	db_query("DROP TABLE tmp_dev_parents");
+	
 	// duplicate view
+	db_query("CREATE TEMPORARY TABLE tmp_view
+		SELECT object_id, object_type, graph_id, type, pos, separator_text, subdev_id
+		FROM view WHERE object_id=$dev_id AND object_type='device'");
 	db_query("INSERT INTO view (object_id, object_type, graph_id, type, pos, separator_text, subdev_id)
-				SELECT $new_dev_id, object_type, graph_id, type, pos, separator_text, subdev_id
-				FROM view WHERE object_id=$dev_id AND object_type='device'");
-
+		SELECT $new_dev_id, object_type, graph_id, type, pos, separator_text, subdev_id
+		FROM tmp_view WHERE object_id=$dev_id AND object_type='device'");
+	db_query("DROP TABLE tmp_view");
+	
 	// duplicate subdevices
 	$res = db_query("SELECT id FROM sub_devices WHERE dev_id=$dev_id");
 	while ($row = db_fetch_array($res))
@@ -594,7 +615,7 @@ function duplicate_device($dev_id)
 		duplicate_subdevice($row['id'], $new_dev_id);
 	}
 
-}
+} // end duplicate_device();
 
 function duplicate_subdevice($subdev_id, $new_parent = -1)
 {
