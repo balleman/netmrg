@@ -1,3 +1,4 @@
+deleting a device doesn't delete the dev_parents entries
 fix everything so register_globals can be off
 get auth w/ php sessions to work
   - include check for REMOTE_ADDR
