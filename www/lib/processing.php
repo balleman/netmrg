@@ -745,6 +745,28 @@ function update_group($id, $grp_name, $grp_comment, $parent_id)
 
 
 /**
+* GetUserPref($module, $pref)
+*
+* returns the value for the $module and $pref wanted
+*/
+function GetUserPref($module, $pref)
+{
+	$sql = "SELECT user_pref.value
+		FROM user, user_pref
+		WHERE user.username = '{$_SESSION['netmrgsess']['username']}'
+		AND user.id = user_pref.id
+		AND module = '$module' AND pref = '$pref'";
+	$handle = db_query($sql);
+	if (db_num_rows($handle) > 0)
+	{
+		$row = db_fetch_array($handle);
+		return $row["value"];
+	} // end if a result
+	return "";
+} // end GetUserPref();
+
+
+/**
 * GetDBVersion()
 *
 * returns the version the database thinks we are

@@ -40,7 +40,7 @@ switch ($_REQUEST['action'])
 	case "update":
 		update($_REQUEST["uid"]);
 		break;
-		
+
 	case "edit":
 	default:
 		edit($_REQUEST["uid"]);
@@ -59,17 +59,17 @@ switch ($_REQUEST['action'])
 function edit($uid)
 {
 	$username = GetUsername($uid);
-	
+
 	begin_page("user_prefs.php", "User Preferences ($username)");
-	
+
 	make_edit_table("Edit Preferences for $username");
 	make_edit_hidden("action", "update");
 	make_edit_hidden("uid", $uid);
-	
+
 	// edit password
 	make_edit_password("Password:", "password", "25", "50", "");
 	make_edit_password("Verify Password:", "vpassword", "25", "50", "");
-	
+
 	make_edit_submit_button();
 	make_edit_end();
 
@@ -85,14 +85,14 @@ function edit($uid)
 function update($uid)
 {
 	$username = GetUsername($uid);
-	
+
 	begin_page("user_prefs.php", "User Preferences ($username)");
-	
+
 	// array of error messages
 	$errors = array();
 	// array of results
 	$results = array();
-	
+
 	// if password
 	if (!empty($_REQUEST["password"]))
 	{
@@ -101,22 +101,29 @@ function update($uid)
 			array_push($errors, "Your passwords do not match");
 		} // end if passwords don't match
 	} // end if ! password
-	
+
 	// if there were errors, display them and quit
 	if (count($errors) != 0)
 	{
 		DisplayErrors($errors);
 		return;
 	} // end if errors
-	
+
 	// update password
-	db_query("UPDATE user SET pass = md5('{$_REQUEST['password']}') 
-		WHERE id = '$uid'");
-	array_push($results, "Password updated successfully.");
-	
+	if (!empty($_REQUEST["password"]))
+	{
+		db_query("UPDATE user SET pass = md5('{$_REQUEST['password']}')
+			WHERE id = '$uid'");
+		array_push($results, "Password updated successfully.");
+	} // end if ! password
+
 	// print results
+	if (count($results) == 0)
+	{
+		array_push($results, "Nothing was modified");
+	} // end if no results
 	DisplayResults($results);
-	
+
 	end_page();
 } // end update();
 

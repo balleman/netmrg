@@ -65,6 +65,7 @@ version bump in:
   share/doc/VERSION
   www/lib/stat.php
 copy items from DBChangeLog to www/webfiles/updater.php
+generate new template database
 generate new docs
 test tutorial
 tag CVS (ex: netmrg-0_10)

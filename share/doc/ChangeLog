@@ -1,6 +1,7 @@
 2003.11.20  v0.10  silfreed
   - bug#0000057 - added checkbox support to snmp_cache_view.php to
       make interfaces
+  - start of user prefs (created table and function to return prefs)
 
 2003.11.17  v0.10  balleman
   - add debug messages for thread locking
