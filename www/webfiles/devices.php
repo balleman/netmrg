@@ -31,10 +31,13 @@ switch ($_REQUEST["action"])
 		
 	case "deletemulti" :
 		check_auth($PERMIT["ReadWrite"]);
-		foreach ($_REQUEST["dev_id"] as $key => $val)
+		if (isset($_REQUEST["dev_id"]))
 		{
-			delete_device($key, $_REQUEST["grp_id"]);
-		} // end foreach group, delete
+			foreach ($_REQUEST["dev_id"] as $key => $val)
+			{
+				delete_device($key, $_REQUEST["grp_id"]);
+			} // end foreach group, delete
+		}
 		display();
 	
 	case "doaddtogrp":
