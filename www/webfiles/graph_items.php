@@ -62,12 +62,6 @@ function doedit()
 		$post = "WHERE id = {$_REQUEST['id']}";
 	}
 
-	$_REQUEST['color'] = db_escape_string($_REQUEST['color']);
-	$_REQUEST['label'] = db_escape_string($_REQUEST['label']);
-	$_REQUEST['multiplier'] = db_escape_string($_REQUEST['multiplier']);
-	$_REQUEST['start_time'] = db_escape_string($_REQUEST['start_time']);
-	$_REQUEST['end_time'] = db_escape_string($_REQUEST['end_time']);
-	
 	$graph_ds_query = "$pre graph_ds
 		SET mon_id='{$_REQUEST['mon_id']}', color='{$_REQUEST['color']}', 
 		 type='{$_REQUEST['type']}', graph_id='{$_REQUEST['graph_id']}', 

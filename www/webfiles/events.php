@@ -142,7 +142,6 @@ function do_edit()
 		$post = "WHERE id = {$_REQUEST['id']}";
 	}
 
-	$_REQUEST['name'] = db_escape_string($_REQUEST['name']);	
 	db_update("$pre events SET name = '{$_REQUEST['name']}', trigger_type={$_REQUEST['trigger_type']}, situation={$_REQUEST['situation']} $post");
 	header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&tripid={$_REQUEST['tripid']}");
 }

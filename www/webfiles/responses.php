@@ -125,7 +125,6 @@ function do_edit()
 		$post = "WHERE id = {$_REQUEST['id']}";
 	}
 	
-	$_REQUEST['parameters'] = db_escape_string($_REQUEST['parameters']);
 	db_update("$pre responses SET notification_id = '{$_REQUEST['notification_id']}', parameters ='{$_REQUEST['parameters']}' $post");
 	
 	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");

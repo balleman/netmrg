@@ -54,12 +54,9 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 	$pass_cmd = "";
 	if (!empty($_REQUEST["pass"]))
 	{
-		$_REQUEST['pass'] = db_escape_string($_REQUEST['pass']);
 		$pass_cmd = "pass = md5('{$_REQUEST['pass']}'), ";
 	} // end if new password to set
 	
-	$_REQUEST['user'] = db_escape_string($_REQUEST['user']);
-	$_REQUEST['fullname'] = db_escape_string($_REQUEST['fullname']);
 	if (empty($_REQUEST["group_id"]))
 	{
 		$_REQUEST["group_id"] = 0;

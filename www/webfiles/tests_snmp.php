@@ -39,9 +39,6 @@ if ($action == "doedit")
 		$db_end = "WHERE id={$_REQUEST["test_id"]}";
 	}
 
-	$_REQUEST['test_name'] = db_escape_string(fix_magic_quotes($_REQUEST['test_name']));
-	$_REQUEST['test_oid'] = db_escape_string(fix_magic_quotes($_REQUEST['test_oid']));
-
 	db_update("$db_cmd tests_snmp SET name=\"{$_REQUEST["test_name"]}\", oid=\"{$_REQUEST["test_oid"]}\", dev_type={$_REQUEST["dev_type"]}, type='{$_REQUEST['type']}', subitem='{$_REQUEST['subitem']}' $db_end");
 	header("Location: {$_SERVER['PHP_SELF']}");
 	exit();

@@ -1131,8 +1131,6 @@ function generic_update($sql, $id)
 
 function sql_group($grp_name, $grp_comment, $parent_id)
 {
-	$grp_name = db_escape_string($grp_name);
-	$grp_comment = db_escape_string($grp_comment);
 	return "groups SET name='$grp_name', comment='$grp_comment', parent_id='$parent_id'";
 }
 

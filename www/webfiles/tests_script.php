@@ -38,9 +38,6 @@ if ($action == "doedit")
 		$db_end = "WHERE id={$_REQUEST["test_id"]}";
 	}
 
-	$_REQUEST['test_name'] = db_escape_string(fix_magic_quotes($_REQUEST['test_name']));
-	$_REQUEST['test_cmd'] = db_escape_string(fix_magic_quotes($_REQUEST['test_cmd']));
-
 	db_update("$db_cmd tests_script SET name='{$_REQUEST['test_name']}', cmd='{$_REQUEST['test_cmd']}', data_type='{$_REQUEST['data_type']}', dev_type='{$_REQUEST['dev_type']}' $db_end");
 	Header("Location: {$_SERVER['PHP_SELF']}");
 	exit();

@@ -408,7 +408,7 @@ function do_edit()
 		sub_dev_id='{$_REQUEST['subdev_id']}',
 		test_type='{$_REQUEST['test_type']}',
 		test_id='{$_REQUEST['test_id']}',
-		test_params='" . db_escape_string(fix_magic_quotes($_REQUEST['test_params'])) ."',
+		test_params='" . $_REQUEST['test_params'] ."',
 		data_type='{$_REQUEST['data_type']}',
 		min_val={$_REQUEST['min_val']},
 		max_val={$_REQUEST['max_val']},

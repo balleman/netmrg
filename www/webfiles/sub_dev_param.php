@@ -78,9 +78,6 @@ elseif ($_REQUEST["action"] == "doedit")
 		$db_end = "WHERE name=\"{$_REQUEST['oldname']}\" AND sub_dev_id={$_REQUEST['sub_dev_id']}";
 	}
 
-	$_REQUEST['name'] = db_escape_string($_REQUEST['name']);
-	$_REQUEST['value'] = db_escape_string($_REQUEST['value']);
-	
 	db_update("$db_cmd sub_dev_variables SET
 			name=\"{$_REQUEST['name']}\",
 			value=\"{$_REQUEST['value']}\",
@@ -126,7 +123,6 @@ elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 elseif ($_REQUEST["action"] == "dodelete")
 {
 	check_auth($PERMIT["ReadWrite"]);
-	$_REQUEST['name'] = db_escape_string($_REQUEST['name']);
 	db_update("DELETE FROM sub_dev_variables WHERE sub_dev_id={$_REQUEST['sub_dev_id']} AND name='{$_REQUEST['name']}' AND type='static'");
 	header("Location: " . $_SERVER["PHP_SELF"] . "?sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}");
 }
