@@ -315,7 +315,7 @@ function delete_group($group_id)
 	db_update("DELETE FROM groups WHERE id=$group_id");
 
 	// delete the associated graphs
-	db_update("DELETE FROM view WHERE pos_id_type=0 AND pos_id=$group_id");
+	db_update("DELETE FROM view WHERE object_type='group' AND object_id=$group_id");
 
 	$devices_handle = db_query("SELECT id FROM devices WHERE group_id=$group_id");
 
