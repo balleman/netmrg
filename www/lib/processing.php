@@ -771,7 +771,7 @@ function GetXMLConfig()
 	$GLOBALS["netmrg"]["webroot"]      = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["WEBROOT"][0]["VALUE"];
 	if (!isset($xmlconfig["NETMRG"][0]["WEBSITE"][0]["EXTERNALAUTH"]))
 	{
-		$xmlconfig["NETMRG"][0]["WEBSITE"][0]["EXTERNALAUTH"] == false;
+		$xmlconfig["NETMRG"][0]["WEBSITE"][0]["EXTERNALAUTH"][0]["VALUE"] = false;
 	} // end set default for external auth
 	if ($xmlconfig["NETMRG"][0]["WEBSITE"][0]["EXTERNALAUTH"][0]["VALUE"] == "true")
 	{
