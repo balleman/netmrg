@@ -83,7 +83,7 @@ function check_auth($level)
 	if (!IsLoggedIn())
 	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
-		header("Location: {$GLOBALS['netmrg']['webroot']}/login.php?action=invalid");
+		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=invalid");
 		exit;
 
 	} // end if they aren't logged in
@@ -91,7 +91,7 @@ function check_auth($level)
 	// if they don't have enough permissions
 	else if (get_permit() < $level)
 	{
-		header("Location: {$GLOBALS['netmrg']['webroot']}/login.php?action=denied");
+		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
 		exit;
 
 	} // end if they don't have enough permissions
@@ -113,7 +113,7 @@ function view_check_auth($pos_id, $pos_id_type)
 	if (!(($row["view_id"] == $pos_id && $row["view_type"] == $pos_id_type) || get_permit() > 0))
 	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
-		header("Location: {$GLOBALS['netmrg']['webroot']}/login.php?action=denied");
+		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
 		exit;
 	}
 } // end view_check_auth()
