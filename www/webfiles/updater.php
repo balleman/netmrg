@@ -70,7 +70,7 @@ $dbupdates = array(
 	), // end 0.13
 	"0.14" => array(), // end 0.14
 	"0.15" => array(), // end 0.15
-	"0.16cvs" => array() // end 0.16cvs
+	"0.16" => array() // end 0.16
 ); // end $dbupdates;
 
 // check what to do

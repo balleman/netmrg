@@ -636,7 +636,7 @@ CREATE TABLE versioninfo (
 --
 
 
-INSERT INTO versioninfo VALUES ('Main','0.16cvs');
+INSERT INTO versioninfo VALUES ('Main','0.16');
 
 --
 -- Table structure for table `view`
