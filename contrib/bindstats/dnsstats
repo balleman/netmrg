@@ -1,0 +1,282 @@
+#!/usr/bin/perl
+#
+# dnsstats.pl
+#
+# read in a query log from stdin or a file and
+# keep stats on # of types of queries per server in a database
+# and rewrite the query log to a file in apache common log format
+# to be parsed later by something like webalizer
+#
+
+
+#####
+# LIBRARIES
+#####
+
+use strict;
+use DBI;
+use Getopt::Long;
+use Date::Parse;
+use POSIX qw(strftime);
+
+
+#####
+# VARIABLES
+#####
+
+## program variables
+our $progname = "dnsstats";
+our $version = "0.1";
+our $mysql = {
+	"host" => "localhost",
+	"user" => "root",
+	"pass" => "",
+	"dbname" => "dnsstats",
+};
+our $dnslog = "dns-apache.log";
+# %typestats = (
+#   "ns1.pa.net" => (
+#     "IN A" => 349303,
+#     "IN PTR" => 9332,
+#   ),
+our %typestats;
+our $dbh;
+my $logline;
+my $linenum = 0;
+my $logat = 100;
+my $getopt_result;
+
+## args
+our $input = "STDIN";
+our $hostname = "";
+our $hostnamere = qr{.*}; # ^ns\d+\.pa\.net$
+
+
+#####
+# FORWARD DECLAIRATIONS
+#####
+sub Usage();
+sub Stop();
+sub MySQLConnect();
+sub ReadStats();
+sub StatsLog();
+
+###
+## Sig Handlers
+###
+$SIG{HUP} = sub { close(APLOG); open(APLOG, ">>$dnslog")};
+$SIG{INT} = sub {close (LOG); close (APLOG); StatsLog(); Stop(); };
+
+
+
+#####
+# MAIN
+#####
+
+$getopt_result = GetOptions(
+	"i|input=s"      => \$input,
+	"o|output=s"     => \$dnslog,
+	"h|hostname=s"   => \$hostname,
+	"r|hostnamere=s" => sub { $hostnamere = qr{$_[1]}; },
+);
+
+Usage() if (!$getopt_result);
+
+## check to see if input method works
+if ($input eq "STDIN")
+{
+	open(LOG, "-");
+} # end if stdin
+else
+{
+	# if the file is readable
+	if (-r $input)
+	{
+		open(LOG, $input);
+	} # end if file readable
+	else
+	{
+		print "File '$input' not readable\n\n";
+		Usage();
+	} # end if file not readable
+} # end if not stdin
+
+## open the apache log file
+unless (open(APLOG, ">>$dnslog"))
+{
+	print "Could not open '$dnslog' for apache logfile\n\n";
+	Usage();
+} # end if we couldn't open the apache log
+
+
+## Connect to database
+MySQLConnect();
+
+## read in old stats
+ReadStats();
+
+## read in the log and do stuff
+while (chomp($logline = <LOG>))
+{
+	# info we're interested in
+	my $time;
+	my $client;
+	my $query;
+	my $type;
+
+	# keep track of # of lines seen
+	$linenum++;
+
+	# this is a named query log
+	# Aug 22 19:53:31.963 queries: client 199.224.127.102#33132: query: www.pa.net IN A
+	if ($logline =~ /^(\w+\s+\d+\s+\S+)\s+queries:\s+client\s+(\S+)#\S+:\s+query:\s+(\S+)\s+(\S+\s+\S+)$/)
+	{
+		$time = $1;
+		$client = $2;
+		$query = $3;
+		$type = $4;
+
+		# if we don't have a hostname for the named query log
+		if ($hostname eq "")
+		{
+			print "Hostname needed for named query log\n\n";
+			Usage();
+		} # end if no hostname
+	} # end if named query log
+	# this is a syslog query log
+	# Aug 23 11:08:43 ns1.pa.net named[24527]: Aug 23 11:08:41.181queries: client 209.12.32.106#39468: query: ns1.pa.net IN A
+	elsif ($logline =~ /^(\w+\s+\d+\s+\S+)\s+(\S+).*?client\s+(\S+)#\S+:\s+query:\s+(\S+)\s+(\S+\s+\S+)\s*$/)
+	{
+		$time = $1;
+		$hostname = $2;
+		$client = $3;
+		$query = $4;
+		$type = $5;
+	} # end if syslog query log
+
+	# log info to a file
+	if (defined($client) && $hostname =~ $hostnamere)
+	{
+		# increment stats for this type on this host
+		$typestats{$hostname}{$type}++;
+
+		my $fmttime = strftime("[%d/%b/%Y:%H:%M:%S %z]", localtime(str2time($time)));
+		my $get = "$query $type";
+		$get =~ s/\s+/\//g;
+		print APLOG "$hostname $client - - $fmttime \"GET /$get HTTP/1.0\" 200 100\n";
+	} # end if we have data to log
+
+	# if we've seen enough log lines, dump the info to database
+	&StatsLog() if ($linenum % $logat == 0);
+} # end while log left
+
+close (LOG);
+close (APLOG);
+
+## make sure we log some stats
+StatsLog();
+
+# exit nicely
+Stop();
+
+
+#####
+# SUBROUTINES
+#####
+
+###
+# Usage();
+#
+# howto use this program
+#
+sub Usage()
+{
+	print <<END;
+==== $progname v$version ====
+Usage: $progname [(-i|--input) (<file>|STDIN)] [(-o|--ouput) <file>]
+    [(-h|--hostname) <hostname>] [(-r|--hostnamere) <hostname regex>]
+
+  --input       specify the file to read in or STDIN if input is on
+                the command line
+                [STDIN]
+  --output      specify the file to write the apache log file to
+  --hostname    needed when log is a named query log - specifies the host to
+                log stats for in the database and to use as the 'host' in the
+                apache log
+  --hostnamere  regex for the hostnames to match
+
+END
+	Stop();
+} # end Usage();
+
+
+###
+# Stop();
+#
+# exits nicely
+#
+sub Stop()
+{
+	exit();
+} # end Stop();
+
+
+###
+# MySQLConnect()
+#
+# connects to database
+#
+sub MySQLConnect()
+{
+	$dbh = DBI->connect("DBI:mysql:database=$mysql->{dbname};host=$mysql->{host}",
+		$mysql->{user}, $mysql->{pass});
+
+	if (!$dbh)
+	{
+		print "MySQLConnect: ERROR: couldn't connect to database\n\n";
+		Stop();
+	} # end if we didn't connect
+} # end MySQLConnect();
+
+
+###
+# ReadStats()
+#
+# read in old stats from database
+#
+sub ReadStats()
+{
+	my $db_stats = $dbh->prepare("SELECT host, type, counter FROM dnsstats");
+	$db_stats->{'PrintError'} = 0;
+	$db_stats->execute();
+
+	while (my $r = $db_stats->fetchrow_hashref())
+	{
+		$typestats{$r->{host}}{$r->{type}} = $r->{counter};
+	} # end while each row
+
+	$db_stats->finish();
+} # end ReadStats();
+
+
+###
+# StatsLog()
+#
+# logs statistics for $host of $type
+#
+sub StatsLog()
+{
+	# foreach host
+	foreach my $host (keys(%typestats))
+	{
+		# foreach type
+		foreach my $type (keys(%{$typestats{$host}}))
+		{
+			$dbh->do("REPLACE INTO dnsstats SET
+				host = '$host',
+				type = '$type',
+				counter = '$typestats{$host}{$type}'");
+		} # end foreach type
+	} # end foreach host
+} # end StatsLog();
+

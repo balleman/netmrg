@@ -1,0 +1,7 @@
+create table dnsstats (
+	host     varchar(64) not null,
+	type     varchar(16) not null,
+	counter  int not null,
+	primary key (host, type)
+);
+
