@@ -33,7 +33,7 @@ function dereference_templated_monitor($mon_id, $subdev_id)
 	{
 		return $mon_id;
 	}
-}
+} // end dereference_templated_monitor();
 
 
 function get_graph_command($type, $id, $hist)

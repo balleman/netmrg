@@ -119,37 +119,36 @@ if (empty($_REQUEST["action"]))
 	 	 ORDER BY 	pos";
 
 	$view_result = db_query($view_select);
-	$num = db_num_rows($view_result);
 
 	if (!isset($_REQUEST['edit']) || ($_REQUEST['edit'] == 0))
 	{
+		echo '<!-- graphs start -->'."\n";
+		echo "<div align=\"center\">";
 
-		print("<div align=\"center\">");
-
-		for ($i = 0; $i < $num; $i++)
+		while ($row = db_fetch_array($view_result))
 		{
-			$row = db_fetch_array($view_result);
-
 			switch ($row['type'])
 			{
 				case "graph":
-				print("<a href=\"enclose_graph.php?type=custom&id={$row['graph_id']}\">" .
-					"<img border=\"0\" src=\"get_graph.php?type=custom&id={$row['graph_id']}\"></a><br>");
-				break;
+					echo '<a href="enclose_graph.php?type=custom&id='.$row["graph_id"].'">'."\n";
+					echo '	<img src="get_graph.php?type=custom&id='.$row["graph_id"].'" border="0">'."\n";
+					echo "</a><br />\n";
+					break;
 
 				case "template":
-				print("<a href=\"enclose_graph.php?type=template&id={$row['graph_id']}&subdev_id={$row['subdev_id']}\">" . 
-					"<img border=\"0\" src=\"get_graph.php?type=template&id={$row['graph_id']}&subdev_id={$row['subdev_id']}\"></a><br>");
-				break;
+					echo '<a href="enclose_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].'">'."\n";
+					echo '	<img src="get_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].'" border="0">'."\n";
+					echo "</a><br />\n";
+					break;
 				
 				case "separator":
-				print("<table width='100%' bgcolor='#0011AA'><tr><td><b><font color='AAAAAA'>" . $row["separator_text"] . "</font></b></td></tr></table>");
-				break;
-			}
+					echo '<table width="100%" bgcolor="#0011AA"><tr><td><b><font color="AAAAAA">' . $row["separator_text"] . '</font></b></td></tr></table>'."\n";
+					break;
+			} // end switch row type
+		} // end while each row
 
-		}
-
-		print("</div>");
+		echo "</div>\n";
+		echo '<!-- graphs end -->'."\n";
 
 		if (get_permit() > 1)
 		{
