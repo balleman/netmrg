@@ -127,13 +127,14 @@ $VIEW_ITEM_TYPES = array(
 		'separator'	=>	"Separator");
 
 $INTERFACE_STATUS = array(
-			1	=>	"Up",
-			2	=>	"Down",
-			3	=>	"Testing",
-			4	=>	"Unknown",
-			5	=>	"Dormant",
-			6	=>	"Lower Layer Down"
-			);
+	1 => "Up",
+	2 => "Down",
+	3 => "Testing",
+	4 => "Unknown",
+	5 => "Dormant",
+	6 => "Not Present",
+	7 => "Lower Layer Down"
+	);
 
 $INTERFACE_TYPE = array(
 			1	=>	"Other",

@@ -1,3 +1,6 @@
+2004.03.10  v0.14cvs  dwarner
+  - bug#0000169 - stat.php interface operstatus doesn't match IF-MIB
+
 2004.03.10  v0.14cvs  keb
   - bug#0000165 - let single-view only users view/change preferences
   - bug#0000166 - fix bug where user can't modify preferences
