@@ -129,7 +129,7 @@ void run_netmrg()
 	// verify the database version matches the gatherer version
 	mysql_res = db_query(&mysql, NULL, "SELECT version FROM versioninfo WHERE module = 'Main'");
 	mysql_row = mysql_fetch_row(mysql_res);
-	if (mysql_row[0] != NETMRG_VERSION)
+	if (string(mysql_row[0]) != string(NETMRG_VERSION))
 	{
 		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, string("Critical: Database version (") + mysql_row[0] + ") and gatherer version (" + NETMRG_VERSION + ") do not match.");
 		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Log into the web interface to perform the database upgrade.");
