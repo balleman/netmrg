@@ -22,6 +22,7 @@ $GLOBALS["netmrg"]["verhist"] = array(
 	"0.17cvs" => 9
 ); // end verhist
 
+
 $MENU = array(
 	"Monitoring" => array(
 		array("name" => "Groups", "link" => "grpdev_list.php", "descr" => "", "authLevelRequired" => 1),
@@ -65,80 +66,92 @@ if ( !empty($_SESSION["netmrgsess"]["slideshow"])
 	array_push($MENU["Reporting"], array("name" => "&nbsp&nbsp;Resume Slide Show", "link" => "view.php?action=slideshow&jump=$rss_jump", "descr" => "Resumes slide show in progress.", "authLevelRequired" => 1));
 } // end if in the middle of a slide show
 
+
 $PERMIT = array(
 	'Disabled'       => -1,
 	'SingleViewOnly' => 0,
 	'ReadAll'        => 1,
 	'ReadWrite'      => 2,
 	'Admin'          => 3
-	); // end $PERMIT
+); // end $PERMIT
 
 $ALIGN_ARRAY = array(
-			1	=>	"Left",
-			2	=>	"Right",
-			3	=>	"Right Split");
+	1 => "Left",
+	2 => "Right",
+	3 => "Right Split"
+); // end ALIGN_ARRAY
 
 $RRDTOOL_ITEM_TYPES = array(
-
-			1	=>	"LINE1",
-			2	=>	"LINE2",
-			3	=>	"LINE3",
-			4	=>	"AREA",
-			5	=>	"STACK");
+	1 => "LINE1",
+	2 => "LINE2",
+	3 => "LINE3",
+	4 => "AREA",
+	5 => "STACK"
+); // end RRDTOOL_ITEM_TYPES
 
 $SPECIAL_MONITORS = array(
-			-1	=>	"-Fixed Value-",
-			-2	=>	"-Sum of all graph items-");
+	-1 => "-Fixed Value-",
+	-2 => "-Sum of all graph items-"
+); // end SPECIAL_MONITORS
 
 $TEST_TYPES = array(
-			1	=>	"Script",
-			2	=>	"SNMP",
-			3	=>	"SQL",
-			4	=>	"Internal");
+	1 => "Script",
+	2 => "SNMP",
+	3 => "SQL",
+	4 => "Internal"
+); // end TEST_TYPES
 
 $PERMIT_TYPES = array(
-			$PERMIT["SingleViewOnly"]	=>	"Single View Only",
-			$PERMIT["ReadAll"]		=>	"Read All",
-			$PERMIT["ReadWrite"]		=>	"Read/Write",
-			$PERMIT["Admin"]		=>	"Read/Write/User Admin");
+	$PERMIT["SingleViewOnly"] => "Single View Only",
+	$PERMIT["ReadAll"]        => "Read All",
+	$PERMIT["ReadWrite"]      => "Read/Write",
+	$PERMIT["Admin"]          => "Read/Write/User Admin"
+); // end PERMIT_TYPES
 
 $SUB_DEVICE_TYPES = array(
-			1	=>	"Group",
-			2	=>	"Interface",
-			3	=>	"Disk");
+	1 => "Group",
+	2 => "Interface",
+	3 => "Disk"
+); // end SUB_DEVICE_TYPES
 
 $TRIGGER_TYPES = array(
-			1	=>	"On Change",
-			2	=>	"Never (disabled)");
+	1 => "On Change",
+	2 => "Never (disabled)"
+); // end TRIGGER_TYPES
 
 $SITUATIONS = array(
-			0	=>	"Disabled",
-			1	=>	"Normal",
-			2	=>	"Warning",
-			3	=>	"Critical");
+	0 => "Disabled",
+	1 => "Normal",
+	2 => "Warning",
+	3 => "Critical"
+); // end SITUATIONS
 
 $LOGIC_CONDITIONS = array(
-			0	=>	"AND",
-			1	=>	"OR");
+	0 => "AND",
+	1 => "OR"
+); // end LOGIC_CONDITIONS
 
 $CONDITIONS = array(
-			0	=>	"&lt;",
-			1	=>	"=",
-			2	=>	"&gt;",
-			3	=>	"&le;",
-			4	=>	"&ne;",
-			5	=>	"&ge;");
+	0 => "&lt;",
+	1 => "=",
+	2 => "&gt;",
+	3 => "&le;",
+	4 => "&ne;",
+	5 => "&ge;"
+); // end CONDITIONS
 
 $VALUE_TYPES = array(
-			0	=>	"Current Value",
-			1	=>	"Delta Value",
-			2	=>	"Rate of Change",
-			3	=>	"Last Value");
-			
+	0 => "Current Value",
+	1 => "Delta Value",
+	2 => "Rate of Change",
+	3 => "Last Value"
+); // end VALUE_TYPES
+
 $VIEW_ITEM_TYPES = array(
-		'graph'		=>	"Graph",
-		'template'  =>	"Templated Graph",
-		'separator'	=>	"Separator");
+	'graph'     => "Graph",
+	'template'  => "Templated Graph",
+	'separator' => "Separator"
+); // end VIEW_TIME_TYPES
 
 $INTERFACE_STATUS = array(
 	1 => "Up",
@@ -148,98 +161,99 @@ $INTERFACE_STATUS = array(
 	5 => "Dormant",
 	6 => "Not Present",
 	7 => "Lower Layer Down"
-	);
+); // end INTERFACE_STATUS
 
 $INTERFACE_TYPE = array(
-			1	=>	"Other",
-			6	=>	"Ethernet",
-			15	=>	"FDDI",
-			18	=>	"DS1",
-			20	=>	"BRI",
-			21	=>	"PRI",
-			22	=>	"PTP Serial",
-			23	=>	"PPP",
-			24	=>	"Loopback",
-			28	=>	"SLIP",
-			32	=>	"Frame Relay",
-			33	=>	"RS232",
-			37	=>	"ATM",
-			39	=>	"SDH",
-			45	=>	"V.35",
-			46	=>	"HSSI",
-			47	=>	"HIPPI",
-			49	=>	"AAL5",
-			53	=>	"Virtual",
-			71	=>	"802.11",
-			107	=>	"IMA",
-			117	=>	"Gigabit Ethernet",
-			134	=>	"ATM Subinterface"
-			);
+	1   => "Other",
+	6   => "Ethernet",
+	15  => "FDDI",
+	18  => "DS1",
+	20  => "BRI",
+	21  => "PRI",
+	22  => "PTP Serial",
+	23  => "PPP",
+	24  => "Loopback",
+	28  => "SLIP",
+	32  => "Frame Relay",
+	33  => "RS232",
+	37  => "ATM",
+	39  => "SDH",
+	45  => "V.35",
+	46  => "HSSI",
+	47  => "HIPPI",
+	49  => "AAL5",
+	53  => "Virtual",
+	71  => "802.11",
+	107 => "IMA",
+	117 => "Gigabit Ethernet",
+	134 => "ATM Subinterface"
+); // end INTERFACE_TYPE
 
 $SNMP_VERSIONS = array(
-			0	=>	"No SNMP Support",
-			1	=>	"SNMPv1",
-			2	=>	"SNMPv2c"/*,
-			3	=>	"SNMPv3"*/
-			);
+	0 => "No SNMP Support",
+	1 => "SNMPv1",
+	2 => "SNMPv2c"/*,
+	3 => "SNMPv3"*/
+); // end SNMP_VERSIONS
 
 $RECACHE_METHODS = array(
-			0	=>	"Never refresh cache",
-			1	=>	"Refresh on SNMP agent restart",
-			2	=>	"Refresh on interface count change",
-			3	=>	"Refresh on interface count mismatch",
-			4	=>	"Always refresh cache"
-			);
+	0 => "Never refresh cache",
+	1 => "Refresh on SNMP agent restart",
+	2 => "Refresh on interface count change",
+	3 => "Refresh on interface count mismatch",
+	4 => "Always refresh cache"
+); // end RECACHE_METHODS
 
 $SCRIPT_DATA_TYPES = array(
-			1	=>	"Error Code",
-			2	=>	"Standard Out"
-			);
+	1 => "Error Code",
+	2 => "Standard Out"
+); // end SCRIPT_DATA_TYPES
 
-			
 $TIMEFRAME_DAILY = array(
-			'name'			=> "Daily",
-			'start_time' 	=> "-108000",
-			'end_time'		=> "-360",
-			'break_time' 	=> (time() - (date("s") + date("i") * 60 + date("H") * 3600)),
-			'sum_label'		=> "24 Hour",
-			'sum_time'		=> "86400"
-			);
+	'name'       => "Daily",
+	'start_time' => "-108000",
+	'end_time'   => "-360",
+	'break_time' => (time() - (date("s") + date("i") * 60 + date("H") * 3600)),
+	'sum_label'  => "24 Hour",
+	'sum_time'   => "86400"
+); // end TIMEFRAME_DAILY
 
 $TIMEFRAME_WEEKLY = array(
-			'name'			=> "Weekly",
-			'start_time' 	=> "-777600",
-			'end_time'		=> "-360",
-			'break_time' 	=> (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("w") * 86400)),
-			'sum_label'		=> "7 Day",
-			'sum_time'		=> "604800"
-			);			
+	'name'       => "Weekly",
+	'start_time' => "-777600",
+	'end_time'   => "-360",
+	'break_time' => (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("w") * 86400)),
+	'sum_label'  => "7 Day",
+	'sum_time'   => "604800"
+); // end TIMEFRAME_WEEKLY
 
 $TIMEFRAME_MONTHLY = array(
-			'name'			=> "Monthly",
-			'start_time' 	=> "-3628800",
-			'end_time'		=> "-360",
-			'break_time' 	=> (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("d") * 86400)),
-			'sum_label'		=> "4 Week",
-			'sum_time'		=> "2419200"
-			);
+	'name'       => "Monthly",
+	'start_time' => "-3628800",
+	'end_time'   => "-360",
+	'break_time' => (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("d") * 86400)),
+	'sum_label'  => "4 Week",
+	'sum_time'   => "2419200"
+); // end TIMEFRAME_MONTHLY
 
 $TIMEFRAME_YEARLY = array(
-			'name'			=> "Yearly",
-			'start_time' 	=> "-36720000",
-			'end_time'		=> "-360",
-			'break_time' 	=> (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("z") * 86400)),
-			'sum_label'		=> "1 Year",
-			'sum_time'		=> "31536000"
-			);
+	'name'       => "Yearly",
+	'start_time' => "-36720000",
+	'end_time'   => "-360",
+	'break_time' => (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("z") * 86400)),
+	'sum_label'  => "1 Year",
+	'sum_time'   => "31536000"
+); // end TIMEFRAME_YEARLY
 
 $TIMEFRAMES = array( $TIMEFRAME_DAILY, $TIMEFRAME_WEEKLY, $TIMEFRAME_MONTHLY, $TIMEFRAME_YEARLY );
-		
+
+
+
 // Return the path to an image based on the internal name of the image.
 function get_image_by_name($img_name)
 {
 	$image = "";
-
+	
 	switch ($img_name)
 	{
 		// graphics
@@ -285,8 +299,8 @@ function get_image_by_name($img_name)
 		case "viewgraph-off" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['viewgraph-off']}";
 			break;
-
-
+		
+		
 		// LEDs
 		case "blue_led_on" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['status-unknown-trig']}";
@@ -317,28 +331,27 @@ function get_image_by_name($img_name)
 		case "hide"  :  $image = "{$GLOBALS['netmrg']['staticimagedir']}/hide.gif"; break;
 		case "show"  :  $image = "{$GLOBALS['netmrg']['staticimagedir']}/show.gif"; break;
 	}
-
+	
 	return $image;
 } // end get_image_by_name();
 
 
 $alt_color = 0;
-
 function get_color_by_name($color_name)
 {
 	GLOBAL $alt_color;
-
+	
 	$color = "#FFFFFF";
-
+	
 	switch ($color_name)
 	{
-		case "site_background"	:	$color = "#EDEBEB"; break;
-		case "site_text"		:	$color = "#000000"; break;
-		case "site_link"		:	$color = "#076D07"; break;
-		case "site_vlink"		:	$color = "#076D07"; break;
-		case "site_alink"		:	$color = "#FF0000"; break;
-		case "edit_header"		:	$color = "#000088"; break;
-		case "edit_fields"		:
+		case "site_background" : $color = "#EDEBEB"; break;
+		case "site_text"       : $color = "#000000"; break;
+		case "site_link"       : $color = "#076D07"; break;
+		case "site_vlink"      : $color = "#076D07"; break;
+		case "site_alink"      : $color = "#FF0000"; break;
+		case "edit_header"     : $color = "#000088"; break;
+		case "edit_fields"     :
 		{
 			if ($alt_color == 0)
 			{
@@ -352,12 +365,12 @@ function get_color_by_name($color_name)
 			}
 			break;
 		}
-		case "edit_header_text"		:	$color = "#C0C0C0"; break;
-		case "edit_main_header"		:	$color = "#005000"; break;
-		case "edit_main_header_text":	$color = "#C0C0C0"; break;
-		case "menu_background"		:	$color = "#D9D9D9"; break;
+		case "edit_header_text"      : $color = "#C0C0C0"; break;
+		case "edit_main_header"      : $color = "#005000"; break;
+		case "edit_main_header_text" : $color = "#C0C0C0"; break;
+		case "menu_background"       : $color = "#D9D9D9"; break;
 	}
-
+	
 	return $color;
 } // end get_color_by_name
 
