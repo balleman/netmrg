@@ -1,10 +1,3 @@
-== requirements for 0.10pre2 ==
-easier && more documented builds in freebsd
-bug#0000020: custom polling intervals
-bug#0000032: getopt/unistd issues
-bug#0000036: install shouldn't overwrite config
-
-
 == global ==
 device duplication
 documentation
@@ -16,7 +9,7 @@ page titles should reflect where you're at
 view page should reflect status information
   (based on status of monitors of graphs)
 user preferences
-  themes passwords
+  themes
 a device's type can affect the list of tests that can be performed on it
 when looking at a device's graphs, you should be able to click next to it
   and follow it to the next device (if applicable)
@@ -26,7 +19,6 @@ ensure proper escaping in all queries
 == silfreed ==
 public website
   - add news section
-ability to go 'up' a level when browsing 'Groups' et al
 checkboxes on most pages - provide for massive deletes, duplications, etc
 make netmrg xhtml compliant
 make icons for links on various pages
@@ -59,5 +51,4 @@ wizards
   - /wizard dir
   - index.php reads in other files to know name, description, etc
   - used for generating/updating special/large devices (catalyst switches, maxtnts)
-
 
