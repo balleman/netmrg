@@ -261,6 +261,17 @@ A.editfield1, A:visited.editfield1
 	font-weight : bold;
 }
 
+.viewseparator
+{
+	background-color : #4040B0;
+	color : #F0F0F0;
+	font-family : sans-serif;
+	font-size : 12px;
+	font-weight : bold;
+	padding : 1px;
+	border : 2px solid white;
+}
+
 .disabled
 {
 	color : #C0C0C0;

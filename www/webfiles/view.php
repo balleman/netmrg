@@ -242,7 +242,7 @@ if (empty($_REQUEST["action"]))
 					break;
 				
 				case "separator":
-					echo '<table width="100%" ><tr><td class="editheader">' . $row["separator_text"] . '</td></tr></table>'."\n";
+					echo '<table width="100%" ><tr><td class="viewseparator">' . $row["separator_text"] . '</td></tr></table>'."\n";
 					break;
 			} // end switch row type
 		} // end while each row
