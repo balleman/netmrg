@@ -107,7 +107,7 @@ if (!empty($pagename))
 	</td>
 </tr>
 </table>
-<? // needs some kind of spacing for IE.  A <br> is too much.
+<?php // needs some kind of spacing for IE.  A <br> is too much.
 ?>
 <table cellspacing="0" cellpadding="0" border="0" width="100%">
 <tr>

@@ -120,7 +120,8 @@ $MENU = array(
 	),
 	"Reporting" => array(
 		array("name" => "Device Tree", "link" => "device_tree.php", "descr" => "", "authLevelRequired" => 1),
-		array("name" => "Event Log", "link" => "event_log.php", "descr" => "Display a list of the most recent events.", "authLevelRequired" => 1)
+		array("name" => "Event Log", "link" => "event_log.php", "descr" => "Display a list of the most recent events.", "authLevelRequired" => 1),
+		array("name" => "Slide Show", "link" => "view.php?action=slideshow", "descr" => "Displays all devices, one page at a time.", "authLevelRequired" => 1)
 	),
 	"Graphing" => array(
 		array("name" => "Custom Graphs", "link" => "graphs.php?type=custom", "descr" => "", "authLevelRequired" => 1),

@@ -14,6 +14,7 @@ require_once("../include/config.php");
 //this line will need redone...
 //view_check_auth($_REQUEST["pos_id"], $_REQUEST["pos_id_type"]);
 
+$slideshow = false;
 
 if (!empty($_REQUEST["action"]))
 {
@@ -102,11 +103,95 @@ if (!empty($_REQUEST["action"]))
 		header("Location: {$_SERVER['PHP_SELF']}?object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&edit=1");
 		exit(0);
 
+	}
+	elseif ($_REQUEST["action"] == "slideshow")
+	{
+		if (!isset($_REQUEST["object_type"]) || !isset($_REQUEST["object_id"]) || !isset($_REQUEST["slide"]))
+		{
+			// we're just starting a slideshow, not in the middle of one.
+			$myq = db_query("SELECT object_type, object_id FROM view LEFT JOIN devices ON view.object_id=devices.id
+								WHERE object_type='device' AND devices.disabled=0 GROUP BY object_type, object_id LIMIT 0,1");
+			$myr = db_fetch_array($myq);
+			$_REQUEST["object_type"] = $myr["object_type"];
+			$_REQUEST["object_id"] = $myr["object_id"];
+			$_REQUEST["slide"] = 0;
+		}
+		$slideshow = true;
+		unset($_REQUEST['action']);
+
+		$offset = $_REQUEST['slide'] + 1;
+		$myq = db_query("SELECT object_type, object_id FROM view LEFT JOIN devices ON view.object_id=devices.id
+			WHERE object_type='device' AND devices.disabled=0 GROUP BY object_type, object_id LIMIT $offset,1");
+		if ($myr = db_fetch_array($myq))
+		{
+			$slide_show_link = "{$_SERVER['PHP_SELF']}?action=slideshow&object_type={$myr['object_type']}&object_id={$myr['object_id']}&slide=$offset";
+			$slide_show_formatted_link = formatted_link("Next Slide", $slide_show_link);
+		}
+		else
+		{
+			$slide_show_link = "{$_SERVER['PHP_SELF']}?action=slideshow";
+			$slide_show_formatted_link = formatted_link("Restart Slideshow", $slide_show_link);
+		}
+
+		?>
+		<script language="javascript">
+		<!--
+		function myHeight()
+		{
+			return document.body.offsetHeight;
+		}
+
+		function nextPage()
+		{
+			window.location = "<?php echo($slide_show_link); ?>";
+		}
+
+		function myScroll()
+		{
+			if (running)
+			{
+				documentYposition += scrollAmount;
+				window.scroll(0,documentYposition);
+				if (documentYposition > documentLength)
+					nextPage(); 
+			}
+			setTimeout('myScroll()',scrollInterval);
+		}
+
+		function start()
+		{
+			documentLength = myHeight();
+			myScroll();
+		}
+
+		function toggle()
+		{
+			running = !running;
+		}
+			
+
+		var documentLength;
+		var scrollAmount = 100;    
+		var scrollInterval = 1000; 
+		var documentYposition = 0;
+		var running = true;
+
+		-->
+		</script>
+		<?php
+
 	} // end if we have an action to perform
 
 } // end if an action was defined
 
-begin_page("view.php", "View", 1);
+if ($slideshow)
+{
+	begin_page("view.php", "View", 1, "onLoad=start() onClick=toggle()");
+}
+else
+{
+	begin_page("view.php", "View", 1);
+}
 
 if (empty($_REQUEST["action"]))
 {
@@ -155,6 +240,11 @@ if (empty($_REQUEST["action"]))
 		{
 			print(formatted_link("Edit", "{$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1"));
 
+		}
+
+		if ($slideshow)
+		{
+			print($slide_show_formatted_link);
 		}
 
 	}
