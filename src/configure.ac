@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.10 $)
+AC_REVISION($Revision: 1.11 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -60,17 +60,13 @@ AC_ARG_WITH(snmp-lib-dir,
 AC_ARG_WITH(xml2-include-dir,
 	AC_HELP_STRING(
 		[--with-xml2-include-dir],
-		[XML2 include directory [[/usr/include/libxml2]]]),
-	[xml2_include_dir=$withval],
-	[xml2_include_dir="/usr/include/libxml2"])
+		[XML2 include directory]),
+	[xml2_include_dir=$withval])
 AC_ARG_WITH(xml2-lib-dir,
 	AC_HELP_STRING(
 		[--with-xml2-lib-dir],
-		[XML2 library directory [[/usr/lib]]]),
-	[xml2_lib_dir=$withval],
-	[xml2_lib_dir="/usr/lib"])
-LDFLAGS="$LDFLAGS -L$xml2_lib_dir"
-CPPFLAGS="$CPPFLAGS -I$xml2_include_dir"
+		[XML2 library directory]),
+	[xml2_lib_dir=$withval])
 
 # if host_alias is empty, ac_cv_host_alias may still have the info
 if test -z "$host_alias"; then
@@ -111,7 +107,36 @@ AC_CHECK_LIB(dl, dlopen)
 AC_CHECK_LIB(z, compress)
 AC_CHECK_LIB(pthread, pthread_exit)
 AC_CHECK_LIB(stdc++, main)
-AC_CHECK_LIB(xml2, xmlParseFile)
+
+## Determine XML2 library path
+# try and find libs without any additional libraries
+AC_CHECK_LIB(xml2, xmlParseFile,
+	XML2_LIBS=" ",
+	XML2_LIBS=
+)
+
+# hunt through several directories trying to find the libraries
+if test "x$XML2_LIBS" = "x"; then
+	old_LDFLAGS="$LDFLAGS"
+	for try in /usr/lib /usr/local/lib $xml2_lib_dir; do
+		LDFLAGS="$old_LDFLAGS -L$try"
+		unset ac_cv_lib_xml2_xmlParseFile
+		AC_CHECK_LIB(xml2, xmlParseFile,
+			XML2LIBS="-L$try",
+			XML2_LIBS=
+		)
+		if test "x$XML2_LIBS" != "x"; then
+			break;
+		fi
+	done
+	LDFLAGS="$old_LDFLAGS $XML2_LIBS"
+fi
+
+if test "x$XML2_LIBS" = "x"; then
+	AC_MSG_ERROR([XML2 libraries not found.  Use --with-xml2-lib-dir=<path>])
+fi
+# don't forget to add xml2 to the list of libraries
+LIBS="-lxml2 $LIBS"
 
 ## Determine MySQL library path
 # try and find libs without any additional libraries
@@ -160,10 +185,41 @@ AC_CHECK_HEADERS( \
 	getopt.h
 )
 
+## Determine XML2 include path
+AC_MSG_CHECKING(for libxml/xmlmemory.h)
+
+# Can we include headers using system include dirs?
+AC_TRY_COMPILE([#include <libxml/xmlmemory.h>], [int a = 1;],
+	XML2_INCLUDE=" ",
+	XML2_INCLUDE=
+)
+
+# hunt through several directories trying to find the includes
+if test "x$XML2_INCLUDE" = "x"; then
+	old_CPPFLAGS="$CPPFLAGS"
+	for i in /usr/include /usr/local/include /usr/include/libxml2 $xml2_include_dir; do
+		CPPFLAGS="$old_CPPFLAGS -I$i"
+		AC_TRY_COMPILE([#include <libxml/xmlmemory.h>], [int a = 1;],
+			XML2_INCLUDE="-I$i",
+			XML2_INCLUDE=
+		)
+		if test "x$XML2_INCLUDE" != "x"; then
+			break;
+		fi
+	done
+	CPPFLAGS="$old_CPPFLAGS $XML2_INCLUDE"
+fi
+
+if test "x$XML2_INCLUDE" = "x"; then
+	AC_MSG_RESULT(no) 
+	AC_MSG_ERROR([XML2 headers not found.  Use --with-xml2-include-dir=<path>])
+fi
+AC_MSG_RESULT(yes) 
+
 ## Determine MySQL include path
 AC_MSG_CHECKING(for mysql/mysql.h)
 
-# Can we include headers in system include dirs?
+# Can we include headers using system include dirs?
 AC_TRY_COMPILE([#include <mysql/mysql.h>], [int a = 1;],
 	MYSQL_INCLUDE=" ",
 	MYSQL_INCLUDE=
