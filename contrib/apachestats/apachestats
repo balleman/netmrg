@@ -255,12 +255,17 @@ sub ReadStats()
 #
 sub StatsLog()
 {
+	my $maxval = 2e31;
+	
 	# foreach host
 	foreach my $host (keys(%typestats))
 	{
 		# foreach type
 		foreach my $type (keys(%{$typestats{$host}}))
 		{
+			# wrap counters around if they're too big
+			$typestats{$host}{$type} = $typestats{$host}{$type} - $maxval if ($typestats{$host}{$type} > $maxval);
+			# insert into database
 			$dbh->do("REPLACE INTO apachestats SET
 				host = '$host',
 				type = '$type',
