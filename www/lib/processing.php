@@ -524,9 +524,6 @@ function GetGroupParents($group_id)
 		array_push($group_arr, $group_item);
 	} // end while more parents
 	
-	// Always include the Root group
-	array_push($group_arr, 0);
-	
 	return $group_arr;
 } // end GetGroupParents();
 
