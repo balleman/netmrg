@@ -38,7 +38,7 @@ if (empty($_REQUEST["action"]))
 	end_page();
 }
 
-if ($_REQUEST["action"] == "doedit")
+elseif ($_REQUEST["action"] == "doedit")
 {
         if ($_REQUEST["type"] == "add")
 	{
@@ -60,7 +60,7 @@ if ($_REQUEST["action"] == "doedit")
         header("Location: " . $_SERVER["PHP_SELF"] . "?sub_dev_id={$_REQUEST['sub_dev_id']}");
 }
 
-if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
+elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 {
 	check_auth(2);
 	begin_page();
