@@ -26,7 +26,6 @@ $prefix = "@prefix@";
 $GLOBALS["netmrg"]["xmlfile"]           = "@sysconfdir@/netmrg.xml";
 
 // Authentication Config
-$GLOBALS["netmrg"]["externalAuth"]      = false;
 $GLOBALS["netmrg"]["authTimeout"]       = 86400; // 24hr * 60min * 60sec
 
 // Template Config

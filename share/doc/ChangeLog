@@ -4,6 +4,7 @@
       added names to template graphs
   - added 'advanced' hiding on graphs.php
   - bug#0000050: updater to go from version to version
+  - move external auth to config file
 
 2003.09.13  v0.10pre1  balleman
   - bug#0000042: --base support on graphs

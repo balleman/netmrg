@@ -765,10 +765,11 @@ function GetXMLConfig()
 	$xmlconfig = GetXMLTree($GLOBALS["netmrg"]["xmlfile"]);
 
 	// cosmetic variables
-	$GLOBALS["netmrg"]["company"]     = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["COMPANY"][0]["VALUE"];
-	$GLOBALS["netmrg"]["companylink"] = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["COMPANYLINK"][0]["VALUE"];
-	$GLOBALS["netmrg"]["webhost"]     = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["WEBHOST"][0]["VALUE"];
-	$GLOBALS["netmrg"]["webroot"]     = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["WEBROOT"][0]["VALUE"];
+	$GLOBALS["netmrg"]["company"]      = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["COMPANY"][0]["VALUE"];
+	$GLOBALS["netmrg"]["companylink"]  = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["COMPANYLINK"][0]["VALUE"];
+	$GLOBALS["netmrg"]["webhost"]      = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["WEBHOST"][0]["VALUE"];
+	$GLOBALS["netmrg"]["webroot"]      = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["WEBROOT"][0]["VALUE"];
+	$GLOBALS["netmrg"]["externalAuth"] = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["EXTERNALAUTH"][0]["VALUE"];
 
 	// DB Config
 	$GLOBALS["netmrg"]["dbhost"]      = $xmlconfig["NETMRG"][0]["DATABASE"][0]["HOST"][0]["VALUE"];

@@ -22,6 +22,7 @@
 		<companylink>http://www.netmrg.net</companylink>
 		<webhost>http://localhost</webhost>
 		<webroot>/netmrg</webroot>
+		<externalauth>false</externalauth>
 	</website>
 	<polling>
 		<interval>300</interval>
