@@ -1,5 +1,5 @@
 Summary: Network Monitoring package using PHP, MySQL, and RRDtool
-Name: NetMRG
+Name: netmrg
 Version: 0.10
 Release: 1
 #Epoch: 1
@@ -15,7 +15,9 @@ Requires: php, php-mysql, mysql, webserver, rrdtool, libxml2
 BuildRequires: mysql-devel, libxml2-devel
 
 %description
-NetMRG is a tool for network monitoring, reporting, and graphing. Based on RRDTOOL, the best of open source graphing systems, NetMRG is capable of creating graphs of any parameter of your network.
+NetMRG is a tool for network monitoring, reporting, and graphing. Based 
+on RRDTOOL, the best of open source graphing systems, NetMRG is capable 
+of creating graphs of any parameter of your network.
 
 %prep
 %setup -q
@@ -27,32 +29,33 @@ make %{_smp_mflags}
 %install
 rm -rf %{buildroot}
 %makeinstall
-%find_lang %{name}
 
 %clean
 rm -rf %{buildroot}
 
-%post -p /sbin/ldconfig
+%pre
+if [ $1 = 0 ]; then
+	useradd -d ${_localstatedir}/lib/netmrg netmrg > /dev/null 2>&1
+fi
 
-%postun -p /sbin/ldconfig
+%postun
+if [ $1 = 0 ]; then
+	userdel -r netmrg
+fi
 
-%files -f %{name}.lang
+%files
 %defattr(-, root, root)
-%doc AUTHORS COPYING ChangeLog NEWS README TODO
+%doc %{_datadir}/doc/*
+%config %{_sysconfdir}/*
 %{_bindir}/*
-%{_libdir}/*.so.*
-%{_datadir}/%{name}
-%{_mandir}/man8/*
-
-%files devel
-%defattr(-, root, root)
-%doc HACKING
-%{_libdir}/*.a
-%{_libdir}/*.la
-%{_libdir}/*.so
-%{_mandir}/man3/*
+%{_datadir}/%{name}/*
+%{_mandir}/man1/*
+%{_localstatedir}/www/*
+%attr(-, netmrg, netmrg) %dir %{_localstatedir}/log/netmrg
+%attr(-, netmrg, netmrg) %{_localstatedir}/lib/netmrg/*
+%{_libexecdir}/*
 
 %changelog
-* Sat Jul 26 2003 Douglas E. Warner
+* Sat Oct 06 2003 Douglas E. Warner
 - Initial RPM release.
 
