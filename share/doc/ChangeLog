@@ -1,6 +1,7 @@
 2004.09.07  v0.17cvs  balleman
   - bug#0000213 - tests documentation
   - bug#0000108 - view.php checkboxes
+  - bug#0000101 - subdevices.php checkboxes
 
 2004.09.07  v0.17cvs  silfreed
   - bug#0000267 - Device Group can't be reassigned to a new Parent

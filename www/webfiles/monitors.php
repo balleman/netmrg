@@ -78,6 +78,7 @@ function do_list()
 	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
 	<input type="hidden" name="action" value="">
 	<input type="hidden" name="sub_dev_id" value="<?php echo $_REQUEST['sub_dev_id']; ?>">
+	<input type="hidden" name="tripid" value="<?php echo $_REQUEST['tripid']; ?>">
 	<?php
 
 	if (preg_match("/snmp_cache_view.php.*type=interface/", $_SERVER["HTTP_REFERER"]))

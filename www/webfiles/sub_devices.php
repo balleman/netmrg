@@ -19,9 +19,11 @@ if (!isset($_REQUEST['action']))
 switch ($_REQUEST["action"])
 {
 	case "doedit":		doedit();		break;
+	case "multidodelete":
 	case "dodelete":	dodelete();		break;
 	case "add":
 	case "edit":		displayedit();	break;
+	case "multiduplicate":
 	case "duplicate":	doduplicate();	break;
 	default:			dodisplay();	break;
 }
@@ -32,6 +34,13 @@ function dodisplay()
 
 	check_auth($PERMIT["ReadAll"]);
 	begin_page("sub_devices.php", "Sub Device");
+	js_checkbox_utils();
+	?>
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+	<input type="hidden" name="action" value="">
+	<input type="hidden" name="dev_id" value="<?php echo $_REQUEST['dev_id']; ?>">
+	<input type="hidden" name="tripid" value="<?php echo $_REQUEST['tripid']; ?>">
+	<?php
 	PrepGroupNavHistory("device", $_REQUEST["dev_id"]);
 	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 	js_confirm_dialog("del", "Are you sure you want to delete subdevice ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}&sub_dev_id=");
@@ -52,6 +61,7 @@ function dodisplay()
 	
 	make_display_table("Sub-Devices for " . get_device_name($_REQUEST["dev_id"]),
 		"{$_SERVER['PHP_SELF']}?action=add&dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}",
+		array("text" => checkbox_toolbar()),
 		array("text" => "Sub-Devices"),
 		array("text" => "Type")
 	); // end make_display_table();
@@ -62,6 +72,7 @@ function dodisplay()
 	{
 		$row = $rows[$i];
 		make_display_item("editfield".($i%2),
+			array("checkboxname" => "subdevice", "checkboxid" => $row['id']),
 			array("text" => $row["name"], "href" => "monitors.php?sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}"),
 			array("text" => $SUB_DEVICE_TYPES[$row["type"]]),
 			array("text" =>
@@ -73,8 +84,20 @@ function dodisplay()
 				formatted_link("Delete", "javascript:del('".addslashes($row['name'])."','{$row['id']}')"))
 		); // end make_display_item();
 	}
-	make_status_line("sub-device", db_num_rows($results));
-	?></table><?php
+	?>
+	<tr>
+		<td colspan="5" class="editheader" nowrap="nowrap">
+			&lt;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked sub-devices?')){document.form.submit();}" href="#">Delete All Checked</a>&gt;
+			&nbsp;&nbsp;
+			&lt;<a class="editheaderlink" onclick="document.form.action.value='multiduplicate';document.form.submit();" href="#">Duplicate All Checked</a>&gt;
+		</td>
+	</tr>
+	<?php
+	make_status_line("sub-device", $i);
+	?>
+	</table>
+	</form>
+	<?php
 	end_page();
 }
 
@@ -105,7 +128,17 @@ function doedit()
 function dodelete()
 {
 	check_auth($PERMIT["ReadWrite"]);
-	delete_subdevice($_REQUEST["sub_dev_id"]);
+	if (isset($_REQUEST['subdevice']))
+	{
+		while (list($key,$value) = each($_REQUEST["subdevice"]))
+		{
+			delete_subdevice($key);
+		}
+	}
+	else
+	{
+		delete_subdevice($_REQUEST["sub_dev_id"]);
+	}
 	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
 }
@@ -113,7 +146,18 @@ function dodelete()
 function doduplicate()
 {
 	check_auth($PERMIT["ReadWrite"]);
-	duplicate_subdevice($_REQUEST['sub_dev_id']);
+	if (isset($_REQUEST['subdevice']))
+	{
+		while (list($key,$value) = each($_REQUEST["subdevice"]))
+		{
+			duplicate_subdevice($key);
+		}
+	}
+	else
+	{
+		duplicate_subdevice($_REQUEST['sub_dev_id']);
+	}
+	
 	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
 }
