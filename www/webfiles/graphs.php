@@ -209,7 +209,7 @@ function display()
 		if ($graph_row['type'] == "template")
 		{
 			$apply_template_link = "&nbsp;" . 
-				formatted_link("Apply Template To...", "{$_SERVER['PHP_SELF']}?action=applytemplates&graph[$graph_id]=on");
+				formatted_link("Apply Template To...", "{$_SERVER['PHP_SELF']}?action=applytemplates&graph[$graph_id]=on", "", "applytemplate");
 		}
 		else
 		{
@@ -219,10 +219,10 @@ function display()
 		make_display_item("editfield".(($graph_count-1)%2),
 			array("checkboxname" => "graph", "checkboxid" => $graph_id),
 			array("text" => $graph_row["name"], "href" => "graph_items.php?graph_id=$graph_id"),
-			array("text" => formatted_link("View", "enclose_graph.php?type=custom&id=" . $graph_row["id"]) . "&nbsp;" .
-				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&type=" . $graph_row['type'] . "&id=" . $graph_row["id"]) . $apply_template_link),
-			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .
-				formatted_link("Delete", "javascript:del('" . addslashes($graph_row['name']) . "', '$graph_id')"))
+			array("text" => formatted_link("View", "enclose_graph.php?type=custom&id=" . $graph_row["id"], "", "view") . "&nbsp;" .
+				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&type=" . $graph_row['type'] . "&id=" . $graph_row["id"], "", "duplicate") . $apply_template_link),
+			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id", "", "edit") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('" . addslashes($graph_row['name']) . "', '$graph_id')", "", "delete"))
 		); // end make_display_item();
 	} // end graphs
 

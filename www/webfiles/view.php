@@ -505,8 +505,8 @@ function do_view()
 				array("text" => ucfirst($row["type"])),
 				array("text" => $move_up . "&nbsp;" .
 					$move_down . "&nbsp;" .
-					formatted_link("Edit", "{$_SERVER['PHP_SELF']}?id={$row['id']}&action=edit") . "&nbsp;" .
-					formatted_link("Delete","javascript:del('".str_replace('%', '', addslashes($name))."', '{$row['id']}')") . "&nbsp;" .
+					formatted_link("Edit", "{$_SERVER['PHP_SELF']}?id={$row['id']}&action=edit", "", "edit") . "&nbsp;" .
+					formatted_link("Delete","javascript:del('".str_replace('%', '', addslashes($name))."', '{$row['id']}')", "", "delete") . "&nbsp;" .
 					$extra_options)
 			); // end make_display_item();
 		}

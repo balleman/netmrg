@@ -130,9 +130,9 @@ for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 		array("text" => $user_row["user"]),
 		array("text" => $user_row["fullname"]),
 		array("text" => (get_permit($user_row["user"])==$PERMIT["Disabled"]) ? 'Disabled' : $GLOBALS['PERMIT_TYPES'][$user_row['permit']]),
-		array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&user_id=$user_id") . "&nbsp;" .
-			formatted_link("Prefs", "user_prefs.php?uid=$user_id") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('".addslashes($user_row['user'])."', '{$user_row['id']}')")
+		array("text" => formatted_link("Prefs", "user_prefs.php?uid=$user_id") . "&nbsp;" .
+			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&user_id=$user_id", "", "edit") . "&nbsp;" .
+			formatted_link("Delete", "javascript:del('".addslashes($user_row['user'])."', '{$user_row['id']}')", "", "delete")
 			)
 	); // end make_display_item();
 

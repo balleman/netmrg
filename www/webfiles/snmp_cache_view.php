@@ -179,7 +179,7 @@ function view_disk_cache()
 		$s_row = db_fetch_array($s_query);
 		if (isset($s_row['id']))
 		{
-			$links .= formatted_link("View", "view.php?action=view&object_type=subdevice&object_id={$s_row['id']}");
+			$links .= formatted_link("View", "view.php?action=view&object_type=subdevice&object_id={$s_row['id']}", "", "view");
 			$links .= "&nbsp;";
 			$links .= formatted_link("Monitors", "monitors.php?dev_id={$_REQUEST['dev_id']}&sub_dev_id={$s_row['id']}&tripid={$_REQUEST['tripid']}");
 			$links .= "&nbsp;";
@@ -187,7 +187,7 @@ function view_disk_cache()
 		}
 		else
 		{
-			$links .= formatted_link_disabled("View");
+			$links .= formatted_link_disabled("View", "view");
 			$links .= "&nbsp";
 			$links .= formatted_link_disabled("Monitors");
 			$links .= "&nbsp;";
@@ -291,7 +291,7 @@ function view_interface_cache()
 		$s_row = db_fetch_array($s_query);
 		if (isset($s_row['id']))
 		{
-			$links .= formatted_link("View", "view.php?action=view&object_type=subdevice&object_id={$s_row['id']}");
+			$links .= formatted_link("View", "view.php?action=view&object_type=subdevice&object_id={$s_row['id']}", "", "view");
 			$links .= "&nbsp;";
 			$links .= formatted_link("Monitors", "monitors.php?dev_id={$_REQUEST['dev_id']}&sub_dev_id={$s_row['id']}&tripid={$_REQUEST['tripid']}");
 			$links .= "&nbsp;";
@@ -299,7 +299,7 @@ function view_interface_cache()
 		}
 		else
 		{
-			$links .= formatted_link_disabled("View");
+			$links .= formatted_link_disabled("View", "view");
 			$links .= "&nbsp";
 			$links .= formatted_link_disabled("Monitors");
 			$links .= "&nbsp;";

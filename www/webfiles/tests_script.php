@@ -104,8 +104,8 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 		array("text" => htmlspecialchars($test_row["name"])),
 		array("text" => htmlspecialchars($test_row["cmd"])),
 		array("text" => $GLOBALS["SCRIPT_DATA_TYPES"][$test_row["data_type"]]),
-		array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&test_id=$test_id") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('" . addslashes(htmlspecialchars($test_row["name"])) . "', '" . $test_row["id"] . "')"))
+		array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&test_id=$test_id", "", "edit") . "&nbsp;" .
+			formatted_link("Delete", "javascript:del('" . addslashes(htmlspecialchars($test_row["name"])) . "', '" . $test_row["id"] . "')", "", "delete"))
 	); // end make_display_item();
 } // end tests
 make_checkbox_command("", 5,

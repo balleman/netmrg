@@ -79,8 +79,8 @@ for ($i = 0; $i < db_num_rows($res); $i++)
 	make_display_item("editfield".($i%2),
 		array("text" => $row["name"]),
 		array("text" => $row["command"]),
-		array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('".addslashes($row['name'])."', '{$row['id']}')"))
+		array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}", "", "edit") . "&nbsp;" .
+			formatted_link("Delete", "javascript:del('".addslashes($row['name'])."', '{$row['id']}')", "", "delete"))
 	); // end make_display_item();
 }
 

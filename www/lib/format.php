@@ -1102,13 +1102,13 @@ function formatted_link_disabled($text, $img = "")
 function image_link($img_name, $title, $link)
 {
 	$returnval = '<a href="' . $link . '">';
-	$returnval .= '<img src="'.get_image_by_name("$img_name").'" width="15" height="15" border="0" alt="' . $title . '" title="' . $title . '" align="middle" />'."</a>\n";
+	$returnval .= '<img src="'.get_image_by_name("$img_name").'" width="15" height="15" border="0" alt="' . $title . '" title="' . $title . '" />'."</a>\n";
 	return $returnval;
 }
 
 function image_link_disabled($img_name, $title)
 {
-	return '<img src="'.get_image_by_name($img_name . "-disabled").'" width="15" height="15" border="0" alt="' . $title . '" title="' . $title . '" align="middle" />'."\n";
+	return '<img src="'.get_image_by_name($img_name . "-disabled").'" width="15" height="15" border="0" alt="' . $title . '" title="' . $title . '" />'."\n";
 }
 
 
