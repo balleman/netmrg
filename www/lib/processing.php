@@ -261,11 +261,14 @@ function apply_template($subdev_id, $template_id)
 {
 
 	// add the appropriate monitors to the subdevice
-	$q = db_query("SELECT data_type, test_id, test_type, test_params FROM graph_ds, monitors WHERE graph_ds.graph_id=$template_id AND graph_ds.mon_id=monitors.id");
+	$q = db_query("SELECT data_type, test_id, test_type, test_params, min_val, max_val FROM graph_ds, monitors WHERE graph_ds.graph_id=$template_id AND graph_ds.mon_id=monitors.id");
 	for ($i = 0; $i < db_num_rows($q); $i++)
 	{
 		$row = db_fetch_array($q);
-		db_update("INSERT INTO monitors SET sub_dev_id=$subdev_id, data_type={$row['data_type']}, test_id={$row['test_id']}, test_type={$row['test_type']}, test_params='{$row['test_params']}'");
+		if (empty($row['min_val'])) $row['min_val'] = "NULL";
+		if (empty($row['max_val'])) $row['max_val'] = "NULL";
+
+		db_update("INSERT INTO monitors SET sub_dev_id=$subdev_id, data_type={$row['data_type']}, test_id={$row['test_id']}, test_type={$row['test_type']}, test_params='{$row['test_params']}', min_val={$row['min_val']}, max_val={$row['max_val']}");
 	}
 
 	// add templated graph to the device's view
