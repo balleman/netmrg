@@ -2,6 +2,7 @@
   - bug#0000366: testing new RSS aggregator for SVN commits
   - bug#0000365: Web Interface redesign
     try new idea of putting items below the main menu bar; still needs cleaned up
+  - bug#0000395: monitors table test_id can not store tests_snmp rows with id>127
 
 2005.03.28  v0.18.2  keb
   - bug#0000399: nanosleep needs rt library

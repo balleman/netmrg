@@ -190,6 +190,18 @@ $dbupdates = array(
 	"0.18.1" => array(), // end 0.18.1
 
 	"0.18.2" => array() // end 0.18.2
+	
+	"0.19" => array(
+		array(
+			"name" => "Increase size of monitors.type_id",
+			"query" => "ALTER TABLE monitors MODIFY test_id INT NOT NULL;"
+			),
+		array(
+			"name" => "Increase size of view.pos",
+			"query" => "ALTER TABLE view MODIFY pos INT NOT NULL;"
+			)
+	), // end 0.19
+	
 ); // end $dbupdates;
 
 
