@@ -177,6 +177,10 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
+AM_MAKEFLAGS = \
+	` test "$(VERBOSE)" == "1" && echo $(ECHO_N) "" \
+	|| echo $(ECHO_N) "-s" `
+
 SUBDIRS = src www etc var
 
 # options to install files in the libexec directory
@@ -276,17 +280,6 @@ src/include/netmrg.h: $(top_builddir)/config.status $(top_srcdir)/src/include/ne
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 www/include/config.php: $(top_builddir)/config.status $(top_srcdir)/www/include/config.php.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
-install-binSCRIPTS: $(bin_SCRIPTS)
-	@$(NORMAL_INSTALL)
-	test -z "$(bindir)" || $(mkdir_p) "$(DESTDIR)$(bindir)"
-	@list='$(bin_SCRIPTS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  if test -f $$d$$p; then \
-	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
-	    echo " $(binSCRIPT_INSTALL) '$$d$$p' '$(DESTDIR)$(bindir)/$$f'"; \
-	    $(binSCRIPT_INSTALL) "$$d$$p" "$(DESTDIR)$(bindir)/$$f"; \
-	  else :; fi; \
-	done
 
 uninstall-binSCRIPTS:
 	@$(NORMAL_UNINSTALL)
@@ -294,17 +287,6 @@ uninstall-binSCRIPTS:
 	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
 	  echo " rm -f '$(DESTDIR)$(bindir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(bindir)/$$f"; \
-	done
-install-netmrg_libexecSCRIPTS: $(netmrg_libexec_SCRIPTS)
-	@$(NORMAL_INSTALL)
-	test -z "$(netmrg_libexecdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_libexecdir)"
-	@list='$(netmrg_libexec_SCRIPTS)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  if test -f $$d$$p; then \
-	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
-	    echo " $(netmrg_libexecSCRIPT_INSTALL) '$$d$$p' '$(DESTDIR)$(netmrg_libexecdir)/$$f'"; \
-	    $(netmrg_libexecSCRIPT_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_libexecdir)/$$f"; \
-	  else :; fi; \
 	done
 
 uninstall-netmrg_libexecSCRIPTS:
@@ -315,15 +297,6 @@ uninstall-netmrg_libexecSCRIPTS:
 	  rm -f "$(DESTDIR)$(netmrg_libexecdir)/$$f"; \
 	done
 uninstall-info-am:
-install-netmrg_man1DATA: $(netmrg_man1_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(netmrg_man1dir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_man1dir)"
-	@list='$(netmrg_man1_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(netmrg_man1DATA_INSTALL) '$$d$$p' '$(DESTDIR)$(netmrg_man1dir)/$$f'"; \
-	  $(netmrg_man1DATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_man1dir)/$$f"; \
-	done
 
 uninstall-netmrg_man1DATA:
 	@$(NORMAL_UNINSTALL)
@@ -331,15 +304,6 @@ uninstall-netmrg_man1DATA:
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f '$(DESTDIR)$(netmrg_man1dir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(netmrg_man1dir)/$$f"; \
-	done
-install-netmrg_share_bindstatsDATA: $(netmrg_share_bindstats_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(netmrg_share_bindstatsdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_share_bindstatsdir)"
-	@list='$(netmrg_share_bindstats_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(netmrg_share_bindstatsDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(netmrg_share_bindstatsdir)/$$f'"; \
-	  $(netmrg_share_bindstatsDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_share_bindstatsdir)/$$f"; \
 	done
 
 uninstall-netmrg_share_bindstatsDATA:
@@ -349,15 +313,6 @@ uninstall-netmrg_share_bindstatsDATA:
 	  echo " rm -f '$(DESTDIR)$(netmrg_share_bindstatsdir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(netmrg_share_bindstatsdir)/$$f"; \
 	done
-install-netmrg_share_dbDATA: $(netmrg_share_db_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(netmrg_share_dbdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_share_dbdir)"
-	@list='$(netmrg_share_db_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(netmrg_share_dbDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(netmrg_share_dbdir)/$$f'"; \
-	  $(netmrg_share_dbDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_share_dbdir)/$$f"; \
-	done
 
 uninstall-netmrg_share_dbDATA:
 	@$(NORMAL_UNINSTALL)
@@ -365,15 +320,6 @@ uninstall-netmrg_share_dbDATA:
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f '$(DESTDIR)$(netmrg_share_dbdir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(netmrg_share_dbdir)/$$f"; \
-	done
-install-netmrg_share_docDATA: $(netmrg_share_doc_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(netmrg_share_docdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_share_docdir)"
-	@list='$(netmrg_share_doc_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(netmrg_share_docDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(netmrg_share_docdir)/$$f'"; \
-	  $(netmrg_share_docDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_share_docdir)/$$f"; \
 	done
 
 uninstall-netmrg_share_docDATA:
@@ -383,15 +329,6 @@ uninstall-netmrg_share_docDATA:
 	  echo " rm -f '$(DESTDIR)$(netmrg_share_docdir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(netmrg_share_docdir)/$$f"; \
 	done
-install-netmrg_share_htmlDATA: $(netmrg_share_html_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(netmrg_share_htmldir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_share_htmldir)"
-	@list='$(netmrg_share_html_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(netmrg_share_htmlDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(netmrg_share_htmldir)/$$f'"; \
-	  $(netmrg_share_htmlDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_share_htmldir)/$$f"; \
-	done
 
 uninstall-netmrg_share_htmlDATA:
 	@$(NORMAL_UNINSTALL)
@@ -399,15 +336,6 @@ uninstall-netmrg_share_htmlDATA:
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f '$(DESTDIR)$(netmrg_share_htmldir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(netmrg_share_htmldir)/$$f"; \
-	done
-install-netmrg_share_imagesDATA: $(netmrg_share_images_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(netmrg_share_imagesdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_share_imagesdir)"
-	@list='$(netmrg_share_images_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(netmrg_share_imagesDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(netmrg_share_imagesdir)/$$f'"; \
-	  $(netmrg_share_imagesDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_share_imagesdir)/$$f"; \
 	done
 
 uninstall-netmrg_share_imagesDATA:
@@ -726,9 +654,6 @@ clean: clean-recursive
 
 clean-am: clean-generic mostlyclean-am
 
-distclean: distclean-recursive
-	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -f Makefile
 distclean-am: clean-am distclean-generic distclean-hdr distclean-tags
 
 dvi: dvi-recursive
@@ -808,6 +733,96 @@ uninstall-info: uninstall-info-recursive
 @SET_MAKE@
 
 install : all install-recursive
+
+distclean: distclean-recursive
+	@echo "  RM     $(am__CONFIG_DISTCLEAN_FILES)"
+	@rm -f $(am__CONFIG_DISTCLEAN_FILES)
+	@echo "  RM     Makefile"
+	@rm -f Makefile
+
+install-netmrg_libexecSCRIPTS: $(netmrg_libexec_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	test -z "$(netmrg_libexecdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_libexecdir)"
+	@echo "  INST   $(netmrg_libexec_SCRIPTS)"
+	@list='$(netmrg_libexec_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    $(netmrg_libexecSCRIPT_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_libexecdir)/$$f"; \
+	  else :; fi; \
+	done
+
+install-binSCRIPTS: $(bin_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	test -z "$(bindir)" || $(mkdir_p) "$(DESTDIR)$(bindir)"
+	@echo "  INST   $(bin_SCRIPTS)"
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    $(binSCRIPT_INSTALL) "$$d$$p" "$(DESTDIR)$(bindir)/$$f"; \
+	  else :; fi; \
+	done
+
+install-netmrg_share_imagesDATA: $(netmrg_share_images_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(netmrg_share_imagesdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_share_imagesdir)"
+	@echo "  INST   $(netmrg_share_images_DATA)"
+	@list='$(netmrg_share_images_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  $(netmrg_share_imagesDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_share_imagesdir)/$$f"; \
+	done
+
+install-netmrg_share_dbDATA: $(netmrg_share_db_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(netmrg_share_dbdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_share_dbdir)"
+	@echo "  INST   $(netmrg_share_db_DATA)"
+	@list='$(netmrg_share_db_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  $(netmrg_share_dbDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_share_dbdir)/$$f"; \
+	done
+
+install-netmrg_share_bindstatsDATA: $(netmrg_share_bindstats_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(netmrg_share_bindstatsdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_share_bindstatsdir)"
+	@echo "  INST   $(netmrg_share_bindstats_DATA)"
+	@list='$(netmrg_share_bindstats_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  $(netmrg_share_bindstatsDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_share_bindstatsdir)/$$f"; \
+	done
+
+install-netmrg_share_docDATA: $(netmrg_share_doc_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(netmrg_share_docdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_share_docdir)"
+	@echo "  INST   $(netmrg_share_doc_DATA)"
+	@list='$(netmrg_share_doc_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  $(netmrg_share_docDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_share_docdir)/$$f"; \
+	done
+
+install-netmrg_share_htmlDATA: $(netmrg_share_html_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(netmrg_share_htmldir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_share_htmldir)"
+	@echo "  INST   $(netmrg_share_html_DATA)"
+	@list='$(netmrg_share_html_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  $(netmrg_share_htmlDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_share_htmldir)/$$f"; \
+	done
+
+install-netmrg_man1DATA: $(netmrg_man1_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(netmrg_man1dir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_man1dir)"
+	@echo "  INST   $(netmrg_man1_DATA)"
+	@list='$(netmrg_man1_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  $(netmrg_man1DATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_man1dir)/$$f"; \
+	done
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

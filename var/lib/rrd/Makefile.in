@@ -175,15 +175,6 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 uninstall-info-am:
-install-netmrg_var_libDATA: $(netmrg_var_lib_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(netmrg_var_libdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_var_libdir)"
-	@list='$(netmrg_var_lib_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(netmrg_var_libDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(netmrg_var_libdir)/$$f'"; \
-	  $(netmrg_var_libDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_var_libdir)/$$f"; \
-	done
 
 uninstall-netmrg_var_libDATA:
 	@$(NORMAL_UNINSTALL)
@@ -257,14 +248,10 @@ distclean-generic:
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
-clean: clean-am
-
 clean-am: clean-generic mostlyclean-am
 
 distclean: distclean-am
 	-rm -f Makefile
-distclean-am: clean-am distclean-generic
-
 dvi: dvi-am
 
 dvi-am:
@@ -314,10 +301,27 @@ uninstall-am: uninstall-info-am uninstall-netmrg_var_libDATA
 	uninstall-netmrg_var_libDATA
 
 
-all : $(RRDS)
-
 .xml.rrd :
+	@echo "  RRD    $@"
 	$(RRDTOOL) restore $*.xml $@
+
+clean : clean-am clean-rrd
+
+distclean-am: clean-am clean-rrd distclean-generic
+
+clean-rrd :
+	@echo "  RM     $(netmrg_var_lib_DATA)"
+	rm -f $(netmrg_var_lib_DATA)
+
+install-netmrg_var_libDATA: $(netmrg_var_lib_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(netmrg_var_libdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_var_libdir)"
+	@list='$(netmrg_var_lib_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f="`echo $$p | sed -e 's|^.*/||'`"; \
+	  echo "  INST   $$d$$p"; \
+	  $(netmrg_var_libDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_var_libdir)/$$f"; \
+	done
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

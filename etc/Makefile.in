@@ -324,7 +324,7 @@ install-netmrg_etcDATA: $(netmrg_etc_DATA)
 	  if test -e "$(DESTDIR)$(netmrg_etcdir)/$$f"; then \
 	    echo " Config file $$p exists...not overwriting."; \
 	  else \
-            echo " $(netmrg_etcDATA_INSTALL) $$d$$p $(DESTDIR)$(netmrg_etcdir)/$$f"; \
+            echo "  INST   $$d$$p"; \
             $(netmrg_etcDATA_INSTALL) $$d$$p $(DESTDIR)$(netmrg_etcdir)/$$f; \
 	  fi; \
         done
