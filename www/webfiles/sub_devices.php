@@ -32,6 +32,7 @@ function dodisplay()
 
 	check_auth($PERMIT["ReadAll"]);
 	begin_page("sub_devices.php", "Sub Device");
+	PrepGroupNavHistory("device", $_REQUEST["dev_id"]);
 	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 	js_confirm_dialog("del", "Are you sure you want to delete subdevice ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}&sub_dev_id=");
 

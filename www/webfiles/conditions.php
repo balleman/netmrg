@@ -43,6 +43,7 @@ function do_display()
 
 	check_auth($PERMIT["ReadAll"]);
 	begin_page("conditions.php", "Conditions");
+	PrepGroupNavHistory("event", $_REQUEST["event_id"]);
 	DrawGroupNavHistory("event", $_REQUEST["event_id"]);
 
 	$query = db_query("SELECT * FROM conditions WHERE event_id = {$_REQUEST['event_id']} ORDER BY id");

@@ -197,16 +197,19 @@ function end_page()
 
 
 /**
-* DrawGroupNavHistory($type, $id)
+* PrepGroupNavHistory($type, $id)
 *
-* draws a nav bar along the tops of the pages under 'Groups'
+* prepares a nav bar that is used along the tops of the pages under 'Groups'
 * and keeps a history of where you've been
 *
-* $type = (group, device, sub_device, monitor, event)
+* $type = (group, device, int_snmp_cache_view, disk_snmp_cache_view, 
+*         sub_device, monitor, event)
 * $id = <id of type you are in>
 */
-function DrawGroupNavHistory($type, $id)
+function PrepGroupNavHistory($type, $id)
 {
+	global $BC_TYPES;
+	
 	// default trip id
 	if (empty($_REQUEST["tripid"]))
 	{
@@ -214,15 +217,6 @@ function DrawGroupNavHistory($type, $id)
 		$_REQUEST["tripid"] = md5(time()*rand());
 	} // end if no trip id
 	$tripid = $_REQUEST["tripid"];
-	
-	// bread crumb type order
-	$bc_types = array(
-		"group" => 0,
-		"device" => 1,
-		"sub_device" => 2,
-		"monitor" => 3,
-		"event" => 4
-	); // end if bread crumb type order
 	
 	// setup array to hold group nav
 	if (!isset($_SESSION["netmrgsess"]["grpnav"]))
@@ -249,7 +243,7 @@ function DrawGroupNavHistory($type, $id)
 		$last_id = $_SESSION["netmrgsess"]["grpnav"][$tripid][count($_SESSION["netmrgsess"]["grpnav"][$tripid])-1]["id"];
 	} // end if we have some bread crumbs already
 	if (count($_SESSION["netmrgsess"]["grpnav"][$tripid]) == 0
-		|| $bc_types[$last_type] <= $bc_types[$type])
+		|| $BC_TYPES[$last_type] <= $BC_TYPES[$type])
 	{
 		if (($type == $last_type && $id != $last_id)
 			|| ($id == $last_id && $type != $last_type)
@@ -270,6 +264,22 @@ function DrawGroupNavHistory($type, $id)
 			} // end if we haven't already pushed this item on
 		} // end if type and id are different from last 
 	} // end if we can push the breadcrumb onto our history
+} // end PrepGroupNavHistory();
+
+
+/**
+* DrawGroupNavHistory($type)
+*
+* draws a nav bar along the tops of the pages under 'Groups'
+* 
+* $type = (group, device, int_snmp_cache_view, disk_snmp_cache_view, 
+*         sub_device, monitor, event)
+* $id = <id of type you are in>
+*/
+function DrawGroupNavHistory($type, $id)
+{
+	global $BC_TYPES;
+	$tripid = $_REQUEST["tripid"];
 	
 	// loop through each breadcrumb and display it
 ?>
@@ -281,7 +291,7 @@ function DrawGroupNavHistory($type, $id)
 	foreach ($_SESSION["netmrgsess"]["grpnav"][$tripid] as $breadcrumb)
 	{
 		// skip to the end if we've past where we should be
-		if ($bc_types[$breadcrumb["type"]] > $bc_types[$type])
+		if ($BC_TYPES[$breadcrumb["type"]] > $BC_TYPES[$type])
 		{
 			$_SESSION["netmrgsess"]["grpnav"][$tripid] = array_slice($_SESSION["netmrgsess"]["grpnav"][$tripid], 0, $count);
 			continue;
@@ -312,6 +322,22 @@ function DrawGroupNavHistory($type, $id)
 				if ($type != "monitor") $t .= '<a href="events.php?mon_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
 				$t .= get_short_monitor_name($breadcrumb["id"]);
 				if ($type != "monitor") $t .= "</a>\n";
+				print $t;
+				break;
+				
+			case "int_snmp_cache_view" :
+				$t = ' : ';
+				if ($type != "int_snmp_cache_view") $t .= '<a href="snmp_cache_view.php?dev_id='.$breadcrumb["id"].'&action=view&type=interface'.'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= "interface cache";
+				if ($type != "int_snmp_cache_view") $t .= "</a>\n";
+				print $t;
+				break;
+				
+			case "disk_snmp_cache_view" :
+				$t = ' : ';
+				if ($type != "disk_snmp_cache_view") $t .= '<a href="snmp_cache_view.php?dev_id='.$breadcrumb["id"].'&action=view&type=disk'.'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= "disk cache";
+				if ($type != "disk_snmp_cache_view") $t .= "</a>\n";
 				print $t;
 				break;
 				

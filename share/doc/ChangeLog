@@ -1,3 +1,6 @@
+2004.09.03  v0.17cvs  silfreed
+  - bug#0000229 - NavBar mods on snmp_cache_view
+
 2004.09.01  v0.17cvs  keb
   - bug#0000117 - an 'apply templates' page should be added
   - add graph count to graphs.php

@@ -37,6 +37,7 @@ function display()
 {
 	// Display a list
 	begin_page("grpdev_list.php", "Groups");
+	PrepGroupNavHistory("group", $_REQUEST["parent_id"]);
 	DrawGroupNavHistory("group", $_REQUEST["parent_id"]);
 	js_confirm_dialog("del_grp", "Are you sure you want to delete group ", " and all associated items?", "groups.php?action=delete&tripid={$_REQUEST['tripid']}&parent_id={$_REQUEST['parent_id']}&grp_id=");
 	js_confirm_dialog("del_dev", "Are you sure you want to delete device ", " and all associated items?", "devices.php?action=delete&tripid={$_REQUEST['tripid']}&grp_id={$_REQUEST['parent_id']}&dev_id=");

@@ -55,8 +55,17 @@ switch($_REQUEST["action"])
 function do_list()
 {
 	begin_page("monitor.php", "Monitors", 1);
+	if (preg_match("/snmp_cache_view.php.*type=interface/", $_SERVER["HTTP_REFERER"]))
+	{
+		PrepGroupNavHistory("int_snmp_cache_view", $_REQUEST["dev_id"]);
+	} // end if came from interface view of snmp_cache_view.php
+	else if (preg_match("/snmp_cache_view.php.*type=disk/", $_SERVER["HTTP_REFERER"]))
+	{
+		PrepGroupNavHistory("disk_snmp_cache_view", $_REQUEST["dev_id"]);
+	} // end if came from disk view of snmp_cache_view.php
+	PrepGroupNavHistory("sub_device", $_REQUEST["sub_dev_id"]);
 	DrawGroupNavHistory("sub_device", $_REQUEST["sub_dev_id"]);
-
+	
 	js_confirm_dialog("del", "Are you sure you want to delete monitor ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}&mon_id=");
 	make_display_table("Monitors for " . get_dev_sub_device_name($_REQUEST["sub_dev_id"]),
 		"{$_SERVER['PHP_SELF']}?action=add&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}",

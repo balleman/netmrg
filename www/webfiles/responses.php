@@ -38,6 +38,7 @@ switch ($action)
 function display_list()
 {
 	begin_page("responses.php", "Responses");
+	PrepGroupNavHistory("event", $_REQUEST["event_id"]);
 	DrawGroupNavHistory("event", $_REQUEST["event_id"]);
 	js_confirm_dialog("del", "Are you sure you want to delete response ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}&id=");
 	make_display_table("Responses", "responses.php?action=add&event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}", 

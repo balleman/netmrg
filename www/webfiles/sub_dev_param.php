@@ -17,6 +17,7 @@ if (empty($_REQUEST["action"]))
 	// Display the list of sub-devices for a particular device.
 
 	begin_page("sub_dev_param.php", "Sub Device Parameters");
+	PrepGroupNavHistory("sub_device", $_REQUEST["sub_dev_id"]);
 	DrawGroupNavHistory("sub_device", $_REQUEST["sub_dev_id"]);
 	js_confirm_dialog("del", "Are you sure you want to delete subdevice parameter ", "", "{$_SERVER['PHP_SELF']}?action=dodelete&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}&name=");
 

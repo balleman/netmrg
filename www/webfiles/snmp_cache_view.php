@@ -150,6 +150,7 @@ function view_disk_cache()
 
 	begin_page("snmp_cache_view.php", "$dev_name - Disk Cache");
 	js_checkbox_utils();
+	PrepGroupNavHistory("device", $_REQUEST["dev_id"]);
 	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
 
 ?>
@@ -181,7 +182,7 @@ function view_disk_cache()
 		{
 			$links .= formatted_link("View", "view.php?action=view&object_type=subdevice&object_id={$s_row['id']}");
 			$links .= "&nbsp;";
-			$links .= formatted_link("Monitors", "monitors.php?sub_dev_id={$s_row['id']}&tripid={$_REQUEST['tripid']}");
+			$links .= formatted_link("Monitors", "monitors.php?dev_id={$_REQUEST['dev_id']}&sub_dev_id={$s_row['id']}&tripid={$_REQUEST['tripid']}");
 			$links .= "&nbsp;";
 			$links .= formatted_link_disabled("Monitor/Graph");
 		}
@@ -240,7 +241,9 @@ function view_interface_cache()
 
 	begin_page("snmp_cache_view.php", "$dev_name - Interface Cache");
 	js_checkbox_utils();
+	PrepGroupNavHistory("device", $_REQUEST["dev_id"]);
 	DrawGroupNavHistory("device", $_REQUEST["dev_id"]);
+
 
 ?>
 	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
@@ -291,7 +294,7 @@ function view_interface_cache()
 		{
 			$links .= formatted_link("View", "view.php?action=view&object_type=subdevice&object_id={$s_row['id']}");
 			$links .= "&nbsp;";
-			$links .= formatted_link("Monitors", "monitors.php?sub_dev_id={$s_row['id']}&tripid={$_REQUEST['tripid']}");
+			$links .= formatted_link("Monitors", "monitors.php?dev_id={$_REQUEST['dev_id']}&sub_dev_id={$s_row['id']}&tripid={$_REQUEST['tripid']}");
 			$links .= "&nbsp;";
 			$links .= formatted_link_disabled("Monitor/Graph");
 		}

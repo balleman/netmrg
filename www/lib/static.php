@@ -114,6 +114,17 @@ $SUB_DEVICE_TYPES = array(
 	3 => "Disk"
 ); // end SUB_DEVICE_TYPES
 
+// bread crumb type order
+$BC_TYPES = array(
+	"group"                => 0,
+	"device"               => 1,
+	"int_snmp_cache_view"  => 2,
+	"disk_snmp_cache_view" => 2,
+	"sub_device"           => 3,
+	"monitor"              => 4,
+	"event"                => 5
+); // end BC_TYPES
+
 $TRIGGER_TYPES = array(
 	1 => "On Change",
 	2 => "Never (disabled)"
