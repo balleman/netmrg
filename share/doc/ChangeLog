@@ -1,3 +1,6 @@
+2003.05.26  v0.8  silfreed
+  - bug#7 : status images not vertically centered
+
 2003.05.15  v0.8  balleman
   - enclose_graph.php reworked
     - capability for 'zooming' on both axes

@@ -22,7 +22,7 @@ function get_img_tag_from_status($status)
 
 	$color = get_color_from_situation($status);
 
-	$img = ("<img src=\"" . get_image_by_name($color . "_led_on") . "\" border=\"0\">");
+	$img = ('<img src="' . get_image_by_name($color . '_led_on') . '" border="0" align="center">');
 
 	return $img;
 } // end get_img_tag_from_status()
