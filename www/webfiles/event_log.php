@@ -28,7 +28,7 @@ if (isset($dev_id)) { $query .= " WHERE dev_id=$dev_id"; $sort_href .= "dev_id=$
 $sort_href .= "order_by";
 if (isset($order_by)) { $query .= " ORDER BY $order_by"; }
 
-begin_page();
+begin_page("event_log.php", "Event Log");
 
 make_plain_display_table("Event Log","Device","","Date/Time","","Time Since Last Change","","Event","");
 $handle = do_query($query);

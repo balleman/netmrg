@@ -15,7 +15,7 @@
 
 require_once("../include/config.php");
 check_auth(3);
-begin_page();
+begin_page("users.php", "User Management");
 
 if (!empty($_REQUEST["action"]))
 {

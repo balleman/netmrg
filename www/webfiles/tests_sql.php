@@ -15,7 +15,7 @@
 
 require_once("../include/config.php");
 check_auth(1);
-begin_page();
+begin_page("tests_sql.php", "SQL - Tests");
 js_confirm_dialog("del", "Are you sure you want to delete SQL test ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
 
 if (!empty($_REQUEST["action"]))

@@ -44,7 +44,7 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 
 
 	// Display a list
-	begin_page();
+	begin_page("mon_groups.php", "Groups");
 	js_confirm_dialog("del", "Are you sure you want to delete group ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&grp_id=");
 	make_display_table("Device Groups",
 	   "Name", "{$_SERVER['PHP_SELF']}?orderby=name",
@@ -104,7 +104,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 {
 	// Display editing screen
 	check_auth(2);
-	begin_page();
+	begin_page("mon_groups.php", "Groups");
 	if ($_REQUEST["action"] == "add")
 	{
 		$grp_id = -1;

@@ -16,7 +16,7 @@
 require_once("../include/config.php");
 check_auth(1);
 
-begin_page();
+begin_page("about.php", "About");
 ?>
 
 <br><br>

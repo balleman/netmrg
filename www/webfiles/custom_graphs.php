@@ -113,7 +113,7 @@ if ($_REQUEST["action"] == "duplicate")
 
 if (empty($_REQUEST["action"]))
 {
-	begin_page();
+	begin_page("custom_graphs.php", "Custom Graphs");
 	js_confirm_dialog("del", "Are you sure you want to delete graph ", "?", "{$_SERVER['PHP_SELF']}?action=dodelete&graph_id=");
 	make_display_table("Graphs","Name","{$_SERVER['PHP_SELF']}?order_by=name","Comment","{$_SERVER['PHP_SELF']}?order_by=comment","","");
 
@@ -153,7 +153,7 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 {
 	// Display editing screen
 	check_auth(2);
-	begin_page();
+	begin_page("custom_graphs.php", "Custom Graphs");
 
 	if ($_REQUEST["action"] == "edit")
 	{

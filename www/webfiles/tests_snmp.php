@@ -6,7 +6,7 @@
 #           Web Interface                              #
 #                                                      #
 #           SNMP Test Editing Page                     #
-#           mon_test_snmp.php                          #
+#           tests_snmp.php                             #
 #                                                      #
 #     Copyright (C) 2001-2002 Brady Alleman.           #
 #     brady@pa.net - www.treehousetechnologies.com     #
@@ -15,7 +15,7 @@
 
 require_once("../include/config.php");
 check_auth(1);
-begin_page();
+begin_page("tests_snmp.php", "SNMP - Tests");
 js_confirm_dialog("del", "Are you sure you want to delete SNMP test ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
 
 if (!empty($_REQUEST["action"]))

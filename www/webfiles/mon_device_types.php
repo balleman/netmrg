@@ -44,7 +44,7 @@ check_auth(2);
 
 
 	# Display a list
-	begin_page();
+	begin_page("mon_device_types.php", "Device Types");
 	js_confirm_dialog("del", "Are you sure you want to delete device type ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&id=");
 	make_display_table("Device Types",
 	   "Name", "{$_SERVER['PHP_SELF']}?orderby=name",
@@ -83,7 +83,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 {
 	// Display editing screen
 	check_auth(2);
-	begin_page();
+	begin_page("mon_device_types.php", "Device Types");
 	if ($_REQUEST["action"] == "add")
 	{
 		$id = 0;
