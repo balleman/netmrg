@@ -1,3 +1,6 @@
+2004.06.17  v0.17cvs  keb
+  - NetMRG now builds on Debian 3.0 (woody)
+
 2004.06.15  v0.17cvs  balleman
   - bug#0000211 - colorized gatherer output
   - bug#0000234 - change time frame for a view
