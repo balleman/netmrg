@@ -52,6 +52,7 @@ get a real directory tree
         /lib
   ideal install
     $(EPREFIX)/bin (netmrg-gatherer)
+    $(EPREFIX)/libexec (tests)
     $(PREFIX)/share/netmrg (images, db)
     $(PREFIX)/share/doc/netmrg (docs)
     $(PREFIX)/var/netmrg (include, lib, webfiles)
