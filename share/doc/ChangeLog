@@ -1,3 +1,6 @@
+2004.10.23  v0.17  silfreed
+  - bug#0000302 - Updater should support updating from any version
+
 2004.10.23  v0.17  balleman
   - bug#0000317 - Function name conflict for stripnl on FreeBSD
 
