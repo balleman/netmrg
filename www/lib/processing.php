@@ -227,7 +227,7 @@ function compare_ip_addresses($a, $b)
 function simple_math_parse($input)
 {
 	$val = 1;
-	if (!preg_match("/[^012345467890.\/*-+]/", $input))
+	if (!preg_match("/[^012345467890.\/*\-+]/", $input))
 	{
 		eval("\$val = $input;");
 	}
