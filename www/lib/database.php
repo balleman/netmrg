@@ -89,7 +89,7 @@ function db_fetch_cell($sql)
 	$row = array();
 	$res = db_query($sql);
 	
-	if ($query)
+	if ($res)
 	{
 		$rows = mysql_numrows($res);
 		
