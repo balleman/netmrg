@@ -8,28 +8,6 @@
 * see doc/LICENSE for copyright information
 ********************************************/
 
-function fix_magic_quotes($astr)
-{
-	if (get_magic_quotes_gpc())
-	{
-    	$res = stripslashes($astr);
-	}
-	else
-    {
-		$res = $astr;
-	}
-
-	return $res;
-}
-
-function store_array_in_cookie($cookiename, $array2store)
-{
-	$tmpstring = serialize($array2store); 
-	setcookie($cookiename, $tmpstring); 
-	unset($tmpstring); 
-} // end store_array_in_cookie()
-
-
 function get_img_tag_from_status($status)
 {
 
@@ -64,6 +42,7 @@ function make_seed()
    return (float) $sec + ((float) $usec * 100000);
 }
 
+
 function htmlcolor_to_rgb($htmlcolor)
 {
 	$c = str_replace("#", "", $htmlcolor);
@@ -76,10 +55,12 @@ function htmlcolor_to_rgb($htmlcolor)
 	return array("r" => $r, "g" => $g, "b" => $b);
 }
 
+
 function rgb_to_htmlcolor($r, $g, $b)
 {
 	return sprintf("#%02x%02x%02x", $r, $g, $b);
 }
+
 
 function escape_double_quotes($input)
 {
