@@ -58,8 +58,9 @@ foreach my $ver (@versions)
 	}
 	
 	rename("$docfolder/$ver", "$docfolder/CVS") if ($ver eq "HEAD");
-	if ($ver =~ /^netmrg-(\d+)\_(\d+)/)
+	if ($ver =~ /^netmrg-(\d+)\_(\S+)/)
 	{
+		`rm -rf "$docfolder/NetMRG-$1.$2"`;
 		rename("$docfolder/$ver", "$docfolder/NetMRG-$1.$2");
 	} # end if ver looks like netmrg-0_10
 } # end foreach version
