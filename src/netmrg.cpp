@@ -76,6 +76,12 @@ void *child(void * arg)
 
 } // end child
 
+// remove lock file
+void remove_lockfile()
+{
+	unlink(get_setting(setPathLockFile).c_str());
+}
+
 // set things up, and spawn the threads for data gathering
 void run_netmrg()
 {
@@ -110,6 +116,7 @@ void run_netmrg()
 	{
 		fprintf(lockfile, "%ld", (long int) start_time);
 		fclose(lockfile);
+		atexit(remove_lockfile);
 	}
 	else
 	{
@@ -119,9 +126,11 @@ void run_netmrg()
 
 	// SNMP library initialization
 	snmp_init();
+	atexit(snmp_cleanup);
 
 	// RRDTOOL command pipe setup
 	rrd_init();
+	atexit(rrd_cleanup);
 
 	// open mysql connection for initial queries
 	if (!db_connect(&mysql))
@@ -209,12 +218,6 @@ void run_netmrg()
 	mysql_close(&mysql);
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Closed MySQL connection.");
 
-	// clean up RRDTOOL command pipe
-	rrd_cleanup();
-	
-	// clean up SNMP
-	snmp_cleanup();
-
 	// determine runtime and store it
 	long int run_time = time( NULL ) - start_time;
 	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Runtime: " + inttostr(run_time));
@@ -222,8 +225,7 @@ void run_netmrg()
 	fprintf(runtime, "%ld", run_time);
 	fclose(runtime);
 
-	// remove lock file
-	unlink(get_setting(setPathLockFile).c_str());
+
 }
 
 void show_version()
