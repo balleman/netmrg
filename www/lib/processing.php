@@ -817,13 +817,13 @@ function delete_device($device_id, $group_id = false)
 function delete_subdevice($subdev_id)
 {
 	// delete the subdevice
-	db_update("DELETE FROM sub_devices WHERE id=$subdev_id");
-
+	db_update("DELETE FROM sub_devices WHERE id='$subdev_id'");
+	
 	// delete the subdevice parameters
-	db_update("DELETE FROM sub_dev_variables WHERE sub_dev_id=$subdev_id");
-
-	$monitors_handle = db_query("SELECT id FROM monitors WHERE sub_dev_id=$subdev_id");
-
+	db_update("DELETE FROM sub_dev_variables WHERE sub_dev_id='$subdev_id'");
+	
+	$monitors_handle = db_query("SELECT id FROM monitors WHERE sub_dev_id='$subdev_id'");
+	
 	while ($monitor_row = db_fetch_array($monitors_handle))
 	{
 		delete_monitor($monitor_row["id"]);
@@ -836,9 +836,10 @@ function delete_monitor($monitor_id)
 	// check things that depend on this
 	// * custom graphs
 	// * template graphs
-	db_update("DELETE FROM monitors WHERE id=$monitor_id");
+	db_update("UPDATE graph_ds SET mon_id = '-1', type = '4', multiplier = '0' WHERE mon_id = '$monitor_id'");
+	db_update("DELETE FROM monitors WHERE id='$monitor_id'");
 	
-	$events_handle = db_query("SELECT id FROM events WHERE mon_id=$monitor_id");
+	$events_handle = db_query("SELECT id FROM events WHERE mon_id='$monitor_id'");
 	while ($event_row = db_fetch_array($events_handle))
 	{
 		delete_event($event_row["id"]);
@@ -849,10 +850,10 @@ function delete_monitor($monitor_id)
 function delete_event($event_id)
 {
 
-	db_update("DELETE FROM events WHERE id=$event_id");
-	db_update("DELETE FROM conditions WHERE event_id=$event_id");
+	db_update("DELETE FROM events WHERE id='$event_id'");
+	db_update("DELETE FROM conditions WHERE event_id='$event_id'");
 
-	$responses_handle = db_query("SELECT id FROM responses WHERE event_id=$event_id");
+	$responses_handle = db_query("SELECT id FROM responses WHERE event_id='$event_id'");
 
 	while ($response_row = db_fetch_array($responses_handle))
 	{

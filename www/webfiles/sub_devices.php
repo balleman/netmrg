@@ -90,14 +90,18 @@ function doedit()
 
 function dodelete()
 {
+	check_auth(2);
 	delete_subdevice($_REQUEST["sub_dev_id"]);
 	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}");
+	exit();
 }
 
 function doduplicate()
 {
+	check_auth(2);
 	duplicate_subdevice($_REQUEST['sub_dev_id']);
 	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}");
+	exit();
 }
 
 function displayedit()
