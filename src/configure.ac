@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.4 $)
+AC_REVISION($Revision: 1.5 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -39,14 +39,12 @@ AC_ARG_WITH(mysql-include-dir,
 		[MySQL include directory [[/usr/include/mysql]]]),
 	[mysql_include_dir=$withval],
 	[mysql_include_dir="/usr/include/mysql"])
-
 AC_ARG_WITH(mysql-lib-dir,
 	AC_HELP_STRING(
 		[--with-mysql-lib-dir],
 		[MySQL library directory [[/usr/lib/mysql]]]),
 	[mysql_lib_dir=$withval],
 	[mysql_lib_dir="/usr/lib/mysql"])
-
 LDFLAGS="$LDFLAGS -L$mysql_lib_dir"
 CPPFLAGS="$CPPFLAGS -I$mysql_include_dir"
 
@@ -56,13 +54,27 @@ AC_ARG_WITH(snmp-include-dir,
 		[--with-snmp-include-dir],
 		[SNMP include base directory [[/usr/(local/)include]]]),
 	[snmp_inc_base_dir=$withval])
-
 AC_ARG_WITH(snmp-lib-dir,
 	AC_HELP_STRING(
 		[--with-snmp-lib-dir],
 		[SNMP library directory [[/usr/(local/)lib]]]),
 	[snmp_lib_dir=$withval])
 
+# xml2
+AC_ARG_WITH(xml2-include-dir,
+	AC_HELP_STRING(
+		[--with-xml2-include-dir],
+		[XML2 include directory [[/usr/include/libxml2]]]),
+	[xml2_include_dir=$withval],
+	[xml2_include_dir="/usr/include/libxml2"])
+AC_ARG_WITH(xml2-lib-dir,
+	AC_HELP_STRING(
+		[--with-xml2-lib-dir],
+		[XML2 library directory [[/usr/lib]]]),
+	[xml2_lib_dir=$withval],
+	[xml2_lib_dir="/usr/lib"])
+LDFLAGS="$LDFLAGS -L$xml2_lib_dir"
+CPPFLAGS="$CPPFLAGS -I$xml2_include_dir"
 
 # if host_alias is empty, ac_cv_host_alias may still have the info
 if test -z "$host_alias"; then

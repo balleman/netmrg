@@ -858,6 +858,8 @@ Optional Packages:
   --with-mysql-lib-dir    MySQL library directory [/usr/lib/mysql]
   --with-snmp-include-dir SNMP include base directory [/usr/(local/)include]
   --with-snmp-lib-dir     SNMP library directory [/usr/(local/)lib]
+  --with-xml2-include-dir XML2 include directory [/usr/include/libxml2]
+  --with-xml2-lib-dir     XML2 library directory [/usr/lib]
 
 Some influential environment variables:
   CXX         C++ compiler command
@@ -1693,7 +1695,6 @@ else
   mysql_include_dir="/usr/include/mysql"
 fi;
 
-
 # Check whether --with-mysql-lib-dir or --without-mysql-lib-dir was given.
 if test "${with_mysql_lib_dir+set}" = set; then
   withval="$with_mysql_lib_dir"
@@ -1701,7 +1702,6 @@ if test "${with_mysql_lib_dir+set}" = set; then
 else
   mysql_lib_dir="/usr/lib/mysql"
 fi;
-
 LDFLAGS="$LDFLAGS -L$mysql_lib_dir"
 CPPFLAGS="$CPPFLAGS -I$mysql_include_dir"
 
@@ -1713,13 +1713,31 @@ if test "${with_snmp_include_dir+set}" = set; then
   snmp_inc_base_dir=$withval
 fi;
 
-
 # Check whether --with-snmp-lib-dir or --without-snmp-lib-dir was given.
 if test "${with_snmp_lib_dir+set}" = set; then
   withval="$with_snmp_lib_dir"
   snmp_lib_dir=$withval
 fi;
 
+# xml2
+
+# Check whether --with-xml2-include-dir or --without-xml2-include-dir was given.
+if test "${with_xml2_include_dir+set}" = set; then
+  withval="$with_xml2_include_dir"
+  xml2_include_dir=$withval
+else
+  xml2_include_dir="/usr/include/libxml2"
+fi;
+
+# Check whether --with-xml2-lib-dir or --without-xml2-lib-dir was given.
+if test "${with_xml2_lib_dir+set}" = set; then
+  withval="$with_xml2_lib_dir"
+  xml2_lib_dir=$withval
+else
+  xml2_lib_dir="/usr/lib"
+fi;
+LDFLAGS="$LDFLAGS -L$xml2_lib_dir"
+CPPFLAGS="$CPPFLAGS -I$xml2_include_dir"
 
 # if host_alias is empty, ac_cv_host_alias may still have the info
 if test -z "$host_alias"; then
