@@ -16,7 +16,7 @@ my %cvsfiles = (
 	"netmrg.sgml"    => "netmrg/share/doc/netmrg.sgml",
 	"netmrg.dsl"     => "netmrg/share/doc/netmrg.dsl",
 	"netmrgdoc.css"  => "netmrg/share/doc/netmrg.css",
-	"netmrgnetmrg-logo-medium.png"  => "netmrg/share/doc/netmrg-logo-medium.png",
+	"netmrg-logo-medium.png"  => "netmrg/share/doc/netmrg-logo-medium.png",
 );
 my $docfolder = "/tmp";
 my @versions = ();
@@ -39,7 +39,7 @@ foreach my $ver (@versions)
 	for my $shortdocfile (keys(%cvsfiles))
 	{
 		my $docfile = $cvsfiles{$shortdocfile};
-		my $doccontents = `$cvs co -r $ver -p $docfile 2> /dev/null`;
+		my $doccontents = `$cvs co -p -r $ver -p $docfile 2> /dev/null`;
 		open (DOC, ">$curdir/$shortdocfile");
 		print DOC $doccontents;
 		close (DOC);
@@ -52,7 +52,7 @@ foreach my $ver (@versions)
 	}
 	else
 	{
-		`docbook2html $curdir/netmg.sgml -o $curdir`;
+		`docbook2html $curdir/netmrg.sgml -o $curdir`;
 		symlink("$curdir/book1.html", "$curdir/index.html");
 	}
 	
