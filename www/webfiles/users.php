@@ -123,8 +123,22 @@ if (!empty($action) && ($action == "edit" || $action == "add"))
 {
 // Display editing screen
 
-	begin_page("users.php", "User Management");
-
+	begin_page("users.php", "User Management", 0, 'onLoad="enableGroup(document.editform.permit.value)"');
+	echo '
+<script language="JavaScript">
+<!--
+function enableGroup(val) {
+if (val == 0) { // Single View Only
+document.editform.group_id.disabled=false;
+} else {
+document.editform.group_id.disabled=true;
+document.editform.group_id.value=0; // Root Group
+}
+}
+-->
+</script>
+';
+	
 	if ($action == "add")
 	{
 		$user_id = 0;
@@ -136,13 +150,13 @@ if (!empty($action) && ($action == "edit" || $action == "add"))
 
 	$user_results = db_query("SELECT * FROM user WHERE id=$user_id");
 	$user_row = db_fetch_array($user_results);
-
+	
 	make_edit_table("Edit User");
 	make_edit_text("User ID:", "user", "25", "50", $user_row["user"]);
 	make_edit_text("Full Name", "fullname", "25", "75", $user_row["fullname"]);
 	make_edit_password("Password:", "pass", "25", "50", "");
 	make_edit_password("Verify Password:", "vpass", "25", "50", "");
-	make_edit_select_from_array("Permit Type:", "permit", $GLOBALS['PERMIT_TYPES'], $user_row["permit"]);
+	make_edit_select_from_array("Permit Type:", "permit", $GLOBALS['PERMIT_TYPES'], $user_row["permit"], 'onChange="enableGroup(this.value)"');
 	make_edit_select_from_table("Group:", "group_id", "groups", $user_row["group_id"], "", array(0 => "-Root-"));
 	make_edit_hidden("action", "doedit");
 	make_edit_hidden("user_id", $user_id);
