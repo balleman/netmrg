@@ -49,52 +49,29 @@ TD.menu
 	padding-bottom: 3px;
 }
 
-.title_name
+.title_name, A.title_name, A:visited.title_name
 {
-	background-color : navy;
-	color : #EAEAEA;
+	background-color : #6699CC;
+	color : black;
 	font-family : sans-serif;
-	font-size : 24px;
+	font-size : 32px;
 	font-weight : bold;
-	padding-left: 3px;
-	padding-top: 2px;
-	padding-bottom: 1px;
-}
-
-A.title_name, A:visited.title_name
-{
-	background-color : navy;
-	color : #EAEAEA;
-	font-family : sans-serif;
-	font-size : 24px;
-	font-weight : bold;
-	text-decoration : none;
 }
 
 A:hover.title_name, A:active.title_name
 {
-	background-color : navy;
-	color : #FF8C00;
+	background-color : #6699CC;
+	color : #000080;
 	font-family : sans-serif;
-	font-size : 24px;
+	font-size : 32px;
 	font-weight : bold;
 	text-decoration : underline;
 }
 
-.company
+.company, A.company, A:visited.company
 {
-	background-color : navy;
-	color : #EAEAEA;
-	font-family : sans-serif;
-	font-size : 16px
-	font-weight : bold;
-	padding-right: 5px;
-}
-
-A.company, A:visited.company
-{
-	background-color : navy;
-	color : #EAEAEA;
+	background-color : #6699CC;
+	color : black;
 	font-family : sans-serif;
 	font-size : 16px;
 	font-weight : bold;
@@ -103,8 +80,8 @@ A.company, A:visited.company
 
 A:hover.company, A:active.company
 {
-	background-color : navy;
-	color : #FF8C00;
+	background-color : #6699CC;
+	color : #000080;
 	font-family : sans-serif;
 	font-size : 16px;
 	font-weight : bold;
@@ -113,8 +90,8 @@ A:hover.company, A:active.company
 
 .logindata
 {
-	background-color : navy;
-	color : #EAEAEA;
+	background-color : #6699CC;
+	color : black;
 	font-family : sans-serif;
 	font-size : 10px;
 	padding-bottom: 4px;
@@ -122,7 +99,7 @@ A:hover.company, A:active.company
 
 .loggedouttext
 {
-	background-color : navy;
+	background-color : #6699CC;
 	color : #E00000;
 	font-family : sans-serif;
 	font-size : 10px;
@@ -130,18 +107,19 @@ A:hover.company, A:active.company
 
 .loggedintext
 {
-	background-color : navy;
-	color : #EAEAEA;
+	background-color : #6699CC;
+	color : black;
 	font-family : sans-serif;
 	font-size : 10px;
 }
 
 .loggedinuser
 {
-	background-color : navy;
-	color : #00D000;
+	background-color : #6699CC;
+	color : #008000;
 	font-family : sans-serif;
 	font-size : 10px;
+	font-weight : bold;
 }
 
 .menutable
@@ -153,8 +131,8 @@ A:hover.company, A:active.company
 
 .menuhead
 {
-	background-color : #005000;
-	color : #D0D0D0;
+	background-color : #AEC9E4;
+	color : black;
 	font-family : sans-serif;
 	font-size : 12px;
 	font-weight : bold;
@@ -166,10 +144,20 @@ A:hover.company, A:active.company
 	padding-bottom: 2px;
 }
 
-.menuitem
+.menuitem, A.menuitem, A:visited.menuitem
 {
-	background-color : #D0D0D0;
-	color : #0000B0;
+	background-color : #F5F8FB;
+	color : black;
+	width: 125px;
+	font-family : sans-serif;
+	font-size : 12px;
+	padding-left: 3px;
+}
+
+A:hover.menuitem, A:active.menuitem
+{
+	background-color : #F5F8FB;
+	color : #FF8C00;
 	width: 125px;
 	font-family : sans-serif;
 	font-size : 12px;
