@@ -208,15 +208,16 @@ make_nbsp($depth * 4) .
 '<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $grp_row["name"] ."\n".
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?object_type=group&object_id='.$grp_id.'">'."\n".
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=group&object_id='.$grp_id.'">'."\n".
 '<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'."\n".
 '</a>'."\n".
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&type=1&group_id='.$grp_id.'">[Slide Show]</a>'."\n".
 '</td></tr></table>'."\n"
 				),
 				array(),
 				array(),
 				array(),
-				array(), 
+				array(),
 				array("text" => get_img_tag_from_status(get_group_status($grp_id)))
 			); // end make_display_item();
 		} // end if > 0 assoc items
@@ -224,16 +225,17 @@ make_nbsp($depth * 4) .
 		else
 		{
 			make_display_item("editfield".($rowcount%2),
-				array("text" => 
+				array("text" =>
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
-make_nbsp($depth * 4) . 
+make_nbsp($depth * 4) .
 '<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$grp_action.'&groupid='.$grp_id.'">'.
 '<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $grp_row["name"] .
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?object_type=group&object_id='.$grp_id.'">'.
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=group&object_id='.$grp_id.'">'.
 '<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
 '</a>'."\n".
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&type=1&group_id='.$grp_id.'">[Slide Show]</a>'."\n".
 '</td></tr></table>'."\n"
 				),
 				array(),
@@ -285,7 +287,7 @@ make_nbsp($depth * 4) .
 '<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $dev_row["name"] .
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?object_type=device&object_id='.$device_id.'">'.
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=device&object_id='.$device_id.'">'.
 '<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
 '</a>'."\n".
 '</td></tr></table>'."\n"
@@ -307,7 +309,7 @@ make_nbsp($depth * 4) .
 '<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $dev_row["name"] .
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?object_type=device&object_id='.$device_id.'">'.
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=device&object_id='.$device_id.'">'.
 '<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
 '</a>'."\n".
 '</td></tr></table>'."\n"
@@ -354,7 +356,7 @@ make_nbsp($depth * 4) .
 '<img src="'. $img . '" border="0" width="9" height="9">' . "&nbsp;" . $subdev_row['name'].
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?object_type=subdevice&object_id='.$subdev_id.'">'.
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=subdevice&object_id='.$subdev_id.'">'.
 '<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
 '</a>'."\n".
 '</td></tr></table>'."\n"
@@ -376,7 +378,7 @@ make_nbsp($depth * 4) .
 '<img src="'. $img . '" border="0" width="9" height="9">' . "&nbsp;" . $subdev_row['name'].
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?object_type=subdevice&object_id='.$subdev_id.'">'.
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=subdevice&object_id='.$subdev_id.'">'.
 '<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
 '</a>'."\n".
 '</td></tr></table>'."\n"

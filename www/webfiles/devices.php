@@ -187,7 +187,7 @@ function displaylist()
 		make_display_item("editfield".(($dev_count-1)%2),
 			array("text" => $dev_row["name"], "href" => "sub_devices.php?dev_id=$dev_id"),
 			array("text" => $links),
-			array("text" => formatted_link("View", "view.php?object_type=device&object_id=$dev_id") . "&nbsp;" .
+			array("text" => formatted_link("View", "view.php?action=view&object_type=device&object_id=$dev_id") . "&nbsp;" .
 				formatted_link("Duplicate", "{$_SERVER['PHP_SELF']}?action=duplicate&dev_id=$dev_id&grp_id={$_REQUEST['grp_id']}") . "&nbsp;" .
 				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST['grp_id']}") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('" . addslashes($dev_row["name"]) . "', '" . $dev_row["id"] . "')"))

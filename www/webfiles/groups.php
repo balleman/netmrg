@@ -89,7 +89,7 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 		make_display_item("editfield".(($grp_count-1)%2),
 			array("text" => $grp_row["name"], "href" => $group_link),
 			array("text" => $grp_row["comment"]),
-			array("text" => formatted_link("View", "view.php?object_type=group&object_id={$grp_row['id']}") . "&nbsp;" .
+			array("text" => formatted_link("View", "view.php?action=view&object_type=group&object_id={$grp_row['id']}") . "&nbsp;" .
 				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&grp_id=$grp_id") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('" . addslashes($grp_row["name"]) . "', '" . $grp_row["id"] . "')"))
 		); // end make_display_item();

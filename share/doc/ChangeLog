@@ -1,3 +1,6 @@
+2003.12.05  v0.10  balleman
+  - rework slideshow/view.php to implement many enhancements
+
 2003.11.26  v0.10  keb
   - bug#0000122 - configure enhancements for solaris
   - bug#0000123 - fixed several compile-time warnings
