@@ -1,5 +1,4 @@
-%define _prefix      
-%define _exec_prefix /usr
+%define _localdatadir /var
 
 Summary: Network Monitoring package using PHP, MySQL, and RRDtool
 Name: netmrg
