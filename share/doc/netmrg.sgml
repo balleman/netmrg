@@ -162,6 +162,15 @@ to the installed web directory (commonly
 Alias /netmrg "/usr/local/var/www/netmrg/webfiles"</programlisting>
 		</listitem>
 		<listitem>
+			<para>Setup Permissions</para>
+			<para>
+NetMRG does not need superuser permissions to run, therefore we will setup a user for it.
+			</para>
+<programlisting># useradd netmrg
+# chown netmrg:netmrg /usr/local/var/log/netmrg
+# chown netmrg:netmrg /usr/local/var/lib/netmrg/rrd</programlisting>
+		</listitem>
+		<listitem>
 			<para>Setup crontab</para>
 			<para>
 You can setup the crontab entries in two places: either edit /etc/crontab,
@@ -174,7 +183,8 @@ or run 'crontab -e' as root. For 'crontab -e', use an entry similar to this:
 Point your web browser at your install, and start graphing things!  The default 
 login is <userinput>admin</userinput> and the default password is 
 <userinput>nimda</userinput>.  Point your web browser at the host you built 
-this on (something similar to <computeroutput>http://yourhost.com/netmrg/</computeroutput>
+this on (something similar to <computeroutput>http://yourhost.com/netmrg/</computeroutput>) 
+and please change your password!
 			</para>
 		</listitem>
 	</orderedlist>
