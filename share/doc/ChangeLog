@@ -1,3 +1,6 @@
+2004.04.08  v0.15cvs  dwarner
+  - added some quoting to lib/graphing.php to prevent db errors
+
 2004.04.07  v0.15cvs  balleman
   - bug#0000184 - Solaris doesn't check for NULL in sprintf
 
