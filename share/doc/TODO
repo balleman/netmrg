@@ -38,8 +38,10 @@ make icons for links on various pages
 
 
 == balleman ==
-netmrg.cc
+gatherer
   XML-based configuration
+web/graphing
+  HRULE capability
 
 == far-away features ==
 customized 'view' page

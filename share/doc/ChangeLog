@@ -9,6 +9,7 @@
   - break netmrg.cpp into more managable chunks (devices, monitors, mappings)
   - add settings management to gatherer
   - allow for override of some settings by command line
+  - more verbose/graceful error handling in gatherer during startup/database failures
 
 2003.07.05  v0.8  silfreed
   - bug#0000002: updated logos on beta website
