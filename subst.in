@@ -18,8 +18,8 @@ while (my $f = shift @ARGV) {
 		$TEMP = "$f.$$.$XXXXXX";
 	}
 
-	open IN,  '<', $f    || die "Cannot open $f for reading";
-	open OUT, '>', $TEMP || die "Cannot make temporary file $TEMP";
+	open IN,  "<$f"    || die "Cannot open $f for reading";
+	open OUT, ">$TEMP" || die "Cannot make temporary file $TEMP";
 
 	while (<IN>) {
 		s|\@libexecdir\@|@libexecdir@|g; # put all --with-vars before directories
