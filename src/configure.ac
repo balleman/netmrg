@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.7 $)
+AC_REVISION($Revision: 1.8 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -36,24 +36,20 @@ AC_LANG(C++)
 AC_ARG_WITH(mysql-include-dir,
 	AC_HELP_STRING(
 		[--with-mysql-include-dir],
-		[MySQL include directory [[/usr/include/mysql]]]),
-	[mysql_include_dir=$withval],
-	[mysql_include_dir="/usr/include/mysql"])
+		[MySQL include directory [[/usr/(local/)include]]]),
+	[mysql_include_dir=$withval])
 AC_ARG_WITH(mysql-lib-dir,
 	AC_HELP_STRING(
 		[--with-mysql-lib-dir],
-		[MySQL library directory [[/usr/lib/mysql]]]),
-	[mysql_lib_dir=$withval],
-	[mysql_lib_dir="/usr/lib/mysql"])
-LDFLAGS="$LDFLAGS -L$mysql_lib_dir"
-CPPFLAGS="$CPPFLAGS -I$mysql_include_dir"
+		[MySQL library directory [[/usr/(local/)lib/mysql]]]),
+	[mysql_lib_dir=$withval])
 
 # snmp
 AC_ARG_WITH(snmp-include-dir,
 	AC_HELP_STRING(
 		[--with-snmp-include-dir],
 		[SNMP include base directory [[/usr/(local/)include]]]),
-	[snmp_inc_base_dir=$withval])
+	[snmp_include_dir=$withval])
 AC_ARG_WITH(snmp-lib-dir,
 	AC_HELP_STRING(
 		[--with-snmp-lib-dir],
@@ -105,23 +101,50 @@ AC_ARG_ENABLE(warnings,
 		[--enable-warnings],
 		[Enable -Wall if using g++]),
 	[ if test -n "$GXX"; then
-		AC_MSG_RESULT(adding -Wall to CXXFLAGS.)
-		CXXFLAGS="$CXXFLAGS -Wall"
+		AC_MSG_RESULT(adding -Wall to CPPFLAGS.)
+		CPPFLAGS="$CPPFLAGS -Wall"
 	  fi],
 	AC_MSG_RESULT(no))
-
 
 ### Checks for libraries.
 AC_CHECK_LIB(dl, dlopen)
 AC_CHECK_LIB(z, compress)
 AC_CHECK_LIB(pthread, pthread_exit)
 AC_CHECK_LIB(stdc++, main)
-AC_CHECK_LIB(mysqlclient, mysql_init,,
-	AC_MSG_ERROR([MySQL libraries not found.]))
-AC_CHECK_LIB(mysqlclient, mysql_thread_init, [],
-	AC_DEFINE(OLD_MYSQL, 1, [Old MySQL version]))
 AC_CHECK_LIB(xml2, xmlParseFile)
 
+## Determine MySQL library path
+# try and find libs without any additional libraries
+AC_CHECK_LIB(mysqlclient, mysql_init,
+	MYSQL_LIBS=" ",
+	MYSQL_LIBS=
+)
+
+# hunt through several directories trying to find the libraries
+if test "x$MYSQL_LIBS" = "x"; then
+	old_LDFLAGS="$LDFLAGS"
+	for try in /usr/lib /usr/lib/mysql /usr/local/lib /usr/local/mysql/lib $mysql_lib_dir; do
+		LDFLAGS="$old_LDFLAGS -L$try"
+		AC_CHECK_LIB(mysqlclient, mysql_init,
+			MYSQL_LIBS="-L$try -lmysqlclient",
+			MYSQL_LIBS=
+		)
+		if test "x$MYSQL_LIBS" != "x"; then
+			break;
+		fi
+	done
+	LDFLAGS="$old_LDFLAGS $MYSQL_LIBS"
+fi
+
+if test "x$MYSQL_LIBS" = "x"; then
+	AC_MSG_ERROR([MySQL libraries not found.  Use --with-mysql-lib-dir=<path>])
+fi
+# don't forget to add mysqlclient to the list of libraries
+LIBS="-lmysqlclient $LIBS"
+
+# now that we've found the libraries, check for MySQL < 4.0
+AC_CHECK_LIB(mysqlclient, mysql_thread_init, [],
+	AC_DEFINE(OLD_MYSQL, 1, [Old MySQL version]))
 
 ### Checks for header files.
 AC_HEADER_STDC
@@ -135,6 +158,36 @@ AC_CHECK_HEADERS( \
 	unistd.h
 )
 
+## Determine MySQL include path
+AC_MSG_CHECKING(for mysql/mysql.h)
+
+# Can we include headers in system include dirs?
+AC_TRY_COMPILE([#include <mysql/mysql.h>], [int a = 1;],
+	MYSQL_INCLUDE=" ",
+	MYSQL_INCLUDE=
+)
+
+# hunt through several directories trying to find the includes
+if test "x$MYSQL_INCLUDE" = "x"; then
+	old_CPPFLAGS="$CPPFLAGS"
+	for i in /usr/include /usr/local/include /usr/local/mysql/include $mysql_include_dir; do
+		CPPFLAGS="$old_CPPFLAGS -I$i"
+		AC_TRY_COMPILE([#include <mysql/mysql.h>], [int a = 1;],
+			MYSQL_INCLUDE="-I$i",
+			MYSQL_INCLUDE=
+		)
+		if test "x$MYSQL_INCLUDE" != "x"; then
+			break;
+		fi
+	done
+	CPPFLAGS="$old_CPPFLAGS $MYSQL_INCLUDE"
+fi
+
+if test "x$MYSQL_INCLUDE" = "x"; then
+	AC_MSG_RESULT(no) 
+	AC_MSG_ERROR([MySQL headers not found.  Use --with-mysql-include-dir=<path>])
+fi
+AC_MSG_RESULT(yes) 
 
 ### Checks for typedefs, structures, and compiler characteristics.
 #AC_CHECK_TYPES([long long])
@@ -147,14 +200,13 @@ AC_FUNC_MEMCMP
 AC_FUNC_STAT
 AC_CHECK_FUNCS(memmove)
 
-
 # Determine UCD or Net-SNMP include path
-if test "x$snmp_inc_base_dir" != "x"; then
+if test "x$snmp_include_dir" != "x"; then
   for i in / /ucd-snmp /include/ucd-snmp; do
-    test -f $snmp_inc_base_dir/$i/snmp.h && SNMP_INCDIR=$snmp_inc_base_dir/$i
+    test -f $snmp_include_dir/$i/snmp.h && SNMP_INCDIR=$snmp_include_dir/$i
   done
   for i in / /net-snmp /include/net-snmp; do
-    test -f $snmp_inc_base_dir/$i/net-snmp-config.h && SNMP_INCDIR=$snmp_inc_base_dir/$i
+    test -f $snmp_include_dir/$i/net-snmp-config.h && SNMP_INCDIR=$snmp_include_dir/$i
   done
 else
   for i in /usr/local/include /usr/include; do
@@ -179,8 +231,8 @@ else
 fi
 
 if test -z "$SNMP_INCDIR"; then
-  if test "x$snmp_inc_base_dir" != "x";then
-    AC_MSG_ERROR(Cannot find SNMP headers under $snmp_inc_base_dir)
+  if test "x$snmp_include_dir" != "x";then
+    AC_MSG_ERROR(Cannot find SNMP headers under $snmp_include_dir)
   else
     AC_MSG_ERROR(Cannot find SNMP headers.  Use --with-snmp-include-dir= to specify non-default path.)
   fi
