@@ -20,6 +20,7 @@ $GLOBALS["netmrg"]["imagespec"] = array(
 	"arrow-left-disabled" => "arrow-left-disabled.png",
 	"viewgraph-on" => "viewgraph-on.png",
 	"viewgraph-off" => "viewgraph-off.png",
+	"slideshow" => "slideshow.png",
 	"status-good-trig"       => "status-good-trig.png",
 	"status-good-untrig"     => "status-good-untrig.png",
 	"status-warning-trig"    => "status-warning-trig.png",

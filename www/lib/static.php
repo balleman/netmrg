@@ -200,6 +200,9 @@ function get_image_by_name($img_name)
 		case "arrow-left-disabled" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow-left-disabled']}";
 			break;
+		case "slideshow" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['slideshow']}";
+			break;
 		case "viewgraph-on" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['viewgraph-on']}";
 			break;

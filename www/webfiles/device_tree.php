@@ -211,7 +211,9 @@ make_nbsp($depth * 4) .
 '<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=group&object_id='.$grp_id.'">'."\n".
 '<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'."\n".
 '</a>'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&type=1&group_id='.$grp_id.'">[Slide Show]</a>'."\n".
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&type=1&group_id='.$grp_id.'">'.
+'<img src="'.get_image_by_name("slideshow").'" width="15" height="15" border="0" alt="View" title="Slide Show" align="center" />'."\n".
+'</a>'."\n".
 '</td></tr></table>'."\n"
 				),
 				array(),
@@ -235,7 +237,9 @@ make_nbsp($depth * 4) .
 '<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=group&object_id='.$grp_id.'">'.
 '<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
 '</a>'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&type=1&group_id='.$grp_id.'">[Slide Show]</a>'."\n".
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&type=1&group_id='.$grp_id.'">'.
+'<img src="'.get_image_by_name("slideshow").'" width="15" height="15" border="0" alt="View" title="Slide Show" align="center" />'."\n".
+'</a>'."\n".
 '</td></tr></table>'."\n"
 				),
 				array(),

@@ -5,6 +5,7 @@ FILES = status-unknown-trig.svg status-unknown-untrig.svg status-good-trig.svg s
 
 all : $(FILES)
 	@$(BATIK) -h 15 disk.svg
+	@$(BATIK) -h 15 slideshow.svg
 	@$(BATIK) -h 15 viewgraph-on.svg
 	@$(BATIK) -h 15 viewgraph-off.svg
 	@$(BATIK) -h 35 -d netmrg-logo-small.png netmrg-logo.svg
