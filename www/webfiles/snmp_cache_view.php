@@ -129,11 +129,11 @@ function view_disk_cache()
 function view_interface_cache()
 {
 	check_auth(1);
-	$query = "SELECT * FROM snmp_interface_cache";
+	$query = "SELECT * FROM snmp_interface_cache snmp ";
 	$sort_href = "{$_SERVER['PHP_SELF']}?action=view&type=interface&";
 	if (isset($_REQUEST["dev_id"]))
 	{
-		$query .= " WHERE dev_id={$_REQUEST['dev_id']}";
+		$query .= " WHERE snmp.dev_id={$_REQUEST['dev_id']} ";
 		$sort_href .= "dev_id={$_REQUEST['dev_id']}&";
 	}
 	$sort_href .= "order_by";
@@ -158,15 +158,16 @@ function view_interface_cache()
 		"Alias",	"$sort_href=ifAlias",
 		"IP Address",	"$sort_href=ifIP",
 		"MAC Address",	"$sort_href=ifMAC",
-		"Commands","");
+		"","");
 
 	$handle = do_query($query);
 	for ($i = 0; $i < mysql_num_rows($handle); $i++)
 	{
 		$row = mysql_fetch_array($handle);
+		$status = "";
 		if (isset($row['ifAdminStatus']))
 		{
-			$status  = $GLOBALS['INTERFACE_STATUS'][$row['ifAdminStatus']] . "/";
+			$status .= $GLOBALS['INTERFACE_STATUS'][$row['ifAdminStatus']] . "/";
 		}
 		if (isset($row['ifOperStatus']))
 		{
@@ -179,6 +180,30 @@ function view_interface_cache()
 				$status .= $GLOBALS['INTERFACE_TYPE'][$row['ifType']];
 			}
 		}
+		$links = "";
+		$s_query = do_query("SELECT sub.id AS id FROM sub_devices sub, sub_dev_variables var 
+					WHERE sub.id=var.sub_dev_id AND var.name='ifIndex' AND var.value={$row['ifIndex']}");
+		$s_row = mysql_fetch_array($s_query);
+		if (isset($s_row['id']))
+		{
+			$links .= formatted_link("View", "view.php?object_type=subdevice&object_id={$s_row['id']}");
+			$links .= "&nbsp;";
+			$links .= formatted_link("Monitors", "monitors.php?sub_dev_id={$s_row['id']}");
+			$links .= "&nbsp;";
+			$links .= formatted_link_disabled("Monitor/Graph");
+		}
+		else
+		{
+			$links .= formatted_link_disabled("View");
+			$links .= "&nbsp";
+			$links .= formatted_link_disabled("Monitors");
+			$links .= "&nbsp;";
+			$links .= formatted_link("Monitor/Graph", "snmp_cache_view.php?graph=1&dev_id=" . $row["dev_id"] . "&index=" . $row["ifIndex"]);
+		}
+
+		
+		
+		
 		make_display_item("editfield".($i%2),
 			array("text" => $row["ifIndex"]),
 			array("text" => $status),
@@ -187,7 +212,7 @@ function view_interface_cache()
 			array("text" => $row["ifAlias"]),
 			array("text" => $row["ifIP"]),
 			array("text" => $row["ifMAC"]),
-			array("text" => formatted_link("Graph Traffic","snmp_cache_view.php?graph=1&dev_id=" . $row["dev_id"] . "&index=" . $row["ifIndex"]))
+			array("text" => $links)
 		); // end make_display_item();
 	} // end for each row
 	echo("</table>");
