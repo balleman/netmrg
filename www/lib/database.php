@@ -80,7 +80,7 @@ function db_num_rows($q_handle)
 // escape data in query
 function db_escape_string($string)
 {
-	return mysql_escape_string($string);
+	return (get_magic_quotes_gpc()) ? $string : mysql_escape_string($string);
 } // end db_escape()
 
 // last insert id

@@ -23,9 +23,9 @@ if (IsLoggedIn())
 // if external auth
 if ($GLOBALS["netmrg"]["externalAuth"]
 	&& !empty($_SERVER["PHP_AUTH_USER"])
-	&& check_user($_SERVER["PHP_AUTH_USER"]))
+	&& check_user(db_escape_string($_SERVER["PHP_AUTH_USER"])))
 {
-	$_SESSION["netmrgsess"]["username"] = $_SERVER["PHP_AUTH_USER"];
+	$_SESSION["netmrgsess"]["username"] = db_escape_string($_SERVER["PHP_AUTH_USER"]);
 	$_SESSION["netmrgsess"]["password"] = "";
 	$_SESSION["netmrgsess"]["accessTime"] = time();
 	$_SESSION["netmrgsess"]["remote_addr"] = $_SERVER["REMOTE_ADDR"];
@@ -46,6 +46,8 @@ else if ($GLOBALS["netmrg"]["externalAuth"]
 // if we need to login
 if (!empty($_REQUEST["user_name"]))
 {
+	$_REQUEST["user_name"] = db_escape_string($_REQUEST["user_name"]);
+	$_REQUEST["password"] = db_escape_string($_REQUEST["password"]);
 	if (!$GLOBALS["netmrg"]["externalAuth"]
 		&& check_user_pass($_REQUEST["user_name"], $_REQUEST["password"]))
 	{
