@@ -1,5 +1,7 @@
 @SET_MAKE@
 
+include $(top_srcdir)/Make.inc
+
 # options to install files in the etc directory
 netmrg_etcdir=$(sysconfdir)
 netmrg_etc_DATA = netmrg.xml netmrg.conf

@@ -1,3 +1,7 @@
+@SET_MAKE@
+
+include $(top_srcdir)/Make.inc
+
 SUFFIXES = .rrd .xml
 RRDS = zero.rrd
 

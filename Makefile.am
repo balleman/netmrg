@@ -1,10 +1,8 @@
 @SET_MAKE@
 
-AM_MAKEFLAGS = \
-	` test "$(VERBOSE)" == "1" && echo $(ECHO_N) "" \
-	|| echo $(ECHO_N) "-s" `
+include $(top_srcdir)/Make.inc
 
-SUBDIRS	= src www etc var
+SUBDIRS	= src www etc var .
 
 install : all install-recursive
 
