@@ -1,3 +1,6 @@
+2004.02.22  v0.13  silfreed
+  - bug#0000046 - better group/device navigation
+
 2004.02.14  v0.13  balleman
   - bug#0000155 - subdevice name escaping in snmp_cache_view.php
   - bug#0000154 - add navbar to conditions.php
@@ -10,7 +13,7 @@
 2004.01.10  v0.13  balleman
   - bug#0000149 - recache.php security issues
 
-2004.01.08  v0.13  dwarner
+2004.01.08  v0.13  silfreed
   - bug#0000143 - started deletion dependancy checking
 
 2004.01.04  v0.13  balleman

@@ -160,7 +160,7 @@ function display()
 </table>
 <?php
 	end_page();
-} // end list();
+} // end display();
 
 
 ?>
