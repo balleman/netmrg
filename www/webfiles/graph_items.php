@@ -254,7 +254,7 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 		make_edit_hidden("mon_id", $ds_row["mon_id"]);
 	}
 
-	make_edit_text("Fixed Value or Value Multiplier:", "multiplier", "20", "20", $ds_row["multiplier"]);
+	make_edit_text("Fixed Value or Value Multiplier:", "multiplier", "25", "100", $ds_row["multiplier"]);
 	make_edit_group("Legend");
 	make_edit_select_from_array("Alignment:", "alignment", $GLOBALS['ALIGN_ARRAY'], $ds_row["alignment"]);
 	make_edit_checkbox("Show Current Value", "show_current", isin($ds_row["stats"], "CURRENT"));
