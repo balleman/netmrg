@@ -57,12 +57,15 @@ function doedit()
 
 	$options = substr($options, 0, -1);
 	
-	db_update("$command graphs SET name=\"" . db_escape_string($_REQUEST['graph_name']) . "\",
-			title=\"" . db_escape_string($_REQUEST['graph_title']) . "\",
-			comment=\"" . db_escape_string($_REQUEST['graph_comment']) . "\",
-			width=\"{$_REQUEST['width']}\", height=\"{$_REQUEST['height']}\",
-			vert_label=\"" . db_escape_string($_REQUEST['vert_label']) . "\",
-			base={$_REQUEST['base']}, options=\"$options\" $where");
+	db_update("$command graphs SET
+			name='" . db_escape_string($_REQUEST['graph_name']) . "',
+			title='" . db_escape_string($_REQUEST['graph_title']) . "',
+			comment='" . db_escape_string($_REQUEST['graph_comment']) . "',
+			width='{$_REQUEST['width']}\", height=\"{$_REQUEST['height']}',
+			vert_label='" . db_escape_string($_REQUEST['vert_label']) . "',
+			base='{$_REQUEST['base']}', 
+			options='$options' 
+			$where");
 
 	header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
 	exit(0);
