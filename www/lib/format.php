@@ -41,7 +41,10 @@ function space_to_nbsp($input)
 */
 function begin_page($pagename = "", $prettyname = "", $refresh = 0, $bodytags = "")
 {
-echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
+	// gather errors from prerequisits being met or not
+	$prereqs_errors = PrereqsMet();
+	
+	echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
 ?>
 <!DOCTYPE html
      PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
@@ -115,7 +118,7 @@ if (!empty($pagename))
 	<td class="empty" valign="top"><img src="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/img/trans.gif" width="4" height="1" alt="trans gif"></td>
 	<td valign="top">
 	<?php
-		if (IsLoggedIn() && !UpdaterNeedsRun())
+		if (IsLoggedIn() && !UpdaterNeedsRun() && count($prereqs_errors) == 0)
 		{
 			display_menu();
 		} // end if is logged in, show the menu
@@ -127,27 +130,50 @@ if (!empty($pagename))
 
 <?php
 	// if we need to run the updater, don't do anything else
-	if (IsLoggedIn() && UpdaterNeedsRun() && strpos($_SERVER["PHP_SELF"], "updater.php") === false)
+	if (IsLoggedIn() && (UpdaterNeedsRun() || count($prereqs_errors)))
 	{
-		if ($_SESSION["netmrgsess"]["permit"] != 3)
+		if (UpdaterNeedsRun())
 		{
+			if (strpos($_SERVER["PHP_SELF"], "updater.php") !== false)
+			{
+				echo "<!-- updater needs run -->\n";
+				if ($_SESSION["netmrgsess"]["permit"] != 3)
+				{
 ?>
+<!-- updater needs run and on updater page -->
 This installation is currently unusable due to a recent upgrade.  Please contact 
 your administrator to have the rest of the upgrade performed. <br />
 <a href="logout.php">logout</a><br />
-<?php		} // end if not admin
-		else
-		{
+<?php
+					end_page();
+					exit();
+				} // end if not admin
+			}
+			else
+			{
 ?>
+<!-- updater needs run and not on updater page -->
 Your installation is currently in an unusable state; please proceed to update 
 your installation <a href="updater.php">here</a><br />
 <a href="logout.php">logout</a><br />
 <?php
-		} // end if admin
+				end_page();
+				exit();
+			} // end if updater needs run
+		} // end if updater needs run
 		
-		end_page();
-		exit();
-	} // end if updater needs run
+		else if (count($prereqs_errors))
+		{
+			echo "<!-- prereqs not met -->\n";
+			foreach ($prereqs_errors as $error)
+			{
+				echo '<span style="color: red;">'.$error.'</span><br />'."\n";
+			} // end foreach prereq error
+			
+			end_page();
+			exit();
+		} // end if prereqs weren't met
+	} // end if logged in and updater needs run or prereqs weren't met
 } // end begin_page()
 
 

@@ -1,3 +1,6 @@
+2004.02.23  v0.13  silfreed
+  - bug#0000150 - prerequisite matching (php safe mode + others)
+
 2004.02.22  v0.13  silfreed
   - bug#0000046 - better group/device navigation
 

@@ -1008,4 +1008,49 @@ function GetXMLConfig()
 } // end GetXMLConfig();
 
 
+/**
+* PrereqsMet()
+* 
+* checks if the prerequisits for running NetMRG are met
+*
+* @returns array of errors
+*/
+function PrereqsMet()
+{
+	/**
+	PHP >= v4.1.0
+	PHP Safe Mode == off
+	RRDtool is executable
+	netmrg-gatherer is executable
+	*/
+	
+	$errors = array();
+	
+	// PHP >= 4.1.0
+	$phpver = explode(".", phpversion());
+	if ($phpver[0] < 4 && $phpver[1] < 1 && $phpver[2] < 0)
+	{
+		array_push($errors, "PHP Version 4.1.0 or higher required");
+	} // end if version less than 4.1.0
+	
+	// PHP Safe Mode == off
+	if (ini_get("safe_mode"))
+	{
+		array_push($errors, "PHP Safe Mode not supported");
+	} // end if safe mode enabled
+	
+	// RRDtool is executable
+	if (!is_executable($GLOBALS["netmrg"]["rrdtool"]))
+	{
+		array_push($errors, "RRD Tool not found or is not executable");
+	} // end if rrdtool not executable
+	
+	// netmrg-gatherer is executable
+	if (!is_executable($GLOBALS["netmrg"]["binary"]))
+	{
+		array_push($errors, "NetMRG Gatherer not found or not executable");
+	} // end if gatherer not executable
+	
+	return $errors;
+} // end PrereqsMet();
 ?>
