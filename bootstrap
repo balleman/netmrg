@@ -3,5 +3,13 @@
 set -x
 
 aclocal
-automake --foreign --add-missing --copy Makefile etc/Makefile www/Makefile
+
+autoheader
+
+automake --foreign --add-missing --copy \
+	Makefile \
+	etc/Makefile \
+	src/Makefile \
+	www/Makefile
+
 autoconf
