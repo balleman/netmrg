@@ -126,7 +126,7 @@ function do_delete()
 {
 	check_auth(2);
 
-        delete_event($_REQUEST['id']});
+        delete_event($_REQUEST['id']);
 
 	header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}");
 }
