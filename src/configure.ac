@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.17 $)
+AC_REVISION($Revision: 1.18 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -77,9 +77,9 @@ fi
 case $host_alias in
 *solaris*)
     AC_DEFINE(HAVE_LONG_LONG_SCANF, 1, scanf supports long long)
-    CPPFLAGS="$CPPFLAGS -D_POSIX_PTHREAD_SEMANTICS";;
+    CPPFLAGS="$CPPFLAGS -D_POSIX_PTHREAD_SEMANTICS"
     LDFLAGS="$LDFLAGS -L/usr/local/ssl/lib"
-    LIBS="-lkstat $LIBS"
+    LIBS="-lkstat $LIBS";;
 *linux*)
     AC_DEFINE(HAVE_LONG_LONG_SCANF, 1, scanf supports long long);;
 *freebsd*)
