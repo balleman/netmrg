@@ -1,3 +1,17 @@
+0.8  2003.01.13  silfreed
+  - updated copyright info on every .php page to refer to doc/LICENSE
+  - new versioning/changelog scheme
+
+
+0.8  2003.01.12  silfreed
+  - wrote device_tree.php (based on last_status.php)
+  - auth code much more complete
+    * will logout a user if they've been logged in too long
+    * will logout a user if they're from a new IP
+    * implemented on every page
+  - menu.php updated to use static array (in stat.php)
+    * includes support for displaying links based on auth levels
+
 
 == versions before 2002.11.19 didn't have a date assocated with them ==
 0.79.3a
