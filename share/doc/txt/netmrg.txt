@@ -106,14 +106,14 @@ Chapter 2. Revision History
 
      * 0.16
        2004.06.10
-       Minor  Bugfixes  and  Feature  Enhancements;  fixed a user
-       managagement bug, fixed many bugs related to 'single view only'
-       users being able to see graphs, added ability to ignore SNMP
-       uptime checks for devices (allowing us to monitor some broken
+       Minor Bugfixes and Feature Enhancements; fixed a user management
+       bug and several bugs related to 'single view only' users not
+       being able to see graphs, added the ability to ignore SNMP
+       uptime checks for devices (permitting the monitoring of broken
        devices), added the ability to do an SNMP walk of an OID (useful
-       for windows boxes; like getting the 1st or 2nd CPU usage),
-       better group/device management, autoconf cleanups (with support
-       for FC2), beta syslog support, beta daemonized gatherer
+       for the Windows SNMP agent), enhanced group/device management,
+       cleaned up autoconf (now supports FC2), and added experimental
+       syslog and daemon support in the gatherer.
      * 0.15
        2004.05.20
        Minor Bugfixes and Feature Enhancements; fixes for various db
