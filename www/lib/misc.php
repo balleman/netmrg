@@ -8,6 +8,19 @@
 * see doc/LICENSE for copyright information
 ********************************************/
 
+function fix_magic_quotes($astr)
+{
+	if (get_magic_quotes_gpc())
+	{
+    	$res = stripslashes($astr);
+	}
+	else
+    {
+		$res = $astr;
+	}
+
+	return $res;
+}
 
 function store_array_in_cookie($cookiename, $array2store)
 {

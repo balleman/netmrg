@@ -42,7 +42,7 @@ function do_edit()
 		sub_dev_id='{$_REQUEST['sub_dev_id']}',
 		test_type='{$_REQUEST['test_type']}',
 		test_id='{$_REQUEST['test_id']}',
-		test_params='{$_REQUEST['test_params']}',
+		test_params='" . db_escape_string(fix_magic_quotes($_REQUEST['test_params'])) ."',
 		data_type='{$_REQUEST['data_type']}',
 		min_val={$_REQUEST['min_val']},
 		max_val={$_REQUEST['max_val']},
@@ -101,7 +101,7 @@ function do_list()
 	for ($mon_count = 0; $mon_count < $mon_total; $mon_count++)
 	{
 		$mon_row = db_fetch_array($mon_results);
-		$mon_id  = $mon_row[0];
+		$mon_id  = $mon_row["id"];
 
 		if ($mon_row["data_type"] != -1)
 		{
@@ -145,14 +145,16 @@ function do_list()
 				<td>'. $mon_row["last_time"] .'</td></tr>
 			</table>';
 
-		$short_name = addslashes(get_short_monitor_name($mon_row["id"]));
+		$short_name = get_short_monitor_name($mon_row["id"]);
+		$html_name = htmlspecialchars($short_name);
+		$java_name = addslashes($html_name);
 
 		make_display_item("editfield".($mon_count%2),
-			array("text" => $short_name, "href" => "events.php?mon_id={$mon_row['id']}"),
+			array("text" => $html_name, "href" => "events.php?mon_id={$mon_row['id']}"),
 			array("text" => $data),
 			array("text" => $graph),
 			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&mon_id=$mon_id&sub_dev_id={$_REQUEST['sub_dev_id']}") . "&nbsp;" .
-				formatted_link("Delete","javascript:del('$short_name', '$mon_id')"))
+				formatted_link("Delete","javascript:del('$java_name', '$mon_id')"))
 		); // end make_display_item();
 
 	} // end for each monitor
@@ -331,7 +333,7 @@ function edit()
 		} // end if editing
 	}
 
-	make_edit_text("Parameters:", "test_params", 50, 100, $mon_row["test_params"]);
+	make_edit_text("Parameters:", "test_params", 50, 100, htmlspecialchars($mon_row["test_params"]));
 
 	make_edit_group("Graphing Options");
 
