@@ -1,6 +1,7 @@
 2004.02.24  v0.13  silfreed
   - bug#0000046 & bug#0000047 - new group/device navigation w/ updated history bar
   - started on bug#0000160 - broken device duplication
+  - version bump to 0.14cvs
 
 2004.02.23  v0.13  silfreed
   - bug#0000150 - prerequisite matching (php safe mode + others)

@@ -58,9 +58,10 @@ update docs w/ release notes
 version bump in:
   configure.ac (run bootstrap)
   share/netmrg.mysql
+  share/netmrg.spec
   share/doc/VERSION
   www/lib/stat.php
-  share/netmrg.spec
+  www/webfiles/updater.php
   bugs.netmrg.net
 copy items from DBChangeLog to www/webfiles/updater.php
 generate new template database
