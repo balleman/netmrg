@@ -388,7 +388,7 @@ and please change your password!
 				<arg choice="opt">-H <replaceable>db host</replaceable></arg>
 				<arg choice="opt">-D <replaceable>db name</replaceable></arg>
 				<arg choice="opt">-u <replaceable>db user</replaceable></arg>
-				<arg choice="opt">-p <replaceable>db password</replaceable></arg>
+				<arg choice="opt">-p <arg choice="opt"><replaceable>db password</replaceable></arg></arg>
 				<arg choice="opt">-i <replaceable>device id</replaceable></arg>
 				<arg choice="opt">-d <replaceable>device id</replaceable></arg>
 			</cmdsynopsis>
