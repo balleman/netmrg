@@ -277,7 +277,7 @@ make_nbsp($depth * 4) .
 				$device_id = $dev_row["id"];
 				$device_action = "";
 				$editdevice = ($_SESSION["netmrgsess"]["permit"] > 0) ? '<a class="editfield'.($rowcount%2).'" href="sub_devices.php?dev_id='.$device_id.'">'.
-'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
+'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="center" />'.
 '</a>'."\n" : "";
 				
 				// draw +- and create link for device to expand/collapse
