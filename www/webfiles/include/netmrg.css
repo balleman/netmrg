@@ -226,7 +226,7 @@ A:hover.menuitem, A:active.menuitem
 A.editfield0, A:visited.editfield0
 {
 	background-color : #CECECE;
-	color : black;
+	color : #0000B0;
 	font-family : sans-serif;
 	font-size : 12px;
 	padding : 0px;
@@ -246,7 +246,7 @@ A.editfield0, A:visited.editfield0
 A.editfield1, A:visited.editfield1
 {
 	background-color : #E4E4E4;
-	color : black;
+	color : #0000B0;
 	font-family : sans-serif;
 	font-size : 12px;
 	padding : 0px;

@@ -289,10 +289,13 @@ function make_display_table($title, $addlink = "")
 		$curitem = func_get_arg($item_num);
 ?>
 		<td class="editheader" width="<?php echo (80 / (func_num_args() - 2)); ?>%">
-			<a class="editheaderlink" href="<?php 
-			if (!empty($curitem["href"])) { echo $curitem["href"]; } else { echo "#"; } ?>"><?php
-			if (!empty($curitem["text"])) { echo $curitem["text"]; } else { echo "&nbsp;"; }
-			?></a>
+			<?php if (!empty($curitem["href"])) { ?>
+			<a class="editheaderlink" href="<?php echo $curitem["href"]; ?>">
+			<?php } // end if href ?>
+			<?php if (!empty($curitem["text"])) { echo $curitem["text"]; } else { echo "&nbsp;"; } ?>
+			<?php if (!empty($curitem["href"])) { ?>
+			</a>
+			<?php } // end if href ?>
 		</td>
 <?php
 	} // end for
