@@ -31,6 +31,7 @@ a device's type can affect the list of tests that can be performed on it
 when looking at a device's graphs, you should be able to click next to it
   and follow it to the next device (if applicable)
 
+
 == silfreed ==
 design public website
 CSS-ificiation
@@ -41,6 +42,8 @@ custom image directories
   - select image directory from config.php
 make icons for links on various pages
 make netmrg xhtml compliant
+make svg images for most actions
+  - view edit interfaces disks status (red yellow green blue)
 
 
 == balleman ==
@@ -68,4 +71,5 @@ distributed netmrg
   - how to delegate tasks: have the master keep a list of tasks for the slaves,
     and have the slaves get them periodically?  this will require the
     installations to be named
+
 
