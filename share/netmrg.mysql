@@ -1,6 +1,6 @@
 -- MySQL dump 8.23
 --
--- Host: localhost    Database: netmrg2
+-- Host: localhost    Database: netmrg_template
 ---------------------------------------------------------
 -- Server version	3.23.58
 
@@ -102,6 +102,7 @@ CREATE TABLE devices (
   snmp_retries tinyint(3) unsigned NOT NULL default '3',
   snmp_port smallint(5) unsigned NOT NULL default '161',
   status smallint(6) NOT NULL default '0',
+  no_snmp_uptime_check tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (id),
   KEY disabled (disabled)
 ) TYPE=MyISAM;
@@ -111,7 +112,7 @@ CREATE TABLE devices (
 --
 
 
-INSERT INTO devices VALUES (1,'Template Linux Box','127.0.0.1','',8,1,1,0,0,0,0,1000000,3,161,0);
+INSERT INTO devices VALUES (1,'Template Linux Box','127.0.0.1','',8,1,1,0,0,0,0,1000000,3,161,0,0);
 
 --
 -- Table structure for table `event_log`
@@ -214,6 +215,8 @@ CREATE TABLE graphs (
   type enum('custom','template') NOT NULL default 'custom',
   options set('nolegend','logarithmic') NOT NULL default '',
   base int(11) NOT NULL default '1000',
+  max int(11) default NULL,
+  min int(11) default NULL,
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -222,14 +225,14 @@ CREATE TABLE graphs (
 --
 
 
-INSERT INTO graphs VALUES (1,'Linux Box - CPU Utilization','%dev_name% - CPU Utilization','',575,100,'% Usage','template','',1000);
-INSERT INTO graphs VALUES (2,'Linux Box - Load Average','%dev_name% - Load Average','',575,100,'run queue size','template','',1000);
-INSERT INTO graphs VALUES (3,'Linux Box - TCP Connections','%dev_name% - TCP Connections','',575,100,'Connections','template','',1000);
-INSERT INTO graphs VALUES (4,'Linux Box - Logged In Users','%dev_name% - Logged In Users','',575,100,'Users','template','',1000);
-INSERT INTO graphs VALUES (5,'Linux Box - System Processes','%dev_name% - System Processes','',575,100,'Processes','template','',1000);
-INSERT INTO graphs VALUES (6,'Linux Box - Available Memory','%dev_name% - Available Memory','',575,100,'Bytes','template','',1024);
-INSERT INTO graphs VALUES (7,'Linux Box - LAN Traffic','%dev_name% - %ifDescr%','Interface: %ifDescr%%n       IP: %ifIP%',575,100,'bytes / sec','template','',1000);
-INSERT INTO graphs VALUES (8,'Linux Box - Disk Utilization','%dev_name% - %dskPath%','',575,100,'Bytes','template','',1024);
+INSERT INTO graphs VALUES (1,'Linux Box - CPU Utilization','%dev_name% - CPU Utilization','',575,100,'% Usage','template','',1000,NULL,NULL);
+INSERT INTO graphs VALUES (2,'Linux Box - Load Average','%dev_name% - Load Average','',575,100,'run queue size','template','',1000,NULL,NULL);
+INSERT INTO graphs VALUES (3,'Linux Box - TCP Connections','%dev_name% - TCP Connections','',575,100,'Connections','template','',1000,NULL,NULL);
+INSERT INTO graphs VALUES (4,'Linux Box - Logged In Users','%dev_name% - Logged In Users','',575,100,'Users','template','',1000,NULL,NULL);
+INSERT INTO graphs VALUES (5,'Linux Box - System Processes','%dev_name% - System Processes','',575,100,'Processes','template','',1000,NULL,NULL);
+INSERT INTO graphs VALUES (6,'Linux Box - Available Memory','%dev_name% - Available Memory','',575,100,'Bytes','template','',1024,NULL,NULL);
+INSERT INTO graphs VALUES (7,'Linux Box - LAN Traffic','%dev_name% - %ifDescr%','Interface: %ifDescr%%n       IP: %ifIP%',575,100,'bytes / sec','template','',1000,NULL,NULL);
+INSERT INTO graphs VALUES (8,'Linux Box - Disk Utilization','%dev_name% - %dskPath%','',575,100,'Bytes','template','',1024,NULL,NULL);
 
 --
 -- Table structure for table `groups`
@@ -501,6 +504,8 @@ CREATE TABLE tests_snmp (
   name varchar(200) NOT NULL default '',
   oid varchar(250) NOT NULL default '',
   dev_type int(11) NOT NULL default '0',
+  type tinyint(4) NOT NULL default '0',
+  subitem int(11) NOT NULL default '0',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
 
@@ -509,47 +514,47 @@ CREATE TABLE tests_snmp (
 --
 
 
-INSERT INTO tests_snmp VALUES (1,'TNT - Modems Online','.1.3.6.1.4.1.529.10.6.0',8);
-INSERT INTO tests_snmp VALUES (2,'Host - System Processes','.1.3.6.1.2.1.25.1.6.0',8);
-INSERT INTO tests_snmp VALUES (3,'Host - Logged in Users','.1.3.6.1.2.1.25.1.5.0',8);
-INSERT INTO tests_snmp VALUES (4,'Cisco - CPU Utilization','.1.3.6.1.4.1.9.2.1.58.0',8);
-INSERT INTO tests_snmp VALUES (5,'UCD - CPU Percent User','enterprises.ucdavis.systemStats.ssCpuRawUser.0',8);
-INSERT INTO tests_snmp VALUES (6,'UCD - CPU Percent Idle','enterprises.ucdavis.systemStats.ssCpuRawIdle.0',8);
-INSERT INTO tests_snmp VALUES (7,'UCD - CPU Percent System','enterprises.ucdavis.systemStats.ssCpuRawSystem.0',8);
-INSERT INTO tests_snmp VALUES (8,'UCD - CPU Percent Nice','enterprises.ucdavis.systemStats.ssCpuRawNice.0',8);
-INSERT INTO tests_snmp VALUES (9,'UCD - Load Average - 1 min','laLoad.1',8);
-INSERT INTO tests_snmp VALUES (10,'UCD - Load Average - 5 min','laLoad.2',2);
-INSERT INTO tests_snmp VALUES (11,'UCD - Load Average - 15 min','laLoad.3',2);
-INSERT INTO tests_snmp VALUES (12,'UCD - Available Swap','memAvailSwap.0',2);
-INSERT INTO tests_snmp VALUES (13,'UCD - Available Physical RAM','memAvailReal.0',2);
-INSERT INTO tests_snmp VALUES (19,'C5k - % Bandwidth','.1.3.6.1.4.1.9.5.1.1.8.0',2);
-INSERT INTO tests_snmp VALUES (18,'Open TCP Connections','tcp.tcpCurrEstab.0',2);
-INSERT INTO tests_snmp VALUES (21,'C7k Free Memory (Processor)','.1.3.6.1.4.1.9.9.48.1.1.1.6.1',2);
-INSERT INTO tests_snmp VALUES (22,'C7k Free Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.6.5',2);
-INSERT INTO tests_snmp VALUES (23,'C7k Used Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.5.5',2);
-INSERT INTO tests_snmp VALUES (24,'UCD - Executable 1','enterprises.ucdavis.extTable.extEntry.extOutput.1',2);
-INSERT INTO tests_snmp VALUES (25,'DNS - A Records','enterprises.ucdavis.extTable.extEntry.extOutput.1',2);
-INSERT INTO tests_snmp VALUES (26,'DNS - PTR Records','enterprises.ucdavis.extTable.extEntry.extOutput.2',2);
-INSERT INTO tests_snmp VALUES (27,'DNS - MX Records','enterprises.ucdavis.extTable.extEntry.extOutput.3',2);
-INSERT INTO tests_snmp VALUES (28,'DNS - CNAME Records','enterprises.ucdavis.extTable.extEntry.extOutput.4',2);
-INSERT INTO tests_snmp VALUES (29,'DNS - ANY Records','enterprises.ucdavis.extTable.extEntry.extOutput.5',2);
-INSERT INTO tests_snmp VALUES (30,'Cisco - RSP - Inlet Temperature (C)','enterprises.9.9.13.1.3.1.3.1',5);
-INSERT INTO tests_snmp VALUES (31,'Cisco - RSP - Hotpoint Temperature (C)','enterprises.9.9.13.1.3.1.3.2',5);
-INSERT INTO tests_snmp VALUES (32,'Cisco - RSP - Exhaust Temperature (C)','enterprises.9.9.13.1.3.1.3.3',5);
-INSERT INTO tests_snmp VALUES (33,'TNT - Dead Modems','.1.3.6.1.4.1.529.15.7.0',4);
-INSERT INTO tests_snmp VALUES (34,'TNT - Disabled Modems','.1.3.6.1.4.1.529.15.5.0',4);
-INSERT INTO tests_snmp VALUES (35,'TNT - Suspect Modems','.1.3.6.1.4.1.529.15.3.0',4);
-INSERT INTO tests_snmp VALUES (36,'TNT - Available Modems','.1.3.6.1.4.1.529.15.1.0',4);
-INSERT INTO tests_snmp VALUES (37,'TNT - Busy Modems','.1.3.6.1.4.1.529.15.9.0',4);
-INSERT INTO tests_snmp VALUES (38,'Interfaces - Bytes Out','ifOutOctets.%ifIndex%',8);
-INSERT INTO tests_snmp VALUES (39,'Interfaces - Bytes In','ifInOctets.%ifIndex%',8);
-INSERT INTO tests_snmp VALUES (40,'Interfaces - Errors In','ifInErrors.%ifIndex%',8);
-INSERT INTO tests_snmp VALUES (41,'TNT - Connected DS0s','.1.3.6.1.4.1.529.4.21.1.7.%ifIndex%',8);
-INSERT INTO tests_snmp VALUES (42,'Disk - Size (kB)','dskTotal.%dskIndex%',8);
-INSERT INTO tests_snmp VALUES (43,'Disk - Available (kB)','dskAvail.%dskIndex%',8);
-INSERT INTO tests_snmp VALUES (44,'Disk - Used (kB)','dskUsed.%dskIndex%',8);
-INSERT INTO tests_snmp VALUES (45,'Disk - Percent Used','dskPercent.%dskIndex%',8);
-INSERT INTO tests_snmp VALUES (46,'Disk - Percent Node Usage','dskPercentNode.%dskIndex%',8);
+INSERT INTO tests_snmp VALUES (1,'TNT - Modems Online','.1.3.6.1.4.1.529.10.6.0',8,0,0);
+INSERT INTO tests_snmp VALUES (2,'Host - System Processes','.1.3.6.1.2.1.25.1.6.0',8,0,0);
+INSERT INTO tests_snmp VALUES (3,'Host - Logged in Users','.1.3.6.1.2.1.25.1.5.0',8,0,0);
+INSERT INTO tests_snmp VALUES (4,'Cisco - CPU Utilization','.1.3.6.1.4.1.9.2.1.58.0',8,0,0);
+INSERT INTO tests_snmp VALUES (5,'UCD - CPU Percent User','enterprises.ucdavis.systemStats.ssCpuRawUser.0',8,0,0);
+INSERT INTO tests_snmp VALUES (6,'UCD - CPU Percent Idle','enterprises.ucdavis.systemStats.ssCpuRawIdle.0',8,0,0);
+INSERT INTO tests_snmp VALUES (7,'UCD - CPU Percent System','enterprises.ucdavis.systemStats.ssCpuRawSystem.0',8,0,0);
+INSERT INTO tests_snmp VALUES (8,'UCD - CPU Percent Nice','enterprises.ucdavis.systemStats.ssCpuRawNice.0',8,0,0);
+INSERT INTO tests_snmp VALUES (9,'UCD - Load Average - 1 min','laLoad.1',8,0,0);
+INSERT INTO tests_snmp VALUES (10,'UCD - Load Average - 5 min','laLoad.2',2,0,0);
+INSERT INTO tests_snmp VALUES (11,'UCD - Load Average - 15 min','laLoad.3',2,0,0);
+INSERT INTO tests_snmp VALUES (12,'UCD - Available Swap','memAvailSwap.0',2,0,0);
+INSERT INTO tests_snmp VALUES (13,'UCD - Available Physical RAM','memAvailReal.0',2,0,0);
+INSERT INTO tests_snmp VALUES (19,'C5k - % Bandwidth','.1.3.6.1.4.1.9.5.1.1.8.0',2,0,0);
+INSERT INTO tests_snmp VALUES (18,'Open TCP Connections','tcp.tcpCurrEstab.0',2,0,0);
+INSERT INTO tests_snmp VALUES (21,'C7k Free Memory (Processor)','.1.3.6.1.4.1.9.9.48.1.1.1.6.1',2,0,0);
+INSERT INTO tests_snmp VALUES (22,'C7k Free Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.6.5',2,0,0);
+INSERT INTO tests_snmp VALUES (23,'C7k Used Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.5.5',2,0,0);
+INSERT INTO tests_snmp VALUES (24,'UCD - Executable 1','enterprises.ucdavis.extTable.extEntry.extOutput.1',2,0,0);
+INSERT INTO tests_snmp VALUES (25,'DNS - A Records','enterprises.ucdavis.extTable.extEntry.extOutput.1',2,0,0);
+INSERT INTO tests_snmp VALUES (26,'DNS - PTR Records','enterprises.ucdavis.extTable.extEntry.extOutput.2',2,0,0);
+INSERT INTO tests_snmp VALUES (27,'DNS - MX Records','enterprises.ucdavis.extTable.extEntry.extOutput.3',2,0,0);
+INSERT INTO tests_snmp VALUES (28,'DNS - CNAME Records','enterprises.ucdavis.extTable.extEntry.extOutput.4',2,0,0);
+INSERT INTO tests_snmp VALUES (29,'DNS - ANY Records','enterprises.ucdavis.extTable.extEntry.extOutput.5',2,0,0);
+INSERT INTO tests_snmp VALUES (30,'Cisco - RSP - Inlet Temperature (C)','enterprises.9.9.13.1.3.1.3.1',5,0,0);
+INSERT INTO tests_snmp VALUES (31,'Cisco - RSP - Hotpoint Temperature (C)','enterprises.9.9.13.1.3.1.3.2',5,0,0);
+INSERT INTO tests_snmp VALUES (32,'Cisco - RSP - Exhaust Temperature (C)','enterprises.9.9.13.1.3.1.3.3',5,0,0);
+INSERT INTO tests_snmp VALUES (33,'TNT - Dead Modems','.1.3.6.1.4.1.529.15.7.0',4,0,0);
+INSERT INTO tests_snmp VALUES (34,'TNT - Disabled Modems','.1.3.6.1.4.1.529.15.5.0',4,0,0);
+INSERT INTO tests_snmp VALUES (35,'TNT - Suspect Modems','.1.3.6.1.4.1.529.15.3.0',4,0,0);
+INSERT INTO tests_snmp VALUES (36,'TNT - Available Modems','.1.3.6.1.4.1.529.15.1.0',4,0,0);
+INSERT INTO tests_snmp VALUES (37,'TNT - Busy Modems','.1.3.6.1.4.1.529.15.9.0',4,0,0);
+INSERT INTO tests_snmp VALUES (38,'Interfaces - Bytes Out','ifOutOctets.%ifIndex%',8,0,0);
+INSERT INTO tests_snmp VALUES (39,'Interfaces - Bytes In','ifInOctets.%ifIndex%',8,0,0);
+INSERT INTO tests_snmp VALUES (40,'Interfaces - Errors In','ifInErrors.%ifIndex%',8,0,0);
+INSERT INTO tests_snmp VALUES (41,'TNT - Connected DS0s','.1.3.6.1.4.1.529.4.21.1.7.%ifIndex%',8,0,0);
+INSERT INTO tests_snmp VALUES (42,'Disk - Size (kB)','dskTotal.%dskIndex%',8,0,0);
+INSERT INTO tests_snmp VALUES (43,'Disk - Available (kB)','dskAvail.%dskIndex%',8,0,0);
+INSERT INTO tests_snmp VALUES (44,'Disk - Used (kB)','dskUsed.%dskIndex%',8,0,0);
+INSERT INTO tests_snmp VALUES (45,'Disk - Percent Used','dskPercent.%dskIndex%',8,0,0);
+INSERT INTO tests_snmp VALUES (46,'Disk - Percent Node Usage','dskPercentNode.%dskIndex%',8,0,0);
 
 --
 -- Table structure for table `tests_sql`

@@ -104,6 +104,16 @@ Chapter 1. Introduction
 
 Chapter 2. Revision History
 
+     * 0.16
+       2004.06.10
+       Minor  Bugfixes  and  Feature  Enhancements;  fixed a user
+       managagement bug, fixed many bugs related to 'single view only'
+       users being able to see graphs, added ability to ignore SNMP
+       uptime checks for devices (allowing us to monitor some broken
+       devices), added the ability to do an SNMP walk of an OID (useful
+       for windows boxes; like getting the 1st or 2nd CPU usage),
+       better group/device management, autoconf cleanups (with support
+       for FC2), beta syslog support, beta daemonized gatherer
      * 0.15
        2004.05.20
        Minor Bugfixes and Feature Enhancements; fixes for various db
@@ -358,8 +368,8 @@ make
    make install
 
      Note If configure fails to locate the needed libraries they can be
-   manually specified. Run ./configure -hr for details on the necessary
-      options.
+   manually specified. Run ./configure --help for details on the
+      necessary options.
     3. Setup the database
        Now we need to setup the database. Please change at least the
        password (netmrgpass below).
@@ -785,6 +795,14 @@ Edit
                  each gather. This is useful for devices that are
                  always changing, when you care about the changes.
      * Advanced SNMP Options
+          + Disable SNMP Uptime Check - Allows NetMRG to work with
+            devices  that  are broken or abnormal with respect to
+            system.sysUpTime.0. NetMRG usually uses this value to
+            determine  if  a host is up and if the SNMP agent has
+            restarted since the last polling cycle. It should only be
+            used when absolutely necessary as it reduces the robustness
+            of the SNMP avoidance and recaching mechanisms which can be
+            crutial to performance.
           + SNMP UDP Port - UDP port to direct SNMP queries to (default
             is 161).
           + SNMP Timeout (microseconds) - Number of microseconds to

@@ -326,7 +326,7 @@ made by your <command>tar</command> command and type the following:
 <programlisting>./configure
 make
 make install</programlisting>
-			<note><para>If <command>configure</command> fails to locate the needed libraries they can be manually specified.  Run <command>./configure -hr</command> for details on the necessary options.</para></note>
+			<note><para>If <command>configure</command> fails to locate the needed libraries they can be manually specified.  Run <command>./configure --help</command> for details on the necessary options.</para></note>
 		</listitem>
 		<listitem>
 			<para>Setup the database</para>

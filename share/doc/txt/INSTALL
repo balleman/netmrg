@@ -16,7 +16,7 @@
        make install                                                    
 
        [5]Note If configure fails to locate the needed libraries they  
-               can be manually specified. Run ./configure -hr for      
+               can be manually specified. Run ./configure --help for   
                details on the necessary options.                       
 
     3. Setup the database
