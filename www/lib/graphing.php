@@ -134,22 +134,29 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 	if (isset($_REQUEST['start']))
 	{
 		$timeframe['start_time'] = $_REQUEST['start'];
+		$timeframe['overridden'] = true;
 	}
 
 	if (isset($_REQUEST['end']))
 	{
 		$timeframe['end_time'] = $_REQUEST['end'];
+		$timeframe['overridden'] = true;
 	}
 
 	if (strpos($timeframe['start_time'], " ") !== false)
 	{
 		$timeframe['start_time'] = strtotime(substr($timeframe['start_time'],1));
-
 	}
 
 	if (strpos($timeframe['end_time'], " ") !== false)
 	{
 		$timeframe['end_time'] = strtotime(substr($timeframe['end_time'],1));
+	}
+	
+	if (isset($timeframe['overridden']) && ($timeframe['overridden']))
+	{
+		$timeframe['sum_label'] = "Interval";
+		$timeframe['sum_time'] = $timeframe['end_time'] - $timeframe['start_time'];
 	}
 
 	if (isset($_REQUEST['min']) && isset($_REQUEST['max']) && ($_REQUEST['max'] > $_REQUEST['min']))
