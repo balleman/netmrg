@@ -23,10 +23,8 @@ $GLOBALS["netmrg"]["companylink"]       = "http://netmrg.net";
 // DB Config
 $GLOBALS["netmrg"]["dbhost"]            = "localhost";
 $GLOBALS["netmrg"]["dbname"]            = "netmrg";
-$GLOBALS["netmrg"]["dbreaduser"]        = "netmrgread";
-$GLOBALS["netmrg"]["dbreadpass"]        = "netmrgread";
-$GLOBALS["netmrg"]["dbwriteuser"]       = "netmrgwrite";
-$GLOBALS["netmrg"]["dbwritepass"]       = "netmrgwrite";
+$GLOBALS["netmrg"]["dbuser"]            = "netmrguser";
+$GLOBALS["netmrg"]["dbpass"]            = "netmrgpass";
 
 // Path Config
 $GLOBALS["netmrg"]["rrdtool"]           = "/usr/bin/rrdtool";
@@ -77,7 +75,7 @@ require_once($GLOBALS["netmrg"]["imagebasedir"]."/imagespec.php");
 
 
 /***** STARTUP *****/
-db_connect();
+$GLOBALS["netmrg"]["dbpass"] = db_connect();
 
 
 
