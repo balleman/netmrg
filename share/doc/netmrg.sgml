@@ -1,4 +1,4 @@
-<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN">
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <book>
 <bookinfo>
 	<title>The NetMRG Reference</title>
@@ -306,6 +306,24 @@ and please change your password!
 			</para>
 		</listitem>
 	</orderedlist>
+</chapter>
+<chapter>
+	<title>Upgrade Procedure</title>
+	<para>
+After doing a 'make install' as described in the chapter on Installing NetMRG, 
+the next step is to point your web browser at the the updater which will do 
+any database changes required to make your new installation ready.
+	</para>
+	<para>
+Point your web browser at your netmrg installtion, followed by 
+<filename>updater.php</filename> (should be something similar to 
+<computeroutput>http://yourhost.com/netmrg/updater.php</computeroutput>).
+	</para>
+	<para>
+The updater will prompt you before performing the database changes necessary to 
+get you running on the new version.  This will probably be required before you 
+make any changes to your installation.
+	</para>
 </chapter>
 <chapter>
 	<title>NetMRG Tutorial</title>
