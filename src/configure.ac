@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.14 $)
+AC_REVISION($Revision: 1.15 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -122,7 +122,7 @@ if test "x$XML2_LIBS" = "x"; then
 		LDFLAGS="$old_LDFLAGS -L$try"
 		unset ac_cv_lib_xml2_xmlParseFile
 		AC_CHECK_LIB(xml2, xmlParseFile,
-			XML2LIBS="-L$try",
+			XML2_LIBS="-L$try",
 			XML2_LIBS=
 		)
 		if test "x$XML2_LIBS" != "x"; then
