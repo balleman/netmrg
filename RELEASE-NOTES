@@ -1,0 +1,14 @@
+Revision History
+
+     * 0.10pre2
+       2003.09.15
+       This  release focuses on adding new features and sqaushing
+       bugs.  In  addition, there is now an 'updater.php' that is
+       required  to be run between versions. A minor change needs
+       to   be   made   to  everyone's  'netmrg.xml'  to  add  an
+       'externalauth' field inside the 'website' section.
+
+     * 0.10pre1
+       2003.07.28
+       Initial publication
+

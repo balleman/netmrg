@@ -1,0 +1,10 @@
+Upgrade Procedure
+
+   After  doing  a  'make install' as described in the chapter on
+   Installing  NetMRG,  the  next  step  is  to run the web-based
+   upgrader.  This  is  accomplished  by logging into NetMRG with
+   administrator  privileges, and following the prompts. NetMRG's
+   web  interface  will  not operate normally until the web-based
+   upgrade  is  performed,  and non-administrator users will only
+   receive  a  message  directing  them  to  contact their NetMRG
+   administrator.

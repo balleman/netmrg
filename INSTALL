@@ -1,112 +1,305 @@
-     ----------------------------------------------------------------------
+Installation Procedure
 
-                             Software Requirements
+    1. Untar  to  some directory like /tmp/ (it will untar into a
+       'netmrg' directory)
 
-   NetMRG Requires the following packages for compilation.
+cd /tmp
+wget http://www.netmrg.net/download/release/netmrg.tar.gz
+tar xzvf netmrg.tar.gz
 
-     * PHP, Version >= 4.1
+    2. Now we need to compile and install the source. cd into the
+       directory made by your tar command and type the following:
 
-     * MySQL, Version >= 3.23
+./configure
+make
+make install
 
-     * RRDTOOL, Version >= 1.0.28
+   Note
 
-     * Libxml2, Version >= 2.30
-
-     * Libstdc++, Version >= 3.2
-
-       Versions earlier than this may compile just fine, but may experience
-       runtime issues. Specifically, we experienced software crashes on an
-       SMP machine running version 2.96 that were resolved by upgrading to
-       3.2.
-
-     * NET/UCD-SNMP, Version >= 4.2.2
-
-     ----------------------------------------------------------------------
-
-                             Installation Procedure
-
-    1. Untar to some directory like /tmp/ (it will untar into a 'netmrg'
-       directory)
-
-       cd /tmp                                                         
-       wget http://www.netmrg.net/download/release/netmrg.tar.gz       
-       tar xzvf netmrg.tar.gz                                          
-
-    2. Now we need to compile and install the source. cd into the directory
-       made by your tar command and type the following:
-
-       ./configure                                                     
-       make                                                            
-       make install                                                    
-
+   If configure fails to locate the needed libraries they can be
+   manually specified. Run ./configure -hr for details on the
+   necessary options.
     3. Setup the database
+       Now  we need to setup the database. Please change at least
+       the password (netmrgpass below).
 
-       Now we need to setup the database. Please change at least the password
-       (netmrgpass below).
+mysqladmin create netmrg
+mysql -u root -p netmrg < share/netmrg.mysql
+mysql -u root -p
+> grant all on netmrg.* to netmrguser@localhost identified by 'netmrgpa
+ss';
 
-     mysqladmin create netmrg                                                    
-     mysql -u root -p netmrg < share/netmrg.mysql                                
-     mysql -u root -p                                                            
-     > grant all on netmrg.* to netmrguser@localhost identified by 'netmrgpass'; 
+    4. You  need  to  modify  your apache config in order to make
+       your     NetMRG    installation    live    (commonly    in
+       /etc/httpd/conf/httpd.conf).
+       The  first  is  to  alias  /netmrg  to  the  installed web
+       directory (commonly /usr/local/var/www/netmrg/webfiles).
 
-    4. You need to modify your apache config in order to make your NetMRG
-       installation live (commonly in /etc/httpd/conf/httpd.conf).
+Alias /netmrg "/usr/local/var/www/netmrg/webfiles"
 
-       The first is to alias /netmrg to the installed web directory (commonly
-       /usr/local/var/www/netmrg/webfiles).
+       The  easier  way  (if  you're running Apache >= 1.3) is to
+       just  Include the conf file we've created anywhere in your
+       file (near the bottom is fine).
 
-       Alias /netmrg "/usr/local/var/www/netmrg/webfiles"              
+Include /usr/local/etc/netmrg.conf
 
-       The easier way (if you're running Apache >= 1.3) is to just Include
-       the conf file we've created anywhere in your file (near the bottom is
-       fine).
+       You  will  need to restart your Apache after making config
+       changes.  Telling  it  to reload its config should be good
+       enough
 
-       Include /usr/local/etc/netmrg.conf                              
-
-       You will need to restart your Apache after making config changes.
-       Telling it to reload its config should be good enough
-
-       killall -HUP httpd                                              
+killall -HUP httpd
 
     5. Configure the Installation
-
-       There are two files you should edit to reflect your database changes
-       and any other items that are needed in your installation. These two
-       files are /usr/local/etc/netmrg.xml and
-       /usr/local/var/www/netmrg/include/config.php.
-
-       For most installations, you will at least need to edit netmrg.xml to
-       reflect your database username and password. If you would like to
-       change things like your company name that are displayed on the
-       website, edit the config.php file.
-
+       All   of   NetMRG's   common   configuration  options  are
+       controlled   by   an   XML   file,   normally  located  at
+       /usr/local/etc/netmrg.xml.  You  should  edit this file to
+       make   any   necessary   changes  before  continuing  with
+       installation.
+       For  most  installations,  you  will at least need to edit
+       netmrg.xml to reflect your database username and password.
     6. Setup Permissions
+       NetMRG   does  not  need  superuser  permissions  to  run,
+       therefore we will setup a user for it.
 
-       NetMRG does not need superuser permissions to run, therefore we will
-       setup a user for it.
-
-       # useradd netmrg                                                
-       # chown netmrg:netmrg /usr/local/var/log/netmrg                 
-       # chown netmrg:netmrg /usr/local/var/lib/netmrg/rrd             
+# useradd netmrg
+# chown netmrg:netmrg /usr/local/var/log/netmrg
+# chown netmrg:netmrg /usr/local/var/lib/netmrg/rrd
 
     7. Setup crontab
+       You  can  setup  the crontab entries in two places: either
+       edit  /etc/crontab,  or run crontab -e as the netmrg user.
+       For 'crontab -e', use an entry similar to this:
 
-       You can setup the crontab entries in two places: either edit
-       /etc/crontab, or run crontab -e as the netmrg user. For 'crontab -e',
-       use an entry similar to this:
+su netmrg
+*/5 * * * * /usr/local/bin/netmrg_cron.sh
+exit
 
-       su netmrg                                                       
-       */5 * * * * /usr/local/bin/netmrg_cron.sh                       
-       exit                                                            
+       To  edit  the  master crontab, edit /etc/crontab and add a
+       line similar to this:
 
-       To edit the master crontab, edit /etc/crontab and add a line similar
-       to this:
+*/5 * * * * netmrg /usr/local/bin/netmrg_cron.sh
 
-       */5 * * * * netmrg /usr/local/bin/netmrg_cron.sh                
+    8. Point your web browser at your install, and start graphing
+       things!  The  default  login  is  admin  and  the  default
+       password  is nimda. Point your web browser at the host you
+       built this on (something similar to
+       http://yourhost.com/netmrg/)   and   please   change  your
+       password!
+     _________________________________________________________
 
-    8. Point your web browser at your install, and start graphing things! The
-       default login is admin and the default password is nimda. Point your
-       web browser at the host you built this on (something similar to
-       http://yourhost.com/netmrg/) and please change your password!
+Upgrade Procedure
 
-     ----------------------------------------------------------------------
+   After  doing  a  'make install' as described in the chapter on
+   Installing  NetMRG,  the  next  step  is  to run the web-based
+   upgrader.  This  is  accomplished  by logging into NetMRG with
+   administrator  privileges, and following the prompts. NetMRG's
+   web  interface  will  not operate normally until the web-based
+   upgrade  is  performed,  and non-administrator users will only
+   receive  a  message  directing  them  to  contact their NetMRG
+   administrator.
+     _________________________________________________________
+
+NetMRG Tutorial
+
+   This  brief  tutorial will walk you through the major features
+   of  NetMRG.  The  tutorial assumes that you have installed the
+   Net-SNMP daemon on a system which you want to monitor.
+
+    1. Create a new group.
+         a. Click on Groups in the Monitoring menu.
+         b. Click on Add.
+         c. In  the  Name  textbox,  enter a name for your group,
+            such as "Home."
+         d. In  the Comment textbox, enter a description for your
+            group, such as "Computers in my house."
+         e. In the Parent drop down box, select -Root- as we want
+            this  device  in the root of the device tree. You can
+            create nested groups.
+         f. Click  the  Save  Changes  button  to create your new
+            group.
+    2. Create a new device.
+         a. Click  on  the  name  of  your new group. You are now
+            looking  at  an  (empty)  list of devices in your new
+            group.
+         b. Click on Add.
+         c. Click on Create a new device.
+         d. In  the  Name  textbox, enter a name for your device,
+            such as "My Server."
+         e. In  the  IP or Host Name textbox, enter a domain name
+            or  IP  address  of your device. Domain names must be
+            resolvable from your monitoring host.
+         f. Ensure  that  the  This  device uses SNMP checkbox is
+            checked.
+         g. In  the SNMP Read Community textbox, enter the SNMPv1
+            community string for your device.
+         h. Click  the  Save  Changes  button  to create your new
+            device.
+    3. Create a new sub-device.
+         a. Click  on  the  name  of your new device. You are now
+            looking at an (empty) list of sub-devices in your new
+            device.
+         b. Click on Add.
+         c. In  the  Name textbox, enter "System." This will be a
+            pseudo-sub-device used for monitoring the device as a
+            whole.
+         d. In  the  Type  drop  down  box,  ensure that Group is
+            selected.
+         e. Click  the  Save  Changes  button  to create your new
+            "System" sub-device.
+    4. Add graph templates.
+       Since  devices  running  Net-SNMP are common, NetMRG comes
+       with several graph templates for commonly used variables.
+         a. Click on Template Graphs in the Graphing menu.
+         b. Click  on  the  Apply  Template  To...  next  to  the
+            %dev_name% - CPU Utilization template graph.
+         c. In  the  Subdevice  drop down box, select My Server -
+            System.
+         d. Click  on  the  Save  Changes  button  to  apply  the
+            template.
+         e. Repeat  this  step  for any other graph templates you
+            find interesting.
+    5. View your new graphs.
+         a. Click on Device Tree in the Reporting menu.
+         b. Click on the name of your group to expand it.
+         c. Click on the graph icon beside your device.
+         d. You should now see graphs! If you don't, you may need
+            to wait for the gatherer to perform another cycle.
+     _________________________________________________________
+
+External Authentication
+
+   NetMRG  handles authentication internally by default, checking
+   passwords  against its own database. It is possible for NetMRG
+   to  use  other  systems  for username/password authentication.
+   This is accomplished by handing off the authentication task to
+   the HTTP server.
+
+   Note
+
+   You must still create accounts in NetMRG for each user when
+   using external authentication in order to assign them
+   permissions and rights.
+
+   Details  on  methods  of  authentication  using the Apache web
+   server are available here. There are add-on modules for Apache
+   that  allow  for  various authentication mechanisms, including
+   LDAP   and   custom  database  authentication  systems.  Using
+   Apache-based   authentication,   it   is   possible   for   an
+   organization  to  maintain users and passwords in one location
+   for  a  variety  of web-based services, only needing to set up
+   application-specific permissions in each application.
+
+   To  enable  external  authentication,  edit netmrg.xml and set
+   externalAuth to true.
+     _________________________________________________________
+
+Manual Pages
+
+netmrg-gatherer
+
+Name
+
+   netmrg-gatherer -- Gathers data from devices.
+
+Synopsis
+
+   /usr/local/bin/netmrg-gatherer [OPTIONS]
+
+Description
+
+   netmrg-gatherer performs tests on all enabled hosts in NetMRG.
+   It  will  store  results  in  RRD  files  using RRDTOOL(1) and
+   perform actions in response to events.
+
+   Global Options
+
+   -h
+
+          Displays usage information and exits.
+
+   -v
+
+          Displays software version and exits.
+
+   -t num threads
+
+          Run  no  more  than  the  specified  number  of threads
+          simultaneously.
+
+   Debugging / Verbosity Options
+
+   -l level mask
+
+          Only  outputs  messages  that match the specified level
+          mask.
+
+   -c component mask
+
+          Only   outputs   messages   that  match  the  specified
+          component mask.
+
+   -q
+
+          Quiet.  Silences  all  output.  This  is  the  same  as
+          specifying -l0 -c0
+
+   Configuration File Options
+
+   -C config file
+
+          Uses the specified XML configuration file.
+
+   -K config file
+
+          Parses the specified XML configuration file and exits.
+
+   Database Options
+
+   -H host
+
+          Uses  the  specified  host  name  for connecting to the
+          database.
+
+   -D database
+
+          Uses the specified database name.
+
+   -u user name
+
+          Uses  the  specified  user  name  for connecting to the
+          database.
+
+   -p [password]
+
+          Uses  the  specified  password  for  connecting  to the
+          database.  If  no  password  is  specified, the user is
+          prompted to enter one.
+
+   Recaching Options
+
+   -i device id
+
+          Performs an interface recache on the specified device.
+
+   -d device id
+
+          Performs a disk recache on the specified device.
+
+   Note
+
+   Recaching options are intended for use by the web interface.
+   These options should not be generally used by end users.
+     _________________________________________________________
+
+Contact Information
+
+   We have great aspirations for what NetMRG could become, but as
+   with  all  open-source  software, such aspriations can only be
+   achieved  with  the  active  participation  of the open-source
+   community.  Please  do your part and support software that you
+   use  by  helping  to  answer  support  questions on forums and
+   report bugs to developers. Thanks!
+
+     * Main Website - http://www.netmrg.net/
+     * Support Forum - http://lists.netmrg.net/
+     * Bug Reporting and Tracking - http://bugs.netmrg.net/
