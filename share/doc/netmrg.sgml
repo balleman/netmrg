@@ -65,14 +65,14 @@ any company, organization, product, or platform.
 			<para>2004.10.25</para>
 			<para>
 Major Bug Fixes;
-Fixed an issue preventing form submissions on some browsers, fixed various
-escaping problems, fixed inability to create inverted stacked graphs, fixed
-parameter substituion and documentation regarding notifications and responses,
-fixed zero.rrd and size_type issues on 64-bit platforms, fixed possible stripnl
-name conflict issues, added ability to multiply summed values, added MySQL timeouts,
-added simple value parsing (to get the numeric content out of quoted numbers, etc), 
-added more graphic icons, added default external auth user, and cleaned up things
-in the gatherer build process.
+Fixed an issue preventing form submissions on some browsers, fixed PHP string 
+escaping problems, fixed inability to create inverted stacked graphs, and fixed
+parameter substituion and documentation regarding notifications and responses.
+Added better support on FreeBSDs (4.8-5.2) and x86-64 architectures 
+(Linux and FreeBSD), the ability to multiply summed values, MySQL timeouts,
+simple value parsing (to get the numeric content out of quoted numbers, etc), 
+graphic icons for most actions, support for a default external auth user 
+(with regards to permissions), and cleaned up the gatherer build process output.
 			</para>
 		</listitem>
 		<listitem>
