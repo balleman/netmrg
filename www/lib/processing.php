@@ -719,6 +719,32 @@ function update_group($id, $grp_name, $grp_comment, $parent_id)
 
 
 /**
+* GetDBVersion()
+*
+* returns the version the database thinks we are
+*/
+function GetDBVersion()
+{
+	$sql = "SELECT version FROM versioninfo WHERE module='Main'";
+	$handle = db_query($sql);
+	$row = db_fetch_array($handle);
+	return $row["version"];
+} // end GetDBVersion();
+
+
+/**
+* UpdateDBVersion($ver)
+*
+* updates the version the database is in
+*/
+function UpdateDBVersion($ver)
+{
+	$sql = "UPDATE versioninfo SET version='$ver' WHERE module='Main'";
+	$handle = db_query($sql);
+} // end UpdateDBVersion();
+
+
+/**
 * GetXMLConfig()
 *
 * reads xml config file and puts values in config array
