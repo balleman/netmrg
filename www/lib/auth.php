@@ -105,12 +105,32 @@ function check_auth($level)
 * called from the 'view.php' page
 * checks that the user is allowed to see this page
 */
-function view_check_auth($pos_id, $pos_id_type)
+function view_check_auth($object_id, $object_type)
 {
 	check_auth(0);
-	$handle = db_query("SELECT * FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrgsess"]["password"]."',pass)");
-	$row = db_fetch_array($handle);
-	if (!(($row["view_id"] == $pos_id && $row["view_type"] == $pos_id_type) || get_permit() > 0))
+
+	// the groups this object_id is in
+	$object_id_groups = array();
+
+	// check what groups this object_id is in
+	switch ($object_type)
+	{
+		case "group" :
+			array_push($object_id_groups, $object_id);
+			break;
+		
+		case "device" :
+			$object_id_groups = GetDeviceGroups($object_id);
+			break;
+		
+		case "subdevice" :
+			$object_id_groups = GetSubdeviceGroups($object_id);
+			break;
+
+	} // end switch object type
+
+	if (!in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups) 
+		&& $_SESSION["netmrgsess"]["permit"] == 0)
 	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
 		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");

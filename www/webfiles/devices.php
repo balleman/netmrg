@@ -58,7 +58,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doaddtogrp")
 	{
 		check_auth(2);
-		db_update("INSERT INTO dev_parents SET grp_id=$grp_id, dev_id=$dev_id");
+		db_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id={$_REQUEST['dev_id']}");
 	} // end if we're adding to a group
 
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "dodelete")

@@ -326,6 +326,57 @@ function GetNumAssocItems($object_type, $object_id)
 } // end GetNumAssocItems();
 
 
+/**
+* GetDeviceGroups($device_id);
+*
+* returns the groups that this device is in as an array
+*
+*/
+function GetDeviceGroups($device_id)
+{
+	$db_result = db_query("
+		SELECT groups.id AS group_id 
+		FROM groups, dev_parents, devices 
+		WHERE devices.id = '$device_id' 
+		AND devices.id = dev_parents.dev_id
+		AND dev_parents.grp_id = groups.id");
+
+	$group_arr = array();
+	while ($r = mysql_fetch_array($db_result))
+	{
+		array_push($group_arr, $r["group_id"]);
+	} // end while we have results
+
+	return $group_arr;
+} // end GetDeviceGroups();
+
+
+/**
+* GetSubdeviceGroups($device_id);
+*
+* returns the groups that this subdevice is in as an array
+*
+*/
+function GetSubdeviceGroups($subdevice_id)
+{
+	$db_result = db_query("
+		SELECT groups.id AS group_id 
+		FROM groups, dev_parents, devices, sub_devices 
+		WHERE sub_devices.id = '$subdevice_id' 
+		AND sub_devices.dev_id = devices.id
+		AND devices.id = dev_parents.dev_id
+		AND dev_parents.grp_id = groups.id");
+
+	$group_arr = array();
+	while ($r = mysql_fetch_array($db_result))
+	{
+		array_push($group_arr, $r["group_id"]);
+	} // end while we have results
+
+	return $group_arr;
+} // end GetSubdeviceGroups();
+
+
 // Recursive Deletion Section (for orphan prevention if nothing else)
 
 

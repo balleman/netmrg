@@ -11,8 +11,7 @@
 
 
 require_once("../include/config.php");
-//this line will need redone...
-//view_check_auth($_REQUEST["pos_id"], $_REQUEST["pos_id_type"]);
+view_check_auth($_REQUEST["object_id"], $_REQUEST["object_type"]);
 
 $slideshow = false;
 

@@ -2,6 +2,7 @@
   - bug#0000002: updated logos on beta website
   - bug#0000003: code to detect if type was passed in didn't take account for
     already existing type
+  - modified view_check_auth() so that it works again on the view page
 
 2003.07.02  v0.8  silfreed
   - new bugtracker using mantisbt (http://mantisbt.sourceforge.net)
