@@ -787,6 +787,7 @@ their NetMRG administrator.
 					</listitem>
 					<listitem><para><guilabel>Advanced SNMP Options</guilabel></para>
 						<itemizedlist>
+							<listitem><para><guilabel>Disable SNMP Uptime Check</guilabel> - Allows NetMRG to work with devices that are broken or abnormal with respect to system.sysUpTime.0.  NetMRG usually uses this value to determine if a host is up and if the SNMP agent has restarted since the last polling cycle.  It should only be used when absolutely necessary as it reduces the robustness of the SNMP avoidance and recaching mechanisms which can be crutial to performance.</para></listitem>
 							<listitem><para><guilabel>SNMP UDP Port</guilabel> - UDP port to direct SNMP queries to (default is 161).</para></listitem>
 							<listitem><para><guilabel>SNMP Timeout (microseconds)</guilabel> - Number of microseconds to wait for a response to a query before retrying (default is 1000000 or 1 second).  An exponential backoff is used after each failed query; this is the initial delay.</para></listitem>
 							<listitem><para><guilabel>SNMP Retries</guilabel> - Number of times to query the device before giving up (default is 3).</para></listitem>
