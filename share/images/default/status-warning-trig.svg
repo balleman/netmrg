@@ -21,7 +21,7 @@
          offset="0.000000"
          id="stop131" />
       <stop
-         style="stop-color:#ffe600;stop-opacity:1;"
+         style="stop-color:#e6e600;stop-opacity:1;"
          offset="1.000000"
          id="stop132" />
     </linearGradient>
@@ -41,7 +41,7 @@
        cy="0.5"
        fx="0.5"
        fy="0.5"
-       r="0.168649"
+       r="0.250488"
        gradientUnits="objectBoundingBox"
        spreadMethod="repeat" />
   </defs>
@@ -50,19 +50,18 @@
      showgrid="true"
      gridspacingy="5pt"
      gridspacingx="5pt" />
-  <path
-     style="font-size:12;fill:url(#radialGradient134);fill-rule:evenodd;stroke-width:1pt;"
-     d="M 187.5 31.25 C 100.937 31.25 31.25 100.937 31.25 187.5 C 31.25 274.062 100.937 343.75 187.5 343.75 C 274.062 343.75 343.75 274.062 343.75 187.5 C 343.75 100.937 274.062 31.25 187.5 31.25 z M 187.5 62.5 C 118.25 62.5 62.5 118.25 62.5 187.5 C 62.5 256.75 118.25 312.5 187.5 312.5 C 256.75 312.5 312.5 256.75 312.5 187.5 C 312.5 118.25 256.75 62.5 187.5 62.5 z "
-     id="path128"
-     transform="translate(-31.25,-31.25)" />
   <rect
-     style="font-size:12;fill:#ffe500;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     style="font-size:12;fill:#e6e500;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
      id="rect129"
-     width="225.000000"
-     height="225.000000"
-     x="44.531231"
-     y="38.671875"
-     ry="112.5"
-     rx="112.5"
-     transform="translate(-0.781231,5.07812)" />
+     width="187.500015"
+     height="187.500009"
+     x="43.750004"
+     y="81.250014"
+     ry="93.75"
+     rx="93.75"
+     transform="translate(18.75,-18.75)" />
+  <path
+     style="font-size:12;fill:url(#radialGradient134);fill-opacity:1;fill-rule:evenodd;stroke-width:1pt;"
+     d="M 156.25 -8.38301e-06 C 69.6875 -8.38301e-06 -2.31628e-08 69.6875 -2.31628e-08 156.25 C -2.31628e-08 242.812 69.6875 312.5 156.25 312.5 C 242.812 312.5 312.5 242.812 312.5 156.25 C 312.5 69.6875 242.812 -8.38301e-06 156.25 -8.38301e-06 z M 156.25 43.75 C 93.925 43.75 43.75 93.925 43.75 156.25 L 43.75 156.25 C 43.75 218.575 93.925 268.75 156.25 268.75 C 218.575 268.75 268.75 218.575 268.75 156.25 L 268.75 156.25 C 268.75 93.925 218.575 43.75 156.25 43.75 z "
+     id="path115" />
 </svg>
