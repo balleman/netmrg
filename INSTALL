@@ -1,4 +1,5 @@
-1) untar to some directory like /var/www/ (it will untar into a 'netmrg' directory)
+1) untar to some directory like /var/www/ (it will untar into a 'netmrg' 
+directory)
 
 2) modify you apache config to alias /netmrg to /var/www/netmrg/www
   Alias /netmrg "/var/www/netmrg/www"
@@ -7,10 +8,25 @@
 mysqladmin create netmrg
 mysql netmrg < netmrg.mysql
 mysql
-  grant select on netmrg.* to netmrgread@localhost identified by 'netmrgread';
-  grant all on netmrg.* to netmrgwrite@localhost identified by 'netmrgwrite';
+> grant select on netmrg.* to netmrgread@localhost identified by 'netmrgread';
+> grant all on netmrg.* to netmrgwrite@localhost identified by 'netmrgwrite';
 
 4) add a user for yourself
 mysql netmrg
-  insert into user (user, pass, permit, view_type, view_id, fullname) values ("admin", encrypt("admin", md5("admin")), 3, 0, 19, "Administrator");
+> INSERT INT user SET
+> user = "admin", pass = encrypt("pass", md5("pass")), 
+> permit = 3, view_type = 0, view_id = 19, fullname = "Administrator";
+
+5) compile NetMRG
+cd into the src directory for your installation (usually /var/www/netmrg/src)
+
+6) setup crontab
+You can setup the crontab entries in two places: either edit /etc/crontab, 
+or run 'crontab -e' as root. For 'crontab -e', use an entry similar to this:
+*/5 * * * * /var/www/netmrg/src/netmrg > /var/www/netmrg/dat/output 2> /var/www/netmrg/dat/errors
+
+7) point your web browser at your install, and start graphing things!
+Your installation will be what you setup in the second step.  It will commonly be 
+something similar to http://yourhost.com/netmrg/
+Login with the username and password you setup in step 4.
 
