@@ -859,6 +859,42 @@ function duplicate_graph_item($item_id, $new_parent = -1)
 	}
 }
 
+function move_graph_item($graph_id, $graph_item_id, $direction)
+{
+	$query = db_query("
+		SELECT id, position
+		FROM graph_ds
+		WHERE graph_id=$graph_id
+		ORDER BY position
+		");
+	$row = array("id" => 0, "position" => 0);
+	for ($ds_count = 0; $ds_count < db_num_rows($query); $ds_count++)
+	{
+		$last_row = $row;
+		$row = db_fetch_array($query);
+
+		if ($direction == "up")
+		{
+			if ($graph_item_id == $row['id'])
+			{
+				db_update("UPDATE graph_ds SET position = {$last_row['position']} WHERE id = {$row['id']}");
+				db_update("UPDATE graph_ds SET position = {$row['position']} WHERE id = {$last_row['id']}");
+				break;
+			}
+		}
+		else
+		{
+			if ($graph_item_id == $row['id'])
+			{
+				$next_row = db_fetch_array($query);
+				db_update("UPDATE graph_ds SET position = {$next_row['position']} WHERE id = {$row['id']}");
+				db_update("UPDATE graph_ds SET position = {$row['position']} WHERE id = {$next_row['id']}");
+				break;
+			}
+		}
+	}
+}
+
 // Recursive Deletion Section (for orphan prevention if nothing else)
 
 function delete_group($group_id)

@@ -64,4 +64,21 @@ function make_seed()
    return (float) $sec + ((float) $usec * 100000);
 }
 
+function htmlcolor_to_rgb($htmlcolor)
+{
+	$c = str_replace("#", "", $htmlcolor);
+	$r1 = substr($c,0,2);
+	$g1 = substr($c,2,2);
+	$b1 = substr($c,4,2);
+	$r = hexdec($r1);
+	$g = hexdec($g1);
+	$b = hexdec($b1);
+	return array("r" => $r, "g" => $g, "b" => $b);
+}
+
+function rgb_to_htmlcolor($r, $g, $b)
+{
+	return sprintf("#%02x%02x%02x", $r, $g, $b);
+}
+
 ?>

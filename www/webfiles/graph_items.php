@@ -12,11 +12,23 @@
 require_once("../include/config.php");
 check_auth($PERMIT["ReadAll"]);
 
+switch ($_REQUEST['action'])
+{
+	case 'doedit':			doedit();			break;
+	case 'move':			move();				break;
+	case 'dodelete':
+	case 'multidodelete':	dodelete();			break;
+	case 'duplicate':
+	case 'multiduplicate':	duplicate();		break;
+	case 'edit':			
+	case 'add':				edit();				break;
+	case 'gradient':		gradient();			break;
+	default:				display();
+}
 
-if (empty($_REQUEST["action"]))
-	$_REQUEST["action"] = "";
+end_page();
 
-if ($_REQUEST["action"] == "doedit")
+function doedit()
 {
 	check_auth($PERMIT["ReadWrite"]);
         
@@ -70,72 +82,121 @@ if ($_REQUEST["action"] == "doedit")
 
 } // done adding/editing
 
-if ($_REQUEST["action"] == "move")
+function move()
 {
 	check_auth($PERMIT["ReadWrite"]);
-
-	// do moving
-	$query = db_query("
-		SELECT id, position
-		FROM graph_ds
-		WHERE graph_id={$_REQUEST['graph_id']}
-		ORDER BY position
-		");
-	for ($ds_count = 0; $ds_count < db_num_rows($query); $ds_count++)
+	if (isset($_REQUEST["graph_items"]))
 	{
-		$row = db_fetch_array($query);
-
-		if ($_REQUEST["direction"] == "up")
+		if ($_REQUEST['direction'] == "down")
+			$_REQUEST['graph_items'] = array_reverse($_REQUEST['graph_items'], true);
+		while (list($key,$value) = each($_REQUEST["graph_items"]))
 		{
-			if (($_REQUEST["id"] - 1) == $ds_count)
-			{
-				$next_row = db_fetch_array($query);
-				db_update("UPDATE graph_ds SET position = {$next_row['position']} WHERE id = {$row['id']}");
-				db_update("UPDATE graph_ds SET position = {$row['position']} WHERE id = {$next_row['id']}");
-				break;
-			}
-		}
-		else
-		{
-                	if ($_REQUEST["id"] == $ds_count)
-			{
-				$next_row = db_fetch_array($query);
-				db_update("UPDATE graph_ds SET position = {$next_row['position']} WHERE id = {$row['id']}");
-				db_update("UPDATE graph_ds SET position = {$row['position']} WHERE id = {$next_row['id']}");
-				break;
-			}
+			move_graph_item($_REQUEST['graph_id'], $key, $_REQUEST['direction']);
 		}
 	}
-
+	elseif (isset($_REQUEST["id"]))
+	{
+		move_graph_item($_REQUEST['graph_id'], $_REQUEST['id'], $_REQUEST['direction']);
+	}
 	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
 	exit(0);
 
 } // end do move
 
-if ($_REQUEST["action"] == "dodelete")
+function dodelete()
 {
 	check_auth($PERMIT["ReadWrite"]);
-	delete_ds($_REQUEST['id']);
+	if (isset($_REQUEST["graph_items"]))
+	{
+		while (list($key,$value) = each($_REQUEST["graph_items"]))
+		{
+			delete_ds($key);
+		}
+	}
+	elseif (isset($_REQUEST["id"]))
+	{
+		delete_ds($_REQUEST['id']);
+	}
 	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
 	exit(0);
 
 } // done deleting
 
-if ($_REQUEST["action"] == "duplicate")
+function gradient()
 {
 	check_auth($PERMIT["ReadWrite"]);
-	duplicate_graph_item($_REQUEST['id']);
+	if (isset($_REQUEST["graph_items"]))
+	{
+		// get bottom and top colors
+		$count = 0;
+		while (list($key,$value) = each($_REQUEST["graph_items"]))
+		{
+			$q = db_query("SELECT color FROM graph_ds WHERE id = $key");
+			$r = db_fetch_array($q);
+			if ($count == 0)
+				$top = htmlcolor_to_rgb($r['color']);
+			$bottom = htmlcolor_to_rgb($r['color']);
+			$count++;
+		}
+		
+		$rinc = intval(($top['r'] - $bottom['r']) / ($count - 1));
+		$ginc = intval(($top['g'] - $bottom['g']) / ($count - 1));
+		$binc = intval(($top['b'] - $bottom['b']) / ($count - 1));
+			
+		$rcur = $top['r'];
+		$gcur = $top['g'];
+		$bcur = $top['b'];
+		
+		// gradient the middle ones
+		$i = 0;
+		reset($_REQUEST['graph_items']);
+		while (list($key,$value) = each($_REQUEST["graph_items"]))
+		{
+			if ( ($i != 0) && ($i != $count - 1) )
+			{
+				$rcur -= $rinc;
+				$gcur -= $ginc;
+				$bcur -= $binc;
+				$newcolor = rgb_to_htmlcolor($rcur, $gcur, $bcur);
+				db_query("UPDATE graph_ds SET color='$newcolor' WHERE id = $key");
+			}
+			$i++;
+		}
+
+	}
+	
+	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
+	exit(0);
+} // done deleting
+
+
+function duplicate()
+{
+	check_auth($PERMIT["ReadWrite"]);
+	if (isset($_REQUEST["graph_items"]))
+	{
+		while (list($key,$value) = each($_REQUEST["graph_items"]))
+		{
+			duplicate_graph_item($key);
+		}
+	}
+	elseif (isset($_REQUEST["id"]))
+	{
+		duplicate_graph_item($_REQUEST['id']);
+	}
+	
 	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
 	exit(0);
 	
 } // done duplicating
 
-if (empty($_REQUEST["action"]))
+function display()
 {
 	GLOBAL $RRDTOOL_ITEM_TYPES;
 
 	// Change databases if necessary and then display list
 	begin_page("graph_items.php", "Graph Items");
+	js_checkbox_utils();
 
 	js_confirm_dialog("del", "Are you sure you want to delete graph item ", "?", "{$_SERVER['PHP_SELF']}?action=dodelete&graph_id={$_REQUEST['graph_id']}&id=");
 
@@ -154,8 +215,15 @@ if (empty($_REQUEST["action"]))
 	
 ?>
 	<img align="center" src="get_graph.php?type=custom&id=<?php echo $_REQUEST["graph_id"]; ?>"><br><br>
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+	<input type="hidden" name="action" value="">
+	<input type="hidden" name="direction" value="">
+	<input type="hidden" name="type" value="<?php echo $_REQUEST['type']; ?>">
+	<input type="hidden" name="graph_id" value="<?php echo $_REQUEST['graph_id']; ?>">
 <?php
+
 	make_display_table("Graph Items", "{$_SERVER['PHP_SELF']}?action=add&graph_id={$_REQUEST['graph_id']}&edit_monitor=1&position=" . ($ds_total + 1),
+		array("text" => checkbox_toolbar()),
 		array("text" => "Label"),
 		array("text" => "Type"),
 		array()
@@ -174,7 +242,7 @@ if (empty($_REQUEST["action"]))
 		}
 		else
 		{
-			$move_up = image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&graph_id={$_REQUEST['graph_id']}&id=$ds_count");
+			$move_up = image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&graph_id={$_REQUEST['graph_id']}&id=$id");
 		}
 
 		if ($ds_count == ($ds_total - 1))
@@ -183,10 +251,11 @@ if (empty($_REQUEST["action"]))
 		}
 		else
 		{
-			$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&graph_id={$_REQUEST['graph_id']}&id=$ds_count");
+			$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&graph_id={$_REQUEST['graph_id']}&id=$id");
 		}
 
 		make_display_item("editfield".($ds_count%2),
+			array("checkboxname" => "graph_items", "checkboxid" => $id),
 			array("text" => $ds_row["label"]),
 			array("text" => color_block($ds_row["color"]) . "&nbsp;&nbsp;" . $RRDTOOL_ITEM_TYPES[$ds_row["type"]]),
 			array("text" => 
@@ -200,13 +269,32 @@ if (empty($_REQUEST["action"]))
 
 
 	} // end for
+?>
+<tr>
+	<td colspan="5" class="editheader" nowrap="nowrap">
+		Checked Items:&nbsp;&nbsp;
+		<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked graphs ?')){document.form.submit();}" href="#">Delete</a>
+		&nbsp;&nbsp;
+		<a class="editheaderlink" onclick="document.form.action.value='multiduplicate';document.form.submit();" href="#">Duplicate</a>
+		&nbsp;&nbsp;
+		<a class="editheaderlink" onclick="document.form.action.value='move';document.form.direction.value='up';document.form.submit();" href="#">Move Up</a>
+		&nbsp;&nbsp;
+		<a class="editheaderlink" onclick="document.form.action.value='move';document.form.direction.value='down';document.form.submit();" href="#">Move Down</a>
+		&nbsp;&nbsp;
+		<a class="editheaderlink" onclick="document.form.action.value='gradient';document.form.submit();" href="#">Gradient</a>
+
+	</td>
+</tr>
+<?php
 	make_status_line("graph item", $ds_count);
+?>
+	</form>	
+	</table>
+<?php
 
-?></table><?php
+} // end display
 
-} // end no action
-
-if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
+function edit()
 {
 
 	check_auth($PERMIT["ReadWrite"]);
@@ -301,7 +389,5 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	make_edit_end();
 
 } // End editing screen
-
-end_page();
 
 ?>
