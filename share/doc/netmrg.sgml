@@ -164,7 +164,9 @@ Event are met, the appropriate response is performed.
 						<listitem><para><filename>httpd</filename></para></listitem>
 						<listitem><para><filename>php</filename></para></listitem>
 						<listitem><para><filename>php-mysql</filename></para></listitem>
-						<listitem><para>*mysql*</para></listitem>
+						<listitem><para><filename>mysql</filename></para></listitem>
+						<listitem><para><filename>mysql-server</filename></para></listitem>
+						<listitem><para><filename>mysql-devel</filename></para></listitem>
 						<listitem><para><filename>libxml2</filename></para></listitem>
 						<listitem><para><filename>libxml2-devel</filename></para></listitem>
 						<listitem><para><filename>net-snmp</filename></para></listitem>
@@ -178,6 +180,26 @@ Event are met, the appropriate response is performed.
 						<listitem><para>Download an <application>RRDTOOL</application> RPM from <ulink url="http://www.freshrpms.net/">http://www.freshrpms.net/</ulink></para></listitem>
 						<listitem><para>OR Download the <application>RRDTOOL</application> source from <ulink url="http://www.rrdtool.org/">http://www.rrdtool.org/</ulink> and compile it.</para></listitem>
 					</itemizedlist>
+				</listitem>
+			</itemizedlist>
+		</listitem>
+		<listitem>
+			<para><ulink url="http://www.freebsd.org/"><application>FreeBSD (4.8)</application></ulink></para>
+			<itemizedlist>
+				<listitem>
+				<para>Install the following ports:</para>
+				<itemizedlist>
+					<listitem><para><filename>apache</filename></para></listitem>
+					<listitem><para><filename>rrdtool</filename></para></listitem>
+					<listitem><para><filename>net-snmp</filename></para></listitem>
+					<listitem><para><filename>libxml2</filename></para></listitem>
+					<listitem><para><filename>mod_php4</filename> (specify MySQL support)</para></listitem>
+					<listitem><para><filename>gcc32</filename></para></listitem>
+				</itemizedlist>
+				</listitem>
+				<listitem>
+				<para>Run <command>configure</command>, specifying gcc32:</para>
+				<programlisting>./configure 'LDFLAGS=-L/usr/local/gcc3/lib' 'CPPFLAGS=-I/usr/local/gcc3/include' 'CXX=g++32'</programlisting>
 				</listitem>
 			</itemizedlist>
 		</listitem>
