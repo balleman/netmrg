@@ -201,13 +201,12 @@ void process_device(int dev_id)
 			string("ip, ")					+ // 1
 			string("snmp_version, ")		+ // 2
 			string("snmp_read_community, ")	+ // 3
-			string("snmp_recache, ")		+ // 4
+			string("snmp_recache_method, ")	+ // 4
 			string("snmp_uptime, ")			+ // 5
 			string("snmp_ifnumber, ")		+ // 6
-			string("snmp_check_ifnumber, ")	+ // 7
-			string("snmp_port, ")			+ // 8
-			string("snmp_timeout, ")		+ // 9
-			string("snmp_retries ")			+ // 10
+			string("snmp_port, ")			+ // 7
+			string("snmp_timeout, ")		+ // 8
+			string("snmp_retries ")			+ // 9
 			string("FROM devices ")			+
 			string("WHERE id=") + inttostr(dev_id);
 
@@ -217,9 +216,9 @@ void process_device(int dev_id)
 	info.name					= mysql_row[0];
 	info.ip						= mysql_row[1];
 	info.snmp_version			= strtoint(mysql_row[2]);
-	
+
 	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, info.name + " / {" + info.ip + "}");
-	
+
 	// setup device-wide parameters
 	info.parameters.push_front(ValuePair("dev_name", mysql_row[0]));
 	info.parameters.push_front(ValuePair("ip", mysql_row[1]));
@@ -229,16 +228,17 @@ void process_device(int dev_id)
 	{
 		// set SNMP parameters
 		info.snmp_read_community	= mysql_row[3];
-		info.snmp_port				= strtoint(mysql_row[8]);
-		info.snmp_timeout			= strtoint(mysql_row[9]);
-		info.snmp_retries			= strtoint(mysql_row[10]);
-		
+		info.snmp_port				= strtoint(mysql_row[7]);
+		info.snmp_timeout			= strtoint(mysql_row[8]);
+		info.snmp_retries			= strtoint(mysql_row[9]);
+		int  snmp_recache_method	= strtoint(mysql_row[4]);
+
 		// add SNMP parameters to list
 		info.parameters.push_front(ValuePair("snmp_read_community", mysql_row[3]));
-		
+
 		// init device snmp session
 		snmp_session_init(info);
-		
+
 		// get uptime
 		info.snmp_uptime = get_snmp_uptime(info);
 		debuglogger(DEBUG_SNMP, LEVEL_INFO, &info, "SNMP Uptime is " + inttostr(info.snmp_uptime));
@@ -255,21 +255,26 @@ void process_device(int dev_id)
 		}
 		else
 		{
-			if (strtoint(mysql_row[5]) == 0)
+			if (snmp_recache_method >= 1)
 			{
-				// device came back from the dead
-				info.snmp_recache = 1;
-				debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Device has returned from SNMP-death.");
+				// we care about SNMP agent restarts
+
+				if (strtoint(mysql_row[5]) == 0)
+				{
+					// device came back from the dead
+					info.snmp_recache = 1;
+					debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Device has returned from SNMP-death.");
+				}
+
+				if (info.snmp_uptime < strtoint(mysql_row[5]))
+				{
+					// uptime went backwards
+					info.snmp_recache = 1;
+					debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info, "SNMP Agent Restart.");
+				}
 			}
 
-			if (info.snmp_uptime < strtoint(mysql_row[5]))
-			{
-				// uptime went backwards
-				info.snmp_recache = 1;
-				debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info, "SNMP Agent Restart.");
-			}
-
-			if (strtoint(mysql_row[7]) == 1)
+			if (snmp_recache_method >= 2)
 			{
 				// we care about ifNumber
 
@@ -288,9 +293,30 @@ void process_device(int dev_id)
 					debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info,
 						"Number of interfaces changed from " + string(mysql_row[6]));
 				}
+				else
+				if (snmp_recache_method >= 3)
+				{
+					// we care about interface cache matching ifNumber
+					MYSQL_RES 	*cache_mysql_res;
+					MYSQL_ROW 	cache_mysql_row;
+
+					cache_mysql_res = db_query(&mysql, &info, string("SELECT count(*) FROM snmp_interface_cache WHERE dev_id = ") + inttostr(info.device_id));
+					cache_mysql_row = mysql_fetch_row(cache_mysql_res);
+					int interface_cache_count = strtoint(cache_mysql_row[0]);
+					mysql_free_result(cache_mysql_res);
+
+					if (info.snmp_ifnumber != interface_cache_count)
+					{
+						// ifNumber doesn't match the interface cache in the database
+						info.snmp_recache = 1;
+						debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info,
+							"Number of cached interfaces (" + inttostr(interface_cache_count) + ") " +
+							"doesn't match reported number of interfaces.");
+					}
+				}
 			}
 
-			if (strtoint(mysql_row[4]) == 1)
+			if (strtoint(mysql_row[4]) == 4)
 			{
 				// we recache this one every time.
 				info.snmp_recache = 1;
@@ -300,6 +326,7 @@ void process_device(int dev_id)
 		if (info.snmp_recache)
 		{
 			// we need to recache.
+			debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info, "Performing SNMP Recache.");
 			do_snmp_interface_recache(&info, &mysql);
 			do_snmp_disk_recache(&info, &mysql);
 		}

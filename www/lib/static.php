@@ -133,7 +133,7 @@ $INTERFACE_STATUS = array(
 			5	=>	"Dormant",
 			6	=>	"Lower Layer Down"
 			);
-			
+
 $INTERFACE_TYPE = array(
 			1	=>	"Other",
 			6	=>	"Ethernet",
@@ -165,6 +165,14 @@ $SNMP_VERSIONS = array(
 			1	=>	"SNMPv1",
 			2	=>	"SNMPv2c"/*,
 			3	=>	"SNMPv3"*/
+			);
+
+$RECACHE_METHODS = array(
+			0	=>	"Never refresh cache",
+			1	=>	"Refresh on SNMP agent restart",
+			2	=>	"Refresh on interface count change",
+			3	=>	"Refresh on interface count mismatch",
+			4	=>	"Always refresh cache"
 			);
 
 $SCRIPT_DATA_TYPES = array(

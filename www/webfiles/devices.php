@@ -62,9 +62,7 @@ function doedit()
 			$db_cmd = "UPDATE";
 			$db_end = "WHERE id={$_REQUEST['dev_id']}";
 		} // end if dev_id = 0 or not
-		if (!isset($_REQUEST["snmp_recache"])) { $_REQUEST["snmp_recache"] = 0; }
 		if (!isset($_REQUEST["disabled"])) { $_REQUEST["disabled"] = 0; }
-		if (!isset($_REQUEST["snmp_check_ifnumber"])) { $_REQUEST["snmp_check_ifnumber"] = 0; }
 		if (!isset($_REQUEST["snmp_version"])) { $_REQUEST["snmp_version"] = 0; }
 		$_REQUEST['dev_name'] = db_escape_string($_REQUEST['dev_name']);
 		$_REQUEST['dev_ip'] = db_escape_string($_REQUEST['dev_ip']);
@@ -74,9 +72,8 @@ function doedit()
 			ip='{$_REQUEST['dev_ip']}',
 			snmp_read_community='{$_REQUEST['snmp_read_community']}',
 			dev_type='{$_REQUEST['dev_type']}',
-			snmp_recache='{$_REQUEST['snmp_recache']}',
+			snmp_recache_method='{$_REQUEST['snmp_recache_method']}',
 			disabled='{$_REQUEST['disabled']}',
-			snmp_check_ifnumber='{$_REQUEST['snmp_check_ifnumber']}',
 			snmp_version='{$_REQUEST['snmp_version']}',
 			snmp_port='{$_REQUEST['snmp_port']}',
 			snmp_timeout='{$_REQUEST['snmp_timeout']}',
@@ -252,13 +249,11 @@ function displayedit()
 	$dev_ip = $dev_row["ip"];
 	if ($_REQUEST["action"] == "addnew")
 	{
-		$dev_row["check_if_number"] = 1;
 		$dev_row["dev_type"] = "";
 		$dev_row["disabled"] = 0;
 		$dev_row["snmp_version"] = 0;
 		$dev_row["snmp_read_community"] = "";
-		$dev_row["snmp_recache"] = 0;
-		$dev_row["snmp_check_ifnumber"] = 0;
+		$dev_row["snmp_recache_method"] = 3;
 		$dev_row["snmp_port"] = 161;
 		$dev_row["snmp_timeout"] = 1000000;
 		$dev_row["snmp_retries"] = 3;
@@ -273,9 +268,7 @@ function displayedit()
 	make_edit_group("SNMP");
 	make_edit_select_from_array("SNMP Support:", "snmp_version", $GLOBALS["SNMP_VERSIONS"], $dev_row["snmp_version"]);
 	make_edit_text("SNMP Read Community:", "snmp_read_community", 50, 200, $dev_row["snmp_read_community"]);
-	make_edit_group("SNMP Caching");
-	make_edit_checkbox("Do not cache interface mappings", "snmp_recache", $dev_row["snmp_recache"]);
-	make_edit_checkbox("Clear interface cache when interface count changes", "snmp_check_ifnumber", $dev_row["snmp_check_ifnumber"]);
+	make_edit_select_from_array("Recaching Method:", "snmp_recache_method", $GLOBALS["RECACHE_METHODS"], $dev_row["snmp_recache_method"]);
 	make_edit_group("Advanaced SNMP Options");
 	make_edit_text("SNMP UDP Port", "snmp_port", 5, 5, $dev_row["snmp_port"]);
 	make_edit_text("SNMP Timeout (microseconds):", "snmp_timeout", 10, 20, $dev_row["snmp_timeout"]);

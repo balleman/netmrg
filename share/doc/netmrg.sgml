@@ -754,12 +754,15 @@ their NetMRG administrator.
 						<itemizedlist>
 							<listitem><para><guilabel>SNMP Support</guilabel> - The version of SNMP to use when querying this device, if any.</para></listitem>
 							<listitem><para><guilabel>SNMP Read Community</guilabel> - The SNMP community string to use when querying this device.</para></listitem>
-						</itemizedlist>
-					</listitem>
-					<listitem><para><guilabel>SNMP Caching</guilabel></para>
-						<itemizedlist>
-							<listitem><para><guilabel>Do not cache interface mappings</guilabel> - Recache interfaces on every gather (in case indexes for interfaces change often)</para></listitem>
-							<listitem><para><guilabel>Clear interface cache when interface count changes</guilabel> - An easier option to make the gatherer recache interfaces when the interface count changes (like when you add or remove a card from a router)</para></listitem>
+							<listitem><para><guilabel>Recaching Method</guilabel> - Methods used by the gatherer for determining if its SNMP cache is stale.</para>
+								<itemizedlist>
+									<listitem><para><guilabel>Never refresh cache</guilabel> - The gatherer will never automatically refresh the cache.  The cache must be refreshed manually when changes occur.</para></listitem>
+									<listitem><para><guilabel>Refresh on SNMP agent restart</guilabel> - The gatherer will refresh the cache if the SNMP agent uptime goes backwards, or if the device has become reachable again after a period of unreachability.  This option is useful for devices that change interface counts too often, such as a router serving DSL sessions.</para></listitem>
+									<listitem><para><guilabel>Refresh on interface count change</guilabel> - The gatherer will refresh the cache if the "ifNumber" value has changed since the last gathering.  This typically happens when cards are added to or removed from a router, or when PPP sessions go up or down.  (Also includes the above.)</para></listitem>
+									<listitem><para><guilabel>Refresh on interface count mismatch</guilabel> - The gatherer will refresh the cache when the number of items in the interface cache do not match the "ifNumber" on a device.  This can prevent problems when devices are in the process of booting.  This is the preferred option for most devices. (Also includes the above.)</para></listitem>
+									<listitem><para><guilabel>Always refresh cache</guilabel> - Always refresh the cache on each gather.  This is useful for devices that are always changing, when you care about the changes.</para></listitem>
+								</itemizedlist>
+							</listitem>
 						</itemizedlist>
 					</listitem>
 					<listitem><para><guilabel>Advanced SNMP Options</guilabel></para>
