@@ -52,9 +52,17 @@ if (!empty($_REQUEST["user_name"]))
 }// end if there was a username
 ?>
 
+<script language="javascript">
+<!--
+function focusme()
+{
+        document.lif.user_name.focus();
+}
+-->
+</script>
 
-<?
-begin_page("login.php", "Login");
+<?php
+begin_page("login.php", "Login", 0, "onLoad=focusme()");
 ?>
 <br><br>
 <font color="#000080" size="3"><strong>User Login</strong></font>
@@ -70,7 +78,7 @@ if (!empty($login_error))
 <?php
 } // end if there was a login error
 ?>
-<form action="./login.php" method="post">
+<form action="./login.php" method="post" name="lif">
 <table>
 	<tr><td>User:</td><td><input type="text" name="user_name"></td></tr>
 	<tr><td>Password:</td><td><input type="password" name="password"></td></tr>

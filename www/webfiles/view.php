@@ -119,6 +119,7 @@ if (empty($_REQUEST["action"]))
 	 	 ORDER BY 	pos";
 
 	$view_result = db_query($view_select);
+	$num = db_num_rows($view_result);
 
 	if (!isset($_REQUEST['edit']) || ($_REQUEST['edit'] == 0))
 	{

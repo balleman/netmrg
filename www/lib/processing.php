@@ -156,6 +156,8 @@ function expand_parameters($input, $subdev_id)
 	{
 		$input = str_replace("%" . $row['name'] . "%", $row['value'], $input);
 	}
+
+	//$input = preg_replace("/\%..+\%/", "N/A", $input);
 	
 	return $input;
 }  // expand_parameters()

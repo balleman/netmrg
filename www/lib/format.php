@@ -38,7 +38,7 @@ function space_to_nbsp($input)
 * @param string $prettyname  shown in the title bar
 * @param boolean $refresh    whether to refresh this page or not
 */
-function begin_page($pagename = "", $prettyname = "", $refresh = 0)
+function begin_page($pagename = "", $prettyname = "", $refresh = 0, $bodytags = "")
 {
 echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
 ?>
@@ -64,7 +64,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
 	<meta http-equiv="refresh" content="300">
 <?php } ?>
 </head>
-<body>
+<body <?php echo($bodytags); ?>>
 <?php
 if (!empty($pagename))
 {
