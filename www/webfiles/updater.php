@@ -369,14 +369,16 @@ function Updater($dbupdates, $version = "", $which_update = "", $force = false)
 			echo "</td>\n";
 			echo '<td class="update-list-item"><a href="#" onclick="document.form.update_version.value=\''.$dbupver.'\'; document.form.which_update.value=\''.$dbkey.'\'; document.form.submit();">[apply]</a> <a href="#" onclick="document.form.update_version.value=\''.$dbupver.'\'; document.form.which_update.value=\''.$dbkey.'\'; document.form.force_update.value=\'true\'; document.form.submit();">[force]</a></tr>'."\n";
 			
-			// update the database version if we're updating this version or all versions
-			if (($version == $dbupver || $version == "all")
-				&& $GLOBALS["netmrg"]["verhist"][$dbupver] > $GLOBALS["netmrg"]["verhist"][$dbver]
-				&& $numupdates == $updates_applied)
-			{
-				UpdateDBVersion($dbupver);
-			} // end if this version > db version
 		} // end foreach db query
+
+		// update the database version if we're updating this version or all versions
+		if (($version == $dbupver || $version == "all")
+			&& $GLOBALS["netmrg"]["verhist"][$dbupver] > $GLOBALS["netmrg"]["verhist"][$dbver]
+			&& $numupdates == $updates_applied)
+		{
+			UpdateDBVersion($dbupver);
+		} // end if this version > db version
+
 		echo '<tr><td class="update-list-header" colspan="3">';
 		echo $updates_applied." update";
 		echo ($updates_applied != 1) ? "s" : "";
