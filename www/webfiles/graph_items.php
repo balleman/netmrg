@@ -154,6 +154,7 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 	make_edit_checkbox("Use Alternate Child","use_alt", $ds_row["use_alt"]);
 	make_edit_select_from_table("Alternate Child Graph:","alt_graph_id","graphs", $ds_row["alt_graph_id"]);
 	make_edit_hidden("action","doedit");
+	make_edit_hidden("graph_id",$ds_row["graph_id"]);
 	make_edit_hidden("id",$ds_row["id"]);
 	make_edit_submit_button();
 	make_edit_end();
