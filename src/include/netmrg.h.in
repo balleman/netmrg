@@ -40,7 +40,8 @@
 #define DEF_DB_PASS         "netmrgwrite"
 #define DEF_DB_DB           "netmrg"
 
-// Polling
+// Other
 #define DEF_POLL_INTERVAL   300
+#define DEF_MAX_DEV_LOG     500
 
 #endif              

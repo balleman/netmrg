@@ -13,9 +13,9 @@
 
 using std::string;
 
-const int settings_count = 12;
+const int settings_count = 13;
 
-enum Setting 
+enum Setting
 {
 	setDBHost,
 	setDBUser,
@@ -28,7 +28,8 @@ enum Setting
 	setPathRuntimeFile,
 	setPathLibexec,
 	setPathRRDs,
-	setPollInterval
+	setPollInterval,
+	setMaxDeviceLogEntries
 };
 
 // functions to set and get settings

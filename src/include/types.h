@@ -53,12 +53,14 @@ struct DeviceInfo
 
 	uint status;
 
+	void * mysql;
+
 	void * snmp_sess_p;
 	uint snmp_avoid;
 	uint snmp_recache;
 	uint snmp_ifnumber;
 	long long int snmp_uptime;
-	
+
 	uint subdevice_type;
 
 	int test_type;
@@ -68,13 +70,13 @@ struct DeviceInfo
 	string ip;
 	string subdevice_name;
 	string test_params;
-	
+
 	string curr_val;
 	string last_val;
 	string delta_val;
 	string rate_val;
 	long long int delta_time;
-	
+
 	unsigned short snmp_version;
 	string snmp_read_community;
 	unsigned long snmp_timeout;
@@ -93,6 +95,8 @@ struct DeviceInfo
 
 		status			=  0;
 
+		mysql			=  NULL;
+
 		snmp_avoid		=  0;
 		snmp_recache	=  0;
 		snmp_ifnumber	=  0;
@@ -103,14 +107,14 @@ struct DeviceInfo
 		test_type		= -1;
 		test_id			= -1;
 		//test_params	= "";
-		
+
 		delta_time		= 0;
 
 		curr_val		= "U";
 		last_val		= "U";
 		delta_val		= "U";
 		rate_val		= "U";
-		
+
 		snmp_version	= 0;
 		snmp_timeout	= 1000000;
 		snmp_retries	= 4;

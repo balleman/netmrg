@@ -17,6 +17,8 @@ if (!isset($_REQUEST['index']))
 	$_REQUEST['index'] = 0;
 }
 
+begin_page("event_log.php", "Event Log", 1);
+
 $query = "
 	SELECT event_id, date, time_since_last_change, situation,
 	dev_id, devices.name AS dev_name, events.name AS ev_name
@@ -28,7 +30,7 @@ $query = "
 	ORDER BY event_log.id DESC";
 
 
-begin_page("event_log.php", "Event Log", 1);
+
 
 make_plain_display_table("Event Log", "Date/Time", "#", "Time Since Last Change", "#" , "Event", "#");
 $eventlog_handle = db_query($query);

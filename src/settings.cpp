@@ -62,6 +62,7 @@ void load_settings_default()
 	
 	// other
 	set_setting_int(setPollInterval, DEF_POLL_INTERVAL);
+	set_setting_int(setMaxDeviceLogEntries, DEF_MAX_DEV_LOG);
 }
 
 void print_settings()
@@ -71,20 +72,21 @@ void print_settings()
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "User: " + get_setting(setDBUser));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Pass: " + get_setting(setDBPass));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "DB:   " + get_setting(setDBDB));
-	
+
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "-- Threads --");
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Count: " + get_setting(setThreadCount));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Sleep: " + get_setting(setThreadSleep));
-	
+
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "-- Paths --");
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "RRDTOOL:      " + get_setting(setPathRRDTOOL));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Lock File:    " + get_setting(setPathLockFile));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Runtime File: " + get_setting(setPathRuntimeFile));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Libexec:      " + get_setting(setPathLibexec));
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "RRDs:         " + get_setting(setPathRRDs));
-	
+
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "-- Other --");
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Poll Interval: " + get_setting(setPollInterval));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Max Dev Logs:  " + get_setting(setMaxDeviceLogEntries));
 }
 
 string xmltostring(const xmlChar * input)
@@ -156,6 +158,12 @@ void parse_config_section(xmlDocPtr doc, xmlNodePtr cur, string section)
 				set_setting(setPollInterval, val_str);
 		}
 		else
+		if (section == "logging")
+		{
+			if (!xmlStrcmp(cur->name, (const xmlChar *) "max_device_entries"))
+				set_setting(setMaxDeviceLogEntries, val_str);
+		}
+		else
 		debuglogger(DEBUG_GLOBAL, LEVEL_WARNING, NULL, "Second stage parser not aware of this section.");
 		xmlFree(value);
 		cur = cur->next;
@@ -214,6 +222,11 @@ void load_settings_file(const string & filename)
 		if (!xmlStrcmp(cur->name, (const xmlChar *) "polling"))
 		{
 			parse_config_section(doc, cur, "polling");
+		}
+		else
+		if (!xmlStrcmp(cur->name, (const xmlChar *) "logging"))
+		{
+			parse_config_section(doc, cur, "logging");
 		}
 		else
 		if (!xmlStrcmp(cur->name, (const xmlChar *) "website"))

@@ -172,13 +172,13 @@ void debuglogger(int component, int level, const DeviceInfo * info, const string
 	if ((debug_level & level) && (debug_components & component))
 	{
 		string tempmsg = "";
-		
+
 		// debug the debugging information
 		if ((debug_level & LEVEL_DEBUG) && (debug_components & DEBUG_LOGGING))
 		{
 			tempmsg = tempmsg + string("[L: ") + inttopadstr(level, 4) + ", C: " + inttopadstr(component, 4) + "] ";
 		}
-		
+
 		// display context information
 		if (info != NULL)
 		{
@@ -207,7 +207,7 @@ void debuglogger(int component, int level, const DeviceInfo * info, const string
 				tempmsg = tempmsg + string("[Resp: ") + inttopadstr(info->response_id, 4) + string("] ");
 			}
 		} // end display context information
-		
+
 		// censor or remove censoring data as appropriate
 		if (debug_safety)
 		{
@@ -217,9 +217,34 @@ void debuglogger(int component, int level, const DeviceInfo * info, const string
 		{
 			tempmsg = tempmsg + remove_braces(message);
 		}
-			
+
 		// print the formatted message
 		printf("%s\n", tempmsg.c_str());
+	}
+
+	// log message to database, if possible, and if important enough
+	if (info && info->mysql && (level < LEVEL_INFO))
+	{
+		string device, subdevice, monitor;
+
+		if (info->device_id == -1)
+			device = "NULL";
+		else
+			device = inttostr(info->device_id);
+
+		if (info->subdevice_id == -1)
+			subdevice = "NULL";
+		else
+			subdevice = inttostr(info->subdevice_id);
+
+		if (info->monitor_id == -1)
+			monitor = "NULL";
+		else
+			monitor = inttostr(info->monitor_id);
+
+		db_update((MYSQL *) info->mysql, NULL, string("INSERT INTO log SET date=NOW(), dev_id=") + device + ", subdev_id=" +
+			subdevice + ", mon_id=" + monitor + ", level=" + inttostr(level) + ", component=" + inttostr(component) +
+			", message = '" + db_escape(remove_braces(message)) + "'");
 	}
 
 } // end debuglogger

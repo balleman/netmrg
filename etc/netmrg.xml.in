@@ -27,4 +27,7 @@
 	<polling>
 		<interval>300</interval>
 	</polling>
+	<logging>
+		<max_device_entries>500</max_device_entries>
+	</logging>
 </netmrg>

@@ -5,13 +5,14 @@
 * NetMRG Gatherer Utilities Library Header
 *
 * see doc/LICENSE for copyright information
-********************************************/   
+********************************************/
 
 #ifndef NETMRG_UTILS
 #define NETMRG_UTILS
 
 #include "common.h"
 #include "types.h"
+#include "db.h"
 #include <cstdio>
 #include <cstdlib>
 

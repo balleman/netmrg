@@ -15,8 +15,8 @@
 #include <mysql/mysql.h>
 
 int				db_connect(MYSQL *connection);
-MYSQL_RES *		db_query(MYSQL *mysql, DeviceInfo *info, string query);
-void			db_update(MYSQL *mysql, DeviceInfo *info, string query);
+MYSQL_RES *		db_query(MYSQL *mysql, const DeviceInfo *info, const string & query);
+void			db_update(MYSQL *mysql, const DeviceInfo *info, const string & query);
 string			db_escape(const string & input);
 
 #endif

@@ -39,7 +39,7 @@ int db_connect(MYSQL *connection)
 //
 // perform a MySQL query and return the results
 
-MYSQL_RES *db_query(MYSQL *mysql, DeviceInfo *info, string query)
+MYSQL_RES *db_query(MYSQL *mysql, const DeviceInfo *info, const string & query)
 {
 	MYSQL_RES *mysql_res = NULL;
 
@@ -56,7 +56,7 @@ MYSQL_RES *db_query(MYSQL *mysql, DeviceInfo *info, string query)
 	{
 		debuglogger(DEBUG_MYSQL, LEVEL_DEBUG, info, "Mysql Query Succeeded. (" + query + ")");
 	}
-	
+
 	return mysql_res;
 }
 
@@ -64,7 +64,7 @@ MYSQL_RES *db_query(MYSQL *mysql, DeviceInfo *info, string query)
 //
 // query the database, but disregard the results and log any failure
 
-void db_update(MYSQL *mysql, DeviceInfo *info, string query)
+void db_update(MYSQL *mysql, const DeviceInfo *info, const string & query)
 {
 	if (mysql_query(mysql, query.c_str()))
 	{

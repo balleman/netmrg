@@ -13,6 +13,7 @@
 #include "utils.h"
 #include "monitors.h"
 #include "mappings.h"
+#include "settings.h"
 
 uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 {
@@ -195,6 +196,7 @@ void process_device(int dev_id)
 	debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Starting device thread.");
 	if (!db_connect(&mysql)) return;
 	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, "MySQL connection established.");
+	info.mysql = (void *) &mysql;
 
 	string query = 	string("SELECT ") 		+
 			string("name, ")				+ // 0
@@ -291,7 +293,7 @@ void process_device(int dev_id)
 						inttostr(info.snmp_ifnumber) + string(" WHERE id = ") +
 						inttostr(dev_id));
 					debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info,
-						"Number of interfaces changed from " + string(mysql_row[6]));
+						"Number of interfaces changed from " + string(mysql_row[6]) + " to " + inttostr(info.snmp_ifnumber));
 				}
 				else
 				if (snmp_recache_method >= 3)
@@ -338,11 +340,26 @@ void process_device(int dev_id)
 	status = process_sub_devices(info, &mysql);
 
 	db_update(&mysql, &info, "UPDATE devices SET status=" + inttostr(status) + " WHERE id=" + inttostr(dev_id));
+
 	if (info.snmp_sess_p)
 	{
 		snmp_session_cleanup(info);
 	}
+
+	// trim event log for device
+	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, "Trimming device event log.");
+	mysql_res = db_query(&mysql, &info, "SELECT id FROM log WHERE dev_id=" + inttostr(info.device_id) + " ORDER BY id");
+	int count = mysql_num_rows(mysql_res);
+	for (int i = 0; i < count - get_setting_int(setMaxDeviceLogEntries); i++)
+	{
+		mysql_row = mysql_fetch_row(mysql_res);
+		db_update(&mysql, &info, string("DELETE FROM log WHERE id=") + mysql_row[0]);
+	}
+	mysql_free_result(mysql_res);
+
 	mysql_close(&mysql);
+	info.mysql = NULL;
+
 	debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Ending device thread.");
 
 } // end process_device
