@@ -31,14 +31,7 @@ function db_query($query_string)
 	// if there was an error, handle it
 	if (mysql_errno($GLOBALS["netmrg"]["dbconn"]))
 	{
-		if ($GLOBALS["netmrg"]["dbdebug"])
-		{
-			die("<b>DB_ERROR:</b> Couldn't execute query:<br>\n<pre>$query_string</pre><br>\n<pre>".mysql_error()."</pre><br>\n\n");
-		} // end if we're debuging things
-		else
-		{
-			die("<b>DB_ERROR:</b> Sorry, a database error occured.  We cannot continue.  Please contact the administrator and let them know what you were doing when the problem occured<br><br>\n\n");
-		} // end else present a nice error code
+
 	} // end if there was an error
 
 	return $query_result;
@@ -76,5 +69,24 @@ function db_insert_id()
 } // end db_insert_id()
 
 
+/**
+* db_data_seek($q_handle, $rownum);
+*
+* seeks to specified row number
+*/
+function db_data_seek($q_handle, $rownum)
+{
+	if (!mysql_data_seek($q_handle, $rownum))
+	{
+		if ($GLOBALS["netmrg"]["dbdebug"])
+		{
+			die("<b>DB_ERROR:</b> Attempt to seek past end of data set to row <b>$rownum</b><br>\n\n");
+		} // end if we're debuging things
+		else
+		{
+			die("<b>DB_ERROR:</b> Sorry, a database error occured.  We cannot continue.  Please contact the administrator and let them know what you were doing when the problem occured<br><br>\n\n");
+		} // end else present a nice error code
+	} // end if the seek failed
+} // end db_data_seek();
 
 ?>
