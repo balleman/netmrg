@@ -47,6 +47,7 @@ function doedit()
 		$where = "WHERE id={$_REQUEST['graph_id']}";
 	}
 	db_update("$command graphs SET name=\"" . db_escape_string($_REQUEST['graph_name']) . "\",
+			title=\"" . db_escape_string($_REQUEST['graph_title']) . "\",
 			comment=\"" . db_escape_string($_REQUEST['graph_comment']) . "\",
 			width=\"{$_REQUEST['width']}\", height=\"{$_REQUEST['height']}\",
 			vert_label=\"" . db_escape_string($_REQUEST['vert_label']) . "\" $where");
@@ -70,7 +71,8 @@ function duplicate()
 	check_auth(2);
 	$graph_handle = db_query("SELECT * FROM graphs WHERE id={$_REQUEST["id"]}");
 	$graph_row    = db_fetch_array($graph_handle);
-	db_update("INSERT INTO graphs SET name='" . db_escape_string($graph_row['name']) . " (duplicate)', " . 
+	db_update("INSERT INTO graphs SET name='" . db_escape_string($graph_row['name']) . " (duplicate)', " .
+	"title='" . db_escape_string($graph_row['title']). "', " .  
 	"comment='" . db_escape_string($graph_row['comment']) . "', " .
 	"width={$graph_row['width']}, height={$graph_row['height']}, " .
 	"vert_label='" . db_escape_string($graph_row['vert_label']) . "', " .
@@ -92,6 +94,8 @@ function duplicate()
 		"position={$ds_row['position']}, " .
 		"multiplier={$ds_row['multiplier']}");
 	} // end for each ds
+
+	// need to duplicate highlight periods
 
 	header("Location: {$_SERVER['PHP_SELF']}?type={$graph_row['type']}");
 	exit(0);
@@ -127,7 +131,6 @@ function display()
 	js_confirm_dialog("del", "Are you sure you want to delete graph ", "?", "{$_SERVER['PHP_SELF']}?action=dodelete&type={$_REQUEST['type']}&graph_id=");
 	make_display_table(ucfirst($_REQUEST['type']) . " Graphs", "graphs.php?action=add&type={$_REQUEST['type']}", 
 		array("text" => "Name", "href" => "{$_SERVER['PHP_SELF']}?order_by=name"),
-		array("text" => "Comment", "href" => "{$_SERVER['PHP_SELF']}?order_by=comment"),
 		array()
 	); // end make_display_table();
 
@@ -149,7 +152,6 @@ function display()
 	{
 		$graph_row = db_fetch_array($graph_results);
 		$graph_id  = $graph_row["id"];
-		$temp_comment = str_replace("%n","<br>",$graph_row["comment"]);
 		if ($graph_row['type'] == "template")
 		{
 			$apply_template_link = "&nbsp;" . 
@@ -161,8 +163,7 @@ function display()
 		}
 
 		make_display_item("editfield".(($graph_count-1)%2),
-			array("text" => $graph_row["name"], "href" => "graph_items.php?graph_id=$graph_id"),
-			array("text" => $temp_comment, "href" => ""),
+			array("text" => $graph_row["title"], "href" => "graph_items.php?graph_id=$graph_id"),
 			array("text" => formatted_link("View", "enclose_graph.php?type=custom&id=" . $graph_row["id"]) . "&nbsp;" .
 				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"]) . $apply_template_link),
 			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .
@@ -188,6 +189,7 @@ function edit()
 	else
 	{
 		$graph_row["name"] = "";
+		$graph_row["title"] = "";
 		$graph_row["comment"] = "";
 		$graph_row["width"] = 575;
 		$graph_row["height"] = 100;
@@ -196,6 +198,7 @@ function edit()
 
 	make_edit_table("Edit Graph");
 	make_edit_text("Name:", "graph_name", "25", "100", $graph_row["name"]);
+	make_edit_text("Title:", "graph_title", "25", "100", $graph_row["title"]);
 	make_edit_text("Comment:", "graph_comment", "50", "200", $graph_row["comment"]);
 	make_edit_text("Vertical Label:", "vert_label", "50", "100", $graph_row["vert_label"]);
 	make_edit_text("Width:", "width", "4", "4", $graph_row["width"]);
