@@ -123,7 +123,7 @@ Event are met, the appropriate response is performed.
 	</itemizedlist>
 </chapter>
 <chapter>
-	<title>Installation Proceedure</title>
+	<title>Installation Procedure</title>
 	<orderedlist>
 		<listitem>
 			<para>Untar to some directory like /tmp/ (it will untar into a 'netmrg' directory)</para>
