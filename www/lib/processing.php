@@ -301,10 +301,10 @@ function delete_device($device_id)
 	// delete the device
 	do_update("DELETE FROM devices WHERE id=$device_id");
 
-	// remove the snmp-cache for the device
-	do_update("DELETE FROM snmp_cache WHERE dev_id=$device_id");
+	// remove the interface for the device
+	do_update("DELETE FROM snmp_interface_cache WHERE dev_id=$device_id");
 
-	// remove the disk-cache for the device
+	// remove the disk cache for the device
 	do_update("DELETE FROM snmp_disk_cache WHERE dev_id=$device_id");
 
 	// remove associated graphs
