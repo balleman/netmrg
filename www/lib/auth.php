@@ -40,15 +40,22 @@ function check_user_pass($user, $pass)
 * verifies a username and password in the session 
 * against what's in the database
 * and that the user isn't spoofing their ip
+* and that they haven't been logged in too long
 */
 function IsLoggedIn()
 {
-	if (check_user_pass($_SESSION["netmrgsess"]["username"], $_SESSION["netmrgsess"]["password"])
+	if ((
+			($GLOBALS["netmrg"]["externalAuth"] && !empty($_SESSION["netmrgsess"]["username"]))
+			||
+			(!$GLOBALS["netmrg"]["externalAuth"]
+			&& check_user_pass($_SESSION["netmrgsess"]["username"], $_SESSION["netmrgsess"]["password"]))
+		)
 		&& $_SESSION["netmrgsess"]["remote_addr"] == $_SERVER["REMOTE_ADDR"]
 		&& time() - $_SESSION["netmrgsess"]["accessTime"] <= $GLOBALS["netmrg"]["authTimeout"])
 	{
 		return true;
 	} // end if the username/password checks out and the ips match
+
 	return false;
 } // end IsLoggedIn();
 

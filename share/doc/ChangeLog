@@ -1,3 +1,7 @@
+0.8  2003.01.15  silfreed
+  - implemented external http auth support (untested)
+
+
 0.8  2003.01.13  silfreed
   - updated copyright info on every .php page to refer to doc/LICENSE
   - new versioning/changelog scheme

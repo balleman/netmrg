@@ -23,7 +23,8 @@ if (IsLoggedIn())
 // if we need to login
 if (!empty($_REQUEST["user_name"]))
 {
-	if (check_user_pass($_REQUEST["user_name"], $_REQUEST["password"]))
+	if (!$GLOBALS["netmrg"]["externalAuth"] 
+		&& check_user_pass($_REQUEST["user_name"], $_REQUEST["password"]))
 	{
 		$_SESSION["netmrgsess"]["username"] = $_REQUEST["user_name"];
 		$_SESSION["netmrgsess"]["password"] = $_REQUEST["password"];
@@ -31,7 +32,19 @@ if (!empty($_REQUEST["user_name"]))
 		$_SESSION["netmrgsess"]["permit"] = get_permit();
 		$_SESSION["netmrgsess"]["accessTime"] = time();
 		view_redirect();
-	}
+	} // end if normal auth
+
+	else if ($GLOBALS["netmrg"]["externalAuth"]
+		&& !empty($_SERVER["PHP_AUTH_USER"]))
+	{
+		$_SESSION["netmrgsess"]["username"] = $_SERVER["PHP_AUTH_USER"];
+		$_SESSION["netmrgsess"]["password"] = "";
+		$_SESSION["netmrgsess"]["remote_addr"] = $_SERVER["REMOTE_ADDR"];
+		$_SESSION["netmrgsess"]["permit"] = get_permit();
+		$_SESSION["netmrgsess"]["accessTime"] = time();
+		view_redirect();
+	} // end if external auth
+
 	else
 	{
 		$login_error = "Invalid Username or Password";
