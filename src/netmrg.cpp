@@ -196,34 +196,6 @@ void run_netmrg()
 	// free active devices results
 	mysql_free_result(mysql_res);
 
-	// generate change of status report
-	/*
-	mysql_res = db_query(&mysql, NULL,
-			string("SELECT date, dev_name, situation, event_text, since_last_change ") +
-			string("FROM event_log WHERE date >= ") +
-			inttostr(start_time) + string(" ORDER BY situation"));
-
-	num_rows = mysql_num_rows(mysql_res);
-
-	if (num_rows > 0)
-	{
-		printf("ATTENTION: Creating Status Report.\n");
-		lockfile = fopen("/var/www/netmrg/dat/status_report","w+");
-		for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
-		{
-			mysql_row = mysql_fetch_row(mysql_res);
-			fprintf(lockfile,
-				"DATE/TIME: %s\nDevice: %s\nSituation: %s\nEvent: %s\nTime Since Last Change: %s\n\n",
-				mysql_row[0], mysql_row[1], mysql_row[2], mysql_row[3], mysql_row[4]);
-		}
-		fclose(lockfile);
-		system(DISTRIB_CMD);
-	}
-
-	// free report results
-	mysql_free_result(mysql_res);
-	*/
-
 	delete [] threads;
 	delete [] ids;
 

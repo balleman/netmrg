@@ -37,7 +37,4 @@
 #define DEF_DB_PASS			"netmrgwrite"
 #define DEF_DB_DB			"netmrg"
 
-// Define the command that distributes reports
-#define DISTRIB_CMD			"@prefix@/bin/distrib.sh"
-
 #endif              
