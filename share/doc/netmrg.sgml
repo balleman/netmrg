@@ -711,14 +711,33 @@ their NetMRG administrator.
 			<refsect2><title>Edit</title>
 				<para>Edit info about a device</para>
 				<itemizedlist>
-					<listitem><para><guilabel>Name</guilabel> - Name of a device; commonly the hostname</para></listitem>
-					<listitem><para><guilabel>IP or Hostname</guilabel> - IP address of the device, or hostname (must be resolvable by the monitoring box)</para></listitem>
-					<listitem><para><guilabel>Device Type</guilabel> - type of device (currently not used)</para></listitem>
-					<listitem><para><guilabel>Disabled</guilabel> - don't gather data for this box</para></listitem>
-					<listitem><para><guilabel>This device uses SNMP</guilabel> - whether this device is SNMP Queriable</para></listitem>
-					<listitem><para><guilabel>SNMP Read Community</guilabel> - The SNMPv1 community string for this device</para></listitem>
-					<listitem><para><guilabel>Do not cache interface mappings</guilabel> - Recache interfaces on every gather (in case indexes for interfaces change often)</para></listitem>
-					<listitem><para><guilabel>Clear interface cache when interface count changes</guilabel> - An easier option to make the gatherer recache interfaces when the interface count changes (like when you add or remove a card from a router)</para></listitem>
+					<listitem><para><guilabel>General</guilabel></para>
+						<itemizedlist>
+							<listitem><para><guilabel>Name</guilabel> - Name of a device; commonly the hostname</para></listitem>
+							<listitem><para><guilabel>IP or Hostname</guilabel> - IP address of the device, or hostname (must be resolvable by the monitoring box)</para></listitem>
+							<listitem><para><guilabel>Device Type</guilabel> - Type of device (currently not used)</para></listitem>
+							<listitem><para><guilabel>Disabled</guilabel> - Don't gather data for this device</para></listitem>
+						</itemizedlist>
+					</listitem>
+					<listitem><para><guilabel>SNMP</guilabel></para>
+						<itemizedlist>
+							<listitem><para><guilabel>SNMP Support</guilabel> - The version of SNMP to use when querying this device, if any.</para></listitem>
+							<listitem><para><guilabel>SNMP Read Community</guilabel> - The SNMP community string to use when querying this device.</para></listitem>
+						</itemizedlist>
+					</listitem>
+					<listitem><para><guilabel>SNMP Caching</guilabel></para>
+						<itemizedlist>
+							<listitem><para><guilabel>Do not cache interface mappings</guilabel> - Recache interfaces on every gather (in case indexes for interfaces change often)</para></listitem>
+							<listitem><para><guilabel>Clear interface cache when interface count changes</guilabel> - An easier option to make the gatherer recache interfaces when the interface count changes (like when you add or remove a card from a router)</para></listitem>
+						</itemizedlist>
+					</listitem>
+					<listitem><para><guilabel>Advanced SNMP Options</guilabel></para>
+						<itemizedlist>
+							<listitem><para><guilabel>SNMP UDP Port</guilabel> - UDP port to direct SNMP queries to (default is 161).</para></listitem>
+							<listitem><para><guilabel>SNMP Timeout (microseconds)</guilabel> - Number of microseconds to wait for a response to a query before retrying (default is 1000000 or 1 second).  An exponential backoff is used after each failed query; this is the initial delay.</para></listitem>
+							<listitem><para><guilabel>SNMP Retries</guilabel> - Number of times to query the device before giving up (default is 3).</para></listitem>
+						</itemizedlist>	
+					</listitem>
 				</itemizedlist>
 			</refsect2>
 			<refsect2><title>SNMP Cache View</title>
