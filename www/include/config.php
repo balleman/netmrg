@@ -40,7 +40,7 @@ $_GLOBALS["netmrg"]["webroot"] = "/netmrg";
 
 /***** SESSION *****/
 session_start();
-if (!isset($_SESSION["netmrg"]) && !is_array($_SESSION["netmrg"])) {
+if (!isset($_SESSION["netmrg"]) || !is_array($_SESSION["netmrg"])) {
 	$_SESSION["netmrg"] = array();
 } // end if the netmrg session array doesn't exist yet, make it
 
