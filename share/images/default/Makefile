@@ -14,9 +14,14 @@ all : $(FILES)
 arrow:
 	@cp arrow.svg arrow-up.svg
 	@$(BATIK) -h 15 arrow-up.svg
-	convert -rotate 90 arrow-up.png arrow-right.png
-	convert -rotate 180 arrow-up.png arrow-down.png
-	convert -rotate 270 arrow-up.png arrow-left.png
+	@convert -rotate 90 arrow-up.png arrow-right.png
+	@convert -rotate 180 arrow-up.png arrow-down.png
+	@convert -rotate 270 arrow-up.png arrow-left.png
+	@cat arrow-up.svg | perl -ne 's/#000000/#808080/; s/#333333/#A0A0A0/; print;' > arrow-up-disabled.svg
+	@$(BATIK) -h 15 arrow-up-disabled.svg
+	@convert -rotate 90 arrow-up-disabled.png arrow-right-disabled.png
+	@convert -rotate 180 arrow-up-disabled.png arrow-down-disabled.png
+	@convert -rotate 270 arrow-up-disabled.png arrow-left-disabled.png
 
 status:
 	@$(MAKE) -s createstatus C1="#ff0000" C2="#ff4c4c" NAME="status-critical-trig.svg"
