@@ -108,6 +108,8 @@ INSERT INTO event_log VALUES (8,6,1044836521,1044834518);
 INSERT INTO event_log VALUES (9,3,1044836641,1044834638);
 INSERT INTO event_log VALUES (10,6,1044836762,1044834759);
 INSERT INTO event_log VALUES (11,3,1044836821,180);
+INSERT INTO event_log VALUES (12,6,1044837060,298);
+INSERT INTO event_log VALUES (13,3,1044837120,299);
 
 --
 -- Table structure for table 'events'
@@ -132,9 +134,9 @@ CREATE TABLE events (
 
 
 INSERT INTO events VALUES (4,14,1,1,2,'Too Many Processes',2003);
-INSERT INTO events VALUES (3,7,1,1,2,'Too Many Processes',1044836821);
+INSERT INTO events VALUES (3,7,1,1,2,'Too Many Processes',1044837120);
 INSERT INTO events VALUES (5,7,1,0,3,'Way Too Many Processes',2003);
-INSERT INTO events VALUES (6,7,1,0,1,'Processes Normal',1044836762);
+INSERT INTO events VALUES (6,7,1,0,1,'Processes Normal',1044837060);
 INSERT INTO events VALUES (7,14,1,0,1,'Processes Normal',2003);
 INSERT INTO events VALUES (8,14,1,0,3,'Way too many processes',2003);
 INSERT INTO events VALUES (9,8,1,1,1,'Users OK',2003);
@@ -189,7 +191,7 @@ INSERT INTO graph_ds VALUES (11,0,23,'#009933',4,5,'Inbound',1,1,0,'','','',0,1,
 INSERT INTO graph_ds VALUES (12,0,24,'#3333FF',2,5,'Outbound',1,1,0,'','','',0,2,1,0,1);
 INSERT INTO graph_ds VALUES (13,0,25,'#CC3300',4,6,'Script',1,1,0,'','','',0,1,6,0,1);
 INSERT INTO graph_ds VALUES (14,0,26,'#33CC00',5,6,'SNMP',1,1,0,'','','',0,2,6,0,1);
-INSERT INTO graph_ds VALUES (15,0,27,'#6666FF',5,6,'SQL',1,1,0,'','','',0,3,6,0,1);
+INSERT INTO graph_ds VALUES (17,0,27,'#6699FF',5,6,'SQL',1,1,0,'0','#FF0000','',0,3,6,0,1);
 INSERT INTO graph_ds VALUES (16,0,40,'#FF9900',5,6,'Internal',1,1,0,'0','#FF0000','',0,4,6,0,1);
 
 --
@@ -276,10 +278,10 @@ CREATE TABLE mon_devices (
 --
 
 
-INSERT INTO mon_devices VALUES (1,'Oak','192.168.1.1','public',8,0,0,0,3718394,3,1,1,2);
-INSERT INTO mon_devices VALUES (2,'Pine','192.168.1.11','public',8,0,0,0,3318288,2,1,1,2);
+INSERT INTO mon_devices VALUES (1,'Oak','192.168.1.1','public',8,0,0,0,3886412,3,1,1,2);
+INSERT INTO mon_devices VALUES (2,'Pine','192.168.1.11','public',8,0,0,0,3486319,2,1,1,2);
 INSERT INTO mon_devices VALUES (3,'NetMRG','','',8,0,0,0,0,0,0,0,0);
-INSERT INTO mon_devices VALUES (1000,'Pine','192.168.1.11','public',8,0,0,0,3318295,2,1,1,0);
+INSERT INTO mon_devices VALUES (1000,'Pine','192.168.1.11','public',8,0,0,0,3486334,2,1,1,0);
 
 --
 -- Table structure for table 'mon_groups'
@@ -377,39 +379,39 @@ CREATE TABLE monitors (
 --
 
 
-INSERT INTO monitors VALUES (1,1,1,NULL,NULL,1,2,9,'',NULL,NULL,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (2,1,1,NULL,NULL,1,2,10,'',NULL,NULL,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (3,1,1,NULL,NULL,1,2,11,'',NULL,NULL,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (4,1,2,NULL,105,1,2,7,'',41420,28,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (5,1,2,NULL,105,1,2,5,'',127005,106,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (6,1,2,NULL,105,1,2,8,'',21852,0,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (17,3,2,NULL,12000000,1,2,39,'',48274513,63920,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (7,1,1,NULL,NULL,1,2,2,'',76,0,'2003-02-09 19:30:01',60,2);
-INSERT INTO monitors VALUES (8,1,1,NULL,NULL,1,2,3,'',1,0,'2003-02-09 19:30:01',60,1);
-INSERT INTO monitors VALUES (9,1,1,NULL,NULL,1,2,18,'',1,0,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (20,4,1,NULL,NULL,1,2,40,'',1,0,'2003-02-09 19:30:01',59,0);
-INSERT INTO monitors VALUES (10,1,2,NULL,1000,1,3,1,'',418998,255,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (11,2,2,NULL,105,1,2,7,'',69446,48,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (12,2,2,NULL,105,1,2,5,'',194087,214,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (13,2,2,NULL,105,1,2,8,'',126637,0,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (14,2,1,NULL,NULL,1,2,2,'',95,0,'2003-02-09 19:30:01',60,2);
-INSERT INTO monitors VALUES (15,2,1,NULL,NULL,1,2,18,'',3,0,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (16,2,1,NULL,NULL,1,2,3,'',4,0,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (18,3,2,NULL,12000000,1,2,38,'',225815272,555653,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (40,6,1,NULL,NULL,1,3,6,'',1,0,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (21,5,2,NULL,12000000,1,2,39,'',222688850,555194,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (19,3,2,NULL,1000,1,2,40,'',0,0,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (25,6,1,NULL,NULL,1,3,3,'',0,0,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (29,7,1,NULL,NULL,1,2,44,'',13218848,4,'2003-02-09 19:30:01',59,0);
-INSERT INTO monitors VALUES (22,5,2,NULL,12000000,1,2,38,'',47348416,63385,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (30,8,1,NULL,NULL,1,2,43,'',16532148,0,'2003-02-09 19:30:01',59,0);
-INSERT INTO monitors VALUES (23,4,2,NULL,10000,1,2,39,'',198337,4754,'2003-02-09 19:30:01',59,0);
-INSERT INTO monitors VALUES (24,4,2,NULL,10000,1,2,38,'',31094,4225,'2003-02-09 19:30:01',59,0);
-INSERT INTO monitors VALUES (26,6,1,NULL,NULL,1,3,4,'',27,0,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (28,7,1,NULL,NULL,1,2,43,'',1955756,0,'2003-02-09 19:30:01',59,0);
-INSERT INTO monitors VALUES (27,6,1,NULL,NULL,1,3,5,'',5,0,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (34,1,1,NULL,NULL,1,4,1,'/proc/net/ip_conntrack',42,7,'2003-02-09 19:30:01',60,0);
-INSERT INTO monitors VALUES (31,8,1,NULL,NULL,1,2,44,'',81950696,0,'2003-02-09 19:30:02',60,0);
+INSERT INTO monitors VALUES (1,1,1,NULL,NULL,1,2,9,'',NULL,NULL,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (2,1,1,NULL,NULL,1,2,10,'',NULL,NULL,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (3,1,1,NULL,NULL,1,2,11,'',NULL,NULL,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (4,1,2,NULL,105,1,2,7,'',42575,12,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (5,1,2,NULL,105,1,2,5,'',129811,69,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (6,1,2,NULL,105,1,2,8,'',21852,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (17,3,2,NULL,12000000,1,2,39,'',50453952,26530,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (7,1,1,NULL,NULL,1,2,2,'',75,-4,'2003-02-09 19:58:01',60,2);
+INSERT INTO monitors VALUES (8,1,1,NULL,NULL,1,2,3,'',2,0,'2003-02-09 19:58:01',60,1);
+INSERT INTO monitors VALUES (9,1,1,NULL,NULL,1,2,18,'',2,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (20,4,1,NULL,NULL,1,2,40,'',1,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (10,1,2,NULL,1000,1,3,1,'',427974,165,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (11,2,2,NULL,105,1,2,7,'',71831,48,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (12,2,2,NULL,105,1,2,5,'',207202,311,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (13,2,2,NULL,105,1,2,8,'',126637,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (14,2,1,NULL,NULL,1,2,2,'',97,0,'2003-02-09 19:58:01',60,2);
+INSERT INTO monitors VALUES (15,2,1,NULL,NULL,1,2,18,'',4,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (16,2,1,NULL,NULL,1,2,3,'',5,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (18,3,2,NULL,12000000,1,2,38,'',244308840,60211,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (40,6,1,NULL,NULL,1,3,6,'',1,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (21,5,2,NULL,12000000,1,2,39,'',240880496,60468,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (19,3,2,NULL,1000,1,2,40,'',0,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (25,6,1,NULL,NULL,1,3,3,'',0,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (29,7,1,NULL,NULL,1,2,44,'',13219012,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (22,5,2,NULL,12000000,1,2,38,'',49472435,26880,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (30,8,1,NULL,NULL,1,2,43,'',16532148,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (23,4,2,NULL,10000,1,2,39,'',621817,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (24,4,2,NULL,10000,1,2,38,'',526471,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (26,6,1,NULL,NULL,1,3,4,'',27,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (28,7,1,NULL,NULL,1,2,43,'',1955592,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (27,6,1,NULL,NULL,1,3,5,'',5,0,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (34,1,1,NULL,NULL,1,4,1,'/proc/net/ip_conntrack',31,-2,'2003-02-09 19:58:01',60,0);
+INSERT INTO monitors VALUES (31,8,1,NULL,NULL,1,2,44,'',81950696,0,'2003-02-09 19:58:01',60,0);
 
 --
 -- Table structure for table 'snmp_disk_cache'
@@ -1191,156 +1193,6 @@ INSERT INTO sub_dev_variables VALUES (3,'ifDescr','eth0');
 INSERT INTO sub_dev_variables VALUES (4,'ifDescr','ppp0');
 INSERT INTO sub_dev_variables VALUES (7,'dskPath','/');
 INSERT INTO sub_dev_variables VALUES (8,'dskPath','/storage');
-INSERT INTO sub_dev_variables VALUES (7000,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7001,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7002,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7003,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7004,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7005,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7006,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7007,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7008,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7009,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7010,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7011,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7012,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7013,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7014,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7015,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7016,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7017,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7018,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7019,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7020,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7021,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7022,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7023,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7024,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7025,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7026,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7027,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7028,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7029,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7030,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7031,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7032,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7033,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7034,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7035,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7036,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7037,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7038,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7039,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7040,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7041,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7042,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7043,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7044,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7045,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7046,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7047,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7048,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7049,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7050,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7051,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7052,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7053,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7054,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7055,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7056,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7057,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7058,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7059,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7060,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7061,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7062,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7063,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7064,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7065,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7066,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7067,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7068,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7069,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7070,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7071,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7072,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7073,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7074,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7075,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7076,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7077,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7078,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7079,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7080,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7081,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7082,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7083,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7084,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7085,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7086,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7087,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7088,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7089,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7090,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7091,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7092,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7093,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7094,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7095,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7096,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7097,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7098,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7099,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7100,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7101,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7102,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7103,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7104,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7105,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7106,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7107,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7108,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7109,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7110,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7111,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7112,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7113,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7114,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7115,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7116,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7117,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7118,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7119,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7120,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7121,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7122,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7123,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7124,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7125,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7126,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7127,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7128,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7129,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7130,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7131,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7132,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7133,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7134,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7135,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7136,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7137,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7138,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7139,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7140,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7141,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7142,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7143,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7144,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7145,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7146,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7147,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7148,'ifDescr','eth0');
-INSERT INTO sub_dev_variables VALUES (7149,'ifDescr','eth0');
 
 --
 -- Table structure for table 'sub_devices'
@@ -1555,10 +1407,10 @@ CREATE TABLE view (
 --
 
 
-INSERT INTO view VALUES (1,1,1,'custom',1,'','0000A0');
 INSERT INTO view VALUES (2,1,2,'custom',0,'','0000A0');
-INSERT INTO view VALUES (1,1,3,'custom',2,'','0000A0');
-INSERT INTO view VALUES (2,1,4,'custom',0,'','0000A0');
 INSERT INTO view VALUES (1,1,5,'custom',3,'','0000A0');
+INSERT INTO view VALUES (2,1,4,'custom',0,'','0000A0');
 INSERT INTO view VALUES (3,1,6,'custom',0,'','0000A0');
+INSERT INTO view VALUES (1,1,1,'custom',1,'','0000A0');
+INSERT INTO view VALUES (1,1,3,'custom',2,'','0000A0');
 

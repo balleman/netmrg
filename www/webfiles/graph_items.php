@@ -164,7 +164,7 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 		$ds_row["type"] = 0;
 		$ds_row["color"] = "#0000AA";
 		$ds_row["align"] = 0;
-		$ds_row["show_stats"] = 0;
+		$ds_row["show_stats"] = 1;
 		$ds_row["show_inverted"] = 0;
 		$ds_row["multiplier"] = 1;
 		$ds_row["show_indicator"] = 0;

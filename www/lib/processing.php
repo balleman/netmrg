@@ -392,7 +392,11 @@ function delete_graph($graph_id)
 
 function delete_ds($ds_id)
 {
+	$q = do_query("SELECT graph_id, position FROM graph_ds WHERE id=$ds_id");
+	$r = mysql_fetch_array($q);
+	
 	do_update("DELETE FROM graph_ds WHERE id=$ds_id");
+	do_update("UPDATE graph_ds SET position = position - 1 WHERE graph_id = {$r['graph_id']} AND position > {$r['position']}");
 }
 
 

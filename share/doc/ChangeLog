@@ -1,3 +1,7 @@
+2003.02.03  v0.8  balleman
+  - event log working
+  - bug in move up/down fixed (used to break after an item was deleted)
+
 2003.01.25  v0.8  balleman
   - C++ program performs disk and interface caching
   - web interface has been updated to accept this

@@ -27,9 +27,9 @@ if (!empty($_REQUEST["action"]))
 	if ($_REQUEST["action"] == "doadd")
 	{
 		do_update("INSERT INTO view SET
-			pos_id=".$_REQUEST["pos_id"].",
-			pos_id_type=".$_REQUEST["pos_id_type"].",
-			graph_id=".$_REQUEST["graph_id"].",
+			pos_id=" . $_REQUEST["pos_id"] . ",
+			pos_id_type=" . $_REQUEST["pos_id_type"] . ",
+			graph_id=" . $_REQUEST["graph_id"] . ",
 			graph_id_type=\"custom\",
 			pos={$_REQUEST['pos']}");
 		$_REQUEST["action"] = "";
@@ -38,10 +38,26 @@ if (!empty($_REQUEST["action"]))
 	}
 	elseif ($_REQUEST["action"] == "dodelete")
 	{
+		$q = do_query("SELECT pos FROM view
+			WHERE pos_id=" . $_REQUEST["pos_id"] . "
+			AND pos_id_type=" . $_REQUEST["pos_id_type"] . "
+			AND graph_id=" . $_REQUEST["graph_id"]);
+		
+		$r = mysql_fetch_array($q);
+		
+		$pos = $r["pos"];
+
 		do_update("DELETE FROM view
-			WHERE pos_id=".$_REQUEST["pos_id"]."
-			AND pos_id_type=".$_REQUEST["pos_id_type"]."
-			AND graph_id=".$_REQUEST["graph_id"]);
+			WHERE pos_id=" . $_REQUEST["pos_id"] . "
+			AND pos_id_type=" . $_REQUEST["pos_id_type"] . "
+			AND graph_id=" . $_REQUEST["graph_id"]);
+
+		do_update("UPDATE view SET pos = pos - 1
+			WHERE pos_id=" . $_REQUEST["pos_id"] . "
+			AND pos_id_type=" . $_REQUEST["pos_id_type"] . "
+			AND pos > " . $pos);
+
+
 		$_REQUEST["action"] = "";
 		$full_edit = 1;
 
