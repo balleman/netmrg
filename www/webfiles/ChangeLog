@@ -17,3 +17,7 @@
 
 0.79.2a
 	- reconstruction of C++ code
+
+0.79.3a
+	- CVS-ification
+	- continue rewrite of C++ code

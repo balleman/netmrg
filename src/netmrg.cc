@@ -374,6 +374,11 @@ void update_monitor_db(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 
 }
 
+void process_events(DeviceInfo info, MYSQL *mysql)
+{
+
+}
+
 void setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 {
 
@@ -701,6 +706,8 @@ void process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 	}
 
 	update_monitor_db(info, mysql, rrd);
+	
+	process_events(info, mysql);
 
 }
 

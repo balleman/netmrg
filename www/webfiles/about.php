@@ -25,7 +25,7 @@ begin_page();
 <br>
 <b>The Network Monitoring, Reporting, and Graphing Tool</b>
 <br><br>
-<a href="ChangeLog">Version <b>0.79.2a</b></a><br>
+<a href="ChangeLog">Version <b>0.79.3a</b></a><br>
 October 2002<br>
 <br>
 <br>
