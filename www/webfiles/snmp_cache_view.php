@@ -92,7 +92,9 @@ function make_interface_graph($dev_id, $index)
 	{
 		$index_type = "ifIndex";
 	}
-
+	
+	$index_value = $r_snmp[$index_type];
+	
 	// create the subdevice
 	db_update("INSERT INTO sub_devices SET dev_id='$dev_id', type=2, name='$index_value'");
 	$sd_id = db_insert_id();
