@@ -3,7 +3,7 @@
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,0.8)
 
-AC_REVISION($Revision: 1.2 $)
+AC_REVISION($Revision: 1.3 $)
 AM_INIT_AUTOMAKE
 AC_PROG_MAKE_SET
 
@@ -16,8 +16,8 @@ AC_CONFIG_SUBDIRS(src)
 
 AC_CONFIG_FILES( \
 	./Makefile \
-	./include/netmrg.h \
-	./include/config.php
+	./src/include/netmrg.h \
+	./www/include/config.php
 )
 
 AC_OUTPUT
