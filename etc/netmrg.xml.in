@@ -11,9 +11,16 @@
 		<runtimefile>@prefix@/var/log/netmrg/runtime</runtimefile>
 		<libexec>@prefix@/libexec/netmrg</libexec>
 		<rrds>@prefix@/var/lib/netmrg/rrd</rrds>
+		<webfileroot>@prefix@/var/www/netmrg</webfileroot>
 	</paths>
 	<threads>
 		<count>5</count>
 		<sleep>10000</sleep>
 	</threads>
+	<website>
+		<company>Generic Company</company>
+		<companylink>http://www.netmrg.net</companylink>
+		<webhost>http://localhost</webhost>
+		<webroot>/netmrg</webroot>
+	</website>
 </netmrg>

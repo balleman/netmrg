@@ -16,25 +16,13 @@ error_reporting(E_ALL);
 // Cosmetic Variables
 $GLOBALS["netmrg"]["version"]           = "@PACKAGE_VERSION@";
 $GLOBALS["netmrg"]["name"]              = "@PACKAGE_NAME@";
-$GLOBALS["netmrg"]["company"]           = "Generic Company";
-$GLOBALS["netmrg"]["companylink"]       = "http://netmrg.net";
 
 // DB Config
-$GLOBALS["netmrg"]["dbhost"]            = "localhost";
-$GLOBALS["netmrg"]["dbname"]            = "netmrg";
-$GLOBALS["netmrg"]["dbuser"]            = "netmrguser";
-$GLOBALS["netmrg"]["dbpass"]            = "netmrgpass";
 $GLOBALS["netmrg"]["dbdebug"]           = false;
 
 // Path Config
-$GLOBALS["netmrg"]["rrdtool"]           = "/usr/bin/rrdtool";
-$GLOBALS["netmrg"]["rrdroot"]           = "@prefix@/var/lib/netmrg/rrd";
-$GLOBALS["netmrg"]["fileroot"]          = "@prefix@/var/www/netmrg/";
-$GLOBALS["netmrg"]["binary"]            = "@exec_prefix@/bin/netmrg-gatherer";
-$GLOBALS["netmrg"]["webhost"]           = "http://localhost";
-$GLOBALS["netmrg"]["webroot"]           = "/netmrg";
-$GLOBALS["netmrg"]["staticimagedir"]    = "{$GLOBALS['netmrg']['webroot']}/img";
-$GLOBALS["netmrg"]["imagebasedir"]      = "{$GLOBALS['netmrg']['fileroot']}/webfiles/images/default";
+$GLOBALS["netmrg"]["libdir"]            = "..";
+$GLOBALS["netmrg"]["xmlfile"]           = "@prefix@/etc/netmrg.xml";
 
 // Authentication Config
 $GLOBALS["netmrg"]["externalAuth"]      = false;
@@ -61,16 +49,24 @@ if (!isset($_SESSION["netmrgsess"]) || !is_array($_SESSION["netmrgsess"]))
 
 
 /***** INCLUDES *****/
-require_once($GLOBALS["netmrg"]["fileroot"]."/lib/xml_to_array.php");
-require_once($GLOBALS["netmrg"]["fileroot"]."/lib/database.php");
-require_once($GLOBALS["netmrg"]["fileroot"]."/lib/menu.php");
-require_once($GLOBALS["netmrg"]["fileroot"]."/lib/stat.php");
-require_once($GLOBALS["netmrg"]["fileroot"]."/lib/format.php");
-require_once($GLOBALS["netmrg"]["fileroot"]."/lib/auth.php");
-require_once($GLOBALS["netmrg"]["fileroot"]."/lib/processing.php");
-require_once($GLOBALS["netmrg"]["fileroot"]."/lib/snmp_caching.php");
-require_once($GLOBALS["netmrg"]["fileroot"]."/lib/misc.php");
-require_once($GLOBALS["netmrg"]["fileroot"]."/lib/graphing.php");
+require_once($GLOBALS["netmrg"]["libdir"]."/lib/xml_to_array.php");
+require_once($GLOBALS["netmrg"]["libdir"]."/lib/processing.php");
+
+
+
+/***** XML CONFIG *****/
+GetXMLConfig();
+
+
+/***** INCLUDES *****/
+require_once($GLOBALS["netmrg"]["libdir"]."/lib/database.php");
+require_once($GLOBALS["netmrg"]["libdir"]."/lib/menu.php");
+require_once($GLOBALS["netmrg"]["libdir"]."/lib/stat.php");
+require_once($GLOBALS["netmrg"]["libdir"]."/lib/format.php");
+require_once($GLOBALS["netmrg"]["libdir"]."/lib/auth.php");
+require_once($GLOBALS["netmrg"]["libdir"]."/lib/snmp_caching.php");
+require_once($GLOBALS["netmrg"]["libdir"]."/lib/misc.php");
+require_once($GLOBALS["netmrg"]["libdir"]."/lib/graphing.php");
 require_once($GLOBALS["netmrg"]["imagebasedir"]."/imagespec.php");
 
 

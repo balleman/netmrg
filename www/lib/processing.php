@@ -642,4 +642,37 @@ function update_group($id, $grp_name, $grp_comment, $parent_id)
 	generic_update(sql_group($grp_name, $grp_comment, $parent_id), $id);
 }
 
+
+/**
+* GetXMLConfig()
+*
+* reads xml config file and puts values in config array
+*/
+function GetXMLConfig()
+{
+	$xmlconfig = GetXMLTree($GLOBALS["netmrg"]["xmlfile"]);
+
+	// cosmetic variables
+	$GLOBALS["netmrg"]["company"]     = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["COMPANY"][0]["VALUE"];
+	$GLOBALS["netmrg"]["companylink"] = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["COMPANYLINK"][0]["VALUE"];
+	$GLOBALS["netmrg"]["webhost"]     = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["WEBHOST"][0]["VALUE"];
+	$GLOBALS["netmrg"]["webroot"]     = $xmlconfig["NETMRG"][0]["WEBSITE"][0]["WEBROOT"][0]["VALUE"];
+
+	// DB Config
+	$GLOBALS["netmrg"]["dbhost"]      = $xmlconfig["NETMRG"][0]["DATABASE"][0]["HOST"][0]["VALUE"];
+	$GLOBALS["netmrg"]["dbname"]      = $xmlconfig["NETMRG"][0]["DATABASE"][0]["DB"][0]["VALUE"];
+	$GLOBALS["netmrg"]["dbuser"]      = $xmlconfig["NETMRG"][0]["DATABASE"][0]["USER"][0]["VALUE"];
+	$GLOBALS["netmrg"]["dbpass"]      = $xmlconfig["NETMRG"][0]["DATABASE"][0]["PASSWORD"][0]["VALUE"];
+
+	// Path Config
+	$GLOBALS["netmrg"]["rrdtool"]        = $xmlconfig["NETMRG"][0]["PATHS"][0]["RRDTOOL"][0]["VALUE"];
+	$GLOBALS["netmrg"]["rrdroot"]        = $xmlconfig["NETMRG"][0]["PATHS"][0]["RRDS"][0]["VALUE"];
+	$GLOBALS["netmrg"]["fileroot"]       = $xmlconfig["NETMRG"][0]["PATHS"][0]["WEBFILEROOT"][0]["VALUE"];
+	$GLOBALS["netmrg"]["binary"]         = "@exec_prefix@/bin/netmrg-gatherer";
+	$GLOBALS["netmrg"]["staticimagedir"] = "{$GLOBALS['netmrg']['webroot']}/img";
+	$GLOBALS["netmrg"]["imagebasedir"]   = "{$GLOBALS['netmrg']['fileroot']}/webfiles/images/default";
+
+} // end GetXMLConfig();
+
+
 ?>
