@@ -124,32 +124,6 @@ struct SNMPPair
 
 int numprinted = 0;
 
-void snmp_get_and_print(netsnmp_session * ss, oid * theoid, size_t theoid_len)
-{
-	netsnmp_pdu		*pdu, *response;
-	netsnmp_variable_list	*vars;
-	int			status;
-
-	pdu = snmp_pdu_create(SNMP_MSG_GET);
-	snmp_add_null_var(pdu, theoid, theoid_len);
-
-	status = snmp_synch_response(ss, pdu, &response);
-
-	if (status == STAT_SUCCESS && response->errstat == SNMP_ERR_NOERROR)
-	{
-		for (vars = response->variables; vars; vars = vars->next_variable)
-		{
-			numprinted++;
-			print_variable(vars->name, vars->name_length, vars);
-        	}
-	}
-
-	if (response)
-	{
-		snmp_free_pdu(response);
-	}
-}
-
 void snmp_walk(DeviceInfo info, string oidstring)
 {
 
