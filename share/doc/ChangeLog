@@ -1,6 +1,10 @@
 2003.11.26  v0.10  balleman
   - bug#0000120 - gatherer should check db version
   - bug#0000118 - total of sums should work
+  - bug#0000119 - version bump checklist - not complete
+  - broke [sub]devices.php into functions
+  - bug#0000095 - device duplication
+  - subdevice duplication
 
 2003.11.24  v0.10  silfreed
   - bug#0000115 - add checkbox support to disks on snmp_cache_view.php

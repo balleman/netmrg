@@ -4,7 +4,6 @@ bug#55 - Solaris support
 bug#56 - MRTG conf importer
 
 == global ==
-device duplication
 documentation
   Usage information (description of every page)
 page titles should reflect where you're at

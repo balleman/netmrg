@@ -12,71 +12,110 @@
 require_once("../include/config.php");
 check_auth(1);
 
-if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQUEST["action"] == "dodelete") || ($_REQUEST["action"] == "doadd") || ($_REQUEST["action"] =="doaddtogrp"))
+if (!isset($_REQUEST['action']))
 {
+	$_REQUEST['action'] = "";
+}
 
-	if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "doedit" || $_REQUEST["action"] == "doadd"))
+switch ($_REQUEST["action"])
+{
+	case "doadd":
+	case "doedit":
+					doedit();
+					break;
+	case "dodelete":
+					dodelete();
+					break;
+	case "doaddtogrp":
+					doaddtogrp();
+					break;
+	case "add":
+					displayadd();
+					break;
+	case "addnew":
+	case "edit":
+					displayedit();
+					break;
+	case "duplicate":
+					doduplicate();
+					break;
+	default:
+					displaylist();
+					break;
+}
+
+function doedit()
+{
+	check_auth(2);
+	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
 	{
-		check_auth(2);
-		if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
+		if ($_REQUEST["dev_id"] == 0)
 		{
-			if ($_REQUEST["dev_id"] == 0)
-			{
-				$db_cmd = "INSERT INTO";
-				$db_end = "";
-			}
-			else
-			{
-				$db_cmd = "UPDATE";
-				$db_end = "WHERE id={$_REQUEST['dev_id']}";
-			} // end if dev_id = 0 or not
-			if (!isset($_REQUEST["snmp_recache"])) { $_REQUEST["snmp_recache"] = 0; }
-			if (!isset($_REQUEST["disabled"])) { $_REQUEST["disabled"] = 0; }
-			if (!isset($_REQUEST["snmp_check_ifnumber"])) { $_REQUEST["snmp_check_ifnumber"] = 0; }
-	        if (!isset($_REQUEST["snmp_version"])) { $_REQUEST["snmp_version"] = 0; }
-			$_REQUEST['dev_name'] = db_escape_string($_REQUEST['dev_name']);
-			$_REQUEST['dev_ip'] = db_escape_string($_REQUEST['dev_ip']);
-			$_REQUEST['snmp_read_community'] = db_escape_string($_REQUEST['snmp_read_community']);
-			db_update("$db_cmd devices SET 
-				name='{$_REQUEST['dev_name']}',
-				ip='{$_REQUEST['dev_ip']}',
-				snmp_read_community='{$_REQUEST['snmp_read_community']}', 
-				dev_type='{$_REQUEST['dev_type']}', 
-				snmp_recache='{$_REQUEST['snmp_recache']}', 
-				disabled='{$_REQUEST['disabled']}', 
-				snmp_check_ifnumber='{$_REQUEST['snmp_check_ifnumber']}',
-				snmp_version='{$_REQUEST['snmp_version']}',
-				snmp_port='{$_REQUEST['snmp_port']}',
-				snmp_timeout='{$_REQUEST['snmp_timeout']}',
-				snmp_retries='{$_REQUEST['snmp_retries']}' 
-				$db_end");
+			$db_cmd = "INSERT INTO";
+			$db_end = "";
+		}
+		else
+		{
+			$db_cmd = "UPDATE";
+			$db_end = "WHERE id={$_REQUEST['dev_id']}";
+		} // end if dev_id = 0 or not
+		if (!isset($_REQUEST["snmp_recache"])) { $_REQUEST["snmp_recache"] = 0; }
+		if (!isset($_REQUEST["disabled"])) { $_REQUEST["disabled"] = 0; }
+		if (!isset($_REQUEST["snmp_check_ifnumber"])) { $_REQUEST["snmp_check_ifnumber"] = 0; }
+		if (!isset($_REQUEST["snmp_version"])) { $_REQUEST["snmp_version"] = 0; }
+		$_REQUEST['dev_name'] = db_escape_string($_REQUEST['dev_name']);
+		$_REQUEST['dev_ip'] = db_escape_string($_REQUEST['dev_ip']);
+		$_REQUEST['snmp_read_community'] = db_escape_string($_REQUEST['snmp_read_community']);
+		db_update("$db_cmd devices SET
+			name='{$_REQUEST['dev_name']}',
+			ip='{$_REQUEST['dev_ip']}',
+			snmp_read_community='{$_REQUEST['snmp_read_community']}',
+			dev_type='{$_REQUEST['dev_type']}',
+			snmp_recache='{$_REQUEST['snmp_recache']}',
+			disabled='{$_REQUEST['disabled']}',
+			snmp_check_ifnumber='{$_REQUEST['snmp_check_ifnumber']}',
+			snmp_version='{$_REQUEST['snmp_version']}',
+			snmp_port='{$_REQUEST['snmp_port']}',
+			snmp_timeout='{$_REQUEST['snmp_timeout']}',
+			snmp_retries='{$_REQUEST['snmp_retries']}'
+			$db_end");
 
-			if ($_REQUEST["dev_id"] == 0)
-			{
-				db_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id=" . db_insert_id());
-			} // end if dev+id = 0
-		} // done editing
-		
-		header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
-		exit();
-	} // end if we editing
+		if ($_REQUEST["dev_id"] == 0)
+		{
+			db_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id=" . db_insert_id());
+		} // end if dev+id = 0
+	} // done editing
 
-	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doaddtogrp")
-	{
-		check_auth(2);
-		db_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id={$_REQUEST['dev_id']}");
-		header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
-		exit();
-	} // end if we're adding to a group
+	header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
+	exit();
+} // end if we editing
 
-	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "dodelete")
-	{
-		check_auth(2);
-		delete_device($_REQUEST["dev_id"], $_REQUEST["grp_id"]);
-		header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
-		exit();
-	} // done deleting
+function doaddtogrp()
+{
+	check_auth(2);
+	db_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id={$_REQUEST['dev_id']}");
+	header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
+	exit();
+} // end if we're adding to a group
 
+function dodelete()
+{
+	check_auth(2);
+	delete_device($_REQUEST["dev_id"], $_REQUEST["grp_id"]);
+	header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
+	exit();
+} // done deleting
+
+function doduplicate()
+{
+	check_auth(2);
+	duplicate_device($_REQUEST['dev_id']);
+	header("Location: devices.php?grp_id={$_REQUEST['grp_id']}");
+	exit();
+} // done duplicating
+
+function displaylist()
+{
 	// Display a list
 	$title = "";
 	$addlink = "";
@@ -116,12 +155,12 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	else
 	{
 		$dev_results = db_query("
-			SELECT devices.name AS name, devices.ip, devices.id, devices.snmp_version,  
+			SELECT devices.name AS name, devices.ip, devices.id, devices.snmp_version,
 				count(snmp.ifIndex) AS interface_count, count(disk.disk_index) AS disk_count
 			FROM dev_parents
 			LEFT JOIN devices ON dev_parents.dev_id=devices.id
 			LEFT JOIN snmp_interface_cache snmp ON devices.id=snmp.dev_id
-			LEFT JOIN snmp_disk_cache disk ON devices.id=disk.dev_id 
+			LEFT JOIN snmp_disk_cache disk ON devices.id=disk.dev_id
 			WHERE grp_id={$_REQUEST['grp_id']}
 			GROUP BY devices.id
 			ORDER BY $orderby");
@@ -135,32 +174,34 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	{
 		$dev_row = db_fetch_array($dev_results);
 		$dev_id  = $dev_row["id"];
-		$links   = 
-		cond_formatted_link($dev_row["interface_count"] > 0, "View&nbsp;Interface&nbsp;Cache", 
+		$links   =
+		cond_formatted_link($dev_row["interface_count"] > 0, "View&nbsp;Interface&nbsp;Cache",
 			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface") . " " .
-		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Interfaces", 
+		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Interfaces",
 			"recache.php?dev_id=$dev_id&type=interface") . " " .
-		cond_formatted_link($dev_row["disk_count"] > 0, "View&nbsp;Disk&nbsp;Cache", 
-			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk") . " " . 
-		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Disks", 
+		cond_formatted_link($dev_row["disk_count"] > 0, "View&nbsp;Disk&nbsp;Cache",
+			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk") . " " .
+		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Disks",
 			"recache.php?dev_id=$dev_id&type=disk");
 
 		make_display_item("editfield".(($dev_count-1)%2),
 			array("text" => $dev_row["name"], "href" => "sub_devices.php?dev_id=$dev_id"),
 			array("text" => $links),
 			array("text" => formatted_link("View", "view.php?object_type=device&object_id=$dev_id") . "&nbsp;" .
-				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST["grp_id"]}") . "&nbsp;" .
+				formatted_link("Duplicate", "{$_SERVER['PHP_SELF']}?action=duplicate&dev_id=$dev_id&grp_id={$_REQUEST['grp_id']}") . "&nbsp;" .
+				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST['grp_id']}") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('" . addslashes($dev_row["name"]) . "', '" . $dev_row["id"] . "')"))
 		); // end make_display_item();
 
 	} // end devices
 
-?>
-</table>
-<?php
-} // End if no action
+	?>
+	</table>
+	<?php
+	end_page();
+} // End displaylist
 
-if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "add")
+function displayadd()
 {
 	check_auth(2);
 	begin_page("devices.php", "Add Device");
@@ -172,7 +213,7 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "add")
 	end_page();
 } // end if add
 
-if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "addtogrp")
+function displayaddtogrp()
 {
 
 	check_auth(2);
@@ -186,7 +227,8 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "addtogrp")
 	end_page();
 } // end if add to group
 
-if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["action"] == "addnew")) {
+function displayedit()
+{
 	// Display editing screen
 	check_auth(2);
 	begin_page("devices.php", "Edit Device");
@@ -240,10 +282,10 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	make_edit_hidden("grp_id", $_REQUEST["grp_id"]);
 	make_edit_submit_button();
 	make_edit_end();
+	end_page();
 
 } // end if edit
 
-end_page();
 
 ?>
 

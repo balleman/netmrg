@@ -11,7 +11,22 @@
 
 require_once("../include/config.php");
 
-if (!isset($_REQUEST["action"]))
+if (!isset($_REQUEST['action']))
+{
+	$_REQUEST['action'] = "";
+}
+
+switch ($_REQUEST["action"])
+{
+	case "doedit":		doedit();		break;
+	case "dodelete":	dodelete();		break;
+	case "add":
+	case "edit":		displayedit();	break;
+	case "duplicate":	doduplicate();	break;
+	default:			dodisplay();	break;
+}
+
+function dodisplay()
 {
 	// Display the list of sub-devices for a particular device.
 
@@ -37,8 +52,9 @@ if (!isset($_REQUEST["action"]))
 			array("text" => $row["name"], "href" => "monitors.php?sub_dev_id=" . $row["id"]),
 			array("text" => $SUB_DEVICE_TYPES[$row["type"]]),
 			array("text" => formatted_link("Parameters", "sub_dev_param.php?dev_id={$_REQUEST['dev_id']}&sub_dev_id=" . $row["id"]) . "&nbsp;" .
-				formatted_link("View", "view.php?object_type=subdevice&object_id={$row['id']}") . "&nbsp;" . 
-				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id={$_REQUEST['dev_id']}&sub_dev_id=" . $row["id"]) . "&nbsp;" .
+				formatted_link("View", "view.php?object_type=subdevice&object_id={$row['id']}") . "&nbsp;" .
+				formatted_link("Duplicate", "{$_SERVER['PHP_SELF']}?action=duplicate&dev_id={$_REQUEST['dev_id']}&sub_dev_id={$row['id']}") . "&nbsp;" .
+				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id={$_REQUEST['dev_id']}&sub_dev_id={$row['id']}") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('".addslashes($row['name'])."','{$row['id']}')"))
 		); // end make_display_item();
 	}
@@ -48,7 +64,7 @@ if (!isset($_REQUEST["action"]))
 	end_page();
 }
 
-if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
+function doedit()
 {
 	if ($_REQUEST["sub_dev_id"] == 0)
 	{
@@ -60,7 +76,7 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
 		$db_cmd = "UPDATE";
 		$db_end = "WHERE id={$_REQUEST['sub_dev_id']}";
 	}
-	
+
 	$_REQUEST['name'] = db_escape_string($_REQUEST['name']);
 
 	db_update("$db_cmd sub_devices SET
@@ -72,14 +88,19 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
 	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}");
 }
 
-if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "dodelete"))
+function dodelete()
 {
 	delete_subdevice($_REQUEST["sub_dev_id"]);
 	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}");
 }
 
+function doduplicate()
+{
+	duplicate_subdevice($_REQUEST['sub_dev_id']);
+	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}");
+}
 
-if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["action"] == "add"))
+function displayedit()
 {
 	check_auth(2);
 	begin_page("sub_devices.php", "Add/Edit Sub Device");

@@ -559,6 +559,126 @@ function GetUsername($uid)
 	return $row["user"];
 } // end GetUsername();
 
+// Recursive Duplication Section
+
+function duplicate_device($dev_id)
+{
+	// duplicate device
+	db_query("INSERT INTO devices
+				(name, ip, snmp_read_community, dev_type, snmp_recache, disabled, snmp_check_ifnumber, snmp_version, snmp_timeout, snmp_retries, snmp_port)
+				SELECT concat(name, ' (duplicate)'), ip, snmp_read_community, dev_type, snmp_recache, disabled, snmp_check_ifnumber, snmp_version, snmp_timeout, snmp_retries, snmp_port FROM devices
+				WHERE id=$dev_id");
+	$new_dev_id = db_insert_id();
+
+	// duplicate parent associations
+	db_query("INSERT INTO dev_parents (grp_id, dev_id) SELECT grp_id, $new_dev_id FROM dev_parents WHERE dev_id=$dev_id");
+
+	// duplicate view
+	db_query("INSERT INTO view (object_id, object_type, graph_id, type, pos, separator_text, subdev_id)
+				SELECT $new_dev_id, object_type, graph_id, type, pos, separator_text, subdev_id
+				FROM view WHERE object_id=$dev_id AND object_type='device'");
+
+	// duplicate subdevices
+	$res = db_query("SELECT id FROM sub_devices WHERE dev_id=$dev_id");
+	while ($row = db_fetch_array($res))
+	{
+		duplicate_subdevice($row['id'], $new_dev_id);
+	}
+
+}
+
+function duplicate_subdevice($subdev_id, $new_parent = -1)
+{
+	if ($new_parent == -1)
+	{
+		$new_parent = "dev_id";
+		$name = "concat(name, ' (duplicate)')";
+	}
+	else
+	{
+		$name = "name";
+	}
+
+	// duplicate subdevice
+	db_query("INSERT INTO sub_devices (dev_id, type, name) SELECT $new_parent, type, $name FROM sub_devices WHERE id=$subdev_id");
+	$new_subdev_id = db_insert_id();
+
+	// duplicate parameters
+	db_query("INSERT INTO sub_dev_variables (sub_dev_id, name, value, type)
+				SELECT $new_subdev_id, name, value, type FROM sub_dev_variables WHERE sub_dev_id=$subdev_id");
+
+	if ($new_parent != "dev_id")
+	{
+		// translate subdevices on device view
+		$res = db_query("SELECT id FROM view WHERE object_id=$new_parent AND object_type='device' AND type='template' AND subdev_id=$subdev_id");
+		while ($row = db_fetch_array($res))
+		{
+			db_query("UPDATE view SET subdev_id=$new_subdev_id WHERE id={$row['id']}");
+		}
+	}
+
+	// duplicate monitors
+	$res = db_query("SELECT id FROM monitors WHERE sub_dev_id=$subdev_id");
+	while ($row = db_fetch_array($res))
+	{
+		duplicate_monitor($row['id'], $new_subdev_id);
+	}
+
+}
+
+function duplicate_monitor($mon_id, $new_parent = "sub_dev_id")
+{
+	// duplicate monitor
+	db_query("INSERT INTO monitors (sub_dev_id, data_type, min_val, max_val, test_type, test_id, test_params)
+				SELECT $new_parent, data_type, min_val, max_val, test_type, test_id, test_params FROM monitors
+				WHERE id=$mon_id");
+	$new_mon_id = db_insert_id();
+
+	// duplicate events
+	$res = db_query("SELECT id FROM events WHERE mon_id=$mon_id");
+	while ($row = db_fetch_array($res))
+	{
+		duplicate_event($row['id'], $new_mon_id);
+	}
+}
+
+function duplicate_event($ev_id, $new_parent = -1)
+{
+	if ($new_parent == -1)
+	{
+		$new_parent = "mon_id";
+		$name = "concat(name, ' (duplicate)')";
+	}
+	else
+	{
+		$name = "name";
+	}
+
+	// duplicate event
+	db_query("INSERT INTO events (mon_id, trigger_type, situation, name)
+				SELECT $new_parent, trigger_type, situation, $name
+				FROM events WHERE id=$ev_id");
+	$new_ev_id = db_insert_id();
+
+	// duplicate conditions
+	db_query("INSERT INTO conditions (event_id, value, condition, logic_condition, value_type)
+				SELECT $new_ev_id, value, condition, logic_condition, value_type
+				FROM conditions WHERE event_id=$ev_id");
+
+	// duplicate responses
+	$res = db_query("SELECT id FROM responses WHERE event_id = $ev_id");
+	while ($row = db_fetch_array($res))
+	{
+		duplicate_response($row['id'], $new_ev_id);
+	}
+}
+
+function duplicate_response($rsp_id, $new_parent = "event_id")
+{
+	db_query("INSERT INTO responses (event_id, notification_id, parameters)
+				SELECT $new_parent, notification_id, parameters FROM responses WHERE id=$rsp_id");
+}
+
 
 
 // Recursive Deletion Section (for orphan prevention if nothing else)
