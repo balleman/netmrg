@@ -1,0 +1,375 @@
+                              The NetMRG Reference
+
+  Brady Alleman
+
+  Douglas E. Warner
+
+   Copyright (c) 2003 by Brady Alleman and Douglas E. Warner
+
+   This project is licensed under the terms of the MIT License.
+
+   Permission is hereby granted, free of charge, to any person obtaining a
+   copy of this software and associated documentation files (the "Software"),
+   to deal in the Software without restriction, including without limitation
+   the rights to use, copy, modify, merge, publish, distribute, sublicense,
+   and/or sell copies of the Software, and to permit persons to whom the
+   Software is furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+   DEALINGS IN THE SOFTWARE.
+
+     ----------------------------------------------------------------------
+
+   Table of Contents
+
+   Introduction
+
+   System Structure
+
+   Monitoring and Reporting Concepts
+
+   Graphing Concepts
+
+   Software Requirements
+
+   Installation Procedure
+
+   NetMRG Tutorial
+
+   Contact Information
+
+     ----------------------------------------------------------------------
+
+                                  Introduction
+
+   Welcome to NetMRG! NetMRG is a database-driven network monitoring and
+   graphing tool for use on Linux systems. It offers an intuitive web-based
+   configuration, customized monitoring capabilities for unusual situations,
+   a fast multi-threaded polling application, and brilliant graphs rendered
+   by RRDTOOL.
+
+   This document aims to guide you swiftly through the installation and
+   configuration of NetMRG, as well as act as a reference for those with
+   existing installations.
+
+     ----------------------------------------------------------------------
+
+                                System Structure
+
+   The components of NetMRG.
+
+     * Gatherer
+
+       The Gatherer is a multi-threaded C++ program that interacts with the
+       Database and RRDTOOL to gather and store data. The program is run by
+       cron, or another scheduling system of your choice, on five minute
+       intervals.
+
+     * Web Interface
+
+       The Web Interface consists of several PHP scripts, static HTML files
+       and images, as well as CSS for formatting. It interacts with the
+       Database for the storage of configuration data and with RRDTOOL for
+       the rendering of graphs for presentation.
+
+     * Database
+
+       The Database is a relational database running on MySQL. It is utilized
+       by the Web Interface and the Gatherer.
+
+     * RRDTOOL
+
+       RRDTOOL is a graphing system based upon round-robin databases (RRDs).
+       It is used for both storing data into the databases and creating
+       graphs using the databases.
+
+     * RRDs
+
+       RRDs are the round-robin databases used by RRDTOOL. They are
+       individual files that are writable by the Gatherer and readable by the
+       Web Interface.
+
+     ----------------------------------------------------------------------
+
+                       Monitoring and Reporting Concepts
+
+     * Groups
+
+       Groups are organizational containers used in NetMRG. They are capable
+       of containing Devices, as well as having a View associated with them.
+       As they are strictly organizational, the Web Interface is the only
+       component to utilize them. They are ignored by the Gatherer.
+
+     * Devices
+
+       Devices can be thought of as any physical device on your network that
+       will be monitored. They may also be used organizationally to group
+       Monitors that are not associated directly to any physcial host.
+       Devices may have, but are not required to have, IP addresses, SNMP
+       community strings, and so forth. Data gathering for Devices may be
+       explicitly disabled. Devices contain Sub-Devices.
+
+     * Sub-Devices
+
+       Sub-Devices are discrete entities on a Device. Examples of these are
+       network interfaces, disk drives, and so forth. Sub-Devices may have
+       parameters or variables associated with them for identification
+       purposes. For example, a web server has a network interface designated
+       "eth0." In NetMRG, the server would have a network interface
+       Sub-Device which would have a variable of "ifDescr" set to "eth0."
+       Sub-Devices contain Monitors.
+
+     * Monitors
+
+       Monitors represent discrete monitorable quantities. The Gatherer
+       performs the Monitor's Test upon the Monitor's Sub-Device. The result
+       is then stored in a RRD. Monitors are also associated with Graph
+       Items. If NetMRG is being used to track events, a Monitor may also
+       contain Events.
+
+     * Tests
+
+       Tests are data gathering operations associated with Monitors. There
+       are four types of tests: Scripts, SNMP Queries, SQL Queries, and
+       Internal tests. Script tests call a script and use either its return
+       code or its output as data. SNMP Tests perform a SNMP GET operation
+       against a device using a supplied OID. SQL Tests perform a MySQL query
+       and use a value from a returned row as data. Internal tests are
+       frequently used tests built into the Gatherer. They typically start as
+       Script Tests but are integrated for the sake of efficiency.
+
+     * Events
+
+       Events contain a group of Conditions and Responses. If the Conditions
+       of an Event are met, the appropriate response is performed.
+
+     ----------------------------------------------------------------------
+
+                               Graphing Concepts
+
+     * Graphs
+
+       Graphs are the abstraction of a single chart generated by NetMRG using
+       RRDTOOL. Graphs have properties such as sizes, a title, and vertical
+       labels. They also contain a set of Graph Items which represent the
+       separate pieces of data graphed.
+
+          * Custom Graphs
+
+            Custom graphs have "absolute" referencing of data to be
+            displayed. They are typically used for graphs that are applicable
+            in only one instance, such as a stack graph of all Internet links
+            on your network.
+
+          * Templated Graphs
+
+            Template Graphs have "relative" references to data. They are used
+            for graphs such as CPU load on a server or traffic on a network
+            interface. They are applicable in many instances. The use of
+            templates allows you to create one graph for a set of variables
+            on a Sub-Device and then apply that same graph to other
+            Sub-Devices for graphs formatted identically. This allows
+            considerable savings of time as there is no need to create a
+            Custom Graph for each instance of a graph.
+
+     * Graph Items
+
+       Graph Items represent data on a graph. They can represent areas,
+       lines, and stacks on Graphs. Each Graph Item is linked to a Monitor
+       for dynamic data or given a static value. Options for Graph Items
+       include type (such as line, area, stack), color, value (either static
+       or dynamic based on a Monitor), and legend options.
+
+     ----------------------------------------------------------------------
+
+                             Software Requirements
+
+   NetMRG Requires the following packages for compilation.
+
+     * PHP, Version >= 4.1
+
+     * MySQL, Version >= 3.23
+
+     * RRDTOOL, Version >= 1.0.28
+
+     * Libxml2, Version >= 2.30
+
+     * Libstdc++, Version >= 3.2
+
+       Versions earlier than this may compile just fine, but may experience
+       runtime issues. Specifically, we experienced software crashes on an
+       SMP machine running version 2.96 that were resolved by upgrading to
+       3.2.
+
+     * NET/UCD-SNMP, Version >= 4.2.2
+
+     ----------------------------------------------------------------------
+
+                             Installation Procedure
+
+    1. Untar to some directory like /tmp/ (it will untar into a 'netmrg'
+       directory)
+
+       cd /tmp                                                         
+       wget http://www.netmrg.net/download/release/netmrg.tar.gz       
+       tar xzvf netmrg.tar.gz                                          
+
+    2. Now we need to compile and install the source. cd into the directory
+       made by your tar command and type the following:
+
+       ./configure                                                     
+       make                                                            
+       make install                                                    
+
+    3. Setup the database
+
+       Now we need to setup the database. Please change at least the password
+       (netmrgpass below).
+
+     mysqladmin create netmrg                                                    
+     mysql -u root -p netmrg < share/netmrg.mysql                                
+     mysql -u root -p                                                            
+     > grant all on netmrg.* to netmrguser@localhost identified by 'netmrgpass'; 
+
+    4. Modify your apache config (commonly in /etc/httpd/conf/httpd.conf) to
+       alias /netmrg to the installed web directory (commonly
+       /usr/local/var/www/netmrg/webfiles)
+
+       Example:                                                        
+       Alias /netmrg "/usr/local/var/www/netmrg/webfiles"              
+
+    5. Setup Permissions
+
+       NetMRG does not need superuser permissions to run, therefore we will
+       setup a user for it.
+
+       # useradd netmrg                                                
+       # chown netmrg:netmrg /usr/local/var/log/netmrg                 
+       # chown netmrg:netmrg /usr/local/var/lib/netmrg/rrd             
+
+    6. Setup crontab
+
+       You can setup the crontab entries in two places: either edit
+       /etc/crontab, or run 'crontab -e' as root. For 'crontab -e', use an
+       entry similar to this:
+
+       */5 * * * * /usr/local/bin/netmrg_cron.sh                       
+
+    7. Point your web browser at your install, and start graphing things! The
+       default login is admin and the default password is nimda. Point your
+       web browser at the host you built this on (something similar to
+       http://yourhost.com/netmrg/) and please change your password!
+
+     ----------------------------------------------------------------------
+
+                                NetMRG Tutorial
+
+   This brief tutorial will walk you through the major features of NetMRG.
+   The tutorial assumes that you have installed the Net-SNMP daemon on a
+   system which you want to monitor.
+
+    1. Create a new group.
+
+         a. Click on Groups in the Monitoring menu.
+
+         b. Click on Add.
+
+         c. In the Name textbox, enter a name for your group, such as "Home."
+
+         d. In the Comment textbox, enter a description for your group, such
+            as "Computers in my house."
+
+         e. In the Parent drop down box, select -Root- as we want this device
+            in the root of the device tree. You can create nested groups.
+
+         f. Click the Save Changes button to create your new group.
+
+    2. Create a new device.
+
+         a. Click on the name of your new group. You are now looking at an
+            (empty) list of devices in your new group.
+
+         b. Click on Add.
+
+         c. Click on Create a new device.
+
+         d. In the Name textbox, enter a name for your device, such as "My
+            Server."
+
+         e. In the IP or Host Name textbox, enter a domain name or IP address
+            of your device. Domain names must be resolvable from your
+            monitoring host.
+
+         f. Ensure that the This device uses SNMP checkbox is checked.
+
+         g. In the SNMP Read Community textbox, enter the SNMPv1 community
+            string for your device.
+
+         h. Click the Save Changes button to create your new device.
+
+    3. Create a new sub-device.
+
+         a. Click on the name of your new device. You are now looking at an
+            (empty) list of sub-devices in your new device.
+
+         b. Click on Add.
+
+         c. In the Name textbox, enter "System." This will be a
+            pseudo-sub-device used for monitoring the device as a whole.
+
+         d. In the Type drop down box, ensure that Group is selected.
+
+         e. Click the Save Changes button to create your new "System"
+            sub-device.
+
+    4. Add graph templates.
+
+       Since devices running Net-SNMP are common, NetMRG comes with several
+       graph templates for commonly used variables.
+
+         a. Click on Template Graphs in the Graphing menu.
+
+         b. Click on the Apply Template To... next to the %dev_name% - CPU
+            Utilization template graph.
+
+         c. In the Subdevice drop down box, select My Server - System.
+
+         d. Click on the Save Changes button to apply the template.
+
+         e. Repeat this step for any other graph templates you find
+            interesting.
+
+    5. View your new graphs.
+
+         a. Click on Device Tree in the Reporting menu.
+
+         b. Click on the name of your group to expand it.
+
+         c. Click on the graph icon beside your device.
+
+         d. You should now see graphs! If you don't, you may need to wait for
+            the gatherer to perform another cycle.
+
+     ----------------------------------------------------------------------
+
+                              Contact Information
+
+   We have great aspirations for what NetMRG could become, but as with all
+   open-source software, such aspriations can only be achieved with the
+   active participation of the open-source community. Please do your part and
+   support software that you use by helping to answer support questions on
+   forums and report bugs to developers. Thanks!
+
+     * Main Website - http://www.netmrg.net/
+
+     * Support Forum - http://lists.netmrg.net/
+
+     * Bug Reporting and Tracking - http://bugs.netmrg.net/
