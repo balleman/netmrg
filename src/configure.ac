@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.12 $)
+AC_REVISION($Revision: 1.13 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -197,7 +197,7 @@ AC_TRY_COMPILE([#include <libxml/xmlmemory.h>], [int a = 1;],
 # hunt through several directories trying to find the includes
 if test "x$XML2_INCLUDE" = "x"; then
 	old_CPPFLAGS="$CPPFLAGS"
-	for i in /usr/include /usr/local/include /usr/include/libxml2 $xml2_include_dir; do
+	for i in /usr/include /usr/local/include /usr/include/libxml2 /usr/local/include/libxml2 $xml2_include_dir; do
 		CPPFLAGS="$old_CPPFLAGS -I$i"
 		AC_TRY_COMPILE([#include <libxml/xmlmemory.h>], [int a = 1;],
 			XML2_INCLUDE="-I$i",
