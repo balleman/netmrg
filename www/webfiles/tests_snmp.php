@@ -89,7 +89,7 @@ if (($action == "edit") || ($action == "add"))
 	make_edit_table("Edit SNMP Test");
 	make_edit_text("Name:","test_name","25","50",$test_row["name"]);
 	make_edit_text("SNMP OID:","test_oid","75","200",$test_row["oid"]);
-	make_edit_select_from_table("For use with this device:","dev_type","mon_device_types",$test_row["dev_type"]);
+	make_edit_select_from_table("For use with this device:","dev_type","dev_types",$test_row["dev_type"]);
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("test_id",$_REQUEST["test_id"]);
 	make_edit_submit_button();

@@ -161,7 +161,7 @@ draw_group(0);
 function draw_group($grp_id, $depth = 0)
 {
 	// for each group
-	$grp_results = do_query("SELECT * FROM mon_groups WHERE parent_id=$grp_id ORDER BY name");
+	$grp_results = do_query("SELECT * FROM groups WHERE parent_id=$grp_id ORDER BY name");
 	while ($grp_row = mysql_fetch_array($grp_results))
 	{
 		$grp_id = $grp_row["id"];
@@ -186,9 +186,9 @@ function draw_group($grp_id, $depth = 0)
 		{
 			draw_group($grp_id, $depth + 1);
 			$dev_results = do_query("
-				SELECT dev_parents.dev_id AS id, mon_devices.name AS name, mon_devices.status AS status
+				SELECT dev_parents.dev_id AS id, devices.name AS name, devices.status AS status
 				FROM dev_parents
-				LEFT JOIN mon_devices ON dev_parents.dev_id=mon_devices.id
+				LEFT JOIN devices ON dev_parents.dev_id=devices.id
 				WHERE grp_id = '$grp_id'
 				ORDER BY name");
 			// while we still have devices

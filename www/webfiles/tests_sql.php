@@ -95,7 +95,7 @@ if (($action == "edit") || ($action == "add"))
 	make_edit_table("Edit SQL Test");
 	make_edit_group("General");
 	make_edit_text("Name:","test_name","25","50",$test_row["name"]);
-	make_edit_select_from_table("For use with this device:","dev_type","mon_device_types",$test_row["sub_dev_type"]);
+	make_edit_select_from_table("For use with this device:","dev_type","dev_types",$test_row["sub_dev_type"]);
 	make_edit_group("SQL");
 	make_edit_text("Host:", "host", "75", "200", $test_row["host"]);
 	make_edit_text("User:", "sql_user", "75", "200", $test_row["user"]);

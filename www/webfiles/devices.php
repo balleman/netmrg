@@ -2,7 +2,7 @@
 /********************************************
 * NetMRG Integrator
 *
-* mon_devices.php
+* devices.php
 * Monitored Devices Editing Page
 *
 * see doc/LICENSE for copyright information
@@ -34,7 +34,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 			if (!isset($_REQUEST["disabled"])) { $_REQUEST["disabled"] = 0; }
 			if (!isset($_REQUEST["snmp_check_ifnumber"])) { $_REQUEST["snmp_check_ifnumber"] = 0; }
 	        if (!isset($_REQUEST["snmp_enabled"])) { $_REQUEST["snmp_enabled"] = 0; }
-			do_update("$db_cmd mon_devices SET 
+			do_update("$db_cmd devices SET 
 				name='{$_REQUEST['dev_name']}',
 				ip='{$_REQUEST['dev_ip']}',
 				snmp_read_community='{$_REQUEST['snmp_read_community']}', 
@@ -67,7 +67,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	// Display a list
 	if (isset($_REQUEST["grp_id"]))
 	{
-		$group_results = do_query("SELECT * FROM mon_groups WHERE id={$_REQUEST['grp_id']}");
+		$group_results = do_query("SELECT * FROM groups WHERE id={$_REQUEST['grp_id']}");
 		$group_array = mysql_fetch_array($group_results);
 
 		$title = "Monitored Devices in Group '" . $group_array["name"] . "'";
@@ -80,7 +80,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 		$title = "Monitored Devices";
 
 	} // end if we have a group id
-	begin_page("mon_devices.php", "Devices");
+	begin_page("devices.php", "Devices");
 	js_confirm_dialog("del", "Are you sure you want to delete device ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&grp_id={$_REQUEST['grp_id']}&dev_id=");
 	make_display_table($title,
 	   "Name", "{$_SERVER['PHP_SELF']}?orderby=name",
@@ -91,17 +91,17 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 	if (!(isset($_REQUEST["grp_id"])))
 	{
 		$dev_results = do_query("
-			SELECT mon_devices.name AS name, mon_devices.ip, mon_devices.id
-			FROM mon_devices
+			SELECT devices.name AS name, devices.ip, devices.id
+			FROM devices
 			ORDER BY $orderby");
 
 	}
 	else
 	{
 		$dev_results = do_query("
-			SELECT mon_devices.name AS name, mon_devices.ip, mon_devices.id 
+			SELECT devices.name AS name, devices.ip, devices.id 
 			FROM dev_parents
-			LEFT JOIN mon_devices ON dev_parents.dev_id=mon_devices.id 
+			LEFT JOIN devices ON dev_parents.dev_id=devices.id 
 			WHERE grp_id={$_REQUEST['grp_id']}
 			ORDER BY $orderby");
 
@@ -134,7 +134,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "add")
 {
 	check_auth(2);
-	begin_page("mon_devices.php", "Add Device");
+	begin_page("devices.php", "Add Device");
 
 	echo("<big><b>
 		<a href='{$_SERVER['PHP_SELF']}?grp_id={$_REQUEST['grp_id']}&action=addnew'>Create a new device</a><br><br>
@@ -148,9 +148,9 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "addtogrp")
 {
 
 	check_auth(2);
-	begin_page("mon_devices.php", "Add Device Group");
+	begin_page("devices.php", "Add Device Group");
 	make_edit_table("Add Existing Device to a Group");
-	make_edit_select_from_table("Device:","dev_id","mon_devices",-1);
+	make_edit_select_from_table("Device:","dev_id","devices",-1);
 	make_edit_hidden("action","doaddtogrp");
 	make_edit_hidden("grp_id",$_REQUEST["grp_id"]);
 	make_edit_submit_button();
@@ -161,7 +161,7 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "addtogrp")
 if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["action"] == "addnew")) {
 	// Display editing screen
 	check_auth(2);
-	begin_page("mon_devices.php", "Edit Device");
+	begin_page("devices.php", "Edit Device");
 	if ($_REQUEST["action"] == "addnew")
 	{
 		$dev_id = 0;
@@ -171,7 +171,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 		$dev_id = $_REQUEST["dev_id"];
 	} // end if device id
 
-	$dev_select = "SELECT * FROM mon_devices WHERE id=$dev_id";
+	$dev_select = "SELECT * FROM devices WHERE id=$dev_id";
 	$dev_results = do_query($dev_select);
 	$dev_row = mysql_fetch_array($dev_results);
 	$dev_name = $dev_row["name"];
@@ -191,7 +191,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	make_edit_group("General");
 	make_edit_text("Name:", "dev_name", "25", "100", $dev_name);
 	make_edit_text("IP or Host Name:", "dev_ip", "25", "100", $dev_ip);
-	make_edit_select_from_table("Device Type:", "dev_type", "mon_device_types", $dev_row["dev_type"]);
+	make_edit_select_from_table("Device Type:", "dev_type", "dev_types", $dev_row["dev_type"]);
 	make_edit_checkbox("Disabled (do not monitor this device)", "disabled", $dev_row["disabled"]);
 	make_edit_group("SNMP");
 	make_edit_checkbox("This device uses SNMP", "snmp_enabled", $dev_row["snmp_enabled"]);

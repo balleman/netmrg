@@ -2,7 +2,7 @@
 /********************************************
 * NetMRG Integrator
 *
-* mon_device_types.php
+* dev_types.php
 * Device Types Editing Page
 *
 * see doc/LICENSE for copyright information
@@ -29,18 +29,18 @@ check_auth(2);
 			$db_cmd = "UPDATE";
 			$db_end = "WHERE id={$_REQUEST['id']}";
 		} // end if id is 0 or not
-		do_update("$db_cmd mon_device_types SET name='{$_REQUEST['name']}', comment='{$_REQUEST['comment']}' $db_end");
+		do_update("$db_cmd dev_types SET name='{$_REQUEST['name']}', comment='{$_REQUEST['comment']}' $db_end");
 	} // done editing
 
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "dodelete")
 	{
 		check_auth(2);
-		do_update("DELETE FROM mon_device_types WHERE id={$_REQUEST['id']}");
+		do_update("DELETE FROM dev_types WHERE id={$_REQUEST['id']}");
 	} // done deleting
 
 
 	# Display a list
-	begin_page("mon_device_types.php", "Device Types");
+	begin_page("dev_types.php", "Device Types");
 	js_confirm_dialog("del", "Are you sure you want to delete device type ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&id=");
 	make_display_table("Device Types",
 	   "Name", "{$_SERVER['PHP_SELF']}?orderby=name",
@@ -55,7 +55,7 @@ check_auth(2);
 		$orderby = $_REQUEST["orderby"];
 	} // end if orderby
 
-	$grp_results = do_query("SELECT * FROM mon_device_types ORDER BY $orderby");
+	$grp_results = do_query("SELECT * FROM dev_types ORDER BY $orderby");
 	$grp_total = mysql_num_rows($grp_results);
 
 	# For each group
@@ -79,7 +79,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 {
 	// Display editing screen
 	check_auth(2);
-	begin_page("mon_device_types.php", "Device Types");
+	begin_page("dev_types.php", "Device Types");
 	if ($_REQUEST["action"] == "add")
 	{
 		$id = 0;
@@ -89,7 +89,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 		$id = $_REQUEST["id"];
 	} // end if id
 
-	$grp_results = do_query("SELECT * FROM mon_device_types WHERE id=$id");
+	$grp_results = do_query("SELECT * FROM dev_types WHERE id=$id");
 	$row = mysql_fetch_array($grp_results);
 	$name = $row["name"];
 	$comment = $row["comment"];

@@ -159,7 +159,7 @@ function get_group_status($grp_id)
 	{
 		$status = -1;
 
-		$grp_results = do_query("SELECT id FROM mon_groups WHERE parent_id=$grp_id");
+		$grp_results = do_query("SELECT id FROM groups WHERE parent_id=$grp_id");
 
 		while ($grp_row = mysql_fetch_array($grp_results))
 		{
@@ -234,11 +234,11 @@ function get_short_monitor_name($mon_id)
 function get_monitor_name($mon_id)
 {
 	$query_handle = do_query("
-		SELECT  mon_devices.name AS dev_name,
+		SELECT  devices.name AS dev_name,
 		sub_devices.name AS sub_name
 		FROM monitors
 		LEFT JOIN sub_devices ON monitors.sub_dev_id=sub_devices.id
-		LEFT JOIN mon_devices ON sub_devices.dev_id=mon_devices.id
+		LEFT JOIN devices ON sub_devices.dev_id=devices.id
 		WHERE monitors.id=$mon_id");
 
 	$row = mysql_fetch_array($query_handle);
@@ -257,7 +257,7 @@ function get_graph_name($graph_id)
 
 function get_device_name($dev_id)
 {
-	$dev_query = do_query("SELECT name FROM mon_devices WHERE id=$dev_id");
+	$dev_query = do_query("SELECT name FROM devices WHERE id=$dev_id");
 	$dev_row   = mysql_fetch_array($dev_query);
 	return $dev_row["name"];
 }
@@ -266,9 +266,9 @@ function get_device_name($dev_id)
 function get_sub_device_name($sub_dev_id)
 {
 	$dev_query = do_query("
-		SELECT mon_devices.name AS dev_name, sub_devices.name AS sub_name
+		SELECT devices.name AS dev_name, sub_devices.name AS sub_name
 		FROM sub_devices
-		LEFT JOIN mon_devices   ON sub_devices.dev_id=mon_devices.id
+		LEFT JOIN devices   ON sub_devices.dev_id=devices.id
 		WHERE sub_devices.id = $sub_dev_id");
 	$row = mysql_fetch_array($dev_query);
 	return $row["dev_name"] . " - " . $row["sub_name"];
@@ -282,12 +282,12 @@ function delete_group($group_id)
 {
 
 	// delete the graph
-	do_update("DELETE FROM mon_groups WHERE id=$group_id");
+	do_update("DELETE FROM groups WHERE id=$group_id");
 
 	// delete the associated graphs
 	do_update("DELETE FROM view WHERE pos_id_type=0 AND pos_id=$group_id");
 
-	$devices_handle = do_query("SELECT id FROM mon_devices WHERE group_id=$group_id");
+	$devices_handle = do_query("SELECT id FROM devices WHERE group_id=$group_id");
 
 	for ($i = 0; $i < mysql_num_rows($devices_handle); $i++) {
 		$device_row = mysql_fetch_array($devices_handle);
@@ -299,7 +299,7 @@ function delete_group($group_id)
 function delete_device($device_id)
 {
 	// delete the device
-	do_update("DELETE FROM mon_devices WHERE id=$device_id");
+	do_update("DELETE FROM devices WHERE id=$device_id");
 
 	// remove the snmp-cache for the device
 	do_update("DELETE FROM snmp_cache WHERE dev_id=$device_id");
@@ -425,7 +425,7 @@ function generic_update($sql, $id)
 
 function sql_group($grp_name, $grp_comment, $parent_id)
 {
-	return "mon_groups SET name=\"$grp_name\", comment=\"$grp_comment\", parent_id=$parent_id";
+	return "groups SET name=\"$grp_name\", comment=\"$grp_comment\", parent_id=$parent_id";
 }
 
 

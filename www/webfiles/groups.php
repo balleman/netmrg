@@ -2,7 +2,7 @@
 /********************************************
 * NetMRG Integrator
 *
-* mon_groups.php
+* groups.php
 * Monitored Device Groups Editing Page
 *
 * see doc/LICENSE for copyright information
@@ -41,7 +41,7 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 
 
 	// Display a list
-	begin_page("mon_groups.php", "Groups");
+	begin_page("groups.php", "Groups");
 	js_confirm_dialog("del", "Are you sure you want to delete group ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&grp_id=");
 	make_display_table("Device Groups",
 	   "Name", "{$_SERVER['PHP_SELF']}?orderby=name",
@@ -65,7 +65,7 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 		$parent_id = $_REQUEST["parent_id"];
 	} // end if parent id
 
-	$grp_select = "SELECT * FROM mon_groups WHERE parent_id=$parent_id ORDER BY $orderby";
+	$grp_select = "SELECT * FROM groups WHERE parent_id=$parent_id ORDER BY $orderby";
 	$grp_results = do_query($grp_select);
 	$grp_total = mysql_num_rows($grp_results);
 
@@ -75,14 +75,14 @@ if (!isset($_REQUEST["action"]) || ($_REQUEST["action"] == "doedit" || $_REQUEST
 		$grp_row = mysql_fetch_array($grp_results);
 		$grp_id  = $grp_row["id"];
 
-		$child_query = do_query("SELECT id FROM mon_groups WHERE parent_id=$grp_id");
+		$child_query = do_query("SELECT id FROM groups WHERE parent_id=$grp_id");
 		if (mysql_num_rows($child_query) > 0)
 		{
-			$group_link = "mon_groups.php?parent_id=$grp_id";
+			$group_link = "groups.php?parent_id=$grp_id";
 		}
 		else
 		{
-			$group_link = "mon_devices.php?grp_id=$grp_id";
+			$group_link = "devices.php?grp_id=$grp_id";
 		} // end if we have children
 
 		make_display_item($grp_row["name"], $group_link,
@@ -101,7 +101,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 {
 	// Display editing screen
 	check_auth(2);
-	begin_page("mon_groups.php", "Groups");
+	begin_page("groups.php", "Groups");
 	if ($_REQUEST["action"] == "add")
 	{
 		$grp_id = -1;
@@ -111,7 +111,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 		$grp_id = $_REQUEST["grp_id"];
 	} // end if this is an add, no parent group
 
-	$grp_results = do_query("SELECT * FROM mon_groups WHERE id=$grp_id");
+	$grp_results = do_query("SELECT * FROM groups WHERE id=$grp_id");
 	$grp_row = mysql_fetch_array($grp_results);
 	$grp_name = $grp_row["name"];
 	$grp_comment = $grp_row["comment"];
@@ -121,7 +121,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	make_edit_table("Edit Group");
 	make_edit_text("Name:","grp_name","25","100",$grp_name);
 	make_edit_text("Comment:","grp_comment","50","200",$grp_comment);
-	make_edit_select_from_table("Parent:", "parent_id", "mon_groups", $grp_row["parent_id"], "", array(0 => "-Root-"));
+	make_edit_select_from_table("Parent:", "parent_id", "groups", $grp_row["parent_id"], "", array(0 => "-Root-"));
 	make_edit_hidden("grp_id", $grp_id);
 	make_edit_hidden("action","doedit");
 	make_edit_submit_button();

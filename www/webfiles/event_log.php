@@ -25,7 +25,7 @@ $query = "
 		time_since_last_change,
 		situation,
 		dev_id,
-		mon_devices.name AS dev_name,
+		devices.name AS dev_name,
 		events.name AS ev_name
 
 	FROM
@@ -33,12 +33,12 @@ $query = "
 		events,
 		monitors,
 		sub_devices,
-		mon_devices
+		devices
 
 	WHERE	event_log.event_id 	= events.id
 	AND	events.mon_id 		= monitors.id
 	AND	monitors.sub_dev_id	= sub_devices.id
-	AND	sub_devices.dev_id	= mon_devices.id
+	AND	sub_devices.dev_id	= devices.id
 
 	ORDER BY event_log.id DESC
 

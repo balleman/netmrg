@@ -562,13 +562,13 @@ function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 
 	$mon_results = do_query("
 	SELECT  monitors.id AS id,
-                mon_devices.name AS dev_name,
+                devices.name AS dev_name,
                 sub_devices.name AS sub_name
 
 	FROM monitors
 
         LEFT JOIN sub_devices ON monitors.sub_dev_id=sub_devices.id
-        LEFT JOIN mon_devices ON sub_devices.dev_id=mon_devices.id
+        LEFT JOIN devices ON sub_devices.dev_id=devices.id
 
         ORDER BY dev_name, sub_name, id
 
@@ -583,7 +583,7 @@ function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 		$mon_id = $mon_row["id"];
 		$mon_name = get_monitor_name($mon_id);
 	        make_edit_select_option($mon_name, $mon_id, $mon_id_curr == $mon_id);
-	} // end for
+	}
 
 	make_edit_select_end();
 

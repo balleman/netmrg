@@ -109,8 +109,8 @@ $INTERFACE_TYPE = array(
 
 $MENU = array(
 	"Monitoring" => array(
-		array("name" => "Groups", "link" => "mon_groups.php", "descr" => "", "authLevelRequired" => 1),
-		array("name" => "Device Types", "link" => "mon_device_types.php", "descr" => "", "authLevelRequired" => 2),
+		array("name" => "Groups", "link" => "groups.php", "descr" => "", "authLevelRequired" => 1),
+		array("name" => "Device Types", "link" => "dev_types.php", "descr" => "", "authLevelRequired" => 2),
 		array("name" => "Notifications", "link" => "notifications.php", "descr" => "", "authLevelRequired" => 2)
 	),
 	"Reporting" => array(

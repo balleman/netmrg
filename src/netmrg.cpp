@@ -1011,7 +1011,7 @@ void process_device(int dev_id)
 			string("snmp_uptime, ")		+	// 5
 			string("snmp_ifnumber, ")	+	// 6
 			string("snmp_check_ifnumber ")	+	// 7
-			string("FROM mon_devices ")	+
+			string("FROM devices ")		+
 			string("WHERE id=") + inttostr(dev_id);
 
 	mysql_res = db_query(&mysql, &info, query);
@@ -1030,7 +1030,7 @@ void process_device(int dev_id)
 		debuglogger(DEBUG_SNMP, &info, "SNMP Uptime is " + inttostr(info.snmp_uptime));
 
 		// store new uptime
-		db_update(&mysql, &info, "UPDATE mon_devices SET snmp_uptime=" + inttostr(info.snmp_uptime) +
+		db_update(&mysql, &info, "UPDATE devices SET snmp_uptime=" + inttostr(info.snmp_uptime) +
 				" WHERE id=" + inttostr(dev_id));
 
 		if (info.snmp_uptime == 0)
@@ -1069,7 +1069,7 @@ void process_device(int dev_id)
 				{
 					// ifNumber changed
 					info.snmp_recache = 1;
-					db_update(&mysql, &info, "UPDATE mon_devices SET snmp_ifnumber = " +
+					db_update(&mysql, &info, "UPDATE devices SET snmp_ifnumber = " +
 						inttostr(info.snmp_ifnumber) + string(" WHERE id = ") +
 						inttostr(dev_id));
 					debuglogger(DEBUG_SNMP, &info,
@@ -1099,7 +1099,7 @@ void process_device(int dev_id)
 	// process sub-devices
 	status = process_sub_devices(info, &mysql);
 
-	db_update(&mysql, &info, "UPDATE mon_devices SET status=" + inttostr(status) + " WHERE id=" + inttostr(dev_id));
+	db_update(&mysql, &info, "UPDATE devices SET status=" + inttostr(status) + " WHERE id=" + inttostr(dev_id));
 
 	mysql_close(&mysql);
 
@@ -1179,7 +1179,7 @@ void run_netmrg()
 
 	// request list of devices to process
 
-	mysql_res = db_query(&mysql, NULL, "SELECT id FROM mon_devices WHERE disabled=0 ORDER BY id");
+	mysql_res = db_query(&mysql, NULL, "SELECT id FROM devices WHERE disabled=0 ORDER BY id");
 
 	num_rows 	= mysql_num_rows(mysql_res);
         threads 	= new pthread_t[num_rows];
@@ -1329,7 +1329,7 @@ void external_snmp_recache(int device_id, int type)
 	db_connect(&mysql);
 	info.device_id = device_id;
 
-	mysql_res = db_query(&mysql, &info, "SELECT ip, snmp_read_community, snmp_enabled FROM mon_devices WHERE id=" + inttostr(device_id));
+	mysql_res = db_query(&mysql, &info, "SELECT ip, snmp_read_community, snmp_enabled FROM devices WHERE id=" + inttostr(device_id));
         mysql_row = mysql_fetch_row(mysql_res);
 
 	if (strtoint(mysql_row[2]) != 1)

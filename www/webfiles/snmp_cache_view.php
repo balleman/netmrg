@@ -33,7 +33,7 @@ function make_graph()
 		check_auth(2);
 
 		// get some data to play with
-		$q_dev = do_query("SELECT * FROM mon_devices WHERE id={$_REQUEST['dev_id']}");
+		$q_dev = do_query("SELECT * FROM devices WHERE id={$_REQUEST['dev_id']}");
 		$r_dev = mysql_fetch_array($q_dev);
 
 		$q_snmp = do_query("SELECT * FROM snmp_cache WHERE dev_id={$_REQUEST['dev_id']} AND if_index='{$_REQUEST['index']}'");
