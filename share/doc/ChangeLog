@@ -1,3 +1,6 @@
+2004.06.30  v0.17cvs  dwarner
+  - bug#0000235 - fixed SVO users viewing custom graphs in devices
+
 2004.06.17  v0.17cvs  keb
   - NetMRG now builds on Debian 3.0 (woody)
 

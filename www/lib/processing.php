@@ -568,7 +568,7 @@ function GetCustomGraphGroups($customgraph_id)
 		FROM view
 		WHERE type = 'graph'
 		AND graph_id = '$customgraph_id'");
-
+	
 	$group_arr = array();
 	while ($r = mysql_fetch_array($db_result))
 	{
@@ -578,7 +578,7 @@ function GetCustomGraphGroups($customgraph_id)
 		} // end if group id, push it on
 		else if ($r["object_type"] == "device")
 		{
-			array_push($group_arr, GetDeviceGroups($r["object_id"]));
+			$group_arr = array_merge($group_arr, GetDeviceGroups($r["object_id"]));
 		} // end if device id, get groups
 	} // end while we have results
 	
