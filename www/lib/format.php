@@ -185,6 +185,9 @@ function DrawGroupNavHistory($type, $id)
 			$_SESSION["netmrgsess"]["grpnav"]["event"] = "";
 	} // end if type
 	
+	// assign the id to the type
+	$_SESSION["netmrgsess"]["grpnav"][$type] = $id;
+	
 	// for each type, add the history to an array
 	$hist = array();
 	switch ($type)
@@ -224,9 +227,6 @@ function DrawGroupNavHistory($type, $id)
 			if ($type != "group") $t .= "</a>\n";
 			array_push($hist, $t);
 	} // end switch type
-	
-	// assign the id to the type
-	$_SESSION["netmrgsess"]["grpnav"][$type] = $id;
 	
 ?>
 	<table style="border-collapse: collapse;" width="100%" cellpadding="0" cellspacing="0" border="0">
