@@ -125,13 +125,13 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 		$dev_row = db_fetch_array($dev_results);
 		$dev_id  = $dev_row["id"];
 		$links   = 
-		cond_formatted_link($dev_row["interface_count"] > 0, "View Interface Cache", 
-			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface") . "&nbsp;" .
-		cond_formatted_link($dev_row["snmp_enabled"] == 1, "Recache Interfaces", 
-			"recache.php?dev_id=$dev_id&type=interface") . "&nbsp;" .
-		cond_formatted_link($dev_row["disk_count"] > 0, "View Disk Cache", 
-			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk") . "&nbsp;" . 
-		cond_formatted_link($dev_row["snmp_enabled"] == 1, "Recache Disks", 
+		cond_formatted_link($dev_row["interface_count"] > 0, "View&nbsp;Interface&nbsp;Cache", 
+			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface") . " " .
+		cond_formatted_link($dev_row["snmp_enabled"] == 1, "Recache&nbsp;Interfaces", 
+			"recache.php?dev_id=$dev_id&type=interface") . " " .
+		cond_formatted_link($dev_row["disk_count"] > 0, "View&nbsp;Disk&nbsp;Cache", 
+			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk") . " " . 
+		cond_formatted_link($dev_row["snmp_enabled"] == 1, "Recache&nbsp;Disks", 
 			"recache.php?dev_id=$dev_id&type=disk");
 
 		make_display_item("editfield".(($dev_count-1)%2),
