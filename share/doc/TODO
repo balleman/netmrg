@@ -3,6 +3,7 @@ graph templating
 device duplication
 responses
 new snmp cacher
+external auth support
 more detailed INSTALL
 more detailed README
 'makedist' script
@@ -33,7 +34,7 @@ format.php
 
 
 == silfreed ==
-cleanup copyright in all files
+external auth support
 design public website
 research bugzilla & alternatives
   - bug tracking
