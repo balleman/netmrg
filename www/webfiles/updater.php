@@ -28,7 +28,8 @@ $dbupdates = array(
 "ALTER TABLE `graph_ds` ADD `end_time` VARCHAR( 20 ) NOT NULL ;",
 "ALTER TABLE `graphs` ADD `title` VARCHAR( 100 ) NOT NULL AFTER `name`;",
 "ALTER TABLE `graph_ds` CHANGE `multiplier` `multiplier` VARCHAR( 100 ) DEFAULT '1' NOT NULL;",
-"ALTER TABLE snmp_interface_cache ADD COLUMN ifSpeed int(11) NOT NULL;"
+"ALTER TABLE snmp_interface_cache ADD COLUMN ifSpeed int(11) NOT NULL;",
+"UPDATE graphs SET title = name WHERE title = '';"
 	) // end 0.10pre1
 ); // end $dbupdates;
 
