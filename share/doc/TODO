@@ -8,10 +8,8 @@ ability to go 'up' a level when browsing 'Groups' et al
 snmp_cache_view.php:
   "Make Graph" needs overhauled
 view page should reflect status information
-last_status.php:
-  DB_ERROR: Couldn't execute query:
-  SELECT mon_monitors.id, mon_test.name as test_name, mon_devices.ip AS ip, mon_test.cmd AS cmd, mon_monitors.params AS params, mon_devices.name AS dev_name, mon_test.name as test_name FROM mon_monitors LEFT JOIN mon_test ON mon_monitors.test_id=mon_test.id LEFT JOIN mon_devices ON mon_monitors.device_id=mon_devices.id WHERE mon_monitors.device_id=5
-  Table 'netmrg.mon_test' doesn't exist
+device_tree.php
+  - can't navigate monitors yet
 
 
 == silfreed ==

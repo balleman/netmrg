@@ -73,6 +73,33 @@ $VALUE_TYPES = array(
 			1	=>	"Delta Value",
 			2	=>	"Rate of Change");
 
+$MENU = array(
+	"Monitoring" => array(
+		array("name" => "Groups", "link" => "mon_groups.php", "descr" => "", "authLevelRequired" => 1),
+		array("name" => "Device Types", "link" => "mon_device_types.php", "descr" => "", "authLevelRequired" => 2),
+		array("name" => "Notifications", "link" => "mon_notify.php", "descr" => "", "authLevelRequired" => 2)
+	),
+	"Reporting" => array(
+		array("name" => "Device Tree", "link" => "device_tree.php", "descr" => "", "authLevelRequired" => 1),
+		array("name" => "Event Log", "link" => "event_log.php", "descr" => "Display a list of the most recent events.", "authLevelRequired" => 1)
+	),
+	"Graphing" => array(
+		array("name" => "Custom Graphs", "link" => "custom_graphs.php", "descr" => "", "authLevelRequired" => 1)
+	),
+	"Tests" => array(
+		array("name" => "Scripts", "link" => "tests_script.php", "descr" => "External Programs", "authLevelRequired" => 2),
+		array("name" => "SNMP", "link" => "tests_snmp.php", "descr" => "SNMP Queries", "authLevelRequired" => 2),
+		array("name" => "SQL", "link" => "tests_sql.php", "descr" => "Database Queries", "authLevelRequired" => 2)
+	),
+	"Admin" => array(
+		array("name" => "Users", "link" => "users.php", "descr" => "User Management", "authLevelRequired" => 3),
+		array("name" => "Logout", "link" => "logout.php", "descr" => "End your NetMRG Session.", "authLevelRequired" => 0)
+	),
+	"Help" => array(
+		array("name" => "About", "link" => "about.php", "descr" => "", "authLevelRequired" => 0)
+	)
+); // end $MENU
+
 
 
 
