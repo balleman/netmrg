@@ -14,6 +14,8 @@ use strict;
 my $cvs = 'cvs -d :pserver:anonymous@cvs.netmrg.net:/var/cvsroot';
 my $docfile = "netmrg/share/doc/netmrg.sgml";
 my $shortdocfile = "netmrg.sgml";
+my $stylesheet = "netmrg/share/doc/netmrg.dsl";
+my $shortssfile = "netmrg.dsl";
 my $docfolder = "/tmp";
 my @versions = ();
 
@@ -32,14 +34,27 @@ foreach my $ver (@versions)
 	mkdir ($curdir);
 
 	# get the version specified
+	# docfile
 	my $doccontents = `$cvs co -p -r $ver $docfile 2> /dev/null`;
 	open (DOC, ">$curdir/$shortdocfile");
 	print DOC $doccontents;
 	close (DOC);
 
+	#stylesheet
+	my $sscontents = `$cvs co -p -r $ver $stylesheet 2> /dev/null`;
+	open (SS, ">$curdir/$shortssfile");
+	print SS $sscontents;
+	close (SS);
+
 	# run docbook2html on the file
-	`docbook2html $curdir/$shortdocfile -o $curdir`;
-	symlink("$curdir/book1.html", "$curdir/index.html");
+	if (-s "$curdir/$shortssfile")
+	{
+		`docbook2html -d $curdir/$shortssfile#html $curdir/$shortdocfile -o $curdir`;
+	}
+	else
+	{
+		`docbook2html $curdir/$shortdocfile -o $curdir`;
+	}
 } # end foreach version
 
 
@@ -51,17 +66,15 @@ foreach my $ver (@versions)
 sub GetTags()
 {
 	my @tags = ("HEAD");
-	my $rlog = `$cvs rlog $docfile`;
+	my @rlog = split(/\n/, `$cvs rlog $docfile`);
+	my $symnames = 0;
 	
-	if ($rlog =~ /symbolic names:\n(\s+.*\n)+/m)
+	foreach my $line (@rlog)
 	{
-		my $rlogtags = $1;
-		my @lines = split(/\n/, $rlogtags);
-		foreach my $line (@lines)
-		{
-			push(@tags, $1) if ($rlogtags =~ /^\s+(.*?):.*$/);
-		} # end foreach tag in the rlog
-	} # end if symbolic names
+		$symnames = 1 if ($line =~ /symbolic names/);
+		last if ($line =~ /keyword sub/);
+		push(@tags, $1) if ($symnames && $line =~ /^\s+(.*?):.*$/);
+	} # end foreach line
 
 	return @tags;
 } # end GetTags();
