@@ -1,13 +1,15 @@
-0.8  2003.01.15  silfreed
+2003.01.18  v0.8  silfreed
+  - created http://bugs.netmrg.net and crossed one more thing off my TODO
+  - changing my public email for netmrg to be 'silfred@netmrg.net'
+
+2003.01.15  v0.8  silfreed
   - implemented external http auth support (untested)
 
-
-0.8  2003.01.13  silfreed
+2003.01.13  v0.8  silfreed
   - updated copyright info on every .php page to refer to doc/LICENSE
   - new versioning/changelog scheme
 
-
-0.8  2003.01.12  silfreed
+2003.01.12  v0.8  silfreed
   - wrote device_tree.php (based on last_status.php)
   - auth code much more complete
     * will logout a user if they've been logged in too long
