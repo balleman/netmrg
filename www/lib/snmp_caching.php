@@ -29,29 +29,6 @@ function snmp_chop($string)
 	return ereg_replace(".*= ","",$temp);
 } // end snmp_chop
 
-
-function do_snmp_get($dev_ip, $community, $oid)
-{
-    GLOBAL $avoid_this_device;
-	if ($avoid_this_device == 0) {
-		$snmp_result = exec("snmpget -O v $dev_ip $community $oid", $snmp_output, $error_code);
-		if (($snmp_result == "") && ($snmp_output[0] != "")) { $snmp_result = $snmp_output[0]; }
-		if ($error_code == 0) {
-			$a = ereg_replace(".*: ","",$snmp_result);
-			$to_return = ereg_replace("\n","",$a);
-		} else {
-			$avoid_this_device = 1;
-			$to_return = "U";
-			echo "WARNING: SNMP timeout occurred\n";
-		} // end if error
-	} else {
-		echo "WARNING: SNMPGET cancelled due to previous timeout\n";
-		$to_return = "U";
-	} // end if avoided device
-	return $to_return;
-} // end do_snmp_get
-
-
 function snmp_make_ip_array($dev_ip, $community)
 {
 	$if_ip    = `snmpwalk $dev_ip $community ipAdEntIfIndex`;

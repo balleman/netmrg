@@ -204,11 +204,7 @@ void snmp_walk(DeviceInfo info, string oidstring)
 					{
 			                        if (check && snmp_oid_compare(name, name_length, vars->name, vars->name_length) >= 0)
 						{
-							fprintf(stderr, "Error: OID not increasing: ");
-							fprint_objid(stderr, name, name_length);
-							fprintf(stderr, " >= ");
-							fprint_objid(stderr, vars->name, vars->name_length);
-							fprintf(stderr, "\n");
+							debuglogger(DEBUG_SNMP, &info, "SNMP Error: OID not increasing");
 							running = 0;
 							exitval = 1;
 						}
@@ -224,19 +220,11 @@ void snmp_walk(DeviceInfo info, string oidstring)
 				running = 0;
 				if (response->errstat == SNMP_ERR_NOSUCHNAME)
 				{
-					printf("End of MIB\n");
+					debuglogger(DEBUG_SNMP, &info, "End of MIB");
 				}
 				else
 				{
-					fprintf(stderr, "Error in packet.\nReason: %s\n", snmp_errstring(response->errstat));
-					if (response->errindex != 0)
-					{
-						fprintf(stderr, "Failed object: ");
-						for (count = 1, vars = response->variables; vars && count != response->errindex; vars = vars->next_variable, count++)
-						if (vars)
-						fprint_objid(stderr, vars->name, vars->name_length);
-						fprintf(stderr, "\n");
-					}
+					debuglogger(DEBUG_SNMP, &info, string("SNMP Packet Error: ") + snmp_errstring(response->errstat));
 					exitval = 2;
 				}
 			}
@@ -252,7 +240,6 @@ void snmp_walk(DeviceInfo info, string oidstring)
 			else
 			{
 				debuglogger(DEBUG_SNMP, &info, string("SNMP Walk Error (") + inttostr(status) + ")");
-				//snmp_sess_perror("snmpwalk", &session);
 				running = 0;
 				exitval = 1;
         		}
@@ -260,16 +247,6 @@ void snmp_walk(DeviceInfo info, string oidstring)
 
 		if (response)
 			snmp_free_pdu(response);
-	}
-
-	if (numprinted == 0 && status == STAT_SUCCESS)
-	{
-		/*
-		* no printed successful results, which may mean we were
-		* pointed at an only existing instance.  Attempt a GET, just
-		* for get measure.
-		*/
-		//snmp_get_and_print(ss, root, rootlen);
 	}
 
 	snmp_sess_close(ss);
