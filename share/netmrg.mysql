@@ -565,7 +565,7 @@ CREATE TABLE user (
   fullname varchar(200) default NULL,
   group_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
-  KEY user (user)
+  UNIQUE user (user)
 ) TYPE=MyISAM;
 
 --

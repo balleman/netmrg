@@ -1,5 +1,6 @@
 2004.03.10  v0.14cvs  dwarner
   - bug#0000169 - stat.php interface operstatus doesn't match IF-MIB
+  - bug#0000168 - duplicate users are allowed
 
 2004.03.10  v0.14cvs  keb
   - bug#0000165 - let single-view only users view/change preferences

@@ -1,3 +1,7 @@
+2004.03.10  v0.14cvs  silfreed
+  ALTER TABLE user DROP INDEX user;
+  ALTER TABLE user ADD CONSTRAINT UNIQUE user (user);
+
 2004.01.05  v0.13  balleman
   CREATE TABLE `log` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,

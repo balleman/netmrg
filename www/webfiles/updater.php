@@ -65,7 +65,9 @@ $dbupdates = array(
     `component` INT NOT NULL ,
     `message` VARCHAR( 200 ) NOT NULL ,
     PRIMARY KEY ( `id` ) , INDEX ( `date` ) ,
-    INDEX ( `dev_id` ), INDEX ( `subdev_id` ) , INDEX( `mon_id` ));"
+    INDEX ( `dev_id` ), INDEX ( `subdev_id` ) , INDEX( `mon_id` ));",
+"ALTER TABLE user DROP INDEX user;",
+"ALTER TABLE user ADD CONSTRAINT UNIQUE user (user);"
 	) // end 0.14
 ); // end $dbupdates;
 
