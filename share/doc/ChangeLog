@@ -1,6 +1,8 @@
 2003.05.26  v0.8  silfreed
   - bug#7 : status images not vertically centered
   - bug#8 : monitors.php: no script options for new monitor
+  - viewgraph now implemented on device_tree.php w/ different
+    images for items w/ associated items or not
 
 2003.05.15  v0.8  balleman
   - enclose_graph.php reworked
