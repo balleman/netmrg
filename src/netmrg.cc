@@ -326,15 +326,6 @@ void db_update(MYSQL *mysql, DeviceInfo *info, string query)
 	}
 }
 
-// do_snmp_recache
-//
-// walk the interfaces MIB to populate the interface cache for a device
-
-void do_snmp_recache(int dev_id)
-{
-
-}
-
 // update_monitor_db
 //
 // update the database with current values for a monitor
@@ -359,6 +350,51 @@ void update_monitor_db(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 		"last_time=NOW(), status=" + inttostr(info.status) +
 		" WHERE id=" + inttostr(info.monitor_id));
 
+}
+
+void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
+{
+	// clear cache for this device
+        db_update(mysql, info, "DELETE FROM snmp_interface_cache WHERE dev_id=" + inttostr((*info).device_id));
+
+	list<SNMPPair> ifIndexList = snmp_walk(*info, "ifIndex");
+
+	for (list<SNMPPair>::iterator current = ifIndexList.begin(); current != ifIndexList.end(); current++)
+	{
+		string ifIndex = (*current).value;
+		string ifName  = snmp_get(*info, "ifName."  + ifIndex);			U_to_NULL(&ifName);
+		string ifDescr = snmp_get(*info, "ifDescr." + ifIndex);			U_to_NULL(&ifDescr);
+		string ifAlias = snmp_get(*info, "ifAlias." + ifIndex);			U_to_NULL(&ifAlias);
+		string ifSpeed = snmp_get(*info, "ifSpeed." + ifIndex);
+		string ifMAC   = snmp_get(*info, "ifPhysAddress." + ifIndex);           U_to_NULL(&ifMAC);
+		string ifOperStatus  = snmp_get(*info, "ifOperStatus."  + ifIndex);
+		string ifAdminStatus = snmp_get(*info, "ifAdminStatus." + ifIndex);
+
+		db_update(mysql, info, string("INSERT INTO snmp_interface_cache SET ") +
+			"dev_id = " 		+ inttostr((*info).device_id) 	+ ", " +
+			"ifIndex = '"		+ ifIndex 			+ "', " +
+			"ifName = "		+ ifName			+ ", " +
+			"ifDescr = "		+ ifDescr			+ ", " +
+			"ifAlias = "		+ ifAlias			+ ", " +
+			"ifSpeed = '"		+ ifSpeed			+ "', " +
+			"ifMAC = "		+ ifMAC				+ ", " +
+			"ifOperStatus = '" 	+ ifOperStatus			+ "', " +
+			"ifAdminStatus = '" 	+ ifAdminStatus			+ "'");
+
+	}
+
+	list<SNMPPair> ifIPList = snmp_walk(*info, "ipAdEntIfIndex");
+	ifIPList = snmp_trim_rootoid(ifIPList, ".1.3.6.1.2.1.4.20.1.2.");
+	
+        for (list<SNMPPair>::iterator current = ifIPList.begin(); current != ifIPList.end(); current++)
+	{
+	 	string ip 	= (*current).oid;
+		string ifIndex	= (*current).value;
+		
+		db_update(mysql, info, string("UPDATE snmp_interface_cache SET ifIP = '") +
+			ip + "' WHERE dev_id=" + inttostr((*info).device_id) + 
+			" AND ifIndex=" + ifIndex);
+	}
 }
 
 void process_responses(DeviceInfo info, MYSQL *mysql)
@@ -850,7 +886,7 @@ string process_snmp_monitor(DeviceInfo info, MYSQL *mysql)
 
 		if (info.snmp_avoid == 0)
 		{
-			value = snmpget(info, oid);
+			value = snmp_get(info, oid);
 		}
 		else
 		{
@@ -1138,7 +1174,7 @@ void process_device(int dev_id)
 			{
 				// we care about ifNumber
 
-				info.snmp_ifnumber =  strtoint(snmpget(info, string("interfaces.ifNumber.0")));
+				info.snmp_ifnumber =  strtoint(snmp_get(info, string("interfaces.ifNumber.0")));
 
 				debuglogger(DEBUG_SNMP, &info,
 					"Number of Interfaces is " + inttostr(info.snmp_ifnumber));
@@ -1167,7 +1203,7 @@ void process_device(int dev_id)
 		if (info.snmp_recache)
 		{
 			// we need to recache.
-			do_snmp_recache(dev_id);
+			do_snmp_interface_recache(&info, &mysql);
 		}
 
 	} // end snmp-enabled
@@ -1399,10 +1435,11 @@ void try_snmpwalk()
 	info.snmp_read_community = "public";
 
 	snmp_init();
-	results = snmp_walk(info, "ifDescr");
+	results = snmp_walk(info, "ifIndex");
+	//do_snmp_interface_recache(&info);
 	snmp_cleanup();
-	
-	results = snmp_trim_rootoid(results, ".1.3.6.1.2.1.2.2.1.2.");
+
+	results = snmp_trim_rootoid(results, ".1.3.6.1.2.1.2.2.1.1.");
 
 	for (list<SNMPPair>::iterator current = results.begin(); current != results.end(); current++)
 	{

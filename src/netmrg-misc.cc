@@ -5,13 +5,25 @@
 
 */
 
+void U_to_NULL(string *input)
+{
+	if ((*input) == "U")
+	{
+		(*input) = "NULL";
+	}
+	else
+	{
+		(*input) = string("'") + (*input) + string("'");
+	}
+}
+
 long long int get_snmp_uptime(DeviceInfo info)
 {
         string uptime;
         char unparsed[100];
         char * parsed;
 
-        uptime = snmpget(info, string("system.sysUpTime.0"));
+        uptime = snmp_get(info, string("system.sysUpTime.0"));
 
         if (uptime != "")
         {

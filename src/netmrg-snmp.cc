@@ -18,6 +18,7 @@ void snmp_init()
 	struct snmp_session session;
 	snmp_sess_init(&session);
 	ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_OIDS);
+	ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_ENUM);
 }
 
 void snmp_cleanup()
@@ -38,12 +39,25 @@ string snmp_value(string input)
 string snmp_oid(string input)
 {
 	input = input.erase(input.find(" ",0), input.length());
-	
+
 	return input;
 }
 
-// snmpget - perform an snmpget on a host using the provided information
-string snmpget(DeviceInfo info, string oidstring)
+string snmp_result(variable_list *vars)
+{
+	u_char         *buf = NULL;
+	size_t          buf_len = 256, out_len = 0;
+	
+	buf = (u_char *) calloc(buf_len, 1);
+	sprint_realloc_variable(&buf, &buf_len, &out_len, 1, vars->name, vars->name_length, vars);
+	string result = (char *)buf;
+	free(buf);
+	
+	return result;
+}
+
+// snmp_get - perform an snmpget on a host using the provided information
+string snmp_get(DeviceInfo info, string oidstring)
 {
 	struct	snmp_session session;
 	void 	*sessp;
@@ -120,8 +134,7 @@ string snmpget(DeviceInfo info, string oidstring)
 		if (status == STAT_SUCCESS)
 		{
 			vars = response->variables;
-			snprint_value(temp, sizeof(temp), vars->name, vars->name_length, vars);
-			result = temp;
+			result = snmp_result(vars);
                         result = snmp_value(result);
                 }
 		else
@@ -158,7 +171,21 @@ list<SNMPPair> snmp_trim_rootoid(list<SNMPPair> input, string rootoid)
 	{
 		(*current).oid = token_replace((*current).oid, rootoid, "");
 	}
-	
+
+	return input;
+}
+
+list<SNMPPair> snmp_swap_index_value(list<SNMPPair> input)
+{
+       	for (list<SNMPPair>::iterator current = input.begin(); current != input.end(); current++)
+	{
+		string oid   = (*current).oid;
+		string value = (*current).value;
+
+		(*current).oid   = value;
+		(*current).value = oid;
+	}
+
 	return input;
 }
 
@@ -232,17 +259,12 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 						running = 0;
 						continue;
 					}
-					u_char         *buf = NULL;
-					size_t          buf_len = 256, out_len = 0;
-					buf = (u_char *) calloc(buf_len, 1);
-					sprint_realloc_variable(&buf, &buf_len, &out_len, 1, vars->name, vars->name_length, vars);					string result = (char *)buf;
-					free(buf);
+					string result = snmp_result(vars);
 					debuglogger(DEBUG_SNMP, &info, "OID: '" + snmp_oid(result) + "' VALUE: '" + snmp_value(result) + "'");
-                                        results.push_front(SNMPPair(snmp_oid(result), snmp_value(result)));
-
+					results.push_front(SNMPPair(snmp_oid(result), snmp_value(result)));
 					if ((vars->type != SNMP_ENDOFMIBVIEW) && (vars->type != SNMP_NOSUCHOBJECT) && (vars->type != SNMP_NOSUCHINSTANCE))
 					{
-			                        if (check && snmp_oid_compare(name, name_length, vars->name, vars->name_length) >= 0)
+						if (check && snmp_oid_compare(name, name_length, vars->name, vars->name_length) >= 0)
 						{
 							debuglogger(DEBUG_SNMP, &info, "SNMP Error: OID not increasing");
 							running = 0;
@@ -252,7 +274,9 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 						name_length = vars->name_length;
 					}
 					else
-		                        running = 0;
+					{
+						running = 0;
+					}
 				}
 			}
 			else
@@ -293,5 +317,4 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 
 	return results;
 }
-
 
