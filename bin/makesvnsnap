@@ -11,14 +11,11 @@ this="$progname-$version"
 tmpdir="/tmp"
 pkgdir="/tmp"
 
-cd $tmpdir
-
-rm -rf $progname
+rm -rf $tmpdir/$this
 rm -f $this.tar.gz
 
-cvs -Q -d :pserver:anonymous@cvs.netmrg.net:/var/cvsroot co -r HEAD $progname
-tar czf $this.tar.gz $progname
+svn export http://svn.$progname.net/trunk $tmpdir/$this
+tar -C $tmpdir -czf $pkgdir/$this.tar.gz $this
 
-rm -rf $progname
-mv -f $this.tar.gz $pkgdir
+rm -rf $tmpdir/$this
 
