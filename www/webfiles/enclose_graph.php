@@ -34,7 +34,7 @@ begin_page("enclose_graph.php", "Graph", 1);
 
 switch ($_REQUEST['action'])
 {
-	case 'children':    show_children();    break;
+	case 'dissect':     show_dissection();  break;
 	case 'history':     show_history();     break;
 	case 'advanced':    show_advanced();    break;
 	default:            show();
@@ -61,7 +61,7 @@ function show()
 	echo('<a href="enclose_graph.php?' . $opts . '&action=history">Show History</a><br>');
 	if ($_REQUEST['type'] == 'template' || $_REQUEST['type'] == 'custom')
 	{
-		//echo('<a href="enclose_graph.php?' . $opts . '&action=children">Show Children</a><br>');
+		echo('<a href="enclose_graph.php?' . $opts . '&action=dissect">Dissect</a><br>');
 	}
 	echo('<a href="enclose_graph.php?' . $opts . '&action=advanced">Advanced</a><br>');
 }
@@ -79,10 +79,16 @@ function show_history()
 	echo('<a href="enclose_graph.php?' . $opts . '&action=show">Normal View</a><br>');
 }
 
-function show_children()
+function show_dissection()
 {
 	$opts = template() . "type={$_REQUEST['type']}&id={$_REQUEST['id']}";
-	
+	$dbq = db_query("SELECT id FROM graph_ds WHERE graph_id = '{$_REQUEST['id']}' AND mon_id != -2");
+	echo('<div align="center">');
+	while ($dbr = mysql_fetch_array($dbq))
+	{
+		echo('<img src="get_graph.php?' . template() . 'type=' . $_REQUEST['type'] . '_item&id=' . $dbr['id'] . '"><br>');
+	}
+	echo('</div><br>');
 	echo('<a href="enclose_graph.php?' . $opts . '&action=show">Normal View</a><br>');
 }
 
