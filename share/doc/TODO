@@ -47,6 +47,13 @@ distributed netmrg
   - how to delegate tasks: have the master keep a list of tasks for the slaves,
     and have the slaves get them periodically?  this will require the
     installations to be named
+  - new idea (2004.09.01) - derivation of other ideas
+    * boss/worker setup
+    * [boss] daemon figures out what needs done and puts that into a [jobs] table
+    * [worker]s clock into the [timeclock] so the [boss] can give them [jobs]
+    * if the [boss] notices that a [worker] forgot to clock out, it clocks
+      them out itself
+    * [worker]s report their [job_result]s back
 wizards
   - /wizard dir
   - index.php reads in other files to know name, description, etc
