@@ -356,9 +356,26 @@ void update_monitor_db(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 
 }
 
+void process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_status)
+{
+}
+
 void process_events(DeviceInfo info, MYSQL *mysql)
 {
+	MYSQL_RES 	*mysql_res;
+	MYSQL_ROW 	mysql_row;
 
+	string query = "SELECT id, trigger_type, last_status FROM events WHERE mon_id=" + inttostr(info.monitor_id) + " AND trigger_type < 3";
+	mysql_res = db_query(mysql, &info, query);
+
+        for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
+	{
+		mysql_row = mysql_fetch_row(mysql_res);
+		info.event_id = strtoint(mysql_row[0]);
+		process_event(info, mysql, strtoint(mysql_row[1]), strtoint(mysql_row[2]));
+	}
+
+	mysql_free_result(mysql_res);
 }
 
 void setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
@@ -557,10 +574,10 @@ string expand_parameters(DeviceInfo info, string input)
 string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 {
 	string test_result = "U";
-	
+
 	switch(info.test_id)
 	{
-		case 1:		test_result = count_file_lines(info);	
+		case 1:		test_result = count_file_lines(info);
 				break;
 
 		default:	debuglogger(DEBUG_MONITOR, &info, "Unknown Internal Test (" + inttostr(info.test_id) + ")");
