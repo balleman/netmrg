@@ -1,0 +1,16 @@
+1) untar to some directory like /var/www/ (it will untar into a 'netmrg' directory)
+
+2) modify you apache config to alias /netmrg to /var/www/netmrg/www
+  Alias /netmrg "/var/www/netmrg/www"
+
+3) setup the database
+mysqladmin create netmrg
+mysql netmrg < netmrg.mysql
+mysql
+  grant select on netmrg.* to netmrgread@localhost identified by 'netmrgread';
+  grant all on netmrg.* to netmrgwrite@localhost identified by 'netmrgwrite';
+
+4) add a user for yourself
+mysql netmrg
+  insert into user (user, pass, permit, view_type, view_id, fullname) values ("admin", encrypt("admin", md5("admin")), 3, 0, 19, "Administrator");
+
