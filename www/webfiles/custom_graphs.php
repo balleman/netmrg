@@ -103,7 +103,8 @@ if ($_REQUEST["action"] == "duplicate")
 		'hrule_value="' . $ds_row["hrule_value"] . '",' .
 		'hrule_color="' . $ds_row["hrule_color"] . '",' .
 		'hrule_label="' . $ds_row["hrule_label"] . '",' .
-                'multiplier="'  . $ds_row["multiplier"]  . '"');
+                'multiplier="'  . $ds_row["multiplier"]  . '",' .
+		'position="'	. $ds_row["position"]    . '"');
 	} // end for
 
 	header("Location: {$_SERVER["PHP_SELF"]}");
