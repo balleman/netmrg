@@ -139,6 +139,7 @@ make install
 			<para>
 Now we need to setup the database.  Please change at least the password 
 (<computeroutput>netmrgpass</computeroutput> below).
+			</para>
 			<programlisting>
 mysqladmin create netmrg
 mysql -u root -p netmrg < share/db/netmrg.mysql
@@ -173,7 +174,7 @@ or run 'crontab -e' as root. For 'crontab -e', use an entry similar to this:
 point your web browser at your install, and start graphing things!  The default 
 login is <userinput>admin</userinput> and the default password is 
 <userinput>nimda</userinput>.  Point your webbrowser at the host you built 
-this on (something similar to <computeroutput>http://yourhost.com/netmrg/<computeroutput>
+this on (something similar to <computeroutput>http://yourhost.com/netmrg/</computeroutput>
 			</para>
 		</listitem>
 	</orderedlist>
