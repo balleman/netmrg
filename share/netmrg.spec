@@ -2,7 +2,7 @@
 
 Summary: Network Monitoring package using PHP, MySQL, and RRDtool
 Name: netmrg
-Version: 0.14
+Version: 0.15cvs
 Release: 1
 #Epoch: 1
 License: MIT

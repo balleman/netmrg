@@ -1,3 +1,6 @@
+2004.03.17  v0.14  dwarner
+  - version bump to 0.15cvs
+
 2004.03.10  v0.14cvs  dwarner
   - bug#0000169 - stat.php interface operstatus doesn't match IF-MIB
   - bug#0000168 - duplicate users are allowed
