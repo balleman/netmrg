@@ -29,6 +29,9 @@ switch ($_REQUEST["action"])
 	case "doaddtogrp":
 					doaddtogrp();
 					break;
+	case "addtogrp":
+					displayaddtogrp();
+					break;
 	case "add":
 					displayadd();
 					break;
