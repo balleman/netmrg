@@ -12,7 +12,7 @@
 require_once("../include/config.php");
 
 // require at least read
-check_auth(1);
+check_auth(0);
 
 
 // setup cookies
@@ -165,15 +165,21 @@ begin_page("device_tree.php", "Device Tree", 1);
 
 <?php
 
-$q = db_query("SELECT group_id FROM user WHERE user = '{$_SESSION["netmrgsess"]["username"]}'");
-$r = db_fetch_array($q);
 $rowcount = 0;
-draw_group($r["group_id"], 0, $rowcount);
+draw_group($_SESSION["netmrgsess"]["group_id"], 0, $rowcount, true);
 
-function draw_group($grp_id, $depth, &$rowcount)
+function draw_group($grp_id, $depth, &$rowcount, $init = false)
 {
 	// for each group
-	$grp_results = db_query("SELECT * FROM groups WHERE parent_id=$grp_id ORDER BY name");
+	if ($init && $grp_id != 0)
+	{
+		$grp_results = db_query("SELECT * FROM groups WHERE id=$grp_id ORDER BY name");
+	}
+	else
+	{
+		$grp_results = db_query("SELECT * FROM groups WHERE parent_id=$grp_id ORDER BY name");
+	}
+	
 	while ($grp_row = db_fetch_array($grp_results))
 	{
 		$grp_id = $grp_row["id"];

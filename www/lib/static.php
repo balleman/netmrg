@@ -87,7 +87,7 @@ $INTERFACE_STATUS = array(
 			
 $INTERFACE_TYPE = array(
 			1	=>	"Other",
-                        6	=>	"Ethernet",
+			6	=>	"Ethernet",
 			15	=>	"FDDI",
 			18	=>	"DS1",
 			20	=>	"BRI",
@@ -119,7 +119,7 @@ $MENU = array(
 		array("name" => "Notifications", "link" => "notifications.php", "descr" => "", "authLevelRequired" => 2)
 	),
 	"Reporting" => array(
-		array("name" => "Device Tree", "link" => "device_tree.php", "descr" => "", "authLevelRequired" => 1),
+		array("name" => "Device Tree", "link" => "device_tree.php", "descr" => "", "authLevelRequired" => 0),
 		array("name" => "Event Log", "link" => "event_log.php", "descr" => "Display a list of the most recent events.", "authLevelRequired" => 1),
 		array("name" => "Slide Show", "link" => "view.php?action=slideshow", "descr" => "Displays all devices, one page at a time.", "authLevelRequired" => 1)
 	),

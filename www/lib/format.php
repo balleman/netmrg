@@ -37,6 +37,7 @@ function space_to_nbsp($input)
 * @param string $pagename    page that this is
 * @param string $prettyname  shown in the title bar
 * @param boolean $refresh    whether to refresh this page or not
+* @param string $bodytags    options for the <body> tag
 */
 function begin_page($pagename = "", $prettyname = "", $refresh = 0, $bodytags = "")
 {

@@ -236,10 +236,9 @@ if (empty($_REQUEST["action"]))
 		echo "</div>\n";
 		echo '<!-- graphs end -->'."\n";
 
-		if (get_permit() > 1)
+		if ($_SESSION["netmrgsess"]["permit"] > 1)
 		{
 			print(formatted_link("Edit", "{$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1"));
-
 		}
 
 		if ($slideshow)

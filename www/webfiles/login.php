@@ -28,9 +28,10 @@ if (!empty($_REQUEST["user_name"]))
 	{
 		$_SESSION["netmrgsess"]["username"] = $_REQUEST["user_name"];
 		$_SESSION["netmrgsess"]["password"] = $_REQUEST["password"];
+		$_SESSION["netmrgsess"]["accessTime"] = time();
 		$_SESSION["netmrgsess"]["remote_addr"] = $_SERVER["REMOTE_ADDR"];
 		$_SESSION["netmrgsess"]["permit"] = get_permit();
-		$_SESSION["netmrgsess"]["accessTime"] = time();
+		$_SESSION["netmrgsess"]["group_id"] = get_group_id();
 		view_redirect();
 	} // end if normal auth
 
@@ -39,9 +40,11 @@ if (!empty($_REQUEST["user_name"]))
 	{
 		$_SESSION["netmrgsess"]["username"] = $_SERVER["PHP_AUTH_USER"];
 		$_SESSION["netmrgsess"]["password"] = "";
+		$_SESSION["netmrgsess"]["accessTime"] = time();
 		$_SESSION["netmrgsess"]["remote_addr"] = $_SERVER["REMOTE_ADDR"];
 		$_SESSION["netmrgsess"]["permit"] = get_permit();
-		$_SESSION["netmrgsess"]["accessTime"] = time();
+		$_SESSION["netmrgsess"]["group_id"] = get_group_id();
+
 		view_redirect();
 	} // end if external auth
 

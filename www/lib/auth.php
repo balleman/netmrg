@@ -157,6 +157,24 @@ function get_permit()
 	return false;
 } // end get_permit()
 
+/**
+* get_group_id()
+*
+* gets the group id of the logged in user
+*/
+function get_group_id()
+{
+	if (IsLoggedIn())
+	{
+		$sql = "SELECT group_id FROM user WHERE user='" . $_SESSION["netmrgsess"]["username"] . "'";
+		$handle = db_query($sql);
+		$row = db_fetch_array($handle);
+		return $row["group_id"];
+	} // end IsLoggedIn
+	
+	return false;
+} // end get_group_id()
+
 
 /**
 * view_redirect()
