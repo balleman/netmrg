@@ -29,6 +29,7 @@
 #include <errno.h>
 #include <list>
 #include <iostream>
+#include <termios.h>
 
 using namespace std;
 
@@ -365,22 +366,42 @@ int main(int argc, char **argv)
 			case 'u':	set_setting(setDBUser, optarg);
 						break;
 			case 'p':	if (optarg != NULL)
+					{
+						// if password specified, use it
+						temppass = string(optarg);
+						// obscure password from process listing
+						while (*optarg) *optarg++= 'x';
+					}
+					else
+					{
+						/* Make sure stdin is a terminal */
+						if (!isatty(STDIN_FILENO))
 						{
-							// if password specified, use it
-							temppass = string(optarg);
-							// obscure password from process listing
-							while (*optarg) *optarg++= 'x';
+							fprintf(stderr, "Not bound to a terminal. Using empty string for password\n");
+							temppass = "";
 						}
 						else
 						{
+							// Save terminal settings
+							struct termios saved_tattr;
+							tcgetattr (STDIN_FILENO, &saved_tattr);
+
+							// don't echo input
+							struct termios tattr;
+							tcgetattr (STDIN_FILENO, &tattr);
+							tattr.c_lflag &= (ICANON|ECHONL|ISIG);
+							tattr.c_lflag &= -ECHO;
+							tcsetattr (STDIN_FILENO, TCSANOW, &tattr);
+
 							// if password not specified, prompt for it
-							// this needs replaced with something much better - 
-							// seems that there is no good and portable mechanism for 
-							// reading hidden passwords...
 							cout << "Password: ";
 							cin >> temppass;
+
+							// Restore terminal settings
+							tcsetattr (STDIN_FILENO, TCSANOW, &saved_tattr);
 						}
-						set_setting(setDBPass, temppass);
+					}
+					set_setting(setDBPass, temppass);
 						break;
 			case 't':	set_setting(setThreadCount, optarg);
 						break;
