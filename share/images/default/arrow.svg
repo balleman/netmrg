@@ -7,7 +7,7 @@
    sodipodi:version="0.32"
    width="500pt"
    height="500pt"
-   sodipodi:docbase="/home/silfreed/cvs/netmrg/share/images/default"
+   sodipodi:docbase="/home/silfreed/cvs/netmrg/share/images/default/"
    sodipodi:docname="/home/silfreed/cvs/netmrg/share/images/default/arrow.svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -28,23 +28,15 @@
      y="312.500011"
      transform="translate(15.82279,0.000000)" />
   <path
-     transform="matrix(1.000000,0.000000,0.000000,0.939999,-1.977843,15.03193)"
+     transform="translate(-1.977843,-3.955460)"
      style="font-size:12;fill-rule:evenodd;stroke-width:1pt;fill:#333333;fill-opacity:1;"
      d="M 1.97784 316.456 L 314.478 316.456 L 314.478 3.95569 L 1.97784 316.456 z "
      id="path567"
      sodipodi:nodetypes="cccc" />
   <path
-     transform="matrix(1.000000,0.000000,0.000000,0.940000,-3.955650,16.89144)"
+     transform="translate(-3.955650,-1.976929)"
      style="font-size:12;fill-rule:evenodd;stroke-width:1pt;"
      d="M 316.456 1.97784 L 316.456 314.478 L 628.956 314.478 L 316.456 1.97784 z "
      id="path566"
      sodipodi:nodetypes="cccc" />
-  <rect
-     style="font-size:12;fill:#000000;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
-     id="rect568"
-     width="625.000000"
-     height="18.749997"
-     x="0.000004"
-     y="-6.250022"
-     transform="translate(0.000000,6.250038)" />
 </svg>

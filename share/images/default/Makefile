@@ -4,13 +4,19 @@ BATIK = batik-rasterizer
 FILES = status-unknown-trig.svg status-unknown-untrig.svg status-good-trig.svg status-good-untrig.svg status-warning-trig.svg status-warning-untrig.svg status-critical-trig.svg status-critical-untrig.svg viewgraph-on.svg viewgraph-off.svg
 
 all : $(FILES)
-	@$(BATIK) -h 12 arrow.svg
 	@$(BATIK) -h 15 disk.svg
 	@$(BATIK) -h 15 viewgraph-on.svg
 	@$(BATIK) -h 15 viewgraph-off.svg
 	@$(BATIK) -h 35 -d netmrg-logo-small.png netmrg-logo.svg
 	@$(BATIK) -h 100 -d netmrg-logo-medium.png netmrg-logo.svg
 	@$(BATIK) -h 250 -d netmrg-logo-large.png netmrg-logo.svg
+
+arrow:
+	@cp arrow.svg arrow-up.svg
+	@$(BATIK) -h 15 arrow-up.svg
+	convert -rotate 90 arrow-up.png arrow-right.png
+	convert -rotate 180 arrow-up.png arrow-down.png
+	convert -rotate 270 arrow-up.png arrow-left.png
 
 status:
 	@$(MAKE) -s createstatus C1="#ff0000" C2="#ff4c4c" NAME="status-critical-trig.svg"
@@ -29,8 +35,9 @@ viewgraph:
 createstatus:
 	@cat status.svg | perl -ne 's/#7f7f7f/$(C1)/; s/#4c4c4c/$(C2)/; print;' > $(NAME)
 
-%.svg: status viewgraph
+%.svg: status viewgraph arrow
 	@$(BATIK) -h 15 $@
 
 clean:
 	rm -f $(FILES)
+
