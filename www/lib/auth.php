@@ -44,7 +44,7 @@ function check_user($user)
 function check_user_pass($user, $pass)
 {
 	$auth_valid = false;
-	$auth_select = "SELECT 1 FROM user WHERE user='$user' AND pass=ENCRYPT('$pass', pass)";
+	$auth_select = "SELECT 1 FROM user WHERE user='$user' AND pass=MD5('$pass')";
 	$auth_result = db_query($auth_select);
 	if (db_num_rows($auth_result) > 0)
 	{
