@@ -1,6 +1,6 @@
 @SET_MAKE@
 
-SUBDIRS	= @subdirs@ www
+SUBDIRS	= @subdirs@ www etc
 
 # options to install files in the libexec directory
 netmrg_libexecdir=$(libexecdir)/$(PACKAGE)
@@ -8,10 +8,6 @@ netmrg_libexec_SCRIPTS = libexec/*.php libexec/*.pl
 
 # options to install files in the bin directory
 bin_SCRIPTS = bin/*.pl bin/*.sh
-
-# options to install files in the etc directory
-netmrg_etcdir=$(sysconfdir)
-netmrg_etc_DATA = etc/netmrg.xml etc/netmrg.conf
 
 # options to install files in the share/images directory
 netmrg_share_imagesdir=$(pkgdatadir)/images
