@@ -1123,18 +1123,56 @@ their NetMRG administrator.
 		</refmeta>
 		<refnamediv>
 			<refname>Tests</refname>
-			<refpurpose>The basis for all monitors; all monitors are based on the tests defined here.</refpurpose>
+			<refpurpose>Tests represent actions taken to gather data.</refpurpose>
 		</refnamediv>
-		<refsect1><title>Description</title>
-			<refsect2><title>Scripts</title>
-				<para>Arbitrary scripts can be executed and their output or return values used as values to be monitored.</para>
+		<refsect1><title>Overview</title>
+			<para>A monitor can be thought of as a specific instantiation of a test.  There are currently four types of tests supported by <application>NetMRG</application>: Scripts, SNMP, SQL, and Internal.</para>
+		</refsect1>
+		<refsect1><title>Scripts</title>
+			<para>Arbitrary scripts can be executed and their output or return values used as values to be monitored.</para>
+			<refsect2><title>Edit</title>
+			<itemizedlist>
+			<listitem><para><guilabel>Name</guilabel> - An description used to identify the test.</para></listitem>
+			<listitem><para><guilabel>Command</guilabel> - The program to execute for this test.  If the value of this field does not start with a slash, it is assumed that the command is located in the default NetMRG tests directory.  Commands are passed to a shell for execution by the gatherer.</para></listitem>
+			<listitem><para><guilabel>Data Type</guilabel> - The type of data gathered from the program.
+				<itemizedlist>
+					<listitem><para><guilabel>Standard Out</guilabel> - Data from the program's standard output is returned.  The program should output data on one line which should be a numeric value or "U" to specify an unknown value.</para></listitem>
+					<listitem><para><guilabel>Error Code</guilabel> - The integer return code from the executed program is returned.</para></listitem>
+				</itemizedlist></para></listitem>
+			</itemizedlist>
 			</refsect2>
-			<refsect2><title>SNMP</title>
-				<para>SNMP (Simple Network Management Protocol) is the basis for much network monitoring.  Many devices support it through OID (Object Identifiers).  These values can be monitored over the network without physical access to the device you would like to monitor.</para>
+		</refsect1>
+		<refsect1><title>SNMP</title>
+			<para>SNMP (Simple Network Management Protocol) is widely used for accessing statistics on network infrastructure and hosts.</para>
+			<refsect2><title>Edit</title>
+			<itemizedlist>
+				<listitem><para><guilabel>Name</guilabel> - An description used to identify the test.</para></listitem>
+				<listitem><para><guilabel>SNMP OID</guilabel> - The OID to be obtained.  The value may be numeric or of any form your Net-SNMP library can understand.  Because the installed MIBs can vary from machine to machine, use of numeric (or at least common) values is preferred.</para></listitem>
+				<listitem><para><guilabel>Type</guilabel> - specifies whether to GET or WALK the OID
+				<itemizedlist>
+					<listitem><para><guilabel>Direct (Get)</guilabel> - The specific OID specified will be returned.</para></listitem>
+					<listitem><para><guilabel>Nth Item (Walk)</guilabel> - The OID specified will be walked until the Nth item is encountered.  This item will be returned.</para></listitem>
+				</itemizedlist></para></listitem>
+				<listitem><para><guilabel>Item #</guilabel> - Specifies which item to return when doing an SNMP walk.  This option has no effect on SNMP GETs.</para>
+				</listitem>
+			</itemizedlist>
 			</refsect2>
-			<refsect2><title>SQL</title>
-				<para>SQL (more specifically, MySQL) tests are useful when you have data that is otherwise in-accessable, or takes a long time to gather.  Rather than making the netmrg-gatherer run a script test that will take a long time, consider writing the script to run periodically (out of Cron, for example) and dumping its output into a MySQL database for NetMRG to gather later.  This greatly reduces NetMRG's runtime.</para>
+		</refsect1>
+		<refsect1><title>SQL</title>
+			<para>SQL (more specifically, MySQL) tests are useful when you have data that is otherwise in-accessable, or takes a long time to gather.  Rather than making the netmrg-gatherer run a script test that will take a long time, consider writing the script to run periodically (out of Cron, for example) and dumping its output into a MySQL database for NetMRG to gather later.  This greatly reduces NetMRG's runtime.</para>
+			<refsect2><title>Edit</title>
+			<itemizedlist>
+				<listitem><para><guilabel>Name</guilabel> - An description used to identify the test.</para></listitem>
+				<listitem><para><guilabel>Host</guilabel> - The host running the MySQL server you wish to connect to.</para></listitem>
+				<listitem><para><guilabel>User</guilabel> - The MySQL user to connect as.</para></listitem>
+				<listitem><para><guilabel>Password</guilabel> - The password for the MySQL user.</para></listitem>
+				<listitem><para><guilabel>Query</guilabel> - The SQL query to perform.</para><note><para>No default database is specified, so be sure to include the database name in the table names that you use in your query.</para></note></listitem>
+				<listitem><para><guilabel>Column Number</guilabel> - The column to return.  NetMRG will collect the value from this column in the first row of the result set.</para></listitem>
+			</itemizedlist>
 			</refsect2>
+		</refsect1>
+		<refsect1><title>Internal</title>
+		<para>Internal tests are compiled into the gatherer.  These tests typically start as script tests, and are then migrated to the gatherer for efficiency.  At the moment, the gatherer source code is the only documentation for such tests, however some are obvious.  The intention is to expand this category to include DSO-based test packages.</para>
 		</refsect1>
 	</refentry>
 	<refentry id="Admin">
