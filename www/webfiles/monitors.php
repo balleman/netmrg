@@ -31,6 +31,12 @@ switch($_REQUEST["action"])
 		do_delete();
 		redirect();
 		break;
+		
+	case "duplicate":
+		check_auth(2);
+		duplicate_monitor($_REQUEST['mon_id']);
+		redirect();
+		break;
 	
 	case "edit":
 	case "add":
@@ -117,7 +123,8 @@ function do_list()
 			array("text" => $html_name, "href" => "events.php?mon_id={$mon_row['id']}&tripid={$_REQUEST['tripid']}"),
 			array("text" => $data),
 			array("text" => $graph),
-			array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&mon_id=$mon_id&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
+			array("text" => formatted_link("Duplicate", "{$_SERVER['PHP_SELF']}?action=duplicate&mon_id=$mon_id&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" . 
+				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&mon_id=$mon_id&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}") . "&nbsp;" .
 				formatted_link("Delete","javascript:del('$java_name', '$mon_id')"))
 		); // end make_display_item();
 

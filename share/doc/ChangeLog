@@ -1,6 +1,7 @@
 2004.06.14  v0.17cvs  balleman
   - version bump to 0.17cvs
-  - bug#0000233 -  'disable snmp uptime check' should default to off
+  - bug#0000233 - 'disable snmp uptime check' should default to off
+  - bug#0000230 - should be able to duplicate monitors
 
 2004.06.06  v0.16cvs  silfreed
   - bug#0000227 - problem w/ SVO users viewing a primary group
