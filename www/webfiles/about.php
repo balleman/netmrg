@@ -15,31 +15,26 @@ check_auth($PERMIT["SingleViewOnly"]);
 begin_page("about.php", "About");
 ?>
 
-<br><br>
+<div class="about">
+<a href="http://www.netmrg.net/">NetMRG</a><br />
+<h3>The Network Monitoring, Reporting, and Graphing Tool</h3>
 
-<div align="center">
-<a href="http://netmrg.net/"><font size="6" color="#000080"><b>NetMRG</b></font></a><br>
+Version <b><?php echo $GLOBALS["netmrg"]["version"]; ?></b><br />
 
-<big>
+Copyright &copy;2001-2005 
+  <a href="http://brady.thtech.net">Brady Alleman</a> 
+  and <a href="http://www.silfreed.net/">Douglas E. Warner</a>.<br />
 
-<b>The Network Monitoring, Reporting, and Graphing Tool</b>
+<br />
 
-<br><br>
-
-Version <b><?php echo $GLOBALS["netmrg"]["version"]; ?></b><br>
-<br><br>
-
-Copyright &copy; 2001-2004 <a href="http://thtech.net/brady/">Brady Alleman</a> and <a href="http://silfreed.net/">Douglas E. Warner</a>.<br>
-
-<br><br>
 Special thanks to our <a href="contributors.php">other contributors</a>.
+</div>
 
-</big>
-<br><br><br>
+<div class="about">
 
-<table width="55%" style="border: 1px solid black;">
+<table width="55%" style="border: 1px solid #F0F0F0;">
 <tr><td align="left">
-This project is licensed under the terms of the MIT License.<br><br>
+This project is licensed under the terms of the MIT License.<br /><br />
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:<br><br>
 
@@ -50,9 +45,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 </tr>
 </table>
 
-<br>
-<a href="http://www.netmrg.net/">NetMRG</a> is a project of <a href="http://www.treehousetechnologies.net/">TreehouseTechnologies</a>.
-
+<br />
+<a href="http://www.netmrg.net/">NetMRG</a> is a project of 
+    <a href="http://www.thtech.net/">TreehouseTechnologies</a>.
 </div>
 
 <?php

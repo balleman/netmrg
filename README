@@ -5,7 +5,7 @@ Brady Alleman
 
 Douglas E. Warner
 
-   Copyright © 2003-2004 Brady Alleman and Douglas E. Warner
+   Copyright © 2003-2005 Brady Alleman and Douglas E. Warner
 
    This project is licensed under the terms of the MIT License.
 
@@ -1400,6 +1400,12 @@ Edit
             value.
           + Error Code - The integer return code from the executed
             program is returned.
+
+     Note: In addition to passing scripts parameters directly, NetMRG
+     sets up environment variables for all of the available parameters,
+     prepending "netmrg_" to the parameter name. For example, the
+     environment variable "netmrg_ip" will contain the IP address of
+     the host for which this test is being run.
 
 SNMP
 
