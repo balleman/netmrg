@@ -122,7 +122,7 @@ make_display_item(	$dev_row["name"],"./sub_devices.php?dev_id=$dev_id",
 			formatted_link("View Interface Cache", "snmp_cache_view.php?dev_id=$dev_id") . "&nbsp;" .
 			formatted_link("Recache Interfaces", "recache.php?dev_id=$dev_id") . "&nbsp;" .
 			formatted_link("Recache Disks", "recache.php?dev_id=$dev_id&type=disk"), "",
-			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id") . "&nbsp;" .
+			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id=$dev_id&grp_id={$_REQUEST["grp_id"]}") . "&nbsp;" .
 			formatted_link("Delete", "javascript:del('" . $dev_row["name"] . "', '" . $dev_row["id"] . "')"), "");
 
 } # end devices
@@ -172,10 +172,6 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	$dev_row = mysql_fetch_array($dev_results);
 	$dev_name = $dev_row["name"];
 	$dev_ip = $dev_row["ip"];
-	if (!isset($_REQUEST["grp_id"]))
-	{
-		$grp_id = $dev_row["group_id"];
-	}
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "addnew")
 	{
 		$dev_row["check_if_number"] = 1;
@@ -193,6 +189,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	make_edit_checkbox("Clear interface cache when interface count changes","snmp_check_ifnumber",$dev_row["snmp_check_ifnumber"]);
 	make_edit_hidden("dev_id", $_REQUEST["dev_id"]);
 	make_edit_hidden("action","doedit");
+	make_edit_hidden("grp_id",$_REQUEST["grp_id"]);
 	make_edit_submit_button();
 	make_edit_end();
 
