@@ -1,0 +1,5 @@
+fix everything so register_globals can be off
+get auth w/ php sessions to work
+  - include check for REMOTE_ADDR
+  - if you go back to index.php, the session breaks
+
