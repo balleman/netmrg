@@ -1,6 +1,7 @@
 2003.12.29  v0.13  balleman
   - bug#0000145 - wrong link on graph_items.php
-  - bug#0000144 -  clicking on a view link on the snmp interface cache page results in an error
+  - bug#0000144 - clicking on a view link on the snmp interface cache page results in an error
+  - bug#0000126 - advanced graph view should parse dates like 'workday highlighting' does
 
 2003.12.28  v0.13  balleman
   - enhance "test not present" checking.

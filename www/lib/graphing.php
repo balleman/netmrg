@@ -124,7 +124,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 	$graph_row = db_fetch_array($graph_results);
 
 	if ($templated)
-	{	
+	{
 		$fields = array($graph_row['title'], $graph_row['vert_label'], $graph_row['comment']);
 		$fields = expand_parameters($fields, $_REQUEST['subdev_id']);
 		$graph_row['title'] 		= $fields[0];
@@ -136,12 +136,24 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 	{
 		$start_time = $_REQUEST['start'];
 	}
-	
+
 	if (isset($_REQUEST['end']))
 	{
 		$end_time = $_REQUEST['end'];
 	}
-	
+
+	//echo "<big><b>" . $start_time . "</big></b>\n";
+	if (strpos($start_time, " ") !== false)
+	{
+		$start_time = strtotime(substr($start_time,1));
+
+	}
+
+	if (strpos($end_time, " ") !== false)
+	{
+		$end_time = strtotime(substr($end_time,1));
+	}
+
 	if (isset($_REQUEST['min']) && isset($_REQUEST['max']) && ($_REQUEST['max'] > $_REQUEST['min']))
 	{
 		$boundary = " -r -l {$_REQUEST['min']} -u {$_REQUEST['max']}";
@@ -151,7 +163,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 		//$boundary = " --alt-autoscale-max";
 		$boundary = "";
 	}
-	
+
 	// options
 	$options = " ";
 	if (isin($graph_row["options"], "nolegend"))
@@ -162,7 +174,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 	{
 		$options .= "-o ";
 	}
-		
+
 	// initial definition
 	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time . $boundary . " --title \"" . $graph_row["title"] . "\" -w " .
 			$graph_row["width"] . " -h " . $graph_row["height"] . $options . "-b " . $graph_row["base"] . " -v \"" . $graph_row["vert_label"] .
@@ -187,7 +199,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 	{
 		$ds_where = "graph_id=$id ORDER BY position, id";
 	}
-	
+
 	$ds_results = db_query("SELECT * FROM graph_ds WHERE $ds_where");
 	$ds_total = db_num_rows($ds_results);
 

@@ -96,11 +96,11 @@ function show_advanced()
 {
 	if (!isset($_REQUEST['start']))
 	{
-		$_REQUEST['start'] = "-86400";
+		$_REQUEST['start'] = "+yesterday";
 	}
 	if (!isset($_REQUEST['end']))
 	{
-		$_REQUEST['end'] = "-360";
+		$_REQUEST['end'] = "+5 minutes ago";
 	}
 	if (!isset($_REQUEST['min']))
 	{
@@ -110,13 +110,13 @@ function show_advanced()
 	{
 		$_REQUEST['max'] = "0";
 	}
-		
+
 	$opts = template() . "type={$_REQUEST['type']}&id={$_REQUEST['id']}&start={$_REQUEST['start']}&";
 	$opts .= "end={$_REQUEST['end']}&min={$_REQUEST['min']}&max={$_REQUEST['max']}";
 
 	echo('<div align="center">');
 	echo('<img src="get_graph.php?' . $opts . '"></div><br>');
-	
+
 	echo('<form action="enclose_graph.php" method="get">');
 	make_edit_hidden("action", "advanced");
 	make_edit_hidden("type", $_REQUEST['type']);
@@ -126,10 +126,10 @@ function show_advanced()
 		make_edit_hidden("subdev_id", $_REQUEST['subdev_id']);
 	}
 
-	echo('Start: <input type="text" name="start" value="' . $_REQUEST['start'] . '" size="6">&nbsp;');
-	echo('End: <input type="text" name="end" value="' . $_REQUEST['end'] . '" size="6">&nbsp;');
-	echo('Max: <input type="text" name="max" value="' . $_REQUEST['max'] . '" size="6">&nbsp;');
-	echo('Min: <input type="text" name="min" value="' . $_REQUEST['min'] . '" size="6">&nbsp;&nbsp;');
+	echo('Start: <input type="text" name="start" value="' . $_REQUEST['start'] . '" size="20">&nbsp;');
+	echo('End: <input type="text" name="end" value="' . $_REQUEST['end'] . '" size="20">&nbsp;');
+	echo('Max: <input type="text" name="max" value="' . $_REQUEST['max'] . '" size="8">&nbsp;');
+	echo('Min: <input type="text" name="min" value="' . $_REQUEST['min'] . '" size="8">&nbsp;&nbsp;');
 	echo('<input type="submit" name="submit" value="Render"><br>');
 	echo('</form>');
 	echo('<a href="enclose_graph.php?' . $opts . '&action=show">Normal View</a><br>');
