@@ -30,7 +30,7 @@ $GLOBALS["netmrg"]["externalAuth"]      = false;
 $GLOBALS["netmrg"]["authTimeout"]       = 86400; // 24hr * 60min * 60sec
 
 // Template Config
-$GLOBALS["netmrg"]["traffictemplateid"] = 4;
+$GLOBALS["netmrg"]["traffictemplateid"] = 7;
 
 
 
