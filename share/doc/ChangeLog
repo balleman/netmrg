@@ -1,6 +1,7 @@
 2004.08.20  v0.17cvs  balleman
   - bug#0000243 - gatherer man-page updates
   - bug#0000252 - status line, quick implementation
+  - bug#0000251 - disable buttons on save
 
 2004.08.20  v0.17cvs  silfreed
   - bug#0000253 - security: SQL injection to bypass auth

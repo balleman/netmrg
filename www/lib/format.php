@@ -801,8 +801,8 @@ function make_edit_submit_button()
 
 	<tr><td class="editfield0" align="right">
 
-	<input type="submit" name="Submit" value="Save Changes">
-	<input type="button" name="Cancel" value="Cancel Changes" OnClick="history.back(1);">
+	<input type="submit" name="Submit" value="Save Changes" OnClick="document.editform.Submit.disabled = true; document.editform.Cancel.disabled = true;">
+	<input type="button" name="Cancel" value="Cancel Changes" OnClick="document.editform.Submit.disabled = true; document.editform.Cancel.disabled = true; history.back(1);">
 
 	</td></tr>
 
