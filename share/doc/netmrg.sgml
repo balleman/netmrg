@@ -259,16 +259,13 @@ to reload its config should be good enough
 		<listitem>
 			<para>Configure the Installation</para>
 			<para>
-There are two files you should edit to reflect your database changes and any 
-other items that are needed in your installation.  These two files are
-<filename>/usr/local/etc/netmrg.xml</filename> and
-<filename>/usr/local/var/www/netmrg/include/config.php</filename>.
+All of NetMRG's common configuration options are controlled by an XML file,
+normally located at <filename>/usr/local/etc/netmrg.xml</filename>.  You should
+edit this file to make any necessary changes before continuing with installation.
 			</para>
 			<para>
 For most installations, you will at least need to edit <filename>netmrg.xml</filename>
-to reflect your database username and password.  If you would like to change 
-things like your company name that are displayed on the website, edit the 
-<filename>config.php</filename> file.
+to reflect your database username and password.  
 			</para>
 		</listitem>
 		<listitem>
@@ -311,18 +308,11 @@ and please change your password!
 	<title>Upgrade Procedure</title>
 	<para>
 After doing a 'make install' as described in the chapter on Installing NetMRG, 
-the next step is to point your web browser at the the updater which will do 
-any database changes required to make your new installation ready.
-	</para>
-	<para>
-Point your web browser at your netmrg installtion, followed by 
-<filename>updater.php</filename> (should be something similar to 
-<computeroutput>http://yourhost.com/netmrg/updater.php</computeroutput>).
-	</para>
-	<para>
-The updater will prompt you before performing the database changes necessary to 
-get you running on the new version.  This will probably be required before you 
-make any changes to your installation.
+the next step is to run the web-based upgrader.  This is accomplished by logging
+into NetMRG with administrator privileges, and following the prompts.  NetMRG's
+web interface will not operate normally until the web-based upgrade is performed,
+and non-administrator users will only receive a message directing them to contact
+their NetMRG administrator.
 	</para>
 </chapter>
 <chapter>
