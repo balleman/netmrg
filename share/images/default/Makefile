@@ -23,8 +23,8 @@ status:
 	@$(MAKE) -s createstatus C1="#e6e600" C2="#999900" NAME="status-warning-untrig.svg"
 
 viewgraph:
-	@cp -f viewgraph.svg viewgraph_on.svg
-	@cat viewgraph.svg | perl -ne 's/stroke:#e67f00;/stroke:#000000;/; s/fill:#e67f00;/fill:#000000;/; print;' > viewgraph_off.svg
+	@cp -f viewgraph.svg viewgraph-on.svg
+	@cat viewgraph.svg | perl -ne 's/stroke:#e67f00;/stroke:#606060;/; s/fill:#e67f00;/fill:#606060;/; print;' > viewgraph-off.svg
 
 createstatus:
 	@cat status.svg | perl -ne 's/#7f7f7f/$(C1)/; s/#4c4c4c/$(C2)/; print;' > $(NAME)
