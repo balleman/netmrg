@@ -31,15 +31,15 @@ if ($GLOBALS["netmrg"]["externalAuth"]
 	$_SESSION["netmrgsess"]["remote_addr"] = $_SERVER["REMOTE_ADDR"];
 	$_SESSION["netmrgsess"]["permit"] = get_permit();
 	$_SESSION["netmrgsess"]["group_id"] = get_group_id();
-	
+
 	view_redirect();
 } // end if external auth and usernames match
 else if ($GLOBALS["netmrg"]["externalAuth"]
 	&& !empty($_SERVER["PHP_AUTH_USER"])
 	&& !check_user($_SERVER["PHP_AUTH_USER"]))
 {
-		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
-		exit(0);
+	header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
+	exit(0);
 } // end if external auth and usernames don't match
 
 

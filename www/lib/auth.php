@@ -26,10 +26,10 @@ function check_user($user)
 		$auth_valid = true;
 	}
 	else
-	{ 
+	{
 		$auth_valid = false;
 	} // end if we have a result or not
-	
+
 	return $auth_valid;
 } // end check_user();
 
@@ -51,10 +51,10 @@ function check_user_pass($user, $pass)
 		$auth_valid = true;
 	}
 	else
-	{ 
+	{
 		$auth_valid = false;
 	} // end if we have a result or not
-	
+
 	return $auth_valid;
 } // end check_user_pass()
 
@@ -62,7 +62,7 @@ function check_user_pass($user, $pass)
 /**
 * IsLoggedIn();
 *
-* verifies a username and password in the session 
+* verifies a username and password in the session
 * against what's in the database
 * and that the user isn't spoofing their ip
 * and that they haven't been logged in too long
@@ -110,6 +110,11 @@ function check_auth($level)
 	if (!IsLoggedIn())
 	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
+		if ($GLOBALS["netmrg"]["externalAuth"])
+		{
+			header("Location: {$GLOBALS['netmrg']['webroot']}/login.php");
+			exit(0);
+		} // end if externalauth
 		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=invalid");
 		exit(0);
 	} // end if they aren't logged in
@@ -133,28 +138,28 @@ function check_auth($level)
 function view_check_auth($object_id, $object_type)
 {
 	check_auth(0);
-	
+
 	// the groups this object_id is in
 	$object_id_groups = array();
-	
+
 	// check what groups this object_id is in
 	switch ($object_type)
 	{
 		case "group" :
 			array_push($object_id_groups, $object_id);
 			break;
-		
+
 		case "device" :
 			$object_id_groups = GetDeviceGroups($object_id);
 			break;
-		
+
 		case "subdevice" :
 			$object_id_groups = GetSubdeviceGroups($object_id);
 			break;
-	
+
 	} // end switch object type
-	
-	if (!in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups) 
+
+	if (!in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups)
 		&& $_SESSION["netmrgsess"]["permit"] == 0)
 	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
@@ -176,28 +181,28 @@ function view_check_auth($object_id, $object_type)
 function EncloseGraphCheckAuth($type, $id)
 {
 	check_auth(0);
-	
+
 	// the groups this object_id is in
 	$object_id_groups = array();
-	
+
 	switch ($type)
 	{
 		case "mon" :
 		case "tinymon" :
 			$object_id_groups = GetMonitorGroups($id);
 			break;
-		
+
 		case "template" :
 			$object_id_groups = GetSubdeviceGroups($id);
 			break;
-		
+
 		case "custom" :
 			$object_id_groups = GetCustomGraphGroups($id);
 			break;
 	} // end switch graph type
-	
+
 	if (count($object_id_groups) == 1
-		&& !in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups) 
+		&& !in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups)
 		&& $_SESSION["netmrgsess"]["permit"] == 0)
 	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
@@ -219,30 +224,30 @@ function EncloseGraphCheckAuth($type, $id)
 function GraphCheckAuth($type, $id)
 {
 	check_auth(0);
-	
+
 	// the groups this object_id is in
 	$object_id_groups = array();
-	
+
 	switch ($type)
 	{
 		case "mon" :
 		case "tinymon" :
 			$object_id_groups = GetMonitorGroups($id);
 			break;
-		
+
 		case "template" :
 		case "template_item" :
 			$object_id_groups = GetSubdeviceGroups($id);
 			break;
-		
+
 		case "custom" :
 		case "custom_item" :
 			$object_id_groups = GetCustomGraphGroups($id);
 			break;
 	} // end switch graph type
-	
+
 	if (count($object_id_groups) == 1
-		&& !in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups) 
+		&& !in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups)
 		&& $_SESSION["netmrgsess"]["permit"] == 0)
 	{
 		readfile($GLOBALS["netmrg"]["fileroot"]."/www/img/access_denied.png");
