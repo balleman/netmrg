@@ -16,18 +16,36 @@ if (!isset($_REQUEST['action']))
 	$_REQUEST['action'] = "";
 }
 
+// what to do
 switch ($_REQUEST["action"])
 {
-	case "doedit":		doedit();		break;
+	case "doedit":
+		doedit();
+		break;
+	
 	case "multidodelete":
-	case "dodelete":	dodelete();		break;
+	case "dodelete":
+		dodelete();
+		break;
+		
 	case "add":
-	case "edit":		displayedit();	break;
+	case "edit":
+		displayedit();
+		break;
+	
 	case "multiduplicate":
-	case "duplicate":	doduplicate();	break;
-	default:			dodisplay();	break;
+	case "duplicate":
+		doduplicate();
+		break;
+	
+	default:
+		dodisplay();
+		break;
 }
 
+
+
+/***** FUNCTIONS *****/
 function dodisplay()
 {
 	// Display the list of sub-devices for a particular device.
@@ -99,7 +117,8 @@ function dodisplay()
 	</form>
 	<?php
 	end_page();
-}
+} // end display();
+
 
 function doedit()
 {
@@ -119,11 +138,12 @@ function doedit()
 	db_update("$db_cmd sub_devices SET
 		name='{$_REQUEST['name']}',
 		type='{$_REQUEST['type']}',
-		dev_id='{$_REQUEST['dev_id']}'
+		dev_id='{$_REQUEST['edit_dev_id']}'
 		$db_end");
 
 	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}");
-}
+} // end doedit();
+
 
 function dodelete()
 {
@@ -141,7 +161,8 @@ function dodelete()
 	}
 	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
-}
+} // end dodelete();
+
 
 function doduplicate()
 {
@@ -160,7 +181,8 @@ function doduplicate()
 	
 	header("Location: {$_SERVER['PHP_SELF']}?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
-}
+} // end doduplicate();
+
 
 function displayedit()
 {
@@ -184,6 +206,7 @@ function displayedit()
 	make_edit_table("Sub-Device Properties");
 	make_edit_text("Name:", "name", 40, 80, $row["name"]);
 	make_edit_select_from_array("Sub-Device Type:", "type", $GLOBALS['SUB_DEVICE_TYPES'], $row["type"]);
+	make_edit_select_from_table("Device:", "edit_dev_id", "devices", $_REQUEST["dev_id"]);
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("sub_dev_id", $_REQUEST["sub_dev_id"]);
 	make_edit_hidden("dev_id", $_REQUEST["dev_id"]);
@@ -192,7 +215,7 @@ function displayedit()
 	make_edit_end();
 	end_page();
 
-}
+} // end displayedit();
 
 
 ?>
