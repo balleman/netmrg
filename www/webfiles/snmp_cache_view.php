@@ -16,19 +16,16 @@
 #                                                      #
 ########################################################
 
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
-require_once(netmrg_root() . "lib/processing.php");
-require_once(netmrg_root() . "lib/auth.php");
+require_once("../include/config.php");
 
-if (isset($graph)) { 
+if (isset($_REQUEST["graph"])) { 
 check_auth(2);
 
 # get some data to play with
-$q_dev = do_query("SELECT * FROM mon_devices WHERE id=$dev_id");
+$q_dev = do_query("SELECT * FROM mon_devices WHERE id={$_REQUEST['dev_id']}");
 $r_dev = mysql_fetch_array($q_dev);
 
-$q_snmp = do_query("SELECT * FROM snmp_cache WHERE dev_id=$dev_id AND if_index='$index'");
+$q_snmp = do_query("SELECT * FROM snmp_cache WHERE dev_id={$_REQUEST['dev_id']} AND if_index='{$_REQUEST['index']}'");
 $r_snmp = mysql_fetch_array($q_snmp);
 
 # add two monitors, if ifName defined, use it, otherwise use ifIndex
@@ -41,9 +38,9 @@ $snmp_type = 3;
 $snmp_val = $index;
 $snmp_type = 2;
 }
-do_update("INSERT INTO mon_monitors SET device_id=$dev_id, test_id=0, params=\"\", rrd_id=2, graphed=1, snmp_test=0, snmp_index_type=" . $snmp_type . ", snmp_index_value=\"$snmp_val\", snmp_data=3, disk_index_type=0, disk_index_value=\"\", disk_data=0, mon_type=3");
+do_update("INSERT INTO mon_monitors SET device_id={$_REQUEST['dev_id']}, test_id=0, params=\"\", rrd_id=2, graphed=1, snmp_test=0, snmp_index_type=" . $snmp_type . ", snmp_index_value=\"$snmp_val\", snmp_data=3, disk_index_type=0, disk_index_value=\"\", disk_data=0, mon_type=3");
 $mon_id_1 = mysql_insert_id();
-do_update("INSERT INTO mon_monitors SET device_id=$dev_id, test_id=0, params=\"\", rrd_id=2, graphed=1, snmp_test=0, snmp_index_type=" . $snmp_type . ", snmp_index_value=\"$snmp_val\", snmp_data=8, disk_index_type=0, disk_index_value=\"\", disk_data=0, mon_type=3");
+do_update("INSERT INTO mon_monitors SET device_id={$_REQUEST['dev_id']}, test_id=0, params=\"\", rrd_id=2, graphed=1, snmp_test=0, snmp_index_type=" . $snmp_type . ", snmp_index_value=\"$snmp_val\", snmp_data=8, disk_index_type=0, disk_index_value=\"\", disk_data=0, mon_type=3");
 $mon_id_2 = mysql_insert_id();
 
 
@@ -72,22 +69,22 @@ $graph_id = mysql_insert_id();
 
 # add graph to view for the device
 
-do_update("INSERT INTO view SET pos_id = $dev_id, pos_id_type = 1, graph_id = $graph_id, graph_id_type = \"custom\", pos = $index");
+do_update("INSERT INTO view SET pos_id = {$_REQUEST['dev_id']}, pos_id_type = 1, graph_id = $graph_id, graph_id_type = \"custom\", pos = $index");
 
 # Redirect to Graph Edit page (it will redirect back when done)
-Header("Location: ./custom_graphs.php?action=edit&graph_id=$graph_id&return_type=traffic&return_id=$dev_id");
+Header("Location: ./custom_graphs.php?action=edit&graph_id=$graph_id&return_type=traffic&return_id={$_REQUEST['dev_id']}");
 exit(0);
 
 }
 check_auth(1);
 $query = "SELECT * FROM snmp_cache";
-$sort_href = "$SCRIPT_NAME?";
-if (isset($dev_id)) { $query .= " WHERE dev_id=$dev_id ORDER BY if_index"; $sort_href .= "dev_id=$dev_id&"; }
+$sort_href = "{$_SERVER['PHP_SELF']}?";
+if (isset($_REQUEST["dev_id"])) { $query .= " WHERE dev_id={$_REQUEST['dev_id']} ORDER BY if_index"; $sort_href .= "dev_id={$_REQUEST['dev_id']}&"; }
 $sort_href .= "order_by";
 if (isset($order_by)) { $query .= " ORDER BY $order_by"; }
 begin_page();
 
-make_plain_display_table(get_device_name($dev_id) . " - SNMP Interface Cache","Interface #","$sort_href=if_index","Interface Name","$sort_href=if_name","Interface Description","$sort_href=if_desc","IP Address","$sort_href=if_ip","MAC Address","$sort_href=if_mac","Alias","$sort_href=if_alias","Commands","");
+make_plain_display_table(get_device_name($_REQUEST["dev_id"]) . " - SNMP Interface Cache","Interface #","$sort_href=if_index","Interface Name","$sort_href=if_name","Interface Description","$sort_href=if_desc","IP Address","$sort_href=if_ip","MAC Address","$sort_href=if_mac","Alias","$sort_href=if_alias","Commands","");
 $handle = do_query($query);
 $num = mysql_num_rows($handle);
 for ($i = 0; $i < $num; $i++) {
