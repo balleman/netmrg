@@ -110,7 +110,7 @@ begin_page("notifications.php", "Notifications");
 	make_edit_table("Edit Notificiation Method");
 	make_edit_text("Name:", "name", "50", "100", $row["name"]);
 	make_edit_textarea("Command:", "command", "1","40", $row["command"]);
-	make_edit_label("You may use keywords %dev_name%, %ip%, %test_name%, %test_result% in your command parameters");
+	make_edit_label("You may use keywords %dev_name%, %ip%, %event_name%, %situation%, %current_value%, %delta_value%, %rate_value%, and %last_value% in your command parameters.  See the documentation for details.");
 	make_edit_checkbox("Disabled", "disabled", $row["disabled"]);
 	make_edit_hidden("id", $id);
 	make_edit_hidden("action", "doedit");

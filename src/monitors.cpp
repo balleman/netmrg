@@ -357,6 +357,12 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 			info.rate_val  = "U";
 		}
 	}
+	
+	// populate parameters
+	info.parameters.push_front(ValuePair("current_value", info.curr_val));
+	info.parameters.push_front(ValuePair("delta_value", info.delta_val));
+	info.parameters.push_front(ValuePair("rate_value", info.rate_val));
+	info.parameters.push_front(ValuePair("last_value", info.last_val));
 
 	uint status = process_events(info, mysql);
 

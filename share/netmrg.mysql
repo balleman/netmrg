@@ -342,7 +342,7 @@ CREATE TABLE notifications (
 --
 
 
-INSERT INTO notifications VALUES (1,'Broadcast message to linux users','wall problem with %ip',0);
+INSERT INTO notifications VALUES (1,'Broadcast message to linux users','wall \'%dev_name%: %event_name%\'',0);
 
 --
 -- Table structure for table `responses`

@@ -12,20 +12,22 @@
 #include "settings.h"
 #include "monitors.h"
 
+string situations[4] = { "Disabled", "Normal", "Warning", "Critical" };
+
 uint process_events(DeviceInfo info, MYSQL *mysql)
 {
 	MYSQL_RES 	*mysql_res;
 	MYSQL_ROW 	mysql_row;
 	uint		status = 0;
 
-	string query = "SELECT id, trigger_type, last_status, situation, last_triggered FROM events WHERE mon_id=" + inttostr(info.monitor_id) + " AND trigger_type = 1";
+	string query = "SELECT id, trigger_type, last_status, situation, last_triggered, name FROM events WHERE mon_id=" + inttostr(info.monitor_id) + " AND trigger_type = 1";
 	mysql_res = db_query(mysql, &info, query);
 
 	for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
 	{
 		mysql_row = mysql_fetch_row(mysql_res);
 		info.event_id = strtoint(mysql_row[0]);
-		if (process_event(info, mysql, strtoint(mysql_row[1]), strtoint(mysql_row[2]), strtoint(mysql_row[3]), strtoint(mysql_row[4])))
+		if (process_event(info, mysql, strtoint(mysql_row[1]), strtoint(mysql_row[2]), strtoint(mysql_row[3]), strtoint(mysql_row[4]), mysql_row[5]))
 		{
 			status = worstof(status, strtoint(mysql_row[3]));
 		}
@@ -37,7 +39,7 @@ uint process_events(DeviceInfo info, MYSQL *mysql)
 } // end process_events()
 
 
-uint process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_status, int situation, long int last_triggered)
+uint process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_status, int situation, long int last_triggered, string name)
 {
 	MYSQL_RES	*mysql_res;
 	MYSQL_ROW	mysql_row;
@@ -77,6 +79,10 @@ uint process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_sta
 	else
 	{
 		debuglogger(DEBUG_EVENT, LEVEL_INFO, &info, "Triggered.");
+		
+		// setup parameters for the response to use.
+		info.parameters.push_front(ValuePair("event_name", name));
+		info.parameters.push_front(ValuePair("situation", situations[situation]));
 
 		if ((uint) last_status != status)
 		{

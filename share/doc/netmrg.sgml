@@ -1288,6 +1288,39 @@ their NetMRG administrator.
 		<para>Internal tests are compiled into the gatherer.  These tests typically start as script tests, and are then migrated to the gatherer for efficiency.  At the moment, the gatherer source code is the only documentation for such tests, however some are obvious.  The intention is to expand this category to include DSO-based test packages.</para>
 		</refsect1>
 	</refentry>
+	<refentry id="Notifications">
+		<refmeta>
+			<refentrytitle>Notifications</refentrytitle>
+		</refmeta>
+		<refnamediv>
+			<refname>Notifications</refname>
+			<refpurpose>Configuration for notifying users when events occur.</refpurpose>
+		</refnamediv>
+		<refsect1><title>Description</title>
+			<refsect2><title>Edit</title>
+			<itemizedlist>
+				<listitem><para><guilabel>Name</guilabel> - A name used to identifiy the notification.</para></listitem>
+				<listitem><para><guilabel>Command</guilabel> - A shell-interpreted command to run to notify the user of an event.  Parameter expansions will be made to this field as outlined below.</para></listitem>
+				<listitem><para><guilabel>Disabled</guilabel> - When selected, the specified will not be run.  Useful for temporary suspension of notifications.</para></listitem>
+			</itemizedlist>
+			</refsect2>
+			<refsect2><title>Variable Substitutions</title>
+			<para>
+			The following parameters will be substituted in the command field:
+			<itemizedlist>
+				<listitem><para>%dev_name% - The device's name</para></listitem>
+				<listitem><para>%ip% - The IP or host name for the device</para></listitem>
+				<listitem><para>%event_name% - The name of the triggered event causing the notification.</para></listitem>
+				<listitem><para>%situation% - The situation of the triggered event (Normal, Warning, etc.)</para></listitem>
+				<listitem><para>%current_value% - The monitor's last gathered value.</para></listitem>
+				<listitem><para>%delta_value% - The change between the monitor's last gathered value and the previous.</para></listitem>
+				<listitem><para>%rate_value% - The rate-of-change based on the last two gathered values and the time difference between them.</para></listitem>
+				<listitem><para>%last_value% - The value from the gathering period before last.</para></listitem>
+			</itemizedlist>
+			</para>
+			</refsect2>
+		</refsect1>
+	</refentry>
 	<refentry id="Admin">
 		<refmeta>
 			<refentrytitle>Admin</refentrytitle>
