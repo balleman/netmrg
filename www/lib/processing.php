@@ -541,14 +541,11 @@ function GetMonitorGroups($monitor_id)
 function GetCustomGraphGroups($customgraph_id)
 {
 	$db_result = db_query("
-		SELECT groups.id AS group_id
-		FROM groups, dev_parents, devices, sub_devices, monitors, graph_ds
-		WHERE graph_ds.graph_id = '$customgraph_id'
-		AND graph_ds.mon_id = monitors.id
-		AND sub_devices.id = monitors.sub_dev_id
-		AND sub_devices.dev_id = devices.id
-		AND devices.id = dev_parents.dev_id
-		AND dev_parents.grp_id = groups.id
+		SELECT object_id AS group_id
+		FROM view
+		WHERE object_type = 'group'
+		AND type = 'graph'
+		AND graph_id = '$customgraph_id'
 		GROUP BY group_id");
 
 	$group_arr = array();
