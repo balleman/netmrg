@@ -13,7 +13,7 @@
 $GLOBALS["netmrg"]["verhist"] = array(
 	"0.10pre1" => 1,
 	"0.10pre2" => 2,
-	"0.10"
+	"0.10" => 3
 ); // end verhist
 
 $MENU = array(
