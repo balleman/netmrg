@@ -305,6 +305,11 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 			$command .= "CDEF:data" . $ds_count . "="  . $time_pre . $CDEF_A . "," . $ds_row["multiplier"] . ",*" . $time_post . " ";
 			$command .= "CDEF:data" . $ds_count . "l=" . $time_pre . $CDEF_L . "," . $ds_row["multiplier"] . ",*" . $time_post . " ";
 			$command .= "CDEF:data" . $ds_count . "m=" . $time_pre . $CDEF_M . "," . $ds_row["multiplier"] . ",*" . $time_post . " ";
+			
+			// Reset totals
+			$CDEF_A = "zero,UN,0,0,IF";
+			$CDEF_L = "zero,UN,0,0,IF";
+			$CDEF_M = "zero,UN,0,0,IF";
 		}
 
 		$command .= $ds_row["type"] . ":data" . $ds_count . $ds_row["color"] . rrd_legend_escape(do_align($ds_row["label"], $padded_length, $ds_row["alignment"])) . " ";
@@ -354,9 +359,9 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 			$command .= 'COMMENT:"\\n" ';
 
 		// add to the running total CDEF
-		if ($ds_row["multiplier"] != "INF")
+		if (($ds_row["multiplier"] != "INF") && ($ds_row["mon_id"] != -2))
 		{
-			$CDEF_A .= ",data" . $ds_count . ",UN,0,data" . $ds_count . ",IF,+";
+			$CDEF_A .= ",data" . $ds_count . ",UN,0,data"  . $ds_count . ",IF,+";
 			$CDEF_L .= ",data" . $ds_count . "l,UN,0,data" . $ds_count . ",IF,+";
 			$CDEF_M .= ",data" . $ds_count . "m,UN,0,data" . $ds_count . ",IF,+";
 		}
