@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.53)
-AC_INIT(NetMRG,0.15cvs)
+AC_INIT(NetMRG,0.15)
 
 #
 # Autoconf is dumb and doesn't expand ${prefix} for this variable
@@ -16,7 +16,7 @@ if test "x$exec_prefix" = "xNONE"; then
 	ac_configure_args="$ac_configure_args --exec-prefix=$exec_prefix"
 fi
 
-AC_REVISION($Revision: 1.21 $)
+AC_REVISION($Revision: 1.22 $)
 AM_INIT_AUTOMAKE
 AC_PROG_MAKE_SET
 
