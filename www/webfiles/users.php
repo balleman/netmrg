@@ -177,7 +177,7 @@ document.editform.group_id.value=0; // Root Group
 		$user_id = $_REQUEST["user_id"];
 	} // end if add or not
 
-	$user_results = db_query("SELECT * FROM user WHERE id=$user_id");
+	$user_results = db_query("SELECT * FROM user WHERE id='$user_id'");
 	$user_row = db_fetch_array($user_results);
 	
 	make_edit_table("Edit User");

@@ -35,13 +35,13 @@ if ($action == "doedit")
 	else
 	{
 		$db_cmd = "UPDATE";
-		$db_end = "WHERE id={$_REQUEST['test_id']}";
+		$db_end = "WHERE id='{$_REQUEST['test_id']}'";
 	}
 	
 	$_REQUEST['column_num'] = $_REQUEST['column_num'] * 1;
 	
 	db_update("$db_cmd tests_sql SET name='{$_REQUEST['test_name']}',
-		sub_dev_type={$_REQUEST['dev_type']}, host='{$_REQUEST['host']}',
+		sub_dev_type='{$_REQUEST['dev_type']}', host='{$_REQUEST['host']}',
 		user='{$_REQUEST['sql_user']}', password='{$_REQUEST['sql_password']}',
 		query='{$_REQUEST['query']}', column_num='{$_REQUEST['column_num']}',
 		timeout='{$_REQUEST['timeout']}' 
@@ -52,7 +52,7 @@ if ($action == "doedit")
 
 if ($action == "dodelete")
 {
-	db_update("DELETE FROM tests_sql WHERE id={$_REQUEST['test_id']}");
+	db_update("DELETE FROM tests_sql WHERE id='{$_REQUEST['test_id']}'");
 	header("Location: {$_SERVER['PHP_SELF']}");
 	exit();
 } // done deleting
@@ -132,7 +132,7 @@ if (($action == "edit") || ($action == "add"))
 		$_REQUEST["test_id"] = 0;
 	}
 
-	$test_results = db_query("SELECT * FROM tests_sql WHERE id={$_REQUEST['test_id']}");
+	$test_results = db_query("SELECT * FROM tests_sql WHERE id='{$_REQUEST['test_id']}'");
 	$test_row = db_fetch_array($test_results);
 
 	make_edit_table("Edit SQL Test");

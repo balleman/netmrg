@@ -46,7 +46,7 @@ function doedit()
 	else
 	{
 		$command = "UPDATE";
-		$where = "WHERE id={$_REQUEST['graph_id']}";
+		$where = "WHERE id='{$_REQUEST['graph_id']}'";
 	}
 	
 	$options = "";
@@ -66,12 +66,13 @@ function doedit()
 			name='" . $_REQUEST['graph_name'] . "',
 			title='" . $_REQUEST['graph_title'] . "',
 			comment='" . $_REQUEST['graph_comment'] . "',
-			width='{$_REQUEST['width']}', height='{$_REQUEST['height']}',
+			width='{$_REQUEST['width']}',
+			height='{$_REQUEST['height']}',
 			vert_label='" . $_REQUEST['vert_label'] . "',
 			base='{$_REQUEST['base']}', 
 			options='$options',
-			max={$_REQUEST['max']},
-			min={$_REQUEST['min']}
+			max='{$_REQUEST['max']}',
+			min='{$_REQUEST['min']}'
 			$where");
 
 	header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
@@ -266,7 +267,7 @@ function edit()
 
 	if ($_REQUEST["action"] == "edit")
 	{
-		$graph_results = db_query("SELECT * FROM graphs WHERE id={$_REQUEST["graph_id"]}");
+		$graph_results = db_query("SELECT * FROM graphs WHERE id='{$_REQUEST["graph_id"]}'");
 		$graph_row = db_fetch_array($graph_results);
 		if (empty($graph_row["min"])) { $graph_row["min"] = "U"; }
 		if (empty($graph_row["max"])) { $graph_row["max"] = "U"; }

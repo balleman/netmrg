@@ -35,7 +35,7 @@ if ($action == "doedit")
 	else
 	{
 		$db_cmd = "UPDATE";
-		$db_end = "WHERE id={$_REQUEST["test_id"]}";
+		$db_end = "WHERE id='{$_REQUEST["test_id"]}'";
 	}
 
 	db_update("$db_cmd tests_script SET name='{$_REQUEST['test_name']}', cmd='{$_REQUEST['test_cmd']}', data_type='{$_REQUEST['data_type']}', dev_type='{$_REQUEST['dev_type']}' $db_end");
@@ -132,7 +132,7 @@ if (($action == "edit") || ($action == "add"))
 		$_REQUEST["test_id"] = 0;
 	}
 
-	$test_results = db_query("SELECT * FROM tests_script WHERE id={$_REQUEST["test_id"]}");
+	$test_results = db_query("SELECT * FROM tests_script WHERE id='{$_REQUEST["test_id"]}'");
 	$test_row = db_fetch_array($test_results);
 	$test_name = $test_row["name"];
 	$test_cmd = $test_row["cmd"];

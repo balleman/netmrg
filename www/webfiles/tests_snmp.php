@@ -36,7 +36,7 @@ if ($action == "doedit")
 	else
 	{
 		$db_cmd = "UPDATE";
-		$db_end = "WHERE id={$_REQUEST["test_id"]}";
+		$db_end = "WHERE id='{$_REQUEST["test_id"]}'";
 	}
 
 	db_update("$db_cmd tests_snmp SET name=\"{$_REQUEST["test_name"]}\", oid=\"{$_REQUEST["test_oid"]}\", dev_type={$_REQUEST["dev_type"]}, type='{$_REQUEST['type']}', subitem='{$_REQUEST['subitem']}' $db_end");
@@ -46,7 +46,7 @@ if ($action == "doedit")
 
 if ($action == "dodelete")
 {
-	db_update("DELETE FROM tests_snmp WHERE id={$_REQUEST["test_id"]}");
+	db_update("DELETE FROM tests_snmp WHERE id='{$_REQUEST["test_id"]}'");
 	header("Location: {$_SERVER['PHP_SELF']}");
 	exit();
 } // done deleting
@@ -123,7 +123,7 @@ if (($action == "edit") || ($action == "add"))
 		$_REQUEST["test_id"] = 0;
 	}
 
-	$test_results = db_query("SELECT * FROM tests_snmp WHERE id={$_REQUEST["test_id"]}");
+	$test_results = db_query("SELECT * FROM tests_snmp WHERE id='{$_REQUEST["test_id"]}'");
 	$test_row = db_fetch_array($test_results);
 
 	make_edit_table("Edit SNMP Test");
