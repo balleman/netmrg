@@ -64,10 +64,15 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 	{
 		$_REQUEST["group_id"] = 0;
 	} // end if no group id set
+
+	if (empty($_REQUEST["disabled"]))
+	{
+		$_REQUEST["disabled"] = 0;
+	} // end if no disabled value set
 	
 	db_update("$db_cmd user SET user='{$_REQUEST['user']}',
 		fullname='{$_REQUEST['fullname']}', $pass_cmd
-		permit='{$_REQUEST['permit']}', group_id='{$_REQUEST['group_id']}' $db_end");
+		permit='{$_REQUEST['permit']}', group_id='{$_REQUEST['group_id']}', disabled='{$_REQUEST['disabled']}' $db_end");
 		
 	header("Location: {$_SERVER['PHP_SELF']}");
 	exit(0);
@@ -127,7 +132,7 @@ for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 		array("checkboxname" => "user", "checkboxid" => $user_id),
 		array("text" => $user_row["user"]),
 		array("text" => $user_row["fullname"]),
-		array("text" => $GLOBALS['PERMIT_TYPES'][$user_row['permit']]),
+		array("text" => (get_permit($user_row["user"])<0) ? 'Disabled' : $GLOBALS['PERMIT_TYPES'][$user_row['permit']]),
 		array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&user_id=$user_id") . "&nbsp;" .
 			formatted_link("Prefs", "user_prefs.php?uid=$user_id") . "&nbsp;" .
 			formatted_link("Delete", "javascript:del('".addslashes($user_row['user'])."', '{$user_row['id']}')")
@@ -190,6 +195,7 @@ document.editform.group_id.value=0; // Root Group
 	} // end if not using external auth, show password form
 	make_edit_select_from_array("Permit Type:", "permit", $GLOBALS['PERMIT_TYPES'], $user_row["permit"], 'onChange="enableGroup(this.value)"');
 	make_edit_select_from_table("Group:", "group_id", "groups", $user_row["group_id"], "", array(0 => "-Root-"));
+	make_edit_checkbox("Disabled", "disabled", $user_row["disabled"]);
 	make_edit_hidden("action", "doedit");
 	make_edit_hidden("user_id", $user_id);
 	make_edit_submit_button();

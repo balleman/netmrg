@@ -286,7 +286,7 @@ function get_permit($user)
 {
 	if (IsLoggedIn())
 	{
-		$sql = "SELECT permit FROM user WHERE user='".$user."'";
+		$sql = "SELECT IF(disabled=0, permit, -1) AS permit FROM user WHERE user='".$user."'";
 		$handle = db_query($sql);
 		$row = db_fetch_array($handle);
 		return $row["permit"];
