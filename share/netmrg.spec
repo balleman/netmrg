@@ -13,8 +13,8 @@ Source0: netmrg-%{version}.tar.gz
 #Patch1: 
 URL: http://www.netmrg.net
 BuildRoot: %{_tmppath}/%{name}-root
-Requires: php, php-mysql, mysql, webserver, rrdtool, libxml2
-BuildRequires: mysql-devel, libxml2-devel
+Requires: php, php-mysql, mysql, webserver, rrdtool, libxml2, net-snmp
+BuildRequires: mysql-devel, libxml2-devel, net-snmp-devel
 
 %description
 NetMRG is a tool for network monitoring, reporting, and graphing. Based 
