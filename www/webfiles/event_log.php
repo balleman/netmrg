@@ -38,7 +38,7 @@ if ($_REQUEST['index'] < $numrows)
 	db_data_seek($eventlog_handle, $_REQUEST['index']);
 } // only seek if we can
 $rowcount = 0;
-while ($row = db_fetch_array($eventlog_handle) && $rowcount < 25)
+while (($row = db_fetch_array($eventlog_handle)) && $rowcount < 25)
 {
 	make_display_item("editfield".($rowcount%2),
 		array("text" => date("Y/m/d H:i:s",$row["date"])),
