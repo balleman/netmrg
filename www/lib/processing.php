@@ -207,7 +207,13 @@ function get_group_status($grp_id)
 		}
 	} // end while rows left
 
-	$dev_results = db_query("SELECT max(devices.status) AS status FROM dev_parents, devices WHERE grp_id = $grp_id AND dev_parents.dev_id=devices.id AND devices.status < 4 GROUP BY grp_id");
+	$dev_results = db_query("
+		SELECT max(devices.status) AS status 
+		FROM dev_parents, devices 
+		WHERE grp_id = $grp_id 
+		AND dev_parents.dev_id=devices.id 
+		AND devices.status < 4 
+		GROUP BY grp_id");
 	$dev_row = db_fetch_array($dev_results);
 	$grp_status = $dev_row["status"];
 	if ($grp_status > $status)
