@@ -1,3 +1,6 @@
+2004.09.13  v0.17cvs  keb
+  - bug#0000271 - checkbox options should have a standard layout
+
 2004.09.12  v0.17cvs  balleman
   - bug#0000109 - tests_script.php checkboxes
   - bug#0000111 - tests_snmp.php checkboxes

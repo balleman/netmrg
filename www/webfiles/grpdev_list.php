@@ -79,11 +79,9 @@ function display()
 		); // end make_display_item();
 		$count++;
 	} // end while groups
-	echo "<tr>\n";
-	echo '<td colspan="4" class="editheader" nowrap="nowrap">'."\n";
-	echo '<a class="editheaderlink" onclick="document.grpform.action.value=\'deletemulti\';javascript:if(window.confirm(\'Are you sure you want to delete the checked groups?\')){document.grpform.submit();}" href="#">Delete All Checked</a>'."\n";
-	echo "</td>\n";
-	echo "</tr>\n";
+	make_checkbox_command("grp", 4,
+		array("text" => "Delete", "action" => "deletemulti", "prompt" => "Are you sure you want to delete the checked groups?")
+	); // end make_checkbox_command
 	make_status_line("group", $count);
 ?>
 </table>
@@ -145,11 +143,9 @@ function display()
 		); // end make_display_item();
 		$count++;
 	} // end while devices
-	echo "<tr>\n";
-	echo '<td colspan="5" class="editheader" nowrap="nowrap">'."\n";
-	echo '<a class="editheaderlink" onclick="document.devform.action.value=\'deletemulti\';javascript:if(window.confirm(\'Are you sure you want to delete the checked devices?\')){document.devform.submit();}" href="#">Delete All Checked</a>'."\n";
-	echo "</td>\n";
-	echo "</tr>\n";
+	make_checkbox_command("dev", 5,
+		array("text" => "Delete", "action" => "deletemulti", "prompt" => "Are you sure you want to delete the checked devices?")
+	); // end make_checkbox_command
 	make_status_line("device", $count);
 ?>
 </table>

@@ -83,13 +83,9 @@ function do_display()
 		); // end make_display_item();
 		$rowcount++;
 	} // end while rows left
-	?>
-	<tr>
-		<td colspan="6" class="editheader" nowrap="nowrap">
-			&lt;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked sub-devices?')){document.form.submit();}" href="#">Delete All Checked</a>&gt;
-		</td>
-	</tr>
-	<?php
+	make_checkbox_command("", 6,
+		array("text" => "Delete", "action" => "multidodelete", "prompt" => "Are you sure you want to delete the checked events?")
+	); // end make_checkbox_command
 	make_status_line("event", $rowcount);
 	?>
 	</table>

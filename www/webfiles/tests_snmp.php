@@ -102,13 +102,9 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 	); // end make_display_item();
 } // end tests
 
-?>
-<tr>
-	<td colspan="5" class="editheader" nowrap="nowrap">
-		&lt;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked sub-devices?')){document.form.submit();}" href="#">Delete All Checked</a>&gt;
-	</td>
-</tr>
-<?php
+	make_checkbox_command("", 5,
+		array("text" => "Delete", "action" => "multidodelete", "prompt" => "Are you sure you want to delete the checked SNMP tests?")
+	); // end make_checkbox_command
 	make_status_line("SNMP test", $test_count - 1);
 ?>
 </table>

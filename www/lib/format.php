@@ -541,6 +541,58 @@ function make_plain_display_table($title)
 
 } // end make_display_table
 
+function make_checkbox_command($prefix = "", $columns)
+{
+	if (empty($columns))
+	{
+		$columns = "5";
+	} // end if no columns
+?>
+	<tr>
+		<td colspan="<?php echo $columns ?>" class="editheader" nowrap="nowrap">
+		Checked Items:
+<?php
+	for ($item_num = 2; $item_num < (func_num_args()); $item_num++)
+	{
+		$curitem = func_get_arg($item_num);
+?>
+		&nbsp;&nbsp;
+		&lt;<a class="editheaderlink" onclick="document.<?php echo $prefix?>form.action.value='<?php echo $curitem["action"]?>';<?php
+
+		if (!empty($curitem["prompt"]))
+		{
+?>javascript:if(window.confirm('<?php echo addslashes($curitem["prompt"])?>')){<?php
+		} // end if prompt
+
+		// submit form call
+?>document.<?php echo $prefix?>form.submit();<?php
+
+		if (!empty($curitem["prompt"]))
+		{
+?>}<?php
+		} // end if prompt
+
+?>" href="#"><?php
+
+		if (!empty($curitem["text"]))
+		{
+			echo $curitem["text"];
+		} // end if text
+		else
+		{
+			echo "&nbsp;";
+		} // end if no text
+
+?></a>&gt;
+<?php
+
+	} // end for
+?>
+		</td>
+	</tr>
+<?php
+} // end make_checkbox_command()
+
 // make_status_line
 // unit: the singular form of the thing we're counting
 // value: the quantity of the thing we're counting

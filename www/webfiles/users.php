@@ -141,12 +141,10 @@ for ($user_count = 1; $user_count <= $user_total; ++$user_count)
 
 } // end users
 
-echo "<tr>\n";
-echo '<td colspan="5" class="editheader" nowrap="nowrap">';
-echo '<a class="editheaderlink" onclick="document.form.action.value=\'deletemulti\';javascript:if(window.confirm(\'Are you sure you want to delete the checked users ?\')){document.form.submit();}" href="#">Delete All Checked</a>';
-echo "</td>";
-echo "</tr>\n";
-
+make_checkbox_command("", 5,
+	array("text" => "Delete", "action" => "deletemulti", "prompt" => "Are you sure you want to delete the checked users?")
+); // end make_checkbox_command
+make_status_line("user", $user_count - 1);
 ?>
 </table>
 </form>

@@ -179,15 +179,10 @@ function do_list()
 		$mon_count++;
 
 	} // end for each monitor
-	?>
-	<tr>
-		<td colspan="5" class="editheader" nowrap="nowrap">
-			&lt;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked graphs ?')){document.form.submit();}" href="#">Delete All Checked</a>&gt;
-			&nbsp;&nbsp;
-			&lt;<a class="editheaderlink" onclick="document.form.action.value='multiduplicate';document.form.submit();" href="#">Duplicate All Checked</a>&gt;
-		</td>
-	</tr>
-	<?php
+	make_checkbox_command("", 5,
+		array("text" => "Duplicate", "action" => "multiduplicate"),
+		array("text" => "Delete", "action" => "multidodelete", "prompt" => "Are you sure you want to delete the checked monitors?")
+	); // end make_checkbox_command
 	make_status_line("monitor", $mon_count);
 	?>
 	</table>
