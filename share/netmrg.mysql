@@ -1,6 +1,6 @@
 -- MySQL dump 8.23
 --
--- Host: localhost    Database: netmrg
+-- Host: localhost    Database: netmrg2
 ---------------------------------------------------------
 -- Server version	3.23.58
 
@@ -92,12 +92,11 @@ CREATE TABLE devices (
   ip varchar(50) NOT NULL default '',
   snmp_read_community varchar(200) NOT NULL default '',
   dev_type int(11) NOT NULL default '0',
-  snmp_recache tinyint(4) NOT NULL default '0',
+  snmp_recache_method smallint(6) NOT NULL default '0',
   disabled tinyint(4) NOT NULL default '0',
   snmp_avoided tinyint(4) NOT NULL default '0',
   snmp_uptime bigint(20) default '0',
   snmp_ifnumber int(11) NOT NULL default '0',
-  snmp_check_ifnumber int(11) NOT NULL default '1',
   snmp_version tinyint(4) NOT NULL default '1',
   snmp_timeout int(10) unsigned NOT NULL default '1000000',
   snmp_retries tinyint(3) unsigned NOT NULL default '3',
@@ -112,7 +111,7 @@ CREATE TABLE devices (
 --
 
 
-INSERT INTO devices VALUES (1,'Template Linux Box','127.0.0.1','',8,0,1,0,0,0,0,0,1000000,3,161,0);
+INSERT INTO devices VALUES (1,'Template Linux Box','127.0.0.1','',8,1,1,0,0,0,0,1000000,3,161,0);
 
 --
 -- Table structure for table `event_log`
@@ -250,6 +249,32 @@ CREATE TABLE groups (
 
 
 INSERT INTO groups VALUES (1,'Template Group','',0);
+
+--
+-- Table structure for table `log`
+--
+
+CREATE TABLE log (
+  id bigint(20) NOT NULL auto_increment,
+  date datetime NOT NULL default '0000-00-00 00:00:00',
+  dev_id int(11) default NULL,
+  subdev_id int(11) default NULL,
+  mon_id int(11) default NULL,
+  level int(11) NOT NULL default '0',
+  component int(11) NOT NULL default '0',
+  message varchar(200) NOT NULL default '',
+  PRIMARY KEY  (id),
+  KEY date (date),
+  KEY dev_id (dev_id),
+  KEY subdev_id (subdev_id),
+  KEY mon_id (mon_id)
+) TYPE=MyISAM;
+
+--
+-- Dumping data for table `log`
+--
+
+
 
 --
 -- Table structure for table `monitors`
@@ -565,7 +590,7 @@ CREATE TABLE user (
   fullname varchar(200) default NULL,
   group_id int(11) NOT NULL default '0',
   PRIMARY KEY  (id),
-  UNIQUE user (user)
+  UNIQUE KEY user (user)
 ) TYPE=MyISAM;
 
 --
