@@ -24,7 +24,7 @@
   - updated spec file
 
 2003.10.06  v0.10pre2  balleman
-  - bug#0000072: db error on slide show if now active, viewable devices
+  - bug#0000072: db error on slide show if no active, viewable devices
   - doc updates
 
 2003.10.04  v0.10pre2  balleman
