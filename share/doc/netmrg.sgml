@@ -221,6 +221,18 @@ Event are met, the appropriate response is performed.
 						<listitem><para>OR Download the <application>RRDTOOL</application> source from <ulink url="http://www.rrdtool.org/">http://www.rrdtool.org/</ulink> and compile it.</para></listitem>
 					</itemizedlist>
 				</listitem>
+				<listitem>
+					<para>Installing precompiled NetMRG RPM</para>
+					<para>Download the latest NetMRG RPM and install it as follows:</para>
+					<programlisting>rpm -Uvh netmrg-0.10.rpm</programlisting>
+					<para>You will still have to perform the following tasks listed in the Install Instructions:</para>
+					<itemizedlist>
+						<listitem><para>Setup the Database</para></listitem>
+						<listitem><para>Configure Apache</para></listitem>
+						<listitem><para>Configure the Installation</para></listitem>
+						<listitem><para>Setup Crontab</para></listitem>
+					</itemizedlist>
+				</listitem>
 			</itemizedlist>
 		</listitem>
 		<listitem>

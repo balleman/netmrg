@@ -302,6 +302,18 @@ Chapter 7. Satisfying Requirements
                  http://www.freshrpms.net/
                o OR    Download    the    RRDTOOL   source   from
                  http://www.rrdtool.org/ and compile it.
+          + Installing precompiled NetMRG RPM
+            Download  the  latest  NetMRG  RPM  and install it as
+            follows:
+
+rpm -Uvh netmrg-0.10.rpm
+
+            You  will  still  have to perform the following tasks
+            listed in the Install Instructions:
+               o Setup the Database
+               o Configure Apache
+               o Configure the Installation
+               o Setup Crontab
      * FreeBSD (4.8)
           + Install the following ports:
                o www/apache13
