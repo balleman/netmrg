@@ -48,7 +48,7 @@ rm -rf %{buildroot}
 
 %pre
 if [ $1 = 1 ]; then
-	useradd -d ${_localstatedir}/lib/netmrg netmrg > /dev/null 2>&1 || true
+	useradd -d %{_localstatedir}/lib/netmrg netmrg > /dev/null 2>&1 || true
 fi
 
 %post
@@ -82,6 +82,9 @@ fi
 %{_libexecdir}/*
 
 %changelog
+* Thu Oct 14 2004 Douglas E. Warner <silfreed@netmrg.net>
+- fix homedir for netmrg
+
 * Sat May 19 2004 Kevin Bonner <keb@pa.net>
 - added build option '--with ucd' to allow building on older RH boxes
 
