@@ -56,3 +56,23 @@ wizards
   - index.php reads in other files to know name, description, etc
   - used for generating/updating special/large devices (catalyst switches, maxtnts)
 
+
+== FOR A RELEASE ==
+update docs w/ release notes
+version bump in:
+  configure.ac (run bootstrap)
+  share/netmrg.sql
+  share/doc/VERSION
+  www/lib/stat.php
+copy items from DBChangeLog to www/webfiles/updater.php
+generate new docs
+test tutorial
+tag CVS (ex: netmrg-0_10)
+build tarball
+  - upload to devel, maybe release
+for !devel releases, build RPM from tarball
+update www.netmrg.net
+update lists.netmrg.net
+update freshmeat.net
+update sourceforge.net
+
