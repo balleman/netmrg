@@ -28,6 +28,7 @@
 #include <mib_api.h>
 #define SNMP_SET_OIDS netsnmp_ds_set_int(NETSNMP_DS_LIBRARY_ID, NETSNMP_DS_LIB_OID_OUTPUT_FORMAT, NETSNMP_OID_OUTPUT_NUMERIC)
 #define SNMP_SET_LIBS netsnmp_ds_set_boolean(NETSNMP_DS_LIBRARY_ID, NETSNMP_DS_LIB_PRINT_NUMERIC_ENUM, 1)
+#define SNMP_SET_QKPR netsnmp_ds_set_boolean(NETSNMP_DS_LIBRARY_ID, NETSNMP_DS_LIB_QUICK_PRINT, 0)
 #else
 #define DS_APP_DONT_FIX_PDUS 0
 #include <ucd-snmp-config.h>
@@ -36,6 +37,7 @@
 #include <mib.h>
 #define SNMP_SET_OIDS ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_OIDS)
 #define SNMP_SET_LIBS ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_ENUM)
+#define SNMP_SET_QKPR snmp_set_quick_print(0)
 #endif
 
 void snmp_init()
@@ -47,6 +49,7 @@ void snmp_init()
 	snmp_sess_init(&session);
 	SNMP_SET_OIDS;
 	SNMP_SET_LIBS;
+	SNMP_SET_QKPR;
 }
 
 void snmp_cleanup()
