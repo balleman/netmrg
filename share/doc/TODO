@@ -22,19 +22,34 @@ when looking at a device's graphs, you should be able to click next to it
   and follow it to the next device (if applicable)
 ensure proper escaping in all queries
 get a real directory tree
-  current
-    bin -> /usr/local/netmrg/bin
-    cmd -> /usr/local/netmrg/bin
-    dat -> /usr/local/netmrg/var/log
-    db -> /usr/local/netmrg/share
-    doc -> /usr/local/netmrg/share/doc
-    images -> /usr/local/netmrg/share/images
-    include -> /usr/local/var/www/netmrg/include
-    lib -> /usr/local/var/netmrg/lib
-    rrd -> /usr/local/var/lib/netmrg/rrd
-    src -> /usr/local/bin
-    www -> /usr/local/var/netmrg/webfiles
-  ideal
+  ideal cvs tree
+    migration
+      bin
+      cmd -> ??
+      dat -> var/log
+      db -> share/
+      doc -> share/doc
+      images -> share/images
+      include -> www/include
+      lib -> www/lib
+      rrd -> var/lib/rrd
+      src
+      www -> var/webfiles
+    ends up like
+      bin
+      share
+        /doc
+        /images
+      src
+        /include
+      www
+        /include
+        /lib
+        /webfiles
+      var
+        /log
+        /lib
+  ideal install
     $(PREFIX)/bin (netmrg-gatherer)
     $(PREFIX)/share/netmrg (images, db)
     $(PREFIX)/share/doc/netmrg (docs)
