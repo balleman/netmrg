@@ -340,7 +340,7 @@ function make_display_item($style = "editfield0")
 	{
 		$curitem = func_get_arg($item_num);
 ?>
-		<td class="<?php echo $style ?>">
+		<td class="<?php echo $style ?>" nowrap="nowrap">
 <?php
 		if (!empty($curitem["href"]))
 		{
