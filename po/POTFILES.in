@@ -15,17 +15,14 @@ src/snmp.cpp
 src/utils.cpp
 
 # PHP files
-www/include/config.php
 www/lib/auth.php
 www/lib/database.php
 www/lib/format.php
 www/lib/graphing.php
-www/lib/menu.php
 www/lib/misc.php
 www/lib/phptimer.php
 www/lib/processing.php
-www/lib/snmp_caching.php
-www/lib/stat.php
+www/lib/static.php
 www/lib/xml_to_array.php
 www/webfiles/about.php
 www/webfiles/color_dialog.php
