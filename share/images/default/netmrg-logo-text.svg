@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"
+[
+ <!ATTLIST svg
+  xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink">
+]>
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1"
+   x="0"
+   y="0"
+   width="3375"
+   height="625"
+   id="svg1">
+  <defs
+     id="defs3">
+    <linearGradient
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0"
+       id="linearGradient270"
+       gradientUnits="objectBoundingBox"
+       spreadMethod="pad">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop271" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="1"
+         id="stop272" />
+    </linearGradient>
+    <linearGradient
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0"
+       id="linearGradient273"
+       xlink:href="#linearGradient270"
+       gradientUnits="objectBoundingBox"
+       spreadMethod="pad" />
+  </defs>
+  <g
+     style="font-size:12;fill-opacity:0.5;stroke:#000000;stroke-opacity:0.5;"
+     id="g237">
+    <path
+       d="M 490 587.5 L 371.25 587.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path194" />
+    <path
+       d="M 501.25 550 L 245 550 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path195" />
+    <path
+       d="M 511.25 512.5 L 121.25 512.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path196" />
+    <path
+       d="M 523.75 475 L 6.25 475 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path197" />
+    <path
+       d="M 533.75 437.5 L 16.25 437.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path198" />
+    <path
+       d="M 545 400 L 27.5 400 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path199" />
+    <path
+       d="M 557.5 362.5 L 40 362.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path200" />
+    <path
+       d="M 61.25 287.5 L 577.5 287.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path203" />
+    <path
+       d="M 75 250 L 587.5 250 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path204" />
+    <path
+       d="M 83.75 212.5 L 598.75 212.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path205" />
+    <path
+       d="M 96.25 175 L 610 175 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path206" />
+    <path
+       d="M 107.5 137.5 L 593.75 137.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path207" />
+    <path
+       d="M 117.5 100 L 466.25 100 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path208" />
+    <path
+       d="M 130 62.5 L 333.75 62.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path209" />
+    <path
+       d="M 140 25 L 215 25 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path230" />
+  </g>
+  <g
+     style="font-size:12;stroke:#000000;stroke-opacity:0.5;"
+     id="g253">
+    <path
+       d="M 37.5 487.5 L 37.5 371.25 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path173" />
+    <path
+       d="M 75 502.5 L 75 247.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path174" />
+    <path
+       d="M 112.5 512.5 L 112.5 122.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path176" />
+    <path
+       d="M 150 521.25 L 150 7.49996 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path177" />
+    <path
+       d="M 187.5 535 L 187.5 18.75 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path178" />
+    <path
+       d="M 225 543.75 L 225 28.75 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path179" />
+    <path
+       d="M 262.5 555 L 262.5 41.25 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path180" />
+    <path
+       d="M 300 567.5 L 300 52.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path181" />
+    <path
+       d="M 337.5 578.75 L 337.5 62.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path183" />
+    <path
+       d="M 375 590 L 375 75 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path184" />
+    <path
+       d="M 412.5 600 L 412.5 85 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path185" />
+    <path
+       d="M 450 613.75 L 450 96.25 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path186" />
+    <path
+       d="M 487.5 586.25 L 487.5 107.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path187" />
+    <path
+       d="M 525 117.5 L 525 462.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path188" />
+    <path
+       d="M 562.5 131.25 L 562.5 337.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path189" />
+    <path
+       d="M 600 141.25 L 600 212.5 "
+       style="fill-rule:evenodd;stroke-width:2.5;stroke-dashoffset:0;"
+       id="path190" />
+  </g>
+  <path
+     d="M 53.75 325 C 53.75 325 75 287.5 75 287.5 C 75 287.5 111.25 280 111.25 280 C 111.25 280 150 205 150 205 C 150 205 187.5 257.5 187.5 257.5 C 187.5 257.5 225 231.25 225 231.25 C 225 231.25 262.5 185 262.5 185 C 262.5 185 300 225 300 225 C 300 225 337.5 243.75 337.5 243.75 C 337.5 243.75 375 162.5 375 162.5 C 375 162.5 412.5 173.75 412.5 173.75 C 412.5 173.75 450 138.75 450 138.75 C 450 138.75 487.5 218.75 487.5 218.75 C 487.5 218.75 525 197.5 525 197.5 C 525 197.5 563.75 238.75 562.5 237.5 C 561.25 236.25 600 192.5 600 192.5 C 600 192.5 605 196.25 605 196.25 C 605 196.25 565 325 566.25 325 C 567.5 325 55 328.75 53.75 325 z "
+     style="font-size:12;fill:#ff9e00;fill-rule:evenodd;stroke:#ff9e00;stroke-width:2.5;stroke-dashoffset:0;"
+     id="path232" />
+  <path
+     d="M 37.5 372.5 C 40 372.5 73.75 396.25 73.75 396.25 C 73.75 396.25 112.5 350 112.5 350 C 112.5 350 150 385 150 385 C 150 385 187.5 438.75 187.5 438.75 C 187.5 438.75 225 380 225 380 C 225 380 262.5 365 262.5 365 C 262.5 365 300 430 300 430 C 300 430 337.5 417.5 337.5 417.5 C 337.5 417.5 375 487.5 375 487.5 C 375 487.5 413.75 497.5 412.5 496.25 C 411.25 495 450 423.75 450 423.75 C 450 423.75 487.5 452.5 487.5 451.25 C 487.5 450 525 381.25 525 381.25 C 525 381.25 547.5 391.25 547.5 391.25 C 547.5 391.25 565 326.25 565 326.25 C 565 326.25 52.5 325 52.5 325 C 52.5 325 37.5 375 37.5 372.5 z "
+     style="font-size:12;fill:#00a6f3;fill-rule:evenodd;stroke:#00a6f3;stroke-width:2.5;stroke-dashoffset:0;"
+     id="path235" />
+  <path
+     d="M 144.71 1.29892 L 1.29917 480.29 L 480.291 623.701 L 623.701 144.709 L 144.71 1.29892 z M 148.065 7.52286 L 7.5229 476.935 L 476.935 617.478 L 617.477 148.065 L 148.065 7.52286 z "
+     transform="translate(-9.53674e-05,3.8147e-05)"
+     style="font-size:12;fill-rule:evenodd;stroke-width:1pt;"
+     id="path143" />
+  <path
+     d="M 52.5 325 L 566.25 325 "
+     style="font-size:12;fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:6.25;stroke-dashoffset:0;"
+     id="path202" />
+  <text
+     x="594.849976"
+     y="563.799988"
+     style="font-size:700;font-weight:bold;stroke-width:1pt;font-family:Helvetica;"
+     id="text151">
+    <tspan
+       x="594.849976"
+       y="563.799988"
+       id="tspan216">
+NetMRG</tspan>
+  </text>
+</svg>
