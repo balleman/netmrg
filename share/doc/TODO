@@ -2,15 +2,11 @@
 bug#38 - inline docs
 bug#55 - Solaris support
 bug#56 - MRTG conf importer
-bug#57 - checkboxes
 
 == global ==
 device duplication
 documentation
   Usage information (description of every page)
-snmp_cache_view.php:
-  need a "Graph All" feature
-  depends on: checkbox/group actions
 page titles should reflect where you're at
   - names of devices, etc
 user preferences
