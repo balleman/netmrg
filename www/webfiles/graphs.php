@@ -49,10 +49,10 @@ function doedit()
 	
 	$options = "";
 
-	if (isset($_REQUEST["options_nolegend"]))
+	if (isset($_REQUEST["options_nolegend"]) && $_REQUEST["options_nolegend"] == true)
 		$options .= "nolegend,";
 
-	if (isset($_REQUEST["options_logarithmic"]))
+	if (isset($_REQUEST["options_logarithmic"]) && $_REQUEST["options_logarithmic"] == true)
 		$options .= "logarithmic,";
 
 	$options = substr($options, 0, -1);
@@ -223,10 +223,25 @@ function edit()
 	make_edit_text("Vertical Label:", "vert_label", "50", "100", $graph_row["vert_label"]);
 	make_edit_text("Width:", "width", "4", "4", $graph_row["width"]);
 	make_edit_text("Height:", "height", "4", "4", $graph_row["height"]);
-	make_edit_group("Advanced");
-	make_edit_text("Base Value:", "base", "4", "6", $graph_row["base"]);
-	make_edit_checkbox("Hide Legend", "options_nolegend", isin($graph_row["options"], "nolegend"));
-	make_edit_checkbox("Use Logarithmic Scaling", "options_logarithmic", isin($graph_row["options"], "logarithmic"));
+	if (!empty($_REQUEST["showadvanced"]))
+	{
+		make_edit_group("Advanced");
+		make_edit_text("Base Value:", "base", "4", "6", $graph_row["base"]);
+		make_edit_checkbox("Hide Legend", "options_nolegend", isin($graph_row["options"], "nolegend"));
+		make_edit_checkbox("Use Logarithmic Scaling", "options_logarithmic", isin($graph_row["options"], "logarithmic"));
+	} // end if show advanced
+	else
+	{
+		$graphlink = 'graphs.php?showadvanced=true';
+		if (!empty($_SERVER["QUERY_STRING"]))
+		{
+			$graphlink .= '&'.$_SERVER["QUERY_STRING"];
+		} // end if query string not empty
+		make_edit_group('<a class="editheaderlink" href="'.$graphlink.'">[Show Advanced]</a>');
+		make_edit_hidden("base", $graph_row["base"]);
+		make_edit_hidden("options_nolegend", isin($graph_row["options"], "nolegend"));
+		make_edit_hidden("options_logarithmic", isin($graph_row["options"], "logarithmic"));
+	} // end else hide advanced
 
 	if ($_REQUEST["action"] == "edit")
 	{

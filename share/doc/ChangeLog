@@ -2,6 +2,7 @@
   - bug#0000026: hiding advanced options on graph items edit page
   - bug#0000049: moved everything from DBChangeLog to netmrg.mysql and
       added names to template graphs
+  - added 'advanced' hiding on graphs.php
 
 2003.09.13  v0.10pre1  balleman
   - bug#0000042: --base support on graphs
