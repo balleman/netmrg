@@ -93,8 +93,37 @@ function get_graph_command($type, $id, $hist)
 
 function monitor_graph_command($id, $start_time, $end_time)
 {
+	if (isset($_REQUEST['start']))
+		{
+			$start_time = $_REQUEST['start'];
+		}
 
-	return($GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time .
+		if (isset($_REQUEST['end']))
+		{
+			$end_time = $_REQUEST['end'];
+		}
+
+		if (strpos($start_time, " ") !== false)
+		{
+			$start_time = strtotime(substr($start_time,1));
+
+		}
+
+		if (strpos($end_time, " ") !== false)
+		{
+			$end_time = strtotime(substr($end_time,1));
+		}
+
+		if (isset($_REQUEST['min']) && isset($_REQUEST['max']) && ($_REQUEST['max'] > $_REQUEST['min']))
+		{
+			$boundary = " -r -l {$_REQUEST['min']} -u {$_REQUEST['max']}";
+		}
+		else
+		{
+			$boundary = "";
+		}
+
+	return($GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start_time . " -e " . $end_time . " " . $boundary .
 			" --title=\"" . get_monitor_name($id) . " (#" . $id . ")\"  --imgformat PNG -g -w 575 -h 100 " .
 			"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $id . ".rrd:mon_" . $id . ":AVERAGE " .
 			"AREA:data1#151590");
@@ -119,7 +148,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 		$ds_id = $id;
 		$id = $ds_r["graph_id"];
 	}
-	
+
 	$graph_results = db_query("SELECT * FROM graphs WHERE id=$id");
 	$graph_row = db_fetch_array($graph_results);
 
@@ -142,7 +171,6 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 		$end_time = $_REQUEST['end'];
 	}
 
-	//echo "<big><b>" . $start_time . "</big></b>\n";
 	if (strpos($start_time, " ") !== false)
 	{
 		$start_time = strtotime(substr($start_time,1));
@@ -160,7 +188,6 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 	}
 	else
 	{
-		//$boundary = " --alt-autoscale-max";
 		$boundary = "";
 	}
 

@@ -1,3 +1,6 @@
+2004.02.28  v0.14cvs  balleman
+  - bug#0000158 - support 'advanced' features on monitor graphs
+
 2004.02.24  v0.14cvs  silfreed
   - bug#0000161 - space in front of sub groups on device tree page
 
