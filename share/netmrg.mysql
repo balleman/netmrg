@@ -216,9 +216,9 @@ INSERT INTO graphs VALUES (2,'Linux Box - Load Average','%dev_name% - Load Avera
 INSERT INTO graphs VALUES (3,'Linux Box - TCP Connections','%dev_name% - TCP Connections','',575,100,'Connections','template','',1000);
 INSERT INTO graphs VALUES (4,'Linux Box - Logged In Users','%dev_name% - Logged In Users','',575,100,'Users','template','',1000);
 INSERT INTO graphs VALUES (5,'Linux Box - System Processes','%dev_name% - System Processes','',575,100,'Processes','template','',1000);
-INSERT INTO graphs VALUES (6,'Linux Box - Available Memory','%dev_name% - Available Memory','',575,100,'Bytes','template','',1000);
+INSERT INTO graphs VALUES (6,'Linux Box - Available Memory','%dev_name% - Available Memory','',575,100,'Bytes','template','',1024);
 INSERT INTO graphs VALUES (7,'Linux Box - LAN Traffic','%dev_name% - %ifDescr%','Interface: %ifDescr%%n       IP: %ifIP%',575,100,'bytes / sec','template','',1000);
-INSERT INTO graphs VALUES (8,'Linux Box - Disk Utilization','%dev_name% - %dskPath%','',575,100,'Bytes','template','',1000);
+INSERT INTO graphs VALUES (8,'Linux Box - Disk Utilization','%dev_name% - %dskPath%','',575,100,'Bytes','template','',1024);
 
 --
 -- Table structure for table 'groups'
