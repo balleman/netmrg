@@ -69,6 +69,11 @@ $CONDITIONS = array(
 			4	=>	"&ne;",
 			5	=>	"&ge;");
 
+$VALUE_TYPES = array(
+			0	=>	"Current Value",
+			1	=>	"Delta Value",
+			2	=>	"Rate of Change");
+
 
 
 

@@ -39,19 +39,36 @@ function do_display()
 	check_auth(1);
 	begin_page();
 
-	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&event_id={$_REQUEST['event_id']}";
+	$query = do_query("SELECT * FROM conditions WHERE event_id = {$_REQUEST['event_id']}");
+	$rows = mysql_num_rows($query);
+	if ($rows == 0)
+	{
+		$nologic = "&nologic=1";
+	}
+	else
+	{
+		$nologic = "";
+	}
+
+	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&event_id={$_REQUEST['event_id']}$nologic";
 	js_confirm_dialog("del", "Are you sure you want to delete condition ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&event_id={$_REQUEST['event_id']}&id=");
 	make_display_table("Conditions", "Condition", "");
-				
 
-	$query = do_query("SELECT * FROM conditions WHERE event_id = {$_REQUEST['event_id']}");
-
-	for ($i = 0; $i < mysql_num_rows($query); $i++)
+	for ($i = 0; $i < $rows; $i++)
 	{
 		$row = mysql_fetch_array($query);
-		$condition_name = "test"; 
-		make_display_item($condition_name, "", 
-			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
+		$condition_name = $GLOBALS['VALUE_TYPES'][$row['value_type']] . "&nbsp;" . $GLOBALS['CONDITIONS'][$row['condition']] . "&nbsp;" . $row['value'];
+		if ($i != 0)
+		{
+			$condition_name = $GLOBALS['LOGIC_CONDITIONS'][$row['logic_condition']] . "&nbsp;" . $condition_name;
+			$nologic = "";
+		}
+		else
+		{
+			$nologic = "&nologic=1";
+		}
+		make_display_item($condition_name, "",
+			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}$nologic") . "&nbsp;" .
 			formatted_link("Delete", "javascript:del('" . $condition_name . "','" . $row['id'] . "')"), "");
 	}
 	?>
@@ -70,8 +87,9 @@ function display_edit()
 		$row['id'] 		= 0;
 		$row['event_id']	= $_REQUEST['event_id'];
 		$row['logic_condition'] = 0;
-		$row['condition']	= 0;
+		$row['condition']	= 1;
 		$row['value']		= 0;
+		$row['value_type']	= 0;
 	}
 	else
 	{
@@ -80,9 +98,18 @@ function display_edit()
 	}
 
 	make_edit_table("Edit Condition");
-	make_edit_select_from_array("Trigger Type:", "trigger_type", $GLOBALS['TRIGGER_TYPES'], $row['trigger_type']);
-        make_edit_select_from_array("Situation:", "situation", $GLOBALS['SITUATIONS'], $row['situation']);
-	make_edit_hidden("mon_id", $row['mon_id']);
+	if (!isset($_REQUEST['nologic']))
+	{
+		make_edit_select_from_array("Logical Operation:", "logic_condition", $GLOBALS['LOGIC_CONDITIONS'], $row['logic_condition']);
+	}
+	else
+	{
+		make_edit_hidden("logic_condition", "0");
+	}
+        make_edit_select_from_array("Value Type:", "value_type", $GLOBALS['VALUE_TYPES'], $row['value_type']);
+	make_edit_select_from_array("Condition:", "condition", $GLOBALS['CONDITIONS'], $row['condition']);
+	make_edit_text("Value:", "value", 5, 10, $row['value']);
+	make_edit_hidden("event_id", $row['event_id']);
 	make_edit_hidden("id", $row['id']);
 	make_edit_hidden("action", "doedit");
 	make_edit_submit_button();
@@ -98,7 +125,7 @@ function do_edit()
         if ($_REQUEST['id'] == 0)
 	{
                 $pre  = "INSERT INTO";
-		$post = ", mon_id={$_REQUEST['mon_id']}";
+		$post = ", event_id={$_REQUEST['event_id']}";
 	}
 	else
 	{
@@ -106,17 +133,17 @@ function do_edit()
 		$post = "WHERE id = {$_REQUEST['id']}";
 	}
 
-        do_update("$pre events SET name = '{$_REQUEST['name']}', trigger_type={$_REQUEST['trigger_type']}, situation={$_REQUEST['situation']} $post");
+        do_update("$pre conditions SET logic_condition={$_REQUEST['logic_condition']}, value_type={$_REQUEST['value_type']}, condition={$_REQUEST['condition']}, value={$_REQUEST['value']} $post");
 
-        header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}");
+        header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}");
 }
 
 function do_delete()
 {
 	check_auth(2);
 
-        do_update("DELETE FROM events WHERE id = {$_REQUEST['id']}");
-	
-	header("Location: {$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}");
+        do_update("DELETE FROM conditions WHERE id = {$_REQUEST['id']}");
+
+	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}");
 }
 ?>
