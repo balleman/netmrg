@@ -24,7 +24,7 @@ header("Cache-Control: post-check=0, pre-check=0", false);
 header("Pragma: no-cache");
 
 // Image Type
-if (!isset($debug)) header("Content-type: image/png");
+if (!isset($_REQUEST['debug'])) header("Content-type: image/png");
 
 if (empty($_REQUEST["hist"]))
 {
@@ -33,7 +33,7 @@ if (empty($_REQUEST["hist"]))
 
 $command = get_graph_command($_REQUEST["type"], $_REQUEST["id"], $_REQUEST["hist"], $_REQUEST["type"] == "template");
 
-if (!isset($debug))
+if (!isset($_REQUEST['debug']))
 {
 	passthru($command);
 }

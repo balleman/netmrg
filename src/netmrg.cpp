@@ -357,7 +357,12 @@ string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 
 	switch(info.test_id)
 	{
+		// count lines in a file
 		case 1:		test_result = count_file_lines(info);
+				break;
+		
+		// TNT "good" modems (that is, available modems - suspect modems)
+		case 2:		test_result = snmp_diff(info, ".1.3.6.1.4.1.529.15.1.0", ".1.3.6.1.4.1.529.15.3.0");
 				break;
 
 		default:	debuglogger(DEBUG_MONITOR, &info, "Unknown Internal Test (" + inttostr(info.test_id) + ")");

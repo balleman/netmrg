@@ -175,13 +175,24 @@ string snmp_get(DeviceInfo info, string oidstring)
 	}
 }
 
+string snmp_diff(DeviceInfo info, string oid1, string oid2)
+{
+	string val1 = snmp_get(info, oid1);
+	string val2 = snmp_get(info, oid2);
 
+	if ( (val1 == "U") || (val2 == "U") )
+	{
+		return "U";
+	}
+	
+	return inttostr( strtoint(val1) - strtoint(val2) );
+}
 
 list<SNMPPair> snmp_trim_rootoid(list<SNMPPair> input, string rootoid)
 {
 	for (list<SNMPPair>::iterator current = input.begin(); current != input.end(); current++)
 	{
-		(*current).oid = token_replace((*current).oid, rootoid, "");
+		current->oid = token_replace(current->oid, rootoid, "");
 	}
 
 	return input;
@@ -191,11 +202,11 @@ list<SNMPPair> snmp_swap_index_value(list<SNMPPair> input)
 {
        	for (list<SNMPPair>::iterator current = input.begin(); current != input.end(); current++)
 	{
-		string oid   = (*current).oid;
-		string value = (*current).value;
+		string oid   = current->oid;
+		string value = current->value;
 
-		(*current).oid   = value;
-		(*current).value = oid;
+		current->oid   = value;
+		current->value = oid;
 	}
 
 	return input;
