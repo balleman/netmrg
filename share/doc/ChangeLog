@@ -1,5 +1,6 @@
 2004.02.14  v0.13  balleman
   - bug#0000155 - subdevice name escaping in snmp_cache_view.php
+  - bug#0000154 - add navbar to conditions.php
 
 2004.01.25  v0.13  balleman
   - bug#0000151 - fixed value field too short on graph_items.php
