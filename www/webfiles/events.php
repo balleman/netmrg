@@ -93,6 +93,7 @@ function do_display()
 	make_status_line("event", $rowcount);
 	?>
 	</table>
+	</form>
 	<?php
 	end_page();
 }
