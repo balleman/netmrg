@@ -17,11 +17,11 @@ require_once("../include/config.php");
 switch($_REQUEST["type"])
 {
 	case "template" :
-		GraphCheckAuth($_REQUEST["type"], $_REQUEST["subdev_id"]);
+		EncloseGraphCheckAuth($_REQUEST["type"], $_REQUEST["subdev_id"]);
 		break;
 	
 	default :
-		GraphCheckAuth($_REQUEST["type"], $_REQUEST["id"]);
+		EncloseGraphCheckAuth($_REQUEST["type"], $_REQUEST["id"]);
 		break;
 } // end switch type for auth
 

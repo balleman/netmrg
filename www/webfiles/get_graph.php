@@ -26,6 +26,18 @@ header("Pragma: no-cache");
 // Image Type
 if (!isset($_REQUEST['debug'])) header("Content-type: image/png");
 
+// we need to auth different ways depending on type of graph
+switch($_REQUEST["type"])
+{
+	case "template" :
+		GraphCheckAuth($_REQUEST["type"], $_REQUEST["subdev_id"]);
+		break;
+	
+	default :
+		GraphCheckAuth($_REQUEST["type"], $_REQUEST["id"]);
+		break;
+} // end switch type for auth
+
 if (empty($_REQUEST["hist"]))
 {
 	$_REQUEST["hist"] = 0;

@@ -140,6 +140,49 @@ function view_check_auth($object_id, $object_type)
 
 
 /**
+* EncloseGraphCheckAuth()
+*
+* makes sure that the logged in user can view a graph
+*
+* type = template, custom, mon, tinymon
+* id = id of item
+*
+*/
+function EncloseGraphCheckAuth($type, $id)
+{
+	check_auth(0);
+	
+	// the groups this object_id is in
+	$object_id_groups = array();
+	
+	switch ($type)
+	{
+		case "mon" :
+		case "tinymon" :
+			$object_id_groups = GetMonitorGroups($id);
+			break;
+		
+		case "template" :
+			$object_id_groups = GetSubdeviceGroups($id);
+			break;
+		
+		case "custom" :
+			$object_id_groups = GetCustomGraphGroups($id);
+			break;
+	} // end switch graph type
+	
+	if (count($object_id_groups) == 1
+		&& !in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups) 
+		&& $_SESSION["netmrgsess"]["permit"] == 0)
+	{
+		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
+		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
+		exit;
+	}
+} // end EncloseGraphCheckAuth();
+
+
+/**
 * GraphCheckAuth()
 *
 * makes sure that the logged in user can view a graph
@@ -175,8 +218,7 @@ function GraphCheckAuth($type, $id)
 		&& !in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups) 
 		&& $_SESSION["netmrgsess"]["permit"] == 0)
 	{
-		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
-		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
+		readfile($GLOBALS["netmrg"]["fileroot"]."/www/img/access_denied.png");
 		exit;
 	}
 } // end GraphCheckAuth();
