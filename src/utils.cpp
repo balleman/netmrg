@@ -57,7 +57,7 @@ string strstripnl(string input)
 	
 	return temp_str;
 	
-} // end stripnl
+} // end strstripnl
 
 // token_replace - replace a token with a value throughout a string
 string token_replace(string &source, string token, string value)

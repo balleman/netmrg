@@ -1,3 +1,7 @@
+2005.01.26  v0.18.2  balleman
+  - bug#0000328 - SIGTERM/SIGINT should result in clean shutdown
+  - Avoid SNMP tests for SNMP-disabled devices
+
 2005.01.16  v0.18.2  balleman
   - bug#0000346 - Use correct sums in advanced graph view 
   - bug#0000382 - when applying templates, they should be added to the sub-device view

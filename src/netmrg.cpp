@@ -31,10 +31,12 @@
 #include <iostream>
 #include <termios.h>
 #include <signal.h>
+#include <time.h>
 
 using namespace std;
 
 int active_threads = 0;
+bool netmrg_terminated = false;
 
 // Include the NetMRG Headers
 #include "types.h"
@@ -71,7 +73,6 @@ void *child(void * arg)
 	active_threads--;
 	netmrg_cond_signal(cActiveThreads);
 	netmrg_mutex_unlock(lkActiveThreads);
-	debuglogger(DEBUG_THREAD, LEVEL_NOTICE, NULL, "Thread Ended.");
 
 	MYSQL_THREAD_END;
 
@@ -83,6 +84,18 @@ void *child(void * arg)
 void remove_lockfile()
 {
 	unlink(get_setting(setPathLockFile).c_str());
+}
+
+// SIGTERM signal handler
+void handle_sigterm(int signum)
+{
+	netmrg_terminated = true;
+}
+
+// Say we're going away due to SIGTERM
+void saydie()
+{
+	debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Caught signal, shutting down.");
 }
 
 // set things up, and spawn the threads for data gathering
@@ -137,6 +150,21 @@ void run_netmrg()
 	// RRDTOOL command pipe setup
 	rrd_init();
 	atexit(rrd_cleanup);
+	
+	// Setup SIGTERM/SIGINT catching
+	struct sigaction term_sigaction;
+	term_sigaction.sa_handler = &handle_sigterm;
+	if (sigaction(SIGTERM, &term_sigaction, NULL))
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Failed to add signal handler.");
+		exit(10);
+	}
+	if (sigaction(SIGINT, &term_sigaction, NULL))
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Failed to add signal handler.");
+		exit(10);
+	}
+	
 
 	do
 	{
@@ -199,6 +227,11 @@ void run_netmrg()
 			}
 	
 			netmrg_cond_wait(cActiveThreads, lkActiveThreads);
+			if (netmrg_terminated)
+			{
+				saydie();
+				break;
+			}
 	
 		}
 	
@@ -239,7 +272,7 @@ void run_netmrg()
 			debuglogger(DEBUG_GLOBAL, LEVEL_ERROR, NULL, "Failed to open runtime file for writing.");
 		}
 		
-		if (schedule == schWait)
+		if ((schedule == schWait) && (!netmrg_terminated))
 		{
 			if ( time(NULL) > (start_time + get_setting_int(setPollInterval)))
 			{
@@ -247,11 +280,22 @@ void run_netmrg()
 			}
 			else
 			{
-				sleep(start_time + get_setting_int(setPollInterval) - time(NULL));
+				timespec tosleep, unslept;
+				tosleep.tv_sec = start_time + get_setting_int(setPollInterval) - time(NULL);
+				while (nanosleep(&tosleep, &unslept))
+				{
+					if ((errno == EINTR) && (netmrg_terminated))
+					{
+						saydie();
+						break;
+					}
+					tosleep.tv_sec = unslept.tv_sec;
+				}
+				
 			}
 		}	
 	}
-	while (schedule != schOnce);
+	while ((schedule != schOnce) && (!netmrg_terminated));
 }
 
 void show_version()

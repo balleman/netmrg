@@ -348,6 +348,11 @@ void process_device(int dev_id)
 			do_snmp_disk_recache(&info, &mysql);
 		}
 	} // end snmp-enabled
+	else
+	{
+		debuglogger(DEBUG_SNMP, LEVEL_INFO, &info, "This device is configured with no SNMP support; avoiding SNMP tests.");
+		info.snmp_avoid = 1;
+	}
 
 	mysql_free_result(mysql_res);
 

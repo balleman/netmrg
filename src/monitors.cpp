@@ -353,7 +353,7 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 
 	} // end switch
 
-	debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value: " + info.curr_val);
+	debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value: " + strstripnl(info.curr_val));
 
 	// strip out anything not numeric
 	info.curr_val = remove_nonnumerics(info.curr_val);
