@@ -1,3 +1,7 @@
+2003.12.19  v0.13  balleman
+  - parameter substitution in sql tests
+  - escaping issue in dereferencing templated monitors
+
 2003.12.19  v0.12  silfreed
   - bug#0000131 - dynamic 'resume slide show' link
 
