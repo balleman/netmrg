@@ -27,6 +27,7 @@
 #include <errno.h>
 #include <ucd-snmp/mib.h>
 #include <slist.h>
+#include <getopt.h>
 
 #ifdef __linux__
 	#define _REENTRANT
@@ -1052,8 +1053,8 @@ void *child(void * arg)
 
 } // end child
 
-// main - the body of the program
-int main()
+// set things up, and spawn the threads for data gathering
+void run_netmrg()
 {
 
 	MYSQL			mysql;
@@ -1232,4 +1233,36 @@ int main()
 
 }
 
+void show_version()
+{
+	printf("\nNetMRG Data Gatherer\n");
+	printf("Version 0.79.3a\n\n");
+}
 
+void show_usage()
+{
+	printf("\nNetMRG Data Gatherer\n\n");
+	printf("-v          Display Version\n");
+	printf("-h          Show usage (you are here)\n");
+	printf("-q          Quiet; display no debug messages\n");
+	printf("\n");
+}
+
+
+// main - the body of the program
+int main(int argc, char **argv)
+{
+	int option_char;
+
+	while ((option_char = getopt (argc, argv, "hvq")) != EOF)
+		switch (option_char)
+		{
+			case 'h': show_usage(); exit(0); break;
+			case 'v': show_version(); exit(0); break;
+			case 'q': debug_level = 0; break;
+
+      		}
+
+	run_netmrg();
+
+}

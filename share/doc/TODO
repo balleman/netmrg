@@ -4,13 +4,9 @@ bug in database has 'Root' group in mon_devices having ID 1 (not 0)
 format.php:make_edit_select_from_table
   make this accept arrays as well for static/custom things
 page titles should reflect where you're at
-netmrg.cc
-  most (all?) output from netmrg.cc should be debug output
-  options/getopt
 recache.php
   A couple notices in snmp_caching.php on line 115
   c++ify?
-deleting a device doesn't delete the dev_parents entries
 ability to go 'up' a level when browsing 'Groups' et al
 snmp_cache_view.php:
   "Make Graph" needs overhauled
@@ -22,7 +18,7 @@ custom_graphs.php:
   make delete action a javascript
 fix move-up/move-down in views and graph-items
 view page should reflect status information
-add support for 'unfiled' devices (should only be things that were put 
+add support for 'unfiled' devices (should only be things that were put
   in the database incorrectly)
 last_status.php:
   DB_ERROR: Couldn't execute query:
@@ -56,6 +52,9 @@ get auth w/ php sessions to work
 graph templates
 make events/responses work again
 snmp cacher rewrite
+netmrg.cc
+  -q needs to make rrdtool quiet as well
+  more comprehensive way of setting debug levels needed
 
 == before going public ==
 get new netmrg monitoring something (duo)
