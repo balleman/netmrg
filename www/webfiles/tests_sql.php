@@ -11,17 +11,14 @@
 
 require_once("../include/config.php");
 check_auth(1);
-begin_page("tests_sql.php", "SQL - Tests");
-js_confirm_dialog("del", "Are you sure you want to delete SQL test ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
 
-if (!empty($_REQUEST["action"]))
+// set default action
+if (empty($_REQUEST["action"]))
 {
-	$action = $_REQUEST["action"];
+	$_REQUEST["action"] = "";
 }
-else
-{
-	$action = "";
-}
+// compatibility
+$action = $_REQUEST["action"];
 
 if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
 {
@@ -48,23 +45,29 @@ if ($action == "doedit")
 	$_REQUEST['column_num'] = $_REQUEST['column_num'] * 1;
 
 
-	db_update("$db_cmd tests_sql SET name='{$_REQUEST['test_name']}', 
-		sub_dev_type={$_REQUEST['dev_type']}, host='{$_REQUEST['host']}', 
-		user='{$_REQUEST['sql_user']}', password='{$_REQUEST['sql_password']}', 
-		query='{$_REQUEST['query']}', column_num='{$_REQUEST['column_num']}' 
+	db_update("$db_cmd tests_sql SET name='{$_REQUEST['test_name']}',
+		sub_dev_type={$_REQUEST['dev_type']}, host='{$_REQUEST['host']}',
+		user='{$_REQUEST['sql_user']}', password='{$_REQUEST['sql_password']}',
+		query='{$_REQUEST['query']}', column_num='{$_REQUEST['column_num']}'
 		$db_end");
+	header("Location: {$_SERVER['PHP_SELF']}");
+	exit();
 } // done editing
 
 if ($action == "dodelete")
 {
 	db_update("DELETE FROM tests_sql WHERE id={$_REQUEST['test_id']}");
-
+	header("Location: {$_SERVER['PHP_SELF']}");
+	exit();
 } // done deleting
 
+/** start page **/
+begin_page("tests_sql.php", "SQL - Tests");
+js_confirm_dialog("del", "Are you sure you want to delete SQL test ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
 
 // Display a list
 
-make_display_table("SQL Tests", "", 
+make_display_table("SQL Tests", "",
 	array("text" => "Name"),
 	array("text" => "Host"),
 	array("text" => "User"),
@@ -92,12 +95,17 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 ?>
 </table>
 <?php
+	end_page();
 } // End if no action
 
 
 // Display editing screen
 if (($action == "edit") || ($action == "add"))
 {
+	/** start page **/
+	begin_page("tests_sql.php", "SQL - Tests");
+	js_confirm_dialog("del", "Are you sure you want to delete SQL test ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
+
 	if ($action == "add")
 	{
 		$_REQUEST["test_id"] = 0;
@@ -121,9 +129,9 @@ if (($action == "edit") || ($action == "add"))
 	make_edit_submit_button();
 	make_edit_end();
 
+	end_page();
 
 } // End editing screen
 
-end_page();
 
 ?>

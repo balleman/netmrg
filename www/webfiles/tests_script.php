@@ -11,19 +11,16 @@
 
 require_once("../include/config.php");
 check_auth(1);
-begin_page("tests_scripts.php", "Scripts - Tests");
-js_confirm_dialog("del", "Are you sure you want to delete script test ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
 
-if (!empty($_REQUEST["action"]))
+// check action
+if (empty($_REQUEST["action"]))
 {
-	$action = $_REQUEST["action"];
+	$_REQUEST["action"] = "";
 }
-else
-{
-	$action = "";
-}
+// compatibility
+$action = $_REQUEST["action"];
 
-
+// if no action (list) or perfoming an insert/update/delete
 if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
 {
 
@@ -44,14 +41,22 @@ if ($action == "doedit")
 	$_REQUEST['test_name'] = db_escape_string(fix_magic_quotes($_REQUEST['test_name']));
 	$_REQUEST['test_cmd'] = db_escape_string(fix_magic_quotes($_REQUEST['test_cmd']));
 
-	db_update("$db_cmd tests_script SET name=\"{$_REQUEST["test_name"]}\", cmd=\"{$_REQUEST["test_cmd"]}\", data_type={$_REQUEST["data_type"]}, dev_type={$_REQUEST["dev_type"]} $db_end");
+	db_update("$db_cmd tests_script SET name='{$_REQUEST['test_name']}', cmd='{$_REQUEST['test_cmd']}', data_type='{$_REQUEST['data_type']}', dev_type='{$_REQUEST["dev_type"]}' $db_end");
+	Header("Location: {$_SERVER['PHP_SELF']}");
+	exit();
 } // done editing
 
 if ($action == "dodelete")
 {
-        db_update("DELETE FROM tests_script WHERE id={$_REQUEST["test_id"]}");
-
+	db_update("DELETE FROM tests_script WHERE id='{$_REQUEST["test_id"]}'");
+	Header("Location: {$_SERVER['PHP_SELF']}");
+	exit();
 } // done deleting
+
+
+/** start the page **/
+begin_page("tests_scripts.php", "Scripts - Tests");
+js_confirm_dialog("del", "Are you sure you want to delete script test ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
 
 
 // Display a list
@@ -91,12 +96,16 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 ?>
 </table>
 <?php
+	end_page();
 } // End if no action
 
 
 // Display editing screen
 if (($action == "edit") || ($action == "add"))
 {
+	/** start the page **/
+	begin_page("tests_scripts.php", "Scripts - Tests");
+	js_confirm_dialog("del", "Are you sure you want to delete script test ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
 
 	if ($action == "add")
 	{
@@ -119,8 +128,8 @@ if (($action == "edit") || ($action == "add"))
 	make_edit_end();
 
 
+	end_page();
 } // End editing screen
 
-end_page();
 
 ?>

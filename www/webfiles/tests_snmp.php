@@ -11,18 +11,16 @@
 
 require_once("../include/config.php");
 check_auth(1);
-begin_page("tests_snmp.php", "SNMP - Tests");
-js_confirm_dialog("del", "Are you sure you want to delete SNMP test ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
 
-if (!empty($_REQUEST["action"]))
+// set default action
+if (empty($_REQUEST["action"]))
 {
-	$action = $_REQUEST["action"];
+	$_REQUEST["action"] = "";
 }
-else
-{
-	$action = "";
-}
+// compatibility
+$action = $_REQUEST["action"];
 
+// if no action (list), and do inserts/updates/deletes
 if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
 {
 // Change databases if necessary and then display list
@@ -45,14 +43,20 @@ if ($action == "doedit")
 	$_REQUEST['test_oid'] = db_escape_string(fix_magic_quotes($_REQUEST['test_oid']));
 
 	db_update("$db_cmd tests_snmp SET name=\"{$_REQUEST["test_name"]}\", oid=\"{$_REQUEST["test_oid"]}\", dev_type={$_REQUEST["dev_type"]} $db_end");
+	header("Location: {$_SERVER['PHP_SELF']}");
+	exit();
 } // done editing
 
 if ($action == "dodelete")
 {
 	db_update("DELETE FROM tests_snmp WHERE id={$_REQUEST["test_id"]}");
-
+	header("Location: {$_SERVER['PHP_SELF']}");
+	exit();
 } // done deleting
 
+/** start page **/
+begin_page("tests_snmp.php", "SNMP - Tests");
+js_confirm_dialog("del", "Are you sure you want to delete SNMP test ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
 
 // Display a list
 
@@ -80,12 +84,17 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 ?>
 </table>
 <?php
+end_page();
 } // End if no action
 
 
 // Display editing screen
 if (($action == "edit") || ($action == "add"))
 {
+	/** start page **/
+	begin_page("tests_snmp.php", "SNMP - Tests");
+	js_confirm_dialog("del", "Are you sure you want to delete SNMP test ", " ? ", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
+
 	if ($action == "add")
 	{
 		$_REQUEST["test_id"] = 0;
@@ -103,9 +112,9 @@ if (($action == "edit") || ($action == "add"))
 	make_edit_submit_button();
 	make_edit_end();
 
+	end_page();
 
 } // End editing screen
 
-end_page();
 
 ?>
