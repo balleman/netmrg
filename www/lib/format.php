@@ -326,6 +326,8 @@ function make_display_table($title, $addlink = "")
 * @param array $element  an array containing 'text' describing the link
 *                        and 'href' that the text points at.  this can be an
 *                        arbitrary number of array items, and they can be empty
+*                        'checkboxname' : name of checkboxes
+*                        'checkboxid' : id to use in checkbox
 */
 function make_display_item($style = "editfield0")
 {
@@ -342,13 +344,20 @@ function make_display_item($style = "editfield0")
 ?>
 		<td class="<?php echo $style ?>" nowrap="nowrap">
 <?php
+		if (!empty($curitem["checkboxname"]) && !empty($curitem["checkboxid"]))
+		{
+?>
+		<input type="checkbox" name="<?php echo $curitem["checkboxname"]; ?>[<?php echo $curitem["checkboxid"]; ?>]"<?php
+			if (isset($curitem["checkdisabled"]) && $curitem["checkdisabled"]) { echo ' disabled="disabled"'; } ?>>
+<?php
+		} // end if checkbox
 		if (!empty($curitem["href"]))
 		{
 ?>
 		<a class="<?php echo $style ?>" href="<?php echo $curitem["href"]; ?>">
 <?php
 		} // end if href
-		
+
 		if (!empty($curitem["text"]))
 		{
 			echo $curitem["text"];
