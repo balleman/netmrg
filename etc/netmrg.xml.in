@@ -9,7 +9,7 @@
 		<rrdtool>@RRDTOOL@</rrdtool>
 		<lockfile>@prefix@/var/log/netmrg/lockfile</lockfile>
 		<runtimefile>@prefix@/var/log/netmrg/runtime</runtimefile>
-		<libexec>@prefix@/libexec/netmrg</libexec>
+		<libexec>@exec_prefix@/libexec/netmrg</libexec>
 		<rrds>@prefix@/var/lib/netmrg/rrd</rrds>
 		<webfileroot>@prefix@/var/www/netmrg</webfileroot>
 	</paths>
