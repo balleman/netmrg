@@ -11,14 +11,13 @@
 
 require_once("../include/config.php");
 
-
-$errorstring = "";
-
-// if we're not even logged in, go back to login page
-if (!IsLoggedIn())
+if (!$GLOBALS["netmrg"]["externalAuth"] && !IsLoggedIn())
 {
 	header("Location: {$GLOBALS['netmrg']['webroot']}/login.php");
-} // end if not logged in
+	exit();
+} // end if not externalauth and not logged in, goto login
+
+$errorstring = "";
 
 // if we have an action for this error page, output the error message
 if (!empty($_REQUEST["action"]))

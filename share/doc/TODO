@@ -28,7 +28,6 @@ ensure proper escaping in all queries
 
 
 == silfreed ==
-check external_auth
 checkboxes on most pages - provide for massive deletes, duplications, etc
 ability to go 'up' a level when browsing 'Groups' et al
 public website

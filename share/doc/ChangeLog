@@ -2,6 +2,7 @@
   - enclose_graph checks for auth now
   - added an 'ACCESS DENIED' png for get_graph auth
   - get_graph now auths
+  - external auth now works
 
 2003.07.06  v0.8  balleman
   - bug#0000001: chrooting code had multiple issues with respect to device tree

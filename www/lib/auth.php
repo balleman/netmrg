@@ -10,6 +10,31 @@
 
 
 /**
+* check_user($user)
+*
+* verifies a username (for external auth)
+*   $user = username
+*
+*/
+function check_user($user)
+{
+	$auth_valid = false;
+	$auth_select = "SELECT 1 FROM user WHERE user='$user'";
+	$auth_result = db_query($auth_select);
+	if (db_num_rows($auth_result) > 0)
+	{
+		$auth_valid = true;
+	}
+	else
+	{ 
+		$auth_valid = false;
+	} // end if we have a result or not
+	
+	return $auth_valid;
+} // end check_user();
+
+
+/**
 * check_user_pass($user, $pass);
 *
 * verifies a username and password agains what's in the database
@@ -29,7 +54,7 @@ function check_user_pass($user, $pass)
 	{ 
 		$auth_valid = false;
 	} // end if we have a result or not
-
+	
 	return $auth_valid;
 } // end check_user_pass()
 
@@ -45,7 +70,7 @@ function check_user_pass($user, $pass)
 function IsLoggedIn()
 {
 	if ((
-			($GLOBALS["netmrg"]["externalAuth"] && !empty($_SESSION["netmrgsess"]["username"]))
+			($GLOBALS["netmrg"]["externalAuth"] && check_user($_SESSION["netmrgsess"]["username"]))
 			||
 			(!$GLOBALS["netmrg"]["externalAuth"]
 			&& check_user_pass($_SESSION["netmrgsess"]["username"], $_SESSION["netmrgsess"]["password"]))
@@ -253,7 +278,7 @@ function get_permit()
 {
 	if (IsLoggedIn())
 	{
-		$sql = "SELECT permit FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrgsess"]["password"]."',pass)";
+		$sql = "SELECT permit FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."'";
 		$handle = db_query($sql);
 		$row = db_fetch_array($handle);
 		return $row["permit"];
@@ -290,7 +315,7 @@ function get_group_id()
 */
 function view_redirect()
 {
-	$sql = "SELECT * FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."' AND pass=ENCRYPT('".$_SESSION["netmrgsess"]["password"]."',pass)";
+	$sql = "SELECT * FROM user WHERE user='".$_SESSION["netmrgsess"]["username"]."'";
 	$handle = db_query($sql);
 	$row = db_fetch_array($handle);
 	if (empty($_SESSION["netmrgsess"]["redir"]) || (get_permit() == 0))

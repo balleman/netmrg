@@ -20,10 +20,33 @@ if (IsLoggedIn())
 	view_redirect();
 } // end if we've alread seen this page
 
+// if external auth
+if ($GLOBALS["netmrg"]["externalAuth"]
+	&& !empty($_SERVER["PHP_AUTH_USER"])
+	&& check_user($_SERVER["PHP_AUTH_USER"]))
+{
+	$_SESSION["netmrgsess"]["username"] = $_SERVER["PHP_AUTH_USER"];
+	$_SESSION["netmrgsess"]["password"] = "";
+	$_SESSION["netmrgsess"]["accessTime"] = time();
+	$_SESSION["netmrgsess"]["remote_addr"] = $_SERVER["REMOTE_ADDR"];
+	$_SESSION["netmrgsess"]["permit"] = get_permit();
+	$_SESSION["netmrgsess"]["group_id"] = get_group_id();
+	
+	view_redirect();
+} // end if external auth and usernames match
+else if ($GLOBALS["netmrg"]["externalAuth"]
+	&& !empty($_SERVER["PHP_AUTH_USER"])
+	&& !check_user($_SERVER["PHP_AUTH_USER"]))
+{
+		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
+		exit(0);
+} // end if external auth and usernames don't match
+
+
 // if we need to login
 if (!empty($_REQUEST["user_name"]))
 {
-	if (!$GLOBALS["netmrg"]["externalAuth"] 
+	if (!$GLOBALS["netmrg"]["externalAuth"]
 		&& check_user_pass($_REQUEST["user_name"], $_REQUEST["password"]))
 	{
 		$_SESSION["netmrgsess"]["username"] = $_REQUEST["user_name"];
@@ -34,19 +57,6 @@ if (!empty($_REQUEST["user_name"]))
 		$_SESSION["netmrgsess"]["group_id"] = get_group_id();
 		view_redirect();
 	} // end if normal auth
-
-	else if ($GLOBALS["netmrg"]["externalAuth"]
-		&& !empty($_SERVER["PHP_AUTH_USER"]))
-	{
-		$_SESSION["netmrgsess"]["username"] = $_SERVER["PHP_AUTH_USER"];
-		$_SESSION["netmrgsess"]["password"] = "";
-		$_SESSION["netmrgsess"]["accessTime"] = time();
-		$_SESSION["netmrgsess"]["remote_addr"] = $_SERVER["REMOTE_ADDR"];
-		$_SESSION["netmrgsess"]["permit"] = get_permit();
-		$_SESSION["netmrgsess"]["group_id"] = get_group_id();
-
-		view_redirect();
-	} // end if external auth
 
 	else
 	{
