@@ -173,12 +173,12 @@ function edit()
 	// if we're editing a monitor
 	if ($_REQUEST["action"] == "edit")
 	{
-		make_edit_table("Edit Monitor");
+		make_edit_table("Edit Monitor", "return validateform();");
 	} // end if edit
 	// if we're adding a monitor
 	else
 	{
-		make_edit_table("Add Monitor");
+		make_edit_table("Add Monitor", "return validateform();");
 	} // end else add
 
 	// if we're editing a monitor
@@ -239,6 +239,19 @@ function edit()
 		function redisplay(selectedIndex)
 		{
 			window.location = '{$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&action={$_REQUEST['action']}" . $dev_thingy . "&type=' + selectedIndex;
+		}
+		
+		function validateform()
+		{
+			if (document.editform.min_val.value != 'U'
+				&& document.editform.max_val.value != 'U'
+				&& document.editform.min_val.value >= document.editform.max_val.value)
+			{
+				alert('Minimum not allowed to be greater than or equal to Maximum');
+				return false;
+			}
+			
+			return true;
 		}
 		</script>
 		";

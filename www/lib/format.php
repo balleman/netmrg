@@ -310,12 +310,19 @@ function make_table_tag()
 }
 
 
-function make_edit_table($title)
+/**
+* make_edit_table($table, $onsubmit);
+*
+* makes a form table
+*  $title = title of form
+*  $onsubmit = optional onSubmit Javascript
+*/
+function make_edit_table($title, $onsubmit="")
 {
 	// Makes a table for editing data
 
 	?>
-	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="editform">
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="editform"<?php if (!empty($onsubmit)) { echo ' onsubmit="'.$onsubmit.'"'; } ?>>
 
 	<?php make_table_tag(); ?>
 
