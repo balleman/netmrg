@@ -153,7 +153,10 @@ begin_page("device_tree.php", "Device Tree", 1);
 
 
 <?php
-draw_group(0);
+
+$q = do_query("SELECT group_id FROM user WHERE user = '{$_SESSION["netmrgsess"]["username"]}'");
+$r = mysql_fetch_array($q);
+draw_group($r["group_id"]);
 
 function draw_group($grp_id, $depth = 0)
 {
@@ -175,7 +178,7 @@ function draw_group($grp_id, $depth = 0)
 			$img = get_image_by_name("show");
 			$grp_action = "expand";
 		} // end if this group is expanded
-		make_display_item("<img border=0 height=1 width=" . ($depth * 8) . "><img src=\"" . $img . "\" border=\"0\"> " . $grp_row["name"], $_SERVER["PHP_SELF"] . "?action=$grp_action&groupid=$grp_id",formatted_link("View", "view.php?pos_id_type=0&pos_id=$grp_id"),"","","","","","","", "", "");
+		make_display_item("<img border=0 height=1 width=" . ($depth * 8) . "><img src=\"" . $img . "\" border=\"0\"> " . $grp_row["name"], $_SERVER["PHP_SELF"] . "?action=$grp_action&groupid=$grp_id",formatted_link("View", "view.php?object_type=group&object_id=$grp_id"),"","","","","","","", "", "");
 
 
 		// if group is expanded, show the devices
@@ -205,7 +208,7 @@ function draw_group($grp_id, $depth = 0)
 					$img = get_image_by_name("show");
 					$device_action = "expand";
 				} // end if D tree
-				make_display_item("","","<img src=\"" . $img . "\" border=\"0\"> " . $dev_row["name"], $_SERVER["PHP_SELF"] . "?action=$device_action&deviceid=$device_id",formatted_link("View","view.php?pos_id_type=1&pos_id=$device_id"),"","","","","",get_img_tag_from_status($dev_row['status']),"");
+				make_display_item("","","<img src=\"" . $img . "\" border=\"0\"> " . $dev_row["name"], $_SERVER["PHP_SELF"] . "?action=$device_action&deviceid=$device_id",formatted_link("View","view.php?object_type=device&object_id=$device_id"),"","","","","",get_img_tag_from_status($dev_row['status']),"");
 
 				// if this device is expanded, show the subdevices
 				if (in_array($device_id, $_COOKIE["netmrgDevTree"]["device"]))
@@ -229,7 +232,7 @@ function draw_group($grp_id, $depth = 0)
 							$img = get_image_by_name("show");
 							$subdev_action = "expand";
 						} // end if M tree
-						make_display_item("","","","","<img src=\"" . $img . "\" border=\"0\"> " . $subdev_row['name'], $_SERVER["PHP_SELF"] . "?action=$subdev_action&subdevid=$subdev_id","","","","",get_img_tag_from_status($subdev_row['status']), "");
+						make_display_item("","","","","<img src=\"" . $img . "\" border=\"0\"> " . $subdev_row['name'], $_SERVER["PHP_SELF"] . "?action=$subdev_action&subdevid=$subdev_id", formatted_link("View", "view.php?object_type=subdevice&object_id=$subdev_id"),"","","",get_img_tag_from_status($subdev_row['status']), "");
 
 						// if this subdevice is expanded, show the monitors
 						if (in_array($subdev_id, $_COOKIE["netmrgDevTree"]["subdevice"]))

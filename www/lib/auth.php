@@ -28,7 +28,7 @@ function check_user_pass($user, $pass)
 	else
 	{ 
 		$auth_valid = false;
-	} # end if we have a result or not
+	} // end if we have a result or not
 
 	return $auth_valid;
 } // end check_user_pass()

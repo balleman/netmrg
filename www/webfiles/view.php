@@ -11,64 +11,57 @@
 
 
 require_once("../include/config.php");
-view_check_auth($_REQUEST["pos_id"], $_REQUEST["pos_id_type"]);
+//this line will need redone...
+//view_check_auth($_REQUEST["pos_id"], $_REQUEST["pos_id_type"]);
 
-if (!empty($_REQUEST["full_edit"]))
-{
-	$full_edit = $_REQUEST["full_edit"];
-}
-else
-{
-	$full_edit = 0;
-} // end if full_edit was set or not
 
 if (!empty($_REQUEST["action"]))
 {
 	if ($_REQUEST["action"] == "doadd")
 	{
 		do_update("INSERT INTO view SET
-			pos_id=" . $_REQUEST["pos_id"] . ",
-			pos_id_type=" . $_REQUEST["pos_id_type"] . ",
-			graph_id=" . $_REQUEST["graph_id"] . ",
-			graph_id_type=\"custom\",
+			object_id={$_REQUEST['object_id']},
+			object_type='{$_REQUEST['object_type']}',
+			graph_id={$_REQUEST['graph_id']},
+			type='{$_REQUEST['type']}',
+			separator_text='{$_REQUEST['separator_text']}',
 			pos={$_REQUEST['pos']}");
-		$_REQUEST["action"] = "";
-		$full_edit = 1;
 
+		header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1");
+	}
+	elseif ($_REQUEST["action"] == "doedit")
+	{
+		do_update("UPDATE view SET 
+			graph_id={$_REQUEST['graph_id']},
+			type='{$_REQUEST['type']}',
+			separator_text='{$_REQUEST['separator_text']}'
+			WHERE id={$_REQUEST['id']}");
+			
+		header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1");
 	}
 	elseif ($_REQUEST["action"] == "dodelete")
 	{
-		$q = do_query("SELECT pos FROM view
-			WHERE pos_id=" . $_REQUEST["pos_id"] . "
-			AND pos_id_type=" . $_REQUEST["pos_id_type"] . "
-			AND graph_id=" . $_REQUEST["graph_id"]);
-		
+		$q = do_query("SELECT pos FROM view WHERE id=" . $_REQUEST["id"]);
 		$r = mysql_fetch_array($q);
-		
+
 		$pos = $r["pos"];
 
-		do_update("DELETE FROM view
-			WHERE pos_id=" . $_REQUEST["pos_id"] . "
-			AND pos_id_type=" . $_REQUEST["pos_id_type"] . "
-			AND graph_id=" . $_REQUEST["graph_id"]);
+		do_update("DELETE FROM view WHERE id=" . $_REQUEST['id']);
 
 		do_update("UPDATE view SET pos = pos - 1
-			WHERE pos_id=" . $_REQUEST["pos_id"] . "
-			AND pos_id_type=" . $_REQUEST["pos_id_type"] . "
+			WHERE object_id=" . $_REQUEST["object_id"] . "
+			AND object_type='" . $_REQUEST["object_type"] . "'
 			AND pos > " . $pos);
 
-
-		$_REQUEST["action"] = "";
-		$full_edit = 1;
-
+		header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1");
 	}
 	elseif ($_REQUEST["action"] == "move")
 	{
 		$query = do_query("
-			SELECT graph_id, pos
-			FROM view
-			WHERE pos_id={$_REQUEST['pos_id']}
-			AND pos_id_type={$_REQUEST['pos_id_type']}
+			SELECT 	graph_id, pos
+			FROM 	view
+			WHERE 	object_id={$_REQUEST['object_id']}
+			AND 	object_type='{$_REQUEST['object_type']}'
 			ORDER BY pos");
 
 		for ($i = 0; $i < mysql_num_rows($query); $i++)
@@ -80,8 +73,8 @@ if (!empty($_REQUEST["action"]))
 				if (($_REQUEST['id'] - 1) == $i)
 				{
 					$next_row = mysql_fetch_array($query);
-					do_update("UPDATE view SET pos = {$next_row['pos']} WHERE pos_id = {$_REQUEST['pos_id']} AND pos_id_type = {$_REQUEST['pos_id_type']} AND graph_id = {$row['graph_id']}");
-					do_update("UPDATE view SET pos = {$row['pos']} WHERE pos_id = {$_REQUEST['pos_id']} AND pos_id_type = {$_REQUEST['pos_id_type']} AND graph_id = {$next_row['graph_id']}");
+					do_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND graph_id = {$row['graph_id']}");
+					do_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND graph_id = {$next_row['graph_id']}");
 					break;
 				}
 			}
@@ -90,14 +83,14 @@ if (!empty($_REQUEST["action"]))
 				if ($_REQUEST['id'] == $i)
 				{
 					$next_row = mysql_fetch_array($query);
-					do_update("UPDATE view SET pos = {$next_row['pos']} WHERE pos_id = {$_REQUEST['pos_id']} AND pos_id_type = {$_REQUEST['pos_id_type']} AND graph_id = {$row['graph_id']}");
-					do_update("UPDATE view SET pos = {$row['pos']} WHERE pos_id = {$_REQUEST['pos_id']} AND pos_id_type = {$_REQUEST['pos_id_type']} AND graph_id = {$next_row['graph_id']}");
+					do_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND graph_id = {$row['graph_id']}");
+					do_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND graph_id = {$next_row['graph_id']}");
 					break;
 				}
 			}
 		}
 
-		header("Location: {$_SERVER['PHP_SELF']}?pos_id={$_REQUEST['pos_id']}&pos_id_type={$_REQUEST['pos_id_type']}&full_edit=1");
+		header("Location: {$_SERVER['PHP_SELF']}?object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&edit=1");
 		exit(0);
 
 	} // end if we have an action to perform
@@ -106,18 +99,20 @@ if (!empty($_REQUEST["action"]))
 
 begin_page("view.php", "View", 1);
 
-$view_select = "
-    SELECT * FROM view
-    LEFT JOIN graphs ON view.graph_id=graphs.id
-    WHERE pos_id_type=".$_REQUEST["pos_id_type"]."
-    AND pos_id=".$_REQUEST["pos_id"]."
-    ORDER BY pos";
-$view_result = do_query($view_select);
-$num = mysql_num_rows($view_result);
-
 if (empty($_REQUEST["action"]))
 {
-	if ($full_edit != 1)
+	$view_select =
+		"SELECT		view.id, pos, graphs.name, graph_id, separator_text, subdev_id, pos, type
+		 FROM		view
+	 	 LEFT JOIN 	graphs ON view.graph_id=graphs.id
+	 	 WHERE 		object_type='{$_REQUEST['object_type']}'
+	  	 AND 		object_id={$_REQUEST['object_id']}
+	 	 ORDER BY 	pos";
+
+	$view_result = do_query($view_select);
+	$num = mysql_num_rows($view_result);
+
+	if (!isset($_REQUEST['edit']) || ($_REQUEST['edit'] == 0))
 	{
 
 		print("<div align=\"center\">");
@@ -126,15 +121,16 @@ if (empty($_REQUEST["action"]))
 		{
 			$row = mysql_fetch_array($view_result);
 
-			if ($row["graph_id_type"] == 0)
+			switch ($row['type'])
 			{
-				print("<a href=\"enclose_graph.php?type=" . $row["graph_id_type"] . "&id=" . $row["graph_id"] . "\">" .
-					"<img border=\"0\" src=\"get_graph.php?type=" . $row["graph_id_type"] . "&id=" . $row["graph_id"] . "\"></a><br>");
-			}
+				case "graph":
+				print("<a href=\"enclose_graph.php?type=custom&id=" . $row["graph_id"] . "\">" .
+					"<img border=\"0\" src=\"get_graph.php?type=custom&id=" . $row["graph_id"] . "\"></a><br>");
+				break;
 
-			if ($row["graph_id_type"] == 10)
-			{
-				print("<table width='100%' bgcolor='" . $row["separator_color"] . "'><tr><td><b><font color='AAAAAA'>" . $row["separator_text"] . "</font></b></td></tr></table>");
+				case "separator":
+				print("<table width='100%' bgcolor='#0011AA'><tr><td><b><font color='AAAAAA'>" . $row["separator_text"] . "</font></b></td></tr></table>");
+				break;
 			}
 
 		}
@@ -143,17 +139,17 @@ if (empty($_REQUEST["action"]))
 
 		if (get_permit() > 1)
 		{
-			print(formatted_link("Edit", "view.php?pos_id_type={$_REQUEST['pos_id_type']}&pos_id={$_REQUEST['pos_id']}&full_edit=1"));
+			print(formatted_link("Edit", "{$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&edit=1"));
 
 		}
 
 	}
 	else
 	{
-		js_confirm_dialog("del", "Do you want to remove ", " from this view?", "{$_SERVER['PHP_SELF']}?action=dodelete&pos_id_type={$_REQUEST['pos_id_type']}&pos_id={$_REQUEST['pos_id']}&graph_id=");
+		js_confirm_dialog("del", "Do you want to remove ", " from this view?", "{$_SERVER['PHP_SELF']}?action=dodelete&object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&id=");
 
-		$custom_add_link = "view.php?pos_id_type=".$_REQUEST["pos_id_type"]."&pos_id=".$_REQUEST["pos_id"]."&pos=" . ($num + 1) . "&action=add";
-		make_display_table("Edit View","Graph","");
+		$custom_add_link = "{$_SERVER['PHP_SELF']}?object_type=".$_REQUEST["object_type"]."&object_id=".$_REQUEST["object_id"]."&pos=" . ($num + 1) . "&action=add";
+		make_display_table("Edit View", "Item", "", "Type", "");
 
 		for ($i = 0; $i < $num; $i++)
 		{
@@ -163,7 +159,7 @@ if (empty($_REQUEST["action"]))
 			}
 			else
 			{
-				$move_up = formatted_link("Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&pos_id={$_REQUEST['pos_id']}&pos_id_type={$_REQUEST['pos_id_type']}&id=$i");
+				$move_up = formatted_link("Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id=$i");
 			}
 
 			if ($i == ($num - 1))
@@ -172,19 +168,39 @@ if (empty($_REQUEST["action"]))
 			}
 			else
 			{
-				$move_down = formatted_link("Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&pos_id={$_REQUEST['pos_id']}&pos_id_type={$_REQUEST['pos_id_type']}&id=$i");
+				$move_down = formatted_link("Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id=$i");
 			}
 
 			$row = mysql_fetch_array($view_result);
-			make_display_item($row["name"],"",
+
+			switch ($row['type'])
+			{
+				case 'graph':
+				$name = $row['name'];
+				$extra_options = formatted_link("Edit Graph", "graph_items.php?graph_id={$row['graph_id']}");
+				break;
+
+				case 'separator':
+				$name = $row['separator_text'];
+				$extra_options = "";
+				break;
+
+				default:
+				$extra_options = "";
+			}
+
+			make_display_item(
+				$name, "",
+				ucfirst($row["type"]), "",
 				$move_up . "&nbsp;" .
 				$move_down . "&nbsp;" .
-				formatted_link("Delete","javascript:del('{$row['name']}', '{$row['graph_id']}')") . "&nbsp;" .
-				formatted_link("Edit Graph", "graph_items.php?graph_id={$row['graph_id']}"), "");
+				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?id={$row['id']}&action=edit") . "&nbsp;" .
+				formatted_link("Delete","javascript:del('{$row['name']}', '{$row['id']}')") . "&nbsp;" .
+				$extra_options, "");
 		}
 
 		print("</table>");
-		print(formatted_link("Done Editing", "view.php?pos_id_type={$_REQUEST['pos_id_type']}&pos_id={$_REQUEST['pos_id']}&full_edit=0"));
+		print(formatted_link("Done Editing", "{$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}"));
 
 	}
 }
@@ -192,14 +208,47 @@ if (empty($_REQUEST["action"]))
 
 if (!empty($_REQUEST["action"]))
 {
-	if ($_REQUEST["action"] == "add")
+	if (($_REQUEST["action"] == "add") || ($_REQUEST["action"] == "edit"))
 	{
-		make_edit_table("Add Graph to View");
-		make_edit_select_from_table("Graph:","graph_id","graphs",0);
-		make_edit_hidden("pos_id",$_REQUEST["pos_id"]);
-		make_edit_hidden("pos_id_type",$_REQUEST["pos_id_type"]);
-		make_edit_hidden("action","doadd");
-		make_edit_hidden("pos", $_REQUEST['pos']);
+		
+		switch ($_REQUEST["action"])
+		{
+			case "add":
+			$row["type"] = "graph";
+			$row["graph_id"] = 0;
+			$row["separator_text"] = "";
+			break;
+
+			case "edit":
+			$q = do_query("SELECT * FROM view WHERE id={$_REQUEST['id']}");
+			$row = mysql_fetch_array($q);
+			break;
+		}
+
+		make_edit_table("Add Item");
+		make_edit_select_from_array("Item Type:", "type", $VIEW_ITEM_TYPES, $row["type"]);
+		make_edit_group("Custom Graph");
+		make_edit_select_from_table("Graph:", "graph_id", "graphs", $row["graph_id"]);
+		make_edit_group("Template Graph");
+		make_edit_group("Separator");
+		make_edit_text("Separator Text:", "separator_text", "40", "100", $row["separator_text"]);
+		switch ($_REQUEST["action"])
+		{
+			case "add":
+			make_edit_hidden("object_id", $_REQUEST["object_id"]);
+			make_edit_hidden("object_type", $_REQUEST["object_type"]);
+			make_edit_hidden("action", "doadd");
+			make_edit_hidden("pos", $_REQUEST['pos']);
+			break;
+			
+			case "edit":
+			make_edit_hidden("action", "doedit");
+			make_edit_hidden("id", $_REQUEST['id']);
+			make_edit_hidden("object_id", $row["object_id"]);
+			make_edit_hidden("object_type", $row["object_type"]);
+			//print_r($row);
+			break;
+		}
 		make_edit_submit_button();
 		make_edit_end();
 	}

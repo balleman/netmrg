@@ -51,8 +51,7 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 
 	do_update("$db_cmd user SET user='{$_REQUEST['user']}',
 		fullname='{$_REQUEST['fullname']}', $pass_cmd
-		permit='{$_REQUEST['permit']}', view_type='{$_REQUEST['view_type']}',
-		view_id='{$_REQUEST['view_id']}' $db_end");
+		permit='{$_REQUEST['permit']}', group_id='{$_REQUEST['group_id']}' $db_end");
 		
 	header("Location: {$_SERVER['PHP_SELF']}");
 	exit(0);
@@ -72,8 +71,7 @@ if (!empty($action) && $action == "dodelete")
 begin_page("users.php", "User Management");
 make_display_table("Users","User ID","","Name", "", "Permissions","");
 
-$user_results = do_query("
-SELECT user.id, user.user, user.view_type, user.view_id, user.fullname, user.permit FROM user ORDER BY user.user");
+$user_results = do_query("SELECT * FROM user ORDER BY user.user");
 
 $user_total = mysql_num_rows($user_results);
 
@@ -121,8 +119,7 @@ if (!empty($action) && ($action == "edit" || $action == "add"))
 	make_edit_text("Full Name", "fullname", "25", "75", $user_row["fullname"]);
 	make_edit_password("Password:", "pass", "25", "50", "");
 	make_edit_select_from_array("Permit Type:", "permit", $GLOBALS['PERMIT_TYPES'], $user_row["permit"]);
-	make_edit_text("View Type", "view_type", "5", "5", $user_row["view_type"]);
-	make_edit_text("View ID", "view_id", "5", "5", $user_row["view_id"]);
+	make_edit_select_from_table("Group:", "group_id", "groups", $user_row["group_id"], "", array(0 => "-Root-"));
 	make_edit_hidden("action", "doedit");
 	make_edit_hidden("user_id", $user_id);
 	make_edit_submit_button();

@@ -32,6 +32,7 @@ if (!isset($_REQUEST["action"]))
 		make_display_item($row["name"], "monitors.php?sub_dev_id=" . $row["id"],
 			$SUB_DEVICE_TYPES[$row["type"]], "",
 			formatted_link("Parameters", "sub_dev_param.php?dev_id={$_REQUEST['dev_id']}&sub_dev_id=" . $row["id"]) . "&nbsp;" .
+			formatted_link("View", "view.php?object_type=subdevice&object_id={$row['id']}") . "&nbsp;" . 
 			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&dev_id={$_REQUEST['dev_id']}&sub_dev_id=" . $row["id"]) . "&nbsp;" .
 			formatted_link("Delete", "javascript:del('{$row['name']}','{$row['id']}')"), "");
 	}

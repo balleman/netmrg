@@ -29,6 +29,8 @@ ability for user to change their own password
 a device's type can affect the list of tests that can be performed on it
 when looking at a device's graphs, you should be able to click next to it
   and follow it to the next device (if applicable)
+ensure proper escaping in all queries
+checkboxes on most pages - provide for massive deletes, duplications, etc
 
 
 == silfreed ==
@@ -46,15 +48,14 @@ make icons for links on various pages
 graph templates
 netmrg.cc
   more comprehensive way of setting debug levels needed
-  
-  
+
+
 == far-away features ==
 customized 'view' page
   - if one graph shown, ability to zoom in on a area (custom min/max)
   - on the main view page, select boxes to pick which graphs you would like to see
     (makes it easier to compare some graphs)
   - ability to move graphs up/down despite their original ordering (session fun)
-  - nestable conditions for events
 fast-fourier transforms for what data 'should look like'
 themes/skins for UI and graphs
   - I'd like to see a neon theme ;)

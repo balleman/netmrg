@@ -70,6 +70,11 @@ $VALUE_TYPES = array(
 			0	=>	"Current Value",
 			1	=>	"Delta Value",
 			2	=>	"Rate of Change");
+			
+$VIEW_ITEM_TYPES = array(
+		'graph'		=>	"Graph",
+		'template'      =>	"Templated Graph",
+		'separator'	=>	"Separator");
 
 $INTERFACE_STATUS = array(
 			1	=>	"Up",
