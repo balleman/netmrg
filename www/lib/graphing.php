@@ -212,8 +212,11 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 
 			if ($ds_row["multiplier"] != 1)
 			{
-				$fields = expand_parameters(array($ds_row["multiplier"]), $_REQUEST['subdev_id']);
-				$ds_row["multiplier"] = $fields[0];
+				if ($templated)
+				{
+					$fields = expand_parameters(array($ds_row["multiplier"]), $_REQUEST['subdev_id']);
+					$ds_row["multiplier"] = $fields[0];
+				}
 				$ds_row["multiplier"] = simple_math_parse($ds_row["multiplier"]);
 				$command .= "CDEF:data" . $ds_count . "=raw_data" . $ds_count . "," . $ds_row["multiplier"] . ",* ";
 				$command .= "CDEF:data" . $ds_count . "l=raw_data" . $ds_count . "l," . $ds_row["multiplier"] . ",* ";
@@ -223,8 +226,11 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 		// Data is from a fixed value
 		elseif ($ds_row['mon_id'] == -1)
 		{
-			$fields = expand_parameters(array($ds_row["multiplier"]), $_REQUEST['subdev_id']);
-			$ds_row["multiplier"] = $fields[0];
+			if ($templated)
+			{
+				$fields = expand_parameters(array($ds_row["multiplier"]), $_REQUEST['subdev_id']);
+				$ds_row["multiplier"] = $fields[0];
+			}
 			$ds_row["multiplier"] = simple_math_parse($ds_row["multiplier"]);
 			$command .= "CDEF:data" . $ds_count . "=zero,UN,1,1,IF," . $ds_row["multiplier"] . ",* ";
 			$command .= "CDEF:data" . $ds_count . "l=zero,UN,1,1,IF," . $ds_row["multiplier"] . ",* ";
