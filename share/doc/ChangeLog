@@ -1,3 +1,6 @@
+2005.03.28  v0.18.2  keb
+  - bug#0000399: nanosleep needs rt library
+
 2005.03.26  v0.18.2  keb
   - bug#0000387: Way to apply a template graph to multiple subdevices
 

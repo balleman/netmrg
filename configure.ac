@@ -307,6 +307,7 @@ AC_CHECK_FUNCS( \
 	memmove \
 	llround
 )
+AC_SEARCH_LIBS(nanosleep, rt posix4,, AC_ERROR([nanosleep function not found.]))
 
 # Determine UCD or Net-SNMP include path
 if test "x$snmp_include_dir" != "x"; then
