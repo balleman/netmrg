@@ -326,7 +326,7 @@ function make_edit_label($contents)
         // Creates a table row and cell, allowing arbitrary contents to be inserted
 
         ?>
-	<tr <? print($options); ?>><td bgcolor="<? print(get_color_by_name("edit_fields")); ?>">
+	<tr><td bgcolor="<? print(get_color_by_name("edit_fields")); ?>">
 	<? print ($contents); ?>
 	</td></tr>
 	<?
@@ -433,7 +433,7 @@ function make_edit_color($header, $name, $value)
 
         ?>
 
-	<tr <? print($options); ?>><td bgcolor="<? print(get_color_by_name("edit_fields")); ?>">
+	<tr><td bgcolor="<? print(get_color_by_name("edit_fields")); ?>">
 
 	<b><? print($header) ?></b><br>
 
