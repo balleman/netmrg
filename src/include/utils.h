@@ -50,6 +50,10 @@ const int LEVEL_ALL			= 255;
 const int LEVEL_MOST		= 127;
 const int LEVEL_DEFAULT		= 63;
 
+// Logging Output Modes
+const int LOG_METHOD_STDOUT = 1;
+const int LOG_METHOD_SYSLOG = 2;
+
 
 // general functions
 int 			file_exists(string filename);
@@ -70,6 +74,9 @@ int				get_debug_components();
 void			set_debug_components(int components);
 bool			get_debug_safety();
 void			set_debug_safety(bool safety);
+void			set_log_method(int method);
+int				get_log_method();
+
 string			censor_message(const string & message);
 string			remove_braces(const string & message);
 void 			debuglogger(int component, int level, const DeviceInfo *, const string & message);

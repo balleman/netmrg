@@ -242,6 +242,7 @@ void show_usage()
 	printf("If no mode is specified, the default is to gather data for all enabled devices.\n");
 
 	printf("\nLogging:\n");
+	printf("-S          Syslog; output logs to syslog instead of stdout.\n");
 	printf("-a          All; display all debug messages.\n");
 	printf("-m          Most; display more than the default.\n");
 	printf("-q          Quiet; display no debug messages.\n");
@@ -347,7 +348,7 @@ int main(int argc, char **argv)
 	load_settings_file(DEF_CONFIG_FILE);
 	string temppass;
 
-	while ((option_char = getopt(argc, argv, "hvXqasmi:d:c:l:H:D:u:p::t:C:K::")) != EOF)
+	while ((option_char = getopt(argc, argv, "hvXSqasmi:d:c:l:H:D:u:p::t:C:K::")) != EOF)
 		switch (option_char)
 		{
 			case 'h': 	show_usage();
@@ -360,6 +361,8 @@ int main(int argc, char **argv)
 						exit(0);
 						break;
 			case 'X':	daemonize();
+						break;
+			case 'S':	set_log_method(LOG_METHOD_SYSLOG);
 						break;
 			case 'd': 	external_snmp_recache(strtoint(optarg), 2);
 						exit(0);

@@ -10,6 +10,7 @@
 #include <string>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <syslog.h>
 
 #include "utils.h"
 #include "db.h"
@@ -93,6 +94,7 @@ string inttopadstr(int integer, int padlen)
 // Debugging Options
 static int debug_components = DEBUG_DEFAULT;
 static int debug_level 		= LEVEL_DEFAULT;
+static int log_method		= LOG_METHOD_STDOUT;
 static bool debug_safety	= false;
 
 // Debugging Options Manipulations
@@ -124,6 +126,31 @@ void set_debug_safety(bool safety)
 bool get_debug_safety()
 {
 	return debug_safety;
+}
+
+void set_log_method(int method)
+{
+	log_method = method;
+}
+
+int get_log_method()
+{
+	return log_method;
+}
+
+int level_to_priority(int level)
+{
+	switch (level)
+	{
+		case LEVEL_EMERG: 		return LOG_EMERG;
+		case LEVEL_ALERT: 		return LOG_ALERT;
+		case LEVEL_CRITICAL: 	return LOG_CRIT;
+		case LEVEL_ERROR: 		return LOG_ERR;
+		case LEVEL_WARNING:		return LOG_WARNING;
+		case LEVEL_NOTICE:		return LOG_NOTICE;
+		case LEVEL_INFO:		return LOG_INFO;
+		case LEVEL_DEBUG:		return LOG_DEBUG;
+	}
 }
 
 // censor_message - replace the contents of braces with a 'Field Omitted' message
@@ -219,7 +246,12 @@ void debuglogger(int component, int level, const DeviceInfo * info, const string
 		}
 
 		// print the formatted message
-		printf("%s\n", tempmsg.c_str());
+		if (log_method & LOG_METHOD_STDOUT)
+			printf("%s\n", tempmsg.c_str());
+		
+		// syslog the message
+		if (log_method & LOG_METHOD_SYSLOG)
+			syslog(level_to_priority(level), "%s", tempmsg.c_str());
 	}
 
 	// log message to database, if possible, and if important enough
@@ -246,6 +278,7 @@ void debuglogger(int component, int level, const DeviceInfo * info, const string
 			subdevice + ", mon_id=" + monitor + ", level=" + inttostr(level) + ", component=" + inttostr(component) +
 			", message = '" + db_escape(remove_braces(message)) + "'");
 	}
+
 
 } // end debuglogger
 
