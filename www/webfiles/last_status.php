@@ -14,7 +14,10 @@
 ########################################################
 
 require_once("../include/config.php");
+
+// require at least read
 check_auth(1);
+
 //$G_tree = get_array_from_cookie("G_tree");
 //$D_tree = get_array_from_cookie("D_tree");
 //$M_tree = get_array_from_cookie("M_tree");
@@ -73,9 +76,12 @@ if (!empty($D_tree))
 if (!empty($M_tree))
 	$_SESSION["netmrgsess"]["M_tree"] = $M_tree;
 
-refresh_tag();
-begin_page();
+?>
 
+
+<?
+refresh_tag();
+begin_page("last_status.php", "Device Tree");
 ?>
 <table width="100%" border="0" cellspacing="2" cellpadding="2" align="center">
 	<tr>
@@ -92,8 +98,9 @@ begin_page();
 	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Monitors</font></b></td>
 	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Events</font></b></td>
 	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Situation</font></b></td>
-<?php
 
+
+<?php
 draw_group(0);
 
 function draw_group($grp_id, $depth = 0)

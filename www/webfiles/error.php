@@ -18,8 +18,14 @@ require_once("../include/config.php");
 
 $errorstring = "";
 
+// if we're not even logged in, go back to login page
+if (!IsLoggedIn())
+{
+	header("Location: {$GLOBALS['netmrg']['webroot']}/login.php");
+} // end if not logged in
+
 // if we have an action for this error page, output the error message
-if (!empty($_REQEST["action"]))
+if (!empty($_REQUEST["action"]))
 {
 	if ($_REQUEST["action"] == "denied")
 	{
