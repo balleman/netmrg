@@ -16,12 +16,12 @@
 #define _POSIX_THREAD_SAFE_FUNCTIONS
 #define _P __P
 
-#define NETMRG_VERSION		"0.80"
-#define NETMRG_ROOT 		"/var/www/netmrg/"
+#define NETMRG_VERSION	"0.80"
+#define NETMRG_ROOT 	"/var/www/netmrg/"
 #define RRDTOOL 		"/usr/bin/rrdtool - "
 
 #define NTHREADS 		8 			// number of simultaneous threads
-#define THREAD_SLEEP 		10000			// number of microseconds between thread checks
+#define THREAD_SLEEP 	10000		// number of microseconds between thread checks
 
 // MySQL Credentials
 #define MYSQL_HOST		"localhost"

@@ -32,9 +32,6 @@
 
 using namespace std;
 
-// RRDTOOL Pipe
-FILE *rrdtool_pipe;
-
 int active_threads = 0;
 
 // Include the NetMRG Libraries
@@ -43,105 +40,8 @@ int active_threads = 0;
 #include "locks.h"
 #include "snmp.h"
 #include "db.h"
+#include "rrd.h"
 #include <netmrg-misc.cc>
-
-
-
-
-// rrd_cmd
-//
-// issues a command to RRDTOOL via the RRDTOOL pipe, and logs it
-
-void rrd_cmd(DeviceInfo info, string cmd)
-{
-	debuglogger(DEBUG_RRD, &info, "RRD: '" + cmd + "'");
-	cmd = " " + cmd + "\n";
-
-	mutex_lock(lkRRD);
-	fprintf(rrdtool_pipe, cmd.c_str());
-	mutex_unlock(lkRRD);
-}
-
-// get_rrd_file
-//
-// returns the name of the rrd file in use for a given monitor
-
-string get_rrd_file(string mon_id)
-{
-	string filename = string(NETMRG_ROOT) + "rrd/mon_" + mon_id + ".rrd";
-	return filename;
-}
-
-// create_rrd
-//
-// creates a new RRD file
-
-void create_rrd(DeviceInfo info, RRDInfo rrd)
-{
-	string command;
-
-	command = "create " + get_rrd_file(inttostr(info.monitor_id)) +
-			" DS:mon_" + inttostr(info.monitor_id) + ":" + rrd.data_type +
-			":600:" + rrd.min_val + ":" + rrd.max_val + " " +
-			"RRA:AVERAGE:0.5:1:600 " +
-			"RRA:AVERAGE:0.5:6:700 " 	+
-			"RRA:AVERAGE:0.5:24:775 " 	+
-			"RRA:AVERAGE:0.5:288:797 " 	+
-			"RRA:LAST:0.5:1:600 " 		+
-			"RRA:LAST:0.5:6:700 " 		+
-			"RRA:LAST:0.5:24:775 " 		+
-			"RRA:LAST:0.5:288:797 " 	+
-			"RRA:MAX:0.5:1:600 " 		+
-			"RRA:MAX:0.5:6:700 "		+
-			"RRA:MAX:0.5:24:775 "		+
-			"RRA:MAX:0.5:288:797";
-	rrd_cmd(info, command);
-}
-
-// tune_rrd
-//
-// modifies the maximum and minimum values acceptable for a given RRD
-
-void tune_rrd(DeviceInfo info, RRDInfo rrd)
-{
-	string command = "tune " + get_rrd_file(inttostr(info.monitor_id)) + " -a mon_" +
-	       			inttostr(info.monitor_id) + ":" + rrd.max_val +
-				" -i mon_" + inttostr(info.monitor_id) + ":" + rrd.min_val;
-	rrd_cmd(info, command);
-}
-
-// update_rrd
-//
-// update an RRD with a current value
-
-void update_rrd(DeviceInfo info, RRDInfo rrd)
-{
-	string command = "update " + get_rrd_file(inttostr(info.monitor_id)) + " N:" + stripnl(info.curr_val);
-	rrd_cmd(info, command);
-}
-
-// update_monitor_rrd
-//
-// for a monitor:
-//	1. Create a RRD file if one doesn't exist.
-//	2. Tune the RRD file if necessary.
-//	3. Update the RRD file with current data.
-
-void update_monitor_rrd(DeviceInfo info, RRDInfo rrd)
-{
-	if (!(file_exists(get_rrd_file(inttostr(info.monitor_id)))))
-	{
-		create_rrd(info, rrd);
-	}
-
-	if (rrd.tuned == 0)
-	{
-		tune_rrd(info, rrd);
-	}
-
-	update_rrd(info, rrd);
-}
-
 
 // update_monitor_db
 //
@@ -1178,21 +1078,12 @@ void run_netmrg()
 	snmp_init();
 
 	// RRDTOOL command pipe setup
-	debuglogger(DEBUG_GLOBAL + DEBUG_RRD, NULL, "Initializing RRDTOOL pipe.");
-	string rrdtool = RRDTOOL;
-	if (!(get_debug_level() && DEBUG_RRD))
-		rrdtool = rrdtool + " >/dev/null";
-	rrdtool_pipe = popen(rrdtool.c_str(), "w");
-	// sets buffering to one line
-	setlinebuf(rrdtool_pipe);
-
+	rrd_init();
 
 	// open mysql connection for initial queries
-
 	db_connect(&mysql);
 
 	// request list of devices to process
-
 	mysql_res = db_query(&mysql, NULL, "SELECT id FROM devices WHERE disabled=0 ORDER BY id");
 
 	num_rows 	= mysql_num_rows(mysql_res);
@@ -1299,11 +1190,10 @@ void run_netmrg()
 	debuglogger(DEBUG_GLOBAL, NULL, "Closed MySQL connection.");
 
 	// clean up RRDTOOL command pipe
-	pclose(rrdtool_pipe);
-	debuglogger(DEBUG_GLOBAL, NULL, "Closed RRDTOOL pipe.");
-
+	rrd_cleanup();
+	
 	// clean up SNMP
-        snmp_cleanup();
+	snmp_cleanup();
 
 	// determine runtime and store it
 	long int run_time = time( NULL ) - start_time;
