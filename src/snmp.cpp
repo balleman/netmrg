@@ -10,7 +10,7 @@
 /*
 
    NetMRG SNMP Functions
-   Copyright 2001-2002 Brady Alleman, All Rights Reserved.
+   Copyright 2001-2003 Brady Alleman, All Rights Reserved.
 
    Much of this code was originally part of net-snmp's application and
    example code.
