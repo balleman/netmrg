@@ -86,11 +86,11 @@ fi
 * Thu Oct 14 2004 Douglas E. Warner <silfreed@netmrg.net>
 - fix homedir for netmrg
 
-* Sat May 19 2004 Kevin Bonner <keb@pa.net>
-- added build option '--with ucd' to allow building on older RH boxes
-
 * Fri May 28 2004 Douglas E. Warner <silfreed@netmrg.net>
 - added new init and cron scripts
+
+* Sat May 19 2004 Kevin Bonner <keb@pa.net>
+- added build option '--with ucd' to allow building on older RH boxes
 
 * Sat Oct 06 2003 Douglas E. Warner <silfreed@netmrg.net>
 - Initial RPM release.
