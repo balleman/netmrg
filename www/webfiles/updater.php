@@ -47,7 +47,7 @@ $dbupdates = array(
 "INSERT INTO user_prefs (uid, module, pref, value) SELECT id, 'SlideShow', 'AutoScroll', 1 FROM user;"
 	), // end 0.10
 	"0.12" => array(), // end 0.12
-	"0.13" => array(), // end 0.13
+	"0.13" => array()  // end 0.13
 ); // end $dbupdates;
 
 // check what to do
