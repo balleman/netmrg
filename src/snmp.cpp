@@ -17,14 +17,22 @@
 
 */
 
-#include <net-snmp/net-snmp-config.h>
-#include <net-snmp/net-snmp-includes.h>
-#include <net-snmp/config_api.h>
-#include <net-snmp/mib_api.h>
-
 #include "utils.h"
 #include "locks.h"
 #include "snmp.h"
+
+#ifdef HAVE_NET_SNMP
+#include <net-snmp-config.h>
+#include <net-snmp-includes.h>
+#include <config_api.h>
+#include <mib_api.h>
+#else
+#define DS_APP_DONT_FIX_PDUS 0
+#include <ucd-snmp-config.h>
+#include <ucd-snmp-includes.h>
+#include <system.h>
+#include <mib.h>
+#endif
 
 void snmp_init()
 {
@@ -34,8 +42,13 @@ void snmp_init()
 	struct snmp_session session;
 	snmp_sess_init(&session);
 	
+#ifdef HAVE_NET_SNMP
 	netsnmp_ds_set_int(NETSNMP_DS_LIBRARY_ID, NETSNMP_DS_LIB_OID_OUTPUT_FORMAT, NETSNMP_OID_OUTPUT_NUMERIC);
 	netsnmp_ds_set_boolean(NETSNMP_DS_LIBRARY_ID, NETSNMP_DS_LIB_PRINT_NUMERIC_ENUM, 1);
+#else
+	ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_OIDS);
+	ds_toggle_boolean(DS_LIBRARY_ID, DS_LIB_PRINT_NUMERIC_ENUM);
+#endif
 }
 
 void snmp_cleanup()

@@ -10,10 +10,10 @@
 #ifndef NETMRG_SNMP
 #define NETMRG_SNMP
 
-#include "config.h"
+#include "common.h"
+#include "types.h"
 #include <string>
 #include <list>
-#include "types.h"
 
 void snmp_init();
 void snmp_cleanup();

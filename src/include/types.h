@@ -10,7 +10,7 @@
 #ifndef NETMRG_TYPES
 #define NETMRG_TYPES
 
-#include "config.h"
+#include "common.h"
 #include <list>
 #include <string>
 

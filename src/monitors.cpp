@@ -57,9 +57,13 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 			string(mysql_row[4]) + "')");
 
 		mutex_lock(lkMySQL);
+#ifndef OLD_MYSQL
 		mysql_init(&test_mysql);
 
 		if (!(mysql_real_connect(&test_mysql,mysql_row[0],mysql_row[1],mysql_row[2], NULL, 0, NULL, 0)))
+#else
+		if (!(mysql_connect(&test_mysql,mysql_row[0],mysql_row[1],mysql_row[2])))
+#endif
 		{
 			mutex_unlock(lkMySQL);
 			debuglogger(DEBUG_GATHERER, LEVEL_WARNING, &info, "Test MySQL Connection Failure.");

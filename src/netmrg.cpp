@@ -19,7 +19,7 @@
 
 */
 
-#include "config.h"
+#include "common.h"
 #include <cstdio>
 #include <cstdlib>
 #include <unistd.h>
@@ -52,7 +52,9 @@ void *child(void * arg)
 {
 	int device_id = *(int *) arg;
 
-	//mysql_thread_init();
+#ifndef OLD_MYSQL
+	mysql_thread_init();
+#endif
 
 	process_device(device_id);
 
@@ -61,7 +63,9 @@ void *child(void * arg)
 	mutex_unlock(lkActiveThreads);
 	debuglogger(DEBUG_THREAD, LEVEL_NOTICE, NULL, "Thread Ended.");
 
-	//mysql_thread_end();
+#ifndef OLD_MYSQL
+	mysql_thread_end();
+#endif
 
 	pthread_exit(0);
 

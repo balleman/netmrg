@@ -7,8 +7,8 @@
 * see doc/LICENSE for copyright information
 ********************************************/
 
+#include "common.h"
 #include "db.h"
-#include "config.h"
 #include "locks.h"
 #include "utils.h"
 #include "settings.h"
