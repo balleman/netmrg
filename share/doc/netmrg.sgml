@@ -545,7 +545,7 @@ their NetMRG administrator.
 					<para>Click on <guilabel>Template Graphs</guilabel> in the <guilabel>Graphing</guilabel> menu.</para>
 				</listitem>
 				<listitem>
-					<para>Click on the <guilabel>Apply Template To...</guilabel> next to the <computeroutput>Linux Box - CPU Utilization</computeroutput> template graph.</para>
+					<para>Click on the <guilabel>Apply Template To...</guilabel> icon (hover to see the caption) next to the <computeroutput>Linux Box - CPU Utilization</computeroutput> template graph.</para>
 				</listitem>
 				<listitem>
 					<para>In the <guilabel>Subdevice</guilabel> drop down box, select <computeroutput>My Server - System</computeroutput>.</para>
