@@ -218,7 +218,7 @@ void process_device(int dev_id)
 	info.ip						= mysql_row[1];
 	info.snmp_version			= strtoint(mysql_row[2]);
 	
-	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, info.name + " / " + info.ip);
+	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, info.name + " / {" + info.ip + "}");
 	
 	// setup device-wide parameters
 	info.parameters.push_front(ValuePair("dev_name", mysql_row[0]));

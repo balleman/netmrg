@@ -29,6 +29,11 @@ const int DEBUG_RRD			= 128;
 const int DEBUG_SNMP		= 256;
 const int DEBUG_GATHERER	= 512;
 const int DEBUG_MYSQL		= 1024;
+const int DEBUG_LOGGING		= 2048;
+
+const int DEBUG_ALL			= 4095;
+const int DEBUG_MOST		= DEBUG_ALL;
+const int DEBUG_DEFAULT		= DEBUG_ALL;
 
 // Logging Levels (see syslog(3) manpage for definitions)
 const int LEVEL_EMERG		= 1;
@@ -39,6 +44,11 @@ const int LEVEL_WARNING		= 16;
 const int LEVEL_NOTICE		= 32;
 const int LEVEL_INFO		= 64;
 const int LEVEL_DEBUG		= 128;
+
+const int LEVEL_ALL			= 255;
+const int LEVEL_MOST		= 127;
+const int LEVEL_DEFAULT		= 63;
+
 
 // general functions
 int 			file_exists(string filename);
@@ -57,6 +67,10 @@ int				get_debug_level();
 void			set_debug_level(int level);
 int				get_debug_components();
 void			set_debug_components(int components);
+bool			get_debug_safety();
+void			set_debug_safety(bool safety);
+string			censor_message(const string & message);
+string			remove_braces(const string & message);
 void 			debuglogger(int component, int level, const DeviceInfo *, const string & message);
 
 #endif

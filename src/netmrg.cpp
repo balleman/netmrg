@@ -15,7 +15,7 @@
    MySQL examples from http://mysql.turbolift.com/mysql/chapter4.php3
    pthreads examples from http://www.math.arizona.edu/swig/pthreads/threads.html
    net-snmp examples from http://net-snmp.sf.net/
-   Thanks to Patrick Haller (http://haller.ws) for helping to debug threading.
+   Thanks to Patrick Haller (http://haller.ws) for helping to debug threading in the original gatherer.
 
 */
 
@@ -252,9 +252,12 @@ void show_usage()
 	printf("If no mode is specified, the default is to gather data for all enabled devices.\n");
 	
 	printf("\nLogging:\n");
+	printf("-a          All; display all debug messages.\n");
+	printf("-m          Most; display more than the default.\n");
 	printf("-q          Quiet; display no debug messages.\n");
-	printf("-c <cm>     Use debug component mask <cm>\n");
-	printf("-l <lm>     Use debug level mask <lm>\n");
+	printf("-c <cm>     Use debug component mask <cm>.\n");
+	printf("-l <lm>     Use debug level mask <lm>.\n");
+	printf("-s          Safe; omit potentially sensitive information.\n");
 
 	printf("\nDatabase Settings:\n");
 	printf("-H <host>   Use database server on <host>\n");
@@ -326,7 +329,7 @@ int main(int argc, char **argv)
 	load_settings_file(DEF_CONFIG_FILE);
 	string temppass;
 
-	while ((option_char = getopt(argc, argv, "hvqi:d:c:l:H:D:u:p::t:C:K:")) != EOF)
+	while ((option_char = getopt(argc, argv, "hvqasmi:d:c:l:H:D:u:p::t:C:K:")) != EOF)
 		switch (option_char)
 		{
 			case 'h': 	show_usage();
@@ -346,7 +349,15 @@ int main(int argc, char **argv)
 			case 'l':	set_debug_level(strtoint(optarg));
 						break;
 			case 'q': 	set_debug_level(0);
-						break;			
+						break;
+			case 'a':	set_debug_level(LEVEL_ALL);
+						set_debug_components(DEBUG_ALL);
+						break;
+			case 'm':	set_debug_level(LEVEL_MOST);
+						set_debug_components(DEBUG_MOST);
+						break;
+			case 's':	set_debug_safety(true);
+						break;
 			case 'H':	set_setting(setDBHost, optarg);
 						break;
 			case 'D':	set_setting(setDBDB, optarg);

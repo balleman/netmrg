@@ -175,8 +175,8 @@ string snmp_get(DeviceInfo info, string oidstring)
 	string 	result;
 	char 	tempname[128];
 
-	debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "SNMP Query ('" +
-		info.ip + "', '" + info.snmp_read_community + "', '" +
+	debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "SNMP Query ({'" +
+		info.ip + "'}, {'" + info.snmp_read_community + "'}, '" +
 		oidstring + "')");
 
 	if (!info.snmp_sess_p)

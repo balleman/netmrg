@@ -62,42 +62,40 @@ u_char *u_string(string source, u_char *out)
 }
 
 
+// formatting functions
+
+// inttostr - converts an integer to a string
 string inttostr(long long int int_to_convert)
 {
 	char temp_str[100];
-
-	sprintf(temp_str, "%qd", int_to_convert);
-
+	snprintf(temp_str, 100, "%qd", int_to_convert);
 	return string(temp_str);
-
 } // end inttostr
 
+// strtoint - converts a string to an integer
 long long int strtoint(string string_to_convert)
 {
 	return strtoq(string_to_convert.c_str(), NULL, 10);
 } // end strtoint
 
+// inttopadstr - converts a string to an integer, adding 0s to pad to a given length
 string inttopadstr(int integer, int padlen)
 {
-
 	char tempstr[255];
 	string format = string("%0") + inttostr(padlen) + string("d");
-	sprintf(tempstr, format.c_str(), integer);
+	snprintf(tempstr, 255, format.c_str(), integer);
 	return string(tempstr);
-
 } // end inttopadstr
+
 
 // debuglogger - NetMRG's version of syslog
 
 // Debugging Options
-static int debug_components = 
-	DEBUG_GLOBAL + DEBUG_THREAD + DEBUG_DEVICE + DEBUG_SUBDEVICE + DEBUG_MONITOR +
-	DEBUG_EVENT + DEBUG_RESPONSE + DEBUG_RRD + DEBUG_SNMP + DEBUG_GATHERER + DEBUG_MYSQL;
-	
-static int debug_level = 
-	LEVEL_EMERG + LEVEL_ALERT + LEVEL_CRITICAL + LEVEL_ERROR + LEVEL_WARNING + 
-	LEVEL_NOTICE + LEVEL_INFO;
+static int debug_components = DEBUG_DEFAULT;
+static int debug_level 		= LEVEL_DEFAULT;
+static bool debug_safety	= false;
 
+// Debugging Options Manipulations
 void set_debug_level(int level)
 {
 	debug_level = level;
@@ -118,12 +116,71 @@ int get_debug_components()
 	return debug_components;
 }
 
+void set_debug_safety(bool safety)
+{
+	debug_safety = safety;
+}
+
+bool get_debug_safety()
+{
+	return debug_safety;
+}
+
+// censor_message - replace the contents of braces with a 'Field Omitted' message
+string censor_message(const string & message)
+{
+	string tempmsg = string(message);
+	int pos;
+	
+	while ((pos = tempmsg.find("{")) != string::npos)
+	{
+		tempmsg.replace(pos, tempmsg.find("}") - pos + 1, "<Field Omitted>");
+	}
+	
+	return tempmsg;
+} // end censor_message
+
+// remove_braces - erase braces from a string
+string remove_braces(const string & message)
+{
+	string tempmsg = string(message);
+	int pos;	
+
+	while ((pos = tempmsg.find("{")) != string::npos)
+	{
+		tempmsg.erase(pos, 1);
+	}
+	
+	while ((pos = tempmsg.find("}")) != string::npos)
+	{
+		tempmsg.erase(pos, 1);
+	}
+	
+	return tempmsg;
+} // end remove_braces
+
+// debuglogger
+//
+// component	- the sum of the components this message pertains to
+// level		- the sum of the levels this message pertains to
+// info			- the DeviceInfo struct, used to display the context of the message
+// message		- the message, sensitive information enclosed in braces will be censored when desired
+//
 void debuglogger(int component, int level, const DeviceInfo * info, const string & message)
 {
+	// only proceed if this message is qualified for display
 	if ((debug_level & level) && (debug_components & component))
 	{
 		string tempmsg = "";
-		if (info !=  NULL)
+		
+		// debug the debugging information
+		if ((debug_level & LEVEL_DEBUG) && (debug_components & DEBUG_LOGGING))
+		{
+			tempmsg = tempmsg + string("[L: ") + inttopadstr(level, 4) + ", C: " + inttopadstr(component, 4) + "] ";
+		}
+		
+		// display context information
+		if (info != NULL)
 		{
 			if (info->device_id != -1)
 			{
@@ -149,9 +206,19 @@ void debuglogger(int component, int level, const DeviceInfo * info, const string
 			{
 				tempmsg = tempmsg + string("[Resp: ") + inttopadstr(info->response_id, 4) + string("] ");
 			}
-		}
+		} // end display context information
 		
-		tempmsg = tempmsg + message;
+		// censor or remove censoring data as appropriate
+		if (debug_safety)
+		{
+			tempmsg = tempmsg + censor_message(message);
+		}
+		else
+		{
+			tempmsg = tempmsg + remove_braces(message);
+		}
+			
+		// print the formatted message
 		printf("%s\n", tempmsg.c_str());
 	}
 

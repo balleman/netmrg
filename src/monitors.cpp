@@ -80,9 +80,9 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 	if (mysql_row[0] != NULL)
 	{
 		string test_query = expand_parameters(info, mysql_row[3]);
-		debuglogger(DEBUG_GATHERER, LEVEL_DEBUG, &info, "MySQL Query Test ('" +
-			string(mysql_row[0]) + "', '" + string(mysql_row[1]) + "', '" +
-			string(mysql_row[2]) + "', '" + test_query + "', '" +
+		debuglogger(DEBUG_GATHERER, LEVEL_DEBUG, &info, "MySQL Query Test ({'" +
+			string(mysql_row[0]) + "'}, {'" + string(mysql_row[1]) + "'}, {'" +
+			string(mysql_row[2]) + "'}, '" + test_query + "', '" +
 			string(mysql_row[4]) + "')");
 
 		mutex_lock(lkMySQL);

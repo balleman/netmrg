@@ -579,6 +579,18 @@ their NetMRG administrator.
 			<variablelist>
 				<title>Debugging / Verbosity Options</title>
 				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-a</option></arg></cmdsynopsis></term>
+					<listitem><para>All.  Displays all log messages.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-m</option></arg></cmdsynopsis></term>
+					<listitem><para>Most.  Displays more messages than default.</para></listitem>
+				</varlistentry>
+				<varlistentry>
+					<term><cmdsynopsis><arg choice="plain"><option>-q</option></arg></cmdsynopsis></term>
+					<listitem><para>Quiet.  Silences all output.</para></listitem>
+				</varlistentry>
+				<varlistentry>
 					<term><cmdsynopsis><arg choice="plain"><option>-l</option> <replaceable>level mask</replaceable></arg></cmdsynopsis></term>
 					<listitem><para>Only outputs messages that match the specified level mask.</para></listitem>
 				</varlistentry>
@@ -587,8 +599,8 @@ their NetMRG administrator.
 					<listitem><para>Only outputs messages that match the specified component mask.</para></listitem>
 				</varlistentry>
 				<varlistentry>
-					<term><cmdsynopsis><arg choice="plain"><option>-q</option></arg></cmdsynopsis></term>
-					<listitem><para>Quiet.  Silences all output.  This is the same as specifying <option>-l0 -c0</option></para></listitem>
+					<term><cmdsynopsis><arg choice="plain"><option>-s</option></arg></cmdsynopsis></term>
+					<listitem><para>Safe.  Tries to keep sensitive information out of the displayed messages.</para></listitem>
 				</varlistentry>
 			</variablelist>
 			<variablelist>
