@@ -1,3 +1,6 @@
+2003.07.06  v0.8  silfreed
+  - enclose_graph checks for auth now
+
 2003.07.06  v0.8  balleman
   - bug#0000001: chrooting code had multiple issues with respect to device tree
   - break netmrg.cpp into more managable chunks (devices, monitors, mappings)

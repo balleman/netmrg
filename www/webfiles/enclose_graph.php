@@ -13,6 +13,17 @@
 
 
 require_once("../include/config.php");
+// we need to auth different ways depending on type of graph
+switch($_REQUEST["type"])
+{
+	case "template" :
+		GraphCheckAuth($_REQUEST["type"], $_REQUEST["subdev_id"]);
+		break;
+	
+	default :
+		GraphCheckAuth($_REQUEST["type"], $_REQUEST["id"]);
+		break;
+} // end switch type for auth
 
 if (!isset($_REQUEST['action']))
 {
@@ -23,10 +34,10 @@ begin_page("enclose_graph.php", "Graph", 1);
 
 switch ($_REQUEST['action'])
 {
-	case 'children':	show_children();	break;
-	case 'history':		show_history();		break;
-	case 'advanced':	show_advanced();	break;
-	default:			show();
+	case 'children':    show_children();    break;
+	case 'history':     show_history();     break;
+	case 'advanced':    show_advanced();    break;
+	default:            show();
 }
 
 function template()
@@ -43,16 +54,16 @@ function template()
 
 function show()
 {
-		$opts = template() . "type={$_REQUEST['type']}&id={$_REQUEST['id']}";
-		
-		echo('<div align="center">');
-		echo('<img src="get_graph.php?' . $opts . '"></div><br>');
-		echo('<a href="enclose_graph.php?' . $opts . '&action=history">Show History</a><br>');
-		if ($_REQUEST['type'] == 'template' || $_REQUEST['type'] == 'custom')
-		{
-			//echo('<a href="enclose_graph.php?' . $opts . '&action=children">Show Children</a><br>');
-		}
-		echo('<a href="enclose_graph.php?' . $opts . '&action=advanced">Advanced</a><br>');
+	$opts = template() . "type={$_REQUEST['type']}&id={$_REQUEST['id']}";
+	
+	echo('<div align="center">');
+	echo('<img src="get_graph.php?' . $opts . '"></div><br>');
+	echo('<a href="enclose_graph.php?' . $opts . '&action=history">Show History</a><br>');
+	if ($_REQUEST['type'] == 'template' || $_REQUEST['type'] == 'custom')
+	{
+		//echo('<a href="enclose_graph.php?' . $opts . '&action=children">Show Children</a><br>');
+	}
+	echo('<a href="enclose_graph.php?' . $opts . '&action=advanced">Advanced</a><br>');
 }
 
 function show_history()

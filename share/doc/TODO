@@ -28,6 +28,9 @@ ensure proper escaping in all queries
 
 
 == silfreed ==
+these pages don't do auth
+  - get_graph.php
+check external_auth
 checkboxes on most pages - provide for massive deletes, duplications, etc
 ability to go 'up' a level when browsing 'Groups' et al
 public website
@@ -36,9 +39,6 @@ make netmrg xhtml compliant
 make icons for links on various pages
   - make svg images for most actions
     * edit interfaces
-these pages don't do auth
-  - enclose_graph.php get_graph.php
-check external_auth
 
 
 == balleman ==

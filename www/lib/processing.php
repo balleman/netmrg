@@ -345,7 +345,8 @@ function GetDeviceGroups($device_id)
 		FROM groups, dev_parents, devices 
 		WHERE devices.id = '$device_id' 
 		AND devices.id = dev_parents.dev_id
-		AND dev_parents.grp_id = groups.id");
+		AND dev_parents.grp_id = groups.id
+		GROUP BY group_id");
 
 	$group_arr = array();
 	while ($r = mysql_fetch_array($db_result))
@@ -358,7 +359,7 @@ function GetDeviceGroups($device_id)
 
 
 /**
-* GetSubdeviceGroups($device_id);
+* GetSubdeviceGroups($subdevice_id);
 *
 * returns the groups that this subdevice is in as an array
 *
@@ -371,7 +372,8 @@ function GetSubdeviceGroups($subdevice_id)
 		WHERE sub_devices.id = '$subdevice_id' 
 		AND sub_devices.dev_id = devices.id
 		AND devices.id = dev_parents.dev_id
-		AND dev_parents.grp_id = groups.id");
+		AND dev_parents.grp_id = groups.id
+		GROUP BY group_id");
 
 	$group_arr = array();
 	while ($r = mysql_fetch_array($db_result))
@@ -381,6 +383,63 @@ function GetSubdeviceGroups($subdevice_id)
 
 	return $group_arr;
 } // end GetSubdeviceGroups();
+
+
+/**
+* GetMonitorGroups($monitor_id);
+*
+* returns the groups that this monitor is in as an array
+*
+*/
+function GetMonitorGroups($monitor_id)
+{
+	$db_result = db_query("
+		SELECT groups.id AS group_id 
+		FROM groups, dev_parents, devices, sub_devices, monitors 
+		WHERE monitors.id = '$monitor_id'
+		AND sub_devices.id = monitors.sub_dev_id
+		AND sub_devices.dev_id = devices.id
+		AND devices.id = dev_parents.dev_id
+		AND dev_parents.grp_id = groups.id
+		GROUP BY group_id");
+
+	$group_arr = array();
+	while ($r = mysql_fetch_array($db_result))
+	{
+		array_push($group_arr, $r["group_id"]);
+	} // end while we have results
+
+	return $group_arr;
+} // end GetMonitorGroups();
+
+
+/**
+* GetCustomGraphGroups($customgraph_id);
+*
+* returns the groups that this custom graph is in as an array
+*
+*/
+function GetCustomGraphGroups($customgraph_id)
+{
+	$db_result = db_query("
+		SELECT groups.id AS group_id 
+		FROM groups, dev_parents, devices, sub_devices, monitors, graph_ds 
+		WHERE graph_ds.graph_id = '$customgraph_id'
+		AND graph_ds.mon_id = monitors.id
+		AND sub_devices.id = monitors.sub_dev_id
+		AND sub_devices.dev_id = devices.id
+		AND devices.id = dev_parents.dev_id
+		AND dev_parents.grp_id = groups.id
+		GROUP BY group_id");
+
+	$group_arr = array();
+	while ($r = mysql_fetch_array($db_result))
+	{
+		array_push($group_arr, $r["group_id"]);
+	} // end while we have results
+
+	return $group_arr;
+} // end GetCustomGraphGroups();
 
 
 // Recursive Deletion Section (for orphan prevention if nothing else)
