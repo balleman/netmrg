@@ -10,7 +10,7 @@
 /*
 
    NetMRG Monitoring Procedure
-   Copyright 2001-2003 Brady Alleman.  All Rights Reserved.
+   Copyright 2001-2004 Brady Alleman.  All Rights Reserved.
 
    MySQL examples from http://mysql.turbolift.com/mysql/chapter4.php3
    pthreads examples from http://www.math.arizona.edu/swig/pthreads/threads.html
@@ -233,6 +233,7 @@ void show_usage()
 	printf("-h          Show usage (you are here)\n");
 	printf("-C <file>   Use alternate configuration file <file>\n");
 	printf("-t <num>    Limits number of simultaneous threads to <num>\n");
+	printf("-X          Become a daemon.\n");
 
 	printf("\nMode of Operation:\n");
 	printf("-i <devid>  Recache the interfaces of device <devid>\n");
@@ -253,7 +254,7 @@ void show_usage()
 	printf("-D <db>     Use database named <db>\n");
 	printf("-u <user>   Use database user name <user>\n");
 	printf("-p <pass>   Use database password <pass>, will prompt for password if <pass> is omitted\n");
-		
+
 	printf("\n");
 }
 
@@ -269,7 +270,7 @@ void external_snmp_recache(int device_id, int type)
 		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Critical: Master database connection failed.");
 		exit(3);
 	}
-	
+
 	info.device_id = device_id;
 
 	mysql_res = db_query(&mysql, &info, string("SELECT ip, snmp_read_community, snmp_version, snmp_port, ") +
@@ -281,9 +282,9 @@ void external_snmp_recache(int device_id, int type)
 		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, &info, "Device does not exist.");
 		exit(1);
 	}
-	
+
 	info.snmp_version = strtoint(mysql_row[2]);
-	
+
 	if (info.snmp_version == 0)
 	{
 		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, &info, "Can't recache a device without SNMP.");
@@ -310,6 +311,34 @@ void external_snmp_recache(int device_id, int type)
 	mysql_close(&mysql);
 }
 
+// daemonize - make us lurk around the system
+void daemonize()
+{
+	pid_t pid;
+
+	pid = fork();
+	if (pid < 0)
+	{
+		// failed to fork, keep going with this process
+		fprintf(stderr, "Failed to fork; unable to daemonize.\n");
+		fprintf(stderr, "Continuing in the foreground.\n");
+		return;
+	}
+	else if (pid != 0)
+	{
+		// fork successful, and we're the parent, time to die.
+		exit(0);
+	}
+	else
+	{
+		// we're the child, keep going
+		setsid();
+		chdir("/");
+		umask(0);
+		return;
+	}
+}
+
 // main - the body of the program
 int main(int argc, char **argv)
 {
@@ -318,17 +347,19 @@ int main(int argc, char **argv)
 	load_settings_file(DEF_CONFIG_FILE);
 	string temppass;
 
-	while ((option_char = getopt(argc, argv, "hvqasmi:d:c:l:H:D:u:p::t:C:K:")) != EOF)
+	while ((option_char = getopt(argc, argv, "hvXqasmi:d:c:l:H:D:u:p::t:C:K:")) != EOF)
 		switch (option_char)
 		{
 			case 'h': 	show_usage();
-						exit(0); 
+						exit(0);
 						break;
 			case 'v': 	show_version();
 						exit(0);
 						break;
 			case 'i': 	external_snmp_recache(strtoint(optarg), 1);
 						exit(0);
+						break;
+			case 'X':	daemonize();
 						break;
 			case 'd': 	external_snmp_recache(strtoint(optarg), 2);
 						exit(0);
@@ -354,42 +385,42 @@ int main(int argc, char **argv)
 			case 'u':	set_setting(setDBUser, optarg);
 						break;
 			case 'p':	if (optarg != NULL)
-					{
-						// if password specified, use it
-						temppass = string(optarg);
-						// obscure password from process listing
-						while (*optarg) *optarg++= 'x';
-					}
-					else
-					{
-						/* Make sure stdin is a terminal */
-						if (!isatty(STDIN_FILENO))
 						{
-							fprintf(stderr, "Not bound to a terminal. Using empty string for password\n");
-							temppass = "";
+							// if password specified, use it
+							temppass = string(optarg);
+							// obscure password from process listing
+							while (*optarg) *optarg++= 'x';
 						}
 						else
 						{
-							// Save terminal settings
-							struct termios saved_tattr;
-							tcgetattr (STDIN_FILENO, &saved_tattr);
+							/* Make sure stdin is a terminal */
+							if (!isatty(STDIN_FILENO))
+							{
+								fprintf(stderr, "Not bound to a terminal. Using empty string for password\n");
+								temppass = "";
+							}
+							else
+							{
+								// Save terminal settings
+								struct termios saved_tattr;
+								tcgetattr (STDIN_FILENO, &saved_tattr);
 
-							// don't echo input
-							struct termios tattr;
-							tcgetattr (STDIN_FILENO, &tattr);
-							tattr.c_lflag &= (ICANON|ECHONL|ISIG);
-							tattr.c_lflag &= -ECHO;
-							tcsetattr (STDIN_FILENO, TCSANOW, &tattr);
+								// don't echo input
+								struct termios tattr;
+								tcgetattr (STDIN_FILENO, &tattr);
+								tattr.c_lflag &= (ICANON|ECHONL|ISIG);
+								tattr.c_lflag &= -ECHO;
+								tcsetattr (STDIN_FILENO, TCSANOW, &tattr);
 
-							// if password not specified, prompt for it
-							cout << "Password: ";
-							cin >> temppass;
+								// if password not specified, prompt for it
+								cout << "Password: ";
+								cin >> temppass;
 
-							// Restore terminal settings
-							tcsetattr (STDIN_FILENO, TCSANOW, &saved_tattr);
+								// Restore terminal settings
+								tcsetattr (STDIN_FILENO, TCSANOW, &saved_tattr);
+							}
 						}
-					}
-					set_setting(setDBPass, temppass);
+						set_setting(setDBPass, temppass);
 						break;
 			case 't':	set_setting(setThreadCount, optarg);
 						break;
@@ -399,7 +430,7 @@ int main(int argc, char **argv)
 						print_settings();
 						exit(0);
 						break;
-			
+
 		}
 	run_netmrg();
 }
