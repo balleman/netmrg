@@ -204,11 +204,11 @@ function draw_group($grp_id, $depth, &$rowcount, $init = false)
 				array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
 make_nbsp($depth * 4) . 
-'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$grp_action.'&groupid='.$grp_id.'">'."\n".
+'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$grp_action.'&groupid='.$grp_id.'">'.
 '<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $grp_row["name"] ."\n".
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=group&object_id='.$grp_id.'">'."\n".
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=group&object_id='.$grp_id.'">'.
 '<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'."\n".
 '</a>'."\n".
 '<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&type=1&group_id='.$grp_id.'">'.
