@@ -219,6 +219,9 @@ void process_device(int dev_id)
 	// get SNMP-level info, if SNMP is used.
 	if (strtoint(mysql_row[2]) == 1)
 	{
+		// init device snmp session
+		snmp_session_init(info);
+		
 		// get uptime
 		info.snmp_uptime = get_snmp_uptime(info);
 		debuglogger(DEBUG_SNMP, LEVEL_INFO, &info, "SNMP Uptime is " + inttostr(info.snmp_uptime));
@@ -291,6 +294,10 @@ void process_device(int dev_id)
 	status = process_sub_devices(info, &mysql);
 
 	db_update(&mysql, &info, "UPDATE devices SET status=" + inttostr(status) + " WHERE id=" + inttostr(dev_id));
+	if (info.snmp_sess_p)
+	{
+		snmp_session_cleanup(info);
+	}
 	mysql_close(&mysql);
 	debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Ending device thread.");
 

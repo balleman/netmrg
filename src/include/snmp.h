@@ -17,6 +17,8 @@
 
 void snmp_init();
 void snmp_cleanup();
+void snmp_session_init(DeviceInfo & info);
+void snmp_session_cleanup(DeviceInfo & info);
 string snmp_get(DeviceInfo info, string oidstring);
 string snmp_diff(DeviceInfo info, string oid1, string oid2);
 list<SNMPPair> snmp_trim_rootoid(list<SNMPPair> input, string rootoid);

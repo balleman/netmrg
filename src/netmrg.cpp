@@ -300,11 +300,13 @@ void external_snmp_recache(int device_id, int type)
 	mysql_free_result(mysql_res);
 
 	snmp_init();
+	snmp_session_init(info);
 	switch (type)
 	{
 		case 1: do_snmp_interface_recache(&info, &mysql);	break;
 		case 2: do_snmp_disk_recache(&info, &mysql); 		break;
 	}
+	snmp_session_cleanup(info);
 	snmp_cleanup();
 	mysql_close(&mysql);
 }

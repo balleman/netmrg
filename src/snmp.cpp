@@ -95,11 +95,54 @@ string snmp_result(variable_list *vars)
 	return result;
 }
 
+void snmp_session_init(DeviceInfo &info)
+{
+	struct	snmp_session session;
+	u_char	u_temp[250];
+	char	temp[250];
+	void    * sessp;
+
+	debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "Starting SNMP Session.");
+	
+	// initialize session structure
+	snmp_sess_init(&session);
+
+	// set IP address
+	strcpy(temp, info.ip.c_str());
+	session.peername = temp;
+
+	// set the SNMP version number
+	session.version = SNMP_VERSION_1;
+	
+	// set the SNMPv1 community name used for authentication
+	session.community = u_string(info.snmp_read_community, u_temp);
+	session.community_len = info.snmp_read_community.length();
+
+	mutex_lock(lkSNMP);
+	sessp = snmp_sess_open(&session);
+	mutex_unlock(lkSNMP);
+	
+	if (!sessp)
+	{
+		debuglogger(DEBUG_SNMP, LEVEL_ERROR, &info, "SNMP Session Error.");
+	}
+	else
+	{
+		info.snmp_sess_p = sessp;
+	}
+		
+}
+
+void snmp_session_cleanup(DeviceInfo &info)
+{
+	debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "Cleaning up SNMP Session.");
+	snmp_sess_close(info.snmp_sess_p);
+	info.snmp_sess_p = NULL;
+}
+
 // snmp_get - perform an snmpget on a host using the provided information
 string snmp_get(DeviceInfo info, string oidstring)
 {
-	struct	snmp_session session;
-	void 	*sessp;
 	struct 	snmp_pdu *pdu;
 	struct 	snmp_pdu *response;
 
@@ -108,38 +151,17 @@ string snmp_get(DeviceInfo info, string oidstring)
 
 	struct 	variable_list *vars;
 	int 	status;
-
 	string 	result;
-	char 	temp [250];
-	u_char 	u_temp [250];
-
 	char 	tempname[128];
 
 	debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "SNMP Query ('" +
 		info.ip + "', '" + info.snmp_read_community + "', '" +
 		oidstring + "')");
 
-	snmp_sess_init(&session);
-
-	strcpy(temp, info.ip.c_str());
-	session.peername = temp;
-
-
-	/* set the SNMP version number */
-	session.version = SNMP_VERSION_1;
-
-	/* set the SNMPv1 community name used for authentication */
-	session.community = u_string(info.snmp_read_community, u_temp);
-	session.community_len = info.snmp_read_community.length();
-
-	mutex_lock(lkSNMP);
-	sessp = snmp_sess_open(&session);	/* establish the session */
-	mutex_unlock(lkSNMP);
-
-	if (!sessp)
+	if (!info.snmp_sess_p)
 	{
-		debuglogger(DEBUG_SNMP, LEVEL_WARNING, &info, string("SNMP Query Error."));
-		return(string("U"));
+		debuglogger(DEBUG_SNMP, LEVEL_ERROR, &info, "SNMP Session Failure.");
+		return string("U");
 	}
 	else
 	{
@@ -154,7 +176,7 @@ string snmp_get(DeviceInfo info, string oidstring)
 		else
 		snmp_add_null_var(pdu, anOID, anOID_len);
 
-		status = snmp_sess_synch_response(sessp, pdu, &response);
+		status = snmp_sess_synch_response(info.snmp_sess_p, pdu, &response);
 
 		/*
 		* Process the response.
@@ -180,7 +202,6 @@ string snmp_get(DeviceInfo info, string oidstring)
 		}
 
 		if (response) snmp_free_pdu(response);
-		snmp_sess_close(sessp);
 
 		if (result.length() == 0) { result = "U"; }
 
@@ -227,41 +248,19 @@ list<SNMPPair> snmp_swap_index_value(list<SNMPPair> input)
 
 list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 {
-
-	struct snmp_session	session;
-	void			*ss;
-	struct snmp_pdu		*pdu, *response;
-	variable_list		*vars;
-	oid			name[MAX_OID_LEN];
+	struct snmp_pdu	*pdu, *response;
+	variable_list	*vars;
+	oid				name[MAX_OID_LEN];
 	size_t			name_length = MAX_OID_LEN;
-	oid			root[MAX_OID_LEN];
+	oid				root[MAX_OID_LEN];
 	size_t			rootlen = MAX_OID_LEN;
-	int			running;
-	int			status;
-	int			check;
-	int			exitval = 0;
-	list<SNMPPair>		results;
+	int				running;
+	int				status;
+	int				check;
+	int				exitval = 0;
+	list<SNMPPair>	results;
 
-	snmp_sess_init(&session);
-
-	char temp[250];
-	strcpy(temp, info.ip.c_str());
-	session.peername = temp;
-
-	/* set the SNMP version number */
-	session.version = SNMP_VERSION_1;
-
-	/* set the SNMPv1 community name used for authentication */
-	u_char u_temp[250];
-	session.community = u_string(info.snmp_read_community, u_temp);
-	session.community_len = info.snmp_read_community.length();
-
-	mutex_lock(lkSNMP);
-	ss = snmp_sess_open(&session);
-	mutex_unlock(lkSNMP);
-
-
-	if (ss == NULL)
+	if (!info.snmp_sess_p)
 	{
 		debuglogger(DEBUG_SNMP, LEVEL_ERROR, &info, "SNMP Session Failure.");
 	}
@@ -283,7 +282,7 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 		pdu = snmp_pdu_create(SNMP_MSG_GETNEXT);
 		snmp_add_null_var(pdu, name, name_length);
 
-		status = snmp_sess_synch_response(ss, pdu, &response);
+		status = snmp_sess_synch_response(info.snmp_sess_p, pdu, &response);
 		if (status == STAT_SUCCESS)
 		{
 			if (response->errstat == SNMP_ERR_NOERROR)
@@ -333,7 +332,7 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 		{
 			if (status == STAT_TIMEOUT)
 			{
-				debuglogger(DEBUG_SNMP, LEVEL_WARNING, &info, string("Timeout: No Response from ") + session.peername);
+				debuglogger(DEBUG_SNMP, LEVEL_WARNING, &info, string("Timeout: No Response from ") + info.ip);
 				running = 0;
 				exitval = 1;
 			}
@@ -348,8 +347,6 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 		if (response)
 			snmp_free_pdu(response);
 	}
-
-	snmp_sess_close(ss);
 
 	return results;
 }

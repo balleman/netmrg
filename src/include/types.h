@@ -53,6 +53,7 @@ struct DeviceInfo
 
 	uint status;
 
+	void * snmp_sess_p;
 	uint snmp_avoid;
 	uint snmp_recache;
 	uint snmp_ifnumber;
