@@ -16,7 +16,7 @@ if (empty($_REQUEST["action"]))
 	// Display the list of sub-devices for a particular device.
 
 	check_auth(1);
-	begin_page("sub_dev_param.php", "Sub Device Parameters);
+	begin_page("sub_dev_param.php", "Sub Device Parameters");
 
 	$results = do_query("SELECT name, value FROM sub_dev_variables WHERE sub_dev_id={$_REQUEST['sub_dev_id']}");
 
