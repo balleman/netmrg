@@ -504,18 +504,33 @@ function delete_group($group_id)
 {
 
 	// delete the graph
-	db_update("DELETE FROM groups WHERE id=$group_id");
+	db_query("DELETE FROM groups WHERE id='$group_id'");
 
 	// delete the associated graphs
-	db_update("DELETE FROM view WHERE object_type='group' AND object_id=$group_id");
+	db_query("DELETE FROM view WHERE object_type='group' AND object_id='$group_id'");
 
-	$devices_handle = db_query("SELECT id FROM devices WHERE group_id=$group_id");
-
-	for ($i = 0; $i < db_num_rows($devices_handle); $i++) {
-		$device_row = db_fetch_array($devices_handle);
-		delete_device($device_row["id"]);
-	}
-}
+	// get devices in this group
+	$devs_in_grp_handle = db_query("SELECT dev_id FROM dev_parents WHERE grp_id='$group_id'");
+	$devs_in_grp = array();
+	while ($r = db_fetch_array($devs_in_grp_handle))
+	{
+		array_push($devs_in_grp, $r["dev_id"]);
+	} // end while devices in this group
+	
+	// delete devices from this group
+	db_query("DELETE FROM dev_parents WHERE grp_id = '$group_id'");
+	
+	// for each device we had, if it no longer has parents, delete it
+	foreach ($devs_in_grp as $device_id)
+	{
+		$dev_res = db_query("SELECT 1 FROM dev_parents WHERE dev_id = '$device_id'");
+		if (db_num_rows($dev_res) == 0)
+		{
+			delete_device($device_id);
+		} // end delete if this device has no parents left
+	} // end foreach device we had
+	
+} // end delete_group();
 
 
 function delete_device($device_id)
@@ -537,12 +552,11 @@ function delete_device($device_id)
 
 	$subdev_handle = db_query("SELECT id FROM sub_devices WHERE dev_id=$device_id");
 
-	for ($i = 0; $i < db_num_rows($subdev_handle); $i++)
+	while ($subdev_row = db_fetch_array($subdev_handle))
 	{
-		$subdev_row = db_fetch_array($subdev_handle);
 		delete_subdevice($subdev_row["id"]);
 	}
-}
+} // end delete_device();
 
 
 function delete_subdevice($subdev_id)
@@ -555,12 +569,11 @@ function delete_subdevice($subdev_id)
 
 	$monitors_handle = db_query("SELECT id FROM monitors WHERE sub_dev_id=$subdev_id");
 
-	for ($i = 0; $i < db_num_rows($monitors_handle); $i++)
+	while ($monitor_row = db_fetch_array($monitors_handle))
 	{
-		$monitor_row = db_fetch_array($monitors_handle);
 		delete_monitor($monitor_row["id"]);
 	}
-}
+} // end delete_subdevice();
 
 
 function delete_monitor($monitor_id)
@@ -568,9 +581,8 @@ function delete_monitor($monitor_id)
 	db_update("DELETE FROM monitors WHERE id=$monitor_id");
 
 	$events_handle = db_query("SELECT id FROM events WHERE mon_id=$monitor_id");
-	for ($i = 0; $i < db_num_rows($events_handle); $i++)
+	while ($event_row = db_fetch_array($events_handle))
 	{
-		$event_row = db_fetch_array($events_handle);
 		delete_event($event_row["id"]);
 	} // end for each row
 } // end delete_monitor()
@@ -584,12 +596,11 @@ function delete_event($event_id)
 
 	$responses_handle = db_query("SELECT id FROM responses WHERE event_id=$event_id");
 
-	for ($i = 0; $i < db_num_rows($responses_handle); $i++)
+	while ($response_row = db_fetch_array($responses_handle))
 	{
-		$response_row = db_fetch_array($responses_handle);
 		delete_response($response_row["id"]);
 	}
-}
+} // end delete_event();
 
 
 function delete_response($response_id)
@@ -608,12 +619,11 @@ function delete_graph($graph_id)
 
 	$ds_handle = db_query("SELECT id FROM graph_ds WHERE graph_id=$graph_id");
 
-	for ($i = 0; $i < db_num_rows($ds_handle); $i++)
+	while ($ds_row = db_fetch_array($ds_handle))
 	{
-		$ds_row = db_fetch_array($ds_handle);
 		delete_ds($ds_row["id"]);
 	}
-}
+} // end delete_graph();
 
 
 function delete_ds($ds_id)
@@ -623,7 +633,7 @@ function delete_ds($ds_id)
 	
 	db_update("DELETE FROM graph_ds WHERE id=$ds_id");
 	db_update("UPDATE graph_ds SET position = position - 1 WHERE graph_id = {$r['graph_id']} AND position > {$r['position']}");
-}
+} // end delete_ds();
 
 
 // Unified update/insert code
