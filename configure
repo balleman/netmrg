@@ -6685,7 +6685,7 @@ fi
 #
 #AC_CONFIG_SUBDIRS(src)
 
-                                                                                                                                  ac_config_files="$ac_config_files Makefile subst bin/netmrg_cron.sh bin/rrdedit etc/Makefile etc/cron.d-netmrg etc/init.d-netmrg etc/netmrg.conf etc/netmrg.xml src/Makefile src/include/netmrg.h www/Makefile www/include/config.php"
+                                                                                                                                                                ac_config_files="$ac_config_files Makefile subst bin/netmrg_cron.sh bin/rrdedit etc/Makefile etc/cron.d-netmrg etc/init.d-netmrg etc/netmrg.conf etc/netmrg.xml src/Makefile src/include/netmrg.h var/Makefile var/lib/Makefile var/lib/rrd/Makefile www/Makefile www/include/config.php"
 
 
 cat >confcache <<\_ACEOF
@@ -7255,6 +7255,9 @@ do
   "etc/netmrg.xml" ) CONFIG_FILES="$CONFIG_FILES etc/netmrg.xml" ;;
   "src/Makefile" ) CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
   "src/include/netmrg.h" ) CONFIG_FILES="$CONFIG_FILES src/include/netmrg.h" ;;
+  "var/Makefile" ) CONFIG_FILES="$CONFIG_FILES var/Makefile" ;;
+  "var/lib/Makefile" ) CONFIG_FILES="$CONFIG_FILES var/lib/Makefile" ;;
+  "var/lib/rrd/Makefile" ) CONFIG_FILES="$CONFIG_FILES var/lib/rrd/Makefile" ;;
   "www/Makefile" ) CONFIG_FILES="$CONFIG_FILES www/Makefile" ;;
   "www/include/config.php" ) CONFIG_FILES="$CONFIG_FILES www/include/config.php" ;;
   "depfiles" ) CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;

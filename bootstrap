@@ -10,6 +10,9 @@ automake --foreign --add-missing --copy \
 	Makefile \
 	etc/Makefile \
 	src/Makefile \
-	www/Makefile
+	www/Makefile \
+	var/Makefile \
+	var/lib/Makefile \
+	var/lib/rrd/Makefile
 
 autoconf

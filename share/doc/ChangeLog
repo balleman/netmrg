@@ -1,3 +1,6 @@
+2004.10.14  v0.17  silfreed
+  - bug#0000314 - zero.rrd needs to be built at 'make install' time
+
 2004.10.13  v0.17  silfreed
   - bug#0000312 - Default external auth user should be added, but disabled
   - bug#0000310 - need more graphics

@@ -55,7 +55,7 @@ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/include/config.h
 CONFIG_CLEAN_FILES = subst bin/netmrg_cron.sh bin/rrdedit \
 	src/include/netmrg.h www/include/config.php
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(netmrg_libexecdir)" "$(DESTDIR)$(netmrg_man1dir)" "$(DESTDIR)$(netmrg_share_bindstatsdir)" "$(DESTDIR)$(netmrg_share_dbdir)" "$(DESTDIR)$(netmrg_share_docdir)" "$(DESTDIR)$(netmrg_share_htmldir)" "$(DESTDIR)$(netmrg_share_imagesdir)" "$(DESTDIR)$(netmrg_var_libdir)" "$(DESTDIR)$(netmrg_var_logdir)"
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(netmrg_libexecdir)" "$(DESTDIR)$(netmrg_man1dir)" "$(DESTDIR)$(netmrg_share_bindstatsdir)" "$(DESTDIR)$(netmrg_share_dbdir)" "$(DESTDIR)$(netmrg_share_docdir)" "$(DESTDIR)$(netmrg_share_htmldir)" "$(DESTDIR)$(netmrg_share_imagesdir)" "$(DESTDIR)$(netmrg_var_logdir)"
 binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
 netmrg_libexecSCRIPT_INSTALL = $(INSTALL_SCRIPT)
 SCRIPTS = $(bin_SCRIPTS) $(netmrg_libexec_SCRIPTS)
@@ -73,12 +73,11 @@ netmrg_share_dbDATA_INSTALL = $(INSTALL_DATA)
 netmrg_share_docDATA_INSTALL = $(INSTALL_DATA)
 netmrg_share_htmlDATA_INSTALL = $(INSTALL_DATA)
 netmrg_share_imagesDATA_INSTALL = $(INSTALL_DATA)
-netmrg_var_libDATA_INSTALL = $(INSTALL_DATA)
 netmrg_var_logDATA_INSTALL = $(INSTALL_DATA)
 DATA = $(netmrg_man1_DATA) $(netmrg_share_bindstats_DATA) \
 	$(netmrg_share_db_DATA) $(netmrg_share_doc_DATA) \
 	$(netmrg_share_html_DATA) $(netmrg_share_images_DATA) \
-	$(netmrg_var_lib_DATA) $(netmrg_var_log_DATA)
+	$(netmrg_var_log_DATA)
 ETAGS = etags
 CTAGS = ctags
 DIST_SUBDIRS = $(SUBDIRS)
@@ -178,7 +177,7 @@ sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 sysconfdir = @sysconfdir@
 target_alias = @target_alias@
-SUBDIRS = src www etc
+SUBDIRS = src www etc var
 
 # options to install files in the libexec directory
 netmrg_libexecdir = $(libexecdir)/$(PACKAGE)
@@ -201,7 +200,7 @@ netmrg_share_bindstats_DATA = contrib/bindstats/dnsstats*
 
 # options to install files in the share/doc directory
 netmrg_share_docdir = $(datadir)/doc/$(PACKAGE)-$(VERSION)
-netmrg_share_doc_DATA = INSTALL README share/doc/*.sgml share/doc/ChangeLog share/doc/LICENSE share/doc/TODO share/doc/txt/netmrg.txt share/doc/txt/INSTALL share/doc/txt/RELEASE-NOTES share/doc/txt/UPGRADE etc/cron.d-netmrg etc/init.d-netmrg
+netmrg_share_doc_DATA = INSTALL README share/doc/*.sgml share/doc/ChangeLog share/doc/LICENSE share/doc/TODO share/doc/txt/netmrg.txt share/doc/txt/INSTALL share/doc/txt/RELEASE-NOTES share/doc/txt/UPGRADE etc/cron.d-netmrg etc/init.d-netmrg var/lib/rrd/*.xml
 
 # html documentation
 netmrg_share_htmldir = $(datadir)/doc/$(PACKAGE)-$(VERSION)/html
@@ -210,10 +209,6 @@ netmrg_share_html_DATA = share/doc/html/*.html
 # man1 pages
 netmrg_man1dir = $(mandir)/man1
 netmrg_man1_DATA = share/doc/man/man1/*.1
-
-# options to install files in the var/lib directory
-netmrg_var_libdir = $(localstatedir)/lib/$(PACKAGE)/rrd
-netmrg_var_lib_DATA = var/lib/rrd/*.rrd
 
 # options to install files in the var/log directory
 netmrg_var_logdir = $(localstatedir)/log/$(PACKAGE)
@@ -421,23 +416,6 @@ uninstall-netmrg_share_imagesDATA:
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
 	  echo " rm -f '$(DESTDIR)$(netmrg_share_imagesdir)/$$f'"; \
 	  rm -f "$(DESTDIR)$(netmrg_share_imagesdir)/$$f"; \
-	done
-install-netmrg_var_libDATA: $(netmrg_var_lib_DATA)
-	@$(NORMAL_INSTALL)
-	test -z "$(netmrg_var_libdir)" || $(mkdir_p) "$(DESTDIR)$(netmrg_var_libdir)"
-	@list='$(netmrg_var_lib_DATA)'; for p in $$list; do \
-	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(netmrg_var_libDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(netmrg_var_libdir)/$$f'"; \
-	  $(netmrg_var_libDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(netmrg_var_libdir)/$$f"; \
-	done
-
-uninstall-netmrg_var_libDATA:
-	@$(NORMAL_UNINSTALL)
-	@list='$(netmrg_var_lib_DATA)'; for p in $$list; do \
-	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f '$(DESTDIR)$(netmrg_var_libdir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(netmrg_var_libdir)/$$f"; \
 	done
 install-netmrg_var_logDATA: $(netmrg_var_log_DATA)
 	@$(NORMAL_INSTALL)
@@ -718,10 +696,9 @@ check: check-recursive
 all-am: Makefile $(SCRIPTS) $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(netmrg_libexecdir)" "$(DESTDIR)$(netmrg_man1dir)" "$(DESTDIR)$(netmrg_share_bindstatsdir)" "$(DESTDIR)$(netmrg_share_dbdir)" "$(DESTDIR)$(netmrg_share_docdir)" "$(DESTDIR)$(netmrg_share_htmldir)" "$(DESTDIR)$(netmrg_share_imagesdir)" "$(DESTDIR)$(netmrg_var_libdir)" "$(DESTDIR)$(netmrg_var_logdir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(netmrg_libexecdir)" "$(DESTDIR)$(netmrg_man1dir)" "$(DESTDIR)$(netmrg_share_bindstatsdir)" "$(DESTDIR)$(netmrg_share_dbdir)" "$(DESTDIR)$(netmrg_share_docdir)" "$(DESTDIR)$(netmrg_share_htmldir)" "$(DESTDIR)$(netmrg_share_imagesdir)" "$(DESTDIR)$(netmrg_var_logdir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
-install: install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive
 uninstall: uninstall-recursive
@@ -767,8 +744,7 @@ info-am:
 install-data-am: install-netmrg_man1DATA \
 	install-netmrg_share_bindstatsDATA install-netmrg_share_dbDATA \
 	install-netmrg_share_docDATA install-netmrg_share_htmlDATA \
-	install-netmrg_share_imagesDATA install-netmrg_var_libDATA \
-	install-netmrg_var_logDATA
+	install-netmrg_share_imagesDATA install-netmrg_var_logDATA
 
 install-exec-am: install-binSCRIPTS install-netmrg_libexecSCRIPTS
 
@@ -801,8 +777,7 @@ uninstall-am: uninstall-binSCRIPTS uninstall-info-am \
 	uninstall-netmrg_share_bindstatsDATA \
 	uninstall-netmrg_share_dbDATA uninstall-netmrg_share_docDATA \
 	uninstall-netmrg_share_htmlDATA \
-	uninstall-netmrg_share_imagesDATA uninstall-netmrg_var_libDATA \
-	uninstall-netmrg_var_logDATA
+	uninstall-netmrg_share_imagesDATA uninstall-netmrg_var_logDATA
 
 uninstall-info: uninstall-info-recursive
 
@@ -818,21 +793,21 @@ uninstall-info: uninstall-info-recursive
 	install-netmrg_libexecSCRIPTS install-netmrg_man1DATA \
 	install-netmrg_share_bindstatsDATA install-netmrg_share_dbDATA \
 	install-netmrg_share_docDATA install-netmrg_share_htmlDATA \
-	install-netmrg_share_imagesDATA install-netmrg_var_libDATA \
-	install-netmrg_var_logDATA install-strip installcheck \
-	installcheck-am installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive \
-	mostlyclean mostlyclean-generic mostlyclean-recursive pdf \
-	pdf-am ps ps-am tags tags-recursive uninstall uninstall-am \
-	uninstall-binSCRIPTS uninstall-info-am \
+	install-netmrg_share_imagesDATA install-netmrg_var_logDATA \
+	install-strip installcheck installcheck-am installdirs \
+	installdirs-am maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-generic \
+	mostlyclean-recursive pdf pdf-am ps ps-am tags tags-recursive \
+	uninstall uninstall-am uninstall-binSCRIPTS uninstall-info-am \
 	uninstall-netmrg_libexecSCRIPTS uninstall-netmrg_man1DATA \
 	uninstall-netmrg_share_bindstatsDATA \
 	uninstall-netmrg_share_dbDATA uninstall-netmrg_share_docDATA \
 	uninstall-netmrg_share_htmlDATA \
-	uninstall-netmrg_share_imagesDATA uninstall-netmrg_var_libDATA \
-	uninstall-netmrg_var_logDATA
+	uninstall-netmrg_share_imagesDATA uninstall-netmrg_var_logDATA
 
 @SET_MAKE@
+
+install : all install-recursive
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
