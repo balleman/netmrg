@@ -30,5 +30,6 @@
 	</polling>
 	<logging>
 		<max_device_entries>500</max_device_entries>
+		<syslog_facility>LOG_DAEMON</syslog_facility>
 	</logging>
 </netmrg>

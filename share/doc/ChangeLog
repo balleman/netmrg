@@ -1,3 +1,6 @@
+2004.08.21  v0.17cvs  balleman
+  - bug#0000241 - setting for syslog facility
+
 2004.08.20  v0.17cvs  balleman
   - bug#0000243 - gatherer man-page updates
   - bug#0000252 - status line, quick implementation

@@ -43,5 +43,6 @@
 // Other
 #define DEF_POLL_INTERVAL   300
 #define DEF_MAX_DEV_LOG     500
+#define DEF_SYSLOG_FACILITY "LOG_DAEMON"
 
 #endif              

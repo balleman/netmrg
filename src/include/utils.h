@@ -91,6 +91,7 @@ void 			U_to_NULL(string & input);
 uint			worstof(uint a, uint b);
 
 // debugging functions
+void			init_logging();
 int				get_debug_level();
 void			set_debug_level(int level);
 int				get_debug_components();

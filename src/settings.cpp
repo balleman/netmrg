@@ -64,6 +64,7 @@ void load_settings_default()
 	// other
 	set_setting_int(setPollInterval, DEF_POLL_INTERVAL);
 	set_setting_int(setMaxDeviceLogEntries, DEF_MAX_DEV_LOG);
+	set_setting(setSyslogFacility, DEF_SYSLOG_FACILITY);
 }
 
 void print_settings()
@@ -87,8 +88,9 @@ void print_settings()
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "RRDs:         " + get_setting(setPathRRDs));
 
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "-- Other --");
-	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Poll Interval: " + get_setting(setPollInterval));
-	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Max Dev Logs:  " + get_setting(setMaxDeviceLogEntries));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Poll Interval:   " + get_setting(setPollInterval));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Max Dev Logs:    " + get_setting(setMaxDeviceLogEntries));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Syslog Facility: " + get_setting(setSyslogFacility));
 }
 
 string xmltostring(const xmlChar * input)
@@ -168,6 +170,8 @@ void parse_config_section(xmlDocPtr doc, xmlNodePtr cur, string section)
 		{
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "max_device_entries"))
 				set_setting(setMaxDeviceLogEntries, val_str);
+			if (!xmlStrcmp(cur->name, (const xmlChar *) "syslog_facility"))
+				set_setting(setSyslogFacility, val_str);
 		}
 		else
 		debuglogger(DEBUG_GLOBAL, LEVEL_WARNING, NULL, "Second stage parser not aware of this section.");

@@ -13,7 +13,7 @@
 
 using std::string;
 
-const int settings_count = 14;
+const int settings_count = 15;
 
 enum Setting
 {
@@ -30,7 +30,8 @@ enum Setting
 	setPathLibexec,
 	setPathRRDs,
 	setPollInterval,
-	setMaxDeviceLogEntries
+	setMaxDeviceLogEntries,
+	setSyslogFacility
 };
 
 // functions to set and get settings

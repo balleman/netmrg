@@ -87,8 +87,7 @@ void remove_lockfile()
 // set things up, and spawn the threads for data gathering
 void run_netmrg()
 {
-	setlinebuf(stdout);
-	
+	init_logging();	
 	debuglogger(DEBUG_GLOBAL, LEVEL_NOTICE, NULL, "NetMRG starting.");
 
 	if (file_exists(get_setting(setPathLockFile)))

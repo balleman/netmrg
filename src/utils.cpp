@@ -14,6 +14,7 @@
 
 #include "utils.h"
 #include "db.h"
+#include "settings.h"
 
 // vt100_compatible
 //
@@ -117,6 +118,7 @@ string inttopadstr(int integer, int padlen)
 static int debug_components = DEBUG_DEFAULT;
 static int debug_level 		= LEVEL_DEFAULT;
 static int log_method		= LOG_METHOD_STDOUT;
+static int syslog_facility  = LOG_DAEMON;
 static bool debug_safety	= false;
 
 // Debugging Options Manipulations
@@ -159,6 +161,61 @@ int get_log_method()
 {
 	return log_method;
 }
+
+int text_to_facility(string facility)
+{
+	if (facility == "LOG_KERN")
+		return LOG_KERN;
+	else if (facility == "LOG_USER")
+		return LOG_USER;
+	else if (facility == "LOG_MAIL")
+		return LOG_MAIL;
+	else if (facility == "LOG_DAEMON")
+		return LOG_DAEMON;
+	else if (facility == "LOG_AUTH")
+		return LOG_AUTH;
+	else if (facility == "LOG_SYSLOG")
+		return LOG_SYSLOG;
+	else if (facility == "LOG_LPR")
+		return LOG_LPR;
+	else if (facility == "LOG_NEWS")
+		return LOG_NEWS;
+	else if (facility == "LOG_UUCP")
+		return LOG_UUCP;
+	else if (facility == "LOG_CRON")
+		return LOG_CRON;
+	else if (facility == "LOG_AUTHPRIV")
+		return LOG_AUTHPRIV;
+	else if (facility == "LOG_FTP")
+		return LOG_FTP;
+	else if (facility == "LOG_LOCAL0")
+		return LOG_LOCAL0;
+	else if (facility == "LOG_LOCAL1")
+		return LOG_LOCAL1;
+	else if (facility == "LOG_LOCAL2")
+		return LOG_LOCAL2;
+	else if (facility == "LOG_LOCAL3")
+		return LOG_LOCAL3;
+	else if (facility == "LOG_LOCAL4")
+		return LOG_LOCAL4;
+	else if (facility == "LOG_LOCAL5")
+		return LOG_LOCAL5;
+	else if (facility == "LOG_LOCAL6")
+		return LOG_LOCAL6;
+	else if (facility == "LOG_LOCAL7")
+		return LOG_LOCAL7;
+	else return LOG_USER;
+}
+
+// init_logging
+void init_logging()
+{
+	if ( (log_method & LOG_METHOD_STDOUT) || (log_method & LOG_METHOD_VT100) )
+		setlinebuf(stdout);
+	if ( log_method & LOG_METHOD_SYSLOG )
+		syslog_facility = text_to_facility(get_setting(setSyslogFacility));
+}
+
 
 int level_to_priority(int level)
 {
@@ -309,11 +366,11 @@ void debuglogger(int component, int level, const DeviceInfo * info, const string
 				
 		// print the formatted message in color
 		if (log_method & LOG_METHOD_VT100)
-			printf("%c[%d;%d;%dm%s%c[%d;%d;%dm%s\n%c[0;%d;%dm", ESC, ATTR_BRIGHT, COLOR_BLACK, COLOR_BLACK + 10, context.c_str(), ESC, level_to_attrib(level), level_to_color(level), COLOR_BLACK+10, content.c_str(), ESC, COLOR_WHITE, COLOR_BLACK + 10);
+			printf("%c[%d;%dm%s%c[%d;%dm%s\n%c[0;%dm", ESC, ATTR_BRIGHT, COLOR_BLACK, context.c_str(), ESC, level_to_attrib(level), level_to_color(level), content.c_str(), ESC, COLOR_WHITE);
 		
 		// syslog the message
 		if (log_method & LOG_METHOD_SYSLOG)
-			syslog(level_to_priority(level), "%s", fullmessage.c_str());
+			syslog(level_to_priority(level) | syslog_facility, "%s", fullmessage.c_str());
 	}
 
 	// log message to database, if possible, and if important enough
