@@ -26,12 +26,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <string>
-#include <ucd-snmp/ucd-snmp-config.h>
-#include <ucd-snmp/ucd-snmp-includes.h>
-#include <ucd-snmp/system.h>
 #include <getopt.h>
 #include <errno.h>
-#include <ucd-snmp/mib.h>
 #include <list>
 
 using namespace std;
@@ -47,7 +43,7 @@ int active_threads = 0;
 #include "types.h"
 #include "utils.h"
 #include "locks.h"
-#include <netmrg-snmp.cc>
+#include "snmp.h"
 #include <netmrg-db.cc>
 #include <netmrg-misc.cc>
 

@@ -1,3 +1,12 @@
+/********************************************
+* NetMRG Integrator
+*
+* snmp.cpp
+* NetMRG Gatherer SNMP Library
+*
+* see doc/LICENSE for copyright information
+********************************************/
+
 /*
 
    NetMRG SNMP Functions
@@ -9,6 +18,15 @@
 */
 
 #define DS_APP_DONT_FIX_PDUS 0
+
+#include <ucd-snmp/ucd-snmp-config.h>
+#include <ucd-snmp/ucd-snmp-includes.h>
+#include <ucd-snmp/system.h>
+#include <ucd-snmp/mib.h>
+
+#include "utils.h"
+#include "locks.h"
+#include "snmp.h"
 
 void snmp_init()
 {
