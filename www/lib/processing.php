@@ -966,7 +966,7 @@ function SetUserPref($uid, $module, $pref, $value)
 	else
 	{
 		$update_query = "INSERT INTO user_prefs
-			SET module = '$module', pref = '$pref', value = '$value'";
+			SET uid = '$uid', module = '$module', pref = '$pref', value = '$value'";
 	} // end no result
 	db_query($update_query);
 } // end SetUserPref();
