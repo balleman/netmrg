@@ -81,8 +81,6 @@ announce on freshmeat.net
 upload to sourceforge.net
 
 == after running bootstrap ==
-in main dir
-  cvs commit -f aclocal.m4 Makefile.in etc/Makefile.in www/Makefile.in configure
-in src dir
-  cvs commit -f aclocal.m4 include/config.h.in Makefile.in configure
+cvs commit -f aclocal.m4 Makefile.in etc/Makefile.in www/Makefile.in \
+  src/Makefile.in src/include/config.h.in configure
 
