@@ -1,6 +1,7 @@
 2004.08.20  v0.17cvs  silfreed
   - bug#0000253 - security: SQL injection to bypass auth
   - sub_dev_param.php: fixed escaping issues
+  - bug#0000254 - Link to GNU Tar page is incorrect
 
 2004.07.27  v0.17cvs  balleman
   - bug#0000246 - improved monitor sorting on monitors.php and monitors dropdown
