@@ -30,9 +30,9 @@ $GLOBALS["netmrg"]["dbwritepass"]       = "netmrgwrite";
 
 // Path Config
 $GLOBALS["netmrg"]["rrdtool"]           = "/usr/bin/rrdtool";
-$GLOBALS["netmrg"]["rrdroot"]           = "@prefix@/rrd";
-$GLOBALS["netmrg"]["fileroot"]          = "@prefix@";
-$GLOBALS["netmrg"]["binary"]            = "@prefix@/src/netmrg";
+$GLOBALS["netmrg"]["rrdroot"]           = "@prefix@/var/lib/netmrg/rrd";
+$GLOBALS["netmrg"]["fileroot"]          = "@prefix@/var/www/netmrg";
+$GLOBALS["netmrg"]["binary"]            = "@exec_prefix@/netmrg-gatherer";
 $GLOBALS["netmrg"]["webhost"]           = "http://localhost";
 $GLOBALS["netmrg"]["webroot"]           = "/netmrg";
 $GLOBALS["netmrg"]["staticimagedir"]    = "{$GLOBALS['netmrg']['webroot']}/img";
