@@ -49,6 +49,7 @@ rm -rf %{buildroot}
 %pre
 if [ $1 = 1 ]; then
 	useradd -d %{_localstatedir}/lib/netmrg netmrg > /dev/null 2>&1 || true
+	chmod 755 %{_localstatedir}/lib/netmrg
 fi
 
 %post
