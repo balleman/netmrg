@@ -183,7 +183,7 @@ function displayedit()
 		$dev_row["snmp_port"] = 161;
 		$dev_row["snmp_timeout"] = 1000000;
 		$dev_row["snmp_retries"] = 3;
-		$dev_row["no_snmp_uptime_check"] = 1;
+		$dev_row["no_snmp_uptime_check"] = 0;
 	}
 
 	make_edit_table("Edit Device");
