@@ -29,13 +29,14 @@ begin_page("contributors.php", "Contributors");
 <b><u>Other Contributors</u></b><br><br><br>
 
 <b>Code</b><br>
-<a href="http://user.pa.net/~keb/">Kevin Bonner</a> was, and continues to be, instrumental in the application of autoconf, automake and portability features to this project.<br>
+<a href="http://user.pa.net/~keb/">Kevin Bonner</a> is instrumental in the application of autoconf and portability features to this project.<br>
+Ryabkov (Rojer) Deomid has contributed many patches, fixing bugs that are difficult to reproduce.<br>
 
 <br>
 
 <b>Suggestions and Comments</b><br>
 <a href="http://raxnet.net/">Ian Berry</a>, the main developer of <a href="http://raxnet.net/products/cacti/">Cacti</a>, has a lot of insight into graphing software which has helped this project.<br>
-<a href="http://haller.ws/">Patrick Haller</a> assisted with the debugging of threading problems.<br>
+<a href="http://haller.ws/">Patrick Haller</a> assisted with concurrency debugging in the original gatherer.<br>
 
 <br>
 
