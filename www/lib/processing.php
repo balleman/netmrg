@@ -142,7 +142,7 @@ function do_align($string, $length, $method)
 function rrd_legend_escape($string)
 {
 	if ($string == "") return "";
-	
+	$string = str_replace(":", "\:", $string);
 	return (":\"" . $string . "\"");
 }
 
