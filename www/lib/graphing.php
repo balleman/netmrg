@@ -325,8 +325,7 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 
 		if (isin($ds_row["stats"], "SUMS"))
 		{
-			$sum_cmd = $GLOBALS['netmrg']['fileroot'] . "/bin/rrdsum.pl " . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $ds_row["mon_id"] . ".rrd -" . $sum_time . " now " . $sum_time;
-			$sum_val = `$sum_cmd`;
+			$sum_val = rrd_sum($ds_row['mon_id'], -1 * $sum_time, "now", $sum_time);
 			if (isin($ds_row["stats"], "INTEGER"))
 			{
 				$sum_text = sprintf("%.0f", $sum_val);

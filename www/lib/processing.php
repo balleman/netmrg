@@ -36,8 +36,7 @@ function format_time_elapsed($num_secs)
 		{
 			$res = sprintf("%d days, ", $days);
 		}
-
-        	$res .= sprintf("%02d:%02d:%02d",$hours,$mins,$new_secs);
+		$res .= sprintf("%02d:%02d:%02d", $hours, $mins, $new_secs);
 	}
 	else
 	{
@@ -115,7 +114,6 @@ function align_right_split($string, $length)
 // manipulates a string by applying the appropriate padding method
 function do_align($string, $length, $method)
 {
-
 	switch ($method)
 	{
 		case 1:
@@ -139,12 +137,51 @@ function get_microtime()
     return ((float)$usec + (float)$sec);
 }
 
-
 function isin($haystack, $needle)
 {
 	return is_integer(strpos($haystack, $needle));
 }
 
+// RRD Support Functions
+
+/**
+* rrd_sum($mon_id, $start, $end, $resolution)
+*
+* $mon_id	= monitor id of RRD to sum
+* $start	= start time, formatted for RRDTOOL
+* $end		= end time, formatted for RRDTOOL (defaults to "now")
+* $resolution = resolution of data, formatted for RRDTOOL (defaults to 1 day)
+*/
+function rrd_sum($mon_id, $start, $end = "now", $resolution = 86400)
+{
+	$rrd_handle = popen($GLOBALS['netmrg']['rrdtool'] . " fetch " . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . 
+		$mon_id . ".rrd AVERAGE -r $resolution -s $start -e $end", "r");
+	
+	$row_count = 0;
+	$sum = 0;
+		
+	while ($row = fgets($rrd_handle))
+	{
+		// the first two lines are of no use
+		if ($row_count > 1)
+		{
+			// ignore missing data points
+			if (!preg_match("/nan/i", $row))
+			{
+				$row_val = preg_replace("/.*: /", "", $row);
+				list($mantissa, $exponent) = preg_split("/e/i", $row_val);
+				$row_value = $mantissa * pow(10, intval($exponent));
+				$sum += $row_value;
+			}
+		}
+		$row_count++;
+	}
+	
+	$average = $sum / ($row_count - 1);
+	$total_sum = $average * $resolution;
+	pclose($rrd_handle);
+	return $total_sum;
+}
 
 // Templating Functions
 
@@ -188,8 +225,8 @@ function apply_template($subdev_id, $template_id)
 	
 }  // apply_template()
 
-// Recursive status determination section
 
+// Recursive status determination section
 
 //Takes a grp_id and returns the current group aggregate status
 function get_group_status($grp_id)
@@ -226,8 +263,8 @@ function get_group_status($grp_id)
 } // end get_group_status()
 
 
-// Uniform Name Creation Section
 
+// Uniform Name Creation Section
 
 function get_short_monitor_name($mon_id)
 {
@@ -284,7 +321,6 @@ function get_monitor_name($mon_id)
 	return $row["dev_name"] . " - " . $row["sub_name"] . " (" . get_short_monitor_name($mon_id) . ")";
 } // end get_monitor_name()
 
-
 function get_graph_name($graph_id)
 {
 	$graph_query = db_query("SELECT name FROM graphs WHERE id=$graph_id");
@@ -292,14 +328,12 @@ function get_graph_name($graph_id)
 	return $graph_row["name"];
 }
 
-
 function get_device_name($dev_id)
 {
 	$dev_query = db_query("SELECT name FROM devices WHERE id=$dev_id");
 	$dev_row   = db_fetch_array($dev_query);
 	return $dev_row["name"];
 }
-
 
 function get_sub_device_name($sub_dev_id)
 {
@@ -442,8 +476,8 @@ function GetCustomGraphGroups($customgraph_id)
 } // end GetCustomGraphGroups();
 
 
-// Recursive Deletion Section (for orphan prevention if nothing else)
 
+// Recursive Deletion Section (for orphan prevention if nothing else)
 
 function delete_group($group_id)
 {
@@ -479,7 +513,6 @@ function delete_device($device_id)
 
 	// remove group associations
 	db_update("DELETE FROM dev_parents WHERE dev_id=$device_id");
-
 
 	$subdev_handle = db_query("SELECT id FROM sub_devices WHERE dev_id=$device_id");
 
