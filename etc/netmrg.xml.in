@@ -1,0 +1,18 @@
+<netmrg>
+	<database>
+		<host>localhost</host>
+		<user>netmrgwrite</user>
+		<password>netmrgwrite</password>
+		<db>netmrg</db>
+	</database>
+	<paths>
+		<rrdtool>@RRDTOOL@</rrdtool>
+		<lockfile>@prefix@/var/log/netmrg/lockfile</lockfile>
+		<runtimefile>@prefix@/var/log/netmrg/runtime</lockfile>
+		<libexec>@prefix@/libexec/netmrg/</libexec>
+	</paths>
+	<threads>
+		<count>5</count>
+		<sleep>10000</sleep>
+	</threads>
+</netmrg>
