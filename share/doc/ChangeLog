@@ -1,3 +1,6 @@
+2005.02.15  v0.18.2  keb
+  - bug#0000388 - utils.cpp build warnings
+
 2005.01.26  v0.18.2  balleman
   - bug#0000328 - SIGTERM/SIGINT should result in clean shutdown
   - Avoid SNMP tests for SNMP-disabled devices

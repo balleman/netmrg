@@ -523,7 +523,7 @@ string format_time_elapsed(long long int num_secs)
 		{
 			temp1 = inttostr(days) + " days, ";
 		}
-		snprintf(temp, 80, "%02d:%02d:%02d", hours, mins, new_secs);
+		snprintf(temp, 80, "%02lld:%02lld:%02lld", hours, mins, new_secs);
 		return temp1 + string(temp);
 	}
 	else
