@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"
-[
- <!ATTLIST svg
-  xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink">
-]>
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 <svg
    id="svg101"
    sodipodi:version="0.31.1"
+   width="250pt"
+   height="280pt"
+   sodipodi:docbase="/home/silfreed/cvs/netmrg/images/default/"
+   sodipodi:docname="/home/silfreed/cvs/netmrg/images/default/disk.svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   width="260pt"
-   height="290pt"
-   sodipodi:docbase="/home/silfreed/cvs/netmrg/images/default/"
-   sodipodi:docname="/home/silfreed/cvs/netmrg/images/default/disk.svg">
+   xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs
      id="defs103" />
   <sodipodi:namedview
@@ -28,7 +24,7 @@
      style="font-size:12;fill:#dcbc00;fill-rule:evenodd;stroke-width:1pt;"
      d="M 303.75 118.75 C 217.188 118.75 147.5 188.438 147.5 275 C 147.5 361.562 217.188 431.25 303.75 431.25 C 390.312 431.25 460 361.562 460 275 C 460 188.438 390.312 118.75 303.75 118.75 z M 303.75 243.75 C 286.438 243.75 272.5 257.688 272.5 275 C 272.5 292.312 286.438 306.25 303.75 306.25 C 321.062 306.25 335 292.312 335 275 C 335 257.688 321.062 243.75 303.75 243.75 z "
      id="path144"
-     transform="translate(-141.25,-112.5)" />
+     transform="translate(-147.5,-118.75)" />
   <rect
      style="font-size:12;fill-rule:evenodd;stroke-width:1pt;"
      id="rect146"
@@ -38,11 +34,11 @@
      y="352.500000"
      ry="37.5"
      rx="37.5"
-     transform="translate(-131.25,-71.25)" />
+     transform="translate(-137.5,-77.5)" />
   <path
-     style="font-size:12;fill:#666666;fill-opacity:1;fill-rule:evenodd;stroke:#666666;stroke-width:2.5;stroke-dashoffset:0;stroke-opacity:1;"
+     style="font-size:12;fill:#666666;fill-rule:evenodd;stroke:#666666;stroke-width:2.5;stroke-dashoffset:0;fill-opacity:0.9;"
      d="M 331.25 275 L 378.75 401.25 L 431.25 357.5 L 331.25 275 z "
      id="path166"
      sodipodi:nodetypes="cccc"
-     transform="translate(-132.5,-71.25)" />
+     transform="translate(-138.75,-77.5)" />
 </svg>

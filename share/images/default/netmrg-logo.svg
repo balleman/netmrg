@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
-"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"
-[
- <!ATTLIST svg
-  xmlns:xlink CDATA #FIXED "http://www.w3.org/1999/xlink">
-]>
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
 <!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 <svg
    id="svg1"
-   sodipodi:version="0.30.1"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
+   sodipodi:version="0.31.1"
    width="500pt"
    height="500pt"
-   sodipodi:docbase="/home/silfreed/"
-   sodipodi:docname="/home/silfreed/netmrg-logo.svg">
+   sodipodi:docbase="/home/silfreed/cvs/netmrg/images/default/"
+   sodipodi:docname="/home/silfreed/cvs/netmrg/images/default/netmrg-logo.svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
   <defs
      id="defs3">
     <linearGradient
@@ -182,12 +178,11 @@
      d="M 37.5 372.5 C 40 372.5 73.75 396.25 73.75 396.25 C 73.75 396.25 112.5 350 112.5 350 C 112.5 350 150 385 150 385 C 150 385 187.5 438.75 187.5 438.75 C 187.5 438.75 225 380 225 380 C 225 380 262.5 365 262.5 365 C 262.5 365 300 430 300 430 C 300 430 337.5 417.5 337.5 417.5 C 337.5 417.5 375 487.5 375 487.5 C 375 487.5 413.75 497.5 412.5 496.25 C 411.25 495 450 423.75 450 423.75 C 450 423.75 487.5 452.5 487.5 451.25 C 487.5 450 525 381.25 525 381.25 C 525 381.25 547.5 391.25 547.5 391.25 C 547.5 391.25 565 326.25 565 326.25 C 565 326.25 52.5 325 52.5 325 C 52.5 325 37.5 375 37.5 372.5 z "
      id="path235" />
   <path
-     style="font-size:12;fill-rule:evenodd;stroke-width:1pt;"
-     d="M 144.71 1.29892 L 1.29917 480.29 L 480.291 623.701 L 623.701 144.709 L 144.71 1.29892 z M 148.065 7.52286 L 7.5229 476.935 L 476.935 617.478 L 617.477 148.065 L 148.065 7.52286 z "
-     id="path143"
-     transform="translate(-9.53674e-05,3.8147e-05)" />
-  <path
      style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-opacity:1;stroke-width:6.25;stroke-linejoin:miter;stroke-linecap:butt;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1;"
      d="M 52.5 325 L 566.25 325 "
      id="path202" />
+  <path
+     style="font-size:12;fill-rule:evenodd;stroke-width:1pt;"
+     d="M 146.516 0.330818 L 0.330439 478.483 L 478.483 624.669 L 624.669 146.517 L 146.516 0.330818 z M 152.988 12.5002 L 12.5001 472.014 L 472.012 612.5 L 612.5 152.987 L 152.988 12.5002 z "
+     id="path193" />
 </svg>
