@@ -47,9 +47,8 @@ $SUB_DEVICE_TYPES = array(
 			3	=>	"Disk");
 
 $TRIGGER_TYPES = array(
-			1	=>	"Always",
-			2	=>	"On Change",
-			3	=>	"Never (disabled)");
+			1	=>	"On Change",
+			2	=>	"Never (disabled)");
 
 $SITUATIONS = array(
 			0	=>	"Disabled",
