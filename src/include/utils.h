@@ -17,6 +17,7 @@
 
 using std::string;
 
+// NetMRG Components
 const int DEBUG_GLOBAL		= 1;
 const int DEBUG_THREAD		= 2;
 const int DEBUG_DEVICE		= 4;
@@ -29,6 +30,17 @@ const int DEBUG_SNMP		= 256;
 const int DEBUG_GATHERER	= 512;
 const int DEBUG_MYSQL		= 1024;
 
+// Logging Levels (see syslog(3) manpage for definitions)
+const int LEVEL_EMERG		= 1;
+const int LEVEL_ALERT		= 2;
+const int LEVEL_CRITICAL	= 4;	// this is the worst condition currently used
+const int LEVEL_ERROR		= 8;
+const int LEVEL_WARNING		= 16;
+const int LEVEL_NOTICE		= 32;
+const int LEVEL_INFO		= 64;
+const int LEVEL_DEBUG		= 128;
+
+// general functions
 int 			file_exists(string filename);
 string  		stripnl(string input);
 string			token_replace(string &source, string token, string value);
@@ -41,8 +53,10 @@ void 			U_to_NULL(string *input);
 uint			worstof(uint a, uint b);
 
 // debugging functions
-int			get_debug_level();
-void		set_debug_level(int level);
-void 		debuglogger(int level, const DeviceInfo *, const string & message);
+int				get_debug_level();
+void			set_debug_level(int level);
+int				get_debug_components();
+void			set_debug_components(int components);
+void 			debuglogger(int component, int level, const DeviceInfo *, const string & message);
 
 #endif

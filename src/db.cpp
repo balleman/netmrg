@@ -25,7 +25,7 @@ void db_connect(MYSQL *connection)
 
 	if (!(mysql_real_connect(connection, MYSQL_HOST, MYSQL_USER, MYSQL_PASS, MYSQL_DB, 0, NULL, 0)))
 	{
-		debuglogger(DEBUG_MYSQL, NULL, "MySQL Connection Failure.");
+		debuglogger(DEBUG_MYSQL, LEVEL_ERROR, NULL, "MySQL Connection Failure.");
 	}
 
 	mutex_unlock(lkMySQL);
@@ -42,12 +42,12 @@ MYSQL_RES *db_query(MYSQL *mysql, DeviceInfo *info, string query)
 
 	if (mysql_query(mysql, query.c_str()))
 	{
-		debuglogger(DEBUG_MYSQL, info, "MySQL Query Failed (" + query + ")");
+		debuglogger(DEBUG_MYSQL, LEVEL_ERROR, info, "MySQL Query Failed (" + query + ")");
 	}
 
 	if (!(mysql_res = mysql_store_result(mysql)))
 	{
-		debuglogger(DEBUG_MYSQL, info, "MySQL Store Result failed.");
+		debuglogger(DEBUG_MYSQL, LEVEL_ERROR, info, "MySQL Store Result failed.");
 	}
 	
 	return mysql_res;
@@ -61,6 +61,6 @@ void db_update(MYSQL *mysql, DeviceInfo *info, string query)
 {
 	if (mysql_query(mysql, query.c_str()))
 	{
-		debuglogger(DEBUG_MYSQL, info, "MySQL Query Failed (" + query + ")");
+		debuglogger(DEBUG_MYSQL, LEVEL_ERROR, info, "MySQL Query Failed (" + query + ")");
 	}
 }

@@ -68,13 +68,13 @@ uint process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_sta
 
 	if (status == 0)
 	{
-		debuglogger(DEBUG_EVENT, &info, "Not Triggered.");
+		debuglogger(DEBUG_EVENT, LEVEL_INFO, &info, "Not Triggered.");
 		db_update(mysql, &info, "UPDATE events SET last_status=0 WHERE id=" + inttostr(info.event_id));
 		return 0;
 	}
 	else
 	{
-		debuglogger(DEBUG_EVENT, &info, "Triggered.");
+		debuglogger(DEBUG_EVENT, LEVEL_INFO, &info, "Triggered.");
 
 		if ((uint) last_status != status)
 		{
@@ -154,7 +154,7 @@ void process_responses(DeviceInfo info, MYSQL *mysql)
 		mysql_row = mysql_fetch_row(mysql_res);
 		info.response_id = strtoint(mysql_row[2]);
 		string command = string(mysql_row[0]) + " " + string(mysql_row[1]);
-		debuglogger(DEBUG_RESPONSE, &info, "Running Response: " + command);
+		debuglogger(DEBUG_RESPONSE, LEVEL_INFO, &info, "Running Response: " + command);
 		system(command.c_str());
 	}
 

@@ -28,7 +28,7 @@
 
 void snmp_init()
 {
-	debuglogger(DEBUG_GLOBAL + DEBUG_SNMP, NULL, "Initializing SNMP library.");
+	debuglogger(DEBUG_GLOBAL + DEBUG_SNMP, LEVEL_INFO, NULL, "Initializing SNMP library.");
 	init_snmp("snmpapp");
 	SOCK_STARTUP;
 	struct snmp_session session;
@@ -41,7 +41,7 @@ void snmp_init()
 void snmp_cleanup()
 {
 	SOCK_CLEANUP;
-	debuglogger(DEBUG_GLOBAL + DEBUG_SNMP, NULL, "Cleaned up SNMP.");
+	debuglogger(DEBUG_GLOBAL + DEBUG_SNMP, LEVEL_INFO, NULL, "Cleaned up SNMP.");
 }
 
 string snmp_value(string input)
@@ -102,7 +102,7 @@ string snmp_get(DeviceInfo info, string oidstring)
 
 	char 	tempname[128];
 
-	debuglogger(DEBUG_SNMP, &info, "SNMP Query ('" +
+	debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "SNMP Query ('" +
 		info.ip + "', '" + info.snmp_read_community + "', '" +
 		oidstring + "')");
 
@@ -125,7 +125,7 @@ string snmp_get(DeviceInfo info, string oidstring)
 
 	if (!sessp)
 	{
-		debuglogger(DEBUG_SNMP, &info, string("SNMP Query Error."));
+		debuglogger(DEBUG_SNMP, LEVEL_WARNING, &info, string("SNMP Query Error."));
 		return(string("U"));
 	}
 	else
@@ -250,14 +250,14 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 
 	if (ss == NULL)
 	{
-		debuglogger(DEBUG_SNMP, &info, "SNMP Session Failure.");
+		debuglogger(DEBUG_SNMP, LEVEL_ERROR, &info, "SNMP Session Failure.");
 	}
 
         char tempoid[128];
 	strcpy(tempoid, oidstring.c_str());
 	if (!snmp_parse_oid(tempoid, root, &rootlen))
 	{
-		debuglogger(DEBUG_SNMP, &info, string("SNMP OID Parse Failure (") + tempoid + ")");
+		debuglogger(DEBUG_SNMP, LEVEL_ERROR, &info, string("SNMP OID Parse Failure (") + tempoid + ")");
 	}
 
 	memmove(name, root, rootlen * sizeof(oid));
@@ -283,13 +283,13 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 						continue;
 					}
 					string result = snmp_result(vars);
-					debuglogger(DEBUG_SNMP, &info, "OID: '" + snmp_oid(result) + "' VALUE: '" + snmp_value(result) + "'");
+					debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "OID: '" + snmp_oid(result) + "' VALUE: '" + snmp_value(result) + "'");
 					results.push_front(SNMPPair(snmp_oid(result), snmp_value(result)));
 					if ((vars->type != SNMP_ENDOFMIBVIEW) && (vars->type != SNMP_NOSUCHOBJECT) && (vars->type != SNMP_NOSUCHINSTANCE))
 					{
 						if (check && snmp_oid_compare(name, name_length, vars->name, vars->name_length) >= 0)
 						{
-							debuglogger(DEBUG_SNMP, &info, "SNMP Error: OID not increasing");
+							debuglogger(DEBUG_SNMP, LEVEL_WARNING, &info, "SNMP Error: OID not increasing");
 							running = 0;
 							exitval = 1;
 						}
@@ -307,11 +307,11 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 				running = 0;
 				if (response->errstat == SNMP_ERR_NOSUCHNAME)
 				{
-					debuglogger(DEBUG_SNMP, &info, "End of MIB");
+					debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info, "End of MIB");
 				}
 				else
 				{
-					debuglogger(DEBUG_SNMP, &info, string("SNMP Packet Error: ") + snmp_errstring(response->errstat));
+					debuglogger(DEBUG_SNMP, LEVEL_WARNING, &info, string("SNMP Packet Error: ") + snmp_errstring(response->errstat));
 					exitval = 2;
 				}
 			}
@@ -320,16 +320,16 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 		{
 			if (status == STAT_TIMEOUT)
 			{
-				debuglogger(DEBUG_SNMP, &info, string("Timeout: No Response from ") + session.peername);
+				debuglogger(DEBUG_SNMP, LEVEL_WARNING, &info, string("Timeout: No Response from ") + session.peername);
 				running = 0;
 				exitval = 1;
 			}
 			else
 			{
-				debuglogger(DEBUG_SNMP, &info, string("SNMP Walk Error (") + inttostr(status) + ")");
+				debuglogger(DEBUG_SNMP, LEVEL_ERROR, &info, string("SNMP Walk Error (") + inttostr(status) + ")");
 				running = 0;
 				exitval = 1;
-        		}
+        	}
 		}
 
 		if (response)

@@ -87,29 +87,16 @@ string inttopadstr(int integer, int padlen)
 
 } // end inttopadstr
 
-// debuglogger - netmrg's version of syslog
-// level is defined as follows:
-// 0 is the LSB for the value.
-//
-// Bit-by-bit meanings:
-//
-// 0 - Global
-// 1 - Thread
-// 2 - Device
-// 3 - Sub-Device
-// 4 - Monitor
-// 5 - Event
-// 6 - Response
-// 6 - RRD
-// 7 - SNMP
-// 8 - Detailed Gatherer (scripts, snmp, sql)
-// 9 - Detailed mysql
-//
-// Header contains constants.
+// debuglogger - NetMRG's version of syslog
 
 // Debugging Options
-static int debug_level = DEBUG_GLOBAL + DEBUG_THREAD + DEBUG_DEVICE + DEBUG_SUBDEVICE + DEBUG_MONITOR +
+static int debug_components = 
+	DEBUG_GLOBAL + DEBUG_THREAD + DEBUG_DEVICE + DEBUG_SUBDEVICE + DEBUG_MONITOR +
 	DEBUG_EVENT + DEBUG_RESPONSE + DEBUG_RRD + DEBUG_SNMP + DEBUG_GATHERER + DEBUG_MYSQL;
+	
+static int debug_level = 
+	LEVEL_EMERG + LEVEL_ALERT + LEVEL_CRITICAL + LEVEL_ERROR + LEVEL_WARNING + 
+	LEVEL_NOTICE + LEVEL_INFO;
 
 void set_debug_level(int level)
 {
@@ -121,50 +108,50 @@ int get_debug_level()
 	return debug_level;
 }
 
-void debuglogger(int level, const DeviceInfo * info, const string & message)
+void set_debug_components(int components)
 {
+	debug_components = components;
+}
 
-	if (debug_level && level)
+int get_debug_components()
+{
+	return debug_components;
+}
+
+void debuglogger(int component, int level, const DeviceInfo * info, const string & message)
+{
+	if ((debug_level & level) && (debug_components & component))
 	{
-
 		string tempmsg = "";
-
 		if (info !=  NULL)
 		{
-
 			if (info->device_id != -1)
 			{
-				tempmsg = tempmsg + string("[Dev: ") +
-					inttopadstr(info->device_id, 4) + string("] ");
+				tempmsg = tempmsg + string("[Dev: ") + inttopadstr(info->device_id, 4) + string("] ");
 			}
 
 			if (info->subdevice_id != -1)
 			{
-				tempmsg = tempmsg + string("[Sub: ") +
-					inttopadstr(info->subdevice_id, 4) + string("] ");
+				tempmsg = tempmsg + string("[Sub: ") + inttopadstr(info->subdevice_id, 4) + string("] ");
 			}
 
 			if (info->monitor_id != -1)
 			{
-				tempmsg = tempmsg + string("[Mon: ") +
-					inttopadstr(info->monitor_id, 4) + string("] ");
+				tempmsg = tempmsg + string("[Mon: ") + inttopadstr(info->monitor_id, 4) + string("] ");
 			}
 
 			if (info->event_id != -1)
 			{
-				tempmsg = tempmsg + string("[Ev: ") +
-					inttopadstr(info->event_id, 4) + string("] ");
+				tempmsg = tempmsg + string("[Ev: ") + inttopadstr(info->event_id, 4) + string("] ");
 			}
 
 			if (info->response_id != -1)
 			{
-				tempmsg = tempmsg + string("[Resp: ") +
-					inttopadstr(info->response_id, 4) + string("] ");
+				tempmsg = tempmsg + string("[Resp: ") + inttopadstr(info->response_id, 4) + string("] ");
 			}
 		}
-
+		
 		tempmsg = tempmsg + message;
-
 		printf("%s\n", tempmsg.c_str());
 	}
 
@@ -193,13 +180,13 @@ string count_file_lines(DeviceInfo info)
 		}
 		else
 		{
-			debuglogger(DEBUG_MONITOR, &info, "Internal Test: Line Count: Unable to read file (" + info.test_params + ")");
+			debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Internal Test: Line Count: Unable to read file (" + info.test_params + ")");
 			return "U";
 		}
-  	}
+	}
 	else
 	{
-		debuglogger(DEBUG_MONITOR, &info, "Internal Test: Line Count: File does not exist (" + info.test_params + ")");
+		debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Internal Test: Line Count: File does not exist (" + info.test_params + ")");
 		return "U";
 	}
 

@@ -95,7 +95,7 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 			int slash_pos = ifName.find("/");
 			int slot = strtoint(ifName.substr(0, slash_pos));
 			int port = strtoint(ifName.substr(slash_pos +  1, ifName.length() - 1));
-			//debuglogger(DEBUG_SNMP, info, "'" + ifName + "', " + inttostr(slash_pos) + ", " + inttostr(slot) + ", " + inttostr(port));
+			debuglogger(DEBUG_SNMP, LEVEL_DEBUG, info, "ifname='" + ifName + "', slash_pos=" + inttostr(slash_pos) + ", slot=" + inttostr(slot) + ", port=" + inttostr(port));
 			if ( (slot != 0) && (port != 0) )
 			{
 				ifAlias = snmp_get(*info, ".1.3.6.1.4.1.9.5.1.4.1.1.4." + inttostr(slot) + "." + inttostr(port));
@@ -225,7 +225,7 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 
 	if (index == "")
 	{
-		debuglogger(DEBUG_SUBDEVICE, info, "Interface subdevice has no interface parameters.");
+		debuglogger(DEBUG_SUBDEVICE, LEVEL_WARNING, info, "Interface subdevice has no interface parameters.");
 		retval = -1;
 	}
 	else
@@ -272,7 +272,7 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 		}
 		else
 		{
-		        debuglogger(DEBUG_SUBDEVICE, info, "Interface index not found.");
+		        debuglogger(DEBUG_SUBDEVICE, LEVEL_WARNING, info, "Interface index not found.");
 			retval = -2;
 		}
 
@@ -322,7 +322,7 @@ int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 
 	if (index == "")
 	{
-		debuglogger(DEBUG_SUBDEVICE, info, "Disk subdevice has no disk parameters.");
+		debuglogger(DEBUG_SUBDEVICE, LEVEL_WARNING, info, "Disk subdevice has no disk parameters.");
 		retval = -1;
 	}
 	else
@@ -355,7 +355,7 @@ int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 		}
 		else
 		{
-			debuglogger(DEBUG_SUBDEVICE, info, "Disk index not found.");
+			debuglogger(DEBUG_SUBDEVICE, LEVEL_WARNING, info, "Disk index not found.");
 			retval = -2;
 		}
 
@@ -394,7 +394,7 @@ string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 		case 2:		test_result = snmp_diff(info, ".1.3.6.1.4.1.529.15.1.0", ".1.3.6.1.4.1.529.15.3.0");
 				break;
 
-		default:	debuglogger(DEBUG_MONITOR, &info, "Unknown Internal Test (" + inttostr(info.test_id) + ")");
+		default:	debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown Internal Test (" + inttostr(info.test_id) + ")");
 	}
 
 	return test_result;
@@ -402,81 +402,75 @@ string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 
 string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 {
-        MYSQL           test_mysql;
-        MYSQL_RES       *mysql_res, *test_res;
-        MYSQL_ROW       mysql_row, test_row;
-        string          value = "U";
+	MYSQL		test_mysql;
+	MYSQL_RES	*mysql_res, *test_res;
+	MYSQL_ROW	mysql_row, test_row;
+	string		value = "U";
 
-        string query =
-                string("SELECT host, user, password, query, column_num FROM tests_sql WHERE id = ") +
-                inttostr(info.test_id);
+	string query =
+		string("SELECT host, user, password, query, column_num FROM tests_sql WHERE id = ") + inttostr(info.test_id);
+		mysql_res = db_query(mysql, &info, query);
+		mysql_row = mysql_fetch_row(mysql_res);
 
-        mysql_res = db_query(mysql, &info, query);
-        mysql_row = mysql_fetch_row(mysql_res);
-
-        // if the sql test exists
-        if (mysql_row[0] != NULL)
-        {
-
+	// if the sql test exists
+	if (mysql_row[0] != NULL)
+	{
 		string test_query = expand_parameters(info, mysql_row[3]);
+		debuglogger(DEBUG_GATHERER, LEVEL_DEBUG, &info, "MySQL Query Test ('" +
+			string(mysql_row[0]) + "', '" + string(mysql_row[1]) + "', '" +
+			string(mysql_row[2]) + "', '" + test_query + "', '" +
+			string(mysql_row[4]) + "')");
 
-                debuglogger(DEBUG_GATHERER, &info, "MySQL Query Test ('" +
-                        string(mysql_row[0]) + "', '" + string(mysql_row[1]) + "', '" +
-                        string(mysql_row[2]) + "', '" + test_query + "', '" +
-                        string(mysql_row[4]) + "')");
-
-                mutex_lock(lkMySQL);
-
+		mutex_lock(lkMySQL);
 		mysql_init(&test_mysql);
 
-	        if (!(mysql_real_connect(&test_mysql,mysql_row[0],mysql_row[1],mysql_row[2], NULL, 0, NULL, 0)))
-	        {
-        		mutex_unlock(lkMySQL);
-                        debuglogger(DEBUG_GATHERER, &info, "Test MySQL Connection Failure.");
-        	}
-			else
-			{
-				mutex_unlock(lkMySQL);
-				if (mysql_query(&test_mysql, test_query.c_str()))
-				{
-					debuglogger(DEBUG_GATHERER, &info, "Test MySQL Query Failed (" + test_query + ")");
-				}
-				else
-				if (!(test_res = mysql_store_result(&test_mysql)))
-				{
-					debuglogger(DEBUG_GATHERER, &info, "Test MySQL Store Result failed.");
-				}
-				else
-				{
-					test_row = mysql_fetch_row(test_res);
-					if (test_row != NULL)
-					{
-						if (test_row[strtoint(mysql_row[4])] != NULL)
-						{
-							value = string(test_row[strtoint(mysql_row[4])]);
-						}
-						else
-						{
-							debuglogger(DEBUG_GATHERER, &info, "Selected column is NULL.");
-						}
-					}
-					else
-					{
-						debuglogger(DEBUG_GATHERER, &info, "There are no rows.");
-					}
-					mysql_free_result(test_res);
-					mysql_close(&test_mysql);
-				}
-			}
+		if (!(mysql_real_connect(&test_mysql,mysql_row[0],mysql_row[1],mysql_row[2], NULL, 0, NULL, 0)))
+		{
+			mutex_unlock(lkMySQL);
+			debuglogger(DEBUG_GATHERER, LEVEL_WARNING, &info, "Test MySQL Connection Failure.");
 		}
 		else
 		{
-			debuglogger(DEBUG_MONITOR, &info, "Unknown SQL Test (" +
-			inttostr(info.test_id) + ").");
+			mutex_unlock(lkMySQL);
+			if (mysql_query(&test_mysql, test_query.c_str()))
+			{
+				debuglogger(DEBUG_GATHERER, LEVEL_WARNING, &info, "Test MySQL Query Failed (" + test_query + ")");
+			}
+			else
+			if (!(test_res = mysql_store_result(&test_mysql)))
+			{
+				debuglogger(DEBUG_GATHERER, LEVEL_WARNING, &info, "Test MySQL Store Result failed.");
+			}
+			else
+			{
+				test_row = mysql_fetch_row(test_res);
+				if (test_row != NULL)
+				{
+					if (test_row[strtoint(mysql_row[4])] != NULL)
+					{
+						value = string(test_row[strtoint(mysql_row[4])]);
+					}
+					else
+					{
+						debuglogger(DEBUG_GATHERER, LEVEL_NOTICE, &info, "Selected column is NULL.");
+					}
+				}
+				else
+				{
+					debuglogger(DEBUG_GATHERER, LEVEL_NOTICE, &info, "There are no rows.");
+				}
+				mysql_free_result(test_res);
+				mysql_close(&test_mysql);
+			}
 		}
-
-         mysql_free_result(mysql_res);
-         return value;
+	}
+	else
+	{
+		debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown SQL Test (" + inttostr(info.test_id) + ").");
+	}
+		
+	mysql_free_result(mysql_res);
+	return value;
 }
 
 string process_script_monitor(DeviceInfo info, MYSQL *mysql)
@@ -496,7 +490,7 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 	{
 		string command = expand_parameters(info, string(mysql_row[0]) + " " + info.test_params);
 
-		debuglogger(DEBUG_GATHERER, &info, "Sending '" + command + "' to shell.");
+		debuglogger(DEBUG_GATHERER, LEVEL_INFO, &info, "Sending '" + command + "' to shell.");
 
 		// if error code is desired
 		if (strtoint(mysql_row[1]) == 1)
@@ -516,14 +510,14 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 
 			if (value == "")
 			{
-				debuglogger(DEBUG_GATHERER, &info, "No data returned from script test.");
+				debuglogger(DEBUG_GATHERER, LEVEL_WARNING, &info, "No data returned from script test.");
 				value = "U";
 			}
 		}
 	}
 	else
 	{
-		debuglogger(DEBUG_MONITOR, &info, "Unknown Script Test (" +
+		debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown Script Test (" +
 			inttostr(info.test_id) + ").");
 		value = "U";
 	}
@@ -559,13 +553,13 @@ string process_snmp_monitor(DeviceInfo info, MYSQL *mysql)
 		else
 		{
 			value = "U";
-			debuglogger(DEBUG_MONITOR, &info, "Avoided.");
+			debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Avoided.");
 		}
 	}
 	else
 	{
 		value = "U";
-		debuglogger(DEBUG_MONITOR, &info, "Unknown SNMP Test (" +
+		debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown SNMP Test (" +
 		inttostr(info.test_id) + ").");
 	}
 
@@ -577,7 +571,7 @@ string process_snmp_monitor(DeviceInfo info, MYSQL *mysql)
 
 uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 {
-	debuglogger(DEBUG_MONITOR, &info, "Starting Monitor.");
+	debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Starting Monitor.");
 	
 	info.parameters.push_front(ValuePair("parameters", info.test_params));
 
@@ -596,13 +590,13 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 					break;
 
 		default:	{
-					debuglogger(DEBUG_MONITOR, &info, "Unknown test type (" +
+					debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown test type (" +
 						inttostr(info.test_type) + ").");
 					info.curr_val = "U";
 				}
 	} // end switch
 
-	debuglogger(DEBUG_MONITOR, &info, "Value: " + info.curr_val);
+	debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value: " + info.curr_val);
 
 	if (rrd.data_type != "")
 	{
@@ -638,11 +632,9 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 	MYSQL_RES	*mysql_res;
 	MYSQL_ROW	mysql_row;
 	uint		status = 0;
+	int			subdev_status = 0;
 
-	int		subdev_status = 0;
-
-	debuglogger(DEBUG_SUBDEVICE, &info, "Starting Subdevice.");
-
+	debuglogger(DEBUG_SUBDEVICE, LEVEL_INFO, &info, "Starting Subdevice.");
 
 	// create an array containing the parameters for the subdevice
 
@@ -671,7 +663,7 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 		case 3:			subdev_status = setup_disk_parameters(&info, mysql);
 						break; // disk
 
-		default:		debuglogger(DEBUG_SUBDEVICE, &info, "Unknown subdevice type (" +
+		default:		debuglogger(DEBUG_SUBDEVICE, LEVEL_WARNING, &info, "Unknown subdevice type (" +
 						inttostr(info.subdevice_type) + ")");
 						subdev_status = -3;
 
@@ -691,7 +683,7 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 	
 	if (subdev_status < 0)
 	{
-		debuglogger(DEBUG_SUBDEVICE, &info, "Subdevice aborted due to previous errors.");
+		debuglogger(DEBUG_SUBDEVICE, LEVEL_WARNING, &info, "Subdevice aborted due to previous errors.");
 		return 0;
 	}
 
@@ -802,9 +794,9 @@ void process_device(int dev_id)
 
 	// connect to db, get info for this device
 
-	debuglogger(DEBUG_DEVICE, &info, "Starting device thread.");
+	debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Starting device thread.");
 	db_connect(&mysql);
-	debuglogger(DEBUG_DEVICE, &info, "MySQL connection established.");
+	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, "MySQL connection established.");
 
 	string query = 	string("SELECT ") 		+
 			string("name, ")				+ // 0
@@ -835,7 +827,7 @@ void process_device(int dev_id)
 	{
 		// get uptime
 		info.snmp_uptime = get_snmp_uptime(info);
-		debuglogger(DEBUG_SNMP, &info, "SNMP Uptime is " + inttostr(info.snmp_uptime));
+		debuglogger(DEBUG_SNMP, LEVEL_INFO, &info, "SNMP Uptime is " + inttostr(info.snmp_uptime));
 
 		// store new uptime
 		db_update(&mysql, &info, "UPDATE devices SET snmp_uptime=" + inttostr(info.snmp_uptime) +
@@ -845,7 +837,7 @@ void process_device(int dev_id)
 		{
 			// device is snmp-dead
 			info.snmp_avoid = 1;
-			debuglogger(DEBUG_DEVICE, &info, "Device is SNMP-dead.  Avoiding SNMP tests.");
+			debuglogger(DEBUG_DEVICE, LEVEL_WARNING, &info, "Device is SNMP-dead.  Avoiding SNMP tests.");
 		}
 		else
 		{
@@ -853,14 +845,14 @@ void process_device(int dev_id)
 			{
 				// device came back from the dead
 				info.snmp_recache = 1;
-				debuglogger(DEBUG_DEVICE, &info, "Device has returned from SNMP-death.");
+				debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Device has returned from SNMP-death.");
 			}
 
 			if (info.snmp_uptime < strtoint(mysql_row[5]))
 			{
 				// uptime went backwards
 				info.snmp_recache = 1;
-				debuglogger(DEBUG_SNMP, &info, "SNMP Agent Restart.");
+				debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info, "SNMP Agent Restart.");
 			}
 
 
@@ -870,7 +862,7 @@ void process_device(int dev_id)
 
 				info.snmp_ifnumber =  strtoint(snmp_get(info, string("interfaces.ifNumber.0")));
 
-				debuglogger(DEBUG_SNMP, &info,
+				debuglogger(DEBUG_SNMP, LEVEL_INFO, &info,
 					"Number of Interfaces is " + inttostr(info.snmp_ifnumber));
 
 				if (info.snmp_ifnumber != strtoint(mysql_row[6]))
@@ -880,7 +872,7 @@ void process_device(int dev_id)
 					db_update(&mysql, &info, "UPDATE devices SET snmp_ifnumber = " +
 						inttostr(info.snmp_ifnumber) + string(" WHERE id = ") +
 						inttostr(dev_id));
-					debuglogger(DEBUG_SNMP, &info,
+					debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info,
 						"Number of interfaces changed from " + string(mysql_row[6]));
 				}
 
@@ -912,7 +904,7 @@ void process_device(int dev_id)
 
 	mysql_close(&mysql);
 
-	debuglogger(DEBUG_DEVICE, &info, "Ending device thread.");
+	debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Ending device thread.");
 
 
 } // end process_device
@@ -924,17 +916,16 @@ void *child(void * arg)
 
 	int device_id = *(int *) arg;
 
-	mysql_thread_init();
+	//mysql_thread_init();
 
 	process_device(device_id);
 
 	mutex_lock(lkActiveThreads);
 	active_threads--;
 	mutex_unlock(lkActiveThreads);
+	debuglogger(DEBUG_THREAD, LEVEL_NOTICE, NULL, "Thread Ended.");
 
-	debuglogger(DEBUG_THREAD, NULL, "Thread Ended.");
-
-	mysql_thread_end();
+	//mysql_thread_end();
 
 	pthread_exit(0);
 
@@ -958,17 +949,17 @@ void run_netmrg()
 	
 	setlinebuf(stdout);
 
-	debuglogger(DEBUG_GLOBAL, NULL, "NetMRG starting.");
-	debuglogger(DEBUG_GLOBAL, NULL, "Start time is " + inttostr(start_time));
+	debuglogger(DEBUG_GLOBAL, LEVEL_NOTICE, NULL, "NetMRG starting.");
+	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Start time is " + inttostr(start_time));
 
 	if (file_exists("/var/www/netmrg/dat/lockfile"))
-       	{
-		printf("ERROR:  My lockfile exists!  Is another netmrg running?\n  If not, remove the lockfile and try again\n");
+	{
+		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, NULL, "Critical:  Lockfile exists.  Is another NetMRG running?");
 		exit(254);
 	}
 
 	// create lockfile
-	debuglogger(DEBUG_GLOBAL, NULL, "Creating Lockfile.");
+	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Creating Lockfile.");
 	lockfile = fopen("/var/www/netmrg/dat/lockfile","w+");
 	fprintf(lockfile, "%ld", (long int) start_time);
 	fclose(lockfile);
@@ -999,7 +990,7 @@ void run_netmrg()
 		{
 			if (last_active_threads != active_threads)
 			{
-				debuglogger(DEBUG_THREAD, NULL, "[ACTIVE] Last: " +
+				debuglogger(DEBUG_THREAD, LEVEL_INFO, NULL, "[ACTIVE] Last: " +
 						inttostr(last_active_threads) + ", Now: " +
 						inttostr(active_threads));
 				last_active_threads = active_threads;
@@ -1019,7 +1010,7 @@ void run_netmrg()
 		}
 		else
 		{
-			debuglogger(DEBUG_THREAD, NULL, "[ACTIVE] Sorry, can't lock thread counter.");
+			debuglogger(DEBUG_THREAD, LEVEL_NOTICE, NULL, "[ACTIVE] Sorry, can't lock thread counter.");
 		}
 		usleep(THREAD_SLEEP);
 	}
@@ -1032,7 +1023,7 @@ void run_netmrg()
 		{
 	                if (last_active_threads != active_threads)
         	        {
-                	        debuglogger(DEBUG_THREAD, NULL, "[PASSIVE] Last: " +
+                	        debuglogger(DEBUG_THREAD, LEVEL_INFO, NULL, "[PASSIVE] Last: " +
 						inttostr(last_active_threads) + ", Now: " +
 						inttostr(active_threads));
 	                        last_active_threads = active_threads;
@@ -1044,7 +1035,7 @@ void run_netmrg()
 		}
 		else
 		{
-			debuglogger(DEBUG_THREAD, NULL, "[PASSIVE] Sorry, can't lock thread counter.");
+			debuglogger(DEBUG_THREAD, LEVEL_NOTICE, NULL, "[PASSIVE] Sorry, can't lock thread counter.");
 		}
 		usleep(THREAD_SLEEP);
 	}
@@ -1086,7 +1077,7 @@ void run_netmrg()
 
 	// clean up mysql
 	mysql_close(&mysql);
-	debuglogger(DEBUG_GLOBAL, NULL, "Closed MySQL connection.");
+	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Closed MySQL connection.");
 
 	// clean up RRDTOOL command pipe
 	rrd_cleanup();
@@ -1096,7 +1087,7 @@ void run_netmrg()
 
 	// determine runtime and store it
 	long int run_time = time( NULL ) - start_time;
-	debuglogger(DEBUG_GLOBAL, NULL, "Runtime: " + inttostr(run_time));
+	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Runtime: " + inttostr(run_time));
 	lockfile = fopen("/var/www/netmrg/dat/runtime","w+");
 	fprintf(lockfile, "%ld", run_time);
 	fclose(lockfile);
@@ -1117,8 +1108,11 @@ void show_usage()
 	printf("\nNetMRG Data Gatherer\n\n");
 	printf("-v          Display Version\n");
 	printf("-h          Show usage (you are here)\n");
-	printf("-q          Quiet; display no debug messages\n");
+	printf("-q          Quiet; display no debug messages.\n");
 	printf("-i <devid>  Recache the interfaces of device <devid>\n");
+	printf("-d <devid>  Recache the disks of device <devid>\n");
+	printf("-c <cm>     Use debug component mask <cm>\n");
+	printf("-l <lm>     Use debug level mask <lm>\n");
 	printf("\n");
 }
 
@@ -1137,11 +1131,11 @@ void external_snmp_recache(int device_id, int type)
 
 	if (strtoint(mysql_row[2]) != 1)
 	{
-		debuglogger(DEBUG_GLOBAL, &info, "Can't recache a device without SNMP.");
+		debuglogger(DEBUG_GLOBAL, LEVEL_CRITICAL, &info, "Can't recache a device without SNMP.");
 		exit(1);
 	}
 
-	info.ip 			= mysql_row[0];
+	info.ip 					= mysql_row[0];
 	info.snmp_read_community	= mysql_row[1];
 
 	mysql_free_result(mysql_res);
@@ -1149,8 +1143,8 @@ void external_snmp_recache(int device_id, int type)
 	snmp_init();
 	switch (type)
 	{
-		case 1: do_snmp_interface_recache(&info, &mysql); break;
-		case 2: do_snmp_disk_recache(&info, &mysql); break;
+		case 1: do_snmp_interface_recache(&info, &mysql);	break;
+		case 2: do_snmp_disk_recache(&info, &mysql); 		break;
 	}
 	snmp_cleanup();
 
@@ -1163,7 +1157,7 @@ int main(int argc, char **argv)
 {
 	int option_char;
 
-	while ((option_char = getopt (argc, argv, "hvqi:d:")) != EOF)
+	while ((option_char = getopt(argc, argv, "hvqi:d:c:l:")) != EOF)
 		switch (option_char)
 		{
 			case 'h': 	show_usage();
@@ -1172,14 +1166,19 @@ int main(int argc, char **argv)
 			case 'v': 	show_version();
 						exit(0);
 						break;
-			case 'q': 	set_debug_level(0);
-						break;
 			case 'i': 	external_snmp_recache(strtoint(optarg), 1);
 						exit(0);
 						break;
 			case 'd': 	external_snmp_recache(strtoint(optarg), 2);
 						exit(0);
 						break;
+			case 'c':	set_debug_components(strtoint(optarg));
+						break;
+			case 'l':	set_debug_level(strtoint(optarg));
+						break;
+			case 'q': 	set_debug_level(0);
+						break;			
+			
 		}
 
 	run_netmrg();

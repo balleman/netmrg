@@ -19,9 +19,9 @@ FILE *rrdtool_pipe;
 
 void rrd_init()
 {
-	debuglogger(DEBUG_GLOBAL + DEBUG_RRD, NULL, "Initializing RRDTOOL pipe.");
+	debuglogger(DEBUG_GLOBAL + DEBUG_RRD, LEVEL_INFO, NULL, "Initializing RRDTOOL pipe.");
 	string rrdtool = RRDTOOL;
-	if (!(get_debug_level() && DEBUG_RRD))
+	if (!(get_debug_components() & DEBUG_RRD) || !(get_debug_level() & LEVEL_DEBUG))
 		rrdtool = rrdtool + " >/dev/null";
 	rrdtool_pipe = popen(rrdtool.c_str(), "w");
 	
@@ -32,7 +32,7 @@ void rrd_init()
 void rrd_cleanup()
 {
 	pclose(rrdtool_pipe);
-	debuglogger(DEBUG_GLOBAL, NULL, "Closed RRDTOOL pipe.");
+	debuglogger(DEBUG_GLOBAL, LEVEL_INFO, NULL, "Closed RRDTOOL pipe.");
 }
 
 // rrd_cmd
@@ -41,7 +41,7 @@ void rrd_cleanup()
 
 void rrd_cmd(DeviceInfo info, string cmd)
 {
-	debuglogger(DEBUG_RRD, &info, "RRD: '" + cmd + "'");
+	debuglogger(DEBUG_RRD, LEVEL_DEBUG, &info, "RRD: '" + cmd + "'");
 	cmd = " " + cmd + "\n";
 
 	mutex_lock(lkRRD);
