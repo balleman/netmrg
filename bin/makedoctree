@@ -12,10 +12,12 @@ use strict;
 
 ## variables
 my $cvs = 'cvs -d :pserver:anonymous@cvs.netmrg.net:/var/cvsroot';
-my $docfile = "netmrg/share/doc/netmrg.sgml";
-my $shortdocfile = "netmrg.sgml";
-my $stylesheet = "netmrg/share/doc/netmrg.dsl";
-my $shortssfile = "netmrg.dsl";
+my %cvsfiles = (
+	"netmrg.sgml"    => "netmrg/share/doc/netmrg.sgml",
+	"netmrg.dsl"     => "netmrg/share/doc/netmrg.dsl",
+	"netmrgdoc.css"  => "netmrg/share/doc/netmrg.css",
+	"netmrgnetmrg-logo-medium.png"  => "netmrg/share/doc/netmrg-logo-medium.png",
+);
 my $docfolder = "/tmp";
 my @versions = ();
 
@@ -33,27 +35,24 @@ foreach my $ver (@versions)
 	`rm -rf $curdir` if ( -d $curdir);
 	mkdir ($curdir);
 
-	# get the version specified
-	# docfile
-	my $doccontents = `$cvs co -r $ver -p $docfile 2> /dev/null`;
-	open (DOC, ">$curdir/$shortdocfile");
-	print DOC $doccontents;
-	close (DOC);
-
-	#stylesheet
-	my $sscontents = `$cvs co -r $ver -p $stylesheet 2> /dev/null`;
-	open (SS, ">$curdir/$shortssfile");
-	print SS $sscontents;
-	close (SS);
+	# co each cvs file
+	for my $shortdocfile (keys(%cvsfiles))
+	{
+		my $docfile = $cvsfiles{$shortdocfile};
+		my $doccontents = `$cvs co -r $ver -p $docfile 2> /dev/null`;
+		open (DOC, ">$curdir/$shortdocfile");
+		print DOC $doccontents;
+		close (DOC);
+	} # end foreach cvs file
 
 	# run docbook2html on the file
-	if (-s "$curdir/$shortssfile")
+	if (-s "$curdir/netmrg.dsl")
 	{
-		`docbook2html -d $curdir/$shortssfile#html $curdir/$shortdocfile -o $curdir`;
+		`docbook2html -d $curdir/netmrg.dsl#html $curdir/netmrg.sgml -o $curdir`;
 	}
 	else
 	{
-		`docbook2html $curdir/$shortdocfile -o $curdir`;
+		`docbook2html $curdir/netmg.sgml -o $curdir`;
 		symlink("$curdir/book1.html", "$curdir/index.html");
 	}
 	
@@ -78,7 +77,7 @@ foreach my $ver (@versions)
 sub GetTags()
 {
 	my @tags = ("HEAD");
-	my @rlog = split(/\n/, `$cvs rlog $docfile`);
+	my @rlog = split(/\n/, `$cvs rlog netmrg.sgml`);
 	my $symnames = 0;
 	
 	foreach my $line (@rlog)
