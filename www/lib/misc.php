@@ -1,17 +1,13 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* misc.php
+* Misc Subroutines Module
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Misc Subroutines Module                    #
-#           misc.php                                   #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
 function store_array_in_cookie($cookiename, $array2store)
 {
@@ -19,6 +15,7 @@ function store_array_in_cookie($cookiename, $array2store)
 	setcookie($cookiename, $tmpstring); 
 	unset($tmpstring); 
 } // end store_array_in_cookie()
+
 
 function get_img_tag_from_status($status)
 {

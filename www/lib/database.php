@@ -1,20 +1,12 @@
 <?php
-
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Database Abstraction/Integration Module    #
-#           database.php                               #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
-
-
-require_once("../include/config.php");
+/********************************************
+* NetMRG Integrator
+*
+* database.php
+* Database Abstraction/Integration Module
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
 
 // Obtain data from a table

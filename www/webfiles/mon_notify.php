@@ -1,17 +1,13 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* mon_notify.php
+* Event Notification Editing Page
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Event Notification Editing Page            #
-#           mon_notify.php                             #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
 require_once("../include/config.php");
 check_auth(1);

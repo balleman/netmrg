@@ -1,17 +1,12 @@
 <?php
-
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Site Format Module                         #
-#           format.php                                 #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
+/********************************************
+* NetMRG Integrator
+*
+* format.php
+* Site Format Module
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
 
 #+++++++++++++++++++++++++++++++++++++++++++++
@@ -652,4 +647,6 @@ function js_color_dialog()
 	}
         </script>
 	<?php
-}
+} // end js_color_dialog();
+
+?>

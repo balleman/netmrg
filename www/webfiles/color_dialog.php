@@ -1,20 +1,14 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* color_dialog.php
+* Color Choosing Dialog
+*
+* see doc/LICENSE for copyright information
+* based on Luis Romero's Color Picker
+********************************************/
 
-/*
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Color Choosing Dialog                      #
-#           color_dialog.php                           #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#     based on Luis Romero's Color Picker              #
-#                                                      #
-########################################################
-*/
 
 require_once("../include/config.php");
 
@@ -30,18 +24,19 @@ require_once("../include/config.php");
 <title>Choose Color</title>
 
 <script language="JavaScript">
-<!-- Begin
+<!--
 function showColor(val) {
 window.opener.document.editform.<?php print($field); ?>.value = val;
 window.close();
 }
+// -->
 </script>
-
 
 </head>
 <body>
+
 <center>
-<form name=colorform>
+<form name="colorform">
 <map name="colmap">
 <area shape="rect" coords="1,1,7,10" href="javascript:showColor('#00FF00')">
 <area shape="rect" coords="9,1,15,10" href="javascript:showColor('#00FF33')">
@@ -260,8 +255,12 @@ window.close();
 <area shape="rect" coords="273,56,279,65" href="javascript:showColor('#FF00CC')">
 <area shape="rect" coords="281,56,287,65" href="javascript:showColor('#FF00FF')">
 </map>
-<a><img usemap="#colmap" src="img/colortable.gif" border=0 width=289 height=67></a><br>
+
+<a><img usemap="#colmap" src="img/colortable.gif" border="0" width="289" height="67"></a><br>
+
 </form>
 </center>
+
 </body>
 </html>
+

@@ -1,17 +1,13 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* mon_responses.php
+* Responses Editing Page
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Responses Editing Page                     #
-#           mon_responses.php                          #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
 require_once("../include/config.php");
 check_auth(1);

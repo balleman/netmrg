@@ -1,22 +1,16 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* enclose_graph.php
+* Enclose Graph in a Page
+*
+* named in honor of Ian Berry's
+*   "enclose_url.php"
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-/*
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Enclose Graph in a Page                    #
-#           enclose_graph.php     		       #
-#                                                      #
-#           named in honor of Ian Berry's              #
-#           "enclose_url.php"                          #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
-*/
 
 require_once("../include/config.php");
 
@@ -97,7 +91,7 @@ function show_a_graph()
 } // end show_a_graph
 
 refresh_tag();
-begin_page();
+begin_page("enclose_graph.php", "Graph");
 show_a_graph();
 
 if ((!empty($_REQUEST["show_children"])) && ($_REQUEST["show_children"] == 1))

@@ -1,17 +1,13 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* users.php
+* User Access Administration
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           User Access Administration                 #
-#           users.php                                  #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
 require_once("../include/config.php");
 check_auth(3);

@@ -1,17 +1,13 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* conditions.php
+* Conditions Editing Page
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Conditions Editing Page                    #
-#           conditions.php                             #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
 require_once("../include/config.php");
 check_auth(1);
@@ -20,16 +16,25 @@ if (isset($_REQUEST['action']))
 {
 	switch ($_REQUEST['action'])
 	{
-		case "edit":		display_edit(); 	break;
-		case "add":		display_edit(); 	break;
-		case "doedit":		do_edit(); 		break;
-		case "dodelete":	do_delete(); 		break;
-	}
+		case "edit":
+			display_edit();
+		 	break;
+		case "add":
+			display_edit();
+		 	break;
+		case "doedit":
+			do_edit();
+	 		break;
+		case "dodelete":
+			do_delete();
+			break;
+	} // end switch action
 }
 else
 {
 	do_display();
-}
+} // end if action set
+
 
 function do_display()
 {
@@ -37,7 +42,7 @@ function do_display()
 	// Display a list
 
 	check_auth(1);
-	begin_page();
+	begin_page("conditions.php", "Conditions");
 
 	$query = do_query("SELECT * FROM conditions WHERE event_id = {$_REQUEST['event_id']} ORDER BY id");
 	$rows = mysql_num_rows($query);
@@ -75,12 +80,13 @@ function do_display()
 	</table>
 	<?php
 	end_page();
-}
+} // end do_display();
+
 
 function display_edit()
 {
 	check_auth(2);
-	begin_page();
+	begin_page("conditions.php", "Edit Conditions");
 
 	if ($_REQUEST['action'] == "add")
 	{
@@ -116,7 +122,8 @@ function display_edit()
 	make_edit_end();
 	end_page();
 
-}
+} // end display_edit();
+
 
 function do_edit()
 {
@@ -136,7 +143,8 @@ function do_edit()
         do_update("$pre conditions SET logic_condition={$_REQUEST['logic_condition']}, value_type={$_REQUEST['value_type']}, condition={$_REQUEST['condition']}, value={$_REQUEST['value']} $post");
 
         header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}");
-}
+} // end do_edit();
+
 
 function do_delete()
 {
@@ -145,5 +153,7 @@ function do_delete()
         do_update("DELETE FROM conditions WHERE id = {$_REQUEST['id']}");
 
 	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}");
-}
+} // end do_delete();
+
+
 ?>

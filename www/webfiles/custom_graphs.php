@@ -1,20 +1,17 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* custom_graphs.php
+* Custom Graphs Configuration Page
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Custom Graphs Configuration Page           #
-#           custom_graphs.php                          #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
 require_once("../include/config.php");
 check_auth(1);
+
 if (empty($_REQUEST["action"])) { $_REQUEST["action"] = ""; }
 
 if ($_REQUEST["action"] == "doedit")

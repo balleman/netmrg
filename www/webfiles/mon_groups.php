@@ -1,16 +1,13 @@
 <?php
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Monitored Device Groups Editing Page       #
-#           mon_groups.php                             #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
+/********************************************
+* NetMRG Integrator
+*
+* mon_groups.php
+* Monitored Device Groups Editing Page
+*
+* see doc/LICENSE for copyright information
+********************************************/
+
 
 require_once("../include/config.php");
 check_auth(1);

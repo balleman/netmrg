@@ -1,17 +1,13 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* events.php
+* Events Editing Page
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Events Editing Page                        #
-#           events.php                                 #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
 require_once("../include/config.php");
 check_auth(1);
@@ -37,7 +33,7 @@ function do_display()
 	// Display a list
 
 	check_auth(1);
-	begin_page();
+	begin_page("events.php", "Events");
 
 	$title = "Events for " . get_monitor_name($_REQUEST['mon_id']);
 	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&mon_id={$_REQUEST['mon_id']}";
@@ -77,7 +73,7 @@ function do_display()
 function display_edit()
 {
 	check_auth(2);
-	begin_page();
+	begin_page("events.php", "Edit Event");
 
 	if ($_REQUEST['action'] == "add")
 	{

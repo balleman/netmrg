@@ -1,17 +1,12 @@
 <?php
-
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Authentication and Permissions Module      #
-#           auth.php                                   #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@netmrg.net - www.netmrg.net                #
-#                                                      #
-########################################################
+/********************************************
+* NetMRG Integrator
+*
+* auth.php
+* Authentication and Permissions Module
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
 
 /**

@@ -1,21 +1,15 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* stat.php
+* Static Data Integration Module
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Static Data Integration Module             #
-#           stat.php                                   #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
-require_once("/var/www/netmrg/lib/database.php");
-
-// array constants
+/***** CONSTANTS *****/
 $ALIGN_ARRAY = array(
 			1	=>	"Left",
 			2	=>	"Right",
@@ -135,14 +129,13 @@ function get_image_by_name($img_name)
 	}
 
 	return $image;
-
 } // end get_image_by_name
 
 
 $alt_color = 0;
 
-function get_color_by_name($color_name) {
-
+function get_color_by_name($color_name)
+{
 	GLOBAL $alt_color;
 
 	$color = "#FFFFFF";
@@ -174,8 +167,6 @@ function get_color_by_name($color_name) {
 	}
 
 	return $color;
-
-
 } // end get_color_by_name
 
 

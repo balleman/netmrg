@@ -1,17 +1,12 @@
 <?php
-
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           SNMP Engine                                #
-#                                                      #
-#           SNMP Structure Caching and Retreival       #
-#           snmp_caching.php                           #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
+/********************************************
+* NetMRG Integrator
+*
+* snmp_caching.php
+* SNMP Structure Caching and Retreival
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
 
 function is_cached($dev_id)
@@ -20,17 +15,20 @@ function is_cached($dev_id)
 	return mysql_num_rows($h);
 } // end is_cached
 
+
 function is_disk_cached($dev_id)
 {
 	$h = do_query("SELECT dev_id FROM snmp_disk_cache WHERE dev_id=$dev_id");
 	return mysql_num_rows($h);
 } // end is_cached
 
+
 function snmp_chop($string)
 {
 	$temp = ereg_replace("\n","",$string);
 	return ereg_replace(".*= ","",$temp);
 } // end snmp_chop
+
 
 function do_snmp_get($dev_ip, $community, $oid)
 {
@@ -53,6 +51,7 @@ function do_snmp_get($dev_ip, $community, $oid)
 	return $to_return;
 } // end do_snmp_get
 
+
 function snmp_make_ip_array($dev_ip, $community)
 {
 	$if_ip    = `snmpwalk $dev_ip $community ipAdEntIfIndex`;
@@ -66,6 +65,7 @@ function snmp_make_ip_array($dev_ip, $community)
 	}
 	return $res;
 } // end snmp_make_ip_array
+
 
 function make_normal_snmp_array($dev_ip, $community, $oid_root)
 {
@@ -81,6 +81,7 @@ function make_normal_snmp_array($dev_ip, $community, $oid_root)
 	}
 	return $res;
 } // end make_normal_snmp_array
+
 
 function cache_device($dev_row)
 {
@@ -137,6 +138,7 @@ function cache_device($dev_row)
 
 } // end cache_device
 
+
 function ensure_cached($dev_id)
 {
 	if (is_cached($dev_id) < 1) {
@@ -145,6 +147,7 @@ function ensure_cached($dev_id)
 		cache_device($row);
 	} // end if device is cached
 } // end ensure_cached;
+
 
 function cache_disks($dev_row)
 {
@@ -179,8 +182,8 @@ function cache_disks($dev_row)
 			disk_path=\"$dsk_path\",
 			disk_device=\"$dsk_device\"");
 	} // end for
-
 } // end cache_disks
+
 
 function ensure_disk_cached($dev_id)
 {

@@ -1,20 +1,17 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* graph_items.php
+* Custom Graphs Data Sources Page
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Custom Graphs Data Sources Page            #
-#           graph_items.php                            #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
 require_once("../include/config.php");
 check_auth(1);
+
 
 if (empty($_REQUEST["action"])) { $_REQUEST["action"] = ""; }
 
@@ -94,7 +91,7 @@ if (empty($_REQUEST["action"]))
 	GLOBAL $RRDTOOL_ITEM_TYPES;
 
 	// Change databases if necessary and then display list
-	begin_page();
+	begin_page("graph_items.php", "Graph Item");
 
 	js_confirm_dialog("del", "Are you sure you want to delete graph item ", "?", "{$_SERVER['PHP_SELF']}?action=dodelete&graph_id={$_REQUEST['graph_id']}&id=");
 
@@ -158,10 +155,10 @@ if (empty($_REQUEST["action"]))
 if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 {
 
-        check_auth(2);
-        begin_page();
+	check_auth(2);
+	begin_page("graph_items.php", "Add/Edit Graph Item");
 
-        if ($_REQUEST["action"] == "add")
+	if ($_REQUEST["action"] == "add")
 	{
 	        $_REQUEST["id"] = 0;
 		$ds_row["type"] = 0;

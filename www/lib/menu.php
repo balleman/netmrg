@@ -1,17 +1,12 @@
 <?php
-
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Menu Display Module                        #
-#           menu.php                                   #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
+/********************************************
+* NetMRG Integrator
+*
+* menu.php
+* Menu Display Module
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
 
 function display_menu()

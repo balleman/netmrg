@@ -1,23 +1,14 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* view.php
+* A Page of Graphs associated with a
+*   group or device.
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-/*
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           A Page of Graphs associated with a         #
-#           group or device.			       #
-#           view.php		     		       #
-#                                                      #
-#                                                      #
-#                                                      #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
-*/
 
 require_once("../include/config.php");
 view_check_auth($_REQUEST["pos_id"], $_REQUEST["pos_id_type"]);
@@ -98,7 +89,7 @@ if (!empty($_REQUEST["action"]))
 } // end if an action was defined
 
 refresh_tag();
-begin_page();
+begin_page("view.php", "View");
 
 $view_select = "
     SELECT * FROM view

@@ -1,20 +1,13 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* snmp_cache_view.php
+* SNMP Cache Viewer
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           SNMP Cache Viewer                          #
-#           snmp_cache_view.php   		       #
-#                                                      #
-#                                                      #
-#                                                      #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
 require_once("../include/config.php");
 
@@ -92,7 +85,7 @@ $sort_href = "{$_SERVER['PHP_SELF']}?";
 if (isset($_REQUEST["dev_id"])) { $query .= " WHERE dev_id={$_REQUEST['dev_id']} ORDER BY if_index"; $sort_href .= "dev_id={$_REQUEST['dev_id']}&"; }
 $sort_href .= "order_by";
 if (isset($order_by)) { $query .= " ORDER BY $order_by"; }
-begin_page();
+begin_page("snmp_cache_view.php", "SNMP Cache View");
 
 make_plain_display_table(get_device_name($_REQUEST["dev_id"]) . " - SNMP Interface Cache","Interface #","$sort_href=if_index","Interface Name","$sort_href=if_name","Interface Description","$sort_href=if_desc","IP Address","$sort_href=if_ip","MAC Address","$sort_href=if_mac","Alias","$sort_href=if_alias","Commands","");
 $handle = do_query($query);

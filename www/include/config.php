@@ -1,16 +1,12 @@
 <?php
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Static Configuration Module                #
-#           config.php                                 #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
+/********************************************
+* NetMRG Integrator
+* 
+* config.php
+* Static Configuration Module
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
 /***** GLOBAL SETTINGS *****/ 
 error_reporting(E_ALL);

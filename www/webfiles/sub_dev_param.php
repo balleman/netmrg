@@ -1,26 +1,22 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* sub_dev_param.php
+* Sub-Devices Parameters Page
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Sub-Devices Parameters Page                #
-#           sub_dev_param.php                          #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
 require_once("../include/config.php");
 
 if (empty($_REQUEST["action"]))
 {
-        // Display the list of sub-devices for a particular device.
+	// Display the list of sub-devices for a particular device.
 
 	check_auth(1);
-        begin_page();
+	begin_page("sub_dev_param.php", "Sub Device Parameters);
 
 	$results = do_query("SELECT name, value FROM sub_dev_variables WHERE sub_dev_id={$_REQUEST['sub_dev_id']}");
 
@@ -63,7 +59,7 @@ elseif ($_REQUEST["action"] == "doedit")
 elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 {
 	check_auth(2);
-	begin_page();
+	begin_page("sub_dev_param.php", "Add/Edit Sub Device Parameter");
 
 	if ($_REQUEST["action"] == "edit")
 	{

@@ -1,17 +1,13 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* device_tree.php
+* Device Tree
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Device Tree                                #
-#           device_tree.php                            #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@netmrg.net http://netmrg.net               #
-#                                                      #
-########################################################
 
 require_once("../include/config.php");
 

@@ -1,19 +1,13 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* graphing.php
+* RRDTOOL Command Integration Library
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Graphing Engine                            #
-#                                                      #
-#           RRDTOOL Command Integration Library        #
-#           graphing.php                               #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
-
-require_once("/var/www/netmrg/lib/stat.php");
 
 function get_graph_command($type, $id, $hist, $togglelegend)
 {

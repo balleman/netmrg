@@ -1,19 +1,13 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* processing.php
+* Internal Processing Functions
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Internal Processing Functions              #
-#           processing.php                             #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
-
-require_once("../include/config.php");
 
 // Simple Formatting Section
 
@@ -77,8 +71,8 @@ function sanitize_number($number)
 		return round(($number / 1000000000000),$round_to) . " T";
 	}
 
-
 } // end sanitize_number
+
 
 function make_spaces($length)
 {
@@ -90,54 +84,52 @@ function make_spaces($length)
 	}
 
 	return($spaces);
-
 } // end make_spaces
 
+
+// prepends spaces to a string to cause it to be a certain length
 function align_right($string, $length)
 {
-	// prepends spaces to a string to cause it to be a certain length
-
 	$space_length = $length - strlen($string);
-
 	return(make_spaces($space_length) . $string);
-
 } // end align_right
+
 
 function align_left($string, $length)
 {
 	$space_length = $length - strlen($string);
 	return($string . make_spaces($space_length));
-
 } // end align_left
+
 
 function align_right_split($string, $length)
 {
 	$space_length = $length - strlen($string);
 	$pos = strrchr($string," ");
 	return(substr($string, 0, -strlen($pos)) . make_spaces($space_length) . $pos);
-
 } //end align_right_split
 
+
+// manipulates a string by applying the appropriate padding method
 function do_align($string, $length, $method)
 {
-// manipulates a string by applying the appropriate padding method
 
-        switch ($method)
+	switch ($method)
 	{
-        	case 1:
-		        $result = align_left($string, $length);
-		        break;
-	        case 2:
-        		$result = align_right($string, $length);
-		        break;
-	        case 3:
-        		$result = align_right_split($string, $length);
-		        break;
-        }
+		case 1:
+			$result = align_left($string, $length);
+			break;
+		case 2:
+			$result = align_right($string, $length);
+			break;
+		case 3:
+			$result = align_right_split($string, $length);
+			break;
+	} // end switch($method)
 
-        return($result);
-
+	return($result);
 } // end do_align
+
 
 function get_microtime()
 {
@@ -145,48 +137,42 @@ function get_microtime()
     return ((float)$usec + (float)$sec);
 }
 
+
 // Recursive status determination section
 
 
+//Takes a grp_id and returns the current group aggregate status
 function get_group_status($grp_id)
 {
-	//Takes a grp_id and returns the current group aggregate status
+	if (isset($GLOBALS["state_group_" . $grp_id]))
+	{
+		return $GLOBALS["state_group_" . $grp_id];
+	}
+	else
+	{
+		$status = -1;
 
-        if (isset($GLOBALS["state_group_" . $grp_id]))
-        {
-	        return $GLOBALS["state_group_" . $grp_id];
-        } else {
+		$grp_results = do_query("SELECT id FROM mon_groups WHERE parent_id=$grp_id");
 
-        	$status = -1;
+		while ($grp_row = mysql_fetch_array($grp_results))
+		{
+			$grp_status = get_group_status($grp_row["id"]);
+			if (($grp_status > $status) && ($dev_status != 4)) { $status = $grp_status; }
+		} // end while rows left
 
-                $grp_results = do_query("SELECT id FROM mon_groups WHERE parent_id=$grp_id");
-                $grp_total = mysql_num_rows($grp_results);
+		$dev_results = do_query("SELECT dev_id FROM dev_parents WHERE grp_id=$grp_id");
 
-                for ($grp_count = 1; $grp_count <= $grp_total; $grp_count++)
-                {
-                        $grp_row = mysql_fetch_array($grp_results);
-        	        $grp_status = get_group_status($grp_row["id"]);
-        	        if (($grp_status > $status) && ($dev_status != 4)) { $status = $grp_status; }
-                }
-
-
-                $dev_results = do_query("SELECT dev_id FROM dev_parents WHERE grp_id=$grp_id");
-                $dev_total = mysql_num_rows($dev_results);
-
-                for ($dev_count = 1; $dev_count <= $dev_total; ++$dev_count)
-                {
-                // For each device
-
-	                $dev_row = mysql_fetch_array($dev_results);
-        	        $dev_status = get_device_status($dev_row["dev_id"]);
-	                if (($dev_status > $status) && ($dev_status != 4)) { $status = $dev_status; }
-                } // end for
+		// For each device
+		while ($dev_row = mysql_fetch_array($dev_results))
+		{
+			$dev_status = get_device_status($dev_row["dev_id"]);
+			if (($dev_status > $status) && ($dev_status != 4)) { $status = $dev_status; }
+		} // end for
 
 		$GLOBALS["state_group_" . $grp_id] = $status;
-                return $status;
-        }
-
-} // end get_group_status
+		return $status;
+	} // end if global state
+} // end get_group_status()
 
 
 // Uniform Name Creation Section
@@ -194,7 +180,6 @@ function get_group_status($grp_id)
 
 function get_short_monitor_name($mon_id)
 {
-
 	GLOBAL $TEST_TYPES;
 
 	$mon_query = do_query("
@@ -230,35 +215,32 @@ function get_short_monitor_name($mon_id)
 	}
 
 	return $res;
-
 } // end get_short_monitor_name()
 
 
 function get_monitor_name($mon_id)
 {
+	$query_handle = do_query("
+		SELECT  mon_devices.name AS dev_name,
+		sub_devices.name AS sub_name
+		FROM monitors
+		LEFT JOIN sub_devices ON monitors.sub_dev_id=sub_devices.id
+		LEFT JOIN mon_devices ON sub_devices.dev_id=mon_devices.id
+		WHERE monitors.id=$mon_id");
 
-        $query_handle = do_query("      SELECT  mon_devices.name AS dev_name,
-                                                sub_devices.name AS sub_name
-                                        FROM monitors
+	$row = mysql_fetch_array($query_handle);
 
-                                        LEFT JOIN sub_devices ON monitors.sub_dev_id=sub_devices.id
-                                        LEFT JOIN mon_devices ON sub_devices.dev_id=mon_devices.id
-
-                                        WHERE monitors.id=$mon_id");
-
-        $row = mysql_fetch_array($query_handle);
-
-        return $row["dev_name"] . " - " . $row["sub_name"] . " (" . get_short_monitor_name($mon_id) . ")";
-
-}
+	return $row["dev_name"] . " - " . $row["sub_name"] . " (" . get_short_monitor_name($mon_id) . ")";
+} // end get_monitor_name()
 
 
 function get_graph_name($graph_id)
 {
-        $graph_query = do_query("SELECT name FROM graphs WHERE id=$graph_id");
+	$graph_query = do_query("SELECT name FROM graphs WHERE id=$graph_id");
 	$graph_row   = mysql_fetch_array($graph_query);
 	return $graph_row["name"];
 }
+
 
 function get_device_name($dev_id)
 {
@@ -267,13 +249,15 @@ function get_device_name($dev_id)
 	return $dev_row["name"];
 }
 
+
 function get_sub_device_name($sub_dev_id)
 {
-        $dev_query = do_query(" SELECT mon_devices.name AS dev_name, sub_devices.name AS sub_name
-	                        FROM sub_devices
-                                LEFT JOIN mon_devices   ON sub_devices.dev_id=mon_devices.id
-				WHERE sub_devices.id = $sub_dev_id");
-        $row = mysql_fetch_array($dev_query);
+	$dev_query = do_query("
+		SELECT mon_devices.name AS dev_name, sub_devices.name AS sub_name
+		FROM sub_devices
+		LEFT JOIN mon_devices   ON sub_devices.dev_id=mon_devices.id
+		WHERE sub_devices.id = $sub_dev_id");
+	$row = mysql_fetch_array($dev_query);
 	return $row["dev_name"] . " - " . $row["sub_name"];
 }
 
@@ -293,15 +277,15 @@ function delete_group($group_id)
 	$devices_handle = do_query("SELECT id FROM mon_devices WHERE group_id=$group_id");
 
 	for ($i = 0; $i < mysql_num_rows($devices_handle); $i++) {
-	        $device_row = mysql_fetch_array($devices_handle);
-	        delete_device($device_row["id"]);
+		$device_row = mysql_fetch_array($devices_handle);
+		delete_device($device_row["id"]);
 	}
 }
 
+
 function delete_device($device_id)
 {
-
-        // delete the device
+	// delete the device
 	do_update("DELETE FROM mon_devices WHERE id=$device_id");
 
 	// remove the snmp-cache for the device
@@ -321,10 +305,11 @@ function delete_device($device_id)
 
 	for ($i = 0; $i < mysql_num_rows($subdev_handle); $i++)
 	{
-	        $subdev_row = mysql_fetch_array($subdev_handle);
-	        delete_subdevice($subdev_row["id"]);
+		$subdev_row = mysql_fetch_array($subdev_handle);
+		delete_subdevice($subdev_row["id"]);
 	}
 }
+
 
 function delete_subdevice($subdev_id)
 {
@@ -341,8 +326,8 @@ function delete_subdevice($subdev_id)
 		$monitor_row = mysql_fetch_array($monitors_handle);
 		delete_monitor($monitor_row["id"]);
 	}
-
 }
+
 
 function delete_monitor($monitor_id)
 {
@@ -356,50 +341,49 @@ function delete_monitor($monitor_id)
 	} // end for each row
 } // end delete_monitor()
 
+
 function delete_event($event_id)
 {
 
 	do_update("DELETE FROM mon_events WHERE id=$event_id");
 
-        $responses_handle = do_query("SELECT id FROM mon_responses WHERE events_id=$event_id");
+	$responses_handle = do_query("SELECT id FROM mon_responses WHERE events_id=$event_id");
 
 	for ($i = 0; $i < mysql_num_rows($responses_handle); $i++)
 	{
-	        $response_row = mysql_fetch_array($responses_handle);
-	        delete_response($response_row["id"]);
-        }
-
+		$response_row = mysql_fetch_array($responses_handle);
+		delete_response($response_row["id"]);
+	}
 }
+
 
 function delete_response($response_id)
 {
-
-        do_update("DELETE FROM mon_responses WHERE id=$response_id");
-
+	do_update("DELETE FROM mon_responses WHERE id=$response_id");
 }
+
 
 function delete_graph($graph_id)
 {
-
 	// delete the graph
 	do_update("DELETE FROM graphs WHERE id=$graph_id");
 
 	// delete the graphs from associated graphs
 	do_update("DELETE FROM view WHERE graph_id_type='custom' AND graph_id=$graph_id");
 
-        $ds_handle = do_query("SELECT id FROM graph_ds WHERE graph_id=$graph_id");
+	$ds_handle = do_query("SELECT id FROM graph_ds WHERE graph_id=$graph_id");
 
 	for ($i = 0; $i < mysql_num_rows($ds_handle); $i++)
 	{
-	        $ds_row = mysql_fetch_array($ds_handle);
-	        delete_ds($ds_row["id"]);
-        }
-
+		$ds_row = mysql_fetch_array($ds_handle);
+		delete_ds($ds_row["id"]);
+	}
 }
+
 
 function delete_ds($ds_id)
 {
-        do_update("DELETE FROM graph_ds WHERE id=$ds_id");
+	do_update("DELETE FROM graph_ds WHERE id=$ds_id");
 }
 
 
@@ -410,16 +394,12 @@ function delete_ds($ds_id)
 
 function generic_insert($sql)
 {
-
-        do_update("INSERT INTO $sql");
-
+	do_update("INSERT INTO $sql");
 }
 
 function generic_update($sql, $id)
 {
-
-        do_update("UPDATE $sql WHERE id=$id");
-
+	do_update("UPDATE $sql WHERE id=$id");
 }
 
 
@@ -427,42 +407,39 @@ function generic_update($sql, $id)
 
 function sql_group($grp_name, $grp_comment, $parent_id)
 {
-
-        return "mon_groups SET name=\"$grp_name\", comment=\"$grp_comment\", parent_id=$parent_id";
-
+	return "mon_groups SET name=\"$grp_name\", comment=\"$grp_comment\", parent_id=$parent_id";
 }
+
 
 function create_group($grp_name, $grp_comment, $parent_id)
 {
-
-        generic_insert(sql_group($grp_name, $grp_comment, $parent_id));
-
+	generic_insert(sql_group($grp_name, $grp_comment, $parent_id));
 }
+
 
 function update_group($id, $grp_name, $grp_comment, $parent_id)
 {
-
 	generic_update(sql_group($grp_name, $grp_comment, $parent_id), $id);
-
 }
+
 
 // Graph Items
 
 function sql_graph_item($src_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier, $position)
 {
-
-        return "graph_ds SET src_id=$src_id, color=\"$color\", type=$type, label=\"$label\", align=$align, graph_id=$graph_id, show_stats=$show_stats, show_indicator=$show_indicator, hrule_value=\"$hrule_value\", hrule_color=\"$hrule_color\", hrule_label=\"$hrule_label\", show_inverted=$show_inverted, alt_graph_id=$alt_graph_id, use_alt=$use_alt, multiplier=$multiplier, position=$position";
-
+	return "graph_ds SET src_id=$src_id, color=\"$color\", type=$type, label=\"$label\", align=$align, graph_id=$graph_id, show_stats=$show_stats, show_indicator=$show_indicator, hrule_value=\"$hrule_value\", hrule_color=\"$hrule_color\", hrule_label=\"$hrule_label\", show_inverted=$show_inverted, alt_graph_id=$alt_graph_id, use_alt=$use_alt, multiplier=$multiplier, position=$position";
 }
+
 
 function create_graph_item($src_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier, $position)
 {
-
-        generic_insert(sql_graph_item($src_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier, $position));
+	generic_insert(sql_graph_item($src_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier, $position));
 }
+
 
 function update_graph_item($id, $src_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier, $position)
 {
-
-        generic_update(sql_graph_item($src_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier, $position), $id);
+	generic_update(sql_graph_item($src_id, $color, $type, $label, $align, $graph_id, $show_stats, $show_indicator, $hrule_value, $hrule_color, $hrule_label, $show_inverted, $alt_graph_id, $use_alt, $multiplier, $position), $id);
 }
+
+?>

@@ -1,17 +1,13 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* get_graph.php
+* Graph Creation Module
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Graph Creation Module                      #
-#           get_graph.php                              #
-#                                                      #
-#     Copyright (C) 2001 Brady Alleman.                #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
 require_once("../include/config.php");
 
@@ -26,12 +22,12 @@ header("Content-type: image/png");					// PNG
 
 if (empty($_REQUEST["hist"]))
 {
-        $_REQUEST["hist"] = 0;
+	$_REQUEST["hist"] = 0;
 }
 
 if (empty($_REQUEST["togglelegend"]))
 {
-        $_REQUEST["togglelegend"] = 0;
+	$_REQUEST["togglelegend"] = 0;
 }
 
 

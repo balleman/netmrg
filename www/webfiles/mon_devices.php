@@ -1,17 +1,13 @@
 <?php
+/********************************************
+* NetMRG Integrator
+*
+* mon_devices.php
+* Monitored Devices Editing Page
+*
+* see doc/LICENSE for copyright information
+********************************************/
 
-########################################################
-#                                                      #
-#           NetMRG Integrator                          #
-#           Web Interface                              #
-#                                                      #
-#           Monitored Devices Editing Page             #
-#           mon_devices.php                            #
-#                                                      #
-#     Copyright (C) 2001-2002 Brady Alleman.           #
-#     brady@pa.net - www.treehousetechnologies.com     #
-#                                                      #
-########################################################
 
 require_once("../include/config.php");
 check_auth(1);
@@ -84,7 +80,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 		$title = "Monitored Devices";
 
 	} // end if we have a group id
-	begin_page();
+	begin_page("mon_devices.php", "Devices");
 	js_confirm_dialog("del", "Are you sure you want to delete device ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&grp_id={$_REQUEST['grp_id']}&dev_id=");
 	make_display_table($title,
 	   "Name", "{$_SERVER['PHP_SELF']}?orderby=name",
@@ -137,7 +133,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "add")
 {
 	check_auth(2);
-	begin_page();
+	begin_page("mon_devices.php", "Add Device");
 
 	echo("<big><b>
 		<a href='{$_SERVER['PHP_SELF']}?grp_id={$_REQUEST['grp_id']}&action=addnew'>Create a new device</a><br><br>
@@ -151,7 +147,7 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "addtogrp")
 {
 
 	check_auth(2);
-	begin_page();
+	begin_page("mon_devices.php", "Add Device Group");
 	make_edit_table("Add Existing Device to a Group");
 	make_edit_select_from_table("Device:","dev_id","mon_devices",-1);
 	make_edit_hidden("action","doaddtogrp");
@@ -164,7 +160,7 @@ if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "addtogrp")
 if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["action"] == "addnew")) {
 	// Display editing screen
 	check_auth(2);
-	begin_page();
+	begin_page("mon_devices.php", "Edit Device");
 	if ($_REQUEST["action"] == "addnew")
 	{
 		$dev_id = 0;
