@@ -351,7 +351,12 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 	}
 
 	// what type of value are we dealing with?
-	if (info.curr_val == inttostr(strtoint(info.curr_val)))
+	if (info.curr_val == "U")
+	{
+		// value is unknown
+		debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value is unknown.");
+	}
+	else if (info.curr_val == inttostr(strtoint(info.curr_val)))
 	{
 		// value is an integer
 		// (do nothing)
