@@ -26,12 +26,12 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 				$db_end = "";
 			} else {
 				$db_cmd = "UPDATE";
-				$db_end = "WHERE id=$dev_id";
+				$db_end = "WHERE id={$_REQUEST['dev_id']}";
 			} // end if dev_id = 0 or not
-			if (!isset($snmp_recache)) { $snmp_recache = 0; }
-			if (!isset($disabled)) { $disabled = 0; }
-			if (!isset($snmp_check_ifnumber)) { $snmp_check_ifnumber = 0; }
-	        if (!isset($snmp_enabled)) { $snmp_enabled = 0; }
+			if (!isset($_REQUEST["snmp_recache"])) { $_REQUEST["snmp_recache"] = 0; }
+			if (!isset($_REQUEST["disabled"])) { $_REQUEST["disabled"] = 0; }
+			if (!isset($_REQUEST["snmp_check_ifnumber"])) { $_REQUEST["snmp_check_ifnumber"] = 0; }
+	        if (!isset($_REQUEST["snmp_enabled"])) { $_REQUEST["snmp_enabled"] = 0; }
 			do_update("$db_cmd mon_devices SET 
 				name='{$_REQUEST['dev_name']}',
 				ip='{$_REQUEST['dev_ip']}',
@@ -153,7 +153,6 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	} // end if device id
 
 	$dev_select = "SELECT * FROM mon_devices WHERE id=$dev_id";
-	echo $dev_select;
 	$dev_results = do_query($dev_select);
 	$dev_row = mysql_fetch_array($dev_results);
 	$dev_name = $dev_row["name"];
