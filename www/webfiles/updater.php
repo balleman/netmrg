@@ -118,10 +118,12 @@ function update($dbupdates)
 		} // end if we're to do the updates
 	} // end foreach version
 	
+	// update the database version
+	UpdateDBVersion($GLOBALS["netmrg"]["version"]);
+	
 	if ($doupdates)
 	{
 		echo "All updates were completed successfully.<br />\n";
-		echo "Enjoy your new version of NetMRG!!<br />\n";
 	} // end if we performed updates
 	else
 	{

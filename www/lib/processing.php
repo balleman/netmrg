@@ -733,6 +733,17 @@ function GetDBVersion()
 
 
 /**
+* UpdaterNeedsRun()
+*
+* returns true if the updater needs run
+*/
+function UpdaterNeedsRun()
+{
+	return ($GLOBALS["netmrg"]["version"] != GetDBVersion());
+} // end UpdaterNeedsRun();
+
+
+/**
 * UpdateDBVersion($ver)
 *
 * updates the version the database is in

@@ -115,7 +115,7 @@ if (!empty($pagename))
 	<td class="empty" valign="top"><img src="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/img/trans.gif" width="4" height="1" alt="trans gif"></td>
 	<td valign="top">
 	<?php
-		if (IsLoggedIn())
+		if (IsLoggedIn() && !UpdaterNeedsRun())
 		{
 			display_menu();
 		} // end if is logged in, show the menu
@@ -126,6 +126,28 @@ if (!empty($pagename))
 	<td valign="top" width="100%">
 
 <?php
+	// if we need to run the updater, don't do anything else
+	if (IsLoggedIn() && UpdaterNeedsRun() && strpos($_SERVER["PHP_SELF"], "updater.php") === false)
+	{
+		if ($_SESSION["netmrgsess"]["permit"] != 3)
+		{
+?>
+This installation is currently unusable due to a recent upgrade.  Please contact 
+your administrator to have the rest of the upgrade performed. <br />
+<a href="logout.php">logout</a><br />
+<?php		} // end if not admin
+		else
+		{
+?>
+Your installation is currently in an unusable state; please proceed to update 
+your installation <a href="updater.php">here</a><br />
+<a href="logout.php">logout</a><br />
+<?php
+		} // end if admin
+		
+		end_page();
+		exit();
+	} // end if updater needs run
 } // end begin_page()
 
 
