@@ -76,6 +76,13 @@ function sanitize_number($number, $round_to = 2)
 
 } // end sanitize_number
 
+function paraphrase($string, $length, $etc = "...")
+{
+	if (strlen($string) <= $length)
+		return $string;
+
+	return substr($string, 0, $length) . $etc;
+}
 
 function make_spaces($length)
 {

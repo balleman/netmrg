@@ -86,7 +86,7 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 		array("text" => htmlspecialchars($test_row["name"])),
 		array("text" => htmlspecialchars($test_row["host"])),
 		array("text" => htmlspecialchars($test_row["user"])),
-		array("text" => htmlspecialchars($test_row["query"])),
+		array("text" => htmlspecialchars(paraphrase($test_row["query"],75))),
 		array("text" => formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&test_id=" . $test_row["id"]) . "&nbsp;" .
 			formatted_link("Delete", "javascript:del('" . addslashes(htmlspecialchars($test_row["name"])) . "', '" . $test_row["id"] . "')"))
 	); // end make_display_item();

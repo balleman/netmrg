@@ -5,6 +5,7 @@
   - bug#0000136 - error on view.php page when trying to edit items
   - added lots of missing auth checks to view.php
   - bug#0000135 - read-only users can reorder graph items
+  - bug#0000133 - for tests_sql, long queries should be truncated and an elipsis should be appended
 
 2003.12.15  v0.12  balleman
   - bug#0000129 - uninitialized snmp session pointer can cause segfault
