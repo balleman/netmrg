@@ -23,7 +23,7 @@ begin_page("contributors.php", "Contributors");
 
 <h5>Code</h5>
 <a href="http://user.pa.net/~keb/">Kevin Bonner</a> is instrumental in the 
-    application of autoconf and portability features to this project.</ br>
+    application of autoconf and portability features to this project.<br />
 Ryabkov (Rojer) Deomid has contributed many patches, fixing bugs that 
     are difficult to reproduce.<br />
 </ br>
