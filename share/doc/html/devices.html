@@ -37,7 +37,8 @@ CELLSPACING="0"
 ><TH
 COLSPAN="3"
 ALIGN="center"
->The NetMRG Reference</TH
+><IMG
+SRC="netmrg-logo-medium.png">The NetMRG Reference</TH
 ></TR
 ><TR
 ><TD
@@ -76,7 +77,7 @@ NAME="DEVICES"
 ><DIV
 CLASS="REFNAMEDIV"
 ><A
-NAME="AEN685"
+NAME="AEN690"
 ></A
 ><H2
 >Name</H2
@@ -84,14 +85,14 @@ NAME="AEN685"
 ><DIV
 CLASS="REFSECT1"
 ><A
-NAME="AEN688"
+NAME="AEN693"
 ></A
 ><H2
 >Description</H2
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN690"
+NAME="AEN695"
 ></A
 ><H3
 >List</H3
@@ -199,7 +200,7 @@ CLASS="GUILABEL"
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN725"
+NAME="AEN730"
 ></A
 ><H3
 >Add</H3
@@ -242,7 +243,7 @@ CLASS="GUILABEL"
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN738"
+NAME="AEN743"
 ></A
 ><H3
 >Edit</H3
@@ -329,16 +330,14 @@ CLASS="GUILABEL"
 ></TT
 > - The SNMP community string to use when querying this device.</P
 ></LI
-></UL
-></LI
 ><LI
 ><P
 ><TT
 CLASS="GUILABEL"
 ><B
->SNMP Caching</B
+>Recaching Method</B
 ></TT
-></P
+> - Methods used by the gatherer for determining if its SNMP cache is stale.</P
 ><P
 ></P
 ><UL
@@ -347,18 +346,47 @@ CLASS="GUILABEL"
 ><TT
 CLASS="GUILABEL"
 ><B
->Do not cache interface mappings</B
+>Never refresh cache</B
 ></TT
-> - Recache interfaces on every gather (in case indexes for interfaces change often)</P
+> - The gatherer will never automatically refresh the cache.  The cache must be refreshed manually when changes occur.</P
 ></LI
 ><LI
 ><P
 ><TT
 CLASS="GUILABEL"
 ><B
->Clear interface cache when interface count changes</B
+>Refresh on SNMP agent restart</B
 ></TT
-> - An easier option to make the gatherer recache interfaces when the interface count changes (like when you add or remove a card from a router)</P
+> - The gatherer will refresh the cache if the SNMP agent uptime goes backwards, or if the device has become reachable again after a period of unreachability.  This option is useful for devices that change interface counts too often, such as a router serving DSL sessions.</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Refresh on interface count change</B
+></TT
+> - The gatherer will refresh the cache if the "ifNumber" value has changed since the last gathering.  This typically happens when cards are added to or removed from a router, or when PPP sessions go up or down.  (Also includes the above.)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Refresh on interface count mismatch</B
+></TT
+> - The gatherer will refresh the cache when the number of items in the interface cache do not match the "ifNumber" on a device.  This can prevent problems when devices are in the process of booting.  This is the preferred option for most devices. (Also includes the above.)</P
+></LI
+><LI
+><P
+><TT
+CLASS="GUILABEL"
+><B
+>Always refresh cache</B
+></TT
+> - Always refresh the cache on each gather.  This is useful for devices that are always changing, when you care about the changes.</P
+></LI
+></UL
 ></LI
 ></UL
 ></LI
@@ -407,7 +435,7 @@ CLASS="GUILABEL"
 ><DIV
 CLASS="REFSECT2"
 ><A
-NAME="AEN791"
+NAME="AEN805"
 ></A
 ><H3
 >SNMP Cache View</H3
@@ -416,7 +444,7 @@ NAME="AEN791"
 ><DIV
 CLASS="REFSECT3"
 ><A
-NAME="AEN794"
+NAME="AEN808"
 ></A
 ><H4
 >Interface Cache</H4
@@ -520,7 +548,7 @@ CLASS="GUILABEL"
 ><DIV
 CLASS="REFSECT3"
 ><A
-NAME="AEN828"
+NAME="AEN842"
 ></A
 ><H4
 >Disk Cache</H4

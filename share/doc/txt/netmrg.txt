@@ -1,596 +1,720 @@
+                              The NetMRG Reference
 
-The NetMRG Reference
+  Brady Alleman
 
-Brady Alleman
+  Douglas E. Warner
 
-Douglas E. Warner
-
-   Copyright © 2003 Brady Alleman and Douglas E. Warner
+   Copyright (c) 2003-2004 Brady Alleman and Douglas E. Warner
 
    This project is licensed under the terms of the MIT License.
 
-   Permission  is  hereby  granted, free of charge, to any person
-   obtaining a copy of this software and associated documentation
-   files  (the  "Software"),  to  deal  in  the  Software without
-   restriction,  including  without limitation the rights to use,
-   copy,  modify,  merge, publish, distribute, sublicense, and/or
-   sell copies of the Software, and to permit persons to whom the
-   Software  is  furnished  to  do  so,  subject to the following
-   conditions:
+   Permission is hereby granted, free of charge, to any person obtaining a
+   copy of this software and associated documentation files (the "Software"),
+   to deal in the Software without restriction, including without limitation
+   the rights to use, copy, modify, merge, publish, distribute, sublicense,
+   and/or sell copies of the Software, and to permit persons to whom the
+   Software is furnished to do so, subject to the following conditions:
 
-   The above copyright notice and this permission notice shall be
-   included   in  all  copies  or  substantial  portions  of  the
-   Software.
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
 
-   THE  SOFTWARE  IS  PROVIDED  "AS  IS", WITHOUT WARRANTY OF ANY
-   KIND,  EXPRESS  OR  IMPLIED,  INCLUDING BUT NOT LIMITED TO THE
-   WARRANTIES   OF  MERCHANTABILITY,  FITNESS  FOR  A  PARTICULAR
-   PURPOSE  AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-   COPYRIGHT  HOLDERS  BE  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-   LIABILITY,   WHETHER   IN  AN  ACTION  OF  CONTRACT,  TORT  OR
-   OTHERWISE,  ARISING  FROM,  OUT  OF  OR IN CONNECTION WITH THE
-   SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+   THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+   DEALINGS IN THE SOFTWARE.
 
-   All  product  names  are  property of their respective owners.
-   Such  names  are used for identification purposes only and are
-   not   indicative   of   endorsement  by  or  of  any  company,
-   organization, product, or platform.
-     _________________________________________________________
+   All product names are property of their respective owners. Such names are
+   used for identification purposes only and are not indicative of
+   endorsement by or of any company, organization, product, or platform.
+
+     ----------------------------------------------------------------------
 
    Table of Contents
+
    I. Overview
 
-        1. Introduction
-        2. Revision History
+                1. Introduction
+
+                2. Revision History
 
    II. Concepts
 
-        3. System Structure
-        4. Monitoring and Reporting Concepts
-        5. Graphing Concepts
+                3. System Structure
+
+                4. Monitoring and Reporting Concepts
+
+                5. Graphing Concepts
 
    III. Installation
 
-        6. Software Requirements
-        7. Satisfying Requirements
-        8. Installation Procedure
-        9. Upgrade Procedure
-        10. NetMRG Tutorial
+                6. Software Requirements
+
+                7. Satisfying Requirements
+
+                8. Installation Procedure
+
+                9. Upgrade Procedure
+
+                10. NetMRG Tutorial
 
    IV. Feature Guide
 
-        11. External Authentication
-        12. Workday Highlighting
+                11. External Authentication
+
+                12. Workday Highlighting
 
    V. Reference
 
-        I. Manual Pages
+                I. Manual Pages
 
-              netmrg-gatherer -- Gathers data from devices.
+                             netmrg-gatherer -- Gathers data from devices.
 
-        II. Web Interface Descriptions
+                II. Web Interface Descriptions
 
-              Groups -- A container for a collection of devices
-              Devices -- A container for a collection of
-                      sub-devices
+                             Groups -- A container for a collection of
+                             devices
 
-              Sub Devices -- A container for a collection of
-                      monitors
+                             Devices -- A container for a collection of
+                             sub-devices
 
-              Monitors -- A container for a collection of tracked
-                      values
+                             Sub Devices -- A container for a collection of
+                             monitors
 
-              Events -- A container for a collection of actions
-                      to take based on monitor values
+                             Monitors -- A container for a collection of
+                             tracked values
 
-              Conditions -- A collection of paramenters to
-                      trigger an Event
+                             Events -- A container for a collection of
+                             actions to take based on monitor values
+
+                             Conditions -- A collection of paramenters to
+                             trigger an Event
 
    13. Contact Information
 
-I. Overview
+                                  I. Overview
 
    Table of Contents
+
    1. Introduction
+
    2. Revision History
-     _________________________________________________________
 
-Chapter 1. Introduction
+     ----------------------------------------------------------------------
 
-   Welcome   to  NetMRG!  NetMRG  is  a  database-driven  network
-   monitoring  and  graphing  tool  for  use on Linux systems. It
-   offers   an   intuitive  web-based  configuration,  customized
-   monitoring   capabilities   for  unusual  situations,  a  fast
-   multi-threaded   polling  application,  and  brilliant  graphs
-   rendered by RRDTOOL.
+                            Chapter 1. Introduction
 
-   This   document   aims   to  guide  you  swiftly  through  the
-   installation  and configuration of NetMRG, as well as act as a
-   reference for those with existing installations.
-     _________________________________________________________
+   Welcome to NetMRG! NetMRG is a database-driven network monitoring and
+   graphing tool for use on Linux systems. It offers an intuitive web-based
+   configuration, customized monitoring capabilities for unusual situations,
+   a fast multi-threaded polling application, and brilliant graphs rendered
+   by RRDTOOL.
 
-Chapter 2. Revision History
+   This document aims to guide you swiftly through the installation and
+   configuration of NetMRG, as well as act as a reference for those with
+   existing installations.
+
+     ----------------------------------------------------------------------
+
+                          Chapter 2. Revision History
+
+     * 0.14
+
+       2004.03.10
+
+       Minor Bugfixes and Feature Enhancements; escaping issues in template
+       dereferencing, broken links on various pages, security issues
+       regarding manual SNMP recaching, broken duplication on
+       non-cutting-edge MySQL, more parameter substitution in SQL tests,
+       better date parsing for advanced graph view, nav-bar and group
+       navigation enhancements, advanced view capability for monitor-only
+       graphs.
 
      * 0.13
+
        2003.12.19
-       Minor   Bugfixes  and  Feature  Enhancements;  slide  show
-       ordering,   previous  slide,  resume  slide  show,  better
-       formatting  of  'sums',  errors  on view editing, fixes to
-       permissions  checking,  and an occassional segfault in the
-       gatherer was fixed.
+
+       Minor Bugfixes and Feature Enhancements; slide show ordering, previous
+       slide, resume slide show, better formatting of 'sums', errors on view
+       editing, fixes to permissions checking, and an occassional segfault in
+       the gatherer was fixed.
+
      * 0.12
+
        2003.12.15
-       Major   Feature  Enhancents  and  Bugfixes;  added  SNMPv2
-       support,  fixed  a  bug  that  would  cause a device to be
-       deleted  from all groups, fixed session timeout when using
-       external  auth,  added  checkbox support to interface/disk
-       cache  pages,  slide  show  enhancements, fixed permission
-       issue  where  unauthorized  users  could  view/edit test_*
-       pages
+
+       Major Feature Enhancents and Bugfixes; added SNMPv2 support, fixed a
+       bug that would cause a device to be deleted from all groups, fixed
+       session timeout when using external auth, added checkbox support to
+       interface/disk cache pages, slide show enhancements, fixed permission
+       issue where unauthorized users could view/edit test_* pages
+
      * 0.10
+
        2003.10.05
-       Major  bug  fix;  fixes  a  db  error  when trying to view
-       monitors, a bug that would always set the width and height
-       to  zero  when  creating graphs, and makes conditions with
-       'rate of change' work. Many documentation upgrades.
+
+       Major bug fix; fixes a db error when trying to view monitors, a bug
+       that would always set the width and height to zero when creating
+       graphs, and makes conditions with 'rate of change' work. Many
+       documentation upgrades.
+
      * 0.10pre2
+
        2003.09.15
-       This  release focuses on adding new features and sqaushing
-       bugs.  In  addition, there is now an 'updater.php' that is
-       required  to be run between versions. A minor change needs
-       to   be   made   to  everyone's  'netmrg.xml'  to  add  an
-       'externalauth' field inside the 'website' section.
+
+       This release focuses on adding new features and sqaushing bugs. In
+       addition, there is now an 'updater.php' that is required to be run
+       between versions. A minor change needs to be made to everyone's
+       'netmrg.xml' to add an 'externalauth' field inside the 'website'
+       section.
+
      * 0.10pre1
+
        2003.07.28
+
        Initial publication
 
-II. Concepts
+                                  II. Concepts
 
    Table of Contents
-   3. System Structure
-   4. Monitoring and Reporting Concepts
-   5. Graphing Concepts
-     _________________________________________________________
 
-Chapter 3. System Structure
+   3. System Structure
+
+   4. Monitoring and Reporting Concepts
+
+   5. Graphing Concepts
+
+     ----------------------------------------------------------------------
+
+                          Chapter 3. System Structure
 
    The components of NetMRG.
 
      * Gatherer
-       The   Gatherer   is  a  multi-threaded  C++  program  that
-       interacts  with  the  Database  and  RRDTOOL to gather and
-       store  data.  The  program  is  run  by  cron,  or another
-       scheduling   system   of   your  choice,  on  five  minute
-       intervals.
-     * Web Interface
-       The  Web Interface consists of several PHP scripts, static
-       HTML  files  and images, as well as CSS for formatting. It
-       interacts   with   the   Database   for   the  storage  of
-       configuration  data  and with RRDTOOL for the rendering of
-       graphs for presentation.
-     * Database
-       The Database is a relational database running on MySQL. It
-       is utilized by the Web Interface and the Gatherer.
-     * RRDTOOL
-       RRDTOOL  is  a  graphing  system  based  upon  round-robin
-       databases  (RRDs).  It  is used for both storing data into
-       the databases and creating graphs using the databases.
-     * RRDs
-       RRDs  are  the round-robin databases used by RRDTOOL. They
-       are individual files that are writable by the Gatherer and
-       readable by the Web Interface.
-     _________________________________________________________
 
-Chapter 4. Monitoring and Reporting Concepts
+       The Gatherer is a multi-threaded C++ program that interacts with the
+       Database and RRDTOOL to gather and store data. The program is run by
+       cron, or another scheduling system of your choice, on five minute
+       intervals.
+
+     * Web Interface
+
+       The Web Interface consists of several PHP scripts, static HTML files
+       and images, as well as CSS for formatting. It interacts with the
+       Database for the storage of configuration data and with RRDTOOL for
+       the rendering of graphs for presentation.
+
+     * Database
+
+       The Database is a relational database running on MySQL. It is utilized
+       by the Web Interface and the Gatherer.
+
+     * RRDTOOL
+
+       RRDTOOL is a graphing system based upon round-robin databases (RRDs).
+       It is used for both storing data into the databases and creating
+       graphs using the databases.
+
+     * RRDs
+
+       RRDs are the round-robin databases used by RRDTOOL. They are
+       individual files that are writable by the Gatherer and readable by the
+       Web Interface.
+
+     ----------------------------------------------------------------------
+
+                  Chapter 4. Monitoring and Reporting Concepts
 
      * Groups
-       Groups  are organizational containers used in NetMRG. They
-       are  capable  of  containing  Devices, as well as having a
-       View   associated   with   them.   As  they  are  strictly
-       organizational, the Web Interface is the only component to
-       utilize them. They are ignored by the Gatherer.
-     * Devices
-       Devices  can  be thought of as any physical device on your
-       network  that  will  be  monitored.  They may also be used
-       organizationally to group Monitors that are not associated
-       directly  to  any physcial host. Devices may have, but are
-       not   required  to  have,  IP  addresses,  SNMP  community
-       strings,  and  so forth. Data gathering for Devices may be
-       explicitly disabled. Devices contain Sub-Devices.
-     * Sub-Devices
-       Sub-Devices are discrete entities on a Device. Examples of
-       these  are  network interfaces, disk drives, and so forth.
-       Sub-Devices  may  have  parameters or variables associated
-       with  them for identification purposes. For example, a web
-       server  has  a  network  interface  designated  "eth0." In
-       NetMRG,   the   server  would  have  a  network  interface
-       Sub-Device which would have a variable of "ifDescr" set to
-       "eth0." Sub-Devices contain Monitors.
-     * Monitors
-       Monitors  represent  discrete  monitorable quantities. The
-       Gatherer  performs  the  Monitor's Test upon the Monitor's
-       Sub-Device.  The  result is then stored in a RRD. Monitors
-       are  also  associated with Graph Items. If NetMRG is being
-       used to track events, a Monitor may also contain Events.
-     * Tests
-       Tests   are  data  gathering  operations  associated  with
-       Monitors.  There  are  four  types of tests: Scripts, SNMP
-       Queries,  SQL  Queries,  and  Internal tests. Script tests
-       call a script and use either its return code or its output
-       as data. SNMP Tests perform a SNMP GET operation against a
-       device  using  a  supplied  OID. SQL Tests perform a MySQL
-       query  and  use  a  value  from  a  returned  row as data.
-       Internal  tests  are  frequently used tests built into the
-       Gatherer.  They  typically  start  as Script Tests but are
-       integrated for the sake of efficiency.
-     * Events
-       Events contain a group of Conditions and Responses. If the
-       Conditions  of  an Event are met, the appropriate response
-       is performed.
-     _________________________________________________________
 
-Chapter 5. Graphing Concepts
+       Groups are organizational containers used in NetMRG. They are capable
+       of containing Devices, as well as having a View associated with them.
+       As they are strictly organizational, the Web Interface is the only
+       component to utilize them. They are ignored by the Gatherer.
+
+     * Devices
+
+       Devices can be thought of as any physical device on your network that
+       will be monitored. They may also be used organizationally to group
+       Monitors that are not associated directly to any physcial host.
+       Devices may have, but are not required to have, IP addresses, SNMP
+       community strings, and so forth. Data gathering for Devices may be
+       explicitly disabled. Devices contain Sub-Devices.
+
+     * Sub-Devices
+
+       Sub-Devices are discrete entities on a Device. Examples of these are
+       network interfaces, disk drives, and so forth. Sub-Devices may have
+       parameters or variables associated with them for identification
+       purposes. For example, a web server has a network interface designated
+       "eth0." In NetMRG, the server would have a network interface
+       Sub-Device which would have a variable of "ifDescr" set to "eth0."
+       Sub-Devices contain Monitors.
+
+     * Monitors
+
+       Monitors represent discrete monitorable quantities. The Gatherer
+       performs the Monitor's Test upon the Monitor's Sub-Device. The result
+       is then stored in a RRD. Monitors are also associated with Graph
+       Items. If NetMRG is being used to track events, a Monitor may also
+       contain Events.
+
+     * Tests
+
+       Tests are data gathering operations associated with Monitors. There
+       are four types of tests: Scripts, SNMP Queries, SQL Queries, and
+       Internal tests. Script tests call a script and use either its return
+       code or its output as data. SNMP Tests perform a SNMP GET operation
+       against a device using a supplied OID. SQL Tests perform a MySQL query
+       and use a value from a returned row as data. Internal tests are
+       frequently used tests built into the Gatherer. They typically start as
+       Script Tests but are integrated for the sake of efficiency.
+
+     * Events
+
+       Events contain a group of Conditions and Responses. If the Conditions
+       of an Event are met, the appropriate response is performed.
+
+     ----------------------------------------------------------------------
+
+                          Chapter 5. Graphing Concepts
 
      * Graphs
-       Graphs  are the abstraction of a single chart generated by
-       NetMRG  using  RRDTOOL.  Graphs  have  properties  such as
-       sizes,  a  title, and vertical labels. They also contain a
-       set  of Graph Items which represent the separate pieces of
-       data graphed.
-          + Custom Graphs
-            Custom  graphs have "absolute" referencing of data to
-            be displayed. They are typically used for graphs that
-            are  applicable in only one instance, such as a stack
-            graph of all Internet links on your network.
-          + Templated Graphs
-            Template  Graphs  have "relative" references to data.
-            They are used for graphs such as CPU load on a server
-            or   traffic   on   a  network  interface.  They  are
-            applicable  in  many  instances. The use of templates
-            allows you to create one graph for a set of variables
-            on  a  Sub-Device  and  then apply that same graph to
-            other  Sub-Devices  for graphs formatted identically.
-            This  allows considerable savings of time as there is
-            no need to create a Custom Graph for each instance of
-            a graph.
-     * Graph Items
-       Graph  Items represent data on a graph. They can represent
-       areas,  lines,  and  stacks  on Graphs. Each Graph Item is
-       linked  to  a  Monitor  for dynamic data or given a static
-       value. Options for Graph Items include type (such as line,
-       area, stack), color, value (either static or dynamic based
-       on a Monitor), and legend options.
 
-III. Installation
+       Graphs are the abstraction of a single chart generated by NetMRG using
+       RRDTOOL. Graphs have properties such as sizes, a title, and vertical
+       labels. They also contain a set of Graph Items which represent the
+       separate pieces of data graphed.
+
+          * Custom Graphs
+
+            Custom graphs have "absolute" referencing of data to be
+            displayed. They are typically used for graphs that are applicable
+            in only one instance, such as a stack graph of all Internet links
+            on your network.
+
+          * Templated Graphs
+
+            Template Graphs have "relative" references to data. They are used
+            for graphs such as CPU load on a server or traffic on a network
+            interface. They are applicable in many instances. The use of
+            templates allows you to create one graph for a set of variables
+            on a Sub-Device and then apply that same graph to other
+            Sub-Devices for graphs formatted identically. This allows
+            considerable savings of time as there is no need to create a
+            Custom Graph for each instance of a graph.
+
+     * Graph Items
+
+       Graph Items represent data on a graph. They can represent areas,
+       lines, and stacks on Graphs. Each Graph Item is linked to a Monitor
+       for dynamic data or given a static value. Options for Graph Items
+       include type (such as line, area, stack), color, value (either static
+       or dynamic based on a Monitor), and legend options.
+
+                               III. Installation
 
    Table of Contents
-   6. Software Requirements
-   7. Satisfying Requirements
-   8. Installation Procedure
-   9. Upgrade Procedure
-   10. NetMRG Tutorial
-     _________________________________________________________
 
-Chapter 6. Software Requirements
+   6. Software Requirements
+
+   7. Satisfying Requirements
+
+   8. Installation Procedure
+
+   9. Upgrade Procedure
+
+   10. NetMRG Tutorial
+
+     ----------------------------------------------------------------------
+
+                        Chapter 6. Software Requirements
 
    NetMRG Requires the following packages for compilation.
 
      * PHP, Version >= 4.1
+
      * MySQL, Version >= 3.23
+
      * RRDTOOL, Version >= 1.0.28
+
      * Libxml2, Version >= 2.30
+
      * Libstdc++, Version >= 3.2
-       Versions  earlier than this may compile just fine, but may
-       experience  runtime  issues.  Specifically, we experienced
-       software  crashes  on  an SMP machine running version 2.96
-       that were resolved by upgrading to 3.2.
+
+       Versions earlier than this may compile just fine, but may experience
+       runtime issues. Specifically, we experienced software crashes on an
+       SMP machine running version 2.96 that were resolved by upgrading to
+       3.2.
+
      * NET/UCD-SNMP, Version >= 4.2.2
-     _________________________________________________________
 
-Chapter 7. Satisfying Requirements
+     ----------------------------------------------------------------------
 
-   Specific  instructions  to  satisfy  dependencies  for certain
-   platforms  are  presented  below.  They should be used more as
-   suggestions,  not  necessarily  step-by-step instructions. You
-   may  need  to  do  more  than  what  is  listed, or much less,
-   depending  on  the  options  you selected when installing your
+                       Chapter 7. Satisfying Requirements
+
+   Specific instructions to satisfy dependencies for certain platforms are
+   presented below. They should be used more as suggestions, not necessarily
+   step-by-step instructions. You may need to do more than what is listed, or
+   much less, depending on the options you selected when installing your
    operating system.
 
      * Red Hat Linux
-          + In order to satisfy the libstdc++ requirement, Redhat
-            8.0 or above is required. NetMRG may not be stable on
-            older versions of libstdc++.
-          + Install   the   following  RPMs  from  your  Red  Hat
-            installation media:
-               o httpd
-               o php
-               o php-mysql
-               o mysql
-               o mysql-server
-               o mysql-devel
-               o libxml2
-               o libxml2-devel
-               o net-snmp
-               o net-snmp-devel
-               o net-snmp-utils
-          + Installing RRDTOOL
-               o Download an RRDTOOL RPM from
-                 http://www.freshrpms.net/
-               o OR    Download    the    RRDTOOL   source   from
-                 http://www.rrdtool.org/ and compile it.
-          + Installing precompiled NetMRG RPM
-            Download  the  latest  NetMRG  RPM  and install it as
-            follows:
 
-rpm -Uvh netmrg-0.10.rpm
+          * In order to satisfy the libstdc++ requirement, Redhat 8.0 or
+            above is required. NetMRG may not be stable on older versions of
+            libstdc++.
 
-            You  will  still  have to perform the following tasks
-            listed in the Install Instructions:
-               o Setup the Database
-               o Configure Apache
-               o Configure the Installation
-               o Setup Crontab
+          * Install the following RPMs from your Red Hat installation media:
+
+               * httpd
+
+               * php
+
+               * php-mysql
+
+               * mysql
+
+               * mysql-server
+
+               * mysql-devel
+
+               * libxml2
+
+               * libxml2-devel
+
+               * net-snmp
+
+               * net-snmp-devel
+
+               * net-snmp-utils
+
+          * Installing RRDTOOL
+
+               * Download an RRDTOOL RPM from http://www.freshrpms.net/
+
+               * OR Download the RRDTOOL source from http://www.rrdtool.org/
+                 and compile it.
+
+          * Installing precompiled NetMRG RPM
+
+            Download the latest NetMRG RPM and install it as follows:
+
+            rpm -Uvh netmrg-0.10.rpm                                   
+
+            You will still have to perform the following tasks listed in the
+            Install Instructions:
+
+               * Setup the Database
+
+               * Configure Apache
+
+               * Configure the Installation
+
+               * Setup Crontab
+
      * FreeBSD (4.8)
-          + Install the following ports:
-               o www/apache13
-               o rrdtool
-               o net-snmp
-               o libxml2
-               o mod_php4 (specify MySQL support)
-               o lang/gcc32
-          + Run configure, specifying gcc32:
 
-./configure 'LDFLAGS=-L/usr/local/gcc3/lib' 'CPPFLAGS=-I/usr/local/gcc3
-/include' 'CXX=g++32'
-     _________________________________________________________
+          * Install the following ports:
 
-Chapter 8. Installation Procedure
+               * www/apache13
 
-    1. Untar  to  some directory like /tmp/ (it will untar into a
-       'netmrg' directory)
+               * rrdtool
 
-cd /tmp
-wget http://www.netmrg.net/download/release/netmrg.tar.gz
-tar xzvf netmrg.tar.gz
+               * net-snmp
 
-    2. Now we need to compile and install the source. cd into the
-       directory made by your tar command and type the following:
+               * libxml2
 
-./configure
-make
-make install
+               * mod_php4 (specify MySQL support)
 
-   Note
+               * lang/gcc32
 
-   If configure fails to locate the needed libraries they can be
-   manually specified. Run ./configure -hr for details on the
-   necessary options.
+          * Run configure, specifying gcc32:
+
+./configure 'LDFLAGS=-L/usr/local/gcc3/lib' 'CPPFLAGS=-I/usr/local/gcc3/include' 'CXX=g++32' 
+
+     ----------------------------------------------------------------------
+
+                       Chapter 8. Installation Procedure
+
+    1. Untar to some directory like /tmp/ (it will untar into a 'netmrg'
+       directory)
+
+       cd /tmp                                                         
+       wget http://www.netmrg.net/download/release/netmrg.tar.gz       
+       tar xzvf netmrg.tar.gz                                          
+
+    2. Now we need to compile and install the source. cd into the directory
+       made by your tar command and type the following:
+
+       ./configure                                                     
+       make                                                            
+       make install                                                    
+
+       Note If configure fails to locate the needed libraries they can 
+            be manually specified. Run ./configure -hr for details on  
+            the necessary options.                                     
+
     3. Setup the database
-       Now  we need to setup the database. Please change at least
-       the password (netmrgpass below).
 
-mysqladmin create netmrg
-mysql -u root -p netmrg < share/netmrg.mysql
-mysql -u root -p
-> grant all on netmrg.* to netmrguser@localhost identified by 'netmrgpa
-ss';
+       Now we need to setup the database. Please change at least the password
+       (netmrgpass below).
 
-    4. You  need  to  modify  your apache config in order to make
-       your     NetMRG    installation    live    (commonly    in
-       /etc/httpd/conf/httpd.conf).
-       The  first  is  to  alias  /netmrg  to  the  installed web
-       directory (commonly /usr/local/var/www/netmrg/webfiles).
+     mysqladmin create netmrg                                                    
+     mysql -u root -p netmrg < share/netmrg.mysql                                
+     mysql -u root -p                                                            
+     > grant all on netmrg.* to netmrguser@localhost identified by 'netmrgpass'; 
 
-Alias /netmrg "/usr/local/var/www/netmrg/webfiles"
+    4. You need to modify your apache config in order to make your NetMRG
+       installation live (commonly in /etc/httpd/conf/httpd.conf).
 
-       The  easier  way  (if  you're running Apache >= 1.3) is to
-       just  Include the conf file we've created anywhere in your
-       file (near the bottom is fine).
+       The first is to alias /netmrg to the installed web directory (commonly
+       /usr/local/var/www/netmrg/webfiles).
 
-Include /usr/local/etc/netmrg.conf
+       Alias /netmrg "/usr/local/var/www/netmrg/webfiles"              
 
-       You  will  need to restart your Apache after making config
-       changes.  Telling  it  to reload its config should be good
-       enough
+       The easier way (if you're running Apache >= 1.3) is to just Include
+       the conf file we've created anywhere in your file (near the bottom is
+       fine).
 
-killall -HUP httpd
+       Include /usr/local/etc/netmrg.conf                              
+
+       You will need to restart your Apache after making config changes.
+       Telling it to reload its config should be good enough
+
+       killall -HUP httpd                                              
 
     5. Configure the Installation
-       All   of   NetMRG's   common   configuration  options  are
-       controlled   by   an   XML   file,   normally  located  at
-       /usr/local/etc/netmrg.xml.  You  should  edit this file to
-       make   any   necessary   changes  before  continuing  with
-       installation.
-       For  most  installations,  you  will at least need to edit
-       netmrg.xml to reflect your database username and password.
-    6. Setup Permissions
-       NetMRG   does  not  need  superuser  permissions  to  run,
-       therefore we will setup a user for it.
 
-# useradd netmrg
-# chown netmrg:netmrg /usr/local/var/log/netmrg
-# chown netmrg:netmrg /usr/local/var/lib/netmrg/rrd
+       All of NetMRG's common configuration options are controlled by an XML
+       file, normally located at /usr/local/etc/netmrg.xml. You should edit
+       this file to make any necessary changes before continuing with
+       installation.
+
+       For most installations, you will at least need to edit netmrg.xml to
+       reflect your database username and password.
+
+    6. Setup Permissions
+
+       NetMRG does not need superuser permissions to run, therefore we will
+       setup a user for it.
+
+       # useradd netmrg                                                
+       # chown netmrg:netmrg /usr/local/var/log/netmrg                 
+       # chown netmrg:netmrg /usr/local/var/lib/netmrg/rrd             
 
     7. Setup crontab
-       You  can  setup  the crontab entries in two places: either
-       edit  /etc/crontab,  or run crontab -e as the netmrg user.
-       For 'crontab -e', use an entry similar to this:
 
-su netmrg
-*/5 * * * * /usr/local/bin/netmrg_cron.sh
-exit
+       You can setup the crontab entries in two places: either edit
+       /etc/crontab, or run crontab -e as the netmrg user. For 'crontab -e',
+       use an entry similar to this:
 
-       To  edit  the  master crontab, edit /etc/crontab and add a
-       line similar to this:
+       su netmrg                                                       
+       */5 * * * * /usr/local/bin/netmrg_cron.sh                       
+       exit                                                            
 
-*/5 * * * * netmrg /usr/local/bin/netmrg_cron.sh
+       To edit the master crontab, edit /etc/crontab and add a line similar
+       to this:
 
-    8. Point your web browser at your install, and start graphing
-       things!  The  default  login  is  admin  and  the  default
-       password  is nimda. Point your web browser at the host you
-       built this on (something similar to
-       http://yourhost.com/netmrg/)   and   please   change  your
-       password!
-     _________________________________________________________
+       */5 * * * * netmrg /usr/local/bin/netmrg_cron.sh                
 
-Chapter 9. Upgrade Procedure
+    8. Point your web browser at your install, and start graphing things! The
+       default login is admin and the default password is nimda. Point your
+       web browser at the host you built this on (something similar to
+       http://yourhost.com/netmrg/) and please change your password!
 
-   After  doing  a  'make install' as described in the chapter on
-   Installing  NetMRG,  the  next  step  is  to run the web-based
-   upgrader.  This  is  accomplished  by logging into NetMRG with
-   administrator  privileges, and following the prompts. NetMRG's
-   web  interface  will  not operate normally until the web-based
-   upgrade  is  performed,  and non-administrator users will only
-   receive  a  message  directing  them  to  contact their NetMRG
+     ----------------------------------------------------------------------
+
+                          Chapter 9. Upgrade Procedure
+
+   After doing a 'make install' as described in the chapter on Installing
+   NetMRG, the next step is to run the web-based upgrader. This is
+   accomplished by logging into NetMRG with administrator privileges, and
+   following the prompts. NetMRG's web interface will not operate normally
+   until the web-based upgrade is performed, and non-administrator users will
+   only receive a message directing them to contact their NetMRG
    administrator.
-     _________________________________________________________
 
-Chapter 10. NetMRG Tutorial
+     ----------------------------------------------------------------------
 
-   This  brief  tutorial will walk you through the major features
-   of  NetMRG.  The  tutorial assumes that you have installed the
-   Net-SNMP daemon on a system which you want to monitor.
+                          Chapter 10. NetMRG Tutorial
+
+   This brief tutorial will walk you through the major features of NetMRG.
+   The tutorial assumes that you have installed the Net-SNMP daemon on a
+   system which you want to monitor.
 
     1. Create a new group.
-         a. Click on Groups in the Monitoring menu.
-         b. Click on Add.
-         c. In  the  Name  textbox,  enter a name for your group,
-            such as "Home."
-         d. In  the Comment textbox, enter a description for your
-            group, such as "Computers in my house."
-         e. In the Parent drop down box, select -Root- as we want
-            this  device  in the root of the device tree. You can
-            create nested groups.
-         f. Click  the  Save  Changes  button  to create your new
-            group.
-    2. Create a new device.
-         a. Click  on  the  name  of  your new group. You are now
-            looking  at  an  (empty)  list of devices in your new
-            group.
-         b. Click on Add.
-         c. Click on Create a new device.
-         d. In  the  Name  textbox, enter a name for your device,
-            such as "My Server."
-         e. In  the  IP or Host Name textbox, enter a domain name
-            or  IP  address  of your device. Domain names must be
-            resolvable from your monitoring host.
-         f. In  the SNMP Support dropdown, select the appropriate
-            version. If unsure, select SNMPv1.
-         g. In  the  SNMP  Read Community textbox, enter the SNMP
-            community string for your device.
-         h. Click  the  Save  Changes  button  to create your new
-            device.
-    3. Create a new sub-device.
-         a. Click  on  the  name  of your new device. You are now
-            looking at an (empty) list of sub-devices in your new
-            device.
-         b. Click on Add.
-         c. In  the  Name textbox, enter "System." This will be a
-            pseudo-sub-device used for monitoring the device as a
-            whole.
-         d. In  the  Type  drop  down  box,  ensure that Group is
-            selected.
-         e. Click  the  Save  Changes  button  to create your new
-            "System" sub-device.
-    4. Add graph templates.
-       Since  devices  running  Net-SNMP are common, NetMRG comes
-       with several graph templates for commonly used variables.
-         a. Click on Template Graphs in the Graphing menu.
-         b. Click  on  the Apply Template To... next to the Linux
-            Box - CPU Utilization template graph.
-         c. In  the  Subdevice  drop down box, select My Server -
-            System.
-         d. Click  on  the  Save  Changes  button  to  apply  the
-            template.
-         e. Repeat  this  step  for any other graph templates you
-            find interesting.
-    5. View your new graphs.
-         a. Click on Device Tree in the Reporting menu.
-         b. Click on the name of your group to expand it.
-         c. Click  on  the  graph icon beside your device (orange
-            graphs  mean  there  are  graphs associated with this
-            device,  black  means there are no graphs attached to
-            this device.
-         d. You should now see graphs! If you don't, you may need
-            to wait for the gatherer to perform another cycle.
 
-IV. Feature Guide
+         a. Click on Groups in the Monitoring menu.
+
+         b. Click on Add.
+
+         c. In the Name textbox, enter a name for your group, such as "Home."
+
+         d. In the Comment textbox, enter a description for your group, such
+            as "Computers in my house."
+
+         e. In the Parent drop down box, select -Root- as we want this device
+            in the root of the device tree. You can create nested groups.
+
+         f. Click the Save Changes button to create your new group.
+
+    2. Create a new device.
+
+         a. Click on the name of your new group. You are now looking at an
+            (empty) list of devices in your new group.
+
+         b. Click on Add.
+
+         c. Click on Create a new device.
+
+         d. In the Name textbox, enter a name for your device, such as "My
+            Server."
+
+         e. In the IP or Host Name textbox, enter a domain name or IP address
+            of your device. Domain names must be resolvable from your
+            monitoring host.
+
+         f. In the SNMP Support dropdown, select the appropriate version. If
+            unsure, select SNMPv1.
+
+         g. In the SNMP Read Community textbox, enter the SNMP community
+            string for your device.
+
+         h. Click the Save Changes button to create your new device.
+
+    3. Create a new sub-device.
+
+         a. Click on the name of your new device. You are now looking at an
+            (empty) list of sub-devices in your new device.
+
+         b. Click on Add.
+
+         c. In the Name textbox, enter "System." This will be a
+            pseudo-sub-device used for monitoring the device as a whole.
+
+         d. In the Type drop down box, ensure that Group is selected.
+
+         e. Click the Save Changes button to create your new "System"
+            sub-device.
+
+    4. Add graph templates.
+
+       Since devices running Net-SNMP are common, NetMRG comes with several
+       graph templates for commonly used variables.
+
+         a. Click on Template Graphs in the Graphing menu.
+
+         b. Click on the Apply Template To... next to the Linux Box - CPU
+            Utilization template graph.
+
+         c. In the Subdevice drop down box, select My Server - System.
+
+         d. Click on the Save Changes button to apply the template.
+
+         e. Repeat this step for any other graph templates you find
+            interesting.
+
+    5. View your new graphs.
+
+         a. Click on Device Tree in the Reporting menu.
+
+         b. Click on the name of your group to expand it.
+
+         c. Click on the graph icon beside your device (orange graphs mean
+            there are graphs associated with this device, black means there
+            are no graphs attached to this device.
+
+         d. You should now see graphs! If you don't, you may need to wait for
+            the gatherer to perform another cycle.
+
+                               IV. Feature Guide
 
    Table of Contents
+
    11. External Authentication
+
    12. Workday Highlighting
-     _________________________________________________________
 
-Chapter 11. External Authentication
+     ----------------------------------------------------------------------
 
-   NetMRG  handles authentication internally by default, checking
-   passwords  against its own database. It is possible for NetMRG
-   to  use  other  systems  for username/password authentication.
-   This is accomplished by handing off the authentication task to
-   the HTTP server.
+                      Chapter 11. External Authentication
 
-   Note
+   NetMRG handles authentication internally by default, checking passwords
+   against its own database. It is possible for NetMRG to use other systems
+   for username/password authentication. This is accomplished by handing off
+   the authentication task to the HTTP server.
 
-   You must still create accounts in NetMRG for each user when
-   using external authentication in order to assign them
-   permissions and rights.
+   Note You must still create accounts in NetMRG for each user when using     
+        external authentication in order to assign them permissions and       
+        rights.                                                               
 
-   Details  on  methods  of  authentication  using the Apache web
-   server are available here. There are add-on modules for Apache
-   that  allow  for  various authentication mechanisms, including
-   LDAP   and   custom  database  authentication  systems.  Using
-   Apache-based   authentication,   it   is   possible   for   an
-   organization  to  maintain users and passwords in one location
-   for  a  variety  of web-based services, only needing to set up
-   application-specific permissions in each application.
+   Details on methods of authentication using the Apache web server are
+   available here. There are add-on modules for Apache that allow for various
+   authentication mechanisms, including LDAP and custom database
+   authentication systems. Using Apache-based authentication, it is possible
+   for an organization to maintain users and passwords in one location for a
+   variety of web-based services, only needing to set up application-specific
+   permissions in each application.
 
-   To  enable  external  authentication,  edit netmrg.xml and set
-   externalAuth to true.
-     _________________________________________________________
+   To enable external authentication, edit netmrg.xml and set externalAuth to
+   true.
 
-Chapter 12. Workday Highlighting
+     ----------------------------------------------------------------------
 
-   Shading  specific  time  periods  on a graph is possible using
-   NetMRG. Typically this is used for highlighting the workday or
-   SLA  distinctions  based  on  time of day. The following steps
-   will  walk  you through the setup of workday highlighting on a
-   graph.
+                        Chapter 12. Workday Highlighting
+
+   Shading specific time periods on a graph is possible using NetMRG.
+   Typically this is used for highlighting the workday or SLA distinctions
+   based on time of day. The following steps will walk you through the setup
+   of workday highlighting on a graph.
 
     1. Add a new Graph Item.
-    2. Select Show Advanced.
-    3. Leave  the  title  of  the item blank if you want it to be
-       omitted  on  the  legend,  otherwise enter a label such as
-       "Business Hours."
-    4. Set the Item Type to Area.
-    5. Select a color for the highlighting.
-    6. Select Fixed Value in the Monitor drop-down.
-    7. Type  in  "INF"  as the fixed value. This allows the graph
-       item  to  take on an infinite height, which is rendered by
-       filling the background.
-    8. Unselect all checkboxes under Legend.
-    9. Enter start and stop times in their respective text boxes.
-       Times  should  be  prefixed  with a plus sign ('+') and be
-       consistent  with  GNU Date Input Formats. An example would
-       be  +9am  for  a  start  time and +5pm for an end time, to
-       highlight the "typical" business day.
-   10. Click Save Changes and observe the colored rectangle cover
-       a lot of the data on your graph.
-   11. Click  Move Up beside your new graph item until it reaches
-       the  top  of  the  list. You now have a graph with workday
-       highlighting!
 
-V. Reference
+    2. Select Show Advanced.
+
+    3. Leave the title of the item blank if you want it to be omitted on the
+       legend, otherwise enter a label such as "Business Hours."
+
+    4. Set the Item Type to Area.
+
+    5. Select a color for the highlighting.
+
+    6. Select Fixed Value in the Monitor drop-down.
+
+    7. Type in "INF" as the fixed value. This allows the graph item to take
+       on an infinite height, which is rendered by filling the background.
+
+    8. Unselect all checkboxes under Legend.
+
+    9. Enter start and stop times in their respective text boxes. Times
+       should be prefixed with a plus sign ('+') and be consistent with GNU
+       Date Input Formats. An example would be +9am for a start time and +5pm
+       for an end time, to highlight the "typical" business day.
+
+   10. Click Save Changes and observe the colored rectangle cover a lot of
+       the data on your graph.
+
+   11. Click Move Up beside your new graph item until it reaches the top of
+       the list. You now have a graph with workday highlighting!
+
+                                  V. Reference
 
    Table of Contents
+
    I. Manual Pages
+
    II. Web Interface Descriptions
 
-I. Manual Pages
+                                I. Manual Pages
 
    Table of Contents
+
    netmrg-gatherer -- Gathers data from devices.
 
-netmrg-gatherer
+                                netmrg-gatherer
 
 Name
 
@@ -602,114 +726,111 @@ Synopsis
 
 Description
 
-   netmrg-gatherer performs tests on all enabled hosts in NetMRG.
-   It  will  store  results  in  RRD  files  using RRDTOOL(1) and
-   perform actions in response to events.
+   netmrg-gatherer performs tests on all enabled hosts in NetMRG. It will
+   store results in RRD files using RRDTOOL(1) and perform actions in
+   response to events.
 
    Global Options
 
    -h
 
-          Displays usage information and exits.
+           Displays usage information and exits.
 
    -v
 
-          Displays software version and exits.
+           Displays software version and exits.
 
    -t num threads
 
-          Run  no  more  than  the  specified  number  of threads
-          simultaneously.
+           Run no more than the specified number of threads simultaneously.
 
    Debugging / Verbosity Options
 
    -a
 
-          All. Displays all log messages.
+           All. Displays all log messages.
 
    -m
 
-          Most. Displays more messages than default.
+           Most. Displays more messages than default.
 
    -q
 
-          Quiet. Silences all output.
+           Quiet. Silences all output.
 
    -l level mask
 
-          Only  outputs  messages  that match the specified level
-          mask.
+           Only outputs messages that match the specified level mask.
 
    -c component mask
 
-          Only   outputs   messages   that  match  the  specified
-          component mask.
+           Only outputs messages that match the specified component mask.
 
    -s
 
-          Safe.  Tries  to  keep sensitive information out of the
-          displayed messages.
+           Safe. Tries to keep sensitive information out of the displayed
+           messages.
 
    Configuration File Options
 
    -C config file
 
-          Uses the specified XML configuration file.
+           Uses the specified XML configuration file.
 
    -K config file
 
-          Parses the specified XML configuration file and exits.
+           Parses the specified XML configuration file and exits.
 
    Database Options
 
    -H host
 
-          Uses  the  specified  host  name  for connecting to the
-          database.
+           Uses the specified host name for connecting to the database.
 
    -D database
 
-          Uses the specified database name.
+           Uses the specified database name.
 
    -u user name
 
-          Uses  the  specified  user  name  for connecting to the
-          database.
+           Uses the specified user name for connecting to the database.
 
    -p [password]
 
-          Uses  the  specified  password  for  connecting  to the
-          database.  If  no  password  is  specified, the user is
-          prompted to enter one.
+           Uses the specified password for connecting to the database. If no
+           password is specified, the user is prompted to enter one.
 
    Recaching Options
 
    -i device id
 
-          Performs an interface recache on the specified device.
+           Performs an interface recache on the specified device.
 
    -d device id
 
-          Performs a disk recache on the specified device.
+           Performs a disk recache on the specified device.
 
-   Note
+   Note Recaching options are intended for use by the web interface. These    
+        options should not be generally used by end users.                    
 
-   Recaching options are intended for use by the web interface.
-   These options should not be generally used by end users.
-
-II. Web Interface Descriptions
+                         II. Web Interface Descriptions
 
    Table of Contents
+
    Groups -- A container for a collection of devices
+
    Devices -- A container for a collection of sub-devices
+
    Sub Devices -- A container for a collection of monitors
+
    Monitors -- A container for a collection of tracked values
-   Events -- A container for a collection of actions to take
-          based on monitor values
+
+   Events -- A container for a collection of actions to take based on monitor
+   values
 
    Conditions -- A collection of paramenters to trigger an Event
 
-Groups
+                                     Groups
 
 Name
 
@@ -717,30 +838,37 @@ Name
 
 Description
 
-List
+  List
 
-   List  of  all  groups. This is the default view when you first
-   click on Groups in the nav bar.
+   List of all groups. This is the default view when you first click on
+   Groups in the nav bar.
 
-     * Name  - click on the name of the group to view the devices
-       contained in it
+     * Name - click on the name of the group to view the devices contained in
+       it
+
      * Comments - description of a group
-     * Add - add another group
-     * View  -  views graphs assocated with this group and allows
-       you to edit what graphs are associated with the group
-     * Edit - edits parameters of a group
-     * Delete  -  deletes the group and all devices, sub-devices,
-       etc underneath it
 
-Edit
+     * Add - add another group
+
+     * View - views graphs assocated with this group and allows you to edit
+       what graphs are associated with the group
+
+     * Edit - edits parameters of a group
+
+     * Delete - deletes the group and all devices, sub-devices, etc
+       underneath it
+
+  Edit
 
    Edit information about a group
 
      * Name - Name of the group
+
      * Comment - Description of the group
+
      * Parent - Parent group for this group; sets up subgroups
 
-Devices
+                                    Devices
 
 Name
 
@@ -748,112 +876,166 @@ Name
 
 Description
 
-List
+  List
 
-   List  of devices in a group; this is the default view when you
-   click on a group name.
+   List of devices in a group; this is the default view when you click on a
+   group name.
 
-     * Name  -  click  on  the name of the device to view the sub
-       devices contained in it
+     * Name - click on the name of the device to view the sub devices
+       contained in it
+
      * SNMP Options
-          + View  Interface  Cache  -  views  a  list  of  cached
-            interfaces  (interfaces  and values that NetMRG knows
-            about)
-          + Recache  Interfaces  - recache the interface list (to
-            get new ifAliases or new interfaces, for example)
-          + View Disk Cache - views a list of cached disks (disks
-            and their values that NetMRG knows about)
-          + Recache Disks - recache the list of disks (to get new
-            disks or paths, for example)
+
+          * View Interface Cache - views a list of cached interfaces
+            (interfaces and values that NetMRG knows about)
+
+          * Recache Interfaces - recache the interface list (to get new
+            ifAliases or new interfaces, for example)
+
+          * View Disk Cache - views a list of cached disks (disks and their
+            values that NetMRG knows about)
+
+          * Recache Disks - recache the list of disks (to get new disks or
+            paths, for example)
+
      * Add - add a new device or an existing device to this group
-     * View  - views graphs assocated with this device and allows
-       you to edit what graphs are associated with the device
+
+     * View - views graphs assocated with this device and allows you to edit
+       what graphs are associated with the device
+
      * Edit - edits parameters of a device
-     * Delete - deletes the device all sub-devices, monitors, etc
-       underneath it
 
-Add
+     * Delete - deletes the device all sub-devices, monitors, etc underneath
+       it
 
-     * Create  a new device - creates a new device in the current
-       group
-     * Add  an  existing device to this group - puts a link to an
-       existing  device  in  this  group  (does not copy it, just
-       refers to it; they are the same device
-          + Device - Name of the device to add to this group
+  Add
 
-Edit
+     * Create a new device - creates a new device in the current group
+
+     * Add an existing device to this group - puts a link to an existing
+       device in this group (does not copy it, just refers to it; they are
+       the same device
+
+          * Device - Name of the device to add to this group
+
+  Edit
 
    Edit info about a device
 
      * General
-          + Name - Name of a device; commonly the hostname
-          + IP  or  Hostname  -  IP  address  of  the  device, or
-            hostname (must be resolvable by the monitoring box)
-          + Device Type - Type of device (currently not used)
-          + Disabled - Don't gather data for this device
-     * SNMP
-          + SNMP  Support  -  The  version  of  SNMP  to use when
-            querying this device, if any.
-          + SNMP  Read  Community  - The SNMP community string to
-            use when querying this device.
-     * SNMP Caching
-          + Do  not cache interface mappings - Recache interfaces
-            on  every  gather  (in  case  indexes  for interfaces
-            change often)
-          + Clear  interface cache when interface count changes -
-            An   easier  option  to  make  the  gatherer  recache
-            interfaces  when  the  interface  count changes (like
-            when you add or remove a card from a router)
-     * Advanced SNMP Options
-          + SNMP  UDP  Port  - UDP port to direct SNMP queries to
-            (default is 161).
-          + SNMP  Timeout (microseconds) - Number of microseconds
-            to  wait  for  a  response to a query before retrying
-            (default  is  1000000  or  1  second). An exponential
-            backoff  is used after each failed query; this is the
-            initial delay.
-          + SNMP  Retries  -  Number of times to query the device
-            before giving up (default is 3).
 
-SNMP Cache View
+          * Name - Name of a device; commonly the hostname
+
+          * IP or Hostname - IP address of the device, or hostname (must be
+            resolvable by the monitoring box)
+
+          * Device Type - Type of device (currently not used)
+
+          * Disabled - Don't gather data for this device
+
+     * SNMP
+
+          * SNMP Support - The version of SNMP to use when querying this
+            device, if any.
+
+          * SNMP Read Community - The SNMP community string to use when
+            querying this device.
+
+          * Recaching Method - Methods used by the gatherer for determining
+            if its SNMP cache is stale.
+
+               * Never refresh cache - The gatherer will never automatically
+                 refresh the cache. The cache must be refreshed manually when
+                 changes occur.
+
+               * Refresh on SNMP agent restart - The gatherer will refresh
+                 the cache if the SNMP agent uptime goes backwards, or if the
+                 device has become reachable again after a period of
+                 unreachability. This option is useful for devices that
+                 change interface counts too often, such as a router serving
+                 DSL sessions.
+
+               * Refresh on interface count change - The gatherer will
+                 refresh the cache if the "ifNumber" value has changed since
+                 the last gathering. This typically happens when cards are
+                 added to or removed from a router, or when PPP sessions go
+                 up or down. (Also includes the above.)
+
+               * Refresh on interface count mismatch - The gatherer will
+                 refresh the cache when the number of items in the interface
+                 cache do not match the "ifNumber" on a device. This can
+                 prevent problems when devices are in the process of booting.
+                 This is the preferred option for most devices. (Also
+                 includes the above.)
+
+               * Always refresh cache - Always refresh the cache on each
+                 gather. This is useful for devices that are always changing,
+                 when you care about the changes.
+
+     * Advanced SNMP Options
+
+          * SNMP UDP Port - UDP port to direct SNMP queries to (default is
+            161).
+
+          * SNMP Timeout (microseconds) - Number of microseconds to wait for
+            a response to a query before retrying (default is 1000000 or 1
+            second). An exponential backoff is used after each failed query;
+            this is the initial delay.
+
+          * SNMP Retries - Number of times to query the device before giving
+            up (default is 3).
+
+  SNMP Cache View
 
    List of cached values for a device
 
-Interface Cache
+    Interface Cache
 
    List of Interfaces NetMRG knows about
 
      * Index - SNMP ifIndex
-     * Status - SNMP ifAdminStatus/ifOperStatus
-     * Name - SNMP ifName
-     * Description - SNMP ifDescr
-     * Alias  - SNMP ifAlias (commonly the 'description' field on
-       routers and switches)
-     * IP Address - IP address of this interface
-     * MAC Address - MAC address of this interface
-     * View - View the graph for this interface (if monitored)
-     * Monitors  -  View  the  monitors  for  this  interface (if
-       monitored)
-     * Monitor/Graph  -  Choose  to graph this interface (adds an
-       interface  subdevice  based  on ifDescr, adds monitors for
-       ifInOctets, ifOutOctets, and ifInErrors for the subdevice,
-       and assocates a graph with the device)
 
-Disk Cache
+     * Status - SNMP ifAdminStatus/ifOperStatus
+
+     * Name - SNMP ifName
+
+     * Description - SNMP ifDescr
+
+     * Alias - SNMP ifAlias (commonly the 'description' field on routers and
+       switches)
+
+     * IP Address - IP address of this interface
+
+     * MAC Address - MAC address of this interface
+
+     * View - View the graph for this interface (if monitored)
+
+     * Monitors - View the monitors for this interface (if monitored)
+
+     * Monitor/Graph - Choose to graph this interface (adds an interface
+       subdevice based on ifDescr, adds monitors for ifInOctets, ifOutOctets,
+       and ifInErrors for the subdevice, and assocates a graph with the
+       device)
+
+    Disk Cache
 
    List of Disks NetMRG knows about
 
      * Index - SNMP dskIndex
-     * Device - SNMP dskDevice
-     * Path - SNMP dskPath
-     * View - View the graph for this disk (if monitored)
-     * Monitors - View the monitors for this disk (if monitored)
-     * Monitor/Graph  -  Choose  to  graph this disk (adds a disk
-       subdevice  based on dskPath, adds monitors for KB Used and
-       KB Available for the subdevice, and assocates a graph with
-       the device)
 
-Sub Devices
+     * Device - SNMP dskDevice
+
+     * Path - SNMP dskPath
+
+     * View - View the graph for this disk (if monitored)
+
+     * Monitors - View the monitors for this disk (if monitored)
+
+     * Monitor/Graph - Choose to graph this disk (adds a disk subdevice based
+       on dskPath, adds monitors for KB Used and KB Available for the
+       subdevice, and assocates a graph with the device)
+
+                                  Sub Devices
 
 Name
 
@@ -861,53 +1043,62 @@ Name
 
 Description
 
-List
+  List
 
    list of sub devices in a device
 
-     * Sub  Devices  -  Name  of the sub devices for this device;
-       click on a name to view its monitors
-     * Type - Type of sub device (group, interface, or disk)
-     * Add - add a new sub device to this device
-     * Parameters  -  View/edit available parameters for this sub
-       device   (such  as  what  ifName  to  use  to  graph  this
-       interface)
-     * View  -  views  graphs  assocated with this sub device and
-       allows you to edit what graphs are associated with the sub
-       device
-     * Edit - edits options of a sub device
-     * Delete  - deletes the sub device all monitors, events, etc
-       underneath it
+     * Sub Devices - Name of the sub devices for this device; click on a name
+       to view its monitors
 
-Edit
+     * Type - Type of sub device (group, interface, or disk)
+
+     * Add - add a new sub device to this device
+
+     * Parameters - View/edit available parameters for this sub device (such
+       as what ifName to use to graph this interface)
+
+     * View - views graphs assocated with this sub device and allows you to
+       edit what graphs are associated with the sub device
+
+     * Edit - edits options of a sub device
+
+     * Delete - deletes the sub device all monitors, events, etc underneath
+       it
+
+  Edit
 
    edit info about a sub device
 
      * Name - Name of this sub device
-     * Sub-Device Type - Type of sub device (group, interface, or
-       disk)
 
-Parameters
+     * Sub-Device Type - Type of sub device (group, interface, or disk)
+
+  Parameters
 
    items that alter what interface or disk a sub device monitors
 
-Configured Parameters
+    Configured Parameters
 
-     * Name  -  Name  of  paramter  to  match  this sub device to
-       (commonly 'dskPath' for disks or 'ifDescr' for interfaces)
-     * Value - Value of the Name to match (commonly '/' for disks
-       or 'eth0' for interfaces)
+     * Name - Name of paramter to match this sub device to (commonly
+       'dskPath' for disks or 'ifDescr' for interfaces)
+
+     * Value - Value of the Name to match (commonly '/' for disks or 'eth0'
+       for interfaces)
+
      * Add - Adds a Name/Value pair for this sub device
+
      * Edit - Edits the values above for this sub device
+
      * Delete - Deletes this Name/Value pair for this sub device
 
-Dynamic Parameters
+    Dynamic Parameters
 
-     * Name  -  Name  of  paramter  that is available in template
-       graphs as a wildcard (put between two '%' in the title)
+     * Name - Name of paramter that is available in template graphs as a
+       wildcard (put between two '%' in the title)
+
      * Value - Value of the Name that will be displayed
 
-Monitors
+                                    Monitors
 
 Name
 
@@ -915,126 +1106,147 @@ Name
 
 Description
 
-List
+  List
 
    list of monitors for a sub-device
 
-     * Test - Name of what is being monitored; click to view/edit
-       events for this monitor
+     * Test - Name of what is being monitored; click to view/edit events for
+       this monitor
+
      * Data - Information about the last gather of this monitor
-          + Value - value gathered in the last run
-          + Rate of Change - Difference between the current value
-            and  the  last  value,  divided  by  the time between
-            samples
-          + Time  Stamp  -  Date/Time  of  last  gather  for this
-            monitor
-     * Graph  -  A  small  representation  of  the  current  data
-       gathered  for  this  monitor;  click on the graph for more
-       options
+
+          * Value - value gathered in the last run
+
+          * Rate of Change - Difference between the current value and the
+            last value, divided by the time between samples
+
+          * Time Stamp - Date/Time of last gather for this monitor
+
+     * Graph - A small representation of the current data gathered for this
+       monitor; click on the graph for more options
+
      * Add - add a new monitor to this sub device
+
      * Edit - edits options of a monitor
+
      * Delete - deletes the monitor and everything underneath it
 
-Edit
+  Edit
 
    edit info about a monitor
 
-     * Monitoring Type - specifies the type of test used for this
-       monitor (Script, SNMP, SQL, or Internal)
-     * Test  Options  -  this  section  varies  depending  on the
-       setting of Monitoring Type
-          + Script Options
-               o Script Test - specifies which script to run
-               o Parameters  -  specifies  a string which will be
-                 appended  to  the script's parameters. Parameter
-                 expansions are honored in this field.
-          + SNMP Options
-               o SNMP Test - specifies which SNMP test to run
-               o Parameters  -  specifies  a  string  which  will
-                 replace the expansion %parameters% in SNMP OIDs.
-          + SQL Options
-               o SQL Test - specifies which SQL test to run
-               o Parameters  -  specifies  a  string  which  will
-                 replace   the   expansion  %parameters%  in  SQL
-                 queries.
-          + Internal Options
-               o Internal Test - specifies which internal test to
-                 run
-               o Parameters  -  specifies  a  string  used by the
-                 internal test
-     * Graphing Options
-          + Data Type - the RRDTOOL data type for this monitor
-               o Absolute - a counter reset when read
-               o Counter - an incrementing value interpreted as a
-                 rate  (such  as  calculating  your average speed
-                 with odometer readings)
-               o Derive  - a counter without overflow protection,
-                 permits graphing of negative rates
-               o Gauge  -  the value read is the value used, such
-                 as temperatures
-            For  a  more complete discussion on when to use which
-            data type, see the RRD Create manual page.
-          + Minimum Value - the minimum value accepted by RRDTOOL
-            as valid.
-          + Maximum Value - the maximum value accepted by RRDTOOL
-            as valid.
+     * Monitoring Type - specifies the type of test used for this monitor
+       (Script, SNMP, SQL, or Internal)
 
-Events
+     * Test Options - this section varies depending on the setting of
+       Monitoring Type
+
+          * Script Options
+
+               * Script Test - specifies which script to run
+
+               * Parameters - specifies a string which will be appended to
+                 the script's parameters. Parameter expansions are honored in
+                 this field.
+
+          * SNMP Options
+
+               * SNMP Test - specifies which SNMP test to run
+
+               * Parameters - specifies a string which will replace the
+                 expansion %parameters% in SNMP OIDs.
+
+          * SQL Options
+
+               * SQL Test - specifies which SQL test to run
+
+               * Parameters - specifies a string which will replace the
+                 expansion %parameters% in SQL queries.
+
+          * Internal Options
+
+               * Internal Test - specifies which internal test to run
+
+               * Parameters - specifies a string used by the internal test
+
+     * Graphing Options
+
+          * Data Type - the RRDTOOL data type for this monitor
+
+               * Absolute - a counter reset when read
+
+               * Counter - an incrementing value interpreted as a rate (such
+                 as calculating your average speed with odometer readings)
+
+               * Derive - a counter without overflow protection, permits
+                 graphing of negative rates
+
+               * Gauge - the value read is the value used, such as
+                 temperatures
+
+            For a more complete discussion on when to use which data type,
+            see the RRD Create manual page.
+
+          * Minimum Value - the minimum value accepted by RRDTOOL as valid.
+
+          * Maximum Value - the maximum value accepted by RRDTOOL as valid.
+
+                                     Events
 
 Name
 
-   Events -- A  container  for  a  collection  of actions to take
-   based on monitor values
+   Events -- A container for a collection of actions to take based on monitor
+   values
 
 Description
 
-List
+  List
 
    list of events for a monitor
 
-   Note
+   Note Events displayed in bold are currently triggered.                     
 
-   Events displayed in bold are currently triggered.
-
-Edit
+  Edit
 
    edit info about an event
 
-     * Name  - a name for the event, unique within a device. This
-       name is used when displaying entries in the Event Log.
-     * Trigger  Type  - when to trigger an event. When events are
-       triggered,  they  are  logged  in  the  Event  Log and any
-       Responses associated with the event are executed.
-          + On   Change   -  The  event  is  triggered  when  its
-            conditions  are  met, and the conditions had not been
-            met on the last run. Example: If you have an event to
-            warn  you  when  CPU  Usage climbs above 80%, it will
-            trigger  this  condition if the previous value was 72
-            and  the  current  value  85, but not if the previous
-            value  was 82 and the current value 85. This prevents
-            duplicate   triggerings   to   a  situation  spanning
-            multiple polling intervals.
-          + Never   (disabled)   -  This  event  is  ignored  and
-            responses for it are not processed.
-     * Situation  -  the  severity  of  the  situation  the event
-       indicates.
-          + Disabled    -    the   tested   service   is   in   a
-            non-operational, yet normal, condition.
-          + Normal - the tested service is operating normally.
-          + Warning  -  the  tested  service  is  operating  in a
-            degraded condition.
-          + Critical  -  the  tested  service  is  not  operating
-            acceptably.
+     * Name - a name for the event, unique within a device. This name is used
+       when displaying entries in the Event Log.
 
-   Note
+     * Trigger Type - when to trigger an event. When events are triggered,
+       they are logged in the Event Log and any Responses associated with the
+       event are executed.
 
-   Situations for an event propagate up the Device Tree. Each
-   level takes on the worst situation of its descendents. For
-   example, if you have a Critical situation, the Event as well
-   as the Monitor, Sub-Device, Device, and Groups above that
-   Event will take on the situation Critical as well.
+          * On Change - The event is triggered when its conditions are met,
+            and the conditions had not been met on the last run. Example: If
+            you have an event to warn you when CPU Usage climbs above 80%, it
+            will trigger this condition if the previous value was 72 and the
+            current value 85, but not if the previous value was 82 and the
+            current value 85. This prevents duplicate triggerings to a
+            situation spanning multiple polling intervals.
 
-Conditions
+          * Never (disabled) - This event is ignored and responses for it are
+            not processed.
+
+     * Situation - the severity of the situation the event indicates.
+
+          * Disabled - the tested service is in a non-operational, yet
+            normal, condition.
+
+          * Normal - the tested service is operating normally.
+
+          * Warning - the tested service is operating in a degraded
+            condition.
+
+          * Critical - the tested service is not operating acceptably.
+
+       Note Situations for an event propagate up the Device Tree. Each 
+            level takes on the worst situation of its descendents. For 
+            example, if you have a Critical situation, the Event as    
+            well as the Monitor, Sub-Device, Device, and Groups above  
+            that Event will take on the situation Critical as well.    
+
+                                   Conditions
 
 Name
 
@@ -1042,42 +1254,47 @@ Name
 
 Description
 
-List
+  List
 
    list of conditions for an event
 
-Edit
+  Edit
 
    edit info about an condition
 
-     * Logical  Operation  -  the logical operator (AND or OR) to
-       apply  between  this  condition and the previous one. This
-       parameter  is  not  valid, nor is displayed, for the first
-       condition in a set of conditions.
-     * Value Type - the type of data about the Monitor to be used
-       for comparision.
-          + Current Value - the current value of the Monitor
-          + Delta  Value  -  the  difference  between the current
-            value and the previous value.
-          + Rate  of  Change  -  the  delta  value divided by the
-            difference  in  timestamps  between  the  current and
-            previous  values. When using counters, this gives you
-            the "per second" value.
-     * Condition  - the arithmetic operator to use when comparing
-       the  Value  Type  of  the  Monitor  and  the  Value of the
-       Condition.
+     * Logical Operation - the logical operator (AND or OR) to apply between
+       this condition and the previous one. This parameter is not valid, nor
+       is displayed, for the first condition in a set of conditions.
+
+     * Value Type - the type of data about the Monitor to be used for
+       comparision.
+
+          * Current Value - the current value of the Monitor
+
+          * Delta Value - the difference between the current value and the
+            previous value.
+
+          * Rate of Change - the delta value divided by the difference in
+            timestamps between the current and previous values. When using
+            counters, this gives you the "per second" value.
+
+     * Condition - the arithmetic operator to use when comparing the Value
+       Type of the Monitor and the Value of the Condition.
+
      * Value - the number used for comparision.
-     _________________________________________________________
 
-Chapter 13. Contact Information
+     ----------------------------------------------------------------------
 
-   We have great aspirations for what NetMRG could become, but as
-   with  all  open-source  software, such aspriations can only be
-   achieved  with  the  active  participation  of the open-source
-   community.  Please  do your part and support software that you
-   use  by  helping  to  answer  support  questions on forums and
-   report bugs to developers. Thanks!
+                        Chapter 13. Contact Information
+
+   We have great aspirations for what NetMRG could become, but as with all
+   open-source software, such aspriations can only be achieved with the
+   active participation of the open-source community. Please do your part and
+   support software that you use by helping to answer support questions on
+   forums and report bugs to developers. Thanks!
 
      * Main Website - http://www.netmrg.net/
+
      * Support Forum - http://lists.netmrg.net/
+
      * Bug Reporting and Tracking - http://bugs.netmrg.net/

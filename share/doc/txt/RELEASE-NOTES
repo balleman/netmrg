@@ -1,6 +1,18 @@
 
                           Chapter 2. Revision History
 
+     * 0.14
+
+       2004.03.10
+
+       Minor Bugfixes and Feature Enhancements; escaping issues in template
+       dereferencing, broken links on various pages, security issues
+       regarding manual SNMP recaching, broken duplication on
+       non-cutting-edge MySQL, more parameter substitution in SQL tests,
+       better date parsing for advanced graph view, nav-bar and group
+       navigation enhancements, advanced view capability for monitor-only
+       graphs.
+
      * 0.13
 
        2003.12.19
