@@ -68,7 +68,7 @@ u_char *u_string(string source, u_char *out)
 string inttostr(long long int int_to_convert)
 {
 	char temp_str[100];
-	snprintf(temp_str, 100, "%qd", int_to_convert);
+	snprintf(temp_str, 100, "%lld", int_to_convert);
 	return string(temp_str);
 } // end inttostr
 
