@@ -1,3 +1,11 @@
+2004.09.11  v0.17cvs  silfreed
+  - bug#0000200 - Need a tutorial on how to create custom/template graphs
+  - bug#0000259 - It should be noted that RRDs and variables aren't usable 
+    until after the gatherer runs
+  - bug#0000275 - Tutorial on our Interface cache and Disk Cache
+  - bug#0000276 - Document how variable substitution works
+  - bug#0000273 - Move monitors to a new subdevice
+
 2004.09.10  v0.17cvs  silfreed
   - bug#0000272 - Move subdevices to different device
 

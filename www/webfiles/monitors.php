@@ -371,6 +371,7 @@ function edit()
 	make_edit_select_from_table("Data Type:", "data_type", "data_types", $mon_row["data_type"]);
 	make_edit_text("Minimum Value:", "min_val", "10", "20", $mon_row["min_val"]);
 	make_edit_text("Maximum Value:", "max_val", "10", "20", $mon_row["max_val"]);
+	make_edit_select_subdevice($_REQUEST["sub_dev_id"]);
 	make_edit_label('[<a href="javascript:make_min_undefined();">make minimum undefined</a>]
 		[<a href="javascript:make_max_undefined();">make maximum undefined</a>]');
 
@@ -409,7 +410,7 @@ function do_edit()
 	
 	
 	db_update("$db_cmd monitors SET
-		sub_dev_id='{$_REQUEST['sub_dev_id']}',
+		sub_dev_id='{$_REQUEST['subdev_id']}',
 		test_type='{$_REQUEST['test_type']}',
 		test_id='{$_REQUEST['test_id']}',
 		test_params='" . db_escape_string(fix_magic_quotes($_REQUEST['test_params'])) ."',
