@@ -213,7 +213,7 @@ list<SNMPPair> snmp_trim_rootoid(list<SNMPPair> input, string rootoid)
 
 list<SNMPPair> snmp_swap_index_value(list<SNMPPair> input)
 {
-       	for (list<SNMPPair>::iterator current = input.begin(); current != input.end(); current++)
+	for (list<SNMPPair>::iterator current = input.begin(); current != input.end(); current++)
 	{
 		string oid   = current->oid;
 		string value = current->value;
@@ -266,7 +266,7 @@ list<SNMPPair> snmp_walk(DeviceInfo info, string oidstring)
 		debuglogger(DEBUG_SNMP, LEVEL_ERROR, &info, "SNMP Session Failure.");
 	}
 
-        char tempoid[128];
+	char tempoid[128];
 	strcpy(tempoid, oidstring.c_str());
 	if (!snmp_parse_oid(tempoid, root, &rootlen))
 	{
