@@ -17,7 +17,7 @@
 #
 # Makefile.am
 #
-# Version:	$Id: Makefile.in,v 1.4 2003/07/17 00:49:57 silfreed Exp $
+# Version:	$Id: Makefile.in,v 1.5 2003/07/17 00:53:47 silfreed Exp $
 #
 SHELL = @SHELL@
 
