@@ -21,21 +21,23 @@
 // The remaining options are the default values 
 // used if not overridden on the command line or config file.
 
-#define CONFIG_FILE		"/etc/netmrg.conf"
 
-#define NETMRG_ROOT		"@prefix@"
-#define RRDTOOL 		"/usr/bin/rrdtool - "
+// Paths
+#define CONFIG_FILE			"/etc/netmrg.conf"
+#define NETMRG_ROOT			"@prefix@"
+#define RRDTOOL				"/usr/bin/rrdtool - "
 
-#define DEF_THREAD_COUNT	25						// number of simultaneous threads
-#define DEF_THREAD_SLEEP	10000					// number of microseconds between thread checks
+// Threading
+#define DEF_THREAD_COUNT	5						// number of simultaneous threads
+#define DEF_THREAD_SLEEP	10000					// number of microseconds between thread count checks
 
 // Database Credentials
-#define DEF_DB_HOST		"localhost"
-#define DEF_DB_USER		"netmrgwrite"
-#define DEF_DB_PASS		"netmrgwrite"
-#define DEF_DB_DB		"netmrg"
+#define DEF_DB_HOST			"localhost"
+#define DEF_DB_USER			"netmrgwrite"
+#define DEF_DB_PASS			"netmrgwrite"
+#define DEF_DB_DB			"netmrg"
 
 // Define the command that distributes reports
-#define DISTRIB_CMD		"@prefix@/bin/distrib.sh"
+#define DISTRIB_CMD			"@prefix@/bin/distrib.sh"
 
 #endif              
