@@ -17,7 +17,7 @@
 #
 # Makefile
 #
-# Version:	$Id: Makefile.in,v 1.3 2003/07/17 00:41:53 silfreed Exp $
+# Version:	$Id: Makefile.in,v 1.4 2003/07/17 00:49:57 silfreed Exp $
 #
 SHELL = @SHELL@
 
@@ -94,7 +94,7 @@ INCLUDES = -I./include
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/../mkinstalldirs
-CONFIG_HEADER = config.h
+CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES =
 noinst_PROGRAMS = netmrg$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
@@ -109,7 +109,7 @@ netmrg_DEPENDENCIES =
 netmrg_LDFLAGS =
 
 DEFS = @DEFS@
-DEFAULT_INCLUDES =  -I. -I$(srcdir) -I.
+DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/include
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
@@ -132,12 +132,11 @@ HEADERS = $(noinst_HEADERS)
 
 DIST_COMMON = $(noinst_HEADERS) ../config.guess ../config.sub \
 	../depcomp ../install-sh ../missing ../mkinstalldirs \
-	Makefile.am Makefile.in aclocal.m4 config.h.in configure \
-	configure.ac
+	./include/config.h.in Makefile.am Makefile.in aclocal.m4 \
+	configure configure.ac
 SOURCES = $(netmrg_SOURCES)
 
-all: config.h
-	$(MAKE) $(AM_MAKEFLAGS) all-am
+all: all-am
 
 .SUFFIXES:
 .SUFFIXES: .cpp .o .obj
@@ -158,22 +157,22 @@ $(srcdir)/configure:  $(srcdir)/configure.ac $(ACLOCAL_M4) $(CONFIGURE_DEPENDENC
 $(ACLOCAL_M4):  configure.ac 
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 
-config.h: stamp-h1
+include/config.h: include/stamp-h1
 	@if test ! -f $@; then \
-	  rm -f stamp-h1; \
-	  $(MAKE) stamp-h1; \
+	  rm -f include/stamp-h1; \
+	  $(MAKE) include/stamp-h1; \
 	else :; fi
 
-stamp-h1: $(srcdir)/config.h.in $(top_builddir)/config.status
-	@rm -f stamp-h1
-	cd $(top_builddir) && $(SHELL) ./config.status config.h
+include/stamp-h1: $(srcdir)/./include/config.h.in $(top_builddir)/config.status
+	@rm -f include/stamp-h1
+	cd $(top_builddir) && $(SHELL) ./config.status include/config.h
 
-$(srcdir)/config.h.in:  $(top_srcdir)/configure.ac $(ACLOCAL_M4) 
+$(srcdir)/./include/config.h.in:  $(top_srcdir)/configure.ac $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOHEADER)
-	touch $(srcdir)/config.h.in
+	touch $(srcdir)/./include/config.h.in
 
 distclean-hdr:
-	-rm -f config.h stamp-h1
+	-rm -f include/config.h include/stamp-h1
 
 clean-noinstPROGRAMS:
 	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
@@ -230,11 +229,11 @@ ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	       END { for (i in files) print i; }'`; \
 	mkid -fID $$unique
 
-TAGS:  $(HEADERS) $(SOURCES) config.h.in $(TAGS_DEPENDENCIES) \
+TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
 		$(TAGS_FILES) $(LISP)
 	tags=; \
 	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS) config.h.in $(LISP) $(TAGS_FILES)'; \
+	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
 	unique=`for i in $$list; do \
 	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
 	  done | \
@@ -267,7 +266,7 @@ distcleancheck_listfiles = find . -type f -print
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
-	$(mkinstalldirs) $(distdir)/.. $(distdir)/include
+	$(mkinstalldirs) $(distdir)/.. $(distdir)/./include $(distdir)/include
 	@list='$(DISTFILES)'; for file in $$list; do \
 	  if test -f $$file || test -d $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \
@@ -342,7 +341,7 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS) $(HEADERS) config.h
+all-am: Makefile $(PROGRAMS) $(HEADERS)
 
 installdirs:
 
