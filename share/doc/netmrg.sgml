@@ -1,11 +1,11 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
 <book>
 <bookinfo>
-	<title>The NetMRG Reference</title>
+	<title><inlinegraphic fileref="netmrg-logo-medium.png">The NetMRG Reference</title>
 	<authorgroup>
 		<author>
 			<firstname>Brady</firstname>
-			<surname>Alleman</surname>	
+			<surname>Alleman</surname>
 		</author>
 		<author>
 			<firstname>Douglas</firstname>
