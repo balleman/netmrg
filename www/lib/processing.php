@@ -149,7 +149,7 @@ function get_monitor_status($mon_id)
 
 		for ($event_count = 1; $event_count <= $event_total; ++$event_count)
 		{
-		# For each event
+		// For each event
 			$event_row = mysql_fetch_array($event_results);
 			$event_id = $event_row["id"];
 			$ev_status = $event_row["situation"];
@@ -157,7 +157,7 @@ function get_monitor_status($mon_id)
 			{
 				if ($status < $ev_status) { $status = $ev_status; }
 			}
-		} # end event for
+		} // end event for
 
 	$GLOBALS["state_monitor_" . $mon_id] = $status;
 	return $status;
@@ -166,8 +166,9 @@ function get_monitor_status($mon_id)
 } # end get_monitor_status
 
 
-function get_device_status($dev_id) {
-# Takes a dev_id and returns the current device aggregate status
+function get_device_status($dev_id)
+{
+	//Takes a dev_id and returns the current device aggregate status
 
         if (isset($GLOBALS["state_device_" . $dev_id]))
         {
@@ -193,7 +194,7 @@ function get_device_status($dev_id) {
         	                $mon_row = mysql_fetch_array($mon_results);
 	                        $mon_status = get_monitor_status($mon_row["id"]);
 	                        if ($mon_status > $status) { $status = $mon_status; }
-	                } # end for
+	                } // end for
 
                 }
 
@@ -201,11 +202,11 @@ function get_device_status($dev_id) {
 	        return $status;
 	}
 
-} # end get_device_status
+} // end get_device_status
 
 function get_group_status($grp_id)
 {
-# Takes a grp_id and returns the current group aggregate status
+	//Takes a grp_id and returns the current group aggregate status
 
         if (isset($GLOBALS["state_group_" . $grp_id]))
         {
@@ -230,12 +231,12 @@ function get_group_status($grp_id)
 
                 for ($dev_count = 1; $dev_count <= $dev_total; ++$dev_count)
                 {
-                # For each device
+                // For each device
 
 	                $dev_row = mysql_fetch_array($dev_results);
         	        $dev_status = get_device_status($dev_row["dev_id"]);
 	                if (($dev_status > $status) && ($dev_status != 4)) { $status = $dev_status; }
-                } # end for
+                } // end for
 
 		$GLOBALS["state_group_" . $grp_id] = $status;
                 return $status;
@@ -276,8 +277,15 @@ function get_short_monitor_name($mon_id)
 	} // end switch test type
 
 	$test_row = mysql_fetch_array(do_query($test_query));
+	
+	$res = $test_row["name"];
+	
+	if ($mon_row["test_params"] != "")
+	{
+		$res .= " - " . $mon_row["test_params"];
+	}
 
-	return $test_row["name"] . ' ' . $mon_row["test_params"];
+	return $res;
 
 } // end get_short_monitor_name()
 
