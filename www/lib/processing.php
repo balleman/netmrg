@@ -164,40 +164,29 @@ function expand_parameters($input, $subdev_id)
 //Takes a grp_id and returns the current group aggregate status
 function get_group_status($grp_id)
 {
-	if (isset($GLOBALS["state_group_" . $grp_id]))
+	$status = -1;
+
+	$grp_results = do_query("SELECT id FROM groups WHERE parent_id=$grp_id");
+
+	while ($grp_row = mysql_fetch_array($grp_results))
 	{
-		return $GLOBALS["state_group_" . $grp_id];
+		$grp_status = get_group_status($grp_row["id"]);
+		if (($grp_status > $status) && ($grp_status != 4))
+		{
+			$status = $grp_status;
+		}
+	} // end while rows left
+
+	$dev_results = do_query("SELECT max(devices.status) AS status FROM dev_parents, devices WHERE grp_id = $grp_id AND dev_parents.dev_id=devices.id AND devices.status < 4 GROUP BY grp_id");
+	$dev_row = mysql_fetch_array($dev_results);
+	$grp_status = $dev_row["status"];
+	if ($grp_status > $status)
+	{
+		$status = $grp_status;
 	}
-	else
-	{
-		$status = -1;
+	
+	return $status;
 
-		$grp_results = do_query("SELECT id FROM groups WHERE parent_id=$grp_id");
-
-		while ($grp_row = mysql_fetch_array($grp_results))
-		{
-			$grp_status = get_group_status($grp_row["id"]);
-			if (($grp_status > $status) && ($dev_status != 4))
-			{
-				$status = $grp_status;
-			}
-		} // end while rows left
-
-		$dev_results = do_query("SELECT dev_id FROM dev_parents WHERE grp_id=$grp_id");
-
-		// For each device
-		while ($dev_row = mysql_fetch_array($dev_results))
-		{
-			$dev_status = get_device_status($dev_row["dev_id"]);
-			if (($dev_status > $status) && ($dev_status != 4))
-			{
-				$status = $dev_status;
-			}
-		} // end for
-
-		$GLOBALS["state_group_" . $grp_id] = $status;
-		return $status;
-	} // end if global state
 } // end get_group_status()
 
 

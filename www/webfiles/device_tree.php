@@ -197,7 +197,7 @@ function draw_group($grp_id, $depth, &$rowcount)
 			array(),
 			array(),
 			array(), 
-			array()
+			array("text" => get_img_tag_from_status(get_group_status($grp_id)))
 		); // end make_display_item();
 		$rowcount++;
 
