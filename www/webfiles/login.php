@@ -81,17 +81,8 @@ if (!empty($_REQUEST["user_name"]))
 		$login_error = "Invalid Username or Password";
 	} // end if the username & password is valid or not
 }// end if there was a username
-?>
-<script language="javascript">
-<!--
-function focusme()
-{
-        document.lif.user_name.focus();
-}
--->
-</script>
-<?php
-begin_page("login.php", "Login", 0, "onLoad=focusme()");
+
+begin_page("login.php", "Login", 0, "onLoad=focusme()", array("login_focus.js"));
 ?>
 <br><br>
 <font color="#000080" size="3"><strong>User Login</strong></font>

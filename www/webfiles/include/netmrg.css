@@ -1,186 +1,173 @@
-A, A:visited
-{
+A, A:visited {
 	color : #0000B0;
 	text-decoration: none;
 }
 
-A:hover, A:active
-{
+A:hover, A:active {
 	color : #FF8C00;
 	text-decoration: underline;
 }
 
-BODY
-{
+BODY {
 	background-color : #FFFFFF;
-	color : black;
+	color : #000000;
 	font-family: sans-serif;
-	font-size: 10px;
-	margin: 0px;
-	border: 0px;
+	font-size: 1em;
+	margin : 0;
+	padding : 0;
 }
 
-TABLE, TR, TD
-{
-	font-family: sans-serif;
-	font-size: 10px;
+IMG {
+	border : 0;
 }
 
-TR.title, TD.title
-{
-	height: 50px;
-}
-
-TABLE.full, TR.full, TD.full
-{
-	height: 100%;
-	width: 100%;
-}
-
-TD.menu
-{
-	font-family: sans-serif;
-	font-size: 12px;
-	width: 125px;
-}
-
-.titletable
-{
-	padding-bottom: 3px;
-}
-
-.logo
-{
+#header {
 	background-color : #6699CC;
-	color : black;
+	color : #000000;
 	font-family : sans-serif;
-	font-size : 1px;
-	padding-top : 2px;
-	padding-left : 3px;
+	font-size : 1em;
 }
 
-.title_name
-{
-	background-color : #6699CC;
-	color : black;
+#header h1 {
 	font-family : sans-serif;
-	font-size : 32px;
 	font-weight : bold;
+	font-size : 2em;
+	letter-spacing : 0.2em;
+	margin : 0;
+	padding : 0;
 }
 
-A.title_name, A:visited.title_name
-{
-	background-color : #6699CC;
-	color : black;
-	font-family : sans-serif;
-	font-size : 32px;
-	font-weight : bold;
+#header h1 a, #header h1 a:visited {
+	color : #000000;
 }
 
-A:hover.title_name, A:active.title_name
+#headerinfo {
+	float : right;
+}
+
+#company {
+	color : #000000;
+	font-size : 1.2em;
+	letter-spacing : 0.2em;
+}
+
+#company a, #company a:visited {
+	color : #000000;
+}
+
+#company a:hover, #company a:active
 {
-	background-color : #6699CC;
 	color : #000080;
-	font-family : sans-serif;
-	font-size : 32px;
-	font-weight : bold;
-	text-decoration : underline;
 }
 
-.company, A.company, A:visited.company
-{
-	background-color : #6699CC;
-	color : black;
-	font-family : sans-serif;
-	font-size : 16px;
-	font-weight : bold;
-	text-decoration : none;
+#logindata {
+	font-size : 0.8em;
 }
 
-A:hover.company, A:active.company
-{
-	background-color : #6699CC;
-	color : #000080;
-	font-family : sans-serif;
-	font-size : 16px;
-	font-weight : bold;
-	text-decoration : underline;
-}
-
-.logindata
-{
-	background-color : #6699CC;
-	color : black;
-	font-family : sans-serif;
-	font-size : 10px;
-	padding-bottom: 4px;
-}
-
-.loggedouttext
-{
-	background-color : #6699CC;
+.loggedouttext {
 	color : #E00000;
-	font-family : sans-serif;
-	font-size : 10px;
 }
 
-.loggedintext
-{
-	background-color : #6699CC;
-	color : black;
-	font-family : sans-serif;
-	font-size : 10px;
+.loggedintext {
+	color : #000000;
 }
 
-.loggedinuser
-{
-	background-color : #6699CC;
+.loggedinuser {
 	color : #008000;
-	font-family : sans-serif;
-	font-size : 10px;
 	font-weight : bold;
 }
 
-.menutable
-{
+#topmenu {
+	background-color : #6699CC;
+	color : #000000;
+	font-family : sans-serif;
+	font-size : 0.9em;
+	padding-left : 2em;
+	padding-right : 2em;
+	margin-bottom : 0.5em;
+}
+
+#topmenu h2 {
+	font-size : 0.9em;
+	font-weight : bold;
+	letter-spacing : 0.1em;
+	margin : 0;
+	margin-left : 0.5em;
+	padding : 0;
+	display : inline;
+}
+
+#topmenu ul {
+	margin : 0;
+	padding : 0;
+	display : inline;
+}
+
+#topmenu ul li {
+	background-color : #336699;
+	font-size : 0.9em;
+	list-style : none;
+	display : inline;
+	margin-left : 1px;
+	margin-right : 1px;
+}
+
+#topmenu ul li a {
+	padding-left : 1em;
+	padding-right : 1em;
+}
+
+#topmenu ul li a.navcurrent {
+	background-color : #A8C0E0;
+}
+
+#sidemenu {
+	width: 125px;
 	border-right: 1px solid #002000;
 	border-left: 1px solid #002000;
 	border-bottom: 1px solid #002000;
+	float : right;
 }
 
-.menuhead
-{
+#sidemenu h2 {
 	background-color : #AEC9E4;
-	color : black;
-	font-family : sans-serif;
-	font-size : 12px;
+	color : #000000;
+	font-size : 0.9em;
 	font-weight : bold;
-	width: 125px;
+	letter-spacing : 0.1em;
+	margin : 0;
+	padding : 1px;
 	border-top : 1px solid #002000;
 	border-bottom : 1px solid #002000;
-	padding-left: 3px;
-	padding-top: 2px;
-	padding-bottom: 2px;
 }
 
-.menuitem, A.menuitem, A:visited.menuitem
-{
-	background-color : #F5F8FB;
-	color : black;
-	width: 125px;
-	font-family : sans-serif;
-	font-size : 12px;
-	padding-left: 3px;
+#sidemenu ul {
+	margin : 0;
+	padding : 0;
 }
 
-A:hover.menuitem, A:active.menuitem
-{
+#sidemenu ul li {
 	background-color : #F5F8FB;
+	color : #000000;
+	font-size : 0.7em;
+	padding-left : 1em;
+	list-style : none;
+}
+
+#sidemenu ul li a, #sidemenu ul li a:visited {
+	color : #000000;
+}
+
+#sidemenu ul li a:hover, #sidemenu ul li a:active
+{
 	color : #FF8C00;
-	width: 125px;
-	font-family : sans-serif;
-	font-size : 12px;
-	padding-left: 3px;
+}
+
+#content {
+}
+
+#footer {
+	text-align : center;
 }
 
 .editmainheader

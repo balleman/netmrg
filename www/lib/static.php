@@ -26,6 +26,38 @@ $GLOBALS["netmrg"]["verhist"] = array(
 ); // end verhist
 
 
+$MENU2 = array(
+	"Reporting" => array(
+		array("name" => "Tree", "link" => "device_tree.php", "descr" => "", "authLevelRequired" => 0),
+		array("name" => "Device", "link" => "device_centered.php", "descr" => "", "authLevelRequired" => 0),
+		array("name" => "Log", "link" => "event_log.php", "descr" => "Display a list of the most recent events.", "authLevelRequired" => 1),
+		array("name" => "Slide Show", "link" => "view.php?action=slideshow&type=0", "descr" => "Displays all devices, one page at a time.", "authLevelRequired" => 1)
+	),
+	"Admin" => array(
+		array("name" => "Devices", "link" => "grpdev_list.php", "descr" => "", "authLevelRequired" => 1),
+//		array("name" => "Device Types", "link" => "dev_types.php", "descr" => "", "authLevelRequired" => 2),
+		array("name" => "Notifications", "link" => "notifications.php", "descr" => "", "authLevelRequired" => 2),
+		array("name" => "Custom Graphs", "link" => "graphs.php?type=custom", "descr" => "", "authLevelRequired" => 1),
+		array("name" => "Template Graphs", "link" => "graphs.php?type=template", "descr" => "", "authLevelRequired" => 1),
+		array("name" => "Script", "link" => "tests_script.php", "descr" => "External Programs", "authLevelRequired" => 2),
+		array("name" => "SNMP", "link" => "tests_snmp.php", "descr" => "SNMP Queries", "authLevelRequired" => 2),
+		array("name" => "SQL", "link" => "tests_sql.php", "descr" => "Database Queries", "authLevelRequired" => 2),
+		array("name" => "Users", "link" => "users.php", "descr" => "User Management", "authLevelRequired" => 3)
+	),
+	"Prefs" =>  array(
+		array("name" => "Prefs", "link" => "user_prefs.php", "descr" => "Personal Preferences", "authLevelRequired" => 0)
+		),
+	"Logout" => array(
+		array("name" => "Logout", "link" => "logout.php", "descr" => "End your NetMRG Session.", "authLevelRequired" => 0)
+		),
+	"Help" => array(
+		array("name" => "About", "link" => "about.php", "descr" => "", "authLevelRequired" => 0),
+		array("name" => "Manual", "link" => "http://www.netmrg.net/docs/CVSHEAD/", "descr" => "", "authLevelRequired" => 0),
+		array("name" => "Forum", "link" => "http://lists.netmrg.net/", "descr" => "Benefit from the NetMRG Community.", "authLevelRequired" => 0),
+		array("name" => "Bugs", "link" => "http://bugs.netmrg.net/", "descr" => "Report bugs and request features.", "authLevelRequired" => 0)
+	)
+); // end $MENU2
+
 $MENU = array(
 	"Monitoring" => array(
 		array("name" => "Groups", "link" => "grpdev_list.php", "descr" => "", "authLevelRequired" => 1),

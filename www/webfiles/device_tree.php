@@ -141,10 +141,8 @@ setcookie("netmrgDevTree[group]", urlencode(serialize($_COOKIE["netmrgDevTree"][
 setcookie("netmrgDevTree[device]", urlencode(serialize($_COOKIE["netmrgDevTree"]["device"])), time()+604800);
 setcookie("netmrgDevTree[subdevice]", urlencode(serialize($_COOKIE["netmrgDevTree"]["subdevice"])), time()+604800);
 setcookie("netmrgDevTree[monitor]", urlencode(serialize($_COOKIE["netmrgDevTree"]["monitor"])), time()+604800);
-?>
 
 
-<?php
 begin_page("device_tree.php", "Device Tree", 1);
 ?>
 <table style="border-collapse: collapse;" width="100%" border="0" cellspacing="2" cellpadding="2" align="center">
@@ -153,15 +151,15 @@ begin_page("device_tree.php", "Device Tree", 1);
 		Device Tree
 		</td>
 	</tr>
+	
 	<tr>
-
-	<td class="editheader" width="">Group</td>
-	<td class="editheader" width="">Device</td>
-	<td class="editheader" width="">Sub-Device</td>
-	<td class="editheader" width="">Monitors</td>
-	<td class="editheader" width="">Events</td>
-	<td class="editheader" width="">Status</td>
-
+		<td class="editheader" width="">Group</td>
+		<td class="editheader" width="">Device</td>
+		<td class="editheader" width="">Sub-Device</td>
+		<td class="editheader" width="">Monitors</td>
+		<td class="editheader" width="">Events</td>
+		<td class="editheader" width="">Status</td>
+	</tr>
 
 <?php
 
@@ -194,7 +192,7 @@ function draw_group($grp_id, $depth, &$rowcount, $init = false)
 		$grp_id = $grp_row["id"];
 		$grp_action = "";
 		$editgroup = ($_SESSION["netmrgsess"]["permit"] > 0) ? '<a class="editfield'.($rowcount%2).'" href="grpdev_list.php?parent_id='.$grp_id.'">'.
-		'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="center" />'.
+		'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="middle" />'.
 		'</a>'."\n" : "";
 		
 		// draw +- and create link for group to expand/collapse
@@ -216,15 +214,15 @@ function draw_group($grp_id, $depth, &$rowcount, $init = false)
 				array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
 make_nbsp($depth * 4) . 
-'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$grp_action.'&groupid='.$grp_id.'">'.
-'<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $grp_row["name"] ."\n".
+'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$grp_action.'&amp;groupid='.$grp_id.'">'.
+'<img src="' . $img . '" border="0" width="9" height="9" alt="expand/collapse" />' . "&nbsp;" . $grp_row["name"] ."\n".
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=group&object_id='.$grp_id.'">'.
-'<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'."\n".
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&amp;object_type=group&amp;object_id='.$grp_id.'">'.
+'<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="middle" />'."\n".
 '</a>'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&type=1&group_id='.$grp_id.'">'.
-'<img src="'.get_image_by_name("slideshow").'" width="15" height="15" border="0" alt="View" title="Slide Show" align="center" />'."\n".
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&amp;type=1&amp;group_id='.$grp_id.'">'.
+'<img src="'.get_image_by_name("slideshow").'" width="15" height="15" border="0" alt="View" title="Slide Show" align="middle" />'."\n".
 '</a>'."\n".
 $editgroup.
 '</td></tr></table>'."\n"
@@ -243,15 +241,15 @@ $editgroup.
 				array("text" =>
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
 make_nbsp($depth * 4) .
-'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$grp_action.'&groupid='.$grp_id.'">'.
-'<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $grp_row["name"] .
+'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$grp_action.'&amp;groupid='.$grp_id.'">'.
+'<img src="' . $img . '" border="0" width="9" height="9" alt="expand/collapse" />' . "&nbsp;" . $grp_row["name"] .
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=group&object_id='.$grp_id.'">'.
-'<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&amp;object_type=group&amp;object_id='.$grp_id.'">'.
+'<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="middle" />'.
 '</a>'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&type=1&group_id='.$grp_id.'">'.
-'<img src="'.get_image_by_name("slideshow").'" width="15" height="15" border="0" alt="View" title="Slide Show" align="center" />'."\n".
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=slideshow&amp;type=1&amp;group_id='.$grp_id.'">'.
+'<img src="'.get_image_by_name("slideshow").'" width="15" height="15" border="0" alt="View" title="Slide Show" align="middle" />'."\n".
 '</a>'."\n".
 $editgroup.
 '</td></tr></table>'."\n"
@@ -282,7 +280,7 @@ $editgroup.
 				$device_id = $dev_row["id"];
 				$device_action = "";
 				$editdevice = ($_SESSION["netmrgsess"]["permit"] > 0) ? '<a class="editfield'.($rowcount%2).'" href="sub_devices.php?dev_id='.$device_id.'">'.
-				'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="center" />'.
+				'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="middle" />'.
 				'</a>'."\n" : "";
 				
 				// draw +- and create link for device to expand/collapse
@@ -304,12 +302,12 @@ $editgroup.
 						array(),
 						array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
-'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$device_action.'&deviceid='.$device_id.'">'.
-'<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $dev_row["name"] .
+'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$device_action.'&amp;deviceid='.$device_id.'">'.
+'<img src="' . $img . '" border="0" width="9" height="9" alt="expand/collapse" />' . "&nbsp;" . $dev_row["name"] .
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=device&object_id='.$device_id.'">'.
-'<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&amp;object_type=device&amp;object_id='.$device_id.'">'.
+'<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="middle" />'.
 '</a>'."\n".
 $editdevice.
 '</td></tr></table>'."\n"
@@ -327,12 +325,12 @@ $editdevice.
 						array(),
 						array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
-'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$device_action.'&deviceid='.$device_id.'">'.
-'<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . $dev_row["name"] .
+'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$device_action.'&amp;deviceid='.$device_id.'">'.
+'<img src="' . $img . '" border="0" width="9" height="9" alt="expand/collapse" />' . "&nbsp;" . $dev_row["name"] .
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=device&object_id='.$device_id.'">'.
-'<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&amp;object_type=device&amp;object_id='.$device_id.'">'.
+'<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="middle" />'.
 '</a>'."\n".
 $editdevice.
 '</td></tr></table>'."\n"
@@ -356,7 +354,7 @@ $editdevice.
 						$subdev_id = $subdev_row["id"];
 						$subdev_action = "";
 						$editsubdevice = ($_SESSION["netmrgsess"]["permit"] > 0) ? '<a class="editfield'.($rowcount%2).'" href="monitors.php?sub_dev_id='.$subdev_id.'">'.
-						'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="center" />'.
+						'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="middle" />'.
 						'</a>'."\n" : "";
 						
 						// draw +- and create link for monitor expand/collapse
@@ -378,12 +376,12 @@ $editdevice.
 								array(),
 								array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
-'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$subdev_action.'&subdevid='.$subdev_id.'">'.
-'<img src="'. $img . '" border="0" width="9" height="9">' . "&nbsp;" . $subdev_row['name'].
+'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$subdev_action.'&amp;subdevid='.$subdev_id.'">'.
+'<img src="'. $img . '" border="0" width="9" height="9" alt="expand/collapse" />' . "&nbsp;" . $subdev_row['name'].
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=subdevice&object_id='.$subdev_id.'">'.
-'<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&amp;object_type=subdevice&amp;object_id='.$subdev_id.'">'.
+'<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="middle" />'.
 '</a>'."\n".
 $editsubdevice.
 '</td></tr></table>'."\n"
@@ -401,12 +399,12 @@ $editsubdevice.
 								array(),
 								array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
-'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$subdev_action.'&subdevid='.$subdev_id.'">'.
-'<img src="'. $img . '" border="0" width="9" height="9">' . "&nbsp;" . $subdev_row['name'].
+'<a class="editfield'.($rowcount%2).'" href="'.$_SERVER["PHP_SELF"] . '?action='.$subdev_action.'&amp;subdevid='.$subdev_id.'">'.
+'<img src="'. $img . '" border="0" width="9" height="9" alt="expand/collapse" />' . "&nbsp;" . $subdev_row['name'].
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&object_type=subdevice&object_id='.$subdev_id.'">'.
-'<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="center" />'.
+'<a class="editfield'.($rowcount%2).'" href="view.php?action=view&amp;object_type=subdevice&amp;object_id='.$subdev_id.'">'.
+'<img src="'.get_image_by_name("viewgraph-off").'" width="15" height="15" border="0" alt="View" title="View" align="middle" />'.
 '</a>'."\n".
 $editsubdevice.
 '</td></tr></table>'."\n"
@@ -430,7 +428,7 @@ $editsubdevice.
 								$mon_id = $mon_row["id"];
 								$monitor_action = "";
 								$editmonitor = ($_SESSION["netmrgsess"]["permit"] > 0) ? '<a class="editfield'.($rowcount%2).'" href="events.php?mon_id='.$mon_id.'">'.
-								'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="center" />'.
+								'<img src="'.get_image_by_name("edit").'" width="15" height="15" border="0" alt="edit" title="edit" align="middle" />'.
 								'</a>'."\n" : "";
 								
 								// draw +- and create link for monitor expand/collapse
@@ -450,12 +448,12 @@ $editsubdevice.
 									array(),
 									array("text" => 
 '<table cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td>'."\n".
-'<a class="editfield'.($rowcount%2).'" href="'. $_SERVER["PHP_SELF"] . '?action='.$monitor_action.'&monid='.$mon_id.'">'.
-'<img src="' . $img . '" border="0" width="9" height="9">' . "&nbsp;" . get_short_monitor_name($mon_row["id"]).
+'<a class="editfield'.($rowcount%2).'" href="'. $_SERVER["PHP_SELF"] . '?action='.$monitor_action.'&amp;monid='.$mon_id.'">'.
+'<img src="' . $img . '" border="0" width="9" height="9" alt="expand/collapse" />' . "&nbsp;" . get_short_monitor_name($mon_row["id"]).
 '</a>'."\n".
 '</td><td align="right">'."\n".
-'<a class="editfield'.($rowcount%2).'" href="enclose_graph.php?type=mon&id='.$mon_id.'">'.
-'<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="center"/>'.
+'<a class="editfield'.($rowcount%2).'" href="enclose_graph.php?type=mon&amp;id='.$mon_id.'">'.
+'<img src="'.get_image_by_name("viewgraph-on").'" width="15" height="15" border="0" alt="View" title="View" align="middle" />'.
 '</a>'."\n".
 $editmonitor.
 '</td></tr></table>'."\n"
@@ -480,11 +478,11 @@ $editmonitor.
 
 										if ($event_row["last_status"] == 1)
 										{
-											$img = ("<img src=\"" . get_image_by_name($color . "_led_on") . "\" border=\"0\">");
+											$img = ("<img src=\"" . get_image_by_name($color . "_led_on") . "\" border=\"0\" />");
 										}
 										else
 										{
-											$img = ("<img src=\"" . get_image_by_name($color . "_led_off") . "\" border=\"0\">");
+											$img = ("<img src=\"" . get_image_by_name($color . "_led_off") . "\" border=\"0\" />");
 										} // end if last status
 										make_display_item("editfield".($rowcount%2),
 											array(),

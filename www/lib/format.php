@@ -17,19 +17,6 @@
 *********************************************/
 
 /**
-* space_to_nbsp()
-*
-* converts all spaces in the string to non-breaking spaces
-*
-* @param string $input string w/ spaces to have replaced
-*/
-function space_to_nbsp($input)
-{
-	return str_replace(" ", "&nbsp;", $input);
-} // end space_to_nbsp();
-
-
-/**
 * begin_page()
 *
 * starts the page w/ basic HTML
@@ -39,141 +26,26 @@ function space_to_nbsp($input)
 * @param boolean $refresh    whether to refresh this page or not
 * @param string $bodytags    options for the <body> tag
 */
-function begin_page($pagename = "", $prettyname = "", $refresh = 0, $bodytags = "")
+function begin_page($pagename = "", $prettyname = "", $refresh = false, $bodytags = "", $javascript_files = array())
 {
 	// gather errors from prerequisits being met or not
 	$prereqs_errors = PrereqsMet();
 	
-	echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
+	// always include these javascripts
+	array_push($javascript_files, "navhide.js");
+	
+	DisplayPageHeader($pagename, $prettyname, $refresh, $bodytags, $javascript_files);
+	
+	if (IsLoggedIn() && !UpdaterNeedsRun() && count($prereqs_errors) == 0)
+	{
+		DisplayTopMenu();
+		//display_menu();
+	} // end if is logged in, show the menu
 ?>
-<!DOCTYPE html
-     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-     SYSTEM "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-	<title><?php
-	if (!empty($prettyname))
-	{
-		echo "$prettyname - ";
-	} // end if prettyname
-	echo $GLOBALS["netmrg"]["name"];
-	if (!empty($GLOBALS["netmrg"]["company"]))
-	{
-		echo " - {$GLOBALS['netmrg']['company']}";
-	} // end if company
-	?></title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/include/netmrg.css">
-<?php if ($refresh) { ?>
-	<meta http-equiv="refresh" content="300">
-<?php } ?>
-</head>
-<body <?php echo($bodytags); ?>>
+<div id="content">
 <?php
-if (!empty($pagename))
-{
-?>
-<!-- <?php echo $pagename; ?> -->
-<?php
-} // end if there's a pagename, output it
-?>
-<table class="titletable" cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr>
-	<td class="logo" rowspan="2" width="35">
-		<img src="<?php echo get_image_by_name("logo"); ?>" alt="logo" border="0">
-	</td>
-	<td class="title_name" rowspan="2" width="100%">
-		<a href="<?php echo $GLOBALS["netmrg"]["webhost"].$GLOBALS["netmrg"]["webroot"]; ?>" class="title_name">
-		<?php echo $GLOBALS["netmrg"]["name"]; ?>
-		</a>
-	</td>
-	<td class="company" align="right" valign="top">
-		<a class="company" href="<?php echo $GLOBALS["netmrg"]["companylink"]; ?>">
-		<?php echo(space_to_nbsp($GLOBALS["netmrg"]["company"])); ?>
-		</a>
-	</td>
-</tr>
-<tr>
-	<td class="logindata" align="left" valign="bottom">
-	<?php
-		if (IsLoggedIn())
-		{
-			echo '<span class="loggedintext">Logged&nbsp;in&nbsp;as&nbsp;</span>';
-			echo '<span class="loggedinuser">';
-			echo(space_to_nbsp($_SESSION["netmrgsess"]["prettyname"]));
-			echo "</span>\n";
-		}
-		else
-		{
-			echo '<span class="loggedouttext">Not&nbsp;Logged&nbsp;In</span>'."\n";
-		} // end if logged in or not
-	?>
-	</td>
-</tr>
-</table>
-<?php // needs some kind of spacing for IE.  A <br> is too much.
-?>
-<table cellspacing="0" cellpadding="0" border="0" width="100%">
-<tr>
-	<td class="empty" valign="top"><img src="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/img/trans.gif" width="4" height="1" alt="trans gif"></td>
-	<td valign="top">
-	<?php
-		if (IsLoggedIn() && !UpdaterNeedsRun() && count($prereqs_errors) == 0)
-		{
-			display_menu();
-		} // end if is logged in, show the menu
-	?>
-	<img src="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/img/trans.gif" width="125" height="1" alt="trans gif">
-	</td>
-	<td class="empty" valign="top"><img src="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/img/trans.gif" width="4" height="1" alt="trans gif"></td>
-	<td valign="top" width="100%">
-
-<?php
-	// if we need to run the updater, don't do anything else
-	if (IsLoggedIn() && (UpdaterNeedsRun() || count($prereqs_errors)))
-	{
-		if (UpdaterNeedsRun())
-		{
-			if (strpos($_SERVER["PHP_SELF"], "updater.php") !== false)
-			{
-				echo "<!-- updater needs run -->\n";
-				if ($_SESSION["netmrgsess"]["permit"] != 3)
-				{
-?>
-<!-- updater needs run and on updater page -->
-This installation is currently unusable due to a recent upgrade.  Please contact 
-your administrator to have the rest of the upgrade performed. <br />
-<a href="logout.php">logout</a><br />
-<?php
-					end_page();
-					exit();
-				} // end if not admin
-			}
-			else
-			{
-?>
-<!-- updater needs run and not on updater page -->
-Your installation is currently in an unusable state; please proceed to update 
-your installation <a href="updater.php">here</a><br />
-<a href="logout.php">logout</a><br />
-<?php
-				end_page();
-				exit();
-			} // end if updater needs run
-		} // end if updater needs run
-		
-		else if (count($prereqs_errors))
-		{
-			echo "<!-- prereqs not met -->\n";
-			foreach ($prereqs_errors as $error)
-			{
-				echo '<span style="color: red;">'.$error.'</span><br />'."\n";
-			} // end foreach prereq error
-			
-			end_page();
-			exit();
-		} // end if prereqs weren't met
-	} // end if logged in and updater needs run or prereqs weren't met
+	CheckInstallState();
 } // end begin_page()
 
 
@@ -186,9 +58,15 @@ your installation <a href="updater.php">here</a><br />
 function end_page() 
 {
 ?>
-	</td>
-</tr>
-</table>
+</div> <!-- end #content -->
+
+<div id="footer">
+	<a href="http://www.netmrg.net/">
+	<img src="<?php echo get_image_by_name("logo"); ?>" alt="logo" />
+	NetMRG
+	</a>
+	<a href="about.php">&copy; 2003-2004</a>
+</div> <!-- end #footer -->
 
 </body>
 </html>
@@ -197,15 +75,141 @@ function end_page()
 
 
 /**
+* DisplayPageHeader()
+*
+* draws the top of the page
+*
+* @param string $pagename    page that this is
+* @param string $prettyname  shown in the title bar
+* @param boolean $refresh    whether to refresh this page or not
+* @param string $bodytags    options for the <body> tag
+*/
+function DisplayPageHeader($pagename = "", $prettyname = "", $refresh = false, $bodytags = "", $javascript_files = array())
+{
+	echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
+?>
+<!DOCTYPE html 
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+	<title><?php print GetPageTitle($prettyname); ?></title>
+	
+	<link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/include/netmrg.css" />
+	
+<?php
+	if (count($javascript_files) > 0)
+	{
+		foreach ($javascript_files as $jsfile)
+		{
+			echo '	<script language="javascript" type="text/javascript" src="'.$GLOBALS["netmrg"]["webroot"].'/include/'.$jsfile.'"></script>'."\n";
+		} // end foreach jsfile
+	} // end if we have javascript to load
+?>
+	
+<?php if ($refresh) { ?>
+	<meta http-equiv="refresh" content="300" />
+<?php } ?>
+</head>
+
+<body <?php echo($bodytags); ?>>
+<?php if (!empty($pagename)) { ?>
+<!-- <?php echo $pagename; ?> -->
+<?php } // end if there's a pagename, output it ?>
+
+<div id="header">
+	<div id="headerinfo">
+		<div id="logindata">
+			<?php echo GetLoginInfo(); ?>
+		</div>
+	</div> <!-- end #headerinfo -->
+	<div id="company">
+		<a href="<?php echo $GLOBALS["netmrg"]["companylink"]; ?>">
+		<?php echo(space_to_nbsp($GLOBALS["netmrg"]["company"])); ?>
+		</a>
+	</div>
+</div> <!-- end #header -->
+
+<?php
+} // end DisplayPageHeader();
+
+
+/**
+* DisplayTopMenu();
+*
+* Displays a menu bar along the top of the page
+*/
+function DisplayTopMenu()
+{
+	global $MENU2;
+	$MENU = $MENU2;
+	
+	$menu_count = 0;
+	
+	echo '<div id="topmenu">'."\n";
+	
+	while (list($menuname, $menuitems) = each($MENU))
+	{
+		$hidden_style = "";
+		
+		// foreach menu item
+		$item_output = "";
+		$item_under_current_menu = false;
+		foreach ($menuitems as $menuitem)
+		{
+			if (basename($_SERVER["SCRIPT_NAME"]) == $menuitem["link"])
+			{
+				$item_under_current_menu = true;
+			} // end if we're in this group, display its menu items
+			
+			if ($_SESSION["netmrgsess"]["permit"] >= $menuitem["authLevelRequired"])
+			{
+				$item_output .= '		<li>'.MakeNavURI($menuitem["name"], $menuitem["link"], $menuitem["descr"])."</li>\n";
+			} // end if we have enough permissions to view this link
+		} // end foreach menu item
+		
+		echo '	<h2><a onclick="NavHide(\'topmenu_'.$menuname.'\');" href="#">';
+		echo $menuname;
+		echo "</a></h2>\n";
+		
+		// if we had some item output (ie, we had auth to view at least ONE item in this submenu)
+		// and we're under this current menu heading
+		if (!empty($item_output))
+		{
+			if (!$item_under_current_menu)
+			{
+				$hidden_style=' style="display: none;"';
+			} // end if we're not under the current header
+			
+			// output the head
+			echo '	<ul id="topmenu_'.$menuname.'"'.$hidden_style.">\n";
+
+			// echo the items
+			echo $item_output;
+
+			// echo the bottom part
+			echo "	</ul>\n";
+		} // end if item output wasn't empty
+		
+		$menu_count++;
+	} // end while we still have menu items
+	
+	echo "</div> <!-- end #topmenu -->\n\n";
+} // end DisplayTopMenu();
+
+
+/**
 * display_menu()
 *
-* draws our menu from the $MENU variable defined in stat.php
+* draws our menu from the $MENU variable defined in static.php
 */
 function display_menu()
 {
 	global $MENU;
-
-	echo '<table class="menutable" cellpadding="0" cellspacing="0" border="0">'."\n";
+	
+	echo '<div id="sidemenu">'."\n";
 	
 	while (list($menuname, $menuitems) = each($MENU))
 	{
@@ -215,35 +219,29 @@ function display_menu()
 		{
 			if ($_SESSION["netmrgsess"]["permit"] >= $menuitem["authLevelRequired"])
 			{
-				$item_output .= '<tr><td class="menuitem">'."\n";
-				$item_output .= '<a class="menuitem" href="'. $menuitem["link"] .'" name="'. $menuitem["descr"] .'">';
+				$item_output .= '		<li><a href="'. htmlentities($menuitem["link"]) .'" title="'. $menuitem["descr"] .'">';
 				$item_output .= $menuitem["name"];
-				$item_output .= "</a><br />\n";
-				$item_output .= "</td></tr>\n";
+				$item_output .= "</a></li>\n";
 			} // end if we have enough permissions to view this link
 		} // end foreach menu item
-
+		
 		// if we had some item output (ie, we had auth to view at least ONE item in this submenu)
 		if (!empty($item_output))
 		{
 			// output the head
-			echo '<tr><td class="menuhead">'."\n";
-			echo $menuname;
-			echo "</td></tr>\n";
+			echo '	<h2>'.$menuname."</h2>\n";
+			echo "	<ul>\n";
 
 			// echo the items
 			echo $item_output;
 
 			// echo the bottom part
-			echo '<tr><td class="menuitem">'."\n";
-			echo "<br />\n";
-			echo "</td></tr>\n";
+			echo "	</ul>\n";
 		} // end if item output wasn't empty
-
+		
 	} // end while we still have menu items
-
-	echo "</table>\n";
-
+	
+	echo "</div> <!-- end #sidemenu -->\n\n";
 } // end display_menu();
 
 
@@ -423,6 +421,178 @@ function DrawGroupNavHistory($type, $id)
 	</table>
 <?php
 } // end DrawGroupNavHistory();
+
+
+/**
+* GetPageTitle()
+*
+* returns the title for a page
+*/
+function GetPageTitle($prettyname = "")
+{
+	$pagetitle = "";
+	
+	if (!empty($prettyname))
+	{
+		$pagetitle .= "$prettyname - ";
+	} // end if prettyname
+	
+	$pagetitle .= $GLOBALS["netmrg"]["name"];
+	
+	if (!empty($GLOBALS["netmrg"]["company"]))
+	{
+		$pagetitle .= " - {$GLOBALS['netmrg']['company']}";
+	} // end if company
+	
+	return $pagetitle;
+} // end GetPageTitle();
+
+
+/**
+* GetLoginInfo()
+*
+* returns the login information for the page header
+*/
+function GetLoginInfo()
+{
+	$logintext = "";
+	
+	if (IsLoggedIn())
+	{
+		$logintext .= '<span class="loggedintext">Logged&nbsp;in&nbsp;as&nbsp;</span>';
+		$logintext .= '<span class="loggedinuser">';
+		$logintext .= space_to_nbsp($_SESSION["netmrgsess"]["prettyname"]);
+		$logintext .= "</span>\n";
+	}
+	else
+	{
+		$logintext .= '<span class="loggedouttext">Not&nbsp;Logged&nbsp;In</span>'."\n";
+	} // end if logged in or not
+	
+	return $logintext;
+} // end GetLoginInfo();
+
+
+/**
+* CheckInstallState()
+*
+* checks things like whether the updater needs run and the 
+* prerequisites are met before allowing you to view the rest
+* of the webpage
+*/
+function CheckInstallState()
+{
+	global $PERMIT;
+	
+	// if we need to run the updater, don't do anything else
+	if (IsLoggedIn() && (UpdaterNeedsRun() || count($prereqs_errors)))
+	{
+		if (UpdaterNeedsRun())
+		{
+			if (strpos($_SERVER["PHP_SELF"], "updater.php") !== false)
+			{
+				echo "<!-- updater needs run -->\n";
+				if ($_SESSION["netmrgsess"]["permit"] != $PERMIT['Admin'])
+				{
+?>
+<!-- updater needs run and on updater page -->
+This installation is currently unusable due to a recent upgrade.  Please contact 
+your administrator to have the rest of the upgrade performed. <br />
+<a href="logout.php">logout</a><br />
+<?php
+					end_page();
+					exit();
+				} // end if not admin
+			} // end if we're at the updater
+			else
+			{
+?>
+<!-- updater needs run and not on updater page -->
+Your installation is currently in an unusable state; please proceed to update 
+your installation <a href="updater.php">here</a><br />
+<a href="logout.php">logout</a><br />
+<?php
+				end_page();
+				exit();
+			} // end if we're not on the updater page
+		} // end if updater needs run
+		
+		else if (count($prereqs_errors))
+		{
+			echo "<!-- prereqs not met -->\n";
+			foreach ($prereqs_errors as $error)
+			{
+				echo '<span style="color: red;">'.$error.'</span><br />'."\n";
+			} // end foreach prereq error
+			
+			end_page();
+			exit();
+		} // end if prereqs weren't met
+	} // end if logged in and updater needs run or prereqs weren't met
+} // end CheckInstallState();
+
+
+/**
+* MakeNavURI($name, $link, $title, $onclick, $alias=array());
+*
+* makes a navigation uri link and will include #navcurrent id
+* if $link or items in $alias are equal to $_SERVER["SCRIPT_URL"]
+*/
+function MakeNavURI($name, $link, $title = "", $onclick = "", $alias=array())
+{
+	$currentid = "";
+	$a_title = "";
+	$a_onclick = "";
+	
+	array_push($alias, $link);
+	if (in_array(basename($_SERVER["SCRIPT_NAME"]), $alias))
+	{
+		$currentid = ' class="navcurrent"';
+	} // end if we're at the current page
+	
+	if (!empty($title))
+	{
+		$a_title = ' title="'.htmlentities($title).'"';
+	} // end if a title exists
+	
+	if (!empty($onclick))
+	{
+		$a_onclick = ' onclick="'.addslashes($onclick).'"';
+	} // end if a title exists
+	
+	return '<a'.$currentid.$a_title.$a_onclick.' href="'.htmlentities($link).'">'.$name.'</a>';
+} // end MakeNavURI();
+
+
+/**
+* space_to_nbsp()
+*
+* converts all spaces in the string to non-breaking spaces
+*
+* @param string $input string w/ spaces to have replaced
+*/
+function space_to_nbsp($input)
+{
+	return str_replace(" ", "&nbsp;", $input);
+} // end space_to_nbsp();
+
+
+/**
+* GetClassList($class_array)
+*
+* returns a string with the class items passed in $class_array()
+*/
+function GetClassList($class_array = array())
+{
+	$class_list = "";
+	
+	if (count($class_array) > 0)
+	{
+		$class_list = ' class="'.implode(' ', $class_array).'"';
+	} // end if class items
+	
+	return $class_list;
+} // end GetClassList();
 
 
 
