@@ -10,9 +10,9 @@ all :
 	batik-rasterizer -h 15 status-critical-trig.svg
 	cat status.svg | perl -ne 's/#7f7f7f/#ff0000/; s/#4c4c4c/#7f4c4c/; print;' > status-critical-untrig.svg
 	batik-rasterizer -h 15 status-critical-untrig.svg
-	cat status.svg | perl -ne 's/#7f7f7f/#00bf00/; s/#4c4c4c/#34cb32/; print;' > status-good-trig.svg
+	cat status.svg | perl -ne 's/#7f7f7f/#009000/; s/#4c4c4c/#009000/; print;' > status-good-trig.svg
 	batik-rasterizer -h 15 status-good-trig.svg
-	cat status.svg | perl -ne 's/#7f7f7f/#00bf00/; s/#4c4c4c/#347f34/; print;' > status-good-untrig.svg
+	cat status.svg | perl -ne 's/#7f7f7f/#009000/; s/#4c4c4c/#002000/; print;' > status-good-untrig.svg
 	batik-rasterizer -h 15 status-good-untrig.svg
 	cat status.svg | perl -ne 's/#7f7f7f/#0000bf/; s/#4c4c4c/#4c4cc0/; print;' > status-unknown-trig.svg
 	batik-rasterizer -h 15 status-unknown-trig.svg

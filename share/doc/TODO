@@ -37,6 +37,8 @@ make netmrg xhtml compliant
 make icons for links on various pages
   - make svg images for most actions
     * edit interfaces
+these pages don't do auth
+  - enclose_graph.php get_graph.php view.php
 
 
 == balleman ==
