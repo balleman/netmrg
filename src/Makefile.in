@@ -17,7 +17,7 @@
 #
 # Makefile
 #
-# Version:	$Id: Makefile.in,v 1.6 2003/07/17 01:57:32 silfreed Exp $
+# Version:	$Id: Makefile.in,v 1.7 2003/07/17 02:12:26 silfreed Exp $
 #
 SHELL = @SHELL@
 
@@ -84,11 +84,11 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-netmrg_SOURCES = db.cpp devices.cpp events.cpp locks.cpp mappings.cpp monitors.cpp netmrg.cpp rrd.cpp settings.cpp snmp.cpp utils.cpp
+netmrg_gatherer_SOURCES = db.cpp devices.cpp events.cpp locks.cpp mappings.cpp monitors.cpp netmrg.cpp rrd.cpp settings.cpp snmp.cpp utils.cpp
 
 noinst_HEADERS = include/common.h include/db.h include/devices.h include/events.h include/locks.h include/mappings.h include/monitors.h include/netmrg.h include/rrd.h include/settings.h include/snmp.h include/types.h include/utils.h
 
-noinst_PROGRAMS = netmrg
+noinst_PROGRAMS = netmrg-gatherer
 
 INCLUDES = -I./include
 subdir = .
@@ -96,17 +96,17 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/../mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES =
-noinst_PROGRAMS = netmrg$(EXEEXT)
+noinst_PROGRAMS = netmrg-gatherer$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
 
-am_netmrg_OBJECTS = db.$(OBJEXT) devices.$(OBJEXT) events.$(OBJEXT) \
-	locks.$(OBJEXT) mappings.$(OBJEXT) monitors.$(OBJEXT) \
-	netmrg.$(OBJEXT) rrd.$(OBJEXT) settings.$(OBJEXT) \
-	snmp.$(OBJEXT) utils.$(OBJEXT)
-netmrg_OBJECTS = $(am_netmrg_OBJECTS)
-netmrg_LDADD = $(LDADD)
-netmrg_DEPENDENCIES =
-netmrg_LDFLAGS =
+am_netmrg_gatherer_OBJECTS = db.$(OBJEXT) devices.$(OBJEXT) \
+	events.$(OBJEXT) locks.$(OBJEXT) mappings.$(OBJEXT) \
+	monitors.$(OBJEXT) netmrg.$(OBJEXT) rrd.$(OBJEXT) \
+	settings.$(OBJEXT) snmp.$(OBJEXT) utils.$(OBJEXT)
+netmrg_gatherer_OBJECTS = $(am_netmrg_gatherer_OBJECTS)
+netmrg_gatherer_LDADD = $(LDADD)
+netmrg_gatherer_DEPENDENCIES =
+netmrg_gatherer_LDFLAGS =
 
 DEFS = @DEFS@
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I$(top_builddir)/include
@@ -127,14 +127,14 @@ CXXLD = $(CXX)
 CXXLINK = $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) \
 	-o $@
 CXXFLAGS = @CXXFLAGS@
-DIST_SOURCES = $(netmrg_SOURCES)
+DIST_SOURCES = $(netmrg_gatherer_SOURCES)
 HEADERS = $(noinst_HEADERS)
 
 DIST_COMMON = $(noinst_HEADERS) ../config.guess ../config.sub \
 	../depcomp ../install-sh ../missing ../mkinstalldirs \
 	./include/config.h.in Makefile.am Makefile.in aclocal.m4 \
 	configure configure.ac
-SOURCES = $(netmrg_SOURCES)
+SOURCES = $(netmrg_gatherer_SOURCES)
 
 all: all-am
 
@@ -176,9 +176,9 @@ distclean-hdr:
 
 clean-noinstPROGRAMS:
 	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
-netmrg$(EXEEXT): $(netmrg_OBJECTS) $(netmrg_DEPENDENCIES) 
-	@rm -f netmrg$(EXEEXT)
-	$(CXXLINK) $(netmrg_LDFLAGS) $(netmrg_OBJECTS) $(netmrg_LDADD) $(LIBS)
+netmrg-gatherer$(EXEEXT): $(netmrg_gatherer_OBJECTS) $(netmrg_gatherer_DEPENDENCIES) 
+	@rm -f netmrg-gatherer$(EXEEXT)
+	$(CXXLINK) $(netmrg_gatherer_LDFLAGS) $(netmrg_gatherer_OBJECTS) $(netmrg_gatherer_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
