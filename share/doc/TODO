@@ -84,3 +84,6 @@ upload to sourceforge.net
 cvs commit -f aclocal.m4 Makefile.in etc/Makefile.in www/Makefile.in \
   src/Makefile.in src/include/config.h.in configure
 
+== tagging cvs ==
+cvs tag -r HEAD netmrg-0_17cvs
+
