@@ -1,3 +1,6 @@
+2004.01.10  v0.13  balleman
+  - bug#0000149 - recache.php security issues
+
 2004.01.04  v0.13  balleman
   - bug#0000058 - get logos in the docbook manual
   - copyright year bump

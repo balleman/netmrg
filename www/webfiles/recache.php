@@ -10,8 +10,11 @@
 
 require_once("../include/config.php");
 
+check_auth(2);
+
 if (isset($_REQUEST['type']) && isset($_REQUEST['dev_id']))
 {
+	$_REQUEST['dev_id'] = intval($_REQUEST['dev_id']);
 	switch ($_REQUEST['type'])
 	{
 		case "interface":	do_interface_recache($_REQUEST['dev_id']); 	break;
