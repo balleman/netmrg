@@ -23,7 +23,7 @@
 
 
 // Paths
-#define DEF_CONFIG_FILE     "@exec_prefix@/etc/netmrg.conf"
+#define DEF_CONFIG_FILE     "@exec_prefix@/etc/netmrg.xml"
 #define DEF_LOCKFILE        "@prefix@/var/log/netmrg/lockfile"
 #define DEF_RUNTIME_FILE    "@prefix@/var/log/netmrg/runtime"
 #define DEF_RRDTOOL         "@RRDTOOL@"
