@@ -44,7 +44,7 @@ elseif ($_REQUEST["action"] == "doedit")
 	else
 	{
 		$db_cmd = "UPDATE";
-		$db_end = "WHERE name=\"{$_REQUEST['name']}\" AND sub_dev_id={$_REQUEST['sub_dev_id']}";
+		$db_end = "WHERE name=\"{$_REQUEST['oldname']}\" AND sub_dev_id={$_REQUEST['sub_dev_id']}";
 	}
 
 	do_update("$db_cmd sub_dev_variables SET
@@ -60,6 +60,7 @@ elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 {
 	check_auth(2);
 	begin_page("sub_dev_param.php", "Add/Edit Sub Device Parameter");
+       	make_edit_table("Sub-Device Parameter");
 
 	if ($_REQUEST["action"] == "edit")
 	{
@@ -67,6 +68,7 @@ elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 		if (mysql_num_rows($query) > 0)
 		{
 			$row   = mysql_fetch_array($query);
+			make_edit_hidden("oldname", $row['name']);
 		}
 	}
 	else
@@ -75,13 +77,9 @@ elseif (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 		$row["value"] = "";
 	}
 
-	make_edit_table("Sub-Device Parameter");
         make_edit_text("Name:", "name", 40, 80, $row["name"]);
 	make_edit_text("Value:", "value", 40, 80, $row["value"]);
-	if ($row["name"] == "")
-	{
-	        make_edit_hidden("type", "add");
-	}
+        make_edit_hidden("type", $_REQUEST['action']);
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("sub_dev_id",$_REQUEST["sub_dev_id"]);
 	make_edit_submit_button();

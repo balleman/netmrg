@@ -1245,6 +1245,8 @@ void process_device(int dev_id)
 	db_update(&mysql, &info, "UPDATE mon_devices SET status=" + inttostr(status) + " WHERE id=" + inttostr(dev_id));
 
 	mysql_close(&mysql);
+	
+	debuglogger(DEBUG_DEVICE, &info, "Ending device thread.");
 
 
 } // end process_device
@@ -1257,8 +1259,6 @@ void *child(void * arg)
 	int device_id = *(int *) arg;
 
 	process_device(device_id);
-
-	debuglogger(DEBUG_THREAD, NULL, "Closing Thread...");
 
 	pthread_mutex_lock(&active_threads_lock);
 	active_threads--;
