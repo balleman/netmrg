@@ -77,6 +77,8 @@ function display()
 	/*** END GROUPS ***/
 	
 	/*** DEVICES ***/
+	if (!empty($_REQUEST["parent_id"]))
+	{
 	$addlink = "devices.php?action=add&grp_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}";
 	$grp_name = db_fetch_cell("SELECT name FROM groups WHERE id = '{$_REQUEST['parent_id']}'");
 	$title = (empty($grp_name)) ? "Monitored Devices" : "Monitored Devices in Group '$grp_name'";
@@ -125,6 +127,7 @@ function display()
 </table>
 <br />
 <?php
+	} // end if no parents, do do groups
 	/*** END DEVICES ***/
 	
 	end_page();

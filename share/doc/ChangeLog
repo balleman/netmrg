@@ -4,6 +4,7 @@
   - bug#0000175 - in_array() can't take an array as needle in PHP < 4.2.0
   - bug#0000174 - srand() needs seeded in php < 4.2.0
   - bug#0000167 - don't allow non-SVO users to be chroot'd
+  - bug#0000170 - don't allow devices in root group
 
 2004.05.06  v0.15cvs  balleman
   - bug#0000188 - Select All/None/Invert for checkboxes
