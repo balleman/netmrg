@@ -1,3 +1,8 @@
+== requirements for 0.10pre2 ==
+easier && more documented builds in freebsd
+bug#0000020: custom polling intervals
+
+
 == global ==
 device duplication
 documentation
@@ -9,50 +14,12 @@ page titles should reflect where you're at
 view page should reflect status information
   (based on status of monitors of graphs)
 user preferences
-  themes
+  themes passwords
 a device's type can affect the list of tests that can be performed on it
 when looking at a device's graphs, you should be able to click next to it
   and follow it to the next device (if applicable)
 ensure proper escaping in all queries
-get a real directory tree
-  ideal cvs tree
-    migration
-      bin
-      cmd -> libexec
-      dat -> var/log
-      db -> share/
-      doc -> share/doc
-      images -> share/images
-      include -> www/include
-      lib -> www/lib
-      rrd -> var/lib/rrd
-      src
-      www -> var/webfiles
-    ends up like
-      bin
-      etc
-      libexec
-      share
-        /doc
-        /images
-      src
-        /include
-      www
-        /include
-        /lib
-        /webfiles
-      var
-        /log
-        /lib
-  ideal install
-    $(EPREFIX)/bin (netmrg-gatherer)
-    $(EPREFIX)/etc (netmrg.conf)
-    $(EPREFIX)/libexec (tests)
-    $(EPREFIX)/share/netmrg (images, db)
-    $(EPREFIX)/share/doc/netmrg (docs)
-    $(PREFIX)/var/www/netmrg (include, lib, webfiles)
-    $(PREFIX)/var/lib/netmrg (rrd)
-    $(PREFIX)/var/log/netmrg (lockfile)
+
 
 == silfreed ==
 public website
@@ -70,6 +37,7 @@ make icons for links on various pages
   - portability
    - freebsd
    - solaris
+
 
 == far-away features ==
 customized 'view' page
@@ -89,4 +57,5 @@ wizards
   - /wizard dir
   - index.php reads in other files to know name, description, etc
   - used for generating/updating special/large devices (catalyst switches, maxtnts)
+
 
