@@ -163,10 +163,10 @@ function view_disk_cache()
 
 ?>
 	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
-	<input type="hidden" name="action" value="">
-	<input type="hidden" name="dev_id" value="<?php echo $_REQUEST["dev_id"]; ?>">
-	<input type="hidden" name="tripid" value="<?php echo $_REQUEST["tripid"]; ?>">
 <?php
+	make_edit_hidden("action", "");
+	make_edit_hidden("dev_id", $_REQUEST["dev_id"]);
+	make_edit_hidden("tripid", $_REQUEST["tripid"]);
 	make_plain_display_table("$dev_name - Disk Cache",
 		checkbox_toolbar(), "",
 		"Index", "",
@@ -255,12 +255,12 @@ function view_interface_cache()
 
 ?>
 	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
-	<input type="hidden" name="action" value="">
-	<input type="hidden" name="dev_id" value="<?php echo $_REQUEST["dev_id"]; ?>">
-	<input type="hidden" name="tripid" value="<?php echo $_REQUEST["tripid"]; ?>">
-	<input type="hidden" name="type" value="interface">
-	<input type="hidden" name="index" value="">
 <?php
+	make_edit_hidden("action", "");
+	make_edit_hidden("dev_id", $_REQUEST["dev_id"]);
+	make_edit_hidden("tripid", $_REQUEST["tripid"]);
+	make_edit_hidden("type", "interface");
+	make_edit_hidden("index", "");
 	make_plain_display_table("$dev_name - Interface Cache",
 		checkbox_toolbar(), "",
 		"Index",        "$sort_href=ifIndex",
