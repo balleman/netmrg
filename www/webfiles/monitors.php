@@ -66,11 +66,22 @@ function do_list()
 	); // end make_display_table();
 
 	$mon_results = db_query("SELECT * FROM monitors WHERE sub_dev_id='{$_REQUEST['sub_dev_id']}'");
-	$mon_total = db_num_rows($mon_results);
-
-	for ($mon_count = 0; $mon_count < $mon_total; $mon_count++)
+	$mons = array();
+	while ($arow = mysql_fetch_array($mon_results))
 	{
-		$mon_row = db_fetch_array($mon_results);
+		$arow['short_name'] = get_short_monitor_name($arow["id"]);
+		array_push($mons, $arow);
+	}
+
+	function mon_sort($a, $b)
+	{
+		return strcmp($a['short_name'], $b['short_name']);
+	}
+
+	usort($mons, mon_sort);
+
+	foreach ($mons as $mon_row)
+	{
 		$mon_id  = $mon_row["id"];
 
 		if ($mon_row["data_type"] != -1)
@@ -115,8 +126,7 @@ function do_list()
 				<td>'. $mon_row["last_time"] .'</td></tr>
 			</table>';
 
-		$short_name = get_short_monitor_name($mon_row["id"]);
-		$html_name = htmlspecialchars($short_name);
+		$html_name = htmlspecialchars($mon_row['short_name']);
 		$java_name = addslashes($html_name);
 
 		make_display_item("editfield".($mon_count%2),

@@ -843,20 +843,40 @@ function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 
 	LEFT JOIN sub_devices ON monitors.sub_dev_id=sub_devices.id
 	LEFT JOIN devices ON sub_devices.dev_id=devices.id
-
-	ORDER BY dev_name, sub_name, id
-
         ");
 
-        $mon_total = db_num_rows($mon_results);
-
-	for ($mon_count = 1; $mon_count <= $mon_total; ++$mon_count)
+	$mons = array();
+	while ($arow = mysql_fetch_array($mon_results))
 	{
+		$arow['mon_name'] = get_monitor_name($arow['id']);
+		array_push($mons, $arow);
+	}
 
-		$mon_row = db_fetch_array($mon_results);
+	function mon_sort($a, $b)
+	{
+		if ($a['dev_name'] == $b['dev_name'])
+		{
+			if ($a['sub_name'] == $b['sub_name'])
+			{
+				return strcmp($a['mon_name'], $b['mon_name']);
+			}
+			else
+			{
+				return strcmp($a['sub_name'], $b['sub_name']);
+			}
+		}
+		else
+		{
+			return strcmp($a['dev_name'], $b['dev_name']);
+		}
+	}
+
+	usort($mons, mon_sort);
+
+	foreach ($mons as $mon_row)
+	{
 		$mon_id = $mon_row["id"];
-		$mon_name = get_monitor_name($mon_id);
-	        make_edit_select_option($mon_name, $mon_id, $mon_id_cur == $mon_id);
+	        make_edit_select_option($mon_row['mon_name'], $mon_id, $mon_id_cur == $mon_id);
 	}
 
 	make_edit_select_end();
