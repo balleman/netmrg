@@ -110,7 +110,7 @@ void snmp_session_init(DeviceInfo &info)
 	snmp_sess_init(&session);
 
 	// set hostname or IP address (and port)
-	snprintf(temp, sizeof(temp), "%s:%d", info.ip.c_str(), info.snmp_port);
+	snprintf(temp, 250, "%s:%d", info.ip.c_str(), info.snmp_port);
 	session.peername = temp;
 
 	// set the SNMP version number
@@ -132,7 +132,7 @@ void snmp_session_init(DeviceInfo &info)
 	session.retries = info.snmp_retries;
 
 	char log[255];
-	snprintf(log, sizeof(log), "Port: %d; Timeout: %d; Retries: %d.", info.snmp_port, info.snmp_timeout, info.snmp_retries);
+	snprintf(log, 255, "Port: %d; Timeout: %d; Retries: %d.", info.snmp_port, info.snmp_timeout, info.snmp_retries);
 	debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, log);
 		
 	// set the SNMPv1/2c community name used for authentication
