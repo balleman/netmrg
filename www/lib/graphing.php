@@ -26,9 +26,14 @@ function dereference_templated_monitor($mon_id, $subdev_id)
 		$row['test_params'] = db_escape_string($row['test_params']);
 		
 		$query2	= db_query("SELECT id FROM monitors WHERE sub_dev_id='$subdev_id' AND test_id='{$row['test_id']}' AND test_type='{$row['test_type']}' AND test_params='{$row['test_params']}'");
-		$row2   = db_fetch_array($query2);
-	
-		return $row2["id"];
+		if ($row2 = db_fetch_array($query2))
+		{
+			return $row2["id"];
+		}
+		else
+		{
+			return false;
+		}
 	}
 	else
 	{
