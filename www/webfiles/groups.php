@@ -34,13 +34,13 @@ switch ($_REQUEST["action"])
 		
 	case "update" :
 		check_auth($PERMIT["ReadWrite"]);
-		update_group($_REQUEST["grp_id"], $_REQUEST["grp_name"], $_REQUEST["grp_comment"], $_REQUEST["parent_id"]);
+		update_group($_REQUEST["grp_id"], $_REQUEST["grp_name"], $_REQUEST["grp_comment"], $_REQUEST["edit_parent_id"]);
 		display();
 		break;
 		
 	case "insert" :
 		check_auth($PERMIT["ReadWrite"]);
-		create_group($_REQUEST["grp_name"], $_REQUEST["grp_comment"], $_REQUEST["parent_id"]);
+		create_group($_REQUEST["grp_name"], $_REQUEST["grp_comment"], $_REQUEST["edit_parent_id"]);
 		display();
 		break;
 		
@@ -76,7 +76,7 @@ function edit()
 	make_edit_table("Edit Group");
 	make_edit_text("Name:","grp_name","25","100",$grp_name);
 	make_edit_text("Comment:","grp_comment","50","200",$grp_comment);
-	make_edit_select_from_table("Parent:", "parent_id", "groups", $grp_row["parent_id"], "", array(0 => "-Root-"), array(), "id != '$grp_id'");
+	make_edit_select_from_table("Parent:", "edit_parent_id", "groups", $grp_row["parent_id"], "", array(0 => "-Root-"), array(), "id != '$grp_id'");
 	make_edit_hidden("grp_id", $grp_id);
 	make_edit_hidden("action","update");
 	make_edit_hidden("parent_id",$_REQUEST["parent_id"]);

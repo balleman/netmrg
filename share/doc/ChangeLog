@@ -1,3 +1,6 @@
+2004.09.07  v0.17cvs  silfreed
+  - bug#0000267 - Device Group can't be reassigned to a new Parent
+
 2004.09.03  v0.17cvs  balleman
   - bug#0000102 - monitors.php checkboxes
 
