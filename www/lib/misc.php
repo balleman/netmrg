@@ -30,12 +30,13 @@ function get_img_tag_from_status($status)
 
 function get_color_from_situation($situation)
 {
-	switch ($situation) {
-		case 0: $color = "blue"; break;
-		case 1: $color = "green"; break;
-		case 2: $color = "yellow"; break;
-		case 3: $color = "red"; break;
-		default: $color = "blue"; break;
+	switch ($situation)
+	{
+		case 0: 	$color = "blue";	break;
+		case 1: 	$color = "green";	break;
+		case 2: 	$color = "yellow";	break;
+		case 3: 	$color = "red"; 	break;
+		default:	$color = "blue";	break;
 	} // end switch situation
 	
 	return $color;

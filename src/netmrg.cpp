@@ -555,7 +555,7 @@ int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 	}
 	else
 	{
-                string query =
+		string query =
 		string("SELECT disk_index, disk_path, disk_device FROM snmp_disk_cache WHERE dev_id=") +
 		inttostr(info->device_id) + string(" AND ") + index + "=\"" + value + "\"";
 
@@ -583,7 +583,7 @@ int setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 		}
 		else
 		{
-		        debuglogger(DEBUG_SUBDEVICE, info, "Disk index not found.");
+			debuglogger(DEBUG_SUBDEVICE, info, "Disk index not found.");
 			retval = -2;
 		}
 
@@ -655,34 +655,33 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
         		mutex_unlock(lkMySQL);
                         debuglogger(DEBUG_GATHERER, &info, "Test MySQL Connection Failure.");
         	}
-                else
-                {
-                        mutex_unlock(lkMySQL);
-
-                        if (mysql_query(&test_mysql, test_query.c_str()))
-	                {
-		                debuglogger(DEBUG_GATHERER, &info, "Test MySQL Query Failed (" + test_query + ")");
+			else
+			{
+				mutex_unlock(lkMySQL);
+				if (mysql_query(&test_mysql, test_query.c_str()))
+				{
+					debuglogger(DEBUG_GATHERER, &info, "Test MySQL Query Failed (" + test_query + ")");
+				}
+				else
+				if (!(test_res = mysql_store_result(&test_mysql)))
+				{
+					debuglogger(DEBUG_GATHERER, &info, "Test MySQL Store Result failed.");
+				}
+				else
+				{
+					test_row = mysql_fetch_row(test_res);
+					//debuglogger(DEBUG_GATHERER, &info, "Res: " + string(test_row[0]));
+					value = string(test_row[strtoint(mysql_row[4])]);
+					mysql_free_result(test_res);
+					mysql_close(&test_mysql);
+				}
 			}
-                        else
-                	if (!(test_res = mysql_store_result(&test_mysql)))
-	                {
-		                debuglogger(DEBUG_GATHERER, &info, "Test MySQL Store Result failed.");
-                	}
-                        else
-                        {
-                                test_row = mysql_fetch_row(test_res);
-                                //debuglogger(DEBUG_GATHERER, &info, "Res: " + string(test_row[0]));
-                                value = string(test_row[strtoint(mysql_row[4])]);
-                                mysql_free_result(test_res);
-                                mysql_close(&test_mysql);
-                        }
-                }
-         }
-         else
-         {
-                debuglogger(DEBUG_MONITOR, &info, "Unknown SQL Test (" +
-		        inttostr(info.test_id) + ").");
-         }
+		}
+		else
+		{
+			debuglogger(DEBUG_MONITOR, &info, "Unknown SQL Test (" +
+			inttostr(info.test_id) + ").");
+		}
 
          mysql_free_result(mysql_res);
          return value;
@@ -775,7 +774,7 @@ string process_snmp_monitor(DeviceInfo info, MYSQL *mysql)
 	{
 		value = "U";
 		debuglogger(DEBUG_MONITOR, &info, "Unknown SNMP Test (" +
-			inttostr(info.test_id) + ").");
+		inttostr(info.test_id) + ").");
 	}
 
 	mysql_free_result(mysql_res);
@@ -811,7 +810,7 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 
 	debuglogger(DEBUG_MONITOR, &info, "Value: " + info.curr_val);
 
-        if (rrd.data_type != "")
+	if (rrd.data_type != "")
 	{
 		update_monitor_rrd(info, rrd);
 	}
@@ -857,12 +856,11 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 		string("SELECT name, value FROM sub_dev_variables WHERE type = 'static' AND sub_dev_id = ") +
 		inttostr(info.subdevice_id);
 
-        mysql_res = db_query(mysql, &info, query);
+	mysql_res = db_query(mysql, &info, query);
 
 	for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
 	{
-	        mysql_row = mysql_fetch_row(mysql_res);
-
+		mysql_row = mysql_fetch_row(mysql_res);
 		info.parameters.push_front(ValuePair(mysql_row[0], mysql_row[1]));
 	}
 

@@ -107,7 +107,7 @@ function align_left($string, $length)
 function align_right_split($string, $length)
 {
 	$space_length = $length - strlen($string);
-	$pos = strrchr($string," ");
+	$pos = strrchr($string, " ");
 	return(substr($string, 0, -strlen($pos)) . make_spaces($space_length) . $pos);
 } //end align_right_split
 
@@ -135,7 +135,7 @@ function do_align($string, $length, $method)
 
 function get_microtime()
 {
-    list($usec, $sec) = explode(" ",microtime());
+    list($usec, $sec) = explode(" ", microtime());
     return ((float)$usec + (float)$sec);
 }
 
@@ -144,6 +144,9 @@ function isin($haystack, $needle)
 {
 	return is_integer(strpos($haystack, $needle));
 }
+
+
+// Templating Functions
 
 function expand_parameters($input, $subdev_id)
 {
@@ -155,8 +158,33 @@ function expand_parameters($input, $subdev_id)
 	}
 	
 	return $input;
+}  // expand_parameters()
 
-}
+function apply_template($subdev_id, $template_id)
+{
+	
+	// add the appropriate monitors to the subdevice
+	$q = do_query("SELECT data_type, test_id, test_type, test_params FROM graph_ds, monitors WHERE graph_ds.graph_id=$template_id AND graph_ds.mon_id=monitors.id");	
+	for ($i = 0; $i < mysql_num_rows($q); $i++)
+	{
+		$row = mysql_fetch_array($q);
+		do_update("INSERT INTO monitors SET sub_dev_id=$subdev_id, data_type={$row['data_type']}, test_id={$row['test_id']}, test_type={$row['test_type']}, test_params='{$row['test_params']}'");
+	}
+	
+	// add templated graph to the device's view
+	$q = do_query("SELECT dev_id FROM sub_devices WHERE id=$subdev_id");
+	$sd_row = mysql_fetch_array($q);
+	
+	$q = do_query("SELECT max(pos)+1 AS newpos FROM view WHERE object_type='device' AND object_id={$sd_row['dev_id']}");
+	$pos_row = mysql_fetch_array($q);
+	if (!isset($pos_row['newpos']) || empty($pos_row['newpos']))
+	{
+		$pos_row['newpos'] = 1;
+	}
+	
+	do_update("INSERT INTO view SET object_id={$sd_row['dev_id']}, object_type='device', graph_id=$template_id, type='template', pos={$pos_row['newpos']}, subdev_id=$subdev_id");
+	
+}  // apply_template()
 
 // Recursive status determination section
 

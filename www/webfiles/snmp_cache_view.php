@@ -27,74 +27,44 @@ function view_cache()
 
 function make_graph()
 {
+	check_auth(2);
 
-	if (isset($_REQUEST["graph"]))
+	// get snmp index data
+	$q_snmp = do_query("SELECT * FROM snmp_interface_cache WHERE dev_id={$_REQUEST['dev_id']} AND ifIndex='{$_REQUEST['index']}'");
+	$r_snmp = mysql_fetch_array($q_snmp);
+
+	if (isset($r_snmp["ifName"]) && !empty($r_snmp["ifName"]))
 	{
-		check_auth(2);
+		$index_type = "ifName";
+	}
+	elseif (isset($r_snmp["ifDescr"]) && !empty($r_snmp["ifDescr"]))
+	{
+		$index_type = "ifDescr";
+	}
+	elseif (isset($r_snmp["ifIP"]) && !empty($r_snmp["ifIP"]))
+	{
+		$index_type = "ifIP";
+	}
+	else
+	{
+		$index_type = "ifIndex";
+	}
 
-		// get some data to play with
-		$q_dev = do_query("SELECT * FROM devices WHERE id={$_REQUEST['dev_id']}");
-		$r_dev = mysql_fetch_array($q_dev);
+	$index_value = $r_snmp[$index_type];
 
-		$q_snmp = do_query("SELECT * FROM snmp_cache WHERE dev_id={$_REQUEST['dev_id']} AND if_index='{$_REQUEST['index']}'");
-		$r_snmp = mysql_fetch_array($q_snmp);
+	// create the subdevice
+	do_update("INSERT INTO sub_devices SET dev_id={$_REQUEST['dev_id']}, type=2, name='$index_value'");
+	$sd_id = mysql_insert_id();
+	do_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='$index_type', value='$index_value'");
+	do_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='ifIndex', value='{$_REQUEST['index']}', type='dynamic'");
 
-		// add two monitors, if ifName defined, use it, otherwise use ifIndex
-		if ($r_snmp["if_name"] != "")
-		{
-			$snmp_val = $r_snmp["if_name"];
-			$snmp_type = 3;
-		}
-		else
-		{
-			$snmp_val = $_REQUEST["index"];
-			$snmp_type = 2;
-		} // end if ifname empty
-		do_update("INSERT INTO mon_monitors SET device_id='{$_REQUEST['dev_id']}',
-			test_id='0', params='', rrd_id='2', graphed='1', snmp_test='0',
-			snmp_index_type='$snmp_type', snmp_index_value='$snmp_val',
-			snmp_data='3', disk_index_type='0', disk_index_value='',
-			disk_data='0', mon_type='3'");
-		$mon_id_1 = mysql_insert_id();
-		do_update("INSERT INTO mon_monitors SET device_id='{$_REQUEST['dev_id']}',
-			test_id='0', params='', rrd_id='2', graphed='1', snmp_test='0',
-			snmp_index_type='$snmp_type', snmp_index_value='$snmp_val',
-			snmp_data='8', disk_index_type='0', disk_index_value='',
-			disk_data='0', mon_type='3'");
-		$mon_id_2 = mysql_insert_id();
+	// add monitors and associate template
+	apply_template($sd_id, $GLOBALS["netmrg"]["traffictemplateid"]);
 
+	// redirect
+	header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&type=interface&action=view");
+	exit(0);
 
-		// add graph
-		do_update("INSERT INTO graphs SET name=\"" . $r_dev["name"] . " - " . $r_snmp["if_alias"]  . "\",
-			comment=\"Interface: " . $r_snmp["if_name"] . "\"," . ' xsize=400, ysize=100' .
-			', vert_label="' . 'Bytes Per Second", show_legend=1');
-		$graph_id = mysql_insert_id();
-
-		// add graph DS's
-		do_update("INSERT INTO graph_ds SET " .
-			'src_type=' . "0" . ',' .
-			'src_id=' . $mon_id_1 . ',' .
-			'color="' . '#00EE00' . '",' .
-			'type=' . "4" . ',' .
-			'graph_id=' . $graph_id . ',' .
-			'label="' . 'Inbound' . '"');
-
-		do_update("INSERT INTO graph_ds SET " .
-			'src_type=' . "0" . ',' .
-			'src_id=' . $mon_id_2 . ',' .
-			'color="' . '#0000EE' . '",' .
-			'type=' . "2" . ',' .
-			'graph_id=' . $graph_id . ',' .
-			'label="' . 'Outbound' . '"');
-
-		// add graph to view for the device
-		do_update("INSERT INTO view SET pos_id = {$_REQUEST['dev_id']}, pos_id_type = 1, graph_id = $graph_id, graph_id_type = \"custom\", pos = {$_REQUEST['index']}");
-
-		// Redirect to Graph Edit page (it will redirect back when done)
-		Header("Location: custom_graphs.php?action=edit&graph_id=$graph_id&return_type=traffic&return_id={$_REQUEST['dev_id']}");
-		exit(0);
-
-	} // end if graph
 }
 
 function view_disk_cache()
@@ -201,7 +171,7 @@ function view_interface_cache()
 			$links .= "&nbsp";
 			$links .= formatted_link_disabled("Monitors");
 			$links .= "&nbsp;";
-			$links .= formatted_link("Monitor/Graph", "snmp_cache_view.php?graph=1&dev_id=" . $row["dev_id"] . "&index=" . $row["ifIndex"]);
+			$links .= formatted_link("Monitor/Graph", "snmp_cache_view.php?action=graph&dev_id=" . $row["dev_id"] . "&index=" . $row["ifIndex"]);
 		}
 
 		

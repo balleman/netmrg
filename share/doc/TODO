@@ -5,7 +5,6 @@ more detailed README
 Usage information (description of every page)
 'makedist' script
 snmp_cache_view.php:
-  "Make Graph" needs overhauled
   need a "Graph All" feature
 
 
@@ -46,7 +45,6 @@ audit queries for use of index
 netmrg.cc
   more comprehensive way of setting debug levels needed
 snmp_cache_view.php:
-  "Make Graph" needs overhauled
   need a "Graph All" feature
 enclose_graph.php needs rewritten from the ground up
 
