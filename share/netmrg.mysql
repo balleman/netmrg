@@ -610,6 +610,7 @@ CREATE TABLE user (
 
 
 INSERT INTO user VALUES (1,'admin','ee10c315eba2c75b403ea99136f5b48d',3,'Administrator',0,0);
+INSERT INTO user VALUES (2,'NETMRG_DEFAULT_MAP','d41d8cd98f00b204e9800998ecf8427e',0,'Administrator',0,1);
 
 --
 -- Table structure for table `user_prefs`
@@ -632,6 +633,7 @@ CREATE TABLE user_prefs (
 
 
 INSERT INTO user_prefs VALUES (1,1,'SlideShow','AutoScroll','1');
+INSERT INTO user_prefs VALUES (2,2,'SlideShow','AutoScroll','1');
 
 --
 -- Table structure for table `versioninfo`
