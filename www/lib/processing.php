@@ -13,9 +13,9 @@
 #                                                      #
 ########################################################
 
+require_once("../include/config.php");
 require_once("/var/www/netmrg/lib/stat.php");
 require_once(netmrg_root() . "lib/database.php");
-require_once(netmrg_root() . "lib/config.php");
 
 // Simple Formatting Section
 
