@@ -46,6 +46,13 @@ switch($_REQUEST["type"])
 	
 	case "template_item" :
 		GraphCheckAuth($_REQUEST["type"], $_REQUEST["subdev_id"]);
+		break;
+		
+	case "custom_item" :
+		$q = db_query("SELECT graph_id FROM graph_ds WHERE id={$_REQUEST['id']}");
+		$r = db_fetch_array($q);
+		GraphCheckAuth($_REQUEST["type"], $r['graph_id']);
+		break;
 	
 	default :
 		GraphCheckAuth($_REQUEST["type"], $_REQUEST["id"]);

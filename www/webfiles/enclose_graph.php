@@ -82,7 +82,7 @@ function show_history()
 function show_dissection()
 {
 	$opts = template() . "type={$_REQUEST['type']}&id={$_REQUEST['id']}";
-	$dbq = db_query("SELECT id FROM graph_ds WHERE graph_id = '{$_REQUEST['id']}' AND mon_id != -2");
+	$dbq = db_query("SELECT id FROM graph_ds WHERE graph_id = '{$_REQUEST['id']}' AND mon_id != -2 ORDER BY position, id");
 	echo('<div align="center">');
 	while ($dbr = mysql_fetch_array($dbq))
 	{

@@ -235,8 +235,8 @@ function GraphCheckAuth($type, $id)
 			$object_id_groups = GetSubdeviceGroups($id);
 			break;
 		
-		// needs fixed for custom_items
 		case "custom" :
+		case "custom_item" :
 			$object_id_groups = GetCustomGraphGroups($id);
 			break;
 	} // end switch graph type

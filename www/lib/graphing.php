@@ -81,10 +81,12 @@ function get_graph_command($type, $id, $hist)
 
 	switch ($type)
 	{
-		case "mon":			return monitor_graph_command($id, $start_time, $end_time);
-		case "tinymon":		return tiny_monitor_graph_command($id, $start_time, $end_time);
-		case "custom":		return custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, false);
-		case "template":	return custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, true);
+		case "mon":				return monitor_graph_command($id, $start_time, $end_time);
+		case "tinymon":			return tiny_monitor_graph_command($id, $start_time, $end_time);
+		case "custom":			return custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, false, false);
+		case "custom_item":		return custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, false, true);
+		case "template":		return custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, true, false);
+		case "template_item":	return custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, true, true);
 	}
 
 }
@@ -106,97 +108,18 @@ function tiny_monitor_graph_command($id, $start_time, $end_time)
 		"AREA:data1#151590");
 }
 
-/*
-
-	if ($type == "custom_ds")
-	{
-
-		$results = db_query("
-		SELECT
-		graph_ds.src_id AS src_id,
-		graph_ds.type AS type,
-		graph_ds.color AS color,
-		graph_ds.label AS label,
-		graphs.name AS title,
-		graphs.vert_label AS vert,
-		graphs.disp_integer_only AS disp_integer_only,
-		graph_ds.show_indicator AS show_indicator,
-		graph_ds.hrule_value AS hrule_value,
-		graph_ds.hrule_color AS hrule_color,
-		graph_ds.hrule_label AS hrule_label,
-		graph_ds.multiplier AS multiplier
-		FROM graph_ds
-		LEFT JOIN graphs ON graph_ds.graph_id=graphs.id
-		WHERE graph_ds.id=$id");
-		$row = db_fetch_array($results);
-
-		GLOBAL $RRDTOOL_ITEM_TYPES;
-		$row["type"] = $RRDTOOL_ITEM_TYPES[$row["type"]];
-
-		if ($row["type"] == "STACK")
-		{
-			$row["type"] = "AREA";
-		}
-
-		if ($row["multiplier"] == "")
-		{
-			$row["multiplier"] = 1;
-		}
-
-		if ($row["show_indicator"])
-		{
-			$append = " HRULE:" . $row["hrule_value"] . $row["hrule_color"];
-
-			if ($row["hrule_label"] != "")
-			{
-				$append .= ':"' . $row["hrule_label"] . '"';
-			}
-		}
-		else
-		{
-			$append = "";
-		}
-
-		if ($row["multiplier"] == 0)
-		{
-			$ds_row["multiplier"] = 1;
-		}
-
-		if ($row["disp_integer_only"])
-		{
-			$gprint =
-			'GPRINT:data1l:LAST:"Current\\:%8.2lf %s" ' .
-			'GPRINT:data1:AVERAGE:"Average\\:%8.2lf %s" ' .
-			'GPRINT:data1m:MAX:"Maximum\\:%8.2lf %s\\n"';
-
-		}
-		else
-		{
-
-			$gprint =
-			'GPRINT:data1l:LAST:"Current\\:%5.0lf %s" ' .
-			'GPRINT:data1:AVERAGE:"Average\\:%5.0lf %s" ' .
-			'GPRINT:data1m:MAX:"Maximum\\:%5.0lf %s\\n"' ;
-		}
-
-
-		return($GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $start . " -e " . $end_time .
-				" --title=\"" . $row["title"] . "\" --imgformat PNG -v \"" . $row["vert"] . "\" " .
-				"DEF:raw_data1="  . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $row["src_id"] . ".rrd:mon_" . $row["src_id"] . ":AVERAGE " .
-				"DEF:raw_data1l=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $row["src_id"] . ".rrd:mon_" . $row["src_id"] . ":LAST " .
-				"DEF:raw_data1m=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $row["src_id"] . ".rrd:mon_" . $row["src_id"] . ":MAX " .
-				"CDEF:data1=raw_data1," . $row["multiplier"] . ",* " .
-				"CDEF:data1l=raw_data1l," . $row["multiplier"] . ",* " .
-				"CDEF:data1m=raw_data1m," . $row["multiplier"] . ",* " .
-				$row["type"] . ":data1" . $row["color"] .":\"" . $row["label"] . "\" " .
-				$gprint . $append);
-
-	}*/
-
-function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, $templated)
+function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_label, $sum_time, $templated, $single_ds)
 {
 	$options = "";
 
+	if ($single_ds)
+	{
+		$ds_q = db_query("SELECT graph_id FROM graph_ds WHERE id=$id");
+		$ds_r = db_fetch_array($ds_q);
+		$ds_id = $id;
+		$id = $ds_r["graph_id"];
+	}
+	
 	$graph_results = db_query("SELECT * FROM graphs WHERE id=$id");
 	$graph_row = db_fetch_array($graph_results);
 
@@ -245,7 +168,16 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 	}
 	// ***
 
-	$ds_results = db_query("SELECT * FROM graph_ds WHERE graph_ds.graph_id=$id ORDER BY position, id");
+	if ($single_ds)
+	{
+		$ds_where = "id=$ds_id";
+	}
+	else
+	{
+		$ds_where = "graph_id=$id ORDER BY position, id";
+	}
+	
+	$ds_results = db_query("SELECT * FROM graph_ds WHERE $ds_where");
 	$ds_total = db_num_rows($ds_results);
 
 	$CDEF_A = "zero,UN,0,0,IF";
@@ -259,6 +191,11 @@ function custom_graph_command($id, $start_time, $end_time, $break_time, $sum_lab
 
 		$ds_row = db_fetch_array($ds_results);
 		$ds_row["type"] = $GLOBALS["RRDTOOL_ITEM_TYPES"][$ds_row["type"]];
+		
+		if ($single_ds && ($ds_row["type"] == "STACK"))
+		{
+			$ds_row["type"] = "AREA";
+		}
 		
 		if ($templated)
 		{
