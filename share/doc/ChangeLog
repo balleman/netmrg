@@ -1,5 +1,6 @@
 2003.03.24  v0.8  silfreed
   - more graphics (svg is good)
+  - mostly got image specfiles working
 
 2003.03.11  v0.8  balleman
   - change how graphs and graph items work
