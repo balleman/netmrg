@@ -10,7 +10,7 @@ prefix="@prefix@"
 localstatedir="@localstatedir@"
 rrdtool="@RRDTOOL@"
 editor="vi"
-RRD_DIR="$localstatedir/var/lib/netmrg/rrd"
+RRD_DIR="$localstatedir/lib/netmrg/rrd"
 
 if [ ! -n "$1" ]
 then
