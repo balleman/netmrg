@@ -437,6 +437,48 @@ string count_file_lines(DeviceInfo info)
 	return inttostr(linecount);
 }
 
+// read value from file
+string read_value_from_file(DeviceInfo info)
+{
+	FILE *fhandle;
+	char ach;
+	string buffer = "";
+	int charcount = 0;
+
+	if (file_exists(info.test_params))
+	{
+		fhandle = fopen((info.test_params).c_str(), "r");
+		if (fhandle != NULL)
+		{
+			while (isdigit(ach = fgetc(fhandle)) && (charcount <= 20))
+			{
+				buffer += ach;
+				charcount++;
+			}
+			fclose(fhandle);
+			if (charcount > 20)
+			{
+				debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Internal Test: Read Value from File: Value over 20 digits; ignoring.");
+				return "U";
+			}
+			if (buffer == "")
+				return "U";
+		}
+		else
+		{
+			debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Internal Test: Read Value from File: Unable to read file (" + info.test_params + ")");
+			return "U";
+		}
+	}
+	else
+	{
+		debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Internal Test: Read Value from File: File does not exist (" + info.test_params + ")");
+		return "U";
+	}
+	
+	return buffer;
+}
+
 void U_to_NULL(string & input)
 {
 	if (input == "U")

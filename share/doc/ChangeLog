@@ -1,3 +1,6 @@
+2004.08.31  v0.17cvs  balleman
+  - bug#0000263 - internal test for reading a value from a file
+
 2004.08.31  v0.17cvs  silfreed
   - bug#0000248 - notifications.php has escaping issues
   - bug#0000261 - breadcrumbs break when you traverse multiple groups

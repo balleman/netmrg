@@ -65,6 +65,10 @@ string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 					if (disk_total != 0)
 						test_result = inttostr((int) (100 - 100*disk_used/disk_total));
 					break;
+		
+		// read value from file
+		case 6:		test_result = read_value_from_file(info);
+					break;
 
 		default:	debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown Internal Test (" + inttostr(info.test_id) + ")");
 	}

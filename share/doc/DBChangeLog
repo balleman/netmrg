@@ -1,3 +1,10 @@
+2004.08.31  v0.17cvs  balleman
+  INSERT INTO tests_internal VALUES (2,'Lucent TNT "Good" Modems (available modems minus suspect modems)');
+  INSERT INTO tests_internal VALUES (3,'UCD CPU Load (user + system)');
+  INSERT INTO tests_internal VALUES (4,'Windows Disk Usage (percent)');
+  INSERT INTO tests_internal VALUES (5,'UCD Swap Usage (percent)');
+  INSERT INTO tests_internal VALUES (6,'Read Value from File');
+
 2004.07.20  v0.17cvs  keb
   ALTER TABLE `user` ADD `disabled` TINYINT DEFAULT '0' NOT NULL;
 

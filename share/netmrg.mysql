@@ -474,6 +474,7 @@ INSERT INTO tests_internal VALUES (2,'Lucent TNT "Good" Modems (available modems
 INSERT INTO tests_internal VALUES (3,'UCD CPU Load (user + system)');
 INSERT INTO tests_internal VALUES (4,'Windows Disk Usage (percent)');
 INSERT INTO tests_internal VALUES (5,'UCD Swap Usage (percent)');
+INSERT INTO tests_internal VALUES (6,'Read Value from File');
 
 --
 -- Table structure for table `tests_script`
