@@ -53,10 +53,6 @@ pthread_mutex_t rrdtool_lock 		= PTHREAD_MUTEX_INITIALIZER;
 // Include the NetMRG Libraries
 #include "types.h"
 #include "utils.h"
-
-// we need debug_levels here
-extern int debug_levels;
-
 #include <netmrg-snmp.cc>
 #include <netmrg-db.cc>
 #include <netmrg-misc.cc>
@@ -1197,7 +1193,7 @@ void run_netmrg()
 	// RRDTOOL command pipe setup
 	debuglogger(DEBUG_GLOBAL + DEBUG_RRD, NULL, "Initializing RRDTOOL pipe.");
 	string rrdtool = RRDTOOL;
-	if (!(debug_levels && DEBUG_RRD))
+	if (!(get_debug_level() && DEBUG_RRD))
 		rrdtool = rrdtool + " >/dev/null";
 	rrdtool_pipe = popen(rrdtool.c_str(), "w");
 	// sets buffering to one line
@@ -1393,7 +1389,7 @@ int main(int argc, char **argv)
 		{
 			case 'h': show_usage(); exit(0); break;
 			case 'v': show_version(); exit(0); break;
-			case 'q': debug_levels = 0; break;
+			case 'q': set_debug_level(0); break;
 			case 'i': external_snmp_recache(strtoint(optarg), 1); exit(0); break;
 			case 'd': external_snmp_recache(strtoint(optarg), 2); exit(0); break;
 		}

@@ -26,10 +26,6 @@ const int DEBUG_SNMP		= 256;
 const int DEBUG_GATHERER	= 512;
 const int DEBUG_MYSQL		= 1024;
 
-// Debugging Options
-static int debug_levels = DEBUG_GLOBAL + DEBUG_THREAD + DEBUG_DEVICE + DEBUG_SUBDEVICE + DEBUG_MONITOR +
-	DEBUG_EVENT + DEBUG_RESPONSE + DEBUG_RRD + DEBUG_SNMP + DEBUG_GATHERER + DEBUG_MYSQL;
-
 int 		file_exists(string filename);
 string  	stripnl(string input);
 string		token_replace(string &source, string token, string value);
@@ -37,8 +33,11 @@ u_char		*u_string(string source, u_char *out);
 string		inttostr(long long int int_to_convert);
 long long int 	strtoint(string string_to_convert);
 string		inttopadstr(int integer, int padlen);
-void 		debuglogger(int level, DeviceInfo *info_in, string message);
 string		count_file_lines(DeviceInfo info);
 
+// debugging functions
+int		get_debug_level();
+void		set_debug_level(int level);
+void 		debuglogger(int level, DeviceInfo *info_in, string message);
 
 #endif

@@ -110,6 +110,19 @@ string inttopadstr(int integer, int padlen)
 //
 // Header contains constants.
 
+// Debugging Options
+static int debug_level = DEBUG_GLOBAL + DEBUG_THREAD + DEBUG_DEVICE + DEBUG_SUBDEVICE + DEBUG_MONITOR +
+	DEBUG_EVENT + DEBUG_RESPONSE + DEBUG_RRD + DEBUG_SNMP + DEBUG_GATHERER + DEBUG_MYSQL;
+
+void set_debug_level(int level)
+{
+	debug_level = level;
+}
+
+int get_debug_level()
+{
+	return debug_level;
+}
 
 void debuglogger(int level, DeviceInfo *info_in, string message)
 {
@@ -122,7 +135,7 @@ void debuglogger(int level, DeviceInfo *info_in, string message)
 		info = *info_in;
 	}
 
-	if (debug_levels && level)
+	if (debug_level && level)
 	{
 
 		string tempmsg = "";
