@@ -18,9 +18,7 @@
 ########################################################
 */
 
-require_once("/var/www/netmrg/lib/stat.php");
-require_once(netmrg_root() . "lib/format.php");
-require_once(netmrg_root() . "lib/graphing.php");
+require_once("../include/config.php");
 
 function tailer()
 {
@@ -50,9 +48,14 @@ function tailer()
 	<br>
 	<a href="<? print($_SERVER["PHP_SELF"]); ?>?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($newhist) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>&show_children=<? print($_REQUEST["show_children"]) ?>">Toggle History</a><br>
 	<a href="<? print($_SERVER["PHP_SELF"]); ?>?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($_REQUEST["hist"]) ?>&togglelegend=<? print($toggle) ?>&show_children=<? print($_REQUEST["show_children"]) ?>">Toggle Legend</a><br>
-	<? if ($_REQUEST["type"] == "custom") {
-	?><a href="<? print($_SERVER["PHP_SELF"]); ?>?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($_REQUEST["hist"]) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>&show_children=<? print($new_show_children) ?>">Toggle Children</a><br>
-	<? } ?>
+	<?
+	if ($_REQUEST["type"] == "custom")
+	{
+	?>
+	<a href="<? print($_SERVER["PHP_SELF"]); ?>?type=<? print($_REQUEST["type"]) ?>&id=<? print($_REQUEST["id"]) ?>&hist=<? print($_REQUEST["hist"]) ?>&togglelegend=<? print($_REQUEST["togglelegend"]) ?>&show_children=<? print($new_show_children) ?>">Toggle Children</a><br>
+	<?
+	}
+	?>
 	<Br>
 	<a href="javascript:history.back(1)">Back</a>
 	</div>
