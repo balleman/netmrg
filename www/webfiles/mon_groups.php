@@ -124,7 +124,7 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	make_edit_table("Edit Group");
 	make_edit_text("Name:","grp_name","25","100",$grp_name);
 	make_edit_text("Comment:","grp_comment","50","200",$grp_comment);
-	make_edit_select_from_table("Parent:", "parent_id", "mon_groups", $grp_row["parent_id"], "", array("-Root-" => "0"));
+	make_edit_select_from_table("Parent:", "parent_id", "mon_groups", $grp_row["parent_id"], "", array(0 => "-Root-"));
 	make_edit_hidden("grp_id", $grp_id);
 	make_edit_hidden("action","doedit");
 	make_edit_submit_button();

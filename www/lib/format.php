@@ -378,7 +378,7 @@ function make_edit_select_from_table($header, $name, $table_name, $selected, $se
 	// loop through things to put @ the beginning of the select box
 	while (list($key, $value) = each($begin_array_list))
 	{
-		make_edit_select_option($key, $value, ($value == $selected));
+		make_edit_select_option($value, $key, ($key == $selected));
 	} // end while we have array list
 
 	$item_results = do_query("SELECT * FROM $table_name ORDER BY name,id");
@@ -397,7 +397,7 @@ function make_edit_select_from_table($header, $name, $table_name, $selected, $se
 	// loop through things to put @ the end of the select box
 	while (list($key, $value) = each($end_array_list))
 	{
-		make_edit_select_option($key, $value, ($value == $selected));
+		make_edit_select_option($value, $key, ($key == $selected));
 	} // end while we have array list
 
 	make_edit_select_end();
@@ -405,7 +405,7 @@ function make_edit_select_from_table($header, $name, $table_name, $selected, $se
 
 /**
 * Makes edit control from an array
-* 
+*
 * $header	= displayed header of the control
 * $name		= name of the control within the form
 * $array_list	= array of items to place in the control
@@ -418,7 +418,7 @@ function make_edit_select_from_array($header, $name, $array_list, $selected, $se
 	// loop through things to put @ the end of the select box
 	while (list($key, $value) = each($array_list))
 	{
-		make_edit_select_option($key, $value, ($value == $selected));
+		make_edit_select_option($value, $key, ($key == $selected));
 
 	} // end while we have array list
 

@@ -17,9 +17,18 @@ require_once("/var/www/netmrg/lib/database.php");
 
 // array constants
 $ALIGN_ARRAY = array(
-			"Left"		=>	"1",
-			"Right"		=>	"2",
-			"Right Split"	=>	"3");
+			1	=>	"Left",
+			2	=>	"Right",
+			3	=>	"Right Split");
+
+$RRDTOOL_ITEM_TYPES = array(
+
+			1	=>	"LINE1",
+			2	=>	"LINE2",
+			3	=>	"LINE3",
+			4	=>	"AREA",
+			5	=>	"STACK");
+
 
 
 // Return the path to an image based on the internal name of the image.

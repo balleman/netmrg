@@ -91,6 +91,8 @@ if ($_REQUEST["action"] == "dodelete")
 
 if (empty($_REQUEST["action"]))
 {
+	GLOBAL $RRDTOOL_ITEM_TYPES;
+
 	// Change databases if necessary and then display list
 	begin_page();
 
@@ -101,10 +103,9 @@ if (empty($_REQUEST["action"]))
 		graph_ds.label AS label,
 		graph_ds.id AS id,
 		graph_ds.position AS pos,
-		graph_types.name AS type
-		FROM graph_ds, graph_types
-		WHERE graph_ds.type=graph_types.id
-		AND graph_ds.graph_id={$_REQUEST['graph_id']}
+		graph_ds.type AS type
+		FROM graph_ds
+		WHERE graph_ds.graph_id={$_REQUEST['graph_id']}
 		ORDER BY position, id");
 
 	$ds_total = mysql_num_rows($ds_results);
@@ -140,7 +141,7 @@ if (empty($_REQUEST["action"]))
 		}
 
 		make_display_item($ds_row["label"],"",
-			$ds_row["type"],"",
+			$RRDTOOL_ITEM_TYPES[$ds_row["type"]],"",
 			formatted_link("View", "enclose_graph.php?type=custom_ds&id=" . $ds_row["id"]) . "&nbsp;" .
 			$move_up . "&nbsp;" . $move_down, "",
 			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id=$id&graph_id={$_REQUEST['graph_id']}") . "&nbsp;" .
@@ -205,8 +206,8 @@ if (($_REQUEST["action"] == "edit") || ($_REQUEST["action"] == "add"))
 		make_edit_label("<big><b>Monitor:</b><br>  " . get_monitor_name($ds_row["src_id"]) . "  [<a href='{$_SERVER['PHP_SELF']}?id={$_REQUEST['id']}&action={$_REQUEST['action']}&graph_id={$_REQUEST['graph_id']}&edit_monitor=1'>change</a>]</big>");
 		make_edit_hidden("mon_id", $ds_row["src_id"]);
 	}
-
-	make_edit_select_from_table("Item Type:","type","graph_types", $ds_row["type"]);
+        GLOBAL $RRDTOOL_ITEM_TYPES;
+	make_edit_select_from_array("Item Type:", "type", $RRDTOOL_ITEM_TYPES, $ds_row["type"]);
 	make_edit_color("Item Color:", "color", $ds_row["color"]);
 	GLOBAL $ALIGN_ARRAY;
 	make_edit_select_from_array("Alignment:","align", $ALIGN_ARRAY, $ds_row["align"]);
