@@ -370,7 +370,7 @@ function make_edit_select_end()
 * $begin_array_list = array of key=>value pairs to include at the beginning of the option list
 * $end_array_list = array of key=>value pairs to include at the end of the option list
 */
-function make_edit_select_from_table($header, $name, $table_name, $selected, $select_options = "", $begin_array_list = "", $end_array_list = "")
+function make_edit_select_from_table($header, $name, $table_name, $selected, $select_options = "", $begin_array_list = array(), $end_array_list = array())
 {
 	make_edit_select($header, $name, $select_options);
 
@@ -379,7 +379,7 @@ function make_edit_select_from_table($header, $name, $table_name, $selected, $se
 
 	// loop through things to put @ the beginning of the select box
 	while (list($key, $value) = each($begin_array_list)) {
-		make_edit_select_option($key, $value, "");
+		make_edit_select_option($key, $value, ($value == $selected));
 	} // end while we have array list
 
 	for ($item_count = 1; $item_count <= $item_total; ++$item_count)
@@ -394,7 +394,7 @@ function make_edit_select_from_table($header, $name, $table_name, $selected, $se
 
 	// loop through things to put @ the end of the select box
 	while (list($key, $value) = each($end_array_list)) {
-		make_edit_select_option($key, $value, "");
+		make_edit_select_option($key, $value, ($value == $selected));
 	} // end while we have array list
 
 	make_edit_select_end();

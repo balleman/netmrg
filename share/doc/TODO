@@ -1,6 +1,5 @@
 == global ==
-bug in database has 'Root' group in mon_devices having ID 1 (not 0)
-  make root virtual - using new make_edit_select_from_table w/ new root
+static_pad_types should not be pulled from db
 page titles should reflect where you're at
 recache.php
   A couple notices in snmp_caching.php on line 115
