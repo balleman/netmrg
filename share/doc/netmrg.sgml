@@ -176,13 +176,39 @@ mysql -u root -p
 		</listitem>
 		<listitem>
 			<para>
-Modify your apache config (commonly in 
-<computeroutput>/etc/httpd/conf/httpd.conf</computeroutput>) to alias /netmrg 
-to the installed web directory (commonly 
-<computeroutput>/usr/local/var/www/netmrg/webfiles</computeroutput>)
+You need to modify your apache config in order to make your NetMRG installation 
+live (commonly in <computeroutput>/etc/httpd/conf/httpd.conf</computeroutput>).
 			</para>
-<programlisting>Example:
-Alias /netmrg "/usr/local/var/www/netmrg/webfiles"</programlisting>
+			<para>
+The first is to alias /netmrg to the installed web directory (commonly 
+<computeroutput>/usr/local/var/www/netmrg/webfiles</computeroutput>).
+			</para>
+<programlisting>Alias /netmrg "/usr/local/var/www/netmrg/webfiles"</programlisting>
+			<para>
+The easier way (if you're running Apache >= 1.3) is to just Include the conf 
+file we've created anywhere in your file (near the bottom is fine).
+			</para>
+<programlisting>Include /usr/local/etc/netmrg.conf</programlisting>
+			<para>
+You will need to restart your Apache after making config changes.  Telling it 
+to reload its config should be good enough
+			</para>
+<programlisting>killall -HUP httpd</programlisting>
+		</listitem>
+		<listitem>
+			<para>Configure the Installation</para>
+			<para>
+There are two files you should edit to reflect your database changes and any 
+other items that are needed in your installation.  These two files are
+<filename>/usr/local/etc/netmrg.xml</filename> and
+<filename>/usr/local/var/www/netmrg/include/config.php</filename>.
+			</para>
+			<para>
+For most installations, you will at least need to edit <filename>netmrg.xml</filename>
+to reflect your database username and password.  If you would like to change 
+things like your company name that are displayed on the website, edit the 
+<filename>config.php</filename> file.
+			</para>
 		</listitem>
 		<listitem>
 			<para>Setup Permissions</para>

@@ -239,14 +239,38 @@
      mysql -u root -p                                                            
      > grant all on netmrg.* to netmrguser@localhost identified by 'netmrgpass'; 
 
-    4. Modify your apache config (commonly in /etc/httpd/conf/httpd.conf) to
-       alias /netmrg to the installed web directory (commonly
-       /usr/local/var/www/netmrg/webfiles)
+    4. You need to modify your apache config in order to make your NetMRG
+       installation live (commonly in /etc/httpd/conf/httpd.conf).
 
-       Example:                                                        
+       The first is to alias /netmrg to the installed web directory (commonly
+       /usr/local/var/www/netmrg/webfiles).
+
        Alias /netmrg "/usr/local/var/www/netmrg/webfiles"              
 
-    5. Setup Permissions
+       The easier way (if you're running Apache >= 1.3) is to just Include
+       the conf file we've created anywhere in your file (near the bottom is
+       fine).
+
+       Include /usr/local/etc/netmrg.conf                              
+
+       You will need to restart your Apache after making config changes.
+       Telling it to reload its config should be good enough
+
+       killall -HUP httpd                                              
+
+    5. Configure the Installation
+
+       There are two files you should edit to reflect your database changes
+       and any other items that are needed in your installation. These two
+       files are /usr/local/etc/netmrg.xml and
+       /usr/local/var/www/netmrg/include/config.php.
+
+       For most installations, you will at least need to edit netmrg.xml to
+       reflect your database username and password. If you would like to
+       change things like your company name that are displayed on the
+       website, edit the config.php file.
+
+    6. Setup Permissions
 
        NetMRG does not need superuser permissions to run, therefore we will
        setup a user for it.
@@ -255,7 +279,7 @@
        # chown netmrg:netmrg /usr/local/var/log/netmrg                 
        # chown netmrg:netmrg /usr/local/var/lib/netmrg/rrd             
 
-    6. Setup crontab
+    7. Setup crontab
 
        You can setup the crontab entries in two places: either edit
        /etc/crontab, or run 'crontab -e' as root. For 'crontab -e', use an
@@ -263,7 +287,7 @@
 
        */5 * * * * /usr/local/bin/netmrg_cron.sh                       
 
-    7. Point your web browser at your install, and start graphing things! The
+    8. Point your web browser at your install, and start graphing things! The
        default login is admin and the default password is nimda. Point your
        web browser at the host you built this on (something similar to
        http://yourhost.com/netmrg/) and please change your password!
