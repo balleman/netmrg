@@ -10,8 +10,8 @@
 
 */
 
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <unistd.h>
 #include <mysql.h>
 #include <sys/stat.h>
@@ -22,10 +22,9 @@
 #include <ucd-snmp/ucd-snmp-includes.h>
 #include <ucd-snmp/system.h>
 #include <getopt.h>
-#include <snmp_parse_args.h>
 #include <errno.h>
 #include <ucd-snmp/mib.h>
-#include <slist.h>
+#include <list>
 
 using namespace std;
 
@@ -111,7 +110,7 @@ struct DeviceInfo
 	string last_val;
 	string delta_val;
 
-	slist<ValuePair> parameters;
+	list<ValuePair> parameters;
 
 	DeviceInfo()
 	{
@@ -517,7 +516,7 @@ void setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 	MYSQL_RES       *mysql_res;
 	MYSQL_ROW       mysql_row;
 
-	for (slist<ValuePair>::iterator current = (*info).parameters.begin(); current != (*info).parameters.end(); current++)
+	for (list<ValuePair>::iterator current = (*info).parameters.begin(); current != (*info).parameters.end(); current++)
 	{
 		value = (*current).value;
 
@@ -615,7 +614,7 @@ void setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 	MYSQL_RES       *mysql_res;
 	MYSQL_ROW       mysql_row;
 
-	for (slist<ValuePair>::iterator current = (*info).parameters.begin(); current != (*info).parameters.end(); current++)
+	for (list<ValuePair>::iterator current = (*info).parameters.begin(); current != (*info).parameters.end(); current++)
 	{
 		value = (*current).value;
 
@@ -688,7 +687,7 @@ void setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 
 string expand_parameters(DeviceInfo info, string input)
 {
-	for (slist<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
+	for (list<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
 	{
 		input = token_replace(input, "%" + (*current).name + "%", (*current).value);
 	}
