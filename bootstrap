@@ -5,6 +5,3 @@ set -x
 aclocal
 automake --foreign --add-missing --copy
 autoconf
-
-cd src/
-sh ./bootstrap
