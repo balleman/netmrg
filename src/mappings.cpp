@@ -52,11 +52,12 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 		U_to_NULL(ifAlias);
 		U_to_NULL(ifName);
 		U_to_NULL(ifDescr);
-		string ifType  = snmp_get(*info, "ifType."  + ifIndex);
-		string ifMAC   = snmp_get(*info, "ifPhysAddress." + ifIndex);
+		string ifType			= snmp_get(*info, "ifType."  + ifIndex);
+		string ifMAC			= snmp_get(*info, "ifPhysAddress." + ifIndex);
 		U_to_NULL(ifMAC);
-		string ifOperStatus  = snmp_get(*info, "ifOperStatus."  + ifIndex);
-		string ifAdminStatus = snmp_get(*info, "ifAdminStatus." + ifIndex);
+		string ifOperStatus		= snmp_get(*info, "ifOperStatus."  + ifIndex);
+		string ifAdminStatus	= snmp_get(*info, "ifAdminStatus." + ifIndex);
+		string ifSpeed			= snmp_get(*info, "ifSpeed." + ifIndex);
 
 		db_update(mysql, info, string("INSERT INTO snmp_interface_cache SET ")  +
 			"dev_id = " 		+ inttostr((*info).device_id)		+ ", "  +
@@ -67,7 +68,8 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 			"ifType = '"		+ ifType							+ "', " +
 			"ifMAC = "			+ ifMAC								+ ", "  +
 			"ifOperStatus = '" 	+ ifOperStatus						+ "', " +
-			"ifAdminStatus = '" + ifAdminStatus						+ "'");
+			"ifAdminStatus = '" + ifAdminStatus						+ "', "
+			"ifSpeed = '"		+ ifSpeed							+ "'");
 
 	}
 
@@ -173,7 +175,7 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 	else
 	{
 		string query =
-			string("SELECT ifIndex, ifName, ifIP, ifDescr, ifAlias, ifMAC FROM snmp_interface_cache WHERE dev_id=") +
+			string("SELECT ifIndex, ifName, ifIP, ifDescr, ifAlias, ifMAC, ifSpeed FROM snmp_interface_cache WHERE dev_id=") +
 			inttostr(info->device_id) + string(" AND ") + index + "=\"" + value + "\"";
 
 		mysql_res = db_query(mysql, info, query);
@@ -212,6 +214,9 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 			{
 				info->parameters.push_front(ValuePair("ifMAC", mysql_row[5]));
 			}
+
+			if (mysql_row[6] != NULL)
+				info->parameters.push_front(ValuePair("ifSpeed", mysql_row[6]));
 		}
 		else
 		{
@@ -230,6 +235,11 @@ void parse_fancy_alias(DeviceInfo *info, string alias)
 	{
 		info->parameters.push_front(ValuePair("ifCktName", alias.substr(0, alias.find("(",0))));
 		info->parameters.push_front(ValuePair("ifCktID", alias.substr(alias.find("(",0) + 1, alias.length() - alias.find("(",0) - 2)));
+	}
+	else
+	{
+		info->parameters.push_front(ValuePair("ifCktName", alias));
+		info->parameters.push_front(ValuePair("ifCktID", "N/A"));
 	}
 }
 
