@@ -137,26 +137,26 @@ function get_image_by_name($img_name)
 	switch ($img_name)
 	{
 		// headers
-		case "top"			:	$image = "$dir/newtop.png"; 		break;
-		case "buffer"			:	$image = "$dir/buffer.jpg"; 		break;
-		case "tex_top"			: 	$image = "$dir/tex_top.gif"; 		break;
-		case "tex_side"			:	$image = "$dir/tex_side.gif";		break;
-		case "tex_blue"			:	$image = "$dir/tex_blue.png";		break;
-		case "tex_tan"			:	$image = "$dir/tex_tan.png";		break;
+		case "top"       :  $image = "$dir/newtop.png"; break;
+		case "buffer"    :  $image = "$dir/buffer.jpg"; break;
+		case "tex_top"   :  $image = "$dir/tex_top.gif"; break;
+		case "tex_side"  :  $image = "$dir/tex_side.gif"; break;
+		case "tex_blue"  :  $image = "$dir/tex_blue.png"; break;
+		case "tex_tan"   :  $image = "$dir/tex_tan.png"; break;
 
 		// LEDs
-		case "blue_led_on"		:	$image = "$dir/blue_led_on.gif";	break;
-		case "blue_led_off"		: 	$image = "$dir/blue_led_off.gif";	break;
-		case "green_led_on"		:	$image = "$dir/green_led_on.gif";	break;
-		case "green_led_off"		: 	$image = "$dir/green_led_off.gif";	break;
-		case "yellow_led_on"		:	$image = "$dir/yellow_led_on.gif";	break;
-		case "yellow_led_off"		:	$image = "$dir/yellow_led_off.gif";	break;
-		case "red_led_on"		:	$image = "$dir/red_led_on.gif";		break;
-		case "red_led_off"		:	$image = "$dir/red_led_off.gif";	break;
+		case "blue_led_on"    :  $image = "$dir/status-unknown-triggered.png"; break;
+		case "blue_led_off"   :  $image = "$dir/status-unknown-nottriggered.png"; break;
+		case "green_led_on"   :  $image = "$dir/status-green-triggered.png"; break;
+		case "green_led_off"  :  $image = "$dir/status-green-nottriggered.png"; break;
+		case "yellow_led_on"  :  $image = "$dir/status-yellow-triggered.png"; break;
+		case "yellow_led_off" :  $image = "$dir/status-yellow-nottriggered.png"; break;
+		case "red_led_on"     :  $image = "$dir/status-red-triggered.png"; break;
+		case "red_led_off"    :  $image = "$dir/status-red-nottriggered.png"; break;
 
 		// Tree Expand/Collapse
-		case "hide"			:	$image = "$dir/hide.gif";		break;
-		case "show"			: 	$image = "$dir/show.gif";		break;
+		case "hide"  :  $image = "$dir/hide.gif"; break;
+		case "show"  :  $image = "$dir/show.gif"; break;
 	}
 
 	return $image;
