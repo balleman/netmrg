@@ -483,6 +483,79 @@ void setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 
 void setup_disk_parameters(DeviceInfo *info, MYSQL *mysql)
 {
+	// just like setup_interface_parameters, but for disks instead
+
+	string          index   = "";
+	string          value   = "";
+
+	MYSQL_RES       *mysql_res;
+	MYSQL_ROW       mysql_row;
+
+	for (slist<ValuePair>::iterator current = (*info).parameters.begin(); current != (*info).parameters.end(); current++)
+	{
+		value = (*current).value;
+
+		if ((*current).name == "dskIndex")
+		{
+			index = "disk_index";
+                	break;
+		}
+		else
+		if ((*current).name == "dskPath")
+		{
+			index = "disk_path";
+			break;
+		}
+		else
+		if ((*current).name == "dskDevice")
+		{
+			index = "disk_device";
+			break;
+		}
+
+	} // end for each parameter
+
+	if (index == "")
+	{
+		debuglogger(DEBUG_SUBDEVICE, info, "Disk subdevice has no disk parameters.");
+	}
+	else
+	{
+                string query =
+		string("SELECT disk_index, disk_path, disk_device FROM snmp_disk_cache WHERE dev_id=") +
+		inttostr((*info).device_id) + string(" AND ") + index + "=\"" + value + "\"";
+
+		mysql_res = db_query(mysql, info, query);
+
+		if (mysql_num_rows(mysql_res) > 0)
+		{
+		        mysql_row = mysql_fetch_row(mysql_res);
+
+		        if ((mysql_row[0] != NULL) && (index != "disk_index"))
+		        {
+        		        (*info).parameters.push_front(ValuePair("dskIndex", mysql_row[0]));
+		        }
+
+		        if ((mysql_row[1] != NULL) && (index != "disk_path"))
+		        {
+        		        (*info).parameters.push_front(ValuePair("dskPath", mysql_row[1]));
+		        }
+
+		        if ((mysql_row[2] != NULL) && (index != "disk_device"))
+		        {
+        		        (*info).parameters.push_front(ValuePair("dskDevice", mysql_row[2]));
+		        }
+
+		}
+		else
+		{
+		        debuglogger(DEBUG_SUBDEVICE, info, "Disk index not found.");
+		}
+
+	 	mysql_free_result(mysql_res);
+
+	}
+
 }
 
 // expand_parameters

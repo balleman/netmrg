@@ -355,8 +355,8 @@ CREATE TABLE mon_devices (
 --
 
 
-INSERT INTO mon_devices VALUES (1,'Oak','192.168.1.1','public',0,0,0,0,970074,3,1,1);
-INSERT INTO mon_devices VALUES (2,'Pine','192.168.1.11','public',8,0,0,0,956789,2,1,1);
+INSERT INTO mon_devices VALUES (1,'Oak','192.168.1.1','public',0,0,0,0,437380,2,1,1);
+INSERT INTO mon_devices VALUES (2,'Pine','192.168.1.11','public',8,0,0,0,1074366,2,1,1);
 INSERT INTO mon_devices VALUES (3,'NetMRG','','',8,0,0,0,0,0,0,0);
 
 --
@@ -1697,25 +1697,6 @@ INSERT INTO mon_situations VALUES (3,'Red','');
 INSERT INTO mon_situations VALUES (4,'Disabled','');
 
 --
--- Table structure for table 'mon_sorting'
---
-
-CREATE TABLE mon_sorting (
-  table_name varchar(50) NOT NULL default '',
-  sort_by_field varchar(50) NOT NULL default '',
-  sorted tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (table_name),
-  UNIQUE KEY table_name_2 (table_name),
-  KEY table_name (table_name)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'mon_sorting'
---
-
-
-
---
 -- Table structure for table 'monitors'
 --
 
@@ -1743,33 +1724,37 @@ CREATE TABLE monitors (
 --
 
 
-INSERT INTO monitors VALUES (1,1,1,NULL,NULL,1,2,9,'',NULL,NULL,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (2,1,1,NULL,NULL,1,2,10,'',NULL,NULL,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (3,1,1,NULL,NULL,1,2,11,'',NULL,NULL,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (4,1,2,NULL,105,1,2,7,'',34007,79,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (5,1,2,NULL,105,1,2,5,'',281345,146,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (6,1,2,NULL,105,1,2,8,'',1228,0,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (17,3,2,NULL,12000000,1,2,39,'',794459396,38103,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (7,1,1,NULL,NULL,1,2,2,'',82,0,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (8,1,1,NULL,NULL,1,2,3,'',3,0,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (9,1,1,NULL,NULL,1,2,18,'',4,0,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (20,4,1,NULL,NULL,1,2,40,'',0,0,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (10,1,2,NULL,1000,1,3,1,'',18198,141,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (11,2,2,NULL,105,1,2,7,'',30877,25,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (12,2,2,NULL,105,1,2,5,'',116990,118,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (13,2,2,NULL,105,1,2,8,'',33041,0,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (14,2,1,NULL,NULL,1,2,2,'',70,0,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (15,2,1,NULL,NULL,1,2,18,'',4,0,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (16,2,1,NULL,NULL,1,2,3,'',5,0,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (18,3,2,NULL,12000000,1,2,38,'',489572915,113713,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (21,5,2,NULL,12000000,1,2,39,'',472033110,109807,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (19,3,2,NULL,1000,1,2,40,'',0,0,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (25,6,1,NULL,NULL,1,3,3,'',0,0,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (22,5,2,NULL,12000000,1,2,38,'',22069949,35957,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (23,4,2,NULL,10000,1,2,39,'',540247,121574,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (24,4,2,NULL,10000,1,2,38,'',2208127,7526,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (26,6,1,NULL,NULL,1,3,4,'',23,0,'2002-11-12 18:27:01',60);
-INSERT INTO monitors VALUES (27,6,1,NULL,NULL,1,3,5,'',4,0,'2002-11-12 18:27:01',60);
+INSERT INTO monitors VALUES (1,1,1,NULL,NULL,1,2,9,'',NULL,NULL,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (2,1,1,NULL,NULL,1,2,10,'',NULL,NULL,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (3,1,1,NULL,NULL,1,2,11,'',NULL,NULL,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (4,1,2,NULL,105,1,2,7,'',25608,19,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (5,1,2,NULL,105,1,2,5,'',59106,130,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (6,1,2,NULL,105,1,2,8,'',1221,0,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (17,3,2,NULL,12000000,1,2,39,'',15829304,32204,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (7,1,1,NULL,NULL,1,2,2,'',70,2,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (8,1,1,NULL,NULL,1,2,3,'',1,0,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (9,1,1,NULL,NULL,1,2,18,'',5,2,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (20,4,1,NULL,NULL,1,2,40,'',NULL,NULL,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (10,1,2,NULL,1000,1,3,1,'',30505,293,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (11,2,2,NULL,105,1,2,7,'',23842,61,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (12,2,2,NULL,105,1,2,5,'',183224,308,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (13,2,2,NULL,105,1,2,8,'',21807,0,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (14,2,1,NULL,NULL,1,2,2,'',73,-1,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (15,2,1,NULL,NULL,1,2,18,'',3,2,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (16,2,1,NULL,NULL,1,2,3,'',3,0,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (18,3,2,NULL,12000000,1,2,38,'',59402531,79120,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (21,5,2,NULL,12000000,1,2,39,'',48855513,36685,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (19,3,2,NULL,1000,1,2,40,'',0,0,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (25,6,1,NULL,NULL,1,3,3,'',0,0,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (29,7,1,NULL,NULL,1,2,44,'',12351532,8,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (22,5,2,NULL,12000000,1,2,38,'',4734952,24165,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (30,8,1,NULL,NULL,1,2,43,'',18555804,0,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (23,4,2,NULL,10000,1,2,39,'',NULL,NULL,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (24,4,2,NULL,10000,1,2,38,'',NULL,NULL,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (26,6,1,NULL,NULL,1,3,4,'',27,0,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (28,7,1,NULL,NULL,1,2,43,'',2823072,-8,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (27,6,1,NULL,NULL,1,3,5,'',4,0,'2002-11-19 18:28:01',60);
+INSERT INTO monitors VALUES (31,8,1,NULL,NULL,1,2,44,'',79927040,0,'2002-11-19 18:28:01',60);
 
 --
 -- Table structure for table 'permit_type'
@@ -3274,42 +3259,6 @@ INSERT INTO snmp_cache VALUES (2,1,'','127.0.0.1','lo','','');
 INSERT INTO snmp_cache VALUES (2,2,'','192.168.1.11','eth0','0:40:33:e3:33:9d','');
 
 --
--- Table structure for table 'snmp_data'
---
-
-CREATE TABLE snmp_data (
-  id int(11) NOT NULL auto_increment,
-  name varchar(100) NOT NULL default '',
-  oidroot varchar(250) NOT NULL default '',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'snmp_data'
---
-
-
-INSERT INTO snmp_data VALUES (1,'Admin Status','ifAdminStatus');
-INSERT INTO snmp_data VALUES (2,'Operational Status','ifOperStatus');
-INSERT INTO snmp_data VALUES (3,'Bytes In','ifInOctets');
-INSERT INTO snmp_data VALUES (4,'Unicast Packets In','ifInUcastPkts');
-INSERT INTO snmp_data VALUES (5,'Non-Unicast Packets In','ifInNUcastPkts');
-INSERT INTO snmp_data VALUES (6,'Discarded Packets In','ifInDiscards');
-INSERT INTO snmp_data VALUES (7,'Errors In','ifInErrors');
-INSERT INTO snmp_data VALUES (8,'Bytes Out','ifOutOctets');
-INSERT INTO snmp_data VALUES (9,'Unicast Packets Out','ifOutUcastPkts');
-INSERT INTO snmp_data VALUES (10,'Non-Unicast Packets Out','ifOutNUcastPkts');
-INSERT INTO snmp_data VALUES (11,'Discarded Packets Out','ifOutDiscards');
-INSERT INTO snmp_data VALUES (12,'Errors Out','ifOutErrors');
-INSERT INTO snmp_data VALUES (13,'Cisco - CRC Errors','.1.3.6.1.4.1.9.2.2.1.1.12');
-INSERT INTO snmp_data VALUES (14,'TNT - Connected DS0s','.1.3.6.1.4.1.529.4.21.1.7');
-INSERT INTO snmp_data VALUES (15,'Bytes In (64-bit)','ifHCInOctets');
-INSERT INTO snmp_data VALUES (16,'Bytes Out (64-bit)','ifHCOutOctets');
-INSERT INTO snmp_data VALUES (17,'DS1 - Errored Seconds over 24 hours','transmission.18.9.1.2');
-
---
 -- Table structure for table 'snmp_disk_cache'
 --
 
@@ -3326,30 +3275,8 @@ CREATE TABLE snmp_disk_cache (
 --
 
 
-
---
--- Table structure for table 'snmp_index'
---
-
-CREATE TABLE snmp_index (
-  id int(11) NOT NULL auto_increment,
-  name varchar(100) NOT NULL default '',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'snmp_index'
---
-
-
-INSERT INTO snmp_index VALUES (2,'Interface Index');
-INSERT INTO snmp_index VALUES (3,'Interface Name');
-INSERT INTO snmp_index VALUES (4,'Interface IP');
-INSERT INTO snmp_index VALUES (5,'Interface MAC');
-INSERT INTO snmp_index VALUES (6,'Interface Description');
-INSERT INTO snmp_index VALUES (7,'Interface Alias');
+INSERT INTO snmp_disk_cache VALUES (1,1,'/','/dev/hda1');
+INSERT INTO snmp_disk_cache VALUES (1,2,'/storage','/dev/hdc1');
 
 --
 -- Table structure for table 'static_pad_types'
@@ -3432,6 +3359,8 @@ CREATE TABLE sub_dev_variables (
 INSERT INTO sub_dev_variables VALUES (5,'ifDescr','eth0');
 INSERT INTO sub_dev_variables VALUES (3,'ifDescr','eth0');
 INSERT INTO sub_dev_variables VALUES (4,'ifDescr','ppp0');
+INSERT INTO sub_dev_variables VALUES (7,'dskPath','/');
+INSERT INTO sub_dev_variables VALUES (8,'dskPath','/storage');
 
 --
 -- Table structure for table 'sub_devices'
@@ -3458,6 +3387,8 @@ INSERT INTO sub_devices VALUES (3,1,2,'Eth0');
 INSERT INTO sub_devices VALUES (4,1,2,'PPP0');
 INSERT INTO sub_devices VALUES (5,2,2,'Eth0');
 INSERT INTO sub_devices VALUES (6,3,1,'System');
+INSERT INTO sub_devices VALUES (7,1,3,'Root');
+INSERT INTO sub_devices VALUES (8,1,3,'Storage');
 
 --
 -- Table structure for table 'test_types'
@@ -3584,6 +3515,12 @@ INSERT INTO tests_snmp VALUES (37,'TNT - Busy Modems','.1.3.6.1.4.1.529.15.9.0',
 INSERT INTO tests_snmp VALUES (38,'Interfaces - Bytes Out','ifOutOctets.%ifIndex%',8);
 INSERT INTO tests_snmp VALUES (39,'Interfaces - Bytes In','ifInOctets.%ifIndex%',8);
 INSERT INTO tests_snmp VALUES (40,'Interfaces - Errors In','ifInErrors.%ifIndex%',8);
+INSERT INTO tests_snmp VALUES (41,'TNT - Connected DS0s','.1.3.6.1.4.1.529.4.21.1.7.%ifIndex%',8);
+INSERT INTO tests_snmp VALUES (42,'Disk - Size (kB)','dskTotal.%dskIndex%',8);
+INSERT INTO tests_snmp VALUES (43,'Disk - Available (kB)','dskAvail.%dskIndex%',8);
+INSERT INTO tests_snmp VALUES (44,'Disk - Used (kB)','dskUsed.%dskIndex%',8);
+INSERT INTO tests_snmp VALUES (45,'Disk - Percent Used','dskPercent.%dskIndex%',8);
+INSERT INTO tests_snmp VALUES (46,'Disk - Percent Node Usage','dskPercentNode.%dskIndex%',8);
 
 --
 -- Table structure for table 'tests_sql'
@@ -3636,6 +3573,7 @@ CREATE TABLE user (
 
 
 INSERT INTO user VALUES (2,'balleman','beKi9Eg9j5jvY',3,0,19,'Brady Alleman');
+INSERT INTO user VALUES (29,'admin','21OZ4/WxREgV.',3,0,19,'Administrator');
 
 --
 -- Table structure for table 'view'

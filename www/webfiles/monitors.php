@@ -44,8 +44,8 @@ function do_edit()
 		test_id='{$_REQUEST['test_id']}',
 		test_params='{$_REQUEST['test_params']}',
 		data_type='{$_REQUEST['data_type']}',
-		min_val='{$_REQUEST['min_val']}',
-		max_val='{$_REQUEST['max_val']}',
+		min_val={$_REQUEST['min_val']},
+		max_val={$_REQUEST['max_val']},
 		tuned=0 $db_end");
 } // end do_edit()
 
