@@ -136,9 +136,10 @@ if (empty($_REQUEST["action"]))
 		$graph_id  = $graph_row["id"];
 		$temp_comment = str_replace("%n","<br>",$graph_row["comment"]);
 
-		make_display_item($graph_row["name"],"./graph_items.php?graph_id=$graph_id",
+		make_display_item($graph_row["name"],"graph_items.php?graph_id=$graph_id",
 		  $temp_comment,"",
-		  "[<a href=\"./enclose_graph.php?type=custom&id=" . $graph_row["id"]. "\">View</a>]&nbsp;[<a href=\"{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"] . "\">Duplicate</a>]","",
+		  formatted_link("View", "enclose_graph.php?type=custom&id=" . $graph_row["id"]) . "&nbsp;" . 
+		  formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"]),"",
 		  formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .
 		  formatted_link("Delete", "javascript:del('{$graph_row['name']}', '$graph_id')"), "");
 	} // end graphs
