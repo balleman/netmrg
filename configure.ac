@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,0.16cvs)
-AC_REVISION($Revision: 1.26 $)
+AC_REVISION($Revision: 1.27 $)
 AC_CONFIG_SRCDIR(src/netmrg.cpp)
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
@@ -396,6 +396,8 @@ AC_CONFIG_FILES( \
 	bin/netmrg_cron.sh \
 	bin/rrdedit \
 	etc/Makefile \
+	etc/cron.d-netmrg \
+	etc/init.d-netmrg \
 	etc/netmrg.conf \
 	etc/netmrg.xml \
 	src/Makefile \
