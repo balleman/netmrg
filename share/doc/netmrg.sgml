@@ -61,6 +61,16 @@ any company, organization, product, or platform.
 	<title>Revision History</title>
 	<itemizedlist>
 		<listitem>
+			<para>0.15</para>
+			<para>2004.05.20</para>
+			<para>
+Minor Bugfixes and Feature Enhancements; fixes for various db errors (including the infamous one on 
+snmp_cache_view.php), better cross-platform compilation, select all/none/invert checkbox support, support for 
+choosing what graph to apply to an interface, better support for php < 4.2.0, and some security fixes for 
+single-view-only users.
+			</para>
+		</listitem>
+		<listitem>
 			<para>0.14</para>
 			<para>2004.03.10</para>
 			<para>
