@@ -23,14 +23,6 @@ research message board/mailing list
   - thread view
 CSS-ificiation
   - sub-pages need redone (ick)
-get auth w/ php sessions to work
-  - redirections for users w/o proper auth levels is broken
-  - set a standard for auth checks
-    * what exactly are the different auth levels?
-      - single view - "only 'view' a subtree"
-      - read all - "read"
-      - read/write - ""
-      - read/write/user manage - "admin"
 monitors.php:
   add javascript check so you can't enter a minimum < maximum
 format.php
