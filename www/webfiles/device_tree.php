@@ -25,6 +25,7 @@ if (!isset($_COOKIE["netmrgDevTree"]) || !is_array($_COOKIE["netmrgDevTree"]))
 	$_COOKIE["netmrgDevTree"] = array();
 	$_COOKIE["netmrgDevTree"]["group"] = array();
 	$_COOKIE["netmrgDevTree"]["device"] = array();
+	$_COOKIE["netmrgDevTree"]["subdevice"] = array();
 	$_COOKIE["netmrgDevTree"]["monitor"] = array();
 } // end if no cookies
 else
@@ -47,6 +48,15 @@ else
 		$_COOKIE["netmrgDevTree"]["device"] = array();
 	} // end if device not empty
 
+	if (!empty($_COOKIE["netmrgDevTree"]["subdevice"]))
+	{
+		$_COOKIE["netmrgDevTree"]["subdevice"] = explode(",", $_COOKIE["netmrgDevTree"]["subdevice"]);
+	}
+	else
+	{
+		$_COOKIE["netmrgDevTree"]["subdevice"] = array();
+	} // end if subdevice not empty
+
 	if (!empty($_COOKIE["netmrgDevTree"]["monitor"]))
 	{
 		$_COOKIE["netmrgDevTree"]["monitor"] = explode(",", $_COOKIE["netmrgDevTree"]["monitor"]);
@@ -66,11 +76,16 @@ if (!empty($_REQUEST["action"]))
 		{
 			array_push($_COOKIE["netmrgDevTree"]["group"], $_REQUEST["groupid"]);
 		} // end if group id
-	
+
 		else if (!empty($_REQUEST["deviceid"]))
 		{
 			array_push($_COOKIE["netmrgDevTree"]["device"], $_REQUEST["deviceid"]);
 		} // end if device id
+
+		else if (!empty($_REQUEST["subdevid"]))
+		{
+			array_push($_COOKIE["netmrgDevTree"]["subdevice"], $_REQUEST["subdevid"]);
+		}
 
 		else if (!empty($_REQUEST["monid"]))
 		{
@@ -87,7 +102,7 @@ if (!empty($_REQUEST["action"]))
 				unset($_COOKIE["netmrgDevTree"]["group"][array_search($_REQUEST["groupid"], $_COOKIE["netmrgDevTree"]["group"])]);
 			} // end if group is currently expanded
 		} // end if group id
-	
+
 		else if (!empty($_REQUEST["deviceid"]))
 		{
 			if (in_array($_REQUEST["deviceid"], $_COOKIE["netmrgDevTree"]["device"]))
@@ -95,6 +110,14 @@ if (!empty($_REQUEST["action"]))
 				unset($_COOKIE["netmrgDevTree"]["device"][array_search($_REQUEST["deviceid"], $_COOKIE["netmrgDevTree"]["device"])]);
 			} // end if device is currently expanded
 		} // end if device id
+
+		else if (!empty($_REQUEST["subdevid"]))
+		{
+			if (in_array($_REQUEST["subdevid"], $_COOKIE["netmrgDevTree"]["subdevice"]))
+			{
+				unset($_COOKIE["netmrgDevTree"]["subdevice"][array_search($_REQUEST["subdevid"], $_COOKIE["netmrgDevTree"]["subdevice"])]);
+			}
+		}
 
 		else if (!empty($_REQUEST["monid"]))
 		{
@@ -109,6 +132,7 @@ if (!empty($_REQUEST["action"]))
 // set our new cookie to last for a week (7days * 24hrs * 60min * 60sec)
 setcookie("netmrgDevTree[group]", implode(",", $_COOKIE["netmrgDevTree"]["group"]), time()+604800);
 setcookie("netmrgDevTree[device]", implode(",", $_COOKIE["netmrgDevTree"]["device"]), time()+604800);
+setcookie("netmrgDevTree[subdevice]", implode(",", $_COOKIE["netmrgDevTree"]["subdevice"]), time()+604800);
 setcookie("netmrgDevTree[monitor]", implode(",", $_COOKIE["netmrgDevTree"]["monitor"]), time()+604800);
 ?>
 
@@ -119,7 +143,7 @@ begin_page("device_tree.php", "Device Tree");
 ?>
 <table width="100%" border="0" cellspacing="2" cellpadding="2" align="center">
 	<tr>
-		<td colspan="5" bgcolor="<?php print(get_color_by_name("edit_main_header")); ?>">
+		<td colspan="6" bgcolor="<?php print(get_color_by_name("edit_main_header")); ?>">
 		<font color="<?php print(get_color_by_name("edit_main_header_text")); ?>">
 		<b>Device Tree</b>
 		</font>
@@ -129,9 +153,10 @@ begin_page("device_tree.php", "Device Tree");
 
 	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Group</font></b></td>
 	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Device</font></b></td>
+	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Sub-Device</font></b></td>
 	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Monitors</font></b></td>
 	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Events</font></b></td>
-	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Situation</font></b></td>
+	<td width=""><b><font color="<?php print(get_color_by_name("edit_header_text")); ?>">Status</font></b></td>
 
 
 <?php
@@ -157,7 +182,7 @@ function draw_group($grp_id, $depth = 0)
 			$img = get_image_by_name("show");
 			$grp_action = "expand";
 		} // end if this group is expanded
-		make_display_item("<img border=0 height=1 width=" . ($depth * 8) . "><img src=\"" . $img . "\" border=\"0\"> " . $grp_row["name"], $_SERVER["PHP_SELF"] . "?action=$grp_action&groupid=$grp_id","[<a href=\"./view.php?pos_id_type=0&pos_id=$grp_id\">View</a>]","","","","","",get_img_tag_from_status(get_group_status($grp_id)),"");
+		make_display_item("<img border=0 height=1 width=" . ($depth * 8) . "><img src=\"" . $img . "\" border=\"0\"> " . $grp_row["name"], $_SERVER["PHP_SELF"] . "?action=$grp_action&groupid=$grp_id","[<a href=\"view.php?pos_id_type=0&pos_id=$grp_id\">View</a>]","","","","","","","", "", "");
 
 
 		// if group is expanded, show the devices
@@ -165,7 +190,7 @@ function draw_group($grp_id, $depth = 0)
 		{
 			draw_group($grp_id, $depth + 1);
 			$dev_results = do_query("
-				SELECT dev_parents.dev_id AS id, mon_devices.name AS name
+				SELECT dev_parents.dev_id AS id, mon_devices.name AS name, mon_devices.status AS status
 				FROM dev_parents
 				LEFT JOIN mon_devices ON dev_parents.dev_id=mon_devices.id
 				WHERE grp_id = '$grp_id'
@@ -187,65 +212,86 @@ function draw_group($grp_id, $depth = 0)
 					$img = get_image_by_name("show");
 					$device_action = "expand";
 				} // end if D tree
-				make_display_item("","","<img src=\"" . $img . "\" border=\"0\"> " . $dev_row["name"], $_SERVER["PHP_SELF"] . "?action=$device_action&deviceid=$device_id","[<a href=\"./view.php?pos_id_type=1&pos_id=$device_id\">View</a>]","","","",get_img_tag_from_status(get_device_status($device_id)),"");
+				make_display_item("","","<img src=\"" . $img . "\" border=\"0\"> " . $dev_row["name"], $_SERVER["PHP_SELF"] . "?action=$device_action&deviceid=$device_id",formatted_link("View","view.php?pos_id_type=1&pos_id=$device_id"),"","","","","",get_img_tag_from_status($dev_row['status']),"");
 
-				// if this device is expanded, show the monitors
+				// if this device is expanded, show the subdevices
 				if (in_array($device_id, $_COOKIE["netmrgDevTree"]["device"]))
 				{
-			        $mon_results = do_query("
-				        SELECT mon_monitors.id, mon_test.name as test_name, mon_devices.ip AS ip, 
-						mon_test.cmd AS cmd, mon_monitors.params AS params,
-						mon_devices.name AS dev_name, mon_test.name as test_name
-				        FROM mon_monitors
-				        LEFT JOIN mon_test ON mon_monitors.test_id=mon_test.id
-				        LEFT JOIN mon_devices ON mon_monitors.device_id=mon_devices.id
-				        WHERE mon_monitors.device_id=$device_id");
-					// while we have monitors
-					while ($mon_row = mysql_fetch_array($mon_results))
+					$subdev_results = do_query("
+					SELECT id, name, status FROM sub_devices WHERE dev_id={$dev_row['id']} ORDER BY type, name");
+
+					while ($subdev_row = mysql_fetch_array($subdev_results))
 					{
-						$mon_id = $mon_row["id"];
-						$monitor_action = "";
+						$subdev_id = $subdev_row["id"];
+						$subdev_action = "";
 
 						// draw +- and create link for monitor expand/collapse
-						if (in_array($mon_id, $_COOKIE["netmrgDevTree"]["monitor"]))
+						if (in_array($subdev_id, $_COOKIE["netmrgDevTree"]["subdevice"]))
 						{
 							$img = get_image_by_name("hide");
-							$monitor_action = "collapse";
+							$subdev_action = "collapse";
 						}
 						else
 						{
 							$img = get_image_by_name("show");
-							$monitor_action = "expand";
+							$subdev_action = "expand";
 						} // end if M tree
-						make_display_item("","","","","<img src=\"" . $img . "\" border=\"0\"> " . get_short_monitor_name($mon_row["id"]), $_SERVER["PHP_SELF"] . "?action=$monitor_action&monid=$mon_id","","",get_img_tag_from_status(get_monitor_status($mon_id)) . " [Graph]","./enclose_graph.php?type=mon&id=$mon_id");
+						make_display_item("","","","","<img src=\"" . $img . "\" border=\"0\"> " . $subdev_row['name'], $_SERVER["PHP_SELF"] . "?action=$subdev_action&subdevid=$subdev_id","","","","",get_img_tag_from_status($subdev_row['status']), "");
 
-						// if this monitor is expanded, show the events
-						if (in_array($mon_id, $_COOKIE["netmrgDevTree"]["monitor"]))
+						// if this subdevice is expanded, show the monitors
+						if (in_array($subdev_id, $_COOKIE["netmrgDevTree"]["subdevice"]))
 						{
-	       					$event_results = do_query("SELECT * FROM mon_events WHERE monitors_id=$mon_id");
-							$event_total = mysql_num_rows($event_results);
 
-							// For each event
-							for ($event_count = 1; $event_count <= $event_total; ++$event_count)
+							$mon_results = do_query("SELECT id, status FROM monitors WHERE sub_dev_id={$subdev_row['id']}");
+
+							// while we have monitors
+							while ($mon_row = mysql_fetch_array($mon_results))
 							{
-								$event_row = mysql_fetch_array($event_results);
-								$event_id = $event_row["id"];
-								$color = get_color_from_situation($event_row["situation"]);
+								$mon_id = $mon_row["id"];
+								$monitor_action = "";
 
-								if ($event_row["last_status"] == 1)
+								// draw +- and create link for monitor expand/collapse
+								if (in_array($mon_id, $_COOKIE["netmrgDevTree"]["monitor"]))
 								{
-									$img = ("<img src=\"" . get_image_by_name($color . "_led_on") . "\" border=\"0\">");
+									$img = get_image_by_name("hide");
+									$monitor_action = "collapse";
 								}
 								else
 								{
-									$img = ("<img src=\"" . get_image_by_name($color . "_led_off") . "\" border=\"0\">");
-								} // end if last status
-								make_display_item("","","","","","",$event_row["display_name"],"",$img,"");
-							} // end event for
+									$img = get_image_by_name("show");
+									$monitor_action = "expand";
+								} // end if M tree
+								make_display_item("","","","","","","<img src=\"" . $img . "\" border=\"0\"> " . get_short_monitor_name($mon_row["id"]), $_SERVER["PHP_SELF"] . "?action=$monitor_action&monid=$mon_id","","",get_img_tag_from_status($mon_row['status']) . " [Graph]","enclose_graph.php?type=mon&id=$mon_id");
 
-						} // end if monitor expanded
+								// if this monitor is expanded, show the events
+								if (in_array($mon_id, $_COOKIE["netmrgDevTree"]["monitor"]))
+								{
+								$event_results = do_query("SELECT * FROM events WHERE mon_id=$mon_id");
+									$event_total = mysql_num_rows($event_results);
 
-					} // end while each monitor
+									// For each event
+									for ($event_count = 1; $event_count <= $event_total; ++$event_count)
+									{
+										$event_row = mysql_fetch_array($event_results);
+										$event_id = $event_row["id"];
+										$color = get_color_from_situation($event_row["situation"]);
+
+										if ($event_row["last_status"] == 1)
+										{
+											$img = ("<img src=\"" . get_image_by_name($color . "_led_on") . "\" border=\"0\">");
+										}
+										else
+										{
+											$img = ("<img src=\"" . get_image_by_name($color . "_led_off") . "\" border=\"0\">");
+										} // end if last status
+										make_display_item("","","","","","","","",$event_row["name"],"",$img,"");
+									} // end event for
+
+								} // end if monitor expanded
+							}
+						} // end while each monitor
+
+					} // end while each sub-device
 
 				} // end if device expanded
 

@@ -20,25 +20,6 @@ function store_array_in_cookie($cookiename, $array2store)
 	unset($tmpstring); 
 } // end store_array_in_cookie()
 
-
-function get_array_from_cookie($cookiename)
-{ 
-	$tmpstring = "global \$$cookiename;"; 
-	eval($tmpstring); 
-	unset($tmpstring); 
-
-	if (isset(${$cookiename}))
-	{
-		$tmparray=unserialize(stripslashes(${$cookiename})); 
-	}
-	else
-	{
-		$tmparray = array(); 
-	} // end if isset cookiename
-	return $tmparray; 
-} // end get_array_from_cookie()
-
-
 function get_img_tag_from_status($status)
 {
 

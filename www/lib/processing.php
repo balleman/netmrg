@@ -54,60 +54,75 @@ function format_time_elapsed($num_secs)
 
 function sanitize_number($number)
 {
-$round_to = 5;
+	$round_to = 5;
 
 	if ($number < 1000)
 	{
 		return round($number,$round_to);
-	} elseif ($number < 1000000)
+	}
+	elseif ($number < 1000000)
 	{
 		return round(($number / 1000),$round_to) . " k";
-	} elseif ($number < 1000000000)
+	}
+	elseif ($number < 1000000000)
 	{
 		return round(($number / 1000000),$round_to) . " M";
-	} elseif ($number < 1000000000000) {
+	}
+	elseif ($number < 1000000000000)
+	{
 		return round(($number / 1000000000),$round_to) . " G";
-	} else {
+	}
+	else
+	{
 		return round(($number / 1000000000000),$round_to) . " T";
 	}
 
 
-} # end sanitize_number
+} // end sanitize_number
 
-function make_spaces($length) {
+function make_spaces($length)
+{
 	$spaces = "";
 
-	for ($i = 0; $i < $length; $i++) {
-	$spaces = $spaces . " ";
+	for ($i = 0; $i < $length; $i++)
+	{
+		$spaces = $spaces . " ";
 	}
+
 	return($spaces);
+
 } // end make_spaces
 
-function align_right($string, $length) 
+function align_right($string, $length)
 {
-// prepends spaces to a string to cause it to be a certain length
+	// prepends spaces to a string to cause it to be a certain length
+
 	$space_length = $length - strlen($string);
+
 	return(make_spaces($space_length) . $string);
+
 } // end align_right
 
-function align_left($string, $length) 
+function align_left($string, $length)
 {
 	$space_length = $length - strlen($string);
 	return($string . make_spaces($space_length));
+
 } // end align_left
 
-function align_right_split($string, $length) 
+function align_right_split($string, $length)
 {
 	$space_length = $length - strlen($string);
 	$pos = strrchr($string," ");
 	return(substr($string, 0, -strlen($pos)) . make_spaces($space_length) . $pos);
+
 } //end align_right_split
 
-function do_align($string, $length, $method) 
+function do_align($string, $length, $method)
 {
 // manipulates a string by applying the appropriate padding method
 
-        switch ($method) 
+        switch ($method)
 	{
         	case 1:
 		        $result = align_left($string, $length);
@@ -132,77 +147,6 @@ function get_microtime()
 
 // Recursive status determination section
 
-function get_monitor_status($mon_id)
-{
-// Takes a monitor ID and determines the monitor's status based on
-// the individual status of each event subordinate to the monitor.
-
-	if (isset($GLOBALS["state_monitor_" . $mon_id]))
-	{
-		return $GLOBALS["state_monitor_" . $mon_id];
-	} else {
-
-		$event_results = do_query("SELECT * FROM mon_events WHERE monitors_id=$mon_id");
-		$event_total = mysql_num_rows($event_results);
-
-		$status = -1;
-
-		for ($event_count = 1; $event_count <= $event_total; ++$event_count)
-		{
-		// For each event
-			$event_row = mysql_fetch_array($event_results);
-			$event_id = $event_row["id"];
-			$ev_status = $event_row["situation"];
-			if ($event_row["last_status"] == 1)
-			{
-				if ($status < $ev_status) { $status = $ev_status; }
-			}
-		} // end event for
-
-	$GLOBALS["state_monitor_" . $mon_id] = $status;
-	return $status;
-	}
-
-} # end get_monitor_status
-
-
-function get_device_status($dev_id)
-{
-	//Takes a dev_id and returns the current device aggregate status
-
-        if (isset($GLOBALS["state_device_" . $dev_id]))
-        {
-	        return $GLOBALS["state_device_" . $dev_id];
-
-        } else {
-
-                $status = -1;
-
-		$dev_results = do_query("SELECT disabled FROM mon_devices WHERE id=$dev_id");
-		$dev_row     = mysql_fetch_array($dev_results);
-
-		if ($dev_row["disabled"] == 1)
-		{
-		        $status = 4;
-                } else {
-
-		        $mon_results = do_query("SELECT mon_monitors.id FROM mon_monitors WHERE device_id=$dev_id");
-                        $mon_total = mysql_num_rows($mon_results);
-
-                        for ($mon_count = 1; $mon_count <= $mon_total; ++$mon_count)
-		        {
-        	                $mon_row = mysql_fetch_array($mon_results);
-	                        $mon_status = get_monitor_status($mon_row["id"]);
-	                        if ($mon_status > $status) { $status = $mon_status; }
-	                } // end for
-
-                }
-
-		$GLOBALS["state_device_" . $dev_id] = $status;
-	        return $status;
-	}
-
-} // end get_device_status
 
 function get_group_status($grp_id)
 {
@@ -277,9 +221,9 @@ function get_short_monitor_name($mon_id)
 	} // end switch test type
 
 	$test_row = mysql_fetch_array(do_query($test_query));
-	
+
 	$res = $test_row["name"];
-	
+
 	if ($mon_row["test_params"] != "")
 	{
 		$res .= " - " . $mon_row["test_params"];
