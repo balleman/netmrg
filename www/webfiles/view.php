@@ -47,6 +47,7 @@ switch ($_REQUEST["action"])
 		break;
 	
 	case "dodelete":
+	case "multidodelete":
 		do_delete();
 		break;
 	
@@ -72,7 +73,7 @@ function display_error()
 function display_edit()
 {
 	begin_page("view.php", "Edit View Item");
-
+	
 	switch ($_REQUEST["action"])
 	{
 		case "add":
@@ -182,18 +183,18 @@ function do_edit()
 function do_delete()
 {
 	check_auth($PERMIT["ReadWrite"]);
-
-	$q = db_query("SELECT pos FROM view WHERE id=" . $_REQUEST["id"]);
-	$r = db_fetch_array($q);
-
-	$pos = $r["pos"];
-
-	db_update("DELETE FROM view WHERE id=" . $_REQUEST['id']);
-
-	db_update("UPDATE view SET pos = pos - 1
-		WHERE object_id=" . $_REQUEST["object_id"] . "
-		AND object_type='" . $_REQUEST["object_type"] . "'
-		AND pos > " . $pos);
+	
+	if (isset($_REQUEST["viewitem"]))
+	{
+		while (list($key,$value) = each($_REQUEST["viewitem"]))
+		{
+			delete_view_item($key);
+		}
+	}
+	else
+	{
+		delete_view_item($_REQUEST['id']);
+	}
 
 	header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&action=list");
 	exit(0);
@@ -203,37 +204,18 @@ function do_move()
 {
 	check_auth($PERMIT["ReadWrite"]);
 	
-	$query = db_query("
-		SELECT 	id, pos
-		FROM 	view
-		WHERE 	object_id={$_REQUEST['object_id']}
-		AND 	object_type='{$_REQUEST['object_type']}'
-		ORDER BY pos");
-	
-	for ($i = 0; $i < db_num_rows($query); $i++)
+	if (isset($_REQUEST["viewitem"]))
 	{
-		$row = db_fetch_array($query);
-	
-		if ($_REQUEST['direction'] == "up")
+		if ($_REQUEST['direction'] == "down")
+			$_REQUEST['viewitem'] = array_reverse($_REQUEST['viewitem'], true);
+		while (list($key,$value) = each($_REQUEST["viewitem"]))
 		{
-			if (($_REQUEST['id'] - 1) == $i)
-			{
-				$next_row = db_fetch_array($query);
-				db_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$row['id']}");
-				db_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$next_row['id']}");
-				break;
-			}
+			move_view_item($_REQUEST['object_id'], $_REQUEST['object_type'], $key, $_REQUEST['direction']);
 		}
-		else
-		{
-			if ($_REQUEST['id'] == $i)
-			{
-				$next_row = db_fetch_array($query);
-				db_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$row['id']}");
-				db_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = {$_REQUEST['object_id']} AND object_type = '{$_REQUEST['object_type']}' AND id = {$next_row['id']}");
-				break;
-			}
-		}
+	}
+	elseif (isset($_REQUEST["id"]))
+	{
+		move_view_item($_REQUEST['object_id'], $_REQUEST['object_type'], $_REQUEST['id'], $_REQUEST['direction']);
 	}
 
 	header("Location: {$_SERVER['PHP_SELF']}?object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&action=list");
@@ -389,7 +371,7 @@ function do_view()
 	{
 		begin_page("view.php", "View", 1);
 	}
-
+		
 	$view_select =
 		"SELECT		view.id, pos, graphs.name, graphs.title, graph_id, separator_text, subdev_id, pos, view.type AS type
 		FROM		view
@@ -456,22 +438,35 @@ function do_view()
 	else
 	{
 		js_confirm_dialog("del", "Do you want to remove ", " from this view?", "{$_SERVER['PHP_SELF']}?action=dodelete&object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&id=");
-
+		
+		js_checkbox_utils();
+		
+		?>
+		<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+		<input type="hidden" name="action" value="">
+		<input type="hidden" name="object_id" value="<?php echo $_REQUEST['object_id']; ?>">
+		<input type="hidden" name="object_type" value="<?php echo $_REQUEST['object_type']; ?>">
+		<input type="hidden" name="direction" value="">
+		<?php
+		
 		make_display_table("Edit View",
 			"{$_SERVER['PHP_SELF']}?object_type=".$_REQUEST["object_type"]."&object_id=".$_REQUEST["object_id"]."&pos=" . ($num + 1) . "&action=add",
+			array("text" => checkbox_toolbar()),
 			array("text" => "Item"),
 			array("text" => "Type")
 		); // end make_display_table();
 
 		for ($i = 0; $i < $num; $i++)
 		{
+			$row = db_fetch_array($view_result);
+		
 			if ($i == 0)
 			{
 				$move_up = image_link_disabled("arrow-up", "Move Up");
 			}
 			else
 			{
-				$move_up = image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id=$i");
+				$move_up = image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}");
 			}
 
 			if ($i == ($num - 1))
@@ -480,10 +475,8 @@ function do_view()
 			}
 			else
 			{
-				$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id=$i");
+				$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}");
 			}
-
-			$row = db_fetch_array($view_result);
 
 			switch ($row['type'])
 			{
@@ -507,6 +500,7 @@ function do_view()
 			}
 
 			make_display_item("editfield".($i%2),
+				array("checkboxname" => "viewitem", "checkboxid" => $row['id']),
 				array("text" => $name),
 				array("text" => ucfirst($row["type"])),
 				array("text" => $move_up . "&nbsp;" .
@@ -516,8 +510,17 @@ function do_view()
 					$extra_options)
 			); // end make_display_item();
 		}
-
-		print("</table>");
+		?>
+		<tr>
+			<td colspan="5" class="editheader" nowrap="nowrap">
+				Checked Items:&nbsp;&nbsp;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked items ?')){document.form.submit();}" href="#">Delete</a>&nbsp;&nbsp;
+				<a class="editheaderlink" onclick="document.form.action.value='move';document.form.direction.value='up';document.form.submit();" href="#">Move Up</a>
+				&nbsp;&nbsp;<a class="editheaderlink" onclick="document.form.action.value='move';document.form.direction.value='down';document.form.submit();" href="#">Move Down</a>
+			</td>
+		</tr>
+		<?php
+		make_status_line("{$_REQUEST["type"]} item", $i);
+		print("</table></form>");
 		print(formatted_link("Done Editing", "{$_SERVER['PHP_SELF']}?action=view&object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}"));
 
 	}

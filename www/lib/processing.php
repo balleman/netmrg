@@ -895,6 +895,60 @@ function move_graph_item($graph_id, $graph_item_id, $direction)
 	}
 }
 
+function delete_view_item($item_id)
+{
+	$q = db_query("SELECT pos, object_id, object_type FROM view WHERE id=" . $item_id);
+	$r = db_fetch_array($q);
+
+	$pos = $r["pos"];
+
+	db_update("DELETE FROM view WHERE id=" . $item_id);
+
+	db_update("UPDATE view SET pos = pos - 1
+		WHERE object_id=" . $r["object_id"] . "
+		AND object_type='" . $r["object_type"] . "'
+		AND pos > " . $pos);
+}
+
+function move_view_item($object_id, $object_type, $item_id, $direction)
+{
+	//echo ("$object_id, $object_type, $item_id, $direction");
+	$query = db_query("
+		SELECT 	id, pos
+		FROM 	view
+		WHERE 	object_id=$object_id
+		AND 	object_type='$object_type'
+		ORDER BY pos");
+	
+	$row = array("id" => 0, "pos" => 0);
+	
+	for ($i = 0; $i < db_num_rows($query); $i++)
+	{
+		$last_row = $row;
+		$row = db_fetch_array($query);
+
+		if ($direction == "up")
+		{
+			if ($item_id == $row['id'])
+			{
+				$next_row = db_fetch_array($query);
+				db_update("UPDATE view SET pos = {$last_row['pos']} WHERE object_id = $object_id AND object_type = '$object_type' AND id = {$row['id']}");
+				db_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = $object_id AND object_type = '$object_type' AND id = {$last_row['id']}");
+				break;
+			}
+		}
+		else
+		{
+			if ($item_id == $row['id'])
+			{
+				$next_row = db_fetch_array($query);
+				db_update("UPDATE view SET pos = {$next_row['pos']} WHERE object_id = $object_id AND object_type = '$object_type' AND id = {$row['id']}");
+				db_update("UPDATE view SET pos = {$row['pos']} WHERE object_id = $object_id AND object_type = '$object_type' AND id = {$next_row['id']}");
+				break;
+			}
+		}
+	}
+}
 // Recursive Deletion Section (for orphan prevention if nothing else)
 
 function delete_group($group_id)

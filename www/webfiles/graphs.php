@@ -19,20 +19,16 @@ if (!isset($_REQUEST['action']))
 
 switch ($_REQUEST['action'])
 {
-	case 'doedit':			doedit();			break;
+	case 'doedit':				doedit();			break;
 	case 'dodelete':
-	case 'multidodelete':
-		dodelete();
-		break;
+	case 'multidodelete':		dodelete();			break;
 	case 'duplicate':
-	case 'multiduplicate':
-		duplicate();
-		break;
-	case 'edit':			edit();				break;
-	case 'add':				edit();				break;
-	case 'applytemplates':	applytemplates();	break;
+	case 'multiduplicate':		duplicate();		break;
+	case 'edit':				
+	case 'add':					edit();				break;
+	case 'applytemplates':		applytemplates();	break;
 	case 'doapplytemplates':	doapplytemplates();	break;
-	default:				display();
+	default:					display();
 }
 
 end_page();
