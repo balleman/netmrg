@@ -1,8 +1,8 @@
 <netmrg>
 	<database>
 		<host>localhost</host>
-		<user>netmrgwrite</user>
-		<password>netmrgwrite</password>
+		<user>netmrguser</user>
+		<password>netmrgpass</password>
 		<db>netmrg</db>
 	</database>
 	<paths>
