@@ -14,7 +14,7 @@ RRD_DIR="$localstatedir/lib/netmrg/rrd"
 
 if [ ! -n "$1" ]
 then
-  echo "Usage edit_rrd.sh [RRD_FILENAME]"
+  echo "Usage rrdedit [RRD_FILENAME]"
   exit
 fi
 
