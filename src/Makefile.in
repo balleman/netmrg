@@ -13,12 +13,6 @@
 # PARTICULAR PURPOSE.
 
 @SET_MAKE@
-
-#
-# Makefile
-#
-# Version:	$Id: Makefile.in,v 1.10 2003/07/22 01:16:01 balleman Exp $
-#
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -83,12 +77,11 @@ VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
-
 netmrg_gatherer_SOURCES = db.cpp devices.cpp events.cpp locks.cpp mappings.cpp monitors.cpp netmrg.cpp rrd.cpp settings.cpp snmp.cpp utils.cpp
 
 noinst_HEADERS = include/common.h include/db.h include/devices.h include/events.h include/locks.h include/mappings.h include/monitors.h include/netmrg.h include/rrd.h include/settings.h include/snmp.h include/types.h include/utils.h
 
-noinst_PROGRAMS = netmrg-gatherer
+bin_PROGRAMS = netmrg-gatherer
 
 INCLUDES = -I./include -I/usr/include/libxml2
 subdir = .
@@ -96,8 +89,8 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/../mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/include/config.h
 CONFIG_CLEAN_FILES =
-noinst_PROGRAMS = netmrg-gatherer$(EXEEXT)
-PROGRAMS = $(noinst_PROGRAMS)
+bin_PROGRAMS = netmrg-gatherer$(EXEEXT)
+PROGRAMS = $(bin_PROGRAMS)
 
 am_netmrg_gatherer_OBJECTS = db.$(OBJEXT) devices.$(OBJEXT) \
 	events.$(OBJEXT) locks.$(OBJEXT) mappings.$(OBJEXT) \
@@ -173,9 +166,30 @@ $(srcdir)/./include/config.h.in:  $(top_srcdir)/configure.ac $(ACLOCAL_M4)
 
 distclean-hdr:
 	-rm -f include/config.h include/stamp-h1
+binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
+	  if test -f $$p \
+	  ; then \
+	    f=`echo "$$p1" | sed 's,^.*/,,;$(transform);s/$$/$(EXEEXT)/'`; \
+	   echo " $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) $$p $(DESTDIR)$(bindir)/$$f"; \
+	   $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) $$p $(DESTDIR)$(bindir)/$$f; \
+	  else :; fi; \
+	done
 
-clean-noinstPROGRAMS:
-	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_PROGRAMS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's,^.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
+	done
+
+clean-binPROGRAMS:
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 netmrg-gatherer$(EXEEXT): $(netmrg_gatherer_OBJECTS) $(netmrg_gatherer_DEPENDENCIES) 
 	@rm -f netmrg-gatherer$(EXEEXT)
 	$(CXXLINK) $(netmrg_gatherer_LDFLAGS) $(netmrg_gatherer_OBJECTS) $(netmrg_gatherer_LDADD) $(LIBS)
@@ -344,6 +358,7 @@ check: check-am
 all-am: Makefile $(PROGRAMS) $(HEADERS)
 
 installdirs:
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
 
 install: install-am
 install-exec: install-exec-am
@@ -371,7 +386,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic clean-noinstPROGRAMS mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -388,7 +403,7 @@ info-am:
 
 install-data-am:
 
-install-exec-am:
+install-exec-am: install-binPROGRAMS
 
 install-info: install-info-am
 
@@ -405,18 +420,19 @@ mostlyclean: mostlyclean-am
 
 mostlyclean-am: mostlyclean-compile mostlyclean-generic
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 
-.PHONY: GTAGS all all-am check check-am clean clean-generic \
-	clean-noinstPROGRAMS dist dist-all dist-gzip distcheck \
-	distclean distclean-compile distclean-depend distclean-generic \
+.PHONY: GTAGS all all-am check check-am clean clean-binPROGRAMS \
+	clean-generic dist dist-all dist-gzip distcheck distclean \
+	distclean-compile distclean-depend distclean-generic \
 	distclean-hdr distclean-tags distcleancheck distdir dvi dvi-am \
-	info info-am install install-am install-data install-data-am \
-	install-exec install-exec-am install-info install-info-am \
-	install-man install-strip installcheck installcheck-am \
-	installdirs maintainer-clean maintainer-clean-generic \
-	mostlyclean mostlyclean-compile mostlyclean-generic tags \
-	uninstall uninstall-am uninstall-info-am
+	info info-am install install-am install-binPROGRAMS \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-info-am install-man install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic tags uninstall uninstall-am \
+	uninstall-binPROGRAMS uninstall-info-am
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

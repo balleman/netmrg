@@ -13,12 +13,6 @@
 # PARTICULAR PURPOSE.
 
 @SET_MAKE@
-
-#
-# Makefile.am
-#
-# Version:	$Id: Makefile.in,v 1.9 2003/07/21 22:18:14 keb Exp $
-#
 SHELL = @SHELL@
 
 srcdir = @srcdir@
@@ -81,12 +75,48 @@ am__include = @am__include@
 am__quote = @am__quote@
 install_sh = @install_sh@
 
-SUBDIRS = @subdirs@
+SUBDIRS = @subdirs@ www
+
+# options to install files in the libexec directory
+netmrg_libexecdir = $(libexecdir)/$(PACKAGE)
+netmrg_libexec_SCRIPTS = libexec/*.php libexec/*.pl
+
+# options to install files in the bin directory
+bin_SCRIPTS = bin/*.pl bin/*.sh
+
+# options to install files in the etc directory
+netmrg_etcdir = $(sysconfdir)
+netmrg_etc_SCRIPTS = etc/*.conf
+
+# options to install files in the share/images directory
+netmrg_share_imagesdir = $(pkgdatadir)/images
+netmrg_share_images_SCRIPTS = share/images/default/*.svg
+
+# options to install files in the share/db directory
+netmrg_share_dbdir = $(pkgdatadir)/db
+netmrg_share_db_SCRIPTS = 
+
+# options to install files in the share/doc directory
+netmrg_share_docdir = $(datadir)/doc/$(PACKAGE)
+netmrg_share_doc_SCRIPTS = share/doc/*.sgml
+
+# options to install files in the var/lib directory
+netmrg_var_libdir = $(localstatedir)/lib/$(PACKAGE)/rrd
+netmrg_var_lib_SCRIPTS = var/lib/rrd/*.rrd
+
+# options to install files in the var/log directory
+netmrg_var_logdir = $(localstatedir)/log/$(PACKAGE)
+netmrg_var_log_SCRIPTS = 
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_CLEAN_FILES = etc/netmrg.conf src/include/netmrg.h \
 	www/include/config.php
+SCRIPTS = $(bin_SCRIPTS) $(netmrg_etc_SCRIPTS) $(netmrg_libexec_SCRIPTS) \
+	$(netmrg_share_db_SCRIPTS) $(netmrg_share_doc_SCRIPTS) \
+	$(netmrg_share_images_SCRIPTS) $(netmrg_var_lib_SCRIPTS) \
+	$(netmrg_var_log_SCRIPTS)
+
 DIST_SOURCES =
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
@@ -122,6 +152,166 @@ src/include/netmrg.h: $(top_builddir)/config.status $(top_srcdir)/src/include/ne
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 www/include/config.php: $(top_builddir)/config.status $(top_srcdir)/www/include/config.php.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
+binSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+install-binSCRIPTS: $(bin_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(binSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(bindir)/$$f"; \
+	    $(binSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(bindir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-binSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(bindir)/$$f"; \
+	  rm -f $(DESTDIR)$(bindir)/$$f; \
+	done
+netmrg_etcSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+install-netmrg_etcSCRIPTS: $(netmrg_etc_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(netmrg_etcdir)
+	@list='$(netmrg_etc_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(netmrg_etcSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_etcdir)/$$f"; \
+	    $(netmrg_etcSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_etcdir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-netmrg_etcSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(netmrg_etc_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(netmrg_etcdir)/$$f"; \
+	  rm -f $(DESTDIR)$(netmrg_etcdir)/$$f; \
+	done
+netmrg_libexecSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+install-netmrg_libexecSCRIPTS: $(netmrg_libexec_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(netmrg_libexecdir)
+	@list='$(netmrg_libexec_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(netmrg_libexecSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_libexecdir)/$$f"; \
+	    $(netmrg_libexecSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_libexecdir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-netmrg_libexecSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(netmrg_libexec_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(netmrg_libexecdir)/$$f"; \
+	  rm -f $(DESTDIR)$(netmrg_libexecdir)/$$f; \
+	done
+netmrg_share_dbSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+install-netmrg_share_dbSCRIPTS: $(netmrg_share_db_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(netmrg_share_dbdir)
+	@list='$(netmrg_share_db_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(netmrg_share_dbSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_share_dbdir)/$$f"; \
+	    $(netmrg_share_dbSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_share_dbdir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-netmrg_share_dbSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(netmrg_share_db_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(netmrg_share_dbdir)/$$f"; \
+	  rm -f $(DESTDIR)$(netmrg_share_dbdir)/$$f; \
+	done
+netmrg_share_docSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+install-netmrg_share_docSCRIPTS: $(netmrg_share_doc_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(netmrg_share_docdir)
+	@list='$(netmrg_share_doc_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(netmrg_share_docSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_share_docdir)/$$f"; \
+	    $(netmrg_share_docSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_share_docdir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-netmrg_share_docSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(netmrg_share_doc_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(netmrg_share_docdir)/$$f"; \
+	  rm -f $(DESTDIR)$(netmrg_share_docdir)/$$f; \
+	done
+netmrg_share_imagesSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+install-netmrg_share_imagesSCRIPTS: $(netmrg_share_images_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(netmrg_share_imagesdir)
+	@list='$(netmrg_share_images_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(netmrg_share_imagesSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_share_imagesdir)/$$f"; \
+	    $(netmrg_share_imagesSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_share_imagesdir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-netmrg_share_imagesSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(netmrg_share_images_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(netmrg_share_imagesdir)/$$f"; \
+	  rm -f $(DESTDIR)$(netmrg_share_imagesdir)/$$f; \
+	done
+netmrg_var_libSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+install-netmrg_var_libSCRIPTS: $(netmrg_var_lib_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(netmrg_var_libdir)
+	@list='$(netmrg_var_lib_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(netmrg_var_libSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_var_libdir)/$$f"; \
+	    $(netmrg_var_libSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_var_libdir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-netmrg_var_libSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(netmrg_var_lib_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(netmrg_var_libdir)/$$f"; \
+	  rm -f $(DESTDIR)$(netmrg_var_libdir)/$$f; \
+	done
+netmrg_var_logSCRIPT_INSTALL = $(INSTALL_SCRIPT)
+install-netmrg_var_logSCRIPTS: $(netmrg_var_log_SCRIPTS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(netmrg_var_logdir)
+	@list='$(netmrg_var_log_SCRIPTS)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  if test -f $$d$$p; then \
+	    f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	    echo " $(netmrg_var_logSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_var_logdir)/$$f"; \
+	    $(netmrg_var_logSCRIPT_INSTALL) $$d$$p $(DESTDIR)$(netmrg_var_logdir)/$$f; \
+	  else :; fi; \
+	done
+
+uninstall-netmrg_var_logSCRIPTS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(netmrg_var_log_SCRIPTS)'; for p in $$list; do \
+	  f=`echo "$$p" | sed 's|^.*/||;$(transform)'`; \
+	  echo " rm -f $(DESTDIR)$(netmrg_var_logdir)/$$f"; \
+	  rm -f $(DESTDIR)$(netmrg_var_logdir)/$$f; \
+	done
 uninstall-info-am:
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -323,9 +513,10 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile
+all-am: Makefile $(SCRIPTS)
 installdirs: installdirs-recursive
 installdirs-am:
+	$(mkinstalldirs) $(DESTDIR)$(bindir) $(DESTDIR)$(netmrg_etcdir) $(DESTDIR)$(netmrg_libexecdir) $(DESTDIR)$(netmrg_share_dbdir) $(DESTDIR)$(netmrg_share_docdir) $(DESTDIR)$(netmrg_share_imagesdir) $(DESTDIR)$(netmrg_var_libdir) $(DESTDIR)$(netmrg_var_logdir)
 
 install: install-recursive
 install-exec: install-exec-recursive
@@ -367,9 +558,12 @@ info: info-recursive
 
 info-am:
 
-install-data-am:
+install-data-am: install-netmrg_etcSCRIPTS \
+	install-netmrg_share_dbSCRIPTS install-netmrg_share_docSCRIPTS \
+	install-netmrg_share_imagesSCRIPTS \
+	install-netmrg_var_libSCRIPTS install-netmrg_var_logSCRIPTS
 
-install-exec-am:
+install-exec-am: install-binSCRIPTS install-netmrg_libexecSCRIPTS
 
 install-info: install-info-recursive
 
@@ -386,7 +580,12 @@ mostlyclean: mostlyclean-recursive
 
 mostlyclean-am: mostlyclean-generic
 
-uninstall-am: uninstall-info-am
+uninstall-am: uninstall-binSCRIPTS uninstall-info-am \
+	uninstall-netmrg_etcSCRIPTS uninstall-netmrg_libexecSCRIPTS \
+	uninstall-netmrg_share_dbSCRIPTS \
+	uninstall-netmrg_share_docSCRIPTS \
+	uninstall-netmrg_share_imagesSCRIPTS \
+	uninstall-netmrg_var_libSCRIPTS uninstall-netmrg_var_logSCRIPTS
 
 uninstall-info: uninstall-info-recursive
 
@@ -394,17 +593,27 @@ uninstall-info: uninstall-info-recursive
 	clean-generic clean-recursive dist dist-all dist-gzip distcheck \
 	distclean distclean-generic distclean-recursive distclean-tags \
 	distcleancheck distdir dvi dvi-am dvi-recursive info info-am \
-	info-recursive install install-am install-data install-data-am \
-	install-data-recursive install-exec install-exec-am \
-	install-exec-recursive install-info install-info-am \
-	install-info-recursive install-man install-recursive \
-	install-strip installcheck installcheck-am installdirs \
-	installdirs-am installdirs-recursive maintainer-clean \
-	maintainer-clean-generic maintainer-clean-recursive mostlyclean \
-	mostlyclean-generic mostlyclean-recursive tags tags-recursive \
-	uninstall uninstall-am uninstall-info-am \
-	uninstall-info-recursive uninstall-recursive
-
+	info-recursive install install-am install-binSCRIPTS \
+	install-data install-data-am install-data-recursive \
+	install-exec install-exec-am install-exec-recursive \
+	install-info install-info-am install-info-recursive install-man \
+	install-netmrg_etcSCRIPTS install-netmrg_libexecSCRIPTS \
+	install-netmrg_share_dbSCRIPTS install-netmrg_share_docSCRIPTS \
+	install-netmrg_share_imagesSCRIPTS \
+	install-netmrg_var_libSCRIPTS install-netmrg_var_logSCRIPTS \
+	install-recursive install-strip installcheck installcheck-am \
+	installdirs installdirs-am installdirs-recursive \
+	maintainer-clean maintainer-clean-generic \
+	maintainer-clean-recursive mostlyclean mostlyclean-generic \
+	mostlyclean-recursive tags tags-recursive uninstall \
+	uninstall-am uninstall-binSCRIPTS uninstall-info-am \
+	uninstall-info-recursive uninstall-netmrg_etcSCRIPTS \
+	uninstall-netmrg_libexecSCRIPTS \
+	uninstall-netmrg_share_dbSCRIPTS \
+	uninstall-netmrg_share_docSCRIPTS \
+	uninstall-netmrg_share_imagesSCRIPTS \
+	uninstall-netmrg_var_libSCRIPTS uninstall-netmrg_var_logSCRIPTS \
+	uninstall-recursive
 
 @SET_MAKE@
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
