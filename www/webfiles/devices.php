@@ -228,8 +228,10 @@ if (!empty($_REQUEST["action"]) && ($_REQUEST["action"] == "edit" || $_REQUEST["
 	make_edit_group("SNMP");
 	make_edit_select_from_array("SNMP Support:", "snmp_version", $GLOBALS["SNMP_VERSIONS"], $dev_row["snmp_version"]);
 	make_edit_text("SNMP Read Community:", "snmp_read_community", 50, 200, $dev_row["snmp_read_community"]);
+	make_edit_group("SNMP Caching");
 	make_edit_checkbox("Do not cache interface mappings", "snmp_recache", $dev_row["snmp_recache"]);
 	make_edit_checkbox("Clear interface cache when interface count changes", "snmp_check_ifnumber", $dev_row["snmp_check_ifnumber"]);
+	make_edit_group("Advanaced SNMP Options");
 	make_edit_text("SNMP UDP Port", "snmp_port", 5, 5, $dev_row["snmp_port"]);
 	make_edit_text("SNMP Timeout (microseconds):", "snmp_timeout", 10, 20, $dev_row["snmp_timeout"]);
 	make_edit_text("SNMP Retries:", "snmp_retries", 3, 10, $dev_row["snmp_retries"]);
