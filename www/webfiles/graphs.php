@@ -122,8 +122,11 @@ function duplicate()
 function applytemplate()
 {
 	check_auth(2);
+	$q = db_query("SELECT name FROM graphs WHERE id = {$_REQUEST['id']}");
+	$r = db_fetch_array($q);
+	$template_name = $r['name'];
 	begin_page("graphs.php", "Apply Template");
-	make_edit_table("Apply Template");
+	make_edit_table("Apply Template ($template_name)");
 	make_edit_select_subdevice(-1);
 	make_edit_hidden("action", "doapplytemplate");
 	make_edit_hidden("id", $_REQUEST['id']);
