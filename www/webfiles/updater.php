@@ -118,6 +118,17 @@ function update($dbupdates)
 		} // end if we're to do the updates
 	} // end foreach version
 	
+	if ($doupdates)
+	{
+		echo "All updates were completed successfully.<br />\n";
+		echo "Enjoy your new version of NetMRG!!<br />\n";
+	} // end if we performed updates
+	else
+	{
+		echo "No updates were needed for this version of NetMRG<br />\n";
+	} // end else no updates
+	echo "Enjoy your new version of NetMRG!!<br />\n";
+	
 	end_page();
 } // end update();
 
