@@ -49,6 +49,8 @@ any company, organization, product, or platform.
 		</para>
 	</legalnotice>
 </bookinfo>
+<part>
+<title>Overview</title>
 <chapter id="intro">
 	<title>Introduction</title>
 	<para>Welcome to NetMRG!  NetMRG is a database-driven network monitoring and graphing tool for use on Linux systems.  It offers an intuitive web-based configuration, customized monitoring capabilities for unusual situations, a fast multi-threaded polling application, and brilliant graphs rendered by <ulink url="http://www.rrdtool.org/"><Application>RRDTOOL</Application></ulink>.</para>
@@ -74,6 +76,9 @@ field inside the 'website' section.
 		</listitem>
 	</itemizedlist>
 </chapter>
+</part>
+<part>
+<title>Concepts</title>
 <chapter id="sytemstruct">
 	<title>System Structure</title>
 	<para>The components of NetMRG.
@@ -158,6 +163,9 @@ Event are met, the appropriate response is performed.
 		<listitem><para>Graph Items</para><para>Graph Items represent data on a graph.  They can represent areas, lines, and stacks on Graphs.  Each Graph Item is linked to a Monitor for dynamic data or given a static value.  Options for Graph Items include type (such as line, area, stack), color, value (either static or dynamic based on a Monitor), and legend options.</para></listitem>
 	</itemizedlist>
 </chapter>
+</part>
+<part>
+<title>Installation</title>
 <chapter id="softwarereq">
 	<title>Software Requirements</title>
 	<para>NetMRG Requires the following packages for compilation.</para>
@@ -451,6 +459,9 @@ their NetMRG administrator.
 		</listitem>
 	</orderedlist>
 </chapter>
+</part>
+<part>
+<title>Feature Guides</title>
 <chapter id="extauth">
 	<title>External Authentication</title>
 	<para>
@@ -475,6 +486,9 @@ their NetMRG administrator.
 	<computeroutput>externalAuth</computeroutput> to <userinput>true</userinput>.
 	</para>
 </chapter>
+</part>
+<part>
+<title>Reference</title>
 <chapter id="manpage">
 	<title>Manual Pages</title>
 	<refentry id="netmrg-gatherer">
@@ -571,6 +585,7 @@ their NetMRG administrator.
 		</refsect1>
 	</refentry>
 </chapter>
+</part>
 <chapter id="contact">
 	<title>Contact Information</title>
 	<para>We have great aspirations for what NetMRG could become, but as with all open-source software, such aspriations can only be achieved with the active participation of the open-source community.  Please do your part and support software that you use by helping to answer support questions on forums and report bugs to developers.  Thanks!</para>
