@@ -1,5 +1,6 @@
 2004.06.01  v0.16cvs  balleman
   - bug#0000177 - graph scaling options
+  - bug#0000223 - docs links
 
 2004.05.31  v0.16cvs  balleman
   - bug#0000214 - syslog support

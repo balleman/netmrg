@@ -47,7 +47,10 @@ $MENU = array(
 		array("name" => "Logout", "link" => "logout.php", "descr" => "End your NetMRG Session.", "authLevelRequired" => 0)
 	),
 	"Help" => array(
-		array("name" => "About", "link" => "about.php", "descr" => "", "authLevelRequired" => 0)
+		array("name" => "About", "link" => "about.php", "descr" => "", "authLevelRequired" => 0),
+		array("name" => "Manual", "link" => "http://www.netmrg.net/docs/CVSHEAD/", "descr" => "", "authLevelRequired" => 0),
+		array("name" => "Forum", "link" => "http://lists.netmrg.net/", "descr" => "Benefit from the NetMRG Community.", "authLevelRequired" => 0),
+		array("name" => "Bugs", "link" => "http://bugs.netmrg.net/", "descr" => "Report bugs and request features.", "authLevelRequired" => 0)
 	)
 ); // end $MENU
 // add a dynamic 'resume slide show' link
