@@ -57,6 +57,19 @@ $SITUATIONS = array(
 			2	=>	"Warning",
 			3	=>	"Critical");
 
+$LOGIC_CONDITIONS = array(
+			0	=>	"AND",
+			1	=>	"OR");
+
+$CONDITIONS = array(
+			0	=>	"&lt;",
+			1	=>	"=",
+			2	=>	"&gt;",
+			3	=>	"&le;",
+			4	=>	"&ne;",
+			5	=>	"&ge;");
+
+
 
 
 // Return the path to an image based on the internal name of the image.

@@ -41,20 +41,18 @@ function do_display()
 
 	$GLOBALS['custom_add_link'] = "{$_SERVER['PHP_SELF']}?action=add&event_id={$_REQUEST['event_id']}";
 	js_confirm_dialog("del", "Are you sure you want to delete condition ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&event_id={$_REQUEST['event_id']}&id=");
-	make_display_table("Conditions",
-				"Name", "",
-				"Condition", "",
-				"Trigger Options", "",
-				"Situation", "",
-				"Status", "");
+	make_display_table("Conditions", "Condition", "");
+				
 
-	$query = do_query("SELECT * FROM events WHERE mon_id = {$_REQUEST['mon_id']}");
+	$query = do_query("SELECT * FROM conditions WHERE event_id = {$_REQUEST['event_id']}");
 
-	while (($row = mysql_fetch_array($query)) != NULL)
+	for ($i = 0; $i < mysql_num_rows($query); $i++)
 	{
-		make_display_item($row['name'], "", "", "", $GLOBALS['TRIGGER_TYPES'][$row['trigger_type']], "", $GLOBALS['SITUATIONS'][$row['situation']], "", "", "",
+		$row = mysql_fetch_array($query);
+		$condition_name = "test"; 
+		make_display_item($condition_name, "", 
 			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('" . $row['name'] . "','" . $row['id'] . "')"), "");
+			formatted_link("Delete", "javascript:del('" . $condition_name . "','" . $row['id'] . "')"), "");
 	}
 	?>
 	</table>
@@ -70,19 +68,18 @@ function display_edit()
 	if ($_REQUEST['action'] == "add")
 	{
 		$row['id'] 		= 0;
-		$row['mon_id'] 		= $_REQUEST['mon_id'];
-		$row['name']		= "";
-		$row['trigger_type']	= 2;
-		$row['situation']	= 1;
+		$row['event_id']	= $_REQUEST['event_id'];
+		$row['logic_condition'] = 0;
+		$row['condition']	= 0;
+		$row['value']		= 0;
 	}
 	else
 	{
-		$query = do_query("SELECT * FROM events WHERE id={$_REQUEST['id']}");
+		$query = do_query("SELECT * FROM conditions WHERE id={$_REQUEST['id']}");
 		$row   = mysql_fetch_array($query);
 	}
 
-	make_edit_table("Edit Event");
-        make_edit_text("Name:", "name", "25", "100", $row['name']);
+	make_edit_table("Edit Condition");
 	make_edit_select_from_array("Trigger Type:", "trigger_type", $GLOBALS['TRIGGER_TYPES'], $row['trigger_type']);
         make_edit_select_from_array("Situation:", "situation", $GLOBALS['SITUATIONS'], $row['situation']);
 	make_edit_hidden("mon_id", $row['mon_id']);
