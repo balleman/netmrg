@@ -61,6 +61,17 @@ any company, organization, product, or platform.
 	<title>Revision History</title>
 	<itemizedlist>
 		<listitem>
+			<para>0.18.2</para>
+			<para>2004.11.09</para>
+			<para>
+Minor Bug Fixes;
+Fixed some escaping problems on the interface cache page, disabled the 
+'quickprint' Net-SNMP option for better compatibility, fixed the snmp-failure 
+test, fixed an SVO-user view issue, and added failover for duplicate ifNames when 
+adding interfaces.
+			</para>
+		</listitem>
+		<listitem>
 			<para>0.18.1</para>
 			<para>2004.11.01</para>
 			<para>
