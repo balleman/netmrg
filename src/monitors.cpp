@@ -42,7 +42,7 @@ string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 					temp2 = snmp_get(info, ".1.3.6.1.4.1.2021.11.10.0");
 					if ( (temp != "U") && (temp2 != "U") )
 					{
-						test_result = inttostr(temp) + inttostr(temp2);
+						test_result = inttostr(strtoint(temp) + strtoint(temp2));
 					}
 					break;
 
