@@ -66,3 +66,11 @@ get new netmrg monitoring something (duo)
 talk about license (GPL, LGPL, MPL, BSD, MIT?)
 find a bug/todo tracking system
 find a mailing list/message board
+
+== far-away features ==
+customized 'view' page
+  - if one graph shown, ability to zoom in on a area (custom min/max)
+  - on the main view page, select boxes to pick which graphs you would like to see
+    (makes it easier to compare some graphs)
+  - ability to move graphs up/down despite their original ordering (session fun)
+
