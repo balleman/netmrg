@@ -1,6 +1,6 @@
 @SET_MAKE@
 
-SUBDIRS	= @subdirs@ www etc
+SUBDIRS	= src www etc
 
 # options to install files in the libexec directory
 netmrg_libexecdir=$(libexecdir)/$(PACKAGE)
