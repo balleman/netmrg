@@ -51,8 +51,12 @@ switch ($_REQUEST["action"])
 		do_delete();
 		break;
 	
-	case "move":
-		do_move();
+	case "move_up":
+		do_move("up");
+		break;
+	
+	case "move_down":
+		do_move("down");
 		break;
 	
 	default:
@@ -200,22 +204,22 @@ function do_delete()
 	exit(0);
 }
 
-function do_move()
+function do_move($direction)
 {
 	check_auth($PERMIT["ReadWrite"]);
 	
 	if (isset($_REQUEST["viewitem"]))
 	{
-		if ($_REQUEST['direction'] == "down")
+		if ($direction == "down")
 			$_REQUEST['viewitem'] = array_reverse($_REQUEST['viewitem'], true);
 		while (list($key,$value) = each($_REQUEST["viewitem"]))
 		{
-			move_view_item($_REQUEST['object_id'], $_REQUEST['object_type'], $key, $_REQUEST['direction']);
+			move_view_item($_REQUEST['object_id'], $_REQUEST['object_type'], $key, $direction);
 		}
 	}
 	elseif (isset($_REQUEST["id"]))
 	{
-		move_view_item($_REQUEST['object_id'], $_REQUEST['object_type'], $_REQUEST['id'], $_REQUEST['direction']);
+		move_view_item($_REQUEST['object_id'], $_REQUEST['object_type'], $_REQUEST['id'], $direction);
 	}
 
 	header("Location: {$_SERVER['PHP_SELF']}?object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&action=list");
@@ -443,11 +447,10 @@ function do_view()
 		
 		?>
 		<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
-		<input type="hidden" name="action" value="">
-		<input type="hidden" name="object_id" value="<?php echo $_REQUEST['object_id']; ?>">
-		<input type="hidden" name="object_type" value="<?php echo $_REQUEST['object_type']; ?>">
-		<input type="hidden" name="direction" value="">
 		<?php
+		make_edit_hidden("action", "");
+		make_edit_hidden("object_id", $_REQUEST["object_id"]);
+		make_edit_hidden("object_type", $_REQUEST["object_type"]);
 		
 		make_display_table("Edit View",
 			"{$_SERVER['PHP_SELF']}?object_type=".$_REQUEST["object_type"]."&object_id=".$_REQUEST["object_id"]."&pos=" . ($num + 1) . "&action=add",
@@ -466,7 +469,7 @@ function do_view()
 			}
 			else
 			{
-				$move_up = image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}");
+				$move_up = image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move_up&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}");
 			}
 
 			if ($i == ($num - 1))
@@ -475,7 +478,7 @@ function do_view()
 			}
 			else
 			{
-				$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}");
+				$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move_down&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}");
 			}
 
 			switch ($row['type'])
@@ -510,15 +513,11 @@ function do_view()
 					$extra_options)
 			); // end make_display_item();
 		}
-		?>
-		<tr>
-			<td colspan="5" class="editheader" nowrap="nowrap">
-				Checked Items:&nbsp;&nbsp;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked items ?')){document.form.submit();}" href="#">Delete</a>&nbsp;&nbsp;
-				<a class="editheaderlink" onclick="document.form.action.value='move';document.form.direction.value='up';document.form.submit();" href="#">Move Up</a>
-				&nbsp;&nbsp;<a class="editheaderlink" onclick="document.form.action.value='move';document.form.direction.value='down';document.form.submit();" href="#">Move Down</a>
-			</td>
-		</tr>
-		<?php
+		make_checkbox_command("", 5,
+			array("text" => "Delete", "action" => "multidodelete", "prompt" => "Are you sure you want to delete the checked items?"),
+			array("text" => "Move Up", "action" => "move_up"),
+			array("text" => "Move Down", "action" => "move_down")
+		); // end make_checkbox_command
 		make_status_line("{$_REQUEST["type"]} item", $i);
 		print("</table></form>");
 		print(formatted_link("Done Editing", "{$_SERVER['PHP_SELF']}?action=view&object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}"));

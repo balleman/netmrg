@@ -212,7 +212,9 @@ function view_disk_cache()
 		); // end make_display_item();
 	}
 
-	echo('<tr><td colspan="9" class="editheader" nowrap="nowrap"><a class="editheaderlink" onclick="document.form.action.value=\'graphmultidisk\';document.form.submit();" href="#">Monitor/Graph All Checked</a></td></tr>'."\n");
+	make_checkbox_command("", 9,
+		array("text" => "Monitor/Graph All Checked", "action" => "graphmultidisk")
+	); // end make_checkbox_command
 	echo("</table>\n");
 	echo("</form>\n");
 	end_page();
@@ -328,7 +330,9 @@ function view_interface_cache()
 		); // end make_display_item();
 	} // end for each row
 	echo "<tr>\n";
-	echo '<td colspan="5" class="editheader" nowrap="nowrap"><a class="editheaderlink" onclick="document.form.action.value=\'graphmultiint\';document.form.submit();" href="#">Monitor/Graph All Checked</a></td>';
+	echo '<td colspan="5" class="editheader" nowrap="nowrap">';
+	echo "Checked Items:&nbsp;&nbsp;\n";
+	echo '&lt;<a class="editheaderlink" onclick="document.form.action.value=\'graphmultiint\';document.form.submit();" href="#">Monitor/Graph All Checked</a>&gt;</td>';
 	echo '<td colspan="4" class="editheader" nowrap="nowrap" align="right">'."\n";
 	echo '<select name="graph_template_id">'."\n";
 	DrawSelectOptionsFromSQL("graphs", $GLOBALS["netmrg"]["traffictemplateid"]);

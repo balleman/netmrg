@@ -1,3 +1,6 @@
+2004.11.06  v0.18.1  keb
+  - bug#0000271 - checkbox options should have a standard layout
+
 2004.11.05  v0.18.1  balleman
   - bug#0000335 - disabled quickprint option so mandrake should work
   - bug#0000331 - snmp failure internal test doesn't work

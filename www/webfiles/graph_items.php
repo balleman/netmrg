@@ -15,7 +15,8 @@ check_auth($PERMIT["ReadAll"]);
 switch ($_REQUEST['action'])
 {
 	case 'doedit':			doedit();			break;
-	case 'move':			move();				break;
+	case 'move_up':			move("up");				break;
+	case 'move_down':		move("down");				break;
 	case 'dodelete':
 	case 'multidodelete':	dodelete();			break;
 	case 'duplicate':
@@ -79,21 +80,21 @@ function doedit()
 
 } // done adding/editing
 
-function move()
+function move($direction)
 {
 	check_auth($PERMIT["ReadWrite"]);
 	if (isset($_REQUEST["graph_items"]))
 	{
-		if ($_REQUEST['direction'] == "down")
+		if ($direction == "down")
 			$_REQUEST['graph_items'] = array_reverse($_REQUEST['graph_items'], true);
 		while (list($key,$value) = each($_REQUEST["graph_items"]))
 		{
-			move_graph_item($_REQUEST['graph_id'], $key, $_REQUEST['direction']);
+			move_graph_item($_REQUEST['graph_id'], $key, $direction);
 		}
 	}
 	elseif (isset($_REQUEST["id"]))
 	{
-		move_graph_item($_REQUEST['graph_id'], $_REQUEST['id'], $_REQUEST['direction']);
+		move_graph_item($_REQUEST['graph_id'], $_REQUEST['id'], $direction);
 	}
 	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
 	exit(0);
@@ -214,7 +215,6 @@ function display()
 	<img align="center" src="get_graph.php?type=custom&id=<?php echo $_REQUEST["graph_id"]; ?>"><br><br>
 	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
 	<input type="hidden" name="action" value="">
-	<input type="hidden" name="direction" value="">
 	<input type="hidden" name="type" value="<?php echo $_REQUEST['type']; ?>">
 	<input type="hidden" name="graph_id" value="<?php echo $_REQUEST['graph_id']; ?>">
 <?php
@@ -239,7 +239,7 @@ function display()
 		}
 		else
 		{
-			$move_up = image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move&direction=up&graph_id={$_REQUEST['graph_id']}&id=$id");
+			$move_up = image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move_up&graph_id={$_REQUEST['graph_id']}&id=$id");
 		}
 
 		if ($ds_count == ($ds_total - 1))
@@ -248,7 +248,7 @@ function display()
 		}
 		else
 		{
-			$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&graph_id={$_REQUEST['graph_id']}&id=$id");
+			$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move_down&graph_id={$_REQUEST['graph_id']}&id=$id");
 		}
 
 		make_display_item("editfield".($ds_count%2),
@@ -266,23 +266,13 @@ function display()
 
 
 	} // end for
-?>
-<tr>
-	<td colspan="5" class="editheader" nowrap="nowrap">
-		Checked Items:&nbsp;&nbsp;
-		<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked graphs ?')){document.form.submit();}" href="#">Delete</a>
-		&nbsp;&nbsp;
-		<a class="editheaderlink" onclick="document.form.action.value='multiduplicate';document.form.submit();" href="#">Duplicate</a>
-		&nbsp;&nbsp;
-		<a class="editheaderlink" onclick="document.form.action.value='move';document.form.direction.value='up';document.form.submit();" href="#">Move Up</a>
-		&nbsp;&nbsp;
-		<a class="editheaderlink" onclick="document.form.action.value='move';document.form.direction.value='down';document.form.submit();" href="#">Move Down</a>
-		&nbsp;&nbsp;
-		<a class="editheaderlink" onclick="document.form.action.value='gradient';document.form.submit();" href="#">Gradient</a>
-
-	</td>
-</tr>
-<?php
+	make_checkbox_command("", 5,
+		array("text" => "Delete", "action" => "multidodelete", "prompt" => "Are you sure you want to delete the checked graphs?"),
+		array("text" => "Duplicate", "action" => "multiduplicate"),
+		array("text" => "Move Up", "action" => "move_up"),
+		array("text" => "Move Down", "action" => "move_down"),
+		array("text" => "Gradient", "action" => "gradient")
+	); // end make_checkbox_command
 	make_status_line("graph item", $ds_count);
 ?>
 	</form>	
