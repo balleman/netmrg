@@ -63,7 +63,7 @@ string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 					if (disk_total != 0)
 						test_result = inttostr((int) (100 - 100*disk_used/disk_total));
 					break;
-					
+
 		default:	debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown Internal Test (" + inttostr(info.test_id) + ")");
 	}
 
@@ -80,10 +80,12 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 	string query =
 		string("SELECT host, user, password, query, column_num FROM tests_sql WHERE id = ") + inttostr(info.test_id);
 		mysql_res = db_query(mysql, &info, query);
-		mysql_row = mysql_fetch_row(mysql_res);
 
 	// if the sql test exists
-	if (mysql_row[0] != NULL)
+	if (mysql_res &&
+		(mysql_num_rows(mysql_res) == 1) &&
+		(mysql_row = mysql_fetch_row(mysql_res)) &&
+		(mysql_row[0] != NULL))
 	{
 		string host = expand_parameters(info, mysql_row[0]);
 		string user = expand_parameters(info, mysql_row[1]);
@@ -140,7 +142,7 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 	{
 		debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown SQL Test (" + inttostr(info.test_id) + ").");
 	}
-		
+
 	mysql_free_result(mysql_res);
 	return value;
 }
@@ -155,12 +157,14 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 		string("SELECT cmd, data_type FROM tests_script WHERE id = ") +
 		inttostr(info.test_id);
 	mysql_res = db_query(mysql, &info, query);
-	mysql_row = mysql_fetch_row(mysql_res);
 
 	// if the script test exists
-	if (mysql_row[0] != NULL)
+	if (mysql_res &&
+		(mysql_num_rows(mysql_res) == 1) &&
+		(mysql_row = mysql_fetch_row(mysql_res))
+		&& (mysql_row[0] != NULL))
 	{
-		string command = expand_parameters(info, string(mysql_row[0]) + " " + info.test_params);
+		string command = expand_parameters(info, string(mysql_row[0]));
 		if (command[0] != '/')
 			command = get_setting(setPathLibexec) + "/" + command;
 
@@ -226,10 +230,12 @@ string process_snmp_monitor(DeviceInfo info, MYSQL *mysql)
 		inttostr(info.test_id);
 
 	mysql_res = db_query(mysql, &info, query);
-	mysql_row = mysql_fetch_row(mysql_res);
 
 	// if the snmp test exists
-	if (mysql_row[0] != NULL)
+	if (mysql_res &&
+		(mysql_num_rows(mysql_res) == 1) &&
+		(mysql_row = mysql_fetch_row(mysql_res)) &&
+		(mysql_row[0] != NULL))
 	{
 		string oid = expand_parameters(info, mysql_row[0]);
 
@@ -257,7 +263,7 @@ string process_snmp_monitor(DeviceInfo info, MYSQL *mysql)
 uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 {
 	debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Starting Monitor.");
-	
+
 	info.parameters.push_front(ValuePair("parameters", info.test_params));
 
 	switch (info.test_type)
@@ -287,8 +293,9 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 	}
 
 	// destroy anything non-integer; we don't want it here.
-	if (info.curr_val != inttostr(strtoint(info.curr_val)))
+	if (stripnl(info.curr_val) != inttostr(strtoint(info.curr_val)))
 	{
+		debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value is non-integer.");
 		info.curr_val = "U";
 	}
 
