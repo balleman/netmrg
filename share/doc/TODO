@@ -1,6 +1,4 @@
 == showstoppers for 0.80.0 ==
-device_tree.php
-  - can't navigate monitors yet
 graph templating
 device duplication
 responses
@@ -8,6 +6,7 @@ new snmp cacher
 
 
 == before going public ==
+website
 get new netmrg monitoring something (duo)
 find a bug/todo tracking system
 find a mailing list/message board
@@ -24,9 +23,14 @@ ability to go 'up' a level when browsing 'Groups' et al
 snmp_cache_view.php:
   "Make Graph" needs overhauled
 view page should reflect status information
+monitors.php:
+  add javascript check so you can't enter a minimum < maximum
+format.php
+  no more $custom_add_link!
 
 
 == silfreed ==
+design public website
 research bugzilla & alternatives
   - bug tracking
   - todo tracking
@@ -35,10 +39,6 @@ research message board/mailing list
   - thread view
 CSS-ificiation
   - sub-pages need redone (ick)
-monitors.php:
-  add javascript check so you can't enter a minimum < maximum
-format.php
-  no more $custom_add_link!
 
 
 == balleman ==
