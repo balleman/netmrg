@@ -54,9 +54,10 @@ if (!isset($_SESSION["netmrgsess"]) || !is_array($_SESSION["netmrgsess"]))
 	$_SESSION["netmrgsess"] = array();
 	$_SESSION["netmrgsess"]["username"] = "";
 	$_SESSION["netmrgsess"]["password"] = "";
+	$_SESSION["netmrgsess"]["accessTime"] = "";
 	$_SESSION["netmrgsess"]["remote_addr"] = "";
 	$_SESSION["netmrgsess"]["permit"] = "";
-	$_SESSION["netmrgsess"]["accessTime"] = "";
+	$_SESSION["netmrgsess"]["group_id"] = "";
 } // end if the netmrg session array doesn't exist yet, make it
 
 
