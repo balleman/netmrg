@@ -59,7 +59,7 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 		if (mibtype == imtCatOS)
 		{
 			// CatOS port names are indexed by slot and port, not by ifIndex
-			int slash_pos = ifName.find("/");
+			string::size_type slash_pos = ifName.find("/");
 			int slot = strtoint(ifName.substr(0, slash_pos));
 			int port = strtoint(ifName.substr(slash_pos +  1, ifName.length() - 1));
 			debuglogger(DEBUG_SNMP, LEVEL_DEBUG, info, "ifname='" + ifName + "', slash_pos=" + inttostr(slash_pos) + ", slot=" + inttostr(slot) + ", port=" + inttostr(port));
