@@ -121,6 +121,15 @@ if ($_REQUEST["action"] == "dodelete")
 
 } // done deleting
 
+if ($_REQUEST["action"] == "duplicate")
+{
+	check_auth(2);
+	duplicate_graph_item($_REQUEST['id']);
+	header("Location: {$_SERVER['PHP_SELF']}?graph_id={$_REQUEST['graph_id']}");
+	exit(0);
+	
+} // done duplicating
+
 if (empty($_REQUEST["action"]))
 {
 	GLOBAL $RRDTOOL_ITEM_TYPES;
@@ -180,14 +189,18 @@ if (empty($_REQUEST["action"]))
 		make_display_item("editfield".($ds_count%2),
 			array("text" => $ds_row["label"]),
 			array("text" => color_block($ds_row["color"]) . "&nbsp;&nbsp;" . $RRDTOOL_ITEM_TYPES[$ds_row["type"]]),
-			array("text" => formatted_link("View", "enclose_graph.php?type=custom_item&id=" . $ds_row["id"]) . "&nbsp;" .
-				$move_up . "&nbsp;" . $move_down),
+			array("text" => 
+				formatted_link("View", "enclose_graph.php?type=custom_item&id=" . $ds_row["id"]) . 
+				formatted_link("Duplicate", "{$_SERVER['PHP_SELF']}?action=duplicate&id=$id&graph_id={$_REQUEST['graph_id']}") . 
+				"&nbsp;" . $move_up . "&nbsp;" . $move_down
+				),
 			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id=$id&graph_id={$_REQUEST['graph_id']}") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('" . addslashes($ds_row["label"]) . "', '" . $ds_row["id"] . "')"))
 		); // end make_display_item();
 
 
 	} // end for
+	make_status_line("graph item", $ds_count);
 
 ?></table><?php
 

@@ -89,39 +89,9 @@ function dodelete()
 function duplicate()
 {
 	check_auth(2);
+	duplicate_graph($_REQUEST["id"]);
 	$graph_handle = db_query("SELECT * FROM graphs WHERE id={$_REQUEST["id"]}");
-	$graph_row    = db_fetch_array($graph_handle);
-	if (empty($graph_row["min"])) { $graph_row["min"] = "NULL"; }
-	if (empty($graph_row["max"])) { $graph_row["max"] = "NULL"; }
-	db_update("INSERT INTO graphs SET name='" . db_escape_string($graph_row['name']) . " (duplicate)', " .
-	"title='" . db_escape_string($graph_row['title']). "', " .  
-	"comment='" . db_escape_string($graph_row['comment']) . "', " .
-	"width={$graph_row['width']}, height={$graph_row['height']}, " .
-	"vert_label='" . db_escape_string($graph_row['vert_label']) . "', " .
-	"base={$graph_row['base']}, options=\"{$graph_row['options']}\", " .
-	"type='{$graph_row['type']}', max={$graph_row['max']}, min={$graph_row['min']}");
-
-	$new_id = db_insert_id();
-
-	$ds_handle = db_query("SELECT * FROM graph_ds WHERE graph_id='{$_REQUEST['id']}'");
-	for ($i = 0; $i < db_num_rows($ds_handle); $i++)
-	{
-		$ds_row = db_fetch_array($ds_handle);
-		db_update("INSERT INTO graph_ds SET graph_id=$new_id, " .
-		"mon_id={$ds_row['mon_id']}, " . 
-		"color='" . db_escape_string($ds_row['color']) . "', " .
-		"type={$ds_row['type']}, " .
-		"label='" . db_escape_string($ds_row['label']) . "', " .
-		"alignment={$ds_row['alignment']}, " .
-		"stats='{$ds_row['stats']}', " .
-		"position={$ds_row['position']}, " .
-		"multiplier='" . db_escape_string($ds_row['multiplier']) . "', " . 
-		"start_time='" . db_escape_string($ds_row['start_time']) . "', " . 
-		"end_time='" . db_escape_string($ds_row['end_time']) . "'");
-	} // end for each ds
-
-	// need to duplicate highlight periods
-
+	$graph_row = db_fetch_array($graph_handle);
 	header("Location: {$_SERVER['PHP_SELF']}?type={$graph_row['type']}");
 	exit(0);
 } // end duplicate()

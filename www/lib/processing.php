@@ -759,7 +759,48 @@ function duplicate_response($rsp_id, $new_parent = "event_id")
 	db_query("DROP TABLE tmp_responses");
 } // end duplicate_response();
 
+function duplicate_graph($graph_id)
+{
+	db_query("CREATE TEMPORARY TABLE tmp_graphs
+		SELECT id, name, title, comment, width, height, vert_label, type, base, options, max, min FROM graphs WHERE id=$graph_id");
+	db_query("INSERT INTO graphs (name, title, comment, width, height, vert_label, type, base, options, max, min) SELECT concat(name, ' (duplicate)'), title, comment, width, height, vert_label, type, base, options, max, min FROM tmp_graphs WHERE id=$graph_id");
+	$new_grp_id = db_insert_id();
+	db_query("DROP TABLE tmp_graphs");	
 
+	$ds_handle = db_query("SELECT * FROM graph_ds WHERE graph_id='$graph_id'");
+	while ($row = db_fetch_array($ds_handle))
+	{
+		duplicate_graph_item($row['id'], $new_grp_id);
+	} 
+} // end duplicate_graph
+
+function duplicate_graph_item($item_id, $new_parent = -1)
+{
+	if ($new_parent == -1)
+	{
+		$new_parent = "graph_id";
+		$label = "concat(label, ' (duplicate)')";
+		$move_others = true;
+	}
+	else
+	{
+		$label = "label";
+		$move_others = false;
+	}
+
+	db_query("CREATE TEMPORARY TABLE tmp_graph_ds
+		SELECT id, mon_id, color, type, graph_id, label, alignment, stats, position, multiplier, start_time, end_time FROM graph_ds WHERE id=$item_id");
+	db_query("INSERT INTO graph_ds (mon_id, color, type, graph_id, label, alignment, stats, position, multiplier, start_time, end_time) SELECT mon_id, color, type, $new_parent, $label, alignment, stats, position, multiplier, start_time, end_time FROM tmp_graph_ds WHERE id=$item_id");
+	$new_id = db_insert_id();	
+	db_query("DROP TABLE tmp_graph_ds");
+	if ($move_others)
+	{
+		$dq = db_query("SELECT graph_id, position FROM graph_ds WHERE id = $item_id");
+		$dr = db_fetch_array($dq);
+		db_query("UPDATE graph_ds SET position = position+1 WHERE graph_id = {$dr['graph_id']} AND position > {$dr['position']}");
+		db_query("UPDATE graph_ds SET position = position+1 WHERE id = $new_id");
+	}
+}
 
 // Recursive Deletion Section (for orphan prevention if nothing else)
 
