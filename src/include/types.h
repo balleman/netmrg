@@ -58,7 +58,7 @@ struct DeviceInfo
 	uint snmp_recache;
 	uint snmp_ifnumber;
 	long long int snmp_uptime;
-
+	
 	uint subdevice_type;
 
 	int test_type;
@@ -69,9 +69,12 @@ struct DeviceInfo
 	string subdevice_name;
 	string snmp_read_community;
 	string test_params;
+	
 	string curr_val;
 	string last_val;
 	string delta_val;
+	string rate_val;
+	long long int delta_time;
 
 	list<ValuePair> parameters;
 
@@ -95,10 +98,13 @@ struct DeviceInfo
 		test_type		= -1;
 		test_id			= -1;
 		//test_params	= "";
+		
+		delta_time		= 0;
 
 		curr_val		= "U";
 		last_val		= "U";
 		delta_val		= "U";
+		rate_val		= "U";
 	}
 };
 

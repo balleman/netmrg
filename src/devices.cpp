@@ -81,16 +81,17 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 
 	query =
 		string("SELECT ")						+
-		string("monitors.data_type, 	")		+ // 0
-		string("data_types.rrd_type, 	")		+ // 1
-		string("monitors.min_val,	")			+ // 2
-		string("monitors.max_val,	")			+ // 3
-		string("monitors.tuned,		")			+ // 4
-		string("monitors.test_type,	")			+ // 5
-		string("monitors.test_id,	") 			+ // 6
-		string("monitors.test_params,	")		+ // 7
-		string("monitors.last_val,	")			+ // 8
-		string("monitors.id		")				+ // 9
+		string("monitors.data_type, ")			+ // 0
+		string("data_types.rrd_type, ")			+ // 1
+		string("monitors.min_val, ")			+ // 2
+		string("monitors.max_val, ")			+ // 3
+		string("monitors.tuned, ")				+ // 4
+		string("monitors.test_type, ")			+ // 5
+		string("monitors.test_id, ") 			+ // 6
+		string("monitors.test_params, ")		+ // 7
+		string("monitors.last_val, ")			+ // 8
+		string("monitors.id, ")					+ // 9
+		string("NOW() - monitors.last_time ")	+ // 10
 		string("FROM monitors ")				+
 		string("LEFT JOIN data_types ON monitors.data_type=data_types.id ") +
 		string("WHERE sub_dev_id = ") + inttostr(info.subdevice_id);
@@ -110,6 +111,11 @@ uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 		if (mysql_row[8] != NULL)
 		{
 			info.last_val = mysql_row[8];
+		}
+		
+		if (mysql_row[10] != NULL)
+		{
+			info.delta_time = strtoint(mysql_row[10]);
 		}
 
 		RRDInfo rrd;

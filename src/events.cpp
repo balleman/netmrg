@@ -95,17 +95,23 @@ uint process_condition(DeviceInfo info, long long int compare_value, int value_t
 
 	switch (value_type)
 	{
-		case 0:	if (info.curr_val == "U")
+		case 0:
+			if (info.curr_val == "U")
 				return 0;
 			actual_value = strtoint(info.curr_val);
 			break;
 
-		case 1: if (info.delta_val == "U")
+		case 1: 
+			if (info.delta_val == "U")
 				return 0;
 			actual_value = strtoint(info.delta_val);
 			break;
 
-		case 3: break;		// rate of change: not yet implemented
+		case 2: 
+			if (info.rate_val == "U")
+				return 0;
+			actual_value = strtoint(info.rate_val);
+			break;
 	}
 
 	switch (condition)

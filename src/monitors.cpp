@@ -194,8 +194,7 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 	}
 	else
 	{
-		debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown Script Test (" +
-			inttostr(info.test_id) + ").");
+		debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown Script Test (" + inttostr(info.test_id) + ").");
 		value = "U";
 	}
 
@@ -236,8 +235,7 @@ string process_snmp_monitor(DeviceInfo info, MYSQL *mysql)
 	else
 	{
 		value = "U";
-		debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown SNMP Test (" +
-		inttostr(info.test_id) + ").");
+		debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown SNMP Test (" + inttostr(info.test_id) + ").");
 	}
 
 	mysql_free_result(mysql_res);
@@ -265,11 +263,9 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 		case  4:	info.curr_val = process_internal_monitor(info, mysql);
 					break;
 
-		default:	{
-					debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown test type (" +
-						inttostr(info.test_type) + ").");
+		default:	debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown test type (" + inttostr(info.test_type) + ").");
 					info.curr_val = "U";
-					}
+
 	} // end switch
 
 	debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Value: " + info.curr_val);
@@ -288,10 +284,19 @@ uint process_monitor(DeviceInfo info, MYSQL *mysql, RRDInfo rrd)
 	if ((info.curr_val == "U") || (info.last_val == "U"))
 	{
 		info.delta_val = "U";
+		info.rate_val  = "U";
 	}
 	else
 	{
 		info.delta_val = inttostr(strtoint(info.curr_val) - strtoint(info.last_val));
+		if (info.delta_time != 0)
+		{
+			info.rate_val  = inttostr(strtoint(info.delta_val) / info.delta_time);
+		}
+		else
+		{
+			info.rate_val  = "U";
+		}
 	}
 
 	uint status = process_events(info, mysql);
