@@ -75,7 +75,6 @@ version bump in:
   www/lib/stat.php
   www/webfiles/updater.php
   bugs.netmrg.net
-put release notes in docs
 generate new template database
 generate new docs
 test tutorial
