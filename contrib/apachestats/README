@@ -1,0 +1,43 @@
+==== apachestats v0.1 ====
+Usage: apachestats [(-i|--input) (<file>|STDIN)]
+    [(-h|--hostname) <hostname>] [(-r|--hostnamere) <hostname regex>]
+
+  --input       specify the file to read in or STDIN if input is on
+                the command line
+                [STDIN]
+  --hostname    needed when log is a named query log - specifies the host to
+                log stats for in the database and to use as the 'host' in the
+                apache log
+  --hostnamere  regex for the hostnames to match
+
+
+This program is a direct rip from dnsstats.
+This program takes an apache log in and puts some nifty stats back out.
+The apache log can either be in combined log format or combined log with 
+virtualhost.
+It's probably easiest to pipe the combined log w/ vhost directly to this 
+script from apache so you get logs for all hosts without any post-processing
+and without setting it up in each virtualhost.
+
+Make sure you setup your mysql database with the table in apachestats.mysql.
+
+To setup the NetMRG side of things, you'll need to add an SQL test.  The test
+I commonly use uses this query (be sure to fill in the rest of the info):
+
+SELECT counter FROM apachestats.apachestats WHERE host like "%apachehost%" AND type like "%parameters%"
+
+Then, I create a sub-device for the device that I want to monitor with a 
+parameter named 'apachehost' and the hostname that shows up in your tables.
+When you add your monitors to this sub-device, add a parameters field for each 
+type of stat you want to monitor; I usually monitor these, but there are many more:
+2%
+3%
+4%
+5%
+bytes
+
+Next, you'll want to create a template graph out of these using whatever colors, 
+etc that you want (see http://demo.netmrg.net/ for an example).
+
+If you experience any problems, be sure to demand your money back.
+

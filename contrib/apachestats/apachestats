@@ -1,0 +1,271 @@
+#!/usr/bin/perl
+#
+# apachestats
+#
+# read in an apache log from stdin or a file and
+# keep stats on # of responses per type (2xx, 3xx, etc) and total bytes
+# per server in a database
+#
+
+
+#####
+# LIBRARIES
+#####
+
+use strict;
+use DBI;
+use Getopt::Long;
+use Date::Parse;
+use POSIX qw(strftime);
+
+
+#####
+# VARIABLES
+#####
+
+## program variables
+our $progname = "apachestats";
+our $version = "0.1";
+our $mysql = {
+	"host" => "localhost",
+	"user" => "root",
+	"pass" => "",
+	"dbname" => "apachestats",
+};
+# %typestats = (
+#   "www.silfreed.net" => (
+#     "2xx" => 349303,
+#     "3xx" => 9332,
+#     "bytes" => 392343,
+#   ),
+our %typestats;
+our $dbh;
+my $logline;
+my $linenum = 0;
+my $logat = 100;
+my $getopt_result;
+
+## args
+our $input = "STDIN";
+our $hostname = "";
+our $hostnamere = qr{.*}; # ^ns\d+\.pa\.net$
+
+
+#####
+# FORWARD DECLAIRATIONS
+#####
+sub Usage();
+sub Stop();
+sub MySQLConnect();
+sub ReadStats();
+sub StatsLog();
+
+###
+## Sig Handlers
+###
+$SIG{INT} = sub { close(LOG); StatsLog(); Stop(); };
+
+
+
+#####
+# MAIN
+#####
+
+$getopt_result = GetOptions(
+	"i|input=s"      => \$input,
+	"h|hostname=s"   => \$hostname,
+	"r|hostnamere=s" => sub { $hostnamere = qr{$_[1]}; },
+);
+
+Usage() if (!$getopt_result);
+
+## check to see if input method works
+if ($input eq "STDIN")
+{
+	open(LOG, "-");
+} # end if stdin
+else
+{
+	# if the file is readable
+	if (-r $input)
+	{
+		open(LOG, $input);
+	} # end if file readable
+	else
+	{
+		print "File '$input' not readable\n\n";
+		Usage();
+	} # end if file not readable
+} # end if not stdin
+
+
+## Connect to database
+MySQLConnect();
+
+## read in old stats
+ReadStats();
+
+## read in the log and do stuff
+while (chomp($logline = <LOG>))
+{
+	# info we're interested in
+	my $type;
+	my $size;
+
+	# keep track of # of lines seen
+	$linenum++;
+
+	# this is a combined log
+	# 127.0.0.1 - - [04/Mar/2005:11:20:32 -0500] "GET /netmrg/img/show.gif HTTP/1.1" 200 67 "http://localhost.localdomain/netmrg/device_tree.php" "Mozilla/5.0 (compatible; Konqueror/3.3; Linux) (KHTML, like Gecko)"
+	if ($logline =~ /^(\S+)\s+\S+\s+(\S+)\s+\[(.+?)\]\s+"(\S+)\s+(\S+)\s+(\S+)"\s+(\S+)\s+(\S+)\s+"(.*?)"\s+"(.*?)"$/)
+	{
+		#$loghash{remote_host} = $1;
+		#$loghash{remote_user} = $2;
+		#$loghash{request_time} = $3;
+		#$loghash{request_method} = $4;
+		#$loghash{request_uri} = $5;
+		#$loghash{request_protocol} = $6;
+		#$loghash{status} = $7;
+		#$loghash{bytes_sent} = $8;
+		#$loghash{referer} = $9;
+		#$loghash{agent} = $10;
+		$type = $7;
+		$size = $8;
+
+		# if we don't have a hostname for the log
+		if ($hostname eq "")
+		{
+			print "Hostname needed for combined log\n\n";
+			Usage();
+		} # end if no hostname
+	} # end if combined log
+
+	# this is a combined log w/ vhost
+	# vhost.name 127.0.0.1 - - [04/Mar/2005:11:20:32 -0500] "GET /netmrg/img/show.gif HTTP/1.1" 200 67 "http://localhost.localdomain/netmrg/device_tree.php" "Mozilla/5.0 (compatible; Konqueror/3.3; Linux) (KHTML, like Gecko)"
+	if ($logline =~ /^(\S+)\s+(\S+)\s+\S+\s+(\S+)\s+\[(.+?)\]\s+"(\S+)\s+(\S+)\s+(\S+)"\s+(\S+)\s+(\S+)\s+"(.*?)"\s+"(.*?)"$/)
+	{
+		$hostname = $1;
+		$type = $8;
+		$size = $9;
+	} # end if vhost combined log
+
+	# log info to a file
+	if (defined($type) && $hostname =~ $hostnamere)
+	{
+		# increment stats for this type on this host
+		$typestats{$hostname}{$type}++;
+		$typestats{$hostname}{"bytes"} += $size;
+	} # end if we have data to log
+
+	# if we've seen enough log lines, dump the info to database
+	&StatsLog() if ($linenum % $logat == 0);
+} # end while log left
+
+close (LOG);
+
+## make sure we log some stats
+StatsLog();
+
+# exit nicely
+Stop();
+
+
+#####
+# SUBROUTINES
+#####
+
+###
+# Usage();
+#
+# howto use this program
+#
+sub Usage()
+{
+	print <<END;
+==== $progname v$version ====
+Usage: $progname [(-i|--input) (<file>|STDIN)]
+    [(-h|--hostname) <hostname>] [(-r|--hostnamere) <hostname regex>]
+
+  --input       specify the file to read in or STDIN if input is on
+                the command line
+                [STDIN]
+  --hostname    needed when log is a named query log - specifies the host to
+                log stats for in the database and to use as the 'host' in the
+                apache log
+  --hostnamere  regex for the hostnames to match
+
+END
+	Stop();
+} # end Usage();
+
+
+###
+# Stop();
+#
+# exits nicely
+#
+sub Stop()
+{
+	exit();
+} # end Stop();
+
+
+###
+# MySQLConnect()
+#
+# connects to database
+#
+sub MySQLConnect()
+{
+	$dbh = DBI->connect("DBI:mysql:database=$mysql->{dbname};host=$mysql->{host}",
+		$mysql->{user}, $mysql->{pass});
+
+	if (!$dbh)
+	{
+		print "MySQLConnect: ERROR: couldn't connect to database\n\n";
+		Stop();
+	} # end if we didn't connect
+} # end MySQLConnect();
+
+
+###
+# ReadStats()
+#
+# read in old stats from database
+#
+sub ReadStats()
+{
+	my $db_stats = $dbh->prepare("SELECT host, type, counter FROM apachestats");
+	$db_stats->{'PrintError'} = 0;
+	$db_stats->execute();
+
+	while (my $r = $db_stats->fetchrow_hashref())
+	{
+		$typestats{$r->{host}}{$r->{type}} = $r->{counter};
+	} # end while each row
+
+	$db_stats->finish();
+} # end ReadStats();
+
+
+###
+# StatsLog()
+#
+# logs statistics for $host of $type
+#
+sub StatsLog()
+{
+	# foreach host
+	foreach my $host (keys(%typestats))
+	{
+		# foreach type
+		foreach my $type (keys(%{$typestats{$host}}))
+		{
+			$dbh->do("REPLACE INTO apachestats SET
+				host = '$host',
+				type = '$type',
+				counter = '$typestats{$host}{$type}'");
+		} # end foreach type
+	} # end foreach host
+} # end StatsLog();
+
