@@ -16,7 +16,7 @@ use strict;
 use DBI;
 use Getopt::Long;
 use Date::Parse;
-use POSIX qw(strftime);
+use POSIX qw(strftime pow);
 
 
 #####
@@ -255,7 +255,7 @@ sub ReadStats()
 #
 sub StatsLog()
 {
-	my $maxval = 2e31;
+	my $maxval = pow(2,31);
 	
 	# foreach host
 	foreach my $host (keys(%typestats))
