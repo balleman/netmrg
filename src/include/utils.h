@@ -53,7 +53,29 @@ const int LEVEL_DEFAULT		= 63;
 // Logging Output Modes
 const int LOG_METHOD_STDOUT = 1;
 const int LOG_METHOD_SYSLOG = 2;
+const int LOG_METHOD_VT100  = 4;
 
+// Terminal Constants
+const char ESC 				= 0x1b;
+const int  ATTR_RESET		= 0;
+const int  ATTR_BRIGHT		= 1;
+const int  ATTR_DIM			= 2;
+const int  ATTR_UNDER		= 4;
+const int  ATTR_BLINK		= 5;
+const int  ATTR_REVER		= 7;
+const int  ATTR_HIDDEN		= 8;
+
+const int  COLOR_BLACK		= 30;
+const int  COLOR_RED		= 31;
+const int  COLOR_GREEN		= 32;
+const int  COLOR_BROWN		= 33;
+const int  COLOR_BLUE		= 34;
+const int  COLOR_MAGENTA	= 35;
+const int  COLOR_CYAN		= 36;
+const int  COLOR_WHITE		= 37;
+
+// terminal functions
+bool			vt100_compatible();
 
 // general functions
 int 			file_exists(string filename);

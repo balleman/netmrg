@@ -264,6 +264,7 @@ void show_usage()
 
 	printf("\nLogging:\n");
 	printf("-S          Syslog; output logs to syslog instead of stdout.\n");
+	printf("-b			Bland; disable color output.\n");
 	printf("-a          All; display all debug messages.\n");
 	printf("-m          Most; display more than the default.\n");
 	printf("-q          Quiet; display no debug messages.\n");
@@ -368,8 +369,13 @@ int main(int argc, char **argv)
 	load_settings_default();
 	load_settings_file(DEF_CONFIG_FILE);
 	string temppass;
+	
+	if (vt100_compatible())
+	{
+		set_log_method(LOG_METHOD_VT100);
+	}
 
-	while ((option_char = getopt(argc, argv, "hvXSqasmM:i:d:c:l:H:D:u:p::t:C:K::")) != EOF)
+	while ((option_char = getopt(argc, argv, "hvXSqasmbM:i:d:c:l:H:D:u:p::t:C:K::")) != EOF)
 		switch (option_char)
 		{
 			case 'h': 	show_usage();
@@ -391,6 +397,8 @@ int main(int argc, char **argv)
 			case 'X':	daemonize();
 						break;
 			case 'S':	set_log_method(LOG_METHOD_SYSLOG);
+						break;
+			case 'b':	set_log_method(LOG_METHOD_STDOUT);
 						break;
 			case 'd': 	external_snmp_recache(strtoint(optarg), 2);
 						exit(0);
@@ -427,7 +435,7 @@ int main(int argc, char **argv)
 							/* Make sure stdin is a terminal */
 							if (!isatty(STDIN_FILENO))
 							{
-								fprintf(stderr, "Not bound to a terminal. Using empty string for password\n");
+								fprintf(stderr, "Not bound to a terminal. Using empty string for password.\n");
 								temppass = "";
 							}
 							else

@@ -15,6 +15,19 @@
 #include "utils.h"
 #include "db.h"
 
+// vt100_compatible
+//
+// returns true if our terminal seems to be VT100 compatible
+bool vt100_compatible()
+{
+	if (!isatty(STDOUT_FILENO)) return false;
+	char *term = getenv("TERM");
+	if (!term) return false;
+	if (!strncasecmp(term, "linux", 5)) return true;
+	if (!strncasecmp(term, "xterm", 5)) return true;
+	if (!strncasecmp(term, "vt", 2))	return true;
+}
+
 // file_exists
 //
 // evaluates to true if filename specifies an existing file
@@ -153,6 +166,35 @@ int level_to_priority(int level)
 	}
 }
 
+int level_to_color(int level)
+{
+	switch (level)
+	{
+		case LEVEL_EMERG:		return COLOR_MAGENTA;
+		case LEVEL_ALERT:		return COLOR_RED;
+		case LEVEL_CRITICAL:	return COLOR_RED;
+		case LEVEL_ERROR:		return COLOR_BROWN;
+		case LEVEL_WARNING:		return COLOR_BROWN;
+		case LEVEL_NOTICE:		return COLOR_CYAN;
+		case LEVEL_INFO:		return COLOR_WHITE;
+		case LEVEL_DEBUG:		return COLOR_GREEN;
+	}
+}
+
+int level_to_attrib(int level)
+{
+	switch (level)
+	{
+		case LEVEL_EMERG:		return ATTR_BRIGHT;
+		case LEVEL_ALERT:		return ATTR_BRIGHT;
+		case LEVEL_ERROR:		return ATTR_BRIGHT;
+		case LEVEL_NOTICE:		return ATTR_DIM;
+		case LEVEL_INFO:		return ATTR_RESET;
+		default:				return ATTR_RESET;
+	}
+}
+
+
 // censor_message - replace the contents of braces with a 'Field Omitted' message
 string censor_message(const string & message)
 {
@@ -235,23 +277,32 @@ void debuglogger(int component, int level, const DeviceInfo * info, const string
 			}
 		} // end display context information
 
+		string context = tempmsg;
+		string fullmessage;
+		string content;
+		
 		// censor or remove censoring data as appropriate
 		if (debug_safety)
 		{
-			tempmsg = tempmsg + censor_message(message);
+			content = censor_message(message);
 		}
 		else
 		{
-			tempmsg = tempmsg + remove_braces(message);
+			content = remove_braces(message);
 		}
 
-		// print the formatted message
+		fullmessage = context + content;
+
 		if (log_method & LOG_METHOD_STDOUT)
-			printf("%s\n", tempmsg.c_str());
+			printf("%s\n", fullmessage.c_str());
+				
+		// print the formatted message in color
+		if (log_method & LOG_METHOD_VT100)
+			printf("%c[%d;%d;%dm%s%c[%d;%d;%dm%s\n%c[0;%d;%dm", ESC, ATTR_BRIGHT, COLOR_BLACK, COLOR_BLACK + 10, context.c_str(), ESC, level_to_attrib(level), level_to_color(level), COLOR_BLACK+10, content.c_str(), ESC, COLOR_WHITE, COLOR_BLACK + 10);
 		
 		// syslog the message
 		if (log_method & LOG_METHOD_SYSLOG)
-			syslog(level_to_priority(level), "%s", tempmsg.c_str());
+			syslog(level_to_priority(level), "%s", fullmessage.c_str());
 	}
 
 	// log message to database, if possible, and if important enough
