@@ -19,7 +19,7 @@ $GLOBALS["netmrg"]["verhist"] = array(
 	"0.14" => 6,
 	"0.15" => 7,
 	"0.16" => 8,
-	"0.17cvs" => 9
+	"0.17" => 9
 ); // end verhist
 
 

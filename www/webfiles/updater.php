@@ -74,7 +74,17 @@ $dbupdates = array(
 "ALTER TABLE `tests_snmp` ADD `type` TINYINT DEFAULT '0' NOT NULL , ADD `subitem` INT DEFAULT '0' NOT NULL ;",
 "ALTER TABLE `graphs` ADD `max` INT, ADD `min` INT;",
 ), // end 0.15
-	"0.16" => array() // end 0.16
+	"0.16" => array(
+"ALTER TABLE `tests_internal` CHANGE `name` `name` VARCHAR( 200 ) NOT NULL ;",
+"ALTER TABLE `tests_script` CHANGE `name` `name` VARCHAR( 200 ) NOT NULL ;",
+"ALTER TABLE `tests_sql` CHANGE `name` `name` VARCHAR( 200 ) NOT NULL ;",
+"INSERT INTO tests_internal VALUES (2,'Lucent TNT \"Good\" Modems (available modems minus suspect modems)');",
+"INSERT INTO tests_internal VALUES (3,'UCD CPU Load (user + system)');",
+"INSERT INTO tests_internal VALUES (4,'Windows Disk Usage (percent)');",
+"INSERT INTO tests_internal VALUES (5,'UCD Swap Usage (percent)');",
+"INSERT INTO tests_internal VALUES (6,'Read Value from File');"
+), // end 0.16
+	"0.17" => array()  // end 0.17
 ); // end $dbupdates;
 
 // check what to do

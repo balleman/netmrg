@@ -184,10 +184,14 @@ int text_to_facility(string facility)
 		return LOG_UUCP;
 	else if (facility == "LOG_CRON")
 		return LOG_CRON;
+	// these are not universally available
+	// until we autoconf this, uncomment to restore
+	/*
 	else if (facility == "LOG_AUTHPRIV")
 		return LOG_AUTHPRIV;
 	else if (facility == "LOG_FTP")
-		return LOG_FTP;
+		return LOG_FTP;*/
+
 	else if (facility == "LOG_LOCAL0")
 		return LOG_LOCAL0;
 	else if (facility == "LOG_LOCAL1")
