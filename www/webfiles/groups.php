@@ -95,7 +95,7 @@ function add()
 	make_edit_table("Edit Group");
 	make_edit_text("Name:","grp_name","25","100","");
 	make_edit_text("Comment:","grp_comment","50","200","");
-	make_edit_select_from_table("Parent:", "parent_id", "groups", $_REQUEST["parent_id"], "", array(0 => "-Root-"), array(), "id != '-1'");
+	make_edit_select_from_table("Parent:", "edit_parent_id", "groups", $_REQUEST["parent_id"], "", array(0 => "-Root-"), array(), "id != '-1'");
 	make_edit_hidden("grp_id", -1);
 	make_edit_hidden("action","insert");
 	make_edit_hidden("tripid",$_REQUEST["tripid"]);
