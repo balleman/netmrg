@@ -49,10 +49,9 @@ function format_time_elapsed($num_secs)
 } // end format_time_elapsed
 
 
-function sanitize_number($number)
+function sanitize_number($number, $round_to = 5)
 {
-	$round_to = 5;
-
+	
 	if ($number < 1000)
 	{
 		return round($number,$round_to);

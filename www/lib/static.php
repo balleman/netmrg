@@ -67,6 +67,12 @@ $VALUE_TYPES = array(
 			1	=>	"Delta Value",
 			2	=>	"Rate of Change");
 
+$INTERFACE_STATUS = array(
+			0	=>	"Down",
+			1	=>	"Up",
+			2	=>	"Testing");
+
+
 $MENU = array(
 	"Monitoring" => array(
 		array("name" => "Groups", "link" => "mon_groups.php", "descr" => "", "authLevelRequired" => 1),
@@ -93,8 +99,6 @@ $MENU = array(
 		array("name" => "About", "link" => "about.php", "descr" => "", "authLevelRequired" => 0)
 	)
 ); // end $MENU
-
-
 
 
 // Return the path to an image based on the internal name of the image.
