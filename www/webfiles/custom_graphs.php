@@ -82,7 +82,7 @@ if ($_REQUEST["action"] == "dodelete")
 
 if ($_REQUEST["action"] == "duplicate")
 {
-	$graph_handle = do_query("SELECT * FROM graphs WHERE id=$id");
+	$graph_handle = do_query("SELECT * FROM graphs WHERE id={$_REQUEST["id"]}");
 	$graph_row    = mysql_fetch_array($graph_handle);
 	$new_handle   = do_update("INSERT INTO graphs SET name=\"" . $graph_row["name"] . ' (copy)",
 	comment="' . $graph_row["comment"] . '",
@@ -117,17 +117,28 @@ if ($_REQUEST["action"] == "duplicate")
 
         } // end for
 
-unset($action);
+	header("Location: {$_SERVER["PHP_SELF"]}");
+	exit(0);
 
 } // done duplicating.
 
-if (!isset($action))
+if (empty($_REQUEST["action"]))
 {
 
 	begin_page();
-	make_display_table("Graphs","Name","$SCRIPT_NAME?order_by=name","Comment","$SCRIPT_NAME?order_by=comment","","");
+	make_display_table("Graphs","Name","{$_SERVER["PHP_SELF"]}?order_by=name","Comment","{$_SERVER["PHP_SELF"]}?order_by=comment","","");
+
 	$query = "SELECT * FROM graphs";
-	if (isset($order_by)) { $query .= " ORDER BY $order_by"; } else { $query .= " ORDER BY name"; }
+
+	if (isset($_REQUEST["order_by"]))
+	{
+		$query .= " ORDER BY {$_REQUEST["order_by"]}";
+	}
+	else
+	{
+		$query .= " ORDER BY name";
+	}
+
 	$graph_results = do_query($query);
 	$graph_total = mysql_num_rows($graph_results);
 
@@ -139,19 +150,18 @@ if (!isset($action))
 
 		make_display_item($graph_row["name"],"./graph_items.php?graph_id=$graph_id",
 				  $temp_comment,"",
-				  "[<a href=\"./enclose_graph.php?type=custom&id=" . $graph_row["id"]. "\">View</a>]&nbsp;[<a href=\"./custom_graphs.php?action=duplicate&id=" . $graph_row["id"] . "\">Duplicate</a>]","",
-				  formatted_link("Edit", "$SCRIPT_NAME?action=edit&graph_id=$graph_id") . "&nbsp;" .
-				  formatted_link("Delete", "$SCRIPT_NAME?action=delete&graph_id=$graph_id"), "");
+				  "[<a href=\"./enclose_graph.php?type=custom&id=" . $graph_row["id"]. "\">View</a>]&nbsp;[<a href=\"{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $graph_row["id"] . "\">Duplicate</a>]","",
+				  formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&graph_id=$graph_id") . "&nbsp;" .
+				  formatted_link("Delete", "{$_SERVER["PHP_SELF"]}?action=delete&graph_id=$graph_id"), "");
 
 
-	} // end groups
-
+	} // end graphs
 
 ?></table><?
 
 } // end no action
 
-if ($action == "add")
+if ($_REQUEST["action"] == "add")
 {
 	// Display editing screen
 	check_auth(2);
@@ -175,12 +185,12 @@ if ($action == "add")
 
 } // End editing screen
 
-if ($action == "edit")
+if ($_REQUEST["action"] == "edit")
 {
 	// Display editing screen
 	check_auth(2);
 	begin_page();
-	$graph_results = do_query("SELECT * FROM graphs WHERE id=$graph_id");
+	$graph_results = do_query("SELECT * FROM graphs WHERE id={$_REQUEST["graph_id"]}");
 	$graph_row = mysql_fetch_array($graph_results);
 	$graph_name = $graph_row["name"];
 	$graph_comment = $graph_row["comment"];
@@ -198,13 +208,13 @@ if ($action == "edit")
 	make_edit_group("Maximum Indicators");
 	make_edit_checkbox("Show Summed Data Source Maximum Indicators","show_summed",$graph_row["show_summed"]);
 	make_edit_text("Custom Maximum Value","max_custom",10,10,$graph_row["max_custom"]);
-	make_edit_hidden("graph_id",$graph_id);
+	make_edit_hidden("graph_id",$_REQUEST["graph_id"]);
 	make_edit_hidden("action","doedit");
 
-	if ($return_type != "")
+	if (!empty($_REQUEST["return_type"]))
 	{
-		make_edit_hidden("return_type",$return_type);
-		make_edit_hidden("return_id",$return_id);
+		make_edit_hidden("return_type",$_REQUEST["return_type"]);
+		make_edit_hidden("return_id",$_REQUEST["return_id"]);
 	}
 
 	make_edit_submit_button();
@@ -212,7 +222,7 @@ if ($action == "edit")
 
 } // End editing screen
 
-if ($action == "delete")
+if ($_REQUEST["action"] == "delete")
 {
 	// Display delete confirmation
 	check_auth(2);
@@ -225,7 +235,7 @@ if ($action == "delete")
 
 	<form action="<? print("$SCRIPT_NAME"); ?>" method="post">
 	<input type="submit" value="Yes">
-	<input type="hidden" name="graph_id" value="<? print("$graph_id"); ?>">
+	<input type="hidden" name="graph_id" value="<? print($_REQUEST["graph_id"]); ?>">
 	<input type="hidden" name="action" value="dodelete">
 	</form>
 	<form action="<? print("$SCRIPT_NAME"); ?>" method="post">

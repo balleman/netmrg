@@ -70,7 +70,7 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 	        		$test_row["host"], "",
 				$test_row["user"], "",
 				$test_row["query"], "",
-		        	formatted_link("Edit", "$SCRIPT_NAME?action=edit&test_id=" . $test_row["id"]) . "&nbsp;" .
+		        	formatted_link("Edit", "{$_SERVER["PHP_SELF"]}?action=edit&test_id=" . $test_row["id"]) . "&nbsp;" .
 			        formatted_link("Delete", "javascript:del('" . $test_row["name"] . "', '" . $test_row["id"] . "')"), "");
 
 
