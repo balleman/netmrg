@@ -1,5 +1,6 @@
 <?php
 
+/*
 ########################################################
 #                                                      #
 #           NetMRG Integrator                          #
@@ -16,6 +17,7 @@
 #     brady@pa.net - www.treehousetechnologies.com     #
 #                                                      #
 ########################################################
+*/
 
 require_once("../include/config.php");
 view_check_auth();
@@ -104,12 +106,15 @@ if (empty($_REQUEST["action"]))
 
 		if (get_permit() > 1)
 		{
-			print("<a href='./view.php?pos_id_type=".$_REQUEST["pos_id_type"]."&pos_id=".$_REQUEST["pos_id"]."&full_edit=1'>[Edit]</a>");
+			print(formatted_link("Edit", "view.php?pos_id_type={$_REQUEST['pos_id_type']}&pos_id={$_REQUEST['pos_id']}&full_edit=1"));
+
 		}
 
 	}
 	else
 	{
+		js_confirm_dialog("del", "Do you want to remove ", " from this view?", "{$_SERVER['PHP_SELF']}?action=dodelete&pos_id_type={$_REQUEST['pos_id_type']}&pos_id={$_REQUEST['pos_id']}&graph_id=");
+
 		$custom_add_link = "./view.php?pos_id_type=".$_REQUEST["pos_id_type"]."&pos_id=".$_REQUEST["pos_id"]."&action=add";
 		make_display_table("Edit View","Graph","");
 
@@ -119,10 +124,11 @@ if (empty($_REQUEST["action"]))
 			make_display_item($row["name"],"",
 				formatted_link("Move Up", "{$_SERVER['PHP_SELF']}?action=move&val=" . ($row["pos"] - 1) . "&pos_id=" . $row["pos_id"] . "&pos_id_type=" . $row["pos_id_type"] . "&graph_id=" . $row["graph_id"] . "&full_edit=1") . "&nbsp;" .
 				formatted_link("Move Down", "{$_SERVER['PHP_SELF']}?action=move&val=" . ($row["pos"] + 1) . "&pos_id=" . $row["pos_id"] . "&pos_id_type=" . $row["pos_id_type"] . "&graph_id=" . $row["graph_id"] . "&full_edit=1") . "&nbsp;" .
-				formatted_link("Delete","./view.php?action=delete&pos_id_type={$_REQUEST['pos_id_type']}&pos_id={$_REQUEST['pos_id']}&graph_id=" . $row["graph_id"]), "");
+				formatted_link("Delete","javascript:del('{$row['name']}', '{$row['graph_id']}')"), "");
 		}
 
-		print("</table><a href='./view.php?pos_id_type=".$_REQUEST["pos_id_type"]."&pos_id=".$_REQUEST["pos_id"]."&full_edit=0'>[Done Editing]</a>");
+		print("</table>");
+		print(formatted_link("Done Editing", "view.php?pos_id_type={$_REQUEST['pos_id_type']}&pos_id={$_REQUEST['pos_id']}&full_edit=0"));
 
 	}
 }
