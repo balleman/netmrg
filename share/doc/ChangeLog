@@ -2,6 +2,7 @@
   - bug#0000042: --base support on graphs
   - bug#0000043: support logarithmic display (-o)
   - support legend hiding (-g)
+  - bug#0000048: duplication problems
 
 2003.09.12  v0.10pre1  silfreed
   - bug#0000041: add navigational history to the top of pages underneath 'Groups'

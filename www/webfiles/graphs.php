@@ -88,6 +88,7 @@ function duplicate()
 	"comment='" . db_escape_string($graph_row['comment']) . "', " .
 	"width={$graph_row['width']}, height={$graph_row['height']}, " .
 	"vert_label='" . db_escape_string($graph_row['vert_label']) . "', " .
+	"base={$graph_row['base']}, options=\"{$graph_row['options']}\", " .
 	"type='{$graph_row['type']}'");
 
 	$new_id = db_insert_id();
@@ -104,7 +105,9 @@ function duplicate()
 		"alignment={$ds_row['alignment']}, " .
 		"stats='{$ds_row['stats']}', " .
 		"position={$ds_row['position']}, " .
-		"multiplier={$ds_row['multiplier']}");
+		"multiplier='" . db_escape_string($ds_row['multiplier']) . "', " . 
+		"start_time='" . db_escape_string($ds_row['start_time']) . "', " . 
+		"end_time='" . db_escape_string($ds_row['end_time']) . "'");
 	} // end for each ds
 
 	// need to duplicate highlight periods
@@ -207,6 +210,7 @@ function edit()
 		$graph_row["height"] = 100;
 		$graph_row["vert_label"] = "";
 		$graph_row["base"] = 1000;
+		$graph_row["options"] = "";
 	}
 
 	make_edit_table("Edit Graph");
