@@ -48,7 +48,25 @@ $dbupdates = array(
 	), // end 0.10
 	"0.12" => array(), // end 0.12
 	"0.13" => array(), // end 0.13
-	"0.14" => array() // end 0.14cvs
+	"0.14" => array(
+"ALTER TABLE `devices` ADD `snmp_recache_method` SMALLINT DEFAULT '0' NOT NULL AFTER `dev_type`;",
+"UPDATE devices SET snmp_recache_method = 4 WHERE snmp_recache = 1;",
+"UPDATE devices SET snmp_recache_method = 3 WHERE snmp_recache = 0 AND snmp_check_ifnumber = 1;",
+"UPDATE devices SET snmp_recache_method = 1 WHERE snmp_recache = 0 AND snmp_check_ifnumber = 0;",
+"ALTER TABLE `devices` DROP `snmp_recache`;",
+"ALTER TABLE `devices` DROP `snmp_check_ifnumber`;",
+"CREATE TABLE `log` (
+    `id` BIGINT NOT NULL AUTO_INCREMENT,
+    `date` DATETIME NOT NULL,
+    `dev_id` INT,
+    `subdev_id` INT,
+    `mon_id` INT,
+    `level` INT NOT NULL ,
+    `component` INT NOT NULL ,
+    `message` VARCHAR( 200 ) NOT NULL ,
+    PRIMARY KEY ( `id` ) , INDEX ( `date` ) ,
+    INDEX ( `dev_id` ), INDEX ( `subdev_id` ) , INDEX( `mon_id` ));"
+	) // end 0.14
 ); // end $dbupdates;
 
 // check what to do
