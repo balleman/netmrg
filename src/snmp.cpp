@@ -37,7 +37,7 @@
 void snmp_init()
 {
 	debuglogger(DEBUG_GLOBAL + DEBUG_SNMP, LEVEL_INFO, NULL, "Initializing SNMP library.");
-	init_snmp("snmpapp");
+	init_snmp("NetMRG");
 	SOCK_STARTUP;
 	struct snmp_session session;
 	snmp_sess_init(&session);
@@ -107,14 +107,33 @@ void snmp_session_init(DeviceInfo &info)
 	// initialize session structure
 	snmp_sess_init(&session);
 
-	// set IP address
-	strcpy(temp, info.ip.c_str());
+	// set hostname or IP address (and port)
+	snprintf(temp, sizeof(temp), "%s:%d", info.ip.c_str(), info.snmp_port);
 	session.peername = temp;
 
 	// set the SNMP version number
-	session.version = SNMP_VERSION_1;
+	switch (info.snmp_version)
+	{
+		case 1: session.version = SNMP_VERSION_1;
+				debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "SNMPv1");
+				break;
+		case 2: session.version = SNMP_VERSION_2c;
+				debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "SNMPv2c");
+				break;
+		case 3: session.version = SNMP_VERSION_3;
+				debuglogger(DEBUG_SNMP, LEVEL_ERROR, &info, "SNMPv3 - not yet supported.");
+				break;
+	}
 	
-	// set the SNMPv1 community name used for authentication
+	// set timeout/retry parameters
+	session.timeout = info.snmp_timeout;
+	session.retries = info.snmp_retries;
+
+	char log[255];
+	snprintf(log, sizeof(log), "Port: %d; Timeout: %d; Retries: %d.", info.snmp_port, info.snmp_timeout, info.snmp_retries);
+	debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, log);
+		
+	// set the SNMPv1/2c community name used for authentication
 	session.community = u_string(info.snmp_read_community, u_temp);
 	session.community_len = info.snmp_read_community.length();
 

@@ -67,7 +67,6 @@ struct DeviceInfo
 	string name;
 	string ip;
 	string subdevice_name;
-	string snmp_read_community;
 	string test_params;
 	
 	string curr_val;
@@ -75,6 +74,12 @@ struct DeviceInfo
 	string delta_val;
 	string rate_val;
 	long long int delta_time;
+	
+	unsigned short snmp_version;
+	string snmp_read_community;
+	unsigned long snmp_timeout;
+	unsigned int snmp_retries;
+	unsigned short snmp_port;
 
 	list<ValuePair> parameters;
 
@@ -105,6 +110,11 @@ struct DeviceInfo
 		last_val		= "U";
 		delta_val		= "U";
 		rate_val		= "U";
+		
+		snmp_version	= 0;
+		snmp_timeout	= 1000000;
+		snmp_retries	= 4;
+		snmp_port		= 161;
 	}
 };
 

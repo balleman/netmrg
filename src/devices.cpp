@@ -199,12 +199,15 @@ void process_device(int dev_id)
 	string query = 	string("SELECT ") 		+
 			string("name, ")				+ // 0
 			string("ip, ")					+ // 1
-			string("snmp_enabled, ")		+ // 2
+			string("snmp_version, ")		+ // 2
 			string("snmp_read_community, ")	+ // 3
 			string("snmp_recache, ")		+ // 4
 			string("snmp_uptime, ")			+ // 5
 			string("snmp_ifnumber, ")		+ // 6
-			string("snmp_check_ifnumber ")	+ // 7
+			string("snmp_check_ifnumber, ")	+ // 7
+			string("snmp_port, ")			+ // 8
+			string("snmp_timeout, ")		+ // 9
+			string("snmp_retries ")			+ // 10
 			string("FROM devices ")			+
 			string("WHERE id=") + inttostr(dev_id);
 
@@ -213,18 +216,26 @@ void process_device(int dev_id)
 
 	info.name					= mysql_row[0];
 	info.ip						= mysql_row[1];
-	info.snmp_read_community	= mysql_row[3];
-
-	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, info.name + " / " + info.ip + " / " + info.snmp_read_community);
+	info.snmp_version			= strtoint(mysql_row[2]);
+	
+	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, info.name + " / " + info.ip);
 	
 	// setup device-wide parameters
 	info.parameters.push_front(ValuePair("dev_name", mysql_row[0]));
 	info.parameters.push_front(ValuePair("ip", mysql_row[1]));
-	info.parameters.push_front(ValuePair("snmp_read_community", mysql_row[3]));
-	
+
 	// get SNMP-level info, if SNMP is used.
-	if (strtoint(mysql_row[2]) == 1)
+	if (info.snmp_version > 0)
 	{
+		// set SNMP parameters
+		info.snmp_read_community	= mysql_row[3];
+		info.snmp_port				= strtoint(mysql_row[8]);
+		info.snmp_timeout			= strtoint(mysql_row[9]);
+		info.snmp_retries			= strtoint(mysql_row[10]);
+		
+		// add SNMP parameters to list
+		info.parameters.push_front(ValuePair("snmp_read_community", mysql_row[3]));
+		
 		// init device snmp session
 		snmp_session_init(info);
 		
