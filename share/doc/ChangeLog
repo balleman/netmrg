@@ -1,3 +1,7 @@
+2003.09.24  v0.10pre2  balleman
+  - bug#0000060: yesterday's highlight should be displayed on daily graphs
+  - bug#0000069: infinite graph items shouldn't be included in "totals"
+
 2003.09.23  v0.10pre2  balleman
   - bug#0000054: program crash on problem with runtime file
   - bug#0000065: can't change graph width/height
