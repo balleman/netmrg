@@ -640,7 +640,7 @@ function make_edit_select_from_table($header, $name, $table_name, $selected, $se
 	} // end while we have array list
 	
 	// Draw Select Options from SQL table
-	DrawSelectOptionsFromSQL($table_name, $selected, $select_options="", $where="1");
+	DrawSelectOptionsFromSQL($table_name, $selected, $select_options, $where);
 	
 	// loop through things to put @ the end of the select box
 	while (list($key, $value) = each($end_array_list))
