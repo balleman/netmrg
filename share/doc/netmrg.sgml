@@ -153,7 +153,7 @@ mysql -u root -p
 		</listitem>
 		<listitem>
 			<para>
-modify you apache config (commonly in 
+modify your apache config (commonly in 
 <computeroutput>/etc/httpd/conf/httpd.conf</computeroutput> to alias /netmrg 
 to the installed web directory (commonly 
 <computeroutput>/usr/local/var/www/netmrg/webfiles</computeroutput>)
@@ -173,7 +173,7 @@ or run 'crontab -e' as root. For 'crontab -e', use an entry similar to this:
 			<para>
 point your web browser at your install, and start graphing things!  The default 
 login is <userinput>admin</userinput> and the default password is 
-<userinput>nimda</userinput>.  Point your webbrowser at the host you built 
+<userinput>nimda</userinput>.  Point your web browser at the host you built 
 this on (something similar to <computeroutput>http://yourhost.com/netmrg/</computeroutput>
 			</para>
 		</listitem>
