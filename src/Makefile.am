@@ -4,4 +4,4 @@ noinst_HEADERS = include/common.h include/db.h include/devices.h include/events.
 
 bin_PROGRAMS = netmrg-gatherer
 
-INCLUDES = -I./include -I/usr/include/libxml2
+INCLUDES = -I./include
