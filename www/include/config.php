@@ -19,6 +19,11 @@ error_reporting(E_ALL);
 
 
 /***** CONFIG *****/
+// Cosmetic Variables
+$_GLOBALS["netmrg"]["version"] = "0.79.3a";
+$_GLOBALS["netmrg"]["name"] = "NetMRG";
+$_GLOBALS["netmrg"]["company"] = "Generic Company";
+
 // DB Config
 $_GLOBALS["netmrg"]["dbhost"] = "localhost";
 $_GLOBALS["netmrg"]["dbname"] = "netmrg";
@@ -30,10 +35,6 @@ $_GLOBALS["netmrg"]["dbwritepass"] = "netmrgwrite";
 // Path Config
 $_GLOBALS["netmrg"]["fileroot"] = "/var/www/netmrg";
 $_GLOBALS["netmrg"]["webroot"] = "/netmrg";
-
-// Cosmetic Variables
-$_GLOBALS["netmrg"]["name"] = "NetMRG";
-$_GLOBALS["netmrg"]["company"] = "Generic Company";
 
 
 

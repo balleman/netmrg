@@ -13,6 +13,7 @@
 #                                                      #
 ########################################################
 
+require_once("../include/config.php");
 require_once("/var/www/netmrg/lib/stat.php");
 require_once(netmrg_root() . "lib/format.php");
 require_once(netmrg_root() . "lib/auth.php");
@@ -25,7 +26,7 @@ begin_page();
 <br>
 <b>The Network Monitoring, Reporting, and Graphing Tool</b>
 <br><br>
-<a href="ChangeLog">Version <b>0.79.3a</b></a><br>
+Version <b><? echo $_GLOBALS["netmrg"]["version"]; ?></b><br>
 October 2002<br>
 <br>
 <br>
