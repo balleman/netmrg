@@ -100,10 +100,11 @@ if (empty($_REQUEST["action"]))
 
 	$ds_results = do_query("
 		SELECT
-		graph_ds.label AS label,
-		graph_ds.id AS id,
-		graph_ds.position AS pos,
-		graph_ds.type AS type
+		graph_ds.label		AS label,
+		graph_ds.id		AS id,
+		graph_ds.position	AS pos,
+		graph_ds.type		AS type,
+		graph_ds.color		AS color
 		FROM graph_ds
 		WHERE graph_ds.graph_id={$_REQUEST['graph_id']}
 		ORDER BY position, id");
@@ -140,8 +141,8 @@ if (empty($_REQUEST["action"]))
 			$move_down = formatted_link("Move Down", "{$_SERVER['PHP_SELF']}?action=move&direction=down&graph_id={$_REQUEST['graph_id']}&id=$ds_count");
 		}
 
-		make_display_item($ds_row["label"],"",
-			$RRDTOOL_ITEM_TYPES[$ds_row["type"]],"",
+		make_display_item($ds_row["label"], "",
+			color_block($ds_row["color"]) . "&nbsp;&nbsp;" . $RRDTOOL_ITEM_TYPES[$ds_row["type"]], "",
 			formatted_link("View", "enclose_graph.php?type=custom_ds&id=" . $ds_row["id"]) . "&nbsp;" .
 			$move_up . "&nbsp;" . $move_down, "",
 			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id=$id&graph_id={$_REQUEST['graph_id']}") . "&nbsp;" .

@@ -593,6 +593,11 @@ function make_edit_select_monitor($mon_id_cur)
 
 // Special Functions
 
+function color_block($color)
+{       
+	return "<b style='border:thin solid black;background-color:$color'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>";
+}
+
 function formatted_link($text, $link, $caption = "")
 {
 
