@@ -1,6 +1,10 @@
+2004.02.14  v0.13  balleman
+  - bug#0000155 - subdevice name escaping in snmp_cache_view.php
+
 2004.01.25  v0.13  balleman
   - bug#0000151 - fixed value field too short on graph_items.php
   - bug#0000142 - warning/error log (support added in gatherer and database)
+  - bug#0000153 - possible name collision with Solaris mutex_* functions
 
 2004.01.10  v0.13  balleman
   - bug#0000149 - recache.php security issues

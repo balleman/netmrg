@@ -93,7 +93,7 @@ function make_interface_graph($dev_id, $index)
 		$index_type = "ifIndex";
 	}
 
-	$index_value = $r_snmp[$index_type];
+	$index_value = db_escape_string($r_snmp[$index_type]);
 
 	// create the subdevice
 	db_update("INSERT INTO sub_devices SET dev_id='$dev_id', type=2, name='$index_value'");
@@ -127,10 +127,11 @@ function make_disk_graph($dev_id, $index)
 	else
 	{
 		$index_type = "dskIndex";
-		$index_value = "dsk_index";
+		$index_value = $r_snmp["disk_index"];
 	}
 
 	// create the subdevice
+	$index_value = db_escape_string($index_value);
 	db_update("INSERT INTO sub_devices SET dev_id='$dev_id', type=3, name='$index_value'");
 	$sd_id = db_insert_id();
 	db_update("INSERT INTO sub_dev_variables SET sub_dev_id=$sd_id, name='$index_type', value='$index_value'");
