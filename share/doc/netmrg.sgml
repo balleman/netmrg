@@ -61,6 +61,16 @@ any company, organization, product, or platform.
 	<title>Revision History</title>
 	<itemizedlist>
 		<listitem>
+			<para>0.14</para>
+			<para>2004.03.10</para>
+			<para>
+Minor Bugfixes and Feature Enhancements; escaping issues in template dereferencing, broken links on 
+various pages, security issues regarding manual SNMP recaching, broken duplication on non-cutting-edge MySQL,
+more parameter substitution in SQL tests, better date parsing for advanced graph view, nav-bar and group navigation
+enhancements, advanced view capability for monitor-only graphs.
+			</para>
+		</listitem>
+		<listitem>
 			<para>0.13</para>
 			<para>2003.12.19</para>
 			<para>
