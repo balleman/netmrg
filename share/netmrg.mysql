@@ -1,6 +1,6 @@
 -- MySQL dump 8.23
 --
--- Host: localhost    Database: netmrg_template
+-- Host: localhost    Database: netmrg
 ---------------------------------------------------------
 -- Server version	3.23.58
 
@@ -470,7 +470,7 @@ CREATE TABLE tests_internal (
 
 
 INSERT INTO tests_internal VALUES (1,'Count Lines in File');
-INSERT INTO tests_internal VALUES (2,'Lucent TNT "Good" Modems (available modems minus suspect modems)');
+INSERT INTO tests_internal VALUES (2,'Lucent TNT \"Good\" Modems (available modems minus suspect modems)');
 INSERT INTO tests_internal VALUES (3,'UCD CPU Load (user + system)');
 INSERT INTO tests_internal VALUES (4,'Windows Disk Usage (percent)');
 INSERT INTO tests_internal VALUES (5,'UCD Swap Usage (percent)');
@@ -599,6 +599,7 @@ CREATE TABLE user (
   permit tinyint(4) NOT NULL default '0',
   fullname varchar(200) default NULL,
   group_id int(11) NOT NULL default '0',
+  disabled tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (id),
   UNIQUE KEY user (user)
 ) TYPE=MyISAM;
@@ -608,7 +609,7 @@ CREATE TABLE user (
 --
 
 
-INSERT INTO user VALUES (1,'admin','ee10c315eba2c75b403ea99136f5b48d',3,'Administrator',0);
+INSERT INTO user VALUES (1,'admin','ee10c315eba2c75b403ea99136f5b48d',3,'Administrator',0,0);
 
 --
 -- Table structure for table `user_prefs`
