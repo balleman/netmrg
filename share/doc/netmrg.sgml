@@ -61,6 +61,15 @@ any company, organization, product, or platform.
 	<title>Revision History</title>
 	<itemizedlist>
 		<listitem>
+			<para>0.10</para>
+			<para>2003.10.05</para>
+			<para>
+Major bug fix; fixes a db error when trying to view monitors, a bug that would 
+always set the width and height to zero when creating graphs, and makes conditions 
+with 'rate of change' work.  Many documentation upgrades.
+			</para>
+		</listitem>
+		<listitem>
 			<para>0.10pre2</para>
 			<para>2003.09.15</para>
 			<para>

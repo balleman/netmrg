@@ -1,3 +1,7 @@
+2003.10.06  v0.10pre2  silfreed
+  - version bump to 0.10
+  - more doc updates; add custom dsl
+
 2003.10.04  v0.10pre2  balleman
   - bug#0000071: rate of change support in conditions
 
