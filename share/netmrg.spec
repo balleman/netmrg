@@ -71,7 +71,8 @@ fi
 %files
 %defattr(-, root, root)
 %doc %{_datadir}/doc/*
-%config(noreplace) %{_sysconfdir}/*
+%config(noreplace) %{_sysconfdir}/%{name}.xml
+%config(noreplace) %{_sysconfdir}/%{name}.conf
 %config %{_sysconfdir}/cron.d/netmrg
 %config %{_sysconfdir}/rc.d/init.d/netmrg
 %{_bindir}/*
