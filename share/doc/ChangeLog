@@ -1,3 +1,6 @@
+2004.09.12  v0.17cvs  balleman
+  - bug#0000109 - tests_script.php checkboxes
+
 2004.09.11  v0.17cvs  silfreed
   - bug#0000200 - Need a tutorial on how to create custom/template graphs
   - bug#0000259 - It should be noted that RRDs and variables aren't usable 

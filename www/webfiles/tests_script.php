@@ -21,7 +21,7 @@ if (empty($_REQUEST["action"]))
 $action = $_REQUEST["action"];
 
 // if no action (list) or perfoming an insert/update/delete
-if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
+if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd") || ($action == "multidodelete"))
 {
 
 if ($action == "doedit")
@@ -53,15 +53,33 @@ if ($action == "dodelete")
 	exit();
 } // done deleting
 
+if ($action == "multidodelete")
+{
+	if (isset($_REQUEST['test']))
+	{
+		while (list($key,$value) = each($_REQUEST["test"]))
+		{
+			db_update("DELETE FROM tests_script WHERE id='$key'");
+		}
+	}
+	Header("Location: {$_SERVER['PHP_SELF']}");
+	exit();
+}
+
 
 /** start the page **/
 begin_page("tests_scripts.php", "Scripts - Tests");
+js_checkbox_utils();
 js_confirm_dialog("del", "Are you sure you want to delete script test ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
-
+?>
+<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+<input type="hidden" name="action" value="">
+<?php
 
 // Display a list
 
 make_display_table("Script Tests", "",
+	array("text" => checkbox_toolbar()),
 	array("text" => "Name"),
 	array("text" => "Command"),
 	array("text" => "Data Type")
@@ -85,6 +103,7 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
         $test_id  = $test_row["id"];
 
         make_display_item("editfield".(($test_count-1)%2),
+		array("checkboxname" => "test", "checkboxid" => $test_id),
 		array("text" => htmlspecialchars($test_row["name"])),
 		array("text" => htmlspecialchars($test_row["cmd"])),
 		array("text" => $GLOBALS["SCRIPT_DATA_TYPES"][$test_row["data_type"]]),
@@ -92,9 +111,17 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 			formatted_link("Delete", "javascript:del('" . addslashes(htmlspecialchars($test_row["name"])) . "', '" . $test_row["id"] . "')"))
 	); // end make_display_item();
 } // end tests
-
+?>
+<tr>
+	<td colspan="5" class="editheader" nowrap="nowrap">
+		&lt;<a class="editheaderlink" onclick="document.form.action.value='multidodelete';javascript:if(window.confirm('Are you sure you want to delete the checked sub-devices?')){document.form.submit();}" href="#">Delete All Checked</a>&gt;
+	</td>
+</tr>
+<?php
+make_status_line("script test", $test_count - 1);
 ?>
 </table>
+</form>
 <?php
 	end_page();
 } // End if no action
