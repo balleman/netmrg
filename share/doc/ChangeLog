@@ -1,5 +1,7 @@
 2003.08.31  v0.10pre1  silfreed
   - bug#0000024: the 'next' link shouldn't always work now
+  - bug#0000027: when adding a monitor, it won't select the first item in the
+      database - it should just select the first item
 
 2003.08.27  v0.10pre1 balleman
   - kill feature#28 graph dissection ("show children") feature restored

@@ -281,25 +281,53 @@ function edit()
 	if ($mon_row["test_type"] == 1)
 	{
 		make_edit_group("Script Options");
-		make_edit_select_from_table("Script Test:", "test_id", "tests_script", $mon_row["test_id"]);
+		if ($_REQUEST["action"] == "add")
+		{
+			make_edit_select_from_table("Script Test:", "test_id", "tests_script", "dl4392l234");
+		} // end if adding
+		else
+		{
+			make_edit_select_from_table("Script Test:", "test_id", "tests_script", $mon_row["test_id"]);
+		} // end if editing
 	}
 
 	if ($mon_row["test_type"] == 2)
 	{
 		make_edit_group("SNMP Options");
-		make_edit_select_from_table("SNMP Test:", "test_id", "tests_snmp", $mon_row["test_id"]);
+		if ($_REQUEST["action"] == "add")
+		{
+			make_edit_select_from_table("SNMP Test:", "test_id", "tests_snmp", "dl4392l234");
+		} // end if adding
+		else
+		{
+			make_edit_select_from_table("SNMP Test:", "test_id", "tests_snmp", $mon_row["test_id"]);
+		} // end if editing
 	}
 
 	if ($mon_row["test_type"] == 3)
 	{
 		make_edit_group("SQL Options");
-		make_edit_select_from_table("SQL Test:", "test_id", "tests_sql", $mon_row["test_id"]);
+		if ($_REQUEST["action"] == "add")
+		{
+			make_edit_select_from_table("SQL Test:", "test_id", "tests_sql", "dl4392l234");
+		} // end if adding
+		else
+		{
+			make_edit_select_from_table("SQL Test:", "test_id", "tests_sql", $mon_row["test_id"]);
+		} // end if editing
 	}
 
 	if ($mon_row["test_type"] == 4)
 	{
 		make_edit_group("Internal Test Options");
-		make_edit_select_from_table("Internal Test:", "test_id", "tests_internal", $mon_row["test_id"]);
+		if ($_REQUEST["action"] == "add")
+		{
+			make_edit_select_from_table("Internal Test:", "test_id", "tests_internal", "dl4392l234");
+		} // end if adding
+		else
+		{
+			make_edit_select_from_table("Internal Test:", "test_id", "tests_internal", $mon_row["test_id"]);
+		} // end if editing
 	}
 
 	make_edit_text("Parameters:", "test_params", 50, 100, $mon_row["test_params"]);
