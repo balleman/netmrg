@@ -14,7 +14,7 @@
 #define NETMRG_ROOT 		"/var/www/netmrg/"
 #define RRDTOOL 		"/usr/bin/rrdtool - "
 
-#define NTHREADS 		10 			// number of simultaneous threads
+#define NTHREADS 		8 			// number of simultaneous threads
 #define THREAD_SLEEP 		10000			// number of microseconds between thread checks
 
 // MySQL Credentials

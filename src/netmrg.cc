@@ -291,7 +291,7 @@ uint process_condition(DeviceInfo info, long long int compare_value, int value_t
 	return 0;
 }
 
-uint process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_status, int situation)
+uint process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_status, int situation, long int last_triggered)
 {
 	MYSQL_RES	*mysql_res;
 	MYSQL_ROW	mysql_row;
@@ -334,7 +334,8 @@ uint process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_sta
 
 		if ((uint) last_status != status)
 		{
-			db_update(mysql, &info, "UPDATE events SET last_triggered=NOW(), last_status=1 WHERE id=" + inttostr(info.event_id));
+			db_update(mysql, &info, "UPDATE events SET last_triggered=UNIX_TIMESTAMP(NOW()), last_status=1 WHERE id=" + inttostr(info.event_id));
+			db_update(mysql, &info, "INSERT INTO event_log SET date=UNIX_TIMESTAMP(NOW()), time_since_last_change=UNIX_TIMESTAMP(NOW())-" + inttostr(last_triggered) + ", event_id=" + inttostr(info.event_id));
 		}
 
 		process_responses(info, mysql);
@@ -361,14 +362,14 @@ uint process_events(DeviceInfo info, MYSQL *mysql)
 	MYSQL_ROW 	mysql_row;
 	uint		status = 0;
 
-	string query = "SELECT id, trigger_type, last_status, situation FROM events WHERE mon_id=" + inttostr(info.monitor_id) + " AND trigger_type = 1";
+	string query = "SELECT id, trigger_type, last_status, situation, last_triggered FROM events WHERE mon_id=" + inttostr(info.monitor_id) + " AND trigger_type = 1";
 	mysql_res = db_query(mysql, &info, query);
 
         for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
 	{
 		mysql_row = mysql_fetch_row(mysql_res);
 		info.event_id = strtoint(mysql_row[0]);
-		if (process_event(info, mysql, strtoint(mysql_row[1]), strtoint(mysql_row[2]), strtoint(mysql_row[3])))
+		if (process_event(info, mysql, strtoint(mysql_row[1]), strtoint(mysql_row[2]), strtoint(mysql_row[3]), strtoint(mysql_row[4])))
 		{
 			status = worstof(status, strtoint(mysql_row[3]));
 		}
