@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.11 $)
+AC_REVISION($Revision: 1.12 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -152,7 +152,7 @@ if test "x$MYSQL_LIBS" = "x"; then
 		LDFLAGS="$old_LDFLAGS -L$try"
 		unset ac_cv_lib_mysqlclient_mysql_init
 		AC_CHECK_LIB(mysqlclient, mysql_init,
-			MYSQL_LIBS="-L$try -lmysqlclient",
+			MYSQL_LIBS="-L$try",
 			MYSQL_LIBS=
 		)
 		if test "x$MYSQL_LIBS" != "x"; then
