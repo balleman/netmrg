@@ -137,7 +137,7 @@ Now we need to setup the database.  Please change at least the password
 (<computeroutput>netmrgpass</computeroutput> below).
 			</para>
 <programlisting>mysqladmin create netmrg
-mysql -u root -p netmrg < share/db/netmrg.mysql
+mysql -u root -p netmrg < share/netmrg.mysql
 mysql -u root -p
 > grant all on netmrg.* to netmrguser@localhost identified by 'netmrgpass';</programlisting>
 		</listitem>
