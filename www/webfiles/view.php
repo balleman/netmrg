@@ -180,7 +180,8 @@ if (empty($_REQUEST["action"]))
 			make_display_item($row["name"],"",
 				$move_up . "&nbsp;" .
 				$move_down . "&nbsp;" .
-				formatted_link("Delete","javascript:del('{$row['name']}', '{$row['graph_id']}')"), "");
+				formatted_link("Delete","javascript:del('{$row['name']}', '{$row['graph_id']}')") . "&nbsp;" .
+				formatted_link("Edit Graph", "graph_items.php?graph_id={$row['graph_id']}"), "");
 		}
 
 		print("</table>");
