@@ -39,6 +39,7 @@
 #define DEF_DB_DB           "netmrg"
 #define DEF_DB_SOCK         ""
 #define DEF_DB_PORT         0
+#define DEF_DB_TIMEOUT      10
 
 // Other
 #define DEF_POLL_INTERVAL   300

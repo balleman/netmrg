@@ -88,7 +88,7 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 	string		value = "U";
 
 	string query =
-		string("SELECT host, user, password, query, column_num FROM tests_sql WHERE id = ") + inttostr(info.test_id);
+		string("SELECT host, user, password, query, column_num, timeout FROM tests_sql WHERE id = ") + inttostr(info.test_id);
 		mysql_res = db_query(mysql, &info, query);
 
 	// if the sql test exists
@@ -107,6 +107,8 @@ string process_sql_monitor(DeviceInfo info, MYSQL *mysql)
 
 		netmrg_mutex_lock(lkMySQL);
 		mysql_init(&test_mysql);
+		uint timeout = strtoint(mysql_row[5]);
+		mysql_options(&test_mysql, MYSQL_OPT_CONNECT_TIMEOUT, (const char *) &timeout);
 
 		if (!(MYSQL_CONNECT(&test_mysql,host.c_str(),user.c_str(),password.c_str(), NULL, 0, NULL, 0)))
 		{

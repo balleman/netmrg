@@ -6,6 +6,7 @@
 		<db>netmrg</db>
 		<socket></socket>
 		<port></port>
+		<timeout>10</timeout>
 	</database>
 	<paths>
 		<rrdtool>@RRDTOOL@</rrdtool>

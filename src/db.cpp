@@ -34,6 +34,8 @@ int db_connect(MYSQL *connection)
 
 	netmrg_mutex_lock(lkMySQL);
 	mysql_init(connection);
+	uint timeout = get_setting_int(setDBTimeout);
+	mysql_options(connection, MYSQL_OPT_CONNECT_TIMEOUT, (const char *) &timeout);
 
 	if (!(mysql_real_connect(connection, get_setting(setDBHost).c_str(), get_setting(setDBUser).c_str(), get_setting(setDBPass).c_str(), get_setting(setDBDB).c_str(), port, socket, 0)))
 	{

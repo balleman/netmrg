@@ -53,6 +53,7 @@ void load_settings_default()
 	set_setting(setDBDB,   DEF_DB_DB);
 	set_setting(setDBSock, DEF_DB_SOCK);
 	set_setting_int(setDBPort, DEF_DB_PORT);
+	set_setting_int(setDBTimeout, DEF_DB_TIMEOUT);
 
 	// paths
 	set_setting(setPathRRDTOOL, DEF_RRDTOOL);
@@ -70,12 +71,13 @@ void load_settings_default()
 void print_settings()
 {
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "-- Database --");
-	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Host: " + get_setting(setDBHost));
-	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "User: " + get_setting(setDBUser));
-	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Pass: " + get_setting(setDBPass));
-	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "DB:   " + get_setting(setDBDB));
-	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Sock: " + get_setting(setDBSock));
-	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Port: " + get_setting(setDBPort));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Host:    " + get_setting(setDBHost));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "User:    " + get_setting(setDBUser));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Pass:    " + get_setting(setDBPass));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "DB:      " + get_setting(setDBDB));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Sock:    " + get_setting(setDBSock));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Port:    " + get_setting(setDBPort));
+	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Timeout: " + get_setting(setDBTimeout));
 
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "-- Threads --");
 	debuglogger(DEBUG_GLOBAL, LEVEL_DEBUG, NULL, "Count: " + get_setting(setThreadCount));
@@ -133,6 +135,9 @@ void parse_config_section(xmlDocPtr doc, xmlNodePtr cur, string section)
 
 			if (!xmlStrcmp(cur->name, (const xmlChar *) "port"))
 				set_setting(setDBPort, val_str);
+				
+			if (!xmlStrcmp(cur->name, (const xmlChar *) "timeout"))
+				set_setting(setDBTimeout, val_str);
 		}
 		else
 		if (section == "paths")

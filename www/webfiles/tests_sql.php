@@ -43,7 +43,8 @@ if ($action == "doedit")
 	db_update("$db_cmd tests_sql SET name='{$_REQUEST['test_name']}',
 		sub_dev_type={$_REQUEST['dev_type']}, host='{$_REQUEST['host']}',
 		user='{$_REQUEST['sql_user']}', password='{$_REQUEST['sql_password']}',
-		query='{$_REQUEST['query']}', column_num='{$_REQUEST['column_num']}'
+		query='{$_REQUEST['query']}', column_num='{$_REQUEST['column_num']}',
+		timeout='{$_REQUEST['timeout']}' 
 		$db_end");
 	header("Location: {$_SERVER['PHP_SELF']}");
 	exit();
@@ -144,6 +145,7 @@ if (($action == "edit") || ($action == "add"))
 	make_edit_text("Password:", "sql_password", "75", "200", htmlspecialchars($test_row["password"]));
 	make_edit_text("Query:", "query", "75", "255", htmlspecialchars($test_row["query"]));
 	make_edit_text("Column Number:", "column_num", "2", "4", $test_row["column_num"]);
+	make_edit_text("Timeout (seconds):", "timeout", "2", "4", $test_row["timeout"]);
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("test_id",$_REQUEST["test_id"]);
 	make_edit_submit_button();
