@@ -43,6 +43,7 @@ function display_error()
 
 function display_edit()
 {
+	check_auth(2);
 	begin_page("view.php", "Edit View Item");
 
 	switch ($_REQUEST["action"])
@@ -93,6 +94,7 @@ function display_edit()
 
 function do_add()
 {
+	check_auth(2);
 	$_REQUEST['graph_id'] = (($_REQUEST['type'] == 'graph') ? $_REQUEST['graph_id_custom'] : $_REQUEST['graph_id_template']);
 
 	db_update("INSERT INTO view SET
@@ -110,6 +112,8 @@ function do_add()
 
 function do_edit()
 {
+	check_auth(2);
+
 	$_REQUEST['graph_id'] = (($_REQUEST['type'] == 'graph') ? $_REQUEST['graph_id_custom'] : $_REQUEST['graph_id_template']);
 
 	db_update("UPDATE view SET
@@ -125,6 +129,8 @@ function do_edit()
 
 function do_delete()
 {
+	check_auth(2);
+
 	$q = db_query("SELECT pos FROM view WHERE id=" . $_REQUEST["id"]);
 	$r = db_fetch_array($q);
 
@@ -143,6 +149,8 @@ function do_delete()
 
 function do_move()
 {
+	check_auth(2);
+
 	$query = db_query("
 		SELECT 	id, pos
 		FROM 	view

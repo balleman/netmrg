@@ -3,6 +3,7 @@
   - bug#0000132 - there should be a "previous slide" link during slideshow
   - bug#0000134 - "sums" column should be numerically formatted like the others
   - bug#0000136 - error on view.php page when trying to edit items
+  - added lots of missing auth checks to view.php
 
 2003.12.15  v0.12  balleman
   - bug#0000129 - uninitialized snmp session pointer can cause segfault
