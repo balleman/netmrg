@@ -19,7 +19,7 @@ require_once(netmrg_root(). "lib/database.php");
 function check_user_pass($user, $pass)
 {
 	$res = 0;
-	$sql = "SELECT * FROM user WHERE user='$user' AND pass=ENCRYPT('$pass','$pass')";
+	$sql = "SELECT 1 FROM user WHERE user='$user' AND pass=ENCRYPT('$pass', pass)";
 	$handle = do_query($sql);
 	$num = mysql_num_rows($handle);
 	if ($num == 1)
