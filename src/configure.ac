@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,src,[],[])
-AC_REVISION($Revision: 1.18 $)
+AC_REVISION($Revision: 1.19 $)
 AC_CONFIG_SRCDIR(netmrg.cpp)
 AC_CANONICAL_HOST
 
@@ -77,15 +77,12 @@ fi
 case $host_alias in
 *solaris*)
     AC_DEFINE(HAVE_LONG_LONG_SCANF, 1, scanf supports long long)
-    CPPFLAGS="$CPPFLAGS -D_POSIX_PTHREAD_SEMANTICS"
     LDFLAGS="$LDFLAGS -L/usr/local/ssl/lib"
     LIBS="-lkstat $LIBS";;
 *linux*)
     AC_DEFINE(HAVE_LONG_LONG_SCANF, 1, scanf supports long long);;
 *freebsd*)
-    LIBS="$LIBS -pthread"
     CPPFLAGS="$CPPFLAGS -I/usr/local/include"
-    AC_DEFINE(HAVE_LIBPTHREAD, 1);;
 esac
 
 
@@ -108,7 +105,15 @@ AC_ARG_ENABLE(warnings,
 ### Checks for libraries.
 AC_CHECK_LIB(dl, dlopen)
 AC_CHECK_LIB(z, compress)
-AC_CHECK_LIB(pthread, pthread_exit)
+AC_CHECK_LIB(pthread, pthread_create,
+	[ CPPFLAGS="$CPPFLAGS -D_REENTRANT -D_POSIX_PTHREAD_SEMANTICS"
+	  LIBS="-lpthread $LIBS" ],
+	AC_CHECK_LIB(c_r, pthread_create,
+		[ CPPFLAGS="$CPPFLAGS -D_THREAD_SAFE"
+		  LIBS="-pthread $LIBS"],
+		AC_MSG_ERROR([POSIX threads not found.])
+	)
+)
 AC_CHECK_LIB(stdc++, main)
 
 ## Determine XML2 library path

@@ -9,7 +9,6 @@
 
 #include "locks.h"
 #include "utils.h"
-#include <pthread.h>
 
 // Create mutex locks
 static pthread_mutex_t active_threads_lock	= PTHREAD_MUTEX_INITIALIZER;

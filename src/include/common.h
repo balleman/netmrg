@@ -25,11 +25,7 @@
 # endif
 #endif
 
-#ifndef HAVE_LIBPTHREAD
-# define HAVE_LIBPTHREAD 0
-#else
-# include <pthread.h>
-#endif
+#include <pthread.h>
 
 #if !HAVE_MEMMOVE
 #  define memmove(d, s, n) memcpy ((d), (s), (n))
