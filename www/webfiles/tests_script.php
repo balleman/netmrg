@@ -16,16 +16,17 @@
 require_once("../include/config.php");
 check_auth(1);
 begin_page();
-js_confirm_dialog("del", "Are you sure you want to delete script test ", " ?", "$SCRIPT_NAME?action=dodelete&test_id=");
+js_confirm_dialog("del", "Are you sure you want to delete script test ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&test_id=");
 
 function get_data_type_name($id)
 {
-        switch($id)
+	switch($id)
 	{
-	        case 1: return "Error Code";
+		case 1: return "Error Code";
 		case 2: return "Standard Out";
-	}
-}
+	} // end switch id
+} // end get_data_type_name()
+
 
 if (!empty($_REQUEST["action"]))
 {
@@ -43,7 +44,7 @@ if ((empty($action)) || ($action == "doedit") || ($action == "dodelete") || ($ac
 if ($action == "doedit")
 {
 
-	if ($test_id == 0)
+	if ($_REQUEST["test_id"] == 0)
 	{
 		$db_cmd = "INSERT INTO";
 		$db_end = "";
@@ -69,17 +70,13 @@ if ($action == "dodelete")
 make_display_table("Script Tests","Name","","Command","","Data Type","");
 
 $test_results = do_query("
-
-        SELECT  id,
-	        name,
-                cmd,
-                data_type
-
+	SELECT  id,
+	name,
+	cmd,
+	data_type
 	FROM tests_script
-
 	ORDER BY name
-
-	");
+"); // end test_results
 
 $test_total = mysql_num_rows($test_results);
 
@@ -101,32 +98,33 @@ for ($test_count = 1; $test_count <= $test_total; ++$test_count)
 <?
 } // End if no action
 
+
+// Display editing screen
 if (($action == "edit") || ($action == "add"))
 {
-        // Display editing screen
 
-        if ($action == "add")
+	if ($action == "add")
 	{
 		$_REQUEST["test_id"] = 0;
 	}
 
-        $test_results = do_query("SELECT * FROM tests_script WHERE id={$_REQUEST["test_id"]}");
-        $test_row = mysql_fetch_array($test_results);
-        $test_name = $test_row["name"];
-        $test_cmd = $test_row["cmd"];
+	$test_results = do_query("SELECT * FROM tests_script WHERE id={$_REQUEST["test_id"]}");
+	$test_row = mysql_fetch_array($test_results);
+	$test_name = $test_row["name"];
+	$test_cmd = $test_row["cmd"];
 
-        make_edit_table("Edit Script Test");
-        make_edit_text("Name:","test_name","25","50",$test_row["name"]);
-        make_edit_text("Command:","test_cmd","75","200",$test_row["cmd"]);
+	make_edit_table("Edit Script Test");
+	make_edit_text("Name:","test_name","25","50",$test_row["name"]);
+	make_edit_text("Command:","test_cmd","75","200",$test_row["cmd"]);
 	make_edit_select("Data Type:", "data_type");
-        make_edit_select_option(get_data_type_name(1), 1, 1 == $test_row["data_type"]);
+	make_edit_select_option(get_data_type_name(1), 1, 1 == $test_row["data_type"]);
 	make_edit_select_option(get_data_type_name(2), 2, 2 == $test_row["data_type"]);
 	make_edit_select_end();
-        make_edit_select_from_table("For use with this device:","dev_type","mon_device_types",$test_row["dev_type"]);
-        make_edit_hidden("action","doedit");
-        make_edit_hidden("test_id",$_REQUEST["test_id"]);
-        make_edit_submit_button();
-        make_edit_end();
+	make_edit_select_from_table("For use with this device:","dev_type","mon_device_types",$test_row["dev_type"]);
+	make_edit_hidden("action","doedit");
+	make_edit_hidden("test_id",$_REQUEST["test_id"]);
+	make_edit_submit_button();
+	make_edit_end();
 
 
 } // End editing screen
