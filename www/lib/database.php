@@ -77,6 +77,91 @@ function db_insert_id()
 
 
 /**
+* db_fetch_cell($sql)
+* 
+*  run a 'select' sql query and return the first column of the first row found
+*
+*  @arg $sql - the sql query to execute
+*  @returns - (bool) the output of the sql query as a single variable
+*/
+function db_fetch_cell($sql)
+{
+	$row = array();
+	$res = db_query($sql);
+	
+	if ($query)
+	{
+		$rows = mysql_numrows($res);
+		
+		if ($rows > 0)
+		{
+			return(mysql_result($res,0,0));
+		} // end if rows
+	} // end if result
+	
+	return false;
+} // end db_fetch_cell();
+
+
+/**
+* db_fetch_row($sql)
+* 
+* run a 'select' sql query and return the first row found
+*
+* @arg $sql - the sql query to execute
+* @returns - the first row of the result as a hash
+*/
+function db_fetch_row($sql)
+{
+	$row = array();
+	$res = db_query($sql);
+	
+	if ($query)
+	{
+		$rows = mysql_numrows($res);
+		
+		if ($rows > 0)
+		{
+			return(mysql_fetch_assoc($res));
+		} // end if rows
+	} // end if result
+	
+	return false;
+} // end db_fetch_row();
+
+
+/**
+* db_fetch_assoc($sql)
+* 
+* run a 'select' sql query and return all rows found
+* 
+* @arg $sql - the sql query to execute
+* @returns - the entire result set as a multi-dimensional hash
+*/
+function db_fetch_assoc($sql)
+{
+	$data = array();
+	$res = db_query($sql);
+	
+	if ($res)
+	{
+		$rows = mysql_numrows($res);
+		
+		if ($rows > 0)
+		{
+			while($row = mysql_fetch_assoc($res))
+			{
+				array_push($data, $row);
+			}
+			return($data);
+		}
+	} // end if result
+	
+	return false;
+} // end db_fetch_assoc();
+
+
+/**
 * db_data_seek($q_handle, $rownum);
 *
 * seeks to specified row number
