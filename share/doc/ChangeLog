@@ -4,6 +4,7 @@
   - bug#0000134 - "sums" column should be numerically formatted like the others
   - bug#0000136 - error on view.php page when trying to edit items
   - added lots of missing auth checks to view.php
+  - bug#0000135 - read-only users can reorder graph items
 
 2003.12.15  v0.12  balleman
   - bug#0000129 - uninitialized snmp session pointer can cause segfault

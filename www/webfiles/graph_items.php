@@ -72,6 +72,8 @@ if ($_REQUEST["action"] == "doedit")
 
 if ($_REQUEST["action"] == "move")
 {
+	check_auth(2);
+
 	// do moving
 	$query = db_query("
 		SELECT id, position
