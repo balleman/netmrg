@@ -1,3 +1,6 @@
+2005.04.20  v0.18.2  silfreed
+  - updated lists.netmrg.net to phpBB 2.0.14
+
 2005.04.01  v0.18.2  silfreed
   - bug#0000366: testing new RSS aggregator for SVN commits
   - bug#0000365: Web Interface redesign
