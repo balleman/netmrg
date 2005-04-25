@@ -17,7 +17,7 @@ use strict;
 use DBI;
 use Getopt::Long;
 use Date::Parse;
-use POSIX qw(strftime);
+use POSIX qw(pow strftime);
 
 
 #####
@@ -159,6 +159,7 @@ while (chomp($logline = <LOG>))
 	{
 		# increment stats for this type on this host
 		$typestats{$hostname}{$type}++;
+		$typestats{$hostname}{$type} = 1 if ($typestats{$hostname}{$type} > pow(2,31));
 
 		my $fmttime = strftime("[%d/%b/%Y:%H:%M:%S %z]", localtime(str2time($time)));
 		my $get = "$query $type";
