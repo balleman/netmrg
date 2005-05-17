@@ -1,5 +1,6 @@
 2005.05.16  v0.18.2  silfreed
   - updated lists.netmrg.net to phpBB 2.0.15
+  - bug#0000365: fixing javascript to collapse all items before opening a new menu
 
 2005.04.20  v0.18.2  silfreed
   - updated lists.netmrg.net to phpBB 2.0.14
