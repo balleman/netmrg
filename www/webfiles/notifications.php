@@ -19,106 +19,126 @@ if (!empty($_REQUEST["action"]))
 else
 {
 	$action = "";
-	unset($action);
 } // end if action is set or not
 
-
-
-if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd"))
+switch ($action)
 {
+	case "doedit":
+	case "doadd":		do_addedit();	break;
+	case "add":
+	case "edit":		addedit();		break;
+	case "dodelete":	do_delete();	break;
+	case "duplicate":	duplicate();	break;
+	default:			display();		break;
+}
 
-if (!empty($action) && ($action == "doedit" || $action == "doadd"))
+function duplicate()
+{
+	check_auth($PERMIT["ReadWrite"]);
+	$q = db_query("SELECT * FROM notifications WHERE id = '{$_REQUEST['id']}'");
+	$r = db_fetch_array($q);
+	$r['name'] = db_escape_string($r['name']);
+	$r['command'] = db_escape_string($r['command']); 
+	db_update("INSERT INTO notifications SET name='{$r['name']} (duplicate)', command='{$r['command']}', disabled='{$r['disabled']}'");
+	header("Location: {$_SERVER['PHP_SELF']}");
+}
+
+function do_addedit()
 {
 	check_auth($PERMIT["ReadWrite"]);
 	if (!isset($disabled)) { $disabled = 0; }
-	if ($action == "doedit")
+
+	if ($_REQUEST["id"] == 0)
 	{
-		if ($_REQUEST["id"] == 0)
-		{
-			$db_cmd = "INSERT INTO";
-			$db_end = "";
-		}
-		else
-		{
-			$db_cmd = "UPDATE";
-			$db_end = "WHERE id='{$_REQUEST['id']}'";
-		}
-		if (empty($_REQUEST["disabled"])) { $_REQUEST["disabled"] = ""; }
-		db_update("$db_cmd notifications SET name='{$_REQUEST['name']}',
-			command='{$_REQUEST['command']}', disabled='{$_REQUEST['disabled']}'
-			$db_end");
-
-		header("Location: {$_SERVER['PHP_SELF']}");
-		exit(0);
-	} // done editing
-}
-
-if (!empty($action) && $action == "dodelete")
-{
-	db_update("DELETE FROM notifications WHERE id='{$_REQUEST['id']}'");
-	header("Location: {$_SERVER['PHP_SELF']}");
-	exit(0);
-} // done deleting
-
-// Display a list
-begin_page("notifications.php", "Notifications");
-js_confirm_dialog("del", "Are you sure you want to delete notification ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&id=");
-
-make_display_table("Notifications", "", 
-	array("text" => "Name"),
-	array("text" => "Command")
-); // end make_display_table();
-
-$res = db_query("SELECT * FROM notifications");
-
-// For each notification
-for ($i = 0; $i < db_num_rows($res); $i++)
-{
-	$row = db_fetch_array($res);
-
-	make_display_item("editfield".($i%2),
-		array("text" => $row["name"]),
-		array("text" => $row["command"]),
-		array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}", "", "edit") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('".addslashes($row['name'])."', '{$row['id']}')", "", "delete"))
-	); // end make_display_item();
-}
-
-?>
-</table>
-<?php
-} // End if no action
-
-if (!empty($action) && ($action == "edit" || $action == "add"))
-{
-begin_page("notifications.php", "Notifications");
-
-	// Display editing screen
-	check_auth($PERMIT["ReadWrite"]);
-	if ($action == "add")
-	{
-		$id = 0;
+		$db_cmd = "INSERT INTO";
+		$db_end = "";
 	}
 	else
 	{
-		$id = $_REQUEST["id"];
-	} // end if add
+		$db_cmd = "UPDATE";
+		$db_end = "WHERE id='{$_REQUEST['id']}'";
+	}
+	if (empty($_REQUEST["disabled"])) { $_REQUEST["disabled"] = ""; }
+	db_update("$db_cmd notifications SET name='{$_REQUEST['name']}',
+		command='{$_REQUEST['command']}', disabled='{$_REQUEST['disabled']}'
+		$db_end");
 
-	$res = db_query("SELECT * FROM notifications WHERE id=$id");
-	$row = db_fetch_array($res);
+	header("Location: {$_SERVER['PHP_SELF']}");
+}
 
-	make_edit_table("Edit Notificiation Method");
-	make_edit_text("Name:", "name", "50", "100", $row["name"]);
-	make_edit_textarea("Command:", "command", "1","40", $row["command"]);
-	make_edit_label("You may use keywords %dev_name%, %ip%, %event_name%, %situation%, %current_value%, %delta_value%, %rate_value%, and %last_value% in your command parameters.  See the documentation for details.");
-	make_edit_checkbox("Disabled", "disabled", $row["disabled"]);
-	make_edit_hidden("id", $id);
-	make_edit_hidden("action", "doedit");
-	make_edit_submit_button();
-	make_edit_end();
+function do_delete()
+{
+	check_auth($PERMIT["ReadWrite"]);
+	db_update("DELETE FROM notifications WHERE id='{$_REQUEST['id']}'");
+	header("Location: {$_SERVER['PHP_SELF']}");
+} // done deleting
 
-} // End editing screen
-
-end_page();
-
+function display()
+{
+	// Display a list
+	begin_page("notifications.php", "Notifications");
+	js_confirm_dialog("del", "Are you sure you want to delete notification ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&id=");
+	
+	make_display_table("Notifications", "", 
+		array("text" => "Name"),
+		array("text" => "Command")
+	); // end make_display_table();
+	
+	$res = db_query("SELECT * FROM notifications");
+	
+	// For each notification
+	for ($i = 0; $i < db_num_rows($res); $i++)
+	{
+		$row = db_fetch_array($res);
+	
+		make_display_item("editfield".($i%2),
+			array("text" => $row["name"]),
+			array("text" => $row["command"]),
+			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}", "", "edit") . "&nbsp;" .
+				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $row['id'], "", "duplicate") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('". addslashes($row['name'])."', '{$row['id']}')", "", "delete"))
+		); // end make_display_item();
+	}
+	
+	?>
+	</table>
+	<?php
+	end_page();
+} // End display
+	
+function addedit()
+{
+	GLOBAL $action;
+	if (!empty($action) && ($action == "edit" || $action == "add"))
+	{
+	begin_page("notifications.php", "Notifications");
+	
+		// Display editing screen
+		check_auth($PERMIT["ReadWrite"]);
+		if ($action == "add")
+		{
+			$id = 0;
+		}
+		else
+		{
+			$id = $_REQUEST["id"];
+		} // end if add
+	
+		$res = db_query("SELECT * FROM notifications WHERE id=$id");
+		$row = db_fetch_array($res);
+	
+		make_edit_table("Edit Notificiation Method");
+		make_edit_text("Name:", "name", "50", "100", $row["name"]);
+		make_edit_textarea("Command:", "command", "1","40", $row["command"]);
+		make_edit_label("You may use keywords %dev_name%, %ip%, %event_name%, %situation%, %current_value%, %delta_value%, %rate_value%, and %last_value% in your command parameters.  See the documentation for details.");
+		make_edit_checkbox("Disabled", "disabled", $row["disabled"]);
+		make_edit_hidden("id", $id);
+		make_edit_hidden("action", "doedit");
+		make_edit_submit_button();
+		make_edit_end();
+	
+	} // End editing screen
+	
+	end_page();
+}
 ?>
