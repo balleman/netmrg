@@ -200,6 +200,10 @@ $dbupdates = array(
 			"name" => "Increase size of view.pos",
 			"query" => "ALTER TABLE view MODIFY pos INT NOT NULL;"
 			)
+		array(
+			"name" => "Windows CPU Internal Test",
+			"query" => "INSERT INTO tests_internal VALUES (8,'Windows CPU Load');"
+			)
 	), // end 0.19
 	
 ); // end $dbupdates;

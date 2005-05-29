@@ -34,6 +34,8 @@ string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 {
 	string test_result = "U", temp, temp2;
 	float disk_total, disk_used;
+	unsigned int nCPUs, sum;
+	list<SNMPPair> WinCPUList;
 
 	switch(info.test_id)
 	{
@@ -81,6 +83,25 @@ string process_internal_monitor(DeviceInfo info, MYSQL *mysql)
 		// report SNMP avoidance status
 		case 7:		test_result = inttostr(info.snmp_avoid);
 					break;
+
+		// Windows CPU usage %
+		case 8:
+				WinCPUList = snmp_walk(info, ".1.3.6.1.2.1.25.3.3.1.2"); // hrProcessorLoad
+
+				nCPUs = 0; sum = 0;
+				for (list<SNMPPair>::iterator current = WinCPUList.begin();
+				     current != WinCPUList.end();
+				     current++) {
+
+					nCPUs++;
+					sum += strtoul(current->value.c_str(), NULL, 10);
+				}
+				if (nCPUs > 0) {
+					test_result = inttostr(sum / nCPUs);
+				} else {
+					test_result = "U";
+				}
+				break;
 
 		default:	debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown Internal Test (" + inttostr(info.test_id) + ")");
 	}

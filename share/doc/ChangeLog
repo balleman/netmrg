@@ -1,3 +1,6 @@
+2005.05.28  v0.18.2  balleman
+  - bug#0000409: an internal monitor (# 8) to replace win2kcpu.pl
+
 2005.05.23  v0.18.2  balleman
   - bug#0000407: Notifications should have duplicate feature
 
