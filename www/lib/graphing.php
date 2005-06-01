@@ -93,7 +93,7 @@ function monitor_graph_command($id, $timeframe)
 
 	return($GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $timeframe['start_time'] . 
 			" -e " . $timeframe['end_time'] . " " . $boundary .
-			" --title=\"" . get_monitor_name($id) . " (#" . $id . ")\"  --imgformat PNG -g -w 575 -h 100 " .
+			" --title=" . escapeshellarg(get_monitor_name($id) . " (#" . $id . ")") . " --imgformat PNG -g -w 575 -h 100 " .
 			"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $id . ".rrd:mon_" . $id . ":AVERAGE " .
 			"AREA:data1#151590");
 
@@ -195,9 +195,9 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 
 	// initial definition
 	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $timeframe['start_time'] . 
-			" -e " . $timeframe['end_time'] . $boundary . " --title \"" . $graph_row["title"] . "\" -w " .
-			$graph_row["width"] . " -h " . $graph_row["height"] . $options . "-b " . $graph_row["base"] . " -v \"" .
-			$graph_row["vert_label"] . "\" --imgformat PNG $options";
+			" -e " . $timeframe['end_time'] . $boundary . " --title " . escapeshellarg($graph_row["title"]) . " -w " .
+			$graph_row["width"] . " -h " . $graph_row["height"] . $options . "-b " . $graph_row["base"] . " -v " .
+			escapeshellarg($graph_row["vert_label"]) . " --imgformat PNG $options";
 
 
 	// *** Padded Length Calculation
@@ -405,7 +405,7 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 				$sum_text = sanitize_number($sum_val);
 			}
 
-			$command .= " COMMENT:\"{$timeframe['sum_label']} Sum: $sum_text\" ";
+			$command .= " COMMENT:". escapeshellarg($timeframe['sum_label'] . " Sum: $sum_text") . " ";
 		}
 
 		if ($ds_row['label'] != "")
@@ -426,9 +426,9 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 	// print out the graph comment, if any
 	if ($graph_row["comment"] != "")
 	{
-		$temp_comment = str_replace("%n", "\" COMMENT:\"\\n\" COMMENT:\"", $graph_row["comment"]);
-		$command .= ' COMMENT:"\\n"';
-		$command .= ' COMMENT:"' . $temp_comment .'\\n"';
+		$temp_comment = str_replace("%n", ' COMMENT:\n COMMENT:', $graph_row["comment"]);
+		$command .= escapeshellarg(' COMMENT:\n');
+		$command .= ' COMMENT:' . escapeshellarg($temp_comment .'\n');
 	}
 
 	return($command);
