@@ -8649,7 +8649,7 @@ _ACEOF
 #
 #AC_CONFIG_SUBDIRS(src)
 
-                                                                                                                                                                                    ac_config_files="$ac_config_files Makefile subst bin/netmrg_cron.sh bin/rrdedit etc/Makefile etc/cron.d-netmrg etc/init.d-netmrg etc/netmrg.conf etc/netmrg.xml m4/Makefile po/Makefile.in src/Makefile src/include/netmrg.h var/Makefile var/lib/Makefile var/lib/rrd/Makefile www/Makefile www/include/config.php"
+                                                                                                                                                                          ac_config_files="$ac_config_files Makefile subst bin/rrdedit etc/Makefile etc/cron.d-netmrg etc/init.d-netmrg etc/netmrg.conf etc/netmrg.xml m4/Makefile po/Makefile.in src/Makefile src/include/netmrg.h var/Makefile var/lib/Makefile var/lib/rrd/Makefile www/Makefile www/include/config.php"
 
 
 cat >confcache <<\_ACEOF
@@ -9217,7 +9217,6 @@ do
   # Handling of arguments.
   "Makefile" ) CONFIG_FILES="$CONFIG_FILES Makefile" ;;
   "subst" ) CONFIG_FILES="$CONFIG_FILES subst" ;;
-  "bin/netmrg_cron.sh" ) CONFIG_FILES="$CONFIG_FILES bin/netmrg_cron.sh" ;;
   "bin/rrdedit" ) CONFIG_FILES="$CONFIG_FILES bin/rrdedit" ;;
   "etc/Makefile" ) CONFIG_FILES="$CONFIG_FILES etc/Makefile" ;;
   "etc/cron.d-netmrg" ) CONFIG_FILES="$CONFIG_FILES etc/cron.d-netmrg" ;;

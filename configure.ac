@@ -401,7 +401,6 @@ AM_GNU_GETTEXT([external])
 AC_CONFIG_FILES( \
 	Makefile \
 	subst \
-	bin/netmrg_cron.sh \
 	bin/rrdedit \
 	etc/Makefile \
 	etc/cron.d-netmrg \

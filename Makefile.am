@@ -15,7 +15,7 @@ netmrg_libexecdir=$(libexecdir)/$(PACKAGE)
 netmrg_libexec_SCRIPTS = libexec/*.php libexec/*.pl
 
 # options to install files in the bin directory
-bin_SCRIPTS = bin/*.sh bin/rrdedit
+bin_SCRIPTS = bin/rrdedit
 
 # options to install files in the share/images directory
 netmrg_share_imagesdir=$(pkgdatadir)/images

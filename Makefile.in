@@ -41,9 +41,8 @@ build_triplet = @build@
 host_triplet = @host@
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/subst.in \
-	$(top_srcdir)/Make.inc $(top_srcdir)/bin/netmrg_cron.sh.in \
-	$(top_srcdir)/bin/rrdedit.in $(top_srcdir)/configure \
-	$(top_srcdir)/src/include/config.h.in \
+	$(top_srcdir)/Make.inc $(top_srcdir)/bin/rrdedit.in \
+	$(top_srcdir)/configure $(top_srcdir)/src/include/config.h.in \
 	$(top_srcdir)/src/include/netmrg.h.in \
 	$(top_srcdir)/www/include/config.php.in ABOUT-NLS INSTALL \
 	config.guess config.rpath config.sub depcomp install-sh \
@@ -61,8 +60,8 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/include/config.h
-CONFIG_CLEAN_FILES = subst bin/netmrg_cron.sh bin/rrdedit \
-	src/include/netmrg.h www/include/config.php
+CONFIG_CLEAN_FILES = subst bin/rrdedit src/include/netmrg.h \
+	www/include/config.php
 am__installdirs = "$(DESTDIR)$(bindir)" \
 	"$(DESTDIR)$(netmrg_libexecdir)" "$(DESTDIR)$(netmrg_man1dir)" \
 	"$(DESTDIR)$(netmrg_share_bindstatsdir)" \
@@ -225,7 +224,7 @@ netmrg_libexecdir = $(libexecdir)/$(PACKAGE)
 netmrg_libexec_SCRIPTS = libexec/*.php libexec/*.pl
 
 # options to install files in the bin directory
-bin_SCRIPTS = bin/*.sh bin/rrdedit
+bin_SCRIPTS = bin/rrdedit
 
 # options to install files in the share/images directory
 netmrg_share_imagesdir = $(pkgdatadir)/images
@@ -308,8 +307,6 @@ $(top_srcdir)/src/include/config.h.in:  $(am__configure_deps)
 distclean-hdr:
 	-rm -f src/include/config.h src/include/stamp-h1
 subst: $(top_builddir)/config.status $(srcdir)/subst.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-bin/netmrg_cron.sh: $(top_builddir)/config.status $(top_srcdir)/bin/netmrg_cron.sh.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 bin/rrdedit: $(top_builddir)/config.status $(top_srcdir)/bin/rrdedit.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
