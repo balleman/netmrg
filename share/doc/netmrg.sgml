@@ -449,14 +449,12 @@ You can setup the crontab entries in two places: either edit <filename>/etc/cron
 or run <command>crontab -e</command> as the netmrg user. For 'crontab -e', use an 
 entry similar to this:
 			</para>
-<programlisting>su netmrg
-*/5 * * * * /usr/local/bin/netmrg_cron.sh
-exit</programlisting>
+<programlisting>*/5 * * * * bash -c "if [ -f /usr/local/var/lock/subsys/netmrg ]; then /usr/local/bin/netmrg-gatherer; fi"</programlisting>
 			<para>
 To edit the master crontab, edit <filename>/etc/crontab</filename> and add a line 
 similar to this:
 			</para>
-<programlisting>*/5 * * * * netmrg /usr/local/bin/netmrg_cron.sh</programlisting>
+<programlisting>*/5 * * * * netmrg bash -c "if [ -f /usr/local/var/lock/subsys/netmrg ]; then /usr/local/bin/netmrg-gatherer; fi"</programlisting>
 		</listitem>
 		<listitem>
 			<para>
