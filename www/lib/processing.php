@@ -143,7 +143,7 @@ function rrd_legend_escape($string)
 {
 	if ($string == "") return "";
 	$string = str_replace(":", "\:", $string);
-	return (":\"" . $string . "\"");
+	return (":" . escapeshellarg($string));
 }
 
 function get_microtime()
@@ -1262,6 +1262,9 @@ function GetXMLConfig()
 	$GLOBALS["netmrg"]["rrdroot"]     = $xmlconfig["NETMRG"][0]["PATHS"][0]["RRDS"][0]["VALUE"];
 	$GLOBALS["netmrg"]["fileroot"]    = $xmlconfig["NETMRG"][0]["PATHS"][0]["WEBFILEROOT"][0]["VALUE"];
 	$GLOBALS["netmrg"]["locale"]      = $xmlconfig["NETMRG"][0]["PATHS"][0]["LOCALE"][0]["VALUE"];
+
+	// RRDTool Config
+	$GLOBALS["netmrg"]["rrdtool_version"] = $xmlconfig["NETMRG"][0]["RRDTOOL"][0]["VERSION"][0]["VALUE"];
 
 } // end GetXMLConfig();
 

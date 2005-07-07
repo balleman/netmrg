@@ -41,6 +41,14 @@ function dereference_templated_monitor($mon_id, $subdev_id)
 	}
 } // end dereference_templated_monitor();
 
+function esc_colon()
+{
+	// if escaping a colon, return the escape sequence, otherwise an empty string
+
+	if (!strstr($GLOBALS['netmrg']['rrdtool_version'], "1.0"))
+		return "\\"; else return "";
+}
+
 
 function get_graph_command($type, $id, $hist)
 {
@@ -126,11 +134,27 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 	{
 		$fields = array($graph_row['title'], $graph_row['vert_label'], $graph_row['comment']);
 		$fields = expand_parameters($fields, $_REQUEST['subdev_id']);
-		$graph_row['title'] 		= escape_double_quotes($fields[0]);
-		$graph_row['vert_label'] 	= escape_double_quotes($fields[1]);
-		$graph_row['comment'] 		= escape_double_quotes($fields[2]);
+		$graph_row['title'] 		= escapeshellarg($fields[0]);
+		$graph_row['vert_label'] 	= escapeshellarg($fields[1]);
+		$graph_row['comment'] 		= escapeshellarg($fields[2]);
 	}
-
+	else
+	{
+		# escape the arguments in either case
+		$graph_row['title']		= escapeshellarg($graph_row['title']);
+		$graph_row['vert_label']	= escapeshellarg($graph_row['vert_label']);
+		$graph_row['comment']		= escapeshellarg($graph_row['comment']);
+	}
+	
+	# escapeshellarg() won't enclose an empty string in quotes, so
+	# fix that up if necessary
+	if ($graph_row['title'] == '')
+		$graph_row['title'] = "''";	
+	if ($graph_row['vert_label'] == '')
+		$graph_row['vert_label'] = "''";	
+	if ($graph_row['comment'] == '')
+		$graph_row['comment'] = "''";	
+	
 	if (isset($_REQUEST['start']))
 	{
 		$timeframe['start_time'] = $_REQUEST['start'];
@@ -195,9 +219,9 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 
 	// initial definition
 	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $timeframe['start_time'] . 
-			" -e " . $timeframe['end_time'] . $boundary . " --title " . escapeshellarg($graph_row["title"]) . " -w " .
+			" -e " . $timeframe['end_time'] . $boundary . " --title " . $graph_row["title"] . " -w " .
 			$graph_row["width"] . " -h " . $graph_row["height"] . $options . "-b " . $graph_row["base"] . " -v " .
-			escapeshellarg($graph_row["vert_label"]) . " --imgformat PNG $options";
+			$graph_row["vert_label"] . " --imgformat PNG $options";
 
 
 	// *** Padded Length Calculation
@@ -404,8 +428,8 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 			{
 				$sum_text = sanitize_number($sum_val);
 			}
-
-			$command .= " COMMENT:". escapeshellarg($timeframe['sum_label'] . " Sum: $sum_text") . " ";
+			
+			$command .= " COMMENT:'". $timeframe['sum_label'] . " Sum" . esc_colon() . ": $sum_text" . "' ";
 		}
 
 		if ($ds_row['label'] != "")
@@ -424,11 +448,12 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 	$command .= " VRULE:" . $timeframe['break_time']  . "#F00000";
 
 	// print out the graph comment, if any
-	if ($graph_row["comment"] != "")
+	if ($graph_row["comment"] != "''")
 	{
 		$temp_comment = str_replace("%n", ' COMMENT:\n COMMENT:', $graph_row["comment"]);
-		$command .= escapeshellarg(' COMMENT:\n');
-		$command .= ' COMMENT:' . escapeshellarg($temp_comment .'\n');
+		$temp_comment = str_replace(":", esc_colon() . ":", $temp_comment);
+		$command .= ' COMMENT:\\\n';
+		$command .= ' COMMENT:' . $temp_comment .'\\\n';
 	}
 
 	return($command);

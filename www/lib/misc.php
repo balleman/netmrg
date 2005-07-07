@@ -62,9 +62,4 @@ function rgb_to_htmlcolor($r, $g, $b)
 }
 
 
-function escape_double_quotes($input)
-{
-	return str_replace("\"", "\\\"", $input);
-}
-
 ?>

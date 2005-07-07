@@ -1,3 +1,7 @@
+2005.07.06  v0.18.2  balleman
+  - bug#0000385: Graph titles, axis labels, legend labels not properly escaped
+  - bug#0000406: verify against rrdtool-1.2 (added config option for rrd version, fixed escaping)
+
 2005.06.28  v0.18.2  silfreed
   - updated lists.netmrg.net to phpBB 2.0.15
 

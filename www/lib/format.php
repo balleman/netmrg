@@ -976,13 +976,13 @@ function make_edit_select_option($name, $value, $selected)
 	if ($selected)
 	{
 ?>
-		<option value="<?php print($value); ?>" SELECTED><?php print($name); ?></option>
+		<option value="<?php print($value); ?>" SELECTED><?php print(htmlspecialchars($name)); ?></option>
 <?php
 	}
 	else
 	{
 ?>
-		<option value="<?php print($value); ?>"><?php print($name); ?></option>
+		<option value="<?php print($value); ?>"><?php print(htmlspecialchars($name)); ?></option>
 <?php
 	} // end else
 } // end make_edit_select_option
@@ -997,7 +997,7 @@ function make_edit_text($header, $name, $size, $maxlength, $value)
 
 	<b><?php print($header) ?></b><br />
 
-	<input type="text" name="<?php print($name) ?>" size="<?php print($size) ?>" maxlength="<?php print($maxlength) ?>" value="<?php print($value); ?>"><br><br>
+	<input type="text" name="<?php print($name) ?>" size="<?php print($size) ?>" maxlength="<?php print($maxlength) ?>" value="<?php print(htmlspecialchars($value)); ?>"><br><br>
 
 	</td></tr>
 
@@ -1014,7 +1014,7 @@ function make_edit_textarea($header, $name, $rows, $columns, $value)
 
 	<b><?php print($header) ?></b><br />
 
-	<textarea name="<?php print($name) ?>" rows="<?php print($rows) ?>" cols="<?php print($columns) ?>"><?php print($value); ?></textarea><br><br>
+	<textarea name="<?php print($name) ?>" rows="<?php print($rows) ?>" cols="<?php print($columns) ?>"><?php print(htmlspecialchars($value)); ?></textarea><br><br>
 
 	</td></tr>
 
@@ -1031,7 +1031,7 @@ function make_edit_color($header, $name, $value)
 
 	<?php print('<b>' . $header . '</b><br />'); ?>
 
-	<input id="<?php print($name); ?>field" type="text" name="<?php print($name) ?>" size="10" maxlength="7" value="<?php print($value); ?>">
+	<input id="<?php print($name); ?>field" type="text" name="<?php print($name) ?>" size="10" maxlength="7" value="<?php print(htmlspecialchars($value)); ?>">
 
         <input type="button" name="<?php print($name . 'cbtn'); ?>" value="Choose" onClick="colorDialog('<?php print($name); ?>')">
 	<br /><br />
@@ -1053,7 +1053,7 @@ function make_edit_password($header, $name, $size, $maxlength, $value, $options 
 
 	<b><?php print($header) ?></b><br>
 
-	<input type="password" name="<?php print($name) ?>" size="<?php print($size) ?>" maxlength="<?php print($maxlength) ?>" value="<?php print($value); ?>"><br><br>
+	<input type="password" name="<?php print($name) ?>" size="<?php print($size) ?>" maxlength="<?php print($maxlength) ?>" value="<?php print(htmlspecialchars($value)); ?>"><br><br>
 
 	</td></tr>
 
@@ -1067,7 +1067,7 @@ function make_edit_hidden($name, $value)
 	// Creates a form hidden text control
 	?>
 
-	<input type="hidden" name="<?php print($name) ?>" value="<?php print($value); ?>">
+	<input type="hidden" name="<?php print($name) ?>" value="<?php print(htmlspecialchars($value)); ?>">
 
 	<?php
 

@@ -34,4 +34,7 @@
 		<max_device_entries>500</max_device_entries>
 		<syslog_facility>LOG_DAEMON</syslog_facility>
 	</logging>
+	<rrdtool>
+		<version>1.0</version>
+	</rrdtool>
 </netmrg>
