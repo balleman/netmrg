@@ -65,6 +65,9 @@
 /* Net-SNMP Version */
 #undef HAVE_NET_SNMP
 
+/* Define to 1 if you have the `setenv' function. */
+#undef HAVE_SETENV
+
 /* Define to 1 if `stat' has the bug that it succeeds when given the
    zero-length file name argument. */
 #undef HAVE_STAT_EMPTY_STRING_BUG

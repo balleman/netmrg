@@ -192,7 +192,7 @@ AC_CHECK_LIB(mysqlclient, mysql_init,
 # hunt through several directories trying to find the libraries
 if test "x$MYSQL_LIBS" = "x"; then
 	old_LDFLAGS="$LDFLAGS"
-	for try in $mysql_lib_dir /usr/lib /usr/lib/mysql /usr/local/lib /usr/local/mysql/lib /usr/local/lib/mysql ; do
+	for try in $mysql_lib_dir /usr/lib /usr/lib/mysql /usr/local/lib /usr/local/mysql/lib /usr/local/lib/mysql /usr/sfw/lib; do
 		LDFLAGS="$old_LDFLAGS -L$try"
 		unset ac_cv_lib_mysqlclient_mysql_init
 		AC_CHECK_LIB(mysqlclient, mysql_init,
@@ -305,7 +305,8 @@ AC_FUNC_MEMCMP
 AC_FUNC_STAT
 AC_CHECK_FUNCS( \
 	memmove \
-	llround
+	llround \
+	setenv
 )
 AC_SEARCH_LIBS(nanosleep, rt posix4,, AC_ERROR([nanosleep function not found.]))
 
@@ -333,7 +334,7 @@ if test "x$snmp_lib_dir" != "x"; then
   test -f $snmp_lib_dir/libsnmp.a -o -f $snmp_lib_dir/libsnmp.so && SNMP_LIBDIR=$snmp_lib_dir
   test -f $snmp_lib_dir/libnetsnmp.a -o -f $snmp_lib_dir/libnetsnmp.so && SNMP_LIBDIR=$snmp_lib_dir
 else
-  for i in /usr/local/lib /usr/lib; do
+  for i in /usr/local/lib /usr/lib /usr/sfw/lib; do
     test -f $i/libsnmp.a -o -f $i/libsnmp.so && SNMP_LIBDIR=$i
     test -f $i/libnetsnmp.a -o -f $i/libnetsnmp.so && SNMP_LIBDIR=$i
   done

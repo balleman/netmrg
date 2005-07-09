@@ -479,19 +479,23 @@ string expand_parameters(DeviceInfo &info, string input)
 
 void export_params_to_env(DeviceInfo &info)
 {
+	#ifdef HAVE_SETENV
 	for (list<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
 	{
 		string name = "netmrg_" + current->name;
 		setenv(name.c_str(), current->value.c_str(), 1);
 	}
+	#endif
 }
 
 void remove_params_from_env(DeviceInfo &info)
 {
+	#ifdef HAVE_SETENV
 	for (list<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
 	{
 		string name = "netmrg_" + current->name;
 		unsetenv(name.c_str());
 	}
+	#endif
 }
 
