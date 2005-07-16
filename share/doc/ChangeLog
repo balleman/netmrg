@@ -1,3 +1,6 @@
+2005.07.15  v0.18.2  balleman
+  - use localtime_r() to avoid concurrency issues
+
 2005.07.08  v0.18.2  balleman
   - bug#0000400: monitors.cpp does not compile on Solaris/SPARC - Solaris does not have setenv/unsetenv
 

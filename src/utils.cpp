@@ -98,9 +98,10 @@ long long int strtoint(string string_to_convert)
 // timetostr - converts a unix timestamp to a nice format
 string timetostr(const time_t timestamp)
 {
+	struct tm atm;
 	char tempstr[255];
-	tm *atm = localtime(&timestamp);
-	strftime(tempstr, 255, "%F %T", atm);
+	localtime_r(&timestamp, &atm);
+	strftime(tempstr, 255, "%F %T", &atm);
 	return string(tempstr);
 }
 
