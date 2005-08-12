@@ -1,3 +1,6 @@
+2005.08.12  v0.18.2  balleman
+  - bug#0000398: for devices without SNMP support, don't display 'pending...'
+
 2005.07.21  v0.18.2  silfreed
   - updated wiki.netmrg.net to mediawiki 1.4.7
 

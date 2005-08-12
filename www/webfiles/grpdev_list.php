@@ -138,6 +138,10 @@ function display()
 		{
 			$availability = "Disabled";
 		}
+		elseif ($dev_row['snmp_version'] == 0)
+    	{
+			$availability = "No SNMP support";
+		}
 		elseif ($dev_row['snmp_avoided'] == 1)
 		{
 			$availability = "SNMP failed";
