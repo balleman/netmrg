@@ -189,7 +189,7 @@ $dbupdates = array(
 	
 	"0.18.1" => array(), // end 0.18.1
 
-	"0.18.2" => array() // end 0.18.2
+	"0.18.2" => array(), // end 0.18.2
 	
 	"0.19" => array(
 		array(
@@ -199,12 +199,12 @@ $dbupdates = array(
 		array(
 			"name" => "Increase size of view.pos",
 			"query" => "ALTER TABLE view MODIFY pos INT NOT NULL;"
-			)
+			),
 		array(
 			"name" => "Windows CPU Internal Test",
 			"query" => "INSERT INTO tests_internal VALUES (8,'Windows CPU Load');"
 			)
-	), // end 0.19
+	) // end 0.19
 	
 ); // end $dbupdates;
 
