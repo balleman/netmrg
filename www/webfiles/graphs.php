@@ -148,10 +148,39 @@ function applytemplates()
 	echo "</td></tr>";
 
 	$sub_dev = (!empty($_REQUEST["sub_dev_id"])) ? $_REQUEST["sub_dev_id"] : -1;
-	make_edit_select_subdevice($sub_dev,array(),'multiple size="10"');
+	if (($sub_dev == -1) || ($_REQUEST['edit_subdev'] == 1))
+	{
+		make_edit_select_subdevice($sub_dev, array(), 'multiple size="10"');
+		if (strstr($_SERVER['HTTP_REFERER'], "graphs.php") && !($_REQUEST['edit_subdev'] == 1))
+		{
+			$return = $_SERVER['HTTP_REFERER'];
+		}
+		else
+		{
+			foreach ($_SESSION["netmrgsess"]["grpnav"][$_REQUEST['tripid']] as $breadcrumb)
+			{
+				if ($breadcrumb['type'] == "device")
+				{
+					$return = "sub_devices.php?dev_id={$breadcrumb['id']}&tripid={$_REQUEST['tripid']}";
+					break;
+				}
+				else
+					$return = "groups.php";
+			}
+		}
+		make_edit_hidden("return", $return);
+	}
+	else
+	{
+		$label = "<big><b>Sub Device:</b><br>  ";
+		$label .= get_dev_sub_device_name($sub_dev);
+		$label .= "  [<a href='{$_SERVER['PHP_SELF']}?action={$_REQUEST['action']}&sub_dev_id={$_REQUEST['sub_dev_id']}&edit_subdev=1&tripid={$_REQUEST['tripid']}'>change</a>]</big>";
+		make_edit_label($label);
+		make_edit_hidden("subdev_id[1]", $sub_dev);
+		make_edit_hidden("return", $_SERVER["HTTP_REFERER"]);
+	}
 
 	make_edit_hidden("action", "doapplytemplates");
-	make_edit_hidden("return", $_SERVER["HTTP_REFERER"]);
 	make_edit_submit_button();
 	make_edit_end();
 } // end applytemplates()
