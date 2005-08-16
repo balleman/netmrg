@@ -1,5 +1,6 @@
 2005.08.15  v0.18.2  balleman
   - bug#0000413: apply templates page should not display subdevice dropdown by default
+  - bug#0000394: Change license to GPL, upgrade keb to developer
 
 2005.08.12  v0.18.2  balleman
   - bug#0000398: for devices without SNMP support, don't display 'pending...'
