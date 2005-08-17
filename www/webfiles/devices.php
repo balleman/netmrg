@@ -70,19 +70,30 @@ function doedit()
 	check_auth($PERMIT["ReadWrite"]);
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
 	{
+
+		if (!isset($_REQUEST["disabled"])) { $_REQUEST["disabled"] = 0; }
+		if (!isset($_REQUEST["snmp_version"])) { $_REQUEST["snmp_version"] = 0; }
+		if (!isset($_REQUEST["no_snmp_uptime_check"])) { $_REQUEST["no_snmp_uptime_check"] = 0; }
+
 		if ($_REQUEST["dev_id"] == 0)
 		{
 			$db_cmd = "INSERT INTO";
 			$db_end = "";
+			$just_now_disabled = false;
 		}
 		else
 		{
 			$db_cmd = "UPDATE";
 			$db_end = "WHERE id={$_REQUEST['dev_id']}";
+			if ($_REQUEST['disabled'] == 1)
+			{
+				$q = db_query("SELECT disabled FROM devices WHERE id={$_REQUEST['dev_id']}");
+				$r = db_fetch_array($q);
+				$just_now_disabled = ($r['disable'] == 0);
+			}
+			else $just_now_disabled = false;
 		} // end if dev_id = 0 or not
-		if (!isset($_REQUEST["disabled"])) { $_REQUEST["disabled"] = 0; }
-		if (!isset($_REQUEST["snmp_version"])) { $_REQUEST["snmp_version"] = 0; }
-		if (!isset($_REQUEST["no_snmp_uptime_check"])) { $_REQUEST["no_snmp_uptime_check"] = 0; }
+
 		db_update("$db_cmd devices SET
 			name='{$_REQUEST['dev_name']}',
 			ip='{$_REQUEST['dev_ip']}',
@@ -101,6 +112,22 @@ function doedit()
 		{
 			db_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id=" . db_insert_id());
 		} // end if dev+id = 0
+
+		if ($just_now_disabled)
+		{
+			db_update("UPDATE devices SET status=0 WHERE id = {$_REQUEST['dev_id']}");
+			db_update("UPDATE sub_devices SET status=0 WHERE dev_id = {$_REQUEST['dev_id']}");
+			$q = db_query("SELECT id FROM sub_devices WHERE dev_id = {$_REQUEST['dev_id']}");
+			while ($r = db_fetch_array($q))
+			{
+				db_update("UPDATE monitors SET status=0 WHERE sub_dev_id = {$r['id']}");
+				$q1 = db_query("SELECT id FROM monitors WHERE sub_dev_id = {$r['id']}");
+				while ($r1 = db_fetch_array($q1))
+				{
+					db_update("UPDATE events SET last_status=0 WHERE mon_id = {$r1['id']}");
+				}
+			}
+		}
 	} // done editing
 
 	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}&tripid={$_REQUEST['tripid']}");
