@@ -95,6 +95,15 @@ AC_ARG_WITH(xml2-lib-dir,
 		[XML2 library directory]),
 	[xml2_lib_dir=$withval])
 
+# www dir
+www_dir="${localstatedir}/www/${PACKAGE}"
+AC_ARG_WITH(www-dir,
+	AC_HELP_STRING(
+		[--with-www-dir],
+		[install directory for web files]),
+	[www_dir=$withval])
+AC_SUBST(WWWDIR, $www_dir)
+
 
 #
 # Special hacks for certain operating systems
@@ -428,4 +437,5 @@ perl subst etc/netmrg.conf
 perl subst etc/netmrg.xml
 perl subst src/include/netmrg.h
 perl subst src/include/config.h
+perl subst www/Makefile
 

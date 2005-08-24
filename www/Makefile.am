@@ -3,7 +3,7 @@
 include $(top_srcdir)/Make.inc
 
 # options to install files in the www directory
-netmrg_wwwdir=$(localstatedir)/www/$(PACKAGE)
+netmrg_wwwdir=@WWWDIR@
 nobase_netmrg_www_DATA = include lib webfiles
 
 # override the default netmrg_www install
