@@ -1,8 +1,11 @@
+2005.08.24  v0.18.2  balleman
+  - bug#0000373: contrib: Script action to count active modems on a Livingston Portmaster
+
 2005.08.24  v0.18.2  keb
   - bug#0000420: macro variables should be configurable
 
 2005.08.17  v0.18.2  balleman
-  - bug#000417: when a device is disabled, all of its status information should be 'unknown'
+  - bug#0000417: when a device is disabled, all of its status information should be 'unknown'
 
 2005.08.15  v0.18.2  balleman
   - bug#0000413: apply templates page should not display subdevice dropdown by default

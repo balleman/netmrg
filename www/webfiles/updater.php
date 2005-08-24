@@ -203,7 +203,10 @@ $dbupdates = array(
 		array(
 			"name" => "Windows CPU Internal Test",
 			"query" => "INSERT INTO tests_internal VALUES (8,'Windows CPU Load');"
-			)
+			),
+		array(
+			"name" => "Livingston Portmaster Modems Script Test",
+			"query" => "INSERT INTO tests_script SET name='Livingston Portmaster Active Modems', cmd='pmmodems.pl %snmp_read_community% %ip%', data_type='2'")
 	) // end 0.19
 	
 ); // end $dbupdates;
