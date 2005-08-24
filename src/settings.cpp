@@ -227,44 +227,24 @@ void load_settings_file(const string & filename)
 	// read each section of the config file
 	while (cur != NULL)
 	{
-		if (!xmlStrcmp(cur->name, (const xmlChar *) "database"))
+		if (
+				!xmlStrcmp(cur->name, (const xmlChar *) "database") ||
+				!xmlStrcmp(cur->name, (const xmlChar *) "paths") ||
+				!xmlStrcmp(cur->name, (const xmlChar *) "threads") ||
+				!xmlStrcmp(cur->name, (const xmlChar *) "polling") ||
+				!xmlStrcmp(cur->name, (const xmlChar *) "logging")
+			)
 		{
-			parse_config_section(doc, cur, "database");
+			parse_config_section(doc, cur, xmltostring(cur->name));
 		}
 		else
-		if (!xmlStrcmp(cur->name, (const xmlChar *) "paths"))
+		if (
+				!xmlStrcmp(cur->name, (const xmlChar *) "website") ||
+				!xmlStrcmp(cur->name, (const xmlChar *) "rrdtool") ||
+				!xmlStrcmp(cur->name, (const xmlChar *) "text")
+			)
 		{
-			parse_config_section(doc, cur, "paths");
-		}
-		else
-		if (!xmlStrcmp(cur->name, (const xmlChar *) "threads"))
-		{
-			parse_config_section(doc, cur, "threads");
-		}
-		else
-		if (!xmlStrcmp(cur->name, (const xmlChar *) "polling"))
-		{
-			parse_config_section(doc, cur, "polling");
-		}
-		else
-		if (!xmlStrcmp(cur->name, (const xmlChar *) "logging"))
-		{
-			parse_config_section(doc, cur, "logging");
-		}
-		else
-		if (!xmlStrcmp(cur->name, (const xmlChar *) "website"))
-		{
-			// this is used by the website, we ignore it.
-		}
-		else
-		if (!xmlStrcmp(cur->name, (const xmlChar *) "rrdtool"))
-		{
-			// this is used by the website, we ignore it.
-		}
-		else
-		if (!xmlStrcmp(cur->name, (const xmlChar *) "text"))
-		{
-			// this seems to happen after every section.  ignore it.
+			// ignored sections
 		}
 		else
 		debuglogger(DEBUG_GLOBAL, LEVEL_NOTICE, NULL, (string)_("Unexpected section in configuration file: ") + xmltostring(cur->name));

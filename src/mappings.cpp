@@ -197,40 +197,17 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 	{
 		value = current->value;
 
-		if (current->name == "ifIndex")
+		if (
+				current->name == "ifIndex" ||
+				current->name == "ifName" ||
+				current->name == "ifDescr" ||
+				current->name == "ifAlias" ||
+				current->name == "ifIP" ||
+				current->name == "ifMAC"
+			)
 		{
-			index = "ifIndex";
+			index = current->name;
                 	break;
-		}
-		else
-		if (current->name == "ifName")
-		{
-			index = "ifName";
-			break;
-		}
-		else
-		if (current->name == "ifDescr")
-		{
-			index = "ifDescr";
-			break;
-		}
-		else
-		if (current->name == "ifAlias")
-		{
-			index = "ifAlias";
-			break;
-		}
-		else
-		if (current->name == "ifIP")
-		{
-			index = "ifIP";
-			break;
-		}
-		else
-		if (current->name == "ifMAC")
-		{
-			index = "ifMAC";
-			break;
 		}
 
 	} // end for each parameter
