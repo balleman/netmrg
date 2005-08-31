@@ -165,7 +165,7 @@ void process_responses(DeviceInfo info, MYSQL *mysql)
 	string query = 	string("SELECT	notifications.command, responses.parameters, responses.id ") 	+
 			string("FROM	responses, notifications ")			+
 			string("WHERE	responses.event_id=") + inttostr(info.event_id) + " " +
-			string("AND	responses.notification_id=notifications.id");
+			string("AND	responses.notification_id=notifications.id AND notifications.disabled = 0");
 
 	mysql_res = db_query(mysql, &info, query);
 
