@@ -81,6 +81,7 @@ function display()
 	
 	make_display_table("Notifications", "", 
 		array("text" => "Name"),
+		array("text" => "Disabled"),
 		array("text" => "Command")
 	); // end make_display_table();
 	
@@ -93,6 +94,7 @@ function display()
 	
 		make_display_item("editfield".($i%2),
 			array("text" => $row["name"]),
+			array("text" => ($row['disabled'] == 1 ? "Yes" : "No")),
 			array("text" => $row["command"]),
 			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id={$row['id']}", "", "edit") . "&nbsp;" .
 				formatted_link("Duplicate", "{$_SERVER["PHP_SELF"]}?action=duplicate&id=" . $row['id'], "", "duplicate") . "&nbsp;" .

@@ -1,5 +1,6 @@
 2005.08.31  v0.18.2  balleman
   - bug#0000422: disabled notifications act as if they are enabled
+  - bug#0000421: notifications page should display whether a notification is disabled or not
 
 2005.08.24  v0.18.2  balleman
   - bug#0000373: contrib: Script action to count active modems on a Livingston Portmaster
