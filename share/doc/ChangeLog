@@ -1,3 +1,6 @@
+2005.09.06  v0.18.2  silfreed
+  - updated wiki.netmrg.net to mediawiki 1.4.9
+
 2005.08.31  v0.18.2  balleman
   - bug#0000422: disabled notifications act as if they are enabled
   - bug#0000421: notifications page should display whether a notification is disabled or not
