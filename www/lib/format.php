@@ -32,7 +32,7 @@ function begin_page($pagename = "", $prettyname = "", $refresh = false, $bodytag
 	$prereqs_errors = PrereqsMet();
 	
 	// always include these javascripts
-	array_push($javascript_files, "navhide.js");
+	//array_push($javascript_files, "navhide.js");
 	
 	DisplayPageHeader($pagename, $prettyname, $refresh, $bodytags, $javascript_files);
 	
@@ -143,60 +143,31 @@ function DisplayPageHeader($pagename = "", $prettyname = "", $refresh = false, $
 */
 function DisplayTopMenu()
 {
-	global $MENU;
+	global $LOCAL_MENU, $LOCAL_MENU_CURTREE, $LOCAL_MENU_CURITEM;
 	
-	$menu_count = 0;
+	CreateLocalMenu();
 	
-	echo '<div id="topmenu">'."\n";
-	
-	while (list($menuname, $menuitems) = each($MENU))
+	echo '<div id="topmenu">&nbsp;'."\n";
+	echo "	<ul>\n";
+	while (list($menuname, $menuitems) = each($LOCAL_MENU))
 	{
-		$hidden_style = "";
-		
-		// foreach menu item
-		$item_output = "";
-		$item_under_current_menu = false;
-		foreach ($menuitems as $menuitem)
-		{
-			if (basename($_SERVER["SCRIPT_NAME"]) == $menuitem["link"])
-			{
-				$item_under_current_menu = true;
-			} // end if we're in this group, display its menu items
-			
-			if ($_SESSION["netmrgsess"]["permit"] >= $menuitem["authLevelRequired"]
-				&& $menuitem["display"] !== false)
-			{
-				$item_output .= '		<li>'.MakeNavURI($menuitem["name"], $menuitem["link"], $menuitem["descr"])."</li>\n";
-			} // end if we have enough permissions to view this link
-		} // end foreach menu item
-		
-		echo '	<h2><a onclick="NavHide(\'topmenu_'.$menuname.'\');" href="#">';
+		echo '		<li><a '. ($menuname == $LOCAL_MENU_CURTREE ? 'class="navcurrent" ' : '') .'href="'. $menuitems[0]["link"] .'">';
 		echo $menuname;
-		echo "</a></h2>\n";
-		
-		// if we had some item output (ie, we had auth to view at least ONE item in this submenu)
-		// and we're under this current menu heading
-		if (!empty($item_output))
-		{
-			if (!$item_under_current_menu)
-			{
-				$hidden_style=' style="display: none;"';
-			} // end if we're not under the current header
-			
-			// output the head
-			echo '	<ul id="topmenu_'.$menuname.'"'.$hidden_style.">\n";
-
-			// echo the items
-			echo $item_output;
-
-			// echo the bottom part
-			echo "	</ul>\n";
-		} // end if item output wasn't empty
-		
-		$menu_count++;
+		echo "</a></li>\n";
 	} // end while we still have menu items
-	
+	echo "	</ul>\n\n";
 	echo "</div> <!-- end #topmenu -->\n\n";
+	
+	echo '<div id="secondmenu">&nbsp;'."\n";
+	echo "	<ul>\n";
+	foreach ($LOCAL_MENU[$LOCAL_MENU_CURTREE] as $menuitem)
+	{
+		echo '		<li><a '. ($LOCAL_MENU_CURITEM == $menuitem['link'] ? 'class="navcurrent" ' : '') .'title="'. $menuitem["descr"] .'" href="'. $menuitem["link"] .'">';
+		echo $menuitem["name"];
+		echo "</a></li>\n";
+	} // end while we still have menu items
+	echo "	</ul>\n\n";
+	echo "</div> <!-- end #secondmenu -->\n\n";
 } // end DisplayTopMenu();
 
 

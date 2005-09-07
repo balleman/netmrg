@@ -1138,6 +1138,44 @@ function addslashes_deep($value)
 
 
 /**
+* CreateLocalMenu():
+*
+* creates a local version of the menu w/ only the user's authorized items
+*/
+function CreateLocalMenu()
+{
+	global $MENU, $LOCAL_MENU, $LOCAL_MENU_CURTREE, $LOCAL_MENU_CURITEM;
+	
+	while (list($menuname, $menuitems) = each($MENU))
+	{
+		// foreach menu item
+		$authorized_subitems = array();
+		foreach ($menuitems as $menuitem)
+		{
+			if (basename($_SERVER["SCRIPT_NAME"]) == $menuitem["link"])
+			{
+				$LOCAL_MENU_CURTREE = $menuname;
+				$LOCAL_MENU_CURITEM = $menuitem["link"];
+			} // end if we're in this group, display its menu items
+			
+			if ($_SESSION["netmrgsess"]["permit"] >= $menuitem["authLevelRequired"]
+				&& $menuitem["display"] !== false)
+			{
+				array_push($authorized_subitems, $menuitem);
+			} // end if we have enough permissions to view this subitem
+		} // end foreach menu item
+		
+		// if we had some item output (ie, we had auth to view at least ONE item in this submenu)
+		// and we're under this current menu heading
+		if (count($authorized_subitems))
+		{
+			$LOCAL_MENU[$menuname] = $authorized_subitems;
+		} // end if item output wasn't empty
+	} // end while we still have menu items
+} // end CreateLocalMenu();
+
+
+/**
 * GetUserPref($module, $pref)
 *
 * returns the value for the $module and $pref wanted for user $uid

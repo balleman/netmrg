@@ -32,7 +32,8 @@ $MENU = array(
 //		array("name" => "Device", "link" => "device_centered.php", "descr" => "", "authLevelRequired" => 0),
 		array("name" => "Log", "link" => "event_log.php", "descr" => "Display a list of the most recent events.", "authLevelRequired" => 1),
 		array("name" => "Slide Show", "link" => "view.php?action=slideshow&type=0", "descr" => "Displays all devices, one page at a time.", "authLevelRequired" => 1),
-		array("name" => "View", "link" => "view.php", "descr" => "", "authLevelRequired" => 0, "display" => false)
+		array("name" => "View", "link" => "view.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Enclose Graph", "link" => "enclose_graph.php", "descr" => "", "authLevelRequired" => 0, "display" => false)
 	),
 	"Admin" => array(
 		array("name" => "Devices", "link" => "grpdev_list.php", "descr" => "", "authLevelRequired" => 1),
@@ -70,6 +71,12 @@ if ( !empty($_SESSION["netmrgsess"]["slideshow"])
 	array_push($MENU["Reporting"], array("name" => "&nbsp&nbsp;Resume Slide Show", "link" => "view.php?action=slideshow&jump=$rss_jump", "descr" => "Resumes slide show in progress.", "authLevelRequired" => 1));
 } // end if in the middle of a slide show
 
+// local menu created by CreateLocalMenu()
+//   for just this user with their entries they can see
+$LOCAL_MENU = array();
+// the current main nav group we're under
+$LOCAL_MENU_CURTREE;
+$LOCAL_MENU_CURITEM;
 
 $PERMIT = array(
 	'Disabled'       => -1,

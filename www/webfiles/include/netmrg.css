@@ -82,34 +82,21 @@ IMG {
 	color : #000000;
 	font-family : sans-serif;
 	font-size : 0.9em;
-	padding-left : 2em;
-	padding-right : 2em;
-	margin-bottom : 0.5em;
-}
-
-#topmenu h2 {
-	font-size : 0.9em;
 	font-weight : bold;
-	letter-spacing : 0.1em;
-	margin : 0;
-	margin-left : 0.5em;
-	padding : 0;
-	display : inline;
-	clear : left;
+	letter-spacing : 0.2em;
+	padding-left : 2em;
 }
 
 #topmenu ul {
+	display : inline;
 	margin : 0;
 	padding : 0;
-	display : inline;
-	float : left;
 }
 
 #topmenu ul li {
 	background-color : #336699;
-	font-size : 0.9em;
-	list-style : none;
 	display : inline;
+	list-style : none;
 	margin-left : 1px;
 	margin-right : 1px;
 }
@@ -120,6 +107,40 @@ IMG {
 }
 
 #topmenu ul li a.navcurrent {
+	background-color : #A8C0E0;
+}
+
+#secondmenu {
+	background-color : #A8C0E0;
+	color : #000000;
+	font-family : sans-serif;
+	font-size : 0.8em;
+	font-weight : bold;
+	letter-spacing : 0.2em;
+	padding-left : 2em;
+	margin-bottom : 0.5em;
+}
+
+#secondmenu ul {
+	display : inline;
+	margin : 0;
+	padding : 0;
+}
+
+#secondmenu ul li {
+	background-color : #336699;
+	list-style : none;
+	display : inline;
+	margin-left : 1px;
+	margin-right : 1px;
+}
+
+#secondmenu ul li a {
+	padding-left : 1em;
+	padding-right : 1em;
+}
+
+#secondmenu ul li a.navcurrent {
 	background-color : #A8C0E0;
 }
 
