@@ -23,6 +23,11 @@ IMG {
 
 #header {
 	background-color : #6699CC;
+/*
+	background-image : url(../images/headerlogo.jpg);
+	background-position : top-left;
+	background-repeat : no-repeat;
+*/
 	color : #000000;
 	font-family : sans-serif;
 	font-size : 1em;
@@ -77,33 +82,48 @@ IMG {
 	font-weight : bold;
 }
 
+#search {
+	font-size : 0.8em;
+}
+
+#search input {
+	border : 1px solid #E5E5E5;
+}
+
 #topmenu {
-	background-color : #6699CC;
 	color : #000000;
 	font-family : sans-serif;
 	font-size : 0.9em;
 	font-weight : bold;
 	letter-spacing : 0.2em;
-	padding-left : 2em;
+	padding-left : 0.5em;
+	border-bottom : 1px solid #305090;
 }
 
 #topmenu ul {
-	display : inline;
 	margin : 0;
 	padding : 0;
 }
 
 #topmenu ul li {
 	background-color : #336699;
-	display : inline;
 	list-style : none;
 	margin-left : 1px;
 	margin-right : 1px;
+	float : left;
 }
 
 #topmenu ul li a {
+	color : #000080;
+	display : block;
 	padding-left : 1em;
 	padding-right : 1em;
+}
+
+#topmenu ul li a:hover, #topmenu ul li a.navcurrent:hover {
+	background-color : #AFC9E9;
+	color : #8080B0;
+	text-decoration : none;
 }
 
 #topmenu ul li a.navcurrent {
@@ -117,12 +137,11 @@ IMG {
 	font-size : 0.8em;
 	font-weight : bold;
 	letter-spacing : 0.2em;
-	padding-left : 2em;
+	padding-left : 1em;
 	margin-bottom : 0.5em;
 }
 
 #secondmenu ul {
-	display : inline;
 	margin : 0;
 	padding : 0;
 }
@@ -130,18 +149,26 @@ IMG {
 #secondmenu ul li {
 	background-color : #336699;
 	list-style : none;
-	display : inline;
 	margin-left : 1px;
 	margin-right : 1px;
+	float : left;
 }
 
 #secondmenu ul li a {
+	color : #000080;
+	display : block;
 	padding-left : 1em;
 	padding-right : 1em;
 }
 
+#secondmenu ul li a:hover, #secondmenu ul li a.navcurrent:hover {
+	background-color : #AFC9E9;
+	color : #8080B0;
+	text-decoration : none;
+}
+
 #secondmenu ul li a.navcurrent {
-	background-color : #A8C0E0;
+	background-color : #90B0E0;
 }
 
 #sidemenu {

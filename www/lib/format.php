@@ -30,17 +30,18 @@ function begin_page($pagename = "", $prettyname = "", $refresh = false, $bodytag
 {
 	// gather errors from prerequisits being met or not
 	$prereqs_errors = PrereqsMet();
+	$display_menu = false;
 	
 	// always include these javascripts
-	//array_push($javascript_files, "navhide.js");
+	array_push($javascript_files, "inputdefault.js");
 	
-	DisplayPageHeader($pagename, $prettyname, $refresh, $bodytags, $javascript_files);
+	// always load this item
+	$bodytags .= ' onload="set_defaults(\'search\');"';
 	
-	if (IsLoggedIn() && !UpdaterNeedsRun() && count($prereqs_errors) == 0)
-	{
-		DisplayTopMenu();
-		//display_menu();
-	} // end if is logged in, show the menu
+	// determine if we should display the menu or not
+	$display_menu = (IsLoggedIn() && !UpdaterNeedsRun() && count($prereqs_errors) == 0);
+	
+	DisplayPageHeader($pagename, $prettyname, $refresh, $display_menu, $bodytags, $javascript_files);
 ?>
 
 <div id="content">
@@ -79,12 +80,13 @@ function end_page()
 *
 * draws the top of the page
 *
-* @param string $pagename    page that this is
-* @param string $prettyname  shown in the title bar
-* @param boolean $refresh    whether to refresh this page or not
-* @param string $bodytags    options for the <body> tag
+* @param string $pagename       page that this is
+* @param string $prettyname     shown in the title bar
+* @param boolean $display_menu  whether to refresh this page or not
+* @param boolean $refresh       whether to refresh this page or not
+* @param string $bodytags       options for the <body> tag
 */
-function DisplayPageHeader($pagename = "", $prettyname = "", $refresh = false, $bodytags = "", $javascript_files = array())
+function DisplayPageHeader($pagename = "", $prettyname = "", $refresh = false, $display_menu = false, $bodytags = "", $javascript_files = array())
 {
 	echo '<?xml version="1.0" encoding="UTF-8"?>'."\n";
 ?>
@@ -124,12 +126,26 @@ function DisplayPageHeader($pagename = "", $prettyname = "", $refresh = false, $
 		<div id="logindata">
 			<?php echo GetLoginInfo(); ?>
 		</div>
+		<div id="search">
+<?php if (IsLoggedIn()) { ?>
+			<form name="searchform" action="search.php" method="GET">
+				<input type="text" name="query" default="[search]" size="15" />
+			</form>
+<?php } // end if logged in ?>
+		</div>
 	</div> <!-- end #headerinfo -->
 	<div id="company">
 		<a href="<?php echo $GLOBALS["netmrg"]["companylink"]; ?>">
 		<?php echo(space_to_nbsp($GLOBALS["netmrg"]["company"])); ?>
 		</a>
 	</div>
+<?php
+	// display menu or not
+	if ($display_menu)
+	{
+		DisplayTopMenu();
+	} // end if display the menu
+?>
 </div> <!-- end #header -->
 
 <?php
@@ -147,7 +163,7 @@ function DisplayTopMenu()
 	
 	CreateLocalMenu();
 	
-	echo '<div id="topmenu">&nbsp;'."\n";
+	echo '<div id="topmenu">'."\n";
 	echo "	<ul>\n";
 	while (list($menuname, $menuitems) = each($LOCAL_MENU))
 	{
@@ -156,9 +172,11 @@ function DisplayTopMenu()
 		echo "</a></li>\n";
 	} // end while we still have menu items
 	echo "	</ul>\n\n";
+	echo "	&nbsp;\n";
+	echo '	<div style="clear: left;"></div>'."\n";
 	echo "</div> <!-- end #topmenu -->\n\n";
 	
-	echo '<div id="secondmenu">&nbsp;'."\n";
+	echo '<div id="secondmenu">'."\n";
 	echo "	<ul>\n";
 	foreach ($LOCAL_MENU[$LOCAL_MENU_CURTREE] as $menuitem)
 	{
@@ -167,6 +185,8 @@ function DisplayTopMenu()
 		echo "</a></li>\n";
 	} // end while we still have menu items
 	echo "	</ul>\n\n";
+	echo "	&nbsp;\n";
+	echo '	<div style="clear: left;"></div>'."\n";
 	echo "</div> <!-- end #secondmenu -->\n\n";
 } // end DisplayTopMenu();
 

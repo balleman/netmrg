@@ -1,3 +1,12 @@
+2005.09.09  v0.18.2  silfreed
+  - bug#0000365: Web Interface redesign
+    updated header section to be all-inclusive of the nav bars 
+      (in case we want to do background images later)
+    more CSS work to make hovers work nicely
+  - bug#0000294: Search feature
+    created the search box in the page header and hide it on the login page
+    search box auto-focuses w/ the word "search" on page load
+
 2005.09.06  v0.18.2  silfreed
   - updated wiki.netmrg.net to mediawiki 1.4.9
   - bug#0000365: Web Interface redesign
