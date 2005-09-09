@@ -106,10 +106,14 @@ IMG {
 }
 
 #topmenu ul li {
-	background-color : #336699;
+	background-color : #5080B0;
 	list-style : none;
 	margin-left : 1px;
 	margin-right : 1px;
+	border-top-left-radius : 1em;
+	border-top-right-radius : 1em;
+	-moz-border-radius-topleft : 1em;
+	-moz-border-radius-topright : 1em;
 	float : left;
 }
 
@@ -124,10 +128,18 @@ IMG {
 	background-color : #AFC9E9;
 	color : #8080B0;
 	text-decoration : none;
+	border-top-left-radius : 1em;
+	border-top-right-radius : 1em;
+	-moz-border-radius-topleft : 1em;
+	-moz-border-radius-topright : 1em;
 }
 
 #topmenu ul li a.navcurrent {
 	background-color : #A8C0E0;
+	border-top-left-radius : 1em;
+	border-top-right-radius : 1em;
+	-moz-border-radius-topleft : 1em;
+	-moz-border-radius-topright : 1em;
 }
 
 #secondmenu {
@@ -147,10 +159,14 @@ IMG {
 }
 
 #secondmenu ul li {
-	background-color : #336699;
+	background-color : #5080B0;
 	list-style : none;
 	margin-left : 1px;
 	margin-right : 1px;
+	border-bottom-left-radius : 1em;
+	border-bottom-right-radius : 1em;
+	-moz-border-radius-bottomleft : 1em;
+	-moz-border-radius-bottomright : 1em;
 	float : left;
 }
 
@@ -164,11 +180,19 @@ IMG {
 #secondmenu ul li a:hover, #secondmenu ul li a.navcurrent:hover {
 	background-color : #AFC9E9;
 	color : #8080B0;
+	border-bottom-left-radius : 1em;
+	border-bottom-right-radius : 1em;
+	-moz-border-radius-bottomleft : 1em;
+	-moz-border-radius-bottomright : 1em;
 	text-decoration : none;
 }
 
 #secondmenu ul li a.navcurrent {
 	background-color : #90B0E0;
+	border-bottom-left-radius : 1em;
+	border-bottom-right-radius : 1em;
+	-moz-border-radius-bottomleft : 1em;
+	-moz-border-radius-bottomright : 1em;
 }
 
 #sidemenu {
