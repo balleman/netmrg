@@ -15,7 +15,7 @@ check_auth($PERMIT["SingleViewOnly"]);
 // check default action
 if (empty($_REQUEST["action"]))
 {
-	$_REQUEST["query"] = "list";
+	$_REQUEST["action"] = "search";
 } // end if no action
 
 // check query
