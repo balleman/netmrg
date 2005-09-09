@@ -191,7 +191,7 @@ $dbupdates = array(
 
 	"0.18.2" => array(), // end 0.18.2
 	
-	"0.19" => array(
+	"0.19cvs" => array(
 		array(
 			"name" => "Increase size of monitors.type_id",
 			"query" => "ALTER TABLE monitors MODIFY test_id INT NOT NULL;"
@@ -207,7 +207,7 @@ $dbupdates = array(
 		array(
 			"name" => "Livingston Portmaster Modems Script Test",
 			"query" => "INSERT INTO tests_script SET name='Livingston Portmaster Active Modems', cmd='pmmodems.pl %snmp_read_community% %ip%', data_type='2'")
-	) // end 0.19
+	) // end 0.19cvs
 	
 ); // end $dbupdates;
 

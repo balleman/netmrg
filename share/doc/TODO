@@ -80,7 +80,7 @@ version bump in:
   share/netmrg.mysql
   share/netmrg.spec
   share/doc/VERSION
-  www/lib/stat.php
+  www/lib/static.php
   www/webfiles/updater.php
   bugs.netmrg.net
 generate new template database
@@ -89,7 +89,7 @@ generate new docs
   makedoctree <branch name>: makedoctree netmrg-0_18_2
 test tutorial
 test upgrade from previous version
-branch CVS (ex: netmrg-0_10)
+branch SVN (ex: netmrg-0_10)
 build tarball
   - upload to devel, maybe release
 for non-devel releases, build RPM from tarball
@@ -103,7 +103,7 @@ notify other package maintainers
 == for committing autoconf changes ==
 # commit any changes to Makefile.am's
 # ./bootstrap
-cvs commit -f aclocal.m4 Makefile.in etc/Makefile.in www/Makefile.in \
+svn commit aclocal.m4 Makefile.in etc/Makefile.in www/Makefile.in \
   var/Makefile.in var/lib/Makefile.in var/lib/rrd/Makefile.in \
   src/Makefile.in m4/Makefile.in src/include/config.h.in configure
 

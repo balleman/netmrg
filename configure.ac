@@ -19,7 +19,7 @@
 #############################################################
 
 AC_PREREQ(2.53)
-AC_INIT(NetMRG,0.18.2)
+AC_INIT(NetMRG,0.19cvs)
 AC_REVISION($Revision: 1.37 $)
 AC_CONFIG_SRCDIR(src/netmrg.cpp)
 AC_CANONICAL_HOST
