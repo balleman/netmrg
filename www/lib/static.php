@@ -33,8 +33,10 @@ $MENU = array(
 //		array("name" => "Device", "link" => "device_centered.php", "descr" => "", "authLevelRequired" => 0),
 		array("name" => "Log", "link" => "event_log.php", "descr" => "Display a list of the most recent events.", "authLevelRequired" => 1),
 		array("name" => "Slide Show", "link" => "view.php?action=slideshow&type=0", "descr" => "Displays all devices, one page at a time.", "authLevelRequired" => 1),
+		array("name" => "Search", "link" => "search.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
 		array("name" => "View", "link" => "view.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
-		array("name" => "Enclose Graph", "link" => "enclose_graph.php", "descr" => "", "authLevelRequired" => 0, "display" => false)
+		array("name" => "Enclose Graph", "link" => "enclose_graph.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Display Graph", "link" => "get_graph.php", "descr" => "", "authLevelRequired" => 0, "display" => false)
 	),
 	"Admin" => array(
 		array("name" => "Devices", "link" => "grpdev_list.php", "descr" => "", "authLevelRequired" => 1),
@@ -45,19 +47,37 @@ $MENU = array(
 		array("name" => "Script", "link" => "tests_script.php", "descr" => "External Programs", "authLevelRequired" => 2),
 		array("name" => "SNMP", "link" => "tests_snmp.php", "descr" => "SNMP Queries", "authLevelRequired" => 2),
 		array("name" => "SQL", "link" => "tests_sql.php", "descr" => "Database Queries", "authLevelRequired" => 2),
-		array("name" => "Users", "link" => "users.php", "descr" => "User Management", "authLevelRequired" => 3)
+		array("name" => "Users", "link" => "users.php", "descr" => "User Management", "authLevelRequired" => 3),
+		array("name" => "Legacy Device Admin", "link" => "devices.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Legacy Group Admin", "link" => "groups.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Color Picker", "link" => "color_dialog.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Conditions", "link" => "conditions.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Events", "link" => "events.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Graph", "link" => "graphs.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Graph Items", "link" => "graph_items.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Monitors", "link" => "monitors.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Notifications", "link" => "notifications.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Recache", "link" => "recache.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Responses", "link" => "responses.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "SNMP Cache View", "link" => "snmp_cache_view.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Sub-Devices", "link" => "sub_devices.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Sub-Device Parameters", "link" => "sub_dev_param.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Web Updater", "link" => "updater.php", "descr" => "", "authLevelRequired" => 0, "display" => false)
 	),
 	"Prefs" =>  array(
 		array("name" => "Prefs", "link" => "user_prefs.php", "descr" => "Personal Preferences", "authLevelRequired" => 0)
 		),
 	"Logout" => array(
-		array("name" => "Logout", "link" => "logout.php", "descr" => "End your NetMRG Session.", "authLevelRequired" => 0)
+		array("name" => "Logout", "link" => "logout.php", "descr" => "End your NetMRG Session.", "authLevelRequired" => 0),
+		array("name" => "Login", "link" => "login.php", "descr" => "", "authLevelRequired" => 0, "display" => false)
 		),
 	"Help" => array(
 		array("name" => "About", "link" => "about.php", "descr" => "", "authLevelRequired" => 0),
 		array("name" => "Manual", "link" => "http://www.netmrg.net/docs/Trunk/", "descr" => "", "authLevelRequired" => 0),
 		array("name" => "Forum", "link" => "http://lists.netmrg.net/", "descr" => "Benefit from the NetMRG Community.", "authLevelRequired" => 0),
-		array("name" => "Bugs", "link" => "http://bugs.netmrg.net/", "descr" => "Report bugs and request features.", "authLevelRequired" => 0)
+		array("name" => "Bugs", "link" => "http://bugs.netmrg.net/", "descr" => "Report bugs and request features.", "authLevelRequired" => 0),
+		array("name" => "Contributions", "link" => "contributors.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
+		array("name" => "Error", "link" => "error.php", "descr" => "", "authLevelRequired" => 0, "display" => false)
 	)
 ); // end $MENU
 

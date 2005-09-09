@@ -1,5 +1,9 @@
 2005.09.09  v0.19cvs  silfreed
   - upgrade version to 0.19cvs
+  - bug#0000365: Web Interface redesign
+    made sure all *.php pages were in the menu
+  - bug#0000294: Search feature
+    created a stock search page that just shows you your query back
 
 2005.09.09  v0.18.2  silfreed
   - bug#0000365: Web Interface redesign
