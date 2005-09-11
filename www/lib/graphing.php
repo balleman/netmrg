@@ -49,6 +49,13 @@ function esc_colon()
 		return "\\"; else return "";
 }
 
+function rrd_slope()
+{
+	// if escaping a colon, return the escape sequence, otherwise an empty string
+
+	if (!strstr($GLOBALS['netmrg']['rrdtool_version'], "1.0"))
+		return "-E"; else return "";
+}
 
 function get_graph_command($type, $id, $hist)
 {
@@ -99,7 +106,7 @@ function monitor_graph_command($id, $timeframe)
 			$boundary = "";
 		}
 
-	return($GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $timeframe['start_time'] . 
+	return($GLOBALS['netmrg']['rrdtool'] . " graph - " . rrd_slope() . " -s " . $timeframe['start_time'] . 
 			" -e " . $timeframe['end_time'] . " " . $boundary .
 			" --title=" . escapeshellarg(get_monitor_name($id) . " (#" . $id . ")") . " --imgformat PNG -g -w 575 -h 100 " .
 			"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $id . ".rrd:mon_" . $id . ":AVERAGE " .
@@ -109,7 +116,7 @@ function monitor_graph_command($id, $timeframe)
 
 function tiny_monitor_graph_command($id, $timeframe)
 {
-	return($GLOBALS['netmrg']['rrdtool'] . " graph - -s {$timeframe['start_time']} " . 
+	return($GLOBALS['netmrg']['rrdtool'] . " graph - " . rrd_slope() . " -s {$timeframe['start_time']} " . 
 		"-e {$timeframe['end_time']} -a PNG -g -w 275 -h 25 " .
 		"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_$id.rrd:mon_$id:AVERAGE " .
 		"AREA:data1#151590");
@@ -218,7 +225,7 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 	}
 
 	// initial definition
-	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - -s " . $timeframe['start_time'] . 
+	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - " . rrd_slope() . " -s " . $timeframe['start_time'] . 
 			" -e " . $timeframe['end_time'] . $boundary . " --title " . $graph_row["title"] . " -w " .
 			$graph_row["width"] . " -h " . $graph_row["height"] . $options . "-b " . $graph_row["base"] . " -v " .
 			$graph_row["vert_label"] . " --imgformat PNG $options";
