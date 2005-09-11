@@ -486,16 +486,19 @@ function do_view()
 				case 'graph':
 				$name = $row['title'];
 				$extra_options = formatted_link("Edit Graph", "graph_items.php?graph_id={$row['graph_id']}");
+				$type = "Graph";
 				break;
 
 				case 'template':
 				$name = expand_parameters($row['title'], $row['subdev_id']);
 				$extra_options = formatted_link("Edit Template", "graph_items.php?graph_id={$row['graph_id']}");
+				$type = "Template <i>(" . $row['name'] . ")</i>";
 				break;
 
 				case 'separator':
-				$name = $row['separator_text'];
+				$name = "<strong><u>" . $row['separator_text'] . "</u></strong>";
 				$extra_options = "";
+				$type = "Separator";
 				break;
 
 				default:
@@ -505,7 +508,7 @@ function do_view()
 			make_display_item("editfield".($i%2),
 				array("checkboxname" => "viewitem", "checkboxid" => $row['id']),
 				array("text" => $name),
-				array("text" => ucfirst($row["type"])),
+				array("text" => $type),
 				array("text" => $move_up . "&nbsp;" .
 					$move_down . "&nbsp;" .
 					formatted_link("Edit", "{$_SERVER['PHP_SELF']}?id={$row['id']}&action=edit", "", "edit") . "&nbsp;" .

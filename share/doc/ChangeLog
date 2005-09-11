@@ -1,5 +1,6 @@
 2005.09.10  v0.19cvs  balleman
   - bug#0000424: rrdtool 1.2 slope feature (use by default for 1.2)
+  - bug#0000414: view edit enhancements
 
 2005.09.09  v0.19cvs  silfreed
   - upgrade version to 0.19cvs
