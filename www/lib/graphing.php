@@ -194,16 +194,16 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 	{
 		$boundary = " -r -l {$_REQUEST['min']} -u {$_REQUEST['max']}";
 	}
-	elseif ( (!empty($graph_row['min'])) || (!empty($graph_row['max'])))
+	elseif (isset($graph_row['min']) || isset($graph_row['max']))
 	{
 		$boundary = " -r";
 		
-		if (!empty($graph_row['min']))
+		if (isset($graph_row['min']))
 		{
 			$boundary .= " -l " . $graph_row['min'];
 		}
 		
-		if (!empty($graph_row['max']))
+		if (isset($graph_row['max']))
 		{
 			$boundary .= " -u " . $graph_row['max'];
 		}

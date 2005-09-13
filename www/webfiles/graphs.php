@@ -57,8 +57,8 @@ function doedit()
 	if (isset($_REQUEST["options_logarithmic"]) && $_REQUEST["options_logarithmic"] == true)
 		$options .= "logarithmic,";
 		
-	if ($_REQUEST["min"] == "U") { $_REQUEST["min"] = "NULL"; }
-	if ($_REQUEST["max"] == "U") { $_REQUEST["max"] = "NULL"; }
+	$_REQUEST["min"] = ($_REQUEST["min"] == "U" ? "NULL" : "'" . $_REQUEST['min'] . "'");
+	$_REQUEST["max"] = ($_REQUEST["max"] == "U" ? "NULL" : "'" . $_REQUEST['max'] . "'");
 
 	$options = substr($options, 0, -1);
 	
@@ -71,8 +71,8 @@ function doedit()
 			vert_label='" . $_REQUEST['vert_label'] . "',
 			base='{$_REQUEST['base']}', 
 			options='$options',
-			max='{$_REQUEST['max']}',
-			min='{$_REQUEST['min']}'
+			max={$_REQUEST['max']},
+			min={$_REQUEST['min']}
 			$where");
 
 	header("Location: {$_SERVER['PHP_SELF']}?type={$_REQUEST['type']}");
@@ -302,8 +302,8 @@ function edit()
 	{
 		$graph_results = db_query("SELECT * FROM graphs WHERE id='{$_REQUEST["graph_id"]}'");
 		$graph_row = db_fetch_array($graph_results);
-		if (empty($graph_row["min"])) { $graph_row["min"] = "U"; }
-		if (empty($graph_row["max"])) { $graph_row["max"] = "U"; }
+		if (!isset($graph_row["min"])) { $graph_row["min"] = "U"; }
+		if (!isset($graph_row["max"])) { $graph_row["max"] = "U"; }
 	}
 	else
 	{

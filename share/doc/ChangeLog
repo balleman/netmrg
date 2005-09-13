@@ -1,5 +1,7 @@
 2005.09.12  v0.19cvs  balleman
   - bug#0000287: on the monitor edit page, subdevice dropdown should not be displayed by default
+  - bug#0000403: Upper/lower graph limit problem
+    fixed both instances described; mins and maxes of 0 should now behave properly, and 'U' works again, too
 
 2005.09.10  v0.19cvs  balleman
   - bug#0000424: rrdtool 1.2 slope feature (use by default for 1.2)
