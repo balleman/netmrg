@@ -366,10 +366,23 @@ function edit()
 	make_edit_select_from_table("Data Type:", "data_type", "data_types", $mon_row["data_type"]);
 	make_edit_text("Minimum Value:", "min_val", "10", "20", $mon_row["min_val"]);
 	make_edit_text("Maximum Value:", "max_val", "10", "20", $mon_row["max_val"]);
-	make_edit_select_subdevice($_REQUEST["sub_dev_id"]);
 	make_edit_label('[<a href="javascript:make_min_undefined();">make minimum undefined</a>]
 		[<a href="javascript:make_max_undefined();">make maximum undefined</a>]');
-
+	
+	make_edit_group("Ownership");
+	if ($_REQUEST["edit_subdevice"] == 1)
+	{
+		make_edit_select_subdevice($_REQUEST["sub_dev_id"]);
+	}
+	else
+	{
+		$label = "<big><b>Subdevice:</b><br>  ";
+		$label .= get_dev_sub_device_name($_REQUEST['sub_dev_id']);
+		$label .= "  [<a href='{$_SERVER['PHP_SELF']}?action={$_REQUEST['action']}&mon_id={$_REQUEST['mon_id']}&edit_subdevice=1&sub_dev_id={$_REQUEST['sub_dev_id']}&tripid={$_REQUEST['tripid']}'>change</a>]</big>";
+		make_edit_label($label);
+		make_edit_hidden("subdev_id[]", $_REQUEST["sub_dev_id"]);
+	}
+	
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("mon_id",$_REQUEST["mon_id"]);
 	make_edit_hidden("sub_dev_id",$_REQUEST["sub_dev_id"]);
