@@ -1,3 +1,6 @@
+2005.09.21  v0.19cvs  silfreed
+  - updated wiki.netmrg.net to mediawiki 1.4.10
+
 2005.09.12  v0.19cvs  balleman
   - bug#0000287: on the monitor edit page, subdevice dropdown should not be displayed by default
   - bug#0000403: Upper/lower graph limit problem
