@@ -1,3 +1,6 @@
+2005.10.13  v0.19cvs  balleman
+  - bug#0000429: ReadAll user can add/edit/delete devices
+
 2005.10.12  v0.19cvs  silfreed
   - updated wiki.netmrg.net to mediawiki 1.4.11
   - updated bugs.netmrg.net to Mantis BT 0.19.3
