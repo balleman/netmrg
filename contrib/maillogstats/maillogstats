@@ -107,6 +107,28 @@ while (!feof ($logptr)) {
 			
 		} // end if line is okay
 
+	} else if(preg_match("/spamd/", $line)) {
+		$mailloglines++;
+		$linehalves = preg_split("/\[\d*\]: /U", $line);
+		// $basicinfo will have the following:
+		// month, day, time, host, "spamd"
+		$basicinfo = split("[ ]+", $linehalves[0]);
+		$statusinfo = $linehalves[1];
+		unset($linehalves);
+		
+		// check to see if the $basicinfo section has
+		// the correct # of items in it
+		if (count($basicinfo) != 5) {
+			Error("SPAMD: $line");
+		} else {
+			if (!HostInStats($basicinfo[3], $stats)) {
+				AddHostToStats($basicinfo[3], $stats);
+				Error("SPAMD ADDHOST: $line");
+			} // end if host in stats or not
+			spamdScannerStats($basicinfo[3], $statusinfo, $stats);
+			
+		} // end if line is okay
+
 	} else if(preg_match("/MailScanner/", $line)) {
 		$mailloglines++;
 		$linehalves = preg_split("/\[\d*\]: /U", $line);
@@ -436,6 +458,24 @@ function tpop3dScannerStats($hostname, $statusinfo, &$stats)
 	} // end connection
 
 } // end tpop3dScannerStats();
+
+
+/* spamdScannerStats($hostname, $statusinfo, &$stats); increment the correct counter
+ */
+function spamdScannerStats($hostname, $statusinfo, &$stats)
+{
+	global $CFG;
+
+	// spam
+	// Oct 13 22:02:20 argo.pyxos.net spamd[3822]: identified spam (19.7/10.0) for dlittle:501 in 1.8 seconds, 1668 bytes.
+	if (preg_match("/identified spam \(([\d\.]+)\/[\d\.]+\)/", $statusinfo, $matches))
+	{
+		$stats[$hostname]["spamcount"]++;
+		$stats[$hostname]["spamscore"] += $matches[1];
+	} // end spam
+	// Oct 13 22:03:13 argo.pyxos.net spamd[3888]: clean message (-0.9/5.0) for silfreed:500 in 2.1 seconds, 1195 bytes.
+
+} // end spamdScannerStats();
 
 
 ?>
