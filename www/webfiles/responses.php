@@ -8,7 +8,6 @@
 * see doc/LICENSE for copyright information
 ********************************************/
 
-
 require_once("../include/config.php");
 check_auth($PERMIT["ReadAll"]);
 
@@ -19,20 +18,28 @@ else
 
 switch ($action)
 {
-	case "add":				$_REQUEST['id'] = 0;
-							display_edit();
-							break;
+	case "add":
+		$_REQUEST['id'] = 0;
+		display_edit();
+		break;
 
-	case "edit":			display_edit();
-							break;
+	case "edit":
+		display_edit();
+		break;
 
-	case "doedit":			do_edit();
-							break;
+	case "doedit":
+		check_auth($PERMIT["ReadWrite"]);
+		do_edit();
+		break;
+
 	case "multidodelete":
-	case "dodelete":		do_delete();
-							break;
+	case "dodelete":
+		check_auth($PERMIT["ReadWrite"]);
+		do_delete();
+		break;
 
-	default:				display_list();
+	default:
+		display_list();
 }
 
 function display_list()
@@ -112,8 +119,6 @@ function display_edit()
 
 function do_edit()
 {
-	check_auth($PERMIT["ReadWrite"]);
-	
 	if ($_REQUEST['id'] == 0)
 	{
 		$pre  = "INSERT INTO";
@@ -132,7 +137,6 @@ function do_edit()
 
 function do_delete()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	if (isset($_REQUEST['response']))
 	{
 		while (list($key,$value) = each($_REQUEST["response"]))

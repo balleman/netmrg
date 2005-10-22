@@ -9,12 +9,21 @@
 ********************************************/
 
 require_once("../include/config.php");
+check_auth($PERMIT["ReadAll"]);
 
 switch ($_REQUEST['action'])
 {
-	case "view":          view_cache(); break;
-	case "graph":         make_graph(); break;
+	case "view":
+		view_cache();
+		break;
+
+	case "graph":
+		check_auth($PERMIT["ReadWrite"]);
+		make_graph();
+		break;
+
 	case "graphmultiint":
+		check_auth($PERMIT["ReadWrite"]);
 		if (isset($_REQUEST["iface"]))
 		{
 			while (list($key,$value) = each($_REQUEST["iface"]))
@@ -26,7 +35,9 @@ switch ($_REQUEST['action'])
 		header("Location: snmp_cache_view.php?dev_id={$_REQUEST['dev_id']}&tripid={$_REQUEST['tripid']}&type=interface&action=view");
 		exit(0);
 		break;
+
 	case "graphmultidisk":
+		check_auth($PERMIT["ReadWrite"]);
 		if (isset($_REQUEST["dindex"]))
 		{
 			while (list($key,$value) = each($_REQUEST["dindex"]))
@@ -79,8 +90,6 @@ function int_column_unique($dev_id, $column)
 
 function make_interface_graph($dev_id, $index)
 {
-	check_auth($PERMIT["ReadWrite"]);
-	
 	// get snmp index data
 	$q_snmp = db_query("SELECT * FROM snmp_interface_cache WHERE dev_id='$dev_id' AND ifIndex='$index'");
 	$r_snmp = db_fetch_array($q_snmp);
@@ -117,8 +126,6 @@ function make_interface_graph($dev_id, $index)
 
 function make_disk_graph($dev_id, $index)
 {
-	check_auth($PERMIT["ReadWrite"]);
-
 	// get snmp index data
 	$q_snmp = db_query("SELECT * FROM snmp_disk_cache WHERE dev_id='$dev_id' AND disk_index='$index'");
 	$r_snmp = db_fetch_array($q_snmp);
@@ -152,7 +159,6 @@ function make_disk_graph($dev_id, $index)
 
 function view_disk_cache()
 {
-	check_auth($PERMIT["ReadAll"]);
 	$query = "SELECT * FROM snmp_disk_cache WHERE dev_id={$_REQUEST['dev_id']} ORDER BY disk_index";
 	$dev_name = get_device_name($_REQUEST['dev_id']);
 
@@ -222,7 +228,6 @@ function view_disk_cache()
 
 function view_interface_cache()
 {
-	check_auth($PERMIT["ReadAll"]);
 	$sort_href = "{$_SERVER['PHP_SELF']}?action=view&type=interface&dev_id={$_REQUEST['dev_id']}&order_by";
 	$handle = db_query("SELECT * FROM snmp_interface_cache snmp WHERE snmp.dev_id={$_REQUEST['dev_id']}");
 	$results = array();
