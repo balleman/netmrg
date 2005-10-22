@@ -8,41 +8,36 @@
 * see doc/LICENSE for copyright information
 ********************************************/
 
-
 require_once("../include/config.php");
 check_auth($PERMIT["ReadAll"]);
 
-if (isset($_REQUEST['action']))
+switch ($_REQUEST['action'])
 {
-	switch ($_REQUEST['action'])
-	{
-		case "edit":
-			display_edit();
-		 	break;
-		case "add":
-			display_edit();
-		 	break;
-		case "doedit":
-			do_edit();
-			break;
-		case "multidodelete":
-		case "dodelete":
-			do_delete();
-			break;
-	} // end switch action
-}
-else
-{
-	do_display();
-} // end if action set
+	case "edit":
+	case "add":
+		check_auth($PERMIT["ReadWrite"]);
+		display_edit();
+		break;
+
+	case "doedit":
+		check_auth($PERMIT["ReadWrite"]);
+		do_edit();
+		break;
+
+	case "multidodelete":
+	case "dodelete":
+		check_auth($PERMIT["ReadWrite"]);
+		do_delete();
+		break;
+
+	default:
+		do_display();
+} // end switch action
 
 
 function do_display()
 {
-
 	// Display a list
-
-	check_auth($PERMIT["ReadAll"]);
 	begin_page("conditions.php", "Conditions");
 	js_checkbox_utils();
 	?>
@@ -66,7 +61,7 @@ function do_display()
 	}
 
 	js_confirm_dialog("del", "Are you sure you want to delete condition ", " and all associated items?", "{$_SERVER['PHP_SELF']}?action=dodelete&event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}&id=");
-	make_display_table("Conditions", "{$_SERVER['PHP_SELF']}?action=add&event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}$nologic", 
+	make_display_table("Conditions", "{$_SERVER['PHP_SELF']}?action=add&event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}$nologic",
 		array("text" => checkbox_toolbar()),
 		array("text" => "Condition")
 	); // end make_display_table();
@@ -105,12 +100,11 @@ function do_display()
 
 function display_edit()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	begin_page("conditions.php", "Edit Conditions");
 
 	if ($_REQUEST['action'] == "add")
 	{
-		$row['id'] 		= 0;
+		$row['id']			= 0;
 		$row['event_id']	= $_REQUEST['event_id'];
 		$row['logic_condition'] = 0;
 		$row['condition']	= 1;
@@ -132,7 +126,7 @@ function display_edit()
 	{
 		make_edit_hidden("logic_condition", "0");
 	}
-        make_edit_select_from_array("Value Type:", "value_type", $GLOBALS['VALUE_TYPES'], $row['value_type']);
+	make_edit_select_from_array("Value Type:", "value_type", $GLOBALS['VALUE_TYPES'], $row['value_type']);
 	make_edit_select_from_array("Condition:", "condition", $GLOBALS['CONDITIONS'], $row['condition']);
 	make_edit_text("Value:", "value", 5, 10, $row['value']);
 	make_edit_hidden("event_id", $row['event_id']);
@@ -148,8 +142,6 @@ function display_edit()
 
 function do_edit()
 {
-	check_auth($PERMIT["ReadWrite"]);
-
 	if ($_REQUEST['id'] == 0)
 	{
 		$pre  = "INSERT INTO";
@@ -169,7 +161,6 @@ function do_edit()
 
 function do_delete()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	if (isset($_REQUEST['condition']))
 	{
 		while (list($key,$value) = each($_REQUEST["condition"]))

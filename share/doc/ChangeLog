@@ -1,6 +1,6 @@
 2005.10.22  v0.19cvs  keb
   - bug#0000430: permissions 'gotcha'
-    * responses.php snmp_cache_view.php
+    * responses.php snmp_cache_view.php conditions.php
 
 2005.10.13  v0.19cvs  balleman
   - bug#0000429: ReadAll user can add/edit/delete devices
