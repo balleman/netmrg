@@ -1,3 +1,7 @@
+2005.10.31  v0.19cvs  silfreed
+  - updated wiki.netmrg.net to mediawiki 1.5.1
+  - updated lists.netmrg.net to phpBB 2.0.18
+
 2005.10.22  v0.19cvs  keb
   - bug#0000430: permissions 'gotcha'
     * responses.php snmp_cache_view.php conditions.php
