@@ -11,7 +11,7 @@ netmrg_var_lib_DATA = $(RRDS)
 
 .xml.rrd :
 	@echo "  RRD    $@"
-	$(RRDTOOL) restore $*.xml $@
+	$(RRDTOOL) create zero.rrd DS:mon_25:GAUGE:600:U:U RRA:AVERAGE:0:1:1 RRA:LAST:0:1:1 RRA:MAX:0:1:1
 
 clean : clean-am clean-rrd
 
