@@ -15,12 +15,13 @@ community="$2"
 shift
 shift
 
-snmpwalk="snmpwalk -v1 -c $community -Oqv $hostname"
-val=`$snmpwalk $1`;
+snmpget="snmpget -v1 -c $community -Oqv $hostname"
+val=`$snmpget $1`;
 shift
 
-echo $val;
 for i in "$@"; do
-	val=$(($val - `$snmpwalk $i`));
-	echo $val;
+	val=$(($val - `$snmpget $i`));
 done
+
+if (( $val != 0 )); then echo $val; else echo U; fi
+
