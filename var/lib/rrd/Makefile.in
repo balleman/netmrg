@@ -168,7 +168,7 @@ AM_MAKEFLAGS = \
 	` test "$(VERBOSE)" = "1" && echo $(ECHO_N) "" \
 	|| echo $(ECHO_N) "-s" `
 
-SUFFIXES = .rrd .xml
+SUFFIXES = .rrd
 RRDS = zero.rrd
 
 # options to install files in the var/lib directory
@@ -177,7 +177,7 @@ netmrg_var_lib_DATA = $(RRDS)
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .rrd .xml
+.SUFFIXES: .rrd
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(top_srcdir)/Make.inc $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -336,9 +336,9 @@ uninstall-am: uninstall-info-am uninstall-netmrg_var_libDATA
 
 @SET_MAKE@
 
-.xml.rrd :
+$(RRDS) :
 	@echo "  RRD    $@"
-	$(RRDTOOL) create zero.rrd DS:mon_25:GAUGE:600:U:U RRA:AVERAGE:0:1:1 RRA:LAST:0:1:1 RRA:MAX:0:1:1
+	@$(RRDTOOL) create zero.rrd DS:mon_25:GAUGE:600:U:U RRA:AVERAGE:0:1:1 RRA:LAST:0:1:1 RRA:MAX:0:1:1
 
 clean : clean-am clean-rrd
 
@@ -346,7 +346,7 @@ distclean-am: clean-am clean-rrd distclean-generic
 
 clean-rrd :
 	@echo "  RM     $(netmrg_var_lib_DATA)"
-	rm -f $(netmrg_var_lib_DATA)
+	@rm -f $(netmrg_var_lib_DATA)
 
 install-netmrg_var_libDATA: $(netmrg_var_lib_DATA)
 	@$(NORMAL_INSTALL)
