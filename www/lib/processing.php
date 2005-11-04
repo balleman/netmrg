@@ -1023,6 +1023,14 @@ function delete_subdevice($subdev_id)
 	{
 		delete_monitor($monitor_row["id"]);
 	}
+
+	$view_handle = db_query("SELECT id FROM view WHERE type='template' AND subdev_id=$subdev_id");
+	
+	while ($view_row = db_fetch_array($view_handle))
+	{
+		delete_view_item($view_row['id']);
+	}
+
 } // end delete_subdevice();
 
 

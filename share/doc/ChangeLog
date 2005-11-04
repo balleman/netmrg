@@ -1,5 +1,6 @@
 2005.11.03  v0.19cvs  balleman
-  - bug#000427: use RRDTOOL create instead of restore for zero.rrd
+  - bug#0000427: use RRDTOOL create instead of restore for zero.rrd
+  - bug#0000342: delete template view items associated with deleted subdevices
 
 2005.10.31  v0.19cvs  silfreed
   - updated wiki.netmrg.net to mediawiki 1.5.1
