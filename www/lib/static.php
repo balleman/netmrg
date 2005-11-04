@@ -345,6 +345,30 @@ function get_image_by_name($img_name)
 		case "arrow-left-disabled" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow-left-disabled']}";
 			break;
+		case "arrow_limit-up" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow_limit-up']}";
+			break;
+		case "arrow_limit-right" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow_limit-right']}";
+			break;
+		case "arrow_limit-down" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow_limit-down']}";
+			break;
+		case "arrow_limit-left" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow_limit-left']}";
+			break;
+		case "arrow_limit-up-disabled" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow_limit-up-disabled']}";
+			break;
+		case "arrow_limit-right-disabled" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow_limit-right-disabled']}";
+			break;
+		case "arrow_limit-down-disabled" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow_limit-down-disabled']}";
+			break;
+		case "arrow_limit-left-disabled" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['arrow_limit-left-disabled']}";
+			break;
 		case "slideshow" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['slideshow']}";
 			break;

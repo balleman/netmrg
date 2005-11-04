@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg1"
+   sodipodi:version="0.34"
+   width="500pt"
+   height="500pt"
+   sodipodi:docbase="/oak/var/www/netmrg/trunk/share/images/default"
+   sodipodi:docname="/oak/var/www/netmrg/trunk/share/images/default/arrow_limit.svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     gridspacingx="28.3465pt"
+     gridspacingy="28.3465pt"
+     showgrid="true" />
+  <rect
+     style="font-size:12;fill:#000000;fill-rule:evenodd;stroke-width:1pt;fill-opacity:1;"
+     id="rect563"
+     width="312.499969"
+     height="248.191319"
+     x="156.250006"
+     y="376.80869" />
+  <path
+     style="font-size:12;fill-rule:evenodd;stroke-width:1pt;fill:#333333;fill-opacity:1;"
+     d="M 2.009652 378.8188 L 314.5098 378.8188 L 314.5098 66.31851 L 2.009652 378.8188 z "
+     id="path567"
+     sodipodi:nodetypes="cccc" />
+  <path
+     style="font-size:12;fill-rule:evenodd;stroke-width:1pt;fill:#000000;fill-opacity:1;"
+     d="M 312.5003 66.31919 L 312.5003 378.8194 L 625.0003 378.8194 L 312.5003 66.31919 z "
+     id="path566"
+     sodipodi:nodetypes="cccc" />
+  <rect
+     style="font-size:12;fill:#000000;fill-rule:evenodd;stroke-width:1;fill-opacity:1;"
+     id="rect608"
+     width="586.816772"
+     height="36.1736298"
+     x="16.0771694"
+     y="30.1446915"
+     sodipodi:fill-cmyk="(0 0 0 1)" />
+</svg>

@@ -1,6 +1,8 @@
 2005.11.03  v0.19cvs  balleman
   - bug#0000427: use RRDTOOL create instead of restore for zero.rrd
   - bug#0000342: delete template view items associated with deleted subdevices
+  - bug#0000112: view edit should have move top and move bottom features
+  - added "arrow_limit" icon
 
 2005.10.31  v0.19cvs  silfreed
   - updated wiki.netmrg.net to mediawiki 1.5.1

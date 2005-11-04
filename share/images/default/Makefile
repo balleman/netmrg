@@ -34,6 +34,18 @@ arrow:
 	@convert -rotate 180 arrow-up-disabled.png arrow-down-disabled.png
 	@convert -rotate 270 arrow-up-disabled.png arrow-left-disabled.png
 
+arrow_limit:
+	@cp arrow_limit.svg arrow_limit-up.svg
+	@$(BATIK) -h 15 arrow_limit-up.svg
+	@convert -rotate 90 arrow_limit-up.png arrow_limit-right.png
+	@convert -rotate 180 arrow_limit-up.png arrow_limit-down.png
+	@convert -rotate 270 arrow_limit-up.png arrow_limit-left.png
+	@cat arrow_limit-up.svg | perl -ne 's/#000000/#808080/; s/#333333/#A0A0A0/; print;' > arrow_limit-up-disabled.svg
+	@$(BATIK) -h 15 arrow_limit-up-disabled.svg
+	@convert -rotate 90 arrow_limit-up-disabled.png arrow_limit-right-disabled.png
+	@convert -rotate 180 arrow_limit-up-disabled.png arrow_limit-down-disabled.png
+	@convert -rotate 270 arrow_limit-up-disabled.png arrow_limit-left-disabled.png
+
 status:
 	@$(MAKE) -s createstatus C1="#ff0000" C2="#ff4c4c" NAME="status-critical-trig.svg"
 	@$(MAKE) -s createstatus C1="#ff0000" C2="#7f4c4c" NAME="status-critical-untrig.svg"

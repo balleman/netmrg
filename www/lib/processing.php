@@ -889,6 +889,30 @@ function delete_view_item($item_id)
 		AND pos > " . $pos);
 }
 
+function is_view_item_extreme($object_id, $object_type, $item_id, $which)
+{
+	$query = db_query("
+	SELECT 	id, pos
+	FROM 	view
+	WHERE 	object_id=$object_id
+	AND 	object_type='$object_type'
+	ORDER BY pos $which");
+
+	$row = db_fetch_array($query);
+
+	return ($row['id'] == $item_id);
+}
+
+function is_view_item_top($object_id, $object_type, $item_id)
+{
+	return is_view_item_extreme($object_id, $object_type, $item_id, "ASC");
+}
+
+function is_view_item_bottom($object_id, $object_type, $item_id)
+{
+	return is_view_item_extreme($object_id, $object_type, $item_id, "DESC");
+}
+
 function move_view_item($object_id, $object_type, $item_id, $direction)
 {
 	//echo ("$object_id, $object_type, $item_id, $direction");
@@ -928,6 +952,19 @@ function move_view_item($object_id, $object_type, $item_id, $direction)
 		}
 	}
 }
+
+function move_view_item_top($object_id, $object_type, $item_id)
+{
+	while (!is_view_item_top($object_id, $object_type, $item_id))
+		move_view_item($object_id, $object_type, $item_id, "up");
+}
+
+function move_view_item_bottom($object_id, $object_type, $item_id)
+{
+	while (!is_view_item_bottom($object_id, $object_type, $item_id))
+		move_view_item($object_id, $object_type, $item_id, "down");
+}
+
 // Recursive Deletion Section (for orphan prevention if nothing else)
 
 function delete_group($group_id)

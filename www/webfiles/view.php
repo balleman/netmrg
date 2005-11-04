@@ -58,6 +58,14 @@ switch ($_REQUEST["action"])
 	case "move_down":
 		do_move("down");
 		break;
+
+	case "move_top":
+		do_move("top");
+		break;
+
+	case "move_bottom":
+		do_move("bottom");
+		break;
 	
 	default:
 		display_error();
@@ -219,7 +227,21 @@ function do_move($direction)
 	}
 	elseif (isset($_REQUEST["id"]))
 	{
-		move_view_item($_REQUEST['object_id'], $_REQUEST['object_type'], $_REQUEST['id'], $direction);
+		switch ($direction)
+		{
+			case "up":
+			case "down":
+				move_view_item($_REQUEST['object_id'], $_REQUEST['object_type'], $_REQUEST['id'], $direction);
+				break;
+
+			case "top":
+				move_view_item_top($_REQUEST['object_id'], $_REQUEST['object_type'], $_REQUEST['id']);
+				break;
+
+			case "bottom":
+				move_view_item_bottom($_REQUEST['object_id'], $_REQUEST['object_type'], $_REQUEST['id']);
+				break;
+		}
 	}
 
 	header("Location: {$_SERVER['PHP_SELF']}?object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&action=list");
@@ -465,20 +487,20 @@ function do_view()
 		
 			if ($i == 0)
 			{
-				$move_up = image_link_disabled("arrow-up", "Move Up");
+				$move_up = image_link_disabled("arrow_limit-up", "Move Top") . image_link_disabled("arrow-up", "Move Up");
 			}
 			else
 			{
-				$move_up = image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move_up&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}");
+				$move_up = image_link("arrow_limit-up", "Move Top", "{$_SERVER['PHP_SELF']}?action=move_top&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}") . image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move_up&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}");
 			}
 
 			if ($i == ($num - 1))
 			{
-				$move_down = image_link_disabled("arrow-down", "Move Down");
+				$move_down = image_link_disabled("arrow-down", "Move Down") . image_link_disabled("arrow_limit-down", "Move Bottom");
 			}
 			else
 			{
-				$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move_down&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}");
+				$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move_down&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}") . image_link("arrow_limit-down", "Move Bottom", "{$_SERVER['PHP_SELF']}?action=move_bottom&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}");
 			}
 
 			switch ($row['type'])
