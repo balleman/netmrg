@@ -1,3 +1,6 @@
+2005.11.03  v0.19cvs  balleman
+  - bug#000427: use RRDTOOL create instead of restore for zero.rrd
+
 2005.10.31  v0.19cvs  silfreed
   - updated wiki.netmrg.net to mediawiki 1.5.1
   - updated lists.netmrg.net to phpBB 2.0.18
