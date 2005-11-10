@@ -457,10 +457,11 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 	// print out the graph comment, if any
 	if ($graph_row["comment"] != "''")
 	{
-		$temp_comment = str_replace("%n", ' COMMENT:\n COMMENT:', $graph_row["comment"]);
-		$temp_comment = str_replace(":", esc_colon() . ":", $temp_comment);
+		$temp_comment = str_replace(":", esc_colon() . ":", $graph_row["comment"]);
+		$temp_comment = str_replace("%n", '\' COMMENT:\\\n COMMENT:\'', $temp_comment);
 		$command .= ' COMMENT:\\\n';
-		$command .= ' COMMENT:' . $temp_comment .'\\\n';
+		$command .= ' COMMENT:' . $temp_comment;
+		$command .= ' COMMENT:\\\n';
 	}
 
 	return($command);
