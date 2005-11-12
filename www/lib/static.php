@@ -73,7 +73,7 @@ $MENU = array(
 		),
 	"Help" => array(
 		array("name" => "About", "link" => "about.php", "descr" => "", "authLevelRequired" => 0),
-		array("name" => "Manual", "link" => "http://www.netmrg.net/docs/Trunk/", "descr" => "", "authLevelRequired" => 0),
+		array("name" => "Manual", "link" => "http://wiki.netmrg.net/wiki/Users_Manual", "descr" => "", "authLevelRequired" => 0),
 		array("name" => "Forum", "link" => "http://lists.netmrg.net/", "descr" => "Benefit from the NetMRG Community.", "authLevelRequired" => 0),
 		array("name" => "Bugs", "link" => "http://bugs.netmrg.net/", "descr" => "Report bugs and request features.", "authLevelRequired" => 0),
 		array("name" => "Contributions", "link" => "contributors.php", "descr" => "", "authLevelRequired" => 0, "display" => false),

@@ -1,3 +1,6 @@
+2005.11.11  v0.19cvs  balleman
+  - bug#0000410: updated 'Manual' URL to point to the wiki
+
 2005.11.09  v0.19cvs  balleman
   - bug#0000406: verify against rrdtool-1.2 - revisited comments escaping
 
