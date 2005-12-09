@@ -1,5 +1,6 @@
 2005.12.08  v0.19cvs  silfreed
   - bug#0000294: Search feature
+  - bug#0000372: RFE: Add link for current level in device path
 
 2005.11.11  v0.19cvs  balleman
   - bug#0000410: updated 'Manual' URL to point to the wiki

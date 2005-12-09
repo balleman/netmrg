@@ -306,57 +306,57 @@ function DrawGroupNavHistory($type, $id)
 		{
 			case "event" : 
 				$t = ' : ';
-				if ($type != "event") $t .= '<a href="responses.php?event_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= '<a href="responses.php?event_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
 				$t .= get_event_name($breadcrumb["id"]);
-				if ($type != "event") $t .= "</a>\n";
+				$t .= "</a>\n";
 				print $t;
 				break;
 				
 			case "monitor" :
 				$t = ' : ';
-				if ($type != "monitor") $t .= '<a href="events.php?mon_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= '<a href="events.php?mon_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
 				$t .= get_short_monitor_name($breadcrumb["id"]);
-				if ($type != "monitor") $t .= "</a>\n";
+				$t .= "</a>\n";
 				print $t;
 				break;
 				
 			case "int_snmp_cache_view" :
 				$t = ' : ';
-				if ($type != "int_snmp_cache_view") $t .= '<a href="snmp_cache_view.php?dev_id='.$breadcrumb["id"].'&action=view&type=interface'.'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= '<a href="snmp_cache_view.php?dev_id='.$breadcrumb["id"].'&action=view&type=interface'.'&tripid='.$_REQUEST["tripid"].'">';
 				$t .= "interface cache";
-				if ($type != "int_snmp_cache_view") $t .= "</a>\n";
+				$t .= "</a>\n";
 				print $t;
 				break;
 				
 			case "disk_snmp_cache_view" :
 				$t = ' : ';
-				if ($type != "disk_snmp_cache_view") $t .= '<a href="snmp_cache_view.php?dev_id='.$breadcrumb["id"].'&action=view&type=disk'.'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= '<a href="snmp_cache_view.php?dev_id='.$breadcrumb["id"].'&action=view&type=disk'.'&tripid='.$_REQUEST["tripid"].'">';
 				$t .= "disk cache";
-				if ($type != "disk_snmp_cache_view") $t .= "</a>\n";
+				$t .= "</a>\n";
 				print $t;
 				break;
 				
 			case "sub_device" :
 				$t = ' : ';
-				if ($type != "sub_device") $t .= '<a href="monitors.php?sub_dev_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= '<a href="monitors.php?sub_dev_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
 				$t .= get_sub_device_name($breadcrumb["id"]);
-				if ($type != "sub_device") $t .= "</a>\n";
+				$t .= "</a>\n";
 				print $t;
 				break;
 				
 			case "device" :
 				$t = ' : ';
-				if ($type != "device") $t .= '<a href="sub_devices.php?dev_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= '<a href="sub_devices.php?dev_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
 				$t .= get_device_name($breadcrumb["id"]);
-				if ($type != "device") $t .= "</a>\n";
+				$t .= "</a>\n";
 				print $t;
 				break;
 				
 			case "group" :
 				$t = ' : ';
-				if ($type != "group" || ($type == "group" && $id != $breadcrumb["id"])) $t .= '<a href="grpdev_list.php?parent_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
+				$t .= '<a href="grpdev_list.php?parent_id='.$breadcrumb["id"].'&tripid='.$_REQUEST["tripid"].'">';
 				$t .= ($breadcrumb["id"] == 0) ? "All Groups" : get_group_name($breadcrumb["id"]);
-				if ($type != "group" || ($type == "group" && $id != $breadcrumb["id"])) $t .= "</a>\n";
+				$t .= "</a>\n";
 				print $t;
 				break;
 		} // end switch type
