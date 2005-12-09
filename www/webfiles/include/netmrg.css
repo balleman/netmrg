@@ -446,3 +446,42 @@ A.editfield1, A:visited.editfield1
 {
 	background-color : #F0A0A0;
 }
+
+/** SEARCH **/
+.search-header
+{
+	background-color : #E5E5E5;
+	font-size : 0.9em;
+	letter-spacing : 0.1em;
+	padding-left : 2em;
+	border-top : #20B0E5 1px solid;
+}
+
+.search-result
+{
+	border-top : #E5C484 1px dashed;
+	border-bottom : #E5C484 1px dashed;
+	margin-top : 0.25em;
+	margin-bottom : 0.25em;
+}
+
+.search-result h3
+{
+	font-size : 1em;
+	margin : 0;
+	padding : 0;
+}
+
+.search-group
+{
+	color : #208444;
+}
+
+.search-parent
+{
+	color : #204484;
+}
+
+.search-object
+{
+}

@@ -252,6 +252,31 @@ $SCRIPT_DATA_TYPES = array(
 	2 => "Standard Out"
 ); // end SCRIPT_DATA_TYPES
 
+// searches through various types looking for |ARG|
+// |ARG| should already by escaped before being used in these queries
+// SQL statements should return two items; the id and the matched name
+$SEARCH_ITEMS = array(
+	'group' => array(
+		'name' => "Group",
+		'sql' => array("SELECT id, name FROM groups 
+			WHERE name LIKE '%|ARG|%'")
+		),
+	'device' => array(
+		'name' => "Device",
+		'sql' => array("SELECT id, name FROM devices 
+			WHERE name LIKE '%|ARG|%' OR ip LIKE '%|ARG|%'")
+		),
+	'subdevice' => array(
+		'name' => "Sub Device",
+		'sql' => array("SELECT id, name FROM sub_devices 
+			WHERE name LIKE '%|ARG|%
+			GROUP BY id'",
+			"SELECT sub_dev_id AS id, CONCAT(name, ' - ', value) AS name FROM sub_dev_variables
+			WHERE value LIKE '%|ARG|%'
+			GROUP BY sub_dev_id")
+		)
+); // end SEARCH_ITEMS
+
 $TIMEFRAME_DAILY = array(
 	'name'       => "Daily",
 	'start_time' => "-108000",

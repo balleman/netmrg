@@ -13,7 +13,7 @@
 require_once("../include/config.php");
 if (isset($_REQUEST["object_id"]) && isset($_REQUEST["object_type"]))
 {
-	view_check_auth($_REQUEST["object_id"], $_REQUEST["object_type"]);
+	viewCheckAuthRedirect($_REQUEST["object_id"], $_REQUEST["object_type"]);
 }
 
 $slideshow = false;

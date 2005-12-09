@@ -132,12 +132,12 @@ function check_auth($level)
 
 
 /**
-* view_check_auth()
+* viewCheckAuth($object_id, $object_type)
 *
 * called from the 'view.php' page
 * checks that the user is allowed to see this page
 */
-function view_check_auth($object_id, $object_type)
+function viewCheckAuth($object_id, $object_type)
 {
 	global $PERMIT;
 	check_auth($PERMIT["SingleViewOnly"]);
@@ -148,11 +148,29 @@ function view_check_auth($object_id, $object_type)
 	if (!in_array($_SESSION["netmrgsess"]["group_id"], $object_id_groups)
 		&& $_SESSION["netmrgsess"]["permit"] == $PERMIT["SingleViewOnly"])
 	{
+		return false;
+	} // end if allowed group id is not in this objects groups and we're SVO
+	
+	return true;
+} // end viewCheckAuth()
+
+
+/**
+* viewCheckAuthRedirect($object_id, $object_type)
+*
+* called from the 'view.php' page
+* checks that the user is allowed to see this page
+* and redirects if they are not
+*/
+function viewCheckAuthRedirect($object_id, $object_type)
+{
+	if (!viewCheckAuth($object_id, $object_type))
+	{
 		$_SESSION["netmrgsess"]["redir"] = $_SERVER["REQUEST_URI"];
 		header("Location: {$GLOBALS['netmrg']['webroot']}/error.php?action=denied");
 		exit;
-	}
-} // end view_check_auth()
+	} // end if not authorized
+} // end viewCheckAuthRedirect()
 
 
 /**
