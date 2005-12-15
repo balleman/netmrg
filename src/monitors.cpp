@@ -297,38 +297,46 @@ string process_snmp_monitor(DeviceInfo info, MYSQL *mysql)
 
 		if (info.snmp_avoid == 0)
 		{
-			if (type == 0)
+			list<SNMPPair> result;
+			list<SNMPPair>::iterator x;
+
+			switch (type)
 			{
-				// plain "get"
-				
-				value = snmp_get(info, oid);
-			}
-			else if (type == 1)
-			{
-				// walk to the Nth item
-				
-				list<SNMPPair> result = snmp_walk(info, oid);
-				result.reverse();  // sigh, it's upside-down
-				list<SNMPPair>::iterator x = result.begin();
-				for (int k = 0; k < subitem; k++)
-				{
-					if (x == result.end())
+				case 0:
+					// plain "get"
+					value = snmp_get(info, oid);
+					break;
+
+				case 1:
+					// walk to Nth item
+					result = snmp_walk(info, oid);
+					result.reverse();  // sigh, it's upside-down
+					x = result.begin();
+					for (int k = 0; k < subitem; k++)
 					{
-						debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "There is no subitem in position " + inttostr(subitem) + ".");
-						value = "U";
-						break;
+						if (x == result.end())
+						{
+							debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "There is no subitem in position " + inttostr(subitem) + ".");
+							value = "U";
+							break;
+						}
+						else
+						{
+							value = x->value;
+							x++;
+						}
 					}
-					else
-					{
-						value = x->value;
-						x++;
-					}
-				}
-			}
-			else
-			{
-				value = "U";
-				debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown SNMP Test Type (" + inttostr(type) + ").");
+					break;
+
+				case 2:
+					// count of walked items
+					result = snmp_walk(info, oid);
+					value = inttostr(result.size());
+					break;
+
+				default:
+					value = "U";
+					debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown SNMP Test Type (" + inttostr(type) + ").");
 			}
 			
 		}

@@ -130,7 +130,7 @@ function do_list()
 			$graph = "Not Graphed";
 		} // end if data type
 
-		if ((!isset($mon_row['delta_time'])) || ($mon_row["delta_time"] == 0))
+		if ((!isset($mon_row['delta_time'])) || ($mon_row["delta_time"] == 0) || !isset($mon_row['last_val']))
 		{
 			$rate_of_change = "";
 		}
@@ -143,6 +143,10 @@ function do_list()
 		{
 			$mon_row['last_val'] = "";
 		}
+		else
+		{
+			$mon_row['last_val'] = sanitize_number($mon_row['last_val']);
+		}
 		
 		if (!isset($mon_row['last_time']))
 		{
@@ -152,7 +156,7 @@ function do_list()
 		$data = '<table border="0" cellpadding="2" cellspacing="2" align="left" width="100%" height="100%">
 			<tr>
 				<td bgcolor="#eeeeee" width="50%">Value</td>
-				<td>'. sanitize_number($mon_row["last_val"]) .'</td>
+				<td>' . $mon_row["last_val"] . '</td>
 			</tr>
 			<tr>
 				<td bgcolor="#eeeeee">Rate of Change</td>

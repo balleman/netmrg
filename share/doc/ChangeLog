@@ -1,3 +1,7 @@
+2005.12.16  v0.19cvs  balleman
+  - fixed problem on monitors.php that showed unknown values as 0.00
+  - bug#0000437: added snmpwalk count method
+
 2005.12.15  v0.19cvs  silfreed
   - added killspike2 from cricket (with some modifications)
 

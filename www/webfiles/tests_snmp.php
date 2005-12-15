@@ -131,7 +131,7 @@ if (($action == "edit") || ($action == "add"))
 	make_edit_text("SNMP OID:", "test_oid", "75", "200", htmlspecialchars($test_row["oid"]));
 	make_edit_select_from_table("For use with this device:", "dev_type", "dev_types", $test_row["dev_type"]);
 	make_edit_section("Advanced");
-	make_edit_select_from_array("Type:", "type", array(0 => "Direct (Get)" , 1 => "Nth Item (Walk)"), $test_row["type"]);
+	make_edit_select_from_array("Type:", "type", array(0 => "Direct (Get)" , 1 => "Nth Item (Walk)" , 2 => "Count of Items (Walk)"), $test_row["type"]);
 	make_edit_text("Item #:", "subitem", "3", "10", $test_row["subitem"]);
 	make_edit_hidden("action","doedit");
 	make_edit_hidden("test_id",$_REQUEST["test_id"]);
