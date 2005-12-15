@@ -1,0 +1,67 @@
+#!/bin/sh
+
+#
+# killspike2
+# Remove (presumably erroneous) peaks from RRD files
+#
+# Matt Zimmerman <mdz@debian.org>, 05/2002
+#
+
+set -e
+
+usage() {
+    >&2 echo "Usage: $0 <ds> <max> <rrd>..."
+    >&2 echo
+    >&2 echo "Remove all peaks above <max> from <ds> in the RRDs <rrd>..."
+    exit $1
+}
+
+backupdir=/tmp/backup.killspike2
+
+ds=$1
+max=$2
+
+if [ -z "$ds" -o -z "$max" ]; then
+    usage 1
+fi
+
+shift 2
+
+rrds=$*
+
+if [ "$ds" = "-h" -o -z "$rrds" ]; then
+    usage 1
+fi
+
+if [ ! -e "$backupdir" ] ; then
+    mkdir $backupdir 2> /dev/null
+    echo "Making backups in $backupdir"
+fi
+
+if type tempfile >/dev/null 2>&1; then
+    tempfile=`tempfile`
+else
+    tempfile=killspike2.$$
+fi
+
+for rrd in $rrds; do
+    echo $rrd
+
+    oldmax=`rrdtool info "$rrd" | awk '$1 == "ds['$ds'].max" { print $3 }'`
+    if [ -z "$oldmax" ]; then
+        >&2 echo "Could not determine current max for DS '$ds' in $rrd"
+        exit 1
+    elif [ "$oldmax" = "NaN" ]; then
+        oldmax=U
+    fi
+
+    cp "$rrd" "$backupdir"
+    rrdtool tune "$rrd" --maximum "$ds:$max"
+    rrdtool dump "$rrd" > "$tempfile"
+    rm -f "$rrd"
+    rrdtool restore -r "$tempfile" "$rrd"
+    rrdtool tune "$rrd" --maximum "$ds:$oldmax"
+done
+
+rm -f "$tempfile"
+
