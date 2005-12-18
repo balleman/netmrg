@@ -1,3 +1,6 @@
+2005.12.18  v0.19cvs  silfreed
+  - updated bugs.netmrg.net to Mantis BT 0.19.4
+
 2005.12.16  v0.19cvs  balleman
   - fixed problem on monitors.php that showed unknown values as 0.00
   - bug#0000437: added snmpwalk count method
