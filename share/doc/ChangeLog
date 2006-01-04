@@ -1,3 +1,6 @@
+2006.01.04  v0.19cvs  balleman
+  - bug#0000438: rewrote script tests using execve()
+
 2006.01.02  v0.19cvs  silfreed
   - updated lists.netmrg.net to phpBB 2.0.19
   - updated wiki.netmrg.net to mediawiki 1.5.4

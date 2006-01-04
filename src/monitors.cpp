@@ -8,6 +8,7 @@
 ********************************************/
 
 #include <math.h>
+#include <errno.h>
 
 #include "monitors.h"
 
@@ -209,57 +210,154 @@ string process_script_monitor(DeviceInfo info, MYSQL *mysql)
 		if (command[0] != '/')
 			command = get_setting(setPathLibexec) + "/" + command;
 			
-		export_params_to_env(info);
+		char **env;
+		params_to_env(info, env);
 
 		debuglogger(DEBUG_GATHERER, LEVEL_INFO, &info, "Sending '" + command + "' to shell.");
 
+		pid_t pid;
+		char *argv[4];
+		argv[0] = "sh";
+		argv[1] = "-c";
+		argv[2] = (char *) command.c_str();
+		argv[3] = NULL;
+		
 		// if error code is desired
 		if (strtoint(mysql_row[1]) == 1)
 		{
-			int waitcode = system(command.c_str());
-			if (WIFEXITED(waitcode))
+			int status = 0;
+			
+			switch (pid = fork())
 			{
-				// the process terminated normally, return the error code
-				value = inttostr(WEXITSTATUS(waitcode));
-			}
-			else
-			{
-				// the process did not terminate normally, return "unknown"
-				value = "U";
+				case -1:
+							// an error occurred during fork()ing
+							debuglogger(DEBUG_GATHERER, LEVEL_ERROR, &info, "fork() failed.");
+							value = "U";
+							break;
+				case 0:
+							// we're the child
+							execve("/bin/sh", argv, env);
+							exit(127);	// if we get here, execve() has failed
+							break;
+				default:
+							// we're the parent
+							while ( (waitpid(pid, &status, 0) == -1) && (errno == EINTR) );
+							if (WIFEXITED(status))
+							{
+								// the process terminated normally, return the error code
+								value = inttostr(WEXITSTATUS(status));
+							}
+							else
+							{
+								// the process did not terminate normally, return "unknown"
+								debuglogger(DEBUG_MONITOR, LEVEL_NOTICE, &info, "external process terminated abnormally.");
+								value = "U";
+							}
+							break;
 			}
 		}
+		// stdout is desired
 		else
 		{
-			FILE *p_handle;
-			char temp [256] = "";
 
-			netmrg_mutex_lock(lkPipe);
-			p_handle = popen(command.c_str(), "r");
-			netmrg_mutex_unlock(lkPipe);
+			int status = 0;
+			int pdes[2];
+			volatile int parent_fd, child_fd;
+			int perr = 0;
 
-			if (p_handle == NULL)
+			//netmrg_mutex_lock(lkPipe);
+			perr = pipe(pdes);
+			//netmrg_mutex_unlock(lkPipe);
+
+			if (perr < 0)
 			{
-				debuglogger(DEBUG_GATHERER, LEVEL_ERROR, &info, "popen() failed.");
+				debuglogger(DEBUG_GATHERER, LEVEL_ERROR, &info, "pipe() failed.");
 				value = "U";
 			}
 			else
 			{
-				fgets(temp, 256, p_handle);
+				parent_fd = pdes[0];
+				child_fd  = pdes[1];
+				char buf[256];
+				size_t len;
 
-				netmrg_mutex_lock(lkPipe);
-				pclose(p_handle);
-				netmrg_mutex_unlock(lkPipe);
+				/*fd_set fds;
+				struct timeval timeout;*/
 
-				value = string(temp);
-
-				if (value == "")
+				switch (pid = fork())
 				{
-					debuglogger(DEBUG_GATHERER, LEVEL_WARNING, &info, "No data returned from script test.");
-					value = "U";
+					case -1:
+								// an error occurred during fork()ing
+								close(pdes[0]);
+								close(pdes[1]);
+								debuglogger(DEBUG_GATHERER, LEVEL_ERROR, &info, "fork() failed.");
+								value = "U";
+								break;
+					case 0:
+								// we're the child
+								close(parent_fd);
+								if (child_fd != STDOUT_FILENO)
+								{
+									dup2(child_fd, STDOUT_FILENO);
+									close(child_fd);
+								}
+								execve("/bin/sh", argv, env);
+								exit(127);	// if we get here, execve() has failed
+								break;
+					default:
+								// we're the parent
+
+								debuglogger(DEBUG_MONITOR, LEVEL_DEBUG, &info, "external process pid is " + inttostr(pid) + ", our fd is " + inttostr(parent_fd));
+								close(child_fd);
+
+								/* select() will be useful eventually for limiting the time spent on external progs - but not now 
+								FD_ZERO(&fds);
+								FD_SET(parent_fd,&fds);
+								timeout.tv_sec = 5;
+								timeout.tv_usec = 0;
+
+								// wait 5 seonds for pipe response 
+								switch(select(parent_fd + 1, &fds, NULL, NULL, &timeout))
+								{
+									case -1: debuglogger(DEBUG_GATHERER, LEVEL_ERROR, &info, "select() failed."); break;
+									case  0: debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "select() timed out."); break;
+									default: debuglogger(DEBUG_MONITOR, LEVEL_DEBUG, &info, "select() succeeded."); break;
+								}
+								*/
+
+								/* move this block to the bottom of read when using select() */
+								while ( (waitpid(pid, &status, 0) == -1) && (errno == EINTR) );
+								if (!WIFEXITED(status))
+								{
+									// the process did not terminate normally
+									debuglogger(DEBUG_MONITOR, LEVEL_NOTICE, &info, "external process terminated abnormally.");
+								}
+								else
+								{
+									debuglogger(DEBUG_MONITOR, LEVEL_DEBUG, &info, "external process terminated normally (" + inttostr(WEXITSTATUS(status)) + ")");
+								}
+
+								if ((len = read(parent_fd, (void *) buf, 255)) == -1)
+								{
+									// error during read
+									debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "read() failed.");
+									value = "U";
+								}
+								else
+								{
+									debuglogger(DEBUG_MONITOR, (len == 0 ? LEVEL_NOTICE : LEVEL_DEBUG), &info, "read() provided " + inttostr(len) + " bytes.");
+									buf[len] = '\0';
+									value = string(buf);
+									if (len == 0) value = "U";
+								}
+				
+								close(parent_fd);
+
+								break;
 				}
 			}
 		}
-		remove_params_from_env(info);
+		free_env(info, env);
 	}
 	else
 	{
@@ -485,25 +583,29 @@ string expand_parameters(DeviceInfo &info, string input)
 	return input;
 }
 
-void export_params_to_env(DeviceInfo &info)
+void params_to_env(DeviceInfo &info, char ** &env)
 {
-	#ifdef HAVE_SETENV
+	int count = info.parameters.size() + 1;
+	env = new char* [count];
+	int i = 0;
 	for (list<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
 	{
-		string name = "netmrg_" + current->name;
-		setenv(name.c_str(), current->value.c_str(), 1);
+		string env_string = "netmrg_" + current->name + "=" + current->value;
+		env[i] = new char[env_string.length() + 1];
+		strncpy(env[i], env_string.c_str(), env_string.length() + 1);
+		i++;
 	}
-	#endif
+	env[count - 1] = NULL;
+	
+	for (int i = 0; i < count; i++)
+		if (env[i] != NULL)
+			debuglogger(DEBUG_MONITOR, LEVEL_DEBUG, &info, string("Env: ") + env[i]);
 }
 
-void remove_params_from_env(DeviceInfo &info)
+void free_env(DeviceInfo &info, char ** &env)
 {
-	#ifdef HAVE_SETENV
-	for (list<ValuePair>::iterator current = info.parameters.begin(); current != info.parameters.end(); current++)
-	{
-		string name = "netmrg_" + current->name;
-		unsetenv(name.c_str());
-	}
-	#endif
+	for (int i = 0; i < info.parameters.size() + 1; i++)
+		delete [] env[i];
+	delete [] env;
 }
 
