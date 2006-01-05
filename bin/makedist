@@ -2,12 +2,12 @@
 #
 # makedist
 #
-# gets the latest cvs tree and tars it up as $version
+# gets the latest vcs tree and tars it up as $version
 #
 
 progname="netmrg"
 version=`cat share/doc/VERSION`
-cvsver=`echo $version | sed -e 's/\./_/g'`
+vcsver=`echo $version | sed -e 's/\./_/g'`
 this="$progname-$version"
 pkgdir="/tmp"
 
@@ -15,7 +15,15 @@ rm -rf $pkgdir/$this/
 rm -f $pkgdir/$this.tar.gz
 rm -f $pkgdir/$this.tar.bz2
 
-svn export -q http://svn.$progname.net/branches/$progname-$cvsver $pkgdir/$this
+svn export -q http://svn.$progname.net/branches/$progname-$vcsver $pkgdir/$this
+
 tar -C $pkgdir -czf $pkgdir/$this.tar.gz  $this
 tar -C $pkgdir -cjf $pkgdir/$this.tar.bz2 $this
+
+cd $pkgdir
+md5sum $this.tar.gz   > $this.tar.gz.md5sum
+md5sum $this.tar.bz2  > $this.tar.bz2.md5sum
+sha1sum $this.tar.gz  > $this.tar.gz.sha1sum
+sha1sum $this.tar.bz2 > $this.tar.bz2.sha1sum
+cd -
 
