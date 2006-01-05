@@ -262,12 +262,11 @@ $editgroup.
 			); // end make_display_item();
 		} // end if 0 assoc items
 		$rowcount++;
-
-
+		
+		
 		// if group is expanded, show the devices
 		if (in_array($grp_id, $_COOKIE["netmrgDevTree"]["group"]))
 		{
-			draw_group($grp_id, $depth + 1, $rowcount);
 			$dev_results = db_query("
 				SELECT dev_parents.dev_id AS id, devices.name AS name, devices.status AS status
 				FROM dev_parents
@@ -342,13 +341,13 @@ $editdevice.
 					); // end make_display_item();
 				} // end if 0 assoc items
 				$rowcount++;
-
+				
 				// if this device is expanded, show the subdevices
 				if (in_array($device_id, $_COOKIE["netmrgDevTree"]["device"]))
 				{
 					$subdev_results = db_query("
 					SELECT id, name, status FROM sub_devices WHERE dev_id={$dev_row['id']} ORDER BY type, name");
-
+					
 					while ($subdev_row = db_fetch_array($subdev_results))
 					{
 						$subdev_id = $subdev_row["id"];
@@ -415,13 +414,13 @@ $editsubdevice.
 							); // end make_display_item();
 						} // end if 0 assoc items
 						$rowcount++;
-
+						
 						// if this subdevice is expanded, show the monitors
 						if (in_array($subdev_id, $_COOKIE["netmrgDevTree"]["subdevice"]))
 						{
-
+							
 							$mon_results = db_query("SELECT id, status FROM monitors WHERE sub_dev_id={$subdev_row['id']}");
-
+							
 							// while we have monitors
 							while ($mon_row = db_fetch_array($mon_results))
 							{
@@ -462,20 +461,20 @@ $editmonitor.
 									array("text" => get_img_tag_from_status($mon_row['status']))
 								); // end make_display_item();
 								$rowcount++;
-
+								
 								// if this monitor is expanded, show the events
 								if (in_array($mon_id, $_COOKIE["netmrgDevTree"]["monitor"]))
 								{
-								$event_results = db_query("SELECT * FROM events WHERE mon_id=$mon_id");
+									$event_results = db_query("SELECT * FROM events WHERE mon_id=$mon_id");
 									$event_total = db_num_rows($event_results);
-
+									
 									// For each event
 									for ($event_count = 1; $event_count <= $event_total; ++$event_count)
 									{
 										$event_row = db_fetch_array($event_results);
 										$event_id = $event_row["id"];
 										$color = get_color_from_situation($event_row["situation"]);
-
+										
 										if ($event_row["last_status"] == 1)
 										{
 											$img = ("<img src=\"" . get_image_by_name($color . "_led_on") . "\" border=\"0\" />");
@@ -494,20 +493,26 @@ $editmonitor.
 										); // end make_display_item();
 										$rowcount++;
 									} // end event for
-
+									
 								} // end if monitor expanded
-							}
-						} // end while each monitor
-
+								
+							}// end while each monitor
+							
+						} // end if sub-device expanded
+						
 					} // end while each sub-device
-
+					
 				} // end if device expanded
-
+				
 			} // end while each device
-
+			
+			// this is down here so each group's items show up with that group, 
+			//   and not putting all the sub groups together before the devices
+			draw_group($grp_id, $depth + 1, $rowcount);
+			
 		} // end if group expanded
-
+		
 	} // end while each group
-
+	
 } // end draw_group()
 ?>

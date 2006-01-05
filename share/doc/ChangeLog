@@ -1,3 +1,6 @@
+2006.01.04  v0.19cvs  silfreed
+  - bug#0000371: Grouped + Non-Grouped display in device tree is confusing
+
 2006.01.04  v0.19cvs  balleman
   - bug#0000438: rewrote script tests using execve()
 
