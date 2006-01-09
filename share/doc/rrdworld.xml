@@ -1,0 +1,20 @@
+<rrdworld type="application"
+          icon="netmrg.png" > <!-- Size 100x66 -->
+ 
+       <name> NetMRG </name>
+     <author> Brady Alleman, Douglas E. Warner, Kevin Bonner </author>
+<description>
+A network monitoring, reporting, and graphing system. 
+Using MySQL, PHP, C++, pthreads, and RRDTOOL, it is capable of monitoring 
+thousands of arbitrary values at user-configured intervals (typically 5 minutes).
+</description>
+   <homepage> http://www.netmrg.net </homepage> 
+       <year> 2006 </year><month> 1 </month> <!-- Entry creation date -->
+    <license> GPL </license>
+
+   <!-- Optional -->   
+
+   <livesite> http://demo.netmrg.net </livesite> 
+      <email> dev@netmrg.net </email> <!-- Author contact -->
+
+</rrdworld>
