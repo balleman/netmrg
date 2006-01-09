@@ -1,3 +1,7 @@
+2006.01.08  v0.19cvs  silfreed
+  - bug#0000439: netmrg.sgml still needs maintained for the README, 
+    INSTALL, and netmrg-gatherer.1 files
+
 2006.01.04  v0.19cvs  silfreed
   - bug#0000371: Grouped + Non-Grouped display in device tree is confusing
   - bug#0000286: provide a way to check integrity of a release tarball

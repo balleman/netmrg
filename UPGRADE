@@ -1,5 +1,5 @@
 
-                          Chapter 9. Upgrade Procedure
+                          Chapter 6. Upgrade Procedure
 
    After doing a 'make install' as described in the chapter on Installing
    NetMRG, the next step is to run the web-based updater. This is
@@ -21,3 +21,11 @@
    updates that fail so that they're considered 'applied'. Once all updates
    are applied for a particular version, the database will be automatically
    updated to the latest version that has all updates applied.
+
+References
+
+   Visible links
+   . file:///home/silfreed/svn/netmrg/trunk/share/doc/txt/index.html
+   . file:///home/silfreed/svn/netmrg/trunk/share/doc/txt/installation.html
+   . file:///home/silfreed/svn/netmrg/trunk/share/doc/txt/install.html
+   . file:///home/silfreed/svn/netmrg/trunk/share/doc/txt/reference.html

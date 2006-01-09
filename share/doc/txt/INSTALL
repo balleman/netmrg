@@ -1,5 +1,5 @@
 
-                       Chapter 8. Installation Procedure
+                       Chapter 5. Installation Procedure
 
     1. Untar to some directory like /tmp/ (it will untar into a 'netmrg'
        directory)
@@ -73,16 +73,22 @@
        /etc/crontab, or run crontab -e as the netmrg user. For 'crontab -e',
        use an entry similar to this:
 
- su netmrg
- */5 * * * * /usr/local/bin/netmrg_cron.sh
- exit
+ */5 * * * * bash -c "if [ -f /usr/local/var/lock/subsys/netmrg ]; then /usr/local/bin/netmrg-gatherer; fi"
 
        To edit the master crontab, edit /etc/crontab and add a line similar
        to this:
 
- */5 * * * * netmrg /usr/local/bin/netmrg_cron.sh
+ */5 * * * * netmrg bash -c "if [ -f /usr/local/var/lock/subsys/netmrg ]; then /usr/local/bin/netmrg-gatherer; fi"
 
     8. Point your web browser at your install, and start graphing things! The
        default login is admin and the default password is nimda. Point your
        web browser at the host you built this on (something similar to
        http://yourhost.com/netmrg/) and please change your password!
+
+References
+
+   Visible links
+   . file:///home/silfreed/svn/netmrg/trunk/share/doc/txt/index.html
+   . file:///home/silfreed/svn/netmrg/trunk/share/doc/txt/installation.html
+   . file:///home/silfreed/svn/netmrg/trunk/share/doc/txt/satisfyreq.html
+   . file:///home/silfreed/svn/netmrg/trunk/share/doc/txt/upgrade.html

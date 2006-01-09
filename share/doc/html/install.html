@@ -8,7 +8,7 @@
 
   <title>Installation Procedure</title>
   <meta name="GENERATOR" content=
-  "Modular DocBook HTML Stylesheet Version 1.7" />
+  "Modular DocBook HTML Stylesheet Version 1.79" />
   <link rel="HOME" title="The NetMRG Reference" href=
   "index.html" />
   <link rel="UP" title="Installation" href="installation.html" />
@@ -41,7 +41,7 @@
   </div>
 
   <div class="CHAPTER">
-    <h1><a name="INSTALL" id="INSTALL"></a>Chapter 8. Installation
+    <h1><a name="INSTALL" id="INSTALL"></a>Chapter 5. Installation
     Procedure</h1>
 
     <ol type="1">
@@ -150,16 +150,14 @@ killall -HUP httpd
         <b class="COMMAND">crontab -e</b> as the netmrg user. For
         'crontab -e', use an entry similar to this:</p>
         <pre class="PROGRAMLISTING">
-su netmrg
-*/5 * * * * /usr/local/bin/netmrg_cron.sh
-exit
+*/5 * * * * bash -c "if [ -f /usr/local/var/lock/subsys/netmrg ]; then /usr/local/bin/netmrg-gatherer; fi"
 </pre>
 
         <p>To edit the master crontab, edit <tt class=
         "FILENAME">/etc/crontab</tt> and add a line similar to
         this:</p>
         <pre class="PROGRAMLISTING">
-*/5 * * * * netmrg /usr/local/bin/netmrg_cron.sh
+*/5 * * * * netmrg bash -c "if [ -f /usr/local/var/lock/subsys/netmrg ]; then /usr/local/bin/netmrg-gatherer; fi"
 </pre>
       </li>
 

@@ -9,6 +9,7 @@
 
 #HTML
 echo "Building HTML docs"
+rm -f share/doc/html/*.html
 docbook2html -d share/doc/netmrg.dsl#html -o share/doc/html share/doc/netmrg.sgml
 find share/doc/html -name \*.html -exec tidy -indent -asxhtml -quiet -modify {} \;
 cp share/doc/netmrg-logo-medium.png share/doc/html/
@@ -18,6 +19,7 @@ echo
 
 #MAN
 echo "Building MAN pages"
+rm -f share/doc/man/man1/*.1
 docbook2man -d share/doc/netmrg.dsl#print -o share/doc/man share/doc/netmrg.sgml
 mv share/doc/man/*.1 share/doc/man/man1
 find share/doc/man -type f -maxdepth 1 -exec rm -f {} \;
