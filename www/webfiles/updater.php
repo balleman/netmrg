@@ -191,7 +191,7 @@ $dbupdates = array(
 
 	"0.18.2" => array(), // end 0.18.2
 	
-	"0.19cvs" => array(
+	"0.19" => array(
 		array(
 			"name" => "Increase size of monitors.type_id",
 			"query" => "ALTER TABLE monitors MODIFY test_id INT NOT NULL;"
