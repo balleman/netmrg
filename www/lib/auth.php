@@ -140,7 +140,7 @@ function check_auth($level)
 function viewCheckAuth($object_id, $object_type)
 {
 	global $PERMIT;
-	check_auth($PERMIT["SingleViewOnly"]);
+	check_auth($GLOBALS['PERMIT']["SingleViewOnly"]);
 	
 	// the groups this object_id is in
 	$object_id_groups = GetGroups($object_type,$object_id);
@@ -185,7 +185,7 @@ function viewCheckAuthRedirect($object_id, $object_type)
 function EncloseGraphCheckAuth($type, $id)
 {
 	global $PERMIT;
-	check_auth($PERMIT["SingleViewOnly"]);
+	check_auth($GLOBALS['PERMIT']["SingleViewOnly"]);
 
 	// the groups this object_id is in
 	$object_id_groups = array();
@@ -228,7 +228,7 @@ function EncloseGraphCheckAuth($type, $id)
 function GraphCheckAuth($type, $id)
 {
 	global $PERMIT;
-	check_auth($PERMIT["SingleViewOnly"]);
+	check_auth($GLOBALS['PERMIT']["SingleViewOnly"]);
 
 	// the groups this object_id is in
 	$object_id_groups = array();
