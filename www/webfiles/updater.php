@@ -206,7 +206,13 @@ $dbupdates = array(
 			),
 		array(
 			"name" => "Livingston Portmaster Modems Script Test",
-			"query" => "INSERT INTO tests_script SET name='Livingston Portmaster Active Modems', cmd='pmmodems.pl %snmp_read_community% %ip%', data_type='2'")
+			"query" => "INSERT INTO tests_script SET name='Livingston Portmaster Active Modems', cmd='pmmodems.pl %snmp_read_community% %ip%', data_type='2'"),
+		array(
+			"name" => "Graph Min NULL Fix",
+			"query" => "UPDATE graphs SET min=NULL WHERE min=0"),
+		array(
+			"name" => "Graph Max NULL Fix",
+			"query" => "UPDATE graphs SET max=NULL WHERE max=0")
 	) // end 0.19cvs
 	
 ); // end $dbupdates;

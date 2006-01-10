@@ -1,3 +1,6 @@
+2006.01.09  v0.19cvs  balleman
+  - bug#0000433: problem with graph min/max
+
 2006.01.08  v0.19cvs  silfreed
   - bug#0000439: netmrg.sgml still needs maintained for the README, 
     INSTALL, and netmrg-gatherer.1 files
