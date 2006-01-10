@@ -1361,6 +1361,7 @@ function GetXMLConfig()
 
 	// RRDTool Config
 	$GLOBALS["netmrg"]["rrdtool_version"] = $xmlconfig["NETMRG"][0]["RRDTOOL"][0]["VERSION"][0]["VALUE"];
+	if (empty($GLOBALS["netmrg"]["rrdtool_version"])) { $GLOBALS["netmrg"]["rrdtool_version"] = "1.0"; }
 
 } // end GetXMLConfig();
 
