@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth($PERMIT["ReadAll"]);
+check_auth($GLOBALS['PERMIT']["ReadAll"]);
 
 // set default action
 if (empty($_REQUEST["action"]))
@@ -21,19 +21,19 @@ if (empty($_REQUEST["action"]))
 switch($_REQUEST["action"])
 {
 	case "doedit":
-		check_auth($PERMIT["ReadWrite"]);
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_edit();
 		redirect();
 		break;
 	
 	case "dodelete":
-		check_auth($PERMIT["ReadWrite"]);
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		delete_monitor($_REQUEST['mon_id']);
 		redirect();
 		break;
 	
 	case "multidodelete":
-		check_auth($PERMIT["ReadWrite"]);
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		while (list($key,$value) = each($_REQUEST["monitor"]))
 		{
 			delete_monitor($key);
@@ -42,13 +42,13 @@ switch($_REQUEST["action"])
 		break;
 		
 	case "duplicate":
-		check_auth($PERMIT["ReadWrite"]);
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		duplicate_monitor($_REQUEST['mon_id']);
 		redirect();
 		break;
 	
 	case "multiduplicate":
-		check_auth($PERMIT["ReadWrite"]);
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		while (list($key,$value) = each($_REQUEST["monitor"]))
 		{
 			duplicate_monitor($key);

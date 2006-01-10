@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth($PERMIT["ReadAll"]);
+check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 
 // if no action, set a default one
 if (empty($_REQUEST["action"]))
@@ -23,35 +23,29 @@ if (empty($_REQUEST["action"]))
 switch ($_REQUEST["action"])
 {
 	case "edit" :
-		check_auth($PERMIT["ReadWrite"]);
 		edit();
 		break;
 		
 	case "add"  :
-		check_auth($PERMIT["ReadWrite"]);
 		add();
 		break;
 		
 	case "update" :
-		check_auth($PERMIT["ReadWrite"]);
 		update_group($_REQUEST["grp_id"], $_REQUEST["grp_name"], $_REQUEST["grp_comment"], $_REQUEST["edit_parent_id"]);
 		display();
 		break;
 		
 	case "insert" :
-		check_auth($PERMIT["ReadWrite"]);
 		create_group($_REQUEST["grp_name"], $_REQUEST["grp_comment"], $_REQUEST["edit_parent_id"]);
 		display();
 		break;
 		
 	case "delete" :
-		check_auth($PERMIT["ReadWrite"]);
 		delete_group($_REQUEST["grp_id"]);
 		display();
 		break;
 		
 	case "deletemulti" :
-		check_auth($PERMIT["ReadWrite"]);
 		if (isset($_REQUEST["grp_id"]))
 		{
 			foreach ($_REQUEST["grp_id"] as $key => $val)

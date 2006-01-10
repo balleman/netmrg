@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth($PERMIT["SingleViewOnly"]);
+check_auth($GLOBALS['PERMIT']["SingleViewOnly"]);
 
 // check default action
 if (empty($_REQUEST['action']))

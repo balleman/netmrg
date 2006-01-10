@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth($PERMIT["ReadAll"]);
+check_auth($GLOBALS['PERMIT']["ReadAll"]);
 
 if (!isset($_REQUEST['index']))
 {

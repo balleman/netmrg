@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth($PERMIT["ReadAll"]);
+check_auth($GLOBALS['PERMIT']["ReadAll"]);
 
 // if no action, set a default one
 if (empty($_REQUEST["action"]))

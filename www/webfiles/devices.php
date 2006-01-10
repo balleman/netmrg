@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth($PERMIT["ReadAll"]);
+check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 
 if (!isset($_REQUEST['action']))
 {
@@ -30,7 +30,6 @@ switch ($_REQUEST["action"])
 		break;
 		
 	case "deletemulti" :
-		check_auth($PERMIT["ReadWrite"]);
 		if (isset($_REQUEST["dev_id"]))
 		{
 			foreach ($_REQUEST["dev_id"] as $key => $val)
@@ -67,7 +66,6 @@ switch ($_REQUEST["action"])
 /***** FUNCTIONS *****/
 function doedit()
 {
-	check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 	if (!empty($_REQUEST["action"]) && $_REQUEST["action"] == "doedit")
 	{
 
@@ -136,7 +134,6 @@ function doedit()
 
 function doaddtogrp()
 {
-	check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 	db_update("INSERT INTO dev_parents SET grp_id={$_REQUEST['grp_id']}, dev_id={$_REQUEST['dev_id']}");
 	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}");
 	exit();
@@ -144,7 +141,6 @@ function doaddtogrp()
 
 function dodelete()
 {
-	check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 	delete_device($_REQUEST["dev_id"], $_REQUEST["grp_id"]);
 	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
@@ -152,7 +148,6 @@ function dodelete()
 
 function doduplicate()
 {
-	check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 	duplicate_device($_REQUEST['dev_id']);
 	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}&tripid={$_REQUEST['tripid']}");
 	exit();
@@ -160,7 +155,6 @@ function doduplicate()
 
 function displayadd()
 {
-	check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 	begin_page("devices.php", "Add Device");
 	echo "<big><b>\n";
 	echo '<a href="';
@@ -170,14 +164,11 @@ function displayadd()
 	echo "devices.php?grp_id={$_REQUEST['grp_id']}&action=addtogrp&tripid={$_REQUEST['tripid']}";
 	echo '">Add an existing device to this group</a>'."\n";
 	echo "</b></big>\n";
-	
 	end_page();
 } // end if add
 
 function displayaddtogrp()
 {
-
-	check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 	begin_page("devices.php", "Add Device Group");
 	make_edit_table("Add Existing Device to a Group");
 	make_edit_select_from_table("Device:","dev_id","devices",-1);
@@ -192,7 +183,6 @@ function displayaddtogrp()
 function displayedit()
 {
 	// Display editing screen
-	check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 	begin_page("devices.php", "Edit Device");
 
 	if ($_REQUEST["action"] == "addnew")

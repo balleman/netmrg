@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth($PERMIT["ReadWrite"]);
+check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 
 // check action
 if (empty($_REQUEST["action"]))

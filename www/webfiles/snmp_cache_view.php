@@ -9,7 +9,7 @@
 ********************************************/
 
 require_once("../include/config.php");
-check_auth($PERMIT["ReadAll"]);
+check_auth($GLOBALS['PERMIT']["ReadAll"]);
 
 switch ($_REQUEST['action'])
 {
@@ -18,12 +18,12 @@ switch ($_REQUEST['action'])
 		break;
 
 	case "graph":
-		check_auth($PERMIT["ReadWrite"]);
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		make_graph();
 		break;
 
 	case "graphmultiint":
-		check_auth($PERMIT["ReadWrite"]);
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		if (isset($_REQUEST["iface"]))
 		{
 			while (list($key,$value) = each($_REQUEST["iface"]))
@@ -37,7 +37,7 @@ switch ($_REQUEST['action'])
 		break;
 
 	case "graphmultidisk":
-		check_auth($PERMIT["ReadWrite"]);
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		if (isset($_REQUEST["dindex"]))
 		{
 			while (list($key,$value) = each($_REQUEST["dindex"]))

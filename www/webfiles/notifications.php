@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth($PERMIT["ReadAll"]);
+check_auth($GLOBALS['PERMIT']["ReadAll"]);
 
 if (!empty($_REQUEST["action"]))
 {
@@ -24,17 +24,34 @@ else
 switch ($action)
 {
 	case "doedit":
-	case "doadd":		do_addedit();	break;
+	case "doadd":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		do_addedit();
+		break;
+
 	case "add":
-	case "edit":		addedit();		break;
-	case "dodelete":	do_delete();	break;
-	case "duplicate":	duplicate();	break;
-	default:			display();		break;
+	case "edit":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		addedit();
+		break;
+
+	case "dodelete":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		do_delete();
+		break;
+
+	case "duplicate":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		duplicate();
+		break;
+
+	default:
+		display();
+		break;
 }
 
 function duplicate()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	$q = db_query("SELECT * FROM notifications WHERE id = '{$_REQUEST['id']}'");
 	$r = db_fetch_array($q);
 	$r['name'] = db_escape_string($r['name']);
@@ -45,7 +62,6 @@ function duplicate()
 
 function do_addedit()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	if (!isset($disabled)) { $disabled = 0; }
 
 	if ($_REQUEST["id"] == 0)
@@ -68,7 +84,6 @@ function do_addedit()
 
 function do_delete()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	db_update("DELETE FROM notifications WHERE id='{$_REQUEST['id']}'");
 	header("Location: {$_SERVER['PHP_SELF']}");
 } // done deleting
@@ -116,7 +131,6 @@ function addedit()
 	begin_page("notifications.php", "Notifications");
 	
 		// Display editing screen
-		check_auth($PERMIT["ReadWrite"]);
 		if ($action == "add")
 		{
 			$id = 0;

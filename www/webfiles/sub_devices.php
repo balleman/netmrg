@@ -10,6 +10,7 @@
 
 
 require_once("../include/config.php");
+check_auth($GLOBALS['PERMIT']["ReadAll"]);
 
 if (!isset($_REQUEST['action']))
 {
@@ -26,16 +27,19 @@ switch ($_REQUEST["action"])
 	
 	case "multidodelete":
 	case "dodelete":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		dodelete();
 		break;
 		
 	case "add":
 	case "edit":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		displayedit();
 		break;
 	
 	case "multiduplicate":
 	case "duplicate":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		doduplicate();
 		break;
 	
@@ -51,7 +55,6 @@ function dodisplay()
 {
 	// Display the list of sub-devices for a particular device.
 
-	check_auth($PERMIT["ReadAll"]);
 	begin_page("sub_devices.php", "Sub Device");
 	js_checkbox_utils();
 	?>
@@ -141,7 +144,6 @@ function doedit()
 
 function dodelete()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	if (isset($_REQUEST['subdevice']))
 	{
 		while (list($key,$value) = each($_REQUEST["subdevice"]))
@@ -160,7 +162,6 @@ function dodelete()
 
 function doduplicate()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	if (isset($_REQUEST['subdevice']))
 	{
 		while (list($key,$value) = each($_REQUEST["subdevice"]))
@@ -180,7 +181,6 @@ function doduplicate()
 
 function displayedit()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	begin_page("sub_devices.php", "Add/Edit Sub Device");
 
 	if ($_REQUEST["action"] == "add")

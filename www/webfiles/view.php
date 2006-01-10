@@ -23,14 +23,14 @@ if (empty($_REQUEST["action"])) $_REQUEST["action"] = "";
 switch ($_REQUEST["action"])
 {
 	case "list":
-		check_auth($PERMIT["ReadWrite"]);
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 	case "view":
 		do_view();
 		break;
 	
 	case "edit":
 	case "add":
-		check_auth($PERMIT["ReadWrite"]);
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		display_edit();
 		break;
 	
@@ -39,31 +39,38 @@ switch ($_REQUEST["action"])
 		break;
 	
 	case "doadd":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_add();
 		break;
 	
 	case "doedit":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_edit();
 		break;
 	
 	case "dodelete":
 	case "multidodelete":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_delete();
 		break;
 	
 	case "move_up":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_move("up");
 		break;
 	
 	case "move_down":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_move("down");
 		break;
 
 	case "move_top":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_move("top");
 		break;
 
 	case "move_bottom":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_move("bottom");
 		break;
 	
@@ -153,8 +160,6 @@ function display_edit()
 
 function do_add()
 {
-	check_auth($PERMIT["ReadWrite"]);
-	
 	$_REQUEST["graph_id"] = "";
 	
 	if ($_REQUEST["type"] == "graph" && !empty($_REQUEST['graph_id_custom']))
@@ -177,8 +182,6 @@ function do_add()
 
 function do_edit()
 {
-	check_auth($PERMIT["ReadWrite"]);
-
 	$_REQUEST['graph_id'] = (($_REQUEST['type'] == 'graph') ? $_REQUEST['graph_id_custom'] : $_REQUEST['graph_id_template']);
 
 	db_update("UPDATE view SET
@@ -194,8 +197,6 @@ function do_edit()
 
 function do_delete()
 {
-	check_auth($PERMIT["ReadWrite"]);
-	
 	if (isset($_REQUEST["viewitem"]))
 	{
 		while (list($key,$value) = each($_REQUEST["viewitem"]))
@@ -214,8 +215,6 @@ function do_delete()
 
 function do_move($direction)
 {
-	check_auth($PERMIT["ReadWrite"]);
-	
 	if (isset($_REQUEST["viewitem"]))
 	{
 		if ($direction == "down")

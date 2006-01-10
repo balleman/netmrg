@@ -10,29 +10,56 @@
 
 
 require_once("../include/config.php");
-check_auth($PERMIT["ReadAll"]);
+check_auth($GLOBALS['PERMIT']["ReadAll"]);
 
 switch ($_REQUEST['action'])
 {
-	case 'doedit':			doedit();			break;
-	case 'move_up':			move("up");			break;
-	case 'move_down':		move("down");		break;
+	case 'doedit':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		doedit();
+		break;
+
+	case 'move_up':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		move("up");
+		break;
+
+	case 'move_down':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		move("down");
+		break;
+
 	case 'dodelete':
-	case 'multidodelete':	dodelete();			break;
+	case 'multidodelete':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		dodelete();
+		break;
+
 	case 'duplicate':
-	case 'multiduplicate':	duplicate();		break;
-	case 'edit':			
-	case 'add':				edit();				break;
-	case 'gradient':		gradient();			break;
-	default:				display();
+	case 'multiduplicate':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		duplicate();
+		break;
+
+	case 'edit':
+	case 'add':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		edit();
+		break;
+
+	case 'gradient':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		gradient();
+		break;
+
+	default:
+		display();
 }
 
 end_page();
 
 function doedit()
 {
-	check_auth($PERMIT["ReadWrite"]);
-        
 	$stats = "";
 
 	if (isset($_REQUEST["show_current"]))
@@ -82,7 +109,6 @@ function doedit()
 
 function move($direction)
 {
-	check_auth($PERMIT["ReadWrite"]);
 	if (isset($_REQUEST["graph_items"]))
 	{
 		if ($direction == "down")
@@ -103,7 +129,6 @@ function move($direction)
 
 function dodelete()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	if (isset($_REQUEST["graph_items"]))
 	{
 		while (list($key,$value) = each($_REQUEST["graph_items"]))
@@ -122,7 +147,6 @@ function dodelete()
 
 function gradient()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	if (isset($_REQUEST["graph_items"]))
 	{
 		// get bottom and top colors
@@ -170,7 +194,6 @@ function gradient()
 
 function duplicate()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	if (isset($_REQUEST["graph_items"]))
 	{
 		while (list($key,$value) = each($_REQUEST["graph_items"]))
@@ -284,7 +307,7 @@ function display()
 	); // end make_checkbox_command
 	make_status_line("graph item", $ds_count);
 ?>
-	</form>	
+	</form>
 	</table>
 <?php
 
@@ -293,7 +316,6 @@ function display()
 function edit()
 {
 
-	check_auth($PERMIT["ReadWrite"]);
 	begin_page("graph_items.php", "Add/Edit Graph Item");
 
 	if ($_REQUEST["action"] == "add")

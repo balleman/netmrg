@@ -10,7 +10,7 @@
 
 
 require_once("../include/config.php");
-check_auth($PERMIT["ReadAll"]);
+check_auth($GLOBALS['PERMIT']["ReadAll"]);
 
 if (!isset($_REQUEST['action']))
 {
@@ -19,16 +19,41 @@ if (!isset($_REQUEST['action']))
 
 switch ($_REQUEST['action'])
 {
-	case 'doedit':				doedit();			break;
+	case 'doedit':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		doedit();
+		break;
+
 	case 'dodelete':
-	case 'multidodelete':		dodelete();			break;
+	case 'multidodelete':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		dodelete();
+		break;
+
 	case 'duplicate':
-	case 'multiduplicate':		duplicate();		break;
-	case 'edit':				
-	case 'add':					edit();				break;
-	case 'applytemplates':		applytemplates();	break;
-	case 'doapplytemplates':	doapplytemplates();	break;
-	default:					display();
+	case 'multiduplicate':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		duplicate();
+		break;
+
+	case 'edit':
+	case 'add':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		edit();
+		break;
+
+	case 'applytemplates':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		applytemplates();
+		break;
+
+	case 'doapplytemplates':
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		doapplytemplates();
+		break;
+
+	default:
+		display();
 }
 
 end_page();
@@ -37,7 +62,6 @@ end_page();
 
 function doedit()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	if (empty($_REQUEST["graph_id"]))
 	{
 		$command = "INSERT INTO";
@@ -82,8 +106,6 @@ function doedit()
 
 function dodelete()
 {
-	check_auth($PERMIT["ReadWrite"]);
-	
 	if (isset($_REQUEST["graph"]))
 	{
 		while (list($key,$value) = each($_REQUEST["graph"]))
@@ -102,8 +124,6 @@ function dodelete()
 
 function duplicate()
 {
-	check_auth($PERMIT["ReadWrite"]);
-
 	if (isset($_REQUEST["graph"]))
 	{
 		while (list($key,$value) = each($_REQUEST["graph"]))
@@ -122,8 +142,6 @@ function duplicate()
 
 function applytemplates()
 {
-	check_auth($PERMIT["ReadWrite"]);
-
 	begin_page("graphs.php", "Apply Templates");
 	js_checkbox_utils("edit");
 	make_edit_table("Apply Templates");
@@ -187,8 +205,6 @@ function applytemplates()
 
 function doapplytemplates()
 {
-	check_auth($PERMIT["ReadWrite"]);
-
 	while (list($skey,$svalue) = each($_REQUEST["subdev_id"]))
 	{
 		while (list($gkey,$gvalue) = each($_REQUEST["graph"]))
@@ -295,7 +311,6 @@ function display()
 function edit()
 {
 	// Display editing screen
-	check_auth($PERMIT["ReadWrite"]);
 	begin_page("graphs.php", "Graphs");
 
 	if ($_REQUEST["action"] == "edit")

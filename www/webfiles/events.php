@@ -10,30 +10,35 @@
 
 
 require_once("../include/config.php");
-check_auth($PERMIT["ReadAll"]);
+check_auth($GLOBALS['PERMIT']["ReadAll"]);
 
-if (isset($_REQUEST['action']))
+switch ($_REQUEST['action'])
 {
-	switch ($_REQUEST['action'])
-	{
-		case "edit":			display_edit(); 	break;
-		case "add":				display_edit(); 	break;
-		case "doedit":			do_edit(); 			break;
-		case "multidodelete":
-		case "dodelete":		do_delete(); 		break;
-	}
-}
-else
-{
-	do_display();
+	case "edit":
+	case "add":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		display_edit();
+		break;
+
+	case "doedit":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		do_edit();
+		break;
+
+	case "multidodelete":
+	case "dodelete":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+		do_delete();
+		break;
+
+	default:
+		do_display();
 }
 
 function do_display()
 {
 
 	// Display a list
-
-	check_auth($PERMIT["ReadAll"]);
 	begin_page("events.php", "Events");
 	js_checkbox_utils();
 	?>
@@ -96,7 +101,6 @@ function do_display()
 
 function display_edit()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	begin_page("events.php", "Edit Event");
 
 	if ($_REQUEST['action'] == "add")
@@ -129,8 +133,6 @@ function display_edit()
 
 function do_edit()
 {
-	check_auth($PERMIT["ReadWrite"]);
-
 	if ($_REQUEST['id'] == 0)
 	{
 		$pre  = "INSERT INTO";
@@ -148,7 +150,6 @@ function do_edit()
 
 function do_delete()
 {
-	check_auth($PERMIT["ReadWrite"]);
 	if (isset($_REQUEST['event']))
 	{
 		while (list($key,$value) = each($_REQUEST["event"]))

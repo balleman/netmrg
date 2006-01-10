@@ -9,7 +9,8 @@
 ********************************************/
 
 require_once("../include/config.php");
-check_auth($PERMIT["ReadAll"]);
+check_auth($GLOBALS['PERMIT']["ReadAll"]);
+
 
 if (!isset($_REQUEST["action"]))
 	$action = "";
@@ -28,13 +29,13 @@ switch ($action)
 		break;
 
 	case "doedit":
-		check_auth($PERMIT["ReadWrite"]);
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_edit();
 		break;
 
 	case "multidodelete":
 	case "dodelete":
-		check_auth($PERMIT["ReadWrite"]);
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_delete();
 		break;
 
