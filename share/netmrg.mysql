@@ -1,732 +1,748 @@
--- MySQL dump 8.23
+-- MySQL dump 10.9
 --
 -- Host: localhost    Database: netmrg
----------------------------------------------------------
--- Server version	3.23.58
+-- ------------------------------------------------------
+-- Server version	4.1.16
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
 -- Table structure for table `conditions`
 --
 
-CREATE TABLE conditions (
-  id int(11) NOT NULL auto_increment,
-  event_id int(11) NOT NULL default '0',
-  value bigint(20) NOT NULL default '0',
-  condition smallint(6) NOT NULL default '0',
-  logic_condition smallint(6) NOT NULL default '0',
-  value_type smallint(6) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY event_id (event_id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `conditions`;
+CREATE TABLE `conditions` (
+  `id` int(11) NOT NULL auto_increment,
+  `event_id` int(11) NOT NULL default '0',
+  `value` bigint(20) NOT NULL default '0',
+  `condition` smallint(6) NOT NULL default '0',
+  `logic_condition` smallint(6) NOT NULL default '0',
+  `value_type` smallint(6) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `event_id` (`event_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `conditions`
 --
 
 
+/*!40000 ALTER TABLE `conditions` DISABLE KEYS */;
+LOCK TABLES `conditions` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `conditions` ENABLE KEYS */;
 
 --
 -- Table structure for table `data_types`
 --
 
-CREATE TABLE data_types (
-  id tinyint(4) NOT NULL auto_increment,
-  rrd_type varchar(50) NOT NULL default '',
-  name varchar(50) NOT NULL default '',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `data_types`;
+CREATE TABLE `data_types` (
+  `id` tinyint(4) NOT NULL auto_increment,
+  `rrd_type` varchar(50) NOT NULL default '',
+  `name` varchar(50) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `data_types`
 --
 
 
-INSERT INTO data_types VALUES (1,'GAUGE','Gauge');
-INSERT INTO data_types VALUES (2,'COUNTER','Counter');
-INSERT INTO data_types VALUES (3,'DERIVE','Derive (a counter without overflow protection)');
-INSERT INTO data_types VALUES (4,'ABSOLUTE','Absolute (a counter reset when read)');
-INSERT INTO data_types VALUES (-1,'','Not Graphed');
+/*!40000 ALTER TABLE `data_types` DISABLE KEYS */;
+LOCK TABLES `data_types` WRITE;
+INSERT INTO `data_types` VALUES (1,'GAUGE','Gauge'),(2,'COUNTER','Counter'),(3,'DERIVE','Derive (a counter without overflow protection)'),(4,'ABSOLUTE','Absolute (a counter reset when read)'),(-1,'','Not Graphed');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `data_types` ENABLE KEYS */;
 
 --
 -- Table structure for table `dev_parents`
 --
 
-CREATE TABLE dev_parents (
-  grp_id int(11) NOT NULL default '0',
-  dev_id int(11) NOT NULL default '0',
-  KEY grp_id (grp_id,dev_id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `dev_parents`;
+CREATE TABLE `dev_parents` (
+  `grp_id` int(11) NOT NULL default '0',
+  `dev_id` int(11) NOT NULL default '0',
+  KEY `grp_id` (`grp_id`,`dev_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dev_parents`
 --
 
 
-INSERT INTO dev_parents VALUES (1,1);
+/*!40000 ALTER TABLE `dev_parents` DISABLE KEYS */;
+LOCK TABLES `dev_parents` WRITE;
+INSERT INTO `dev_parents` VALUES (1,1);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `dev_parents` ENABLE KEYS */;
 
 --
 -- Table structure for table `dev_types`
 --
 
-CREATE TABLE dev_types (
-  id int(11) NOT NULL auto_increment,
-  name varchar(200) NOT NULL default '',
-  comment varchar(250) NOT NULL default '',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `dev_types`;
+CREATE TABLE `dev_types` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(200) NOT NULL default '',
+  `comment` varchar(250) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `dev_types`
 --
 
 
-INSERT INTO dev_types VALUES (8,'Linux Box','');
+/*!40000 ALTER TABLE `dev_types` DISABLE KEYS */;
+LOCK TABLES `dev_types` WRITE;
+INSERT INTO `dev_types` VALUES (8,'Linux Box','');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `dev_types` ENABLE KEYS */;
 
 --
 -- Table structure for table `devices`
 --
 
-CREATE TABLE devices (
-  id int(11) NOT NULL auto_increment,
-  name varchar(50) NOT NULL default '',
-  ip varchar(50) NOT NULL default '',
-  snmp_read_community varchar(200) NOT NULL default '',
-  dev_type int(11) NOT NULL default '0',
-  snmp_recache_method smallint(6) NOT NULL default '0',
-  disabled tinyint(4) NOT NULL default '0',
-  snmp_avoided tinyint(4) NOT NULL default '0',
-  snmp_uptime bigint(20) default '0',
-  snmp_ifnumber int(11) NOT NULL default '0',
-  snmp_version tinyint(4) NOT NULL default '1',
-  snmp_timeout int(10) unsigned NOT NULL default '1000000',
-  snmp_retries tinyint(3) unsigned NOT NULL default '3',
-  snmp_port smallint(5) unsigned NOT NULL default '161',
-  status smallint(6) NOT NULL default '0',
-  no_snmp_uptime_check tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY disabled (disabled)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `devices`;
+CREATE TABLE `devices` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(50) NOT NULL default '',
+  `ip` varchar(50) NOT NULL default '',
+  `snmp_read_community` varchar(200) NOT NULL default '',
+  `dev_type` int(11) NOT NULL default '0',
+  `snmp_recache_method` smallint(6) NOT NULL default '0',
+  `disabled` tinyint(4) NOT NULL default '0',
+  `snmp_avoided` tinyint(4) NOT NULL default '0',
+  `snmp_uptime` bigint(20) default '0',
+  `snmp_ifnumber` int(11) NOT NULL default '0',
+  `snmp_version` tinyint(4) NOT NULL default '1',
+  `snmp_timeout` int(10) unsigned NOT NULL default '1000000',
+  `snmp_retries` tinyint(3) unsigned NOT NULL default '3',
+  `snmp_port` smallint(5) unsigned NOT NULL default '161',
+  `status` smallint(6) NOT NULL default '0',
+  `no_snmp_uptime_check` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `disabled` (`disabled`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `devices`
 --
 
 
-INSERT INTO devices VALUES (1,'Template Linux Box','127.0.0.1','',8,1,1,0,0,0,0,1000000,3,161,0,0);
+/*!40000 ALTER TABLE `devices` DISABLE KEYS */;
+LOCK TABLES `devices` WRITE;
+INSERT INTO `devices` VALUES (1,'Template Linux Box','127.0.0.1','',8,1,1,0,0,0,0,1000000,3,161,0,0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `devices` ENABLE KEYS */;
 
 --
 -- Table structure for table `event_log`
 --
 
-CREATE TABLE event_log (
-  id bigint(20) NOT NULL auto_increment,
-  event_id int(11) NOT NULL default '0',
-  date bigint(20) NOT NULL default '0',
-  time_since_last_change bigint(20) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY event_id (event_id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `event_log`;
+CREATE TABLE `event_log` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `event_id` int(11) NOT NULL default '0',
+  `date` bigint(20) NOT NULL default '0',
+  `time_since_last_change` bigint(20) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `event_id` (`event_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `event_log`
 --
 
 
+/*!40000 ALTER TABLE `event_log` DISABLE KEYS */;
+LOCK TABLES `event_log` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `event_log` ENABLE KEYS */;
 
 --
 -- Table structure for table `events`
 --
 
-CREATE TABLE events (
-  id int(11) NOT NULL auto_increment,
-  mon_id int(11) NOT NULL default '0',
-  trigger_type tinyint(4) NOT NULL default '2',
-  last_status int(11) NOT NULL default '0',
-  situation int(11) NOT NULL default '0',
-  name varchar(100) NOT NULL default '',
-  last_triggered bigint(20) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY monid_trigger (mon_id,trigger_type)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `events`;
+CREATE TABLE `events` (
+  `id` int(11) NOT NULL auto_increment,
+  `mon_id` int(11) NOT NULL default '0',
+  `trigger_type` tinyint(4) NOT NULL default '2',
+  `last_status` int(11) NOT NULL default '0',
+  `situation` int(11) NOT NULL default '0',
+  `name` varchar(100) NOT NULL default '',
+  `last_triggered` bigint(20) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `monid_trigger` (`mon_id`,`trigger_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `events`
 --
 
 
+/*!40000 ALTER TABLE `events` DISABLE KEYS */;
+LOCK TABLES `events` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `events` ENABLE KEYS */;
 
 --
 -- Table structure for table `graph_ds`
 --
 
-CREATE TABLE graph_ds (
-  id int(11) NOT NULL auto_increment,
-  mon_id int(11) NOT NULL default '0',
-  color varchar(10) NOT NULL default '',
-  type tinyint(2) NOT NULL default '0',
-  graph_id int(11) NOT NULL default '0',
-  label varchar(100) NOT NULL default '',
-  alignment tinyint(2) NOT NULL default '1',
-  stats set('CURRENT','AVERAGE','MAXIMUM','SUMS','INTEGER','MULTSUM') NOT NULL default 'CURRENT,AVERAGE,MAXIMUM',
-  position int(11) NOT NULL default '0',
-  multiplier varchar(100) NOT NULL default '1',
-  start_time varchar(20) NOT NULL default '',
-  end_time varchar(20) NOT NULL default '',
-  PRIMARY KEY  (id),
-  KEY graph_id (graph_id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `graph_ds`;
+CREATE TABLE `graph_ds` (
+  `id` int(11) NOT NULL auto_increment,
+  `mon_id` int(11) NOT NULL default '0',
+  `color` varchar(10) NOT NULL default '',
+  `type` tinyint(2) NOT NULL default '0',
+  `graph_id` int(11) NOT NULL default '0',
+  `label` varchar(100) NOT NULL default '',
+  `alignment` tinyint(2) NOT NULL default '1',
+  `stats` set('CURRENT','AVERAGE','MAXIMUM','SUMS','INTEGER','MULTSUM') NOT NULL default 'CURRENT,AVERAGE,MAXIMUM',
+  `position` int(11) NOT NULL default '0',
+  `multiplier` varchar(100) NOT NULL default '1',
+  `start_time` varchar(20) NOT NULL default '',
+  `end_time` varchar(20) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `graph_id` (`graph_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `graph_ds`
 --
 
 
-INSERT INTO graph_ds VALUES (1,2,'#FF6600',4,1,'System',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
-INSERT INTO graph_ds VALUES (2,1,'#3366FF',5,1,'User',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','');
-INSERT INTO graph_ds VALUES (3,3,'#00CC66',5,1,'Nice',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','');
-INSERT INTO graph_ds VALUES (4,-2,'#000000',1,1,'Total',1,'CURRENT,AVERAGE,MAXIMUM',4,'1','','');
-INSERT INTO graph_ds VALUES (5,4,'#FF9900',4,2,'1 Minute',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
-INSERT INTO graph_ds VALUES (6,5,'#330066',2,2,'5 Minute',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','');
-INSERT INTO graph_ds VALUES (7,6,'#990000',2,2,'15 Minute',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','');
-INSERT INTO graph_ds VALUES (8,7,'#330066',4,3,'TCP Connections',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
-INSERT INTO graph_ds VALUES (9,8,'#330066',4,4,'Users',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
-INSERT INTO graph_ds VALUES (10,9,'#330066',4,5,'Processes',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
-INSERT INTO graph_ds VALUES (11,11,'#CC3300',4,6,'Swap',1,'CURRENT,AVERAGE,MAXIMUM',1,'1024','','');
-INSERT INTO graph_ds VALUES (12,10,'#FF9933',5,6,'RAM',1,'CURRENT,AVERAGE,MAXIMUM',2,'1024','','');
-INSERT INTO graph_ds VALUES (13,-2,'#000000',1,6,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','');
-INSERT INTO graph_ds VALUES (14,12,'#00CC00',4,7,'Inbound',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','');
-INSERT INTO graph_ds VALUES (15,13,'#0000CC',2,7,'Outbound',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','');
-INSERT INTO graph_ds VALUES (16,16,'#333399',4,8,'Used',1,'CURRENT,AVERAGE,MAXIMUM',1,'1024','','');
-INSERT INTO graph_ds VALUES (17,15,'#3399FF',5,8,'Available',1,'CURRENT,AVERAGE,MAXIMUM',2,'1024','','');
-INSERT INTO graph_ds VALUES (18,-2,'#000000',1,8,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','');
+/*!40000 ALTER TABLE `graph_ds` DISABLE KEYS */;
+LOCK TABLES `graph_ds` WRITE;
+INSERT INTO `graph_ds` VALUES (1,2,'#FF6600',4,1,'System',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','',''),(2,1,'#3366FF',5,1,'User',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','',''),(3,3,'#00CC66',5,1,'Nice',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','',''),(4,-2,'#000000',1,1,'Total',1,'CURRENT,AVERAGE,MAXIMUM',4,'1','',''),(5,4,'#FF9900',4,2,'1 Minute',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','',''),(6,5,'#330066',2,2,'5 Minute',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','',''),(7,6,'#990000',2,2,'15 Minute',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','',''),(8,7,'#330066',4,3,'TCP Connections',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','',''),(9,8,'#330066',4,4,'Users',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','',''),(10,9,'#330066',4,5,'Processes',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','',''),(11,11,'#CC3300',4,6,'Swap',1,'CURRENT,AVERAGE,MAXIMUM',1,'1024','',''),(12,10,'#FF9933',5,6,'RAM',1,'CURRENT,AVERAGE,MAXIMUM',2,'1024','',''),(13,-2,'#000000',1,6,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','',''),(14,12,'#00CC00',4,7,'Inbound',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','',''),(15,13,'#0000CC',2,7,'Outbound',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','',''),(16,16,'#333399',4,8,'Used',1,'CURRENT,AVERAGE,MAXIMUM',1,'1024','',''),(17,15,'#3399FF',5,8,'Available',1,'CURRENT,AVERAGE,MAXIMUM',2,'1024','',''),(18,-2,'#000000',1,8,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `graph_ds` ENABLE KEYS */;
 
 --
 -- Table structure for table `graphs`
 --
 
-CREATE TABLE graphs (
-  id int(11) NOT NULL auto_increment,
-  name varchar(100) NOT NULL default '',
-  title varchar(100) NOT NULL default '',
-  comment varchar(255) NOT NULL default '',
-  width smallint(4) NOT NULL default '0',
-  height smallint(4) NOT NULL default '0',
-  vert_label varchar(100) NOT NULL default '',
-  type enum('custom','template') NOT NULL default 'custom',
-  options set('nolegend','logarithmic') NOT NULL default '',
-  base int(11) NOT NULL default '1000',
-  max int(11) default NULL,
-  min int(11) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `graphs`;
+CREATE TABLE `graphs` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL default '',
+  `title` varchar(100) NOT NULL default '',
+  `comment` varchar(255) NOT NULL default '',
+  `width` smallint(4) NOT NULL default '0',
+  `height` smallint(4) NOT NULL default '0',
+  `vert_label` varchar(100) NOT NULL default '',
+  `type` enum('custom','template') NOT NULL default 'custom',
+  `options` set('nolegend','logarithmic') NOT NULL default '',
+  `base` int(11) NOT NULL default '1000',
+  `max` int(11) default NULL,
+  `min` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `graphs`
 --
 
 
-INSERT INTO graphs VALUES (1,'Linux Box - CPU Utilization','%dev_name% - CPU Utilization','',575,100,'% Usage','template','',1000,NULL,NULL);
-INSERT INTO graphs VALUES (2,'Linux Box - Load Average','%dev_name% - Load Average','',575,100,'run queue size','template','',1000,NULL,NULL);
-INSERT INTO graphs VALUES (3,'Linux Box - TCP Connections','%dev_name% - TCP Connections','',575,100,'Connections','template','',1000,NULL,NULL);
-INSERT INTO graphs VALUES (4,'Linux Box - Logged In Users','%dev_name% - Logged In Users','',575,100,'Users','template','',1000,NULL,NULL);
-INSERT INTO graphs VALUES (5,'Linux Box - System Processes','%dev_name% - System Processes','',575,100,'Processes','template','',1000,NULL,NULL);
-INSERT INTO graphs VALUES (6,'Linux Box - Available Memory','%dev_name% - Available Memory','',575,100,'Bytes','template','',1024,NULL,NULL);
-INSERT INTO graphs VALUES (7,'Linux Box - LAN Traffic','%dev_name% - %ifDescr%','Interface: %ifDescr%%n       IP: %ifIP%',575,100,'bytes / sec','template','',1000,NULL,NULL);
-INSERT INTO graphs VALUES (8,'Linux Box - Disk Utilization','%dev_name% - %dskPath%','',575,100,'Bytes','template','',1024,NULL,NULL);
+/*!40000 ALTER TABLE `graphs` DISABLE KEYS */;
+LOCK TABLES `graphs` WRITE;
+INSERT INTO `graphs` VALUES (1,'Linux Box - CPU Utilization','%dev_name% - CPU Utilization','',575,100,'% Usage','template','',1000,NULL,NULL),(2,'Linux Box - Load Average','%dev_name% - Load Average','',575,100,'run queue size','template','',1000,NULL,NULL),(3,'Linux Box - TCP Connections','%dev_name% - TCP Connections','',575,100,'Connections','template','',1000,NULL,NULL),(4,'Linux Box - Logged In Users','%dev_name% - Logged In Users','',575,100,'Users','template','',1000,NULL,NULL),(5,'Linux Box - System Processes','%dev_name% - System Processes','',575,100,'Processes','template','',1000,NULL,NULL),(6,'Linux Box - Available Memory','%dev_name% - Available Memory','',575,100,'Bytes','template','',1024,NULL,NULL),(7,'Linux Box - LAN Traffic','%dev_name% - %ifDescr%','Interface: %ifDescr%%n       IP: %ifIP%',575,100,'bytes / sec','template','',1000,NULL,NULL),(8,'Linux Box - Disk Utilization','%dev_name% - %dskPath%','',575,100,'Bytes','template','',1024,NULL,NULL);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `graphs` ENABLE KEYS */;
 
 --
 -- Table structure for table `groups`
 --
 
-CREATE TABLE groups (
-  id int(11) NOT NULL auto_increment,
-  name varchar(100) NOT NULL default '',
-  comment varchar(200) NOT NULL default '',
-  parent_id int(11) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `groups`;
+CREATE TABLE `groups` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL default '',
+  `comment` varchar(200) NOT NULL default '',
+  `parent_id` int(11) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `groups`
 --
 
 
-INSERT INTO groups VALUES (1,'Template Group','',0);
+/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
+LOCK TABLES `groups` WRITE;
+INSERT INTO `groups` VALUES (1,'Template Group','',0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 
 --
 -- Table structure for table `log`
 --
 
-CREATE TABLE log (
-  id bigint(20) NOT NULL auto_increment,
-  date datetime NOT NULL default '0000-00-00 00:00:00',
-  dev_id int(11) default NULL,
-  subdev_id int(11) default NULL,
-  mon_id int(11) default NULL,
-  level int(11) NOT NULL default '0',
-  component int(11) NOT NULL default '0',
-  message varchar(200) NOT NULL default '',
-  PRIMARY KEY  (id),
-  KEY date (date),
-  KEY dev_id (dev_id),
-  KEY subdev_id (subdev_id),
-  KEY mon_id (mon_id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `log`;
+CREATE TABLE `log` (
+  `id` bigint(20) NOT NULL auto_increment,
+  `date` datetime NOT NULL default '0000-00-00 00:00:00',
+  `dev_id` int(11) default NULL,
+  `subdev_id` int(11) default NULL,
+  `mon_id` int(11) default NULL,
+  `level` int(11) NOT NULL default '0',
+  `component` int(11) NOT NULL default '0',
+  `message` varchar(200) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `date` (`date`),
+  KEY `dev_id` (`dev_id`),
+  KEY `subdev_id` (`subdev_id`),
+  KEY `mon_id` (`mon_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `log`
 --
 
 
+/*!40000 ALTER TABLE `log` DISABLE KEYS */;
+LOCK TABLES `log` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `log` ENABLE KEYS */;
 
 --
 -- Table structure for table `monitors`
 --
 
-CREATE TABLE monitors (
-  id int(11) NOT NULL auto_increment,
-  sub_dev_id int(11) NOT NULL default '0',
-  data_type tinyint(4) NOT NULL default '0',
-  min_val bigint(20) default NULL,
-  max_val bigint(20) default NULL,
-  tuned tinyint(4) NOT NULL default '0',
-  test_type tinyint(4) NOT NULL default '0',
-  test_id int(4) NOT NULL default '0',
-  test_params varchar(150) NOT NULL default '',
-  last_val bigint(20) default NULL,
-  delta_val bigint(20) default NULL,
-  last_time datetime default NULL,
-  delta_time bigint(20) default NULL,
-  status smallint(6) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY sub_dev_id (sub_dev_id),
-  KEY template_index (sub_dev_id,test_id,test_type,test_params)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `monitors`;
+CREATE TABLE `monitors` (
+  `id` int(11) NOT NULL auto_increment,
+  `sub_dev_id` int(11) NOT NULL default '0',
+  `data_type` tinyint(4) NOT NULL default '0',
+  `min_val` bigint(20) default NULL,
+  `max_val` bigint(20) default NULL,
+  `tuned` tinyint(4) NOT NULL default '0',
+  `test_type` tinyint(4) NOT NULL default '0',
+  `test_id` int(11) NOT NULL default '0',
+  `test_params` varchar(150) NOT NULL default '',
+  `last_val` bigint(20) default NULL,
+  `delta_val` bigint(20) default NULL,
+  `last_time` datetime default NULL,
+  `delta_time` bigint(20) default NULL,
+  `status` smallint(6) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `sub_dev_id` (`sub_dev_id`),
+  KEY `template_index` (`sub_dev_id`,`test_id`,`test_type`,`test_params`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `monitors`
 --
 
 
-INSERT INTO monitors VALUES (1,1,2,0,405,0,2,5,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (2,1,2,0,405,0,2,7,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (3,1,2,0,405,0,2,8,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (4,1,1,NULL,NULL,0,2,9,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (5,1,1,NULL,NULL,0,2,10,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (6,1,1,NULL,NULL,0,2,11,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (7,1,1,NULL,NULL,0,2,18,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (8,1,1,NULL,NULL,0,2,3,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (9,1,1,NULL,NULL,0,2,2,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (10,1,1,NULL,NULL,0,2,13,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (11,1,1,NULL,NULL,0,2,12,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (12,2,2,0,10000000,0,2,39,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (13,2,2,0,100000000,0,2,38,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (14,2,2,0,100000000,0,2,40,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (15,3,1,NULL,NULL,0,2,43,'',NULL,NULL,NULL,NULL,0);
-INSERT INTO monitors VALUES (16,3,1,NULL,NULL,0,2,44,'',NULL,NULL,NULL,NULL,0);
+/*!40000 ALTER TABLE `monitors` DISABLE KEYS */;
+LOCK TABLES `monitors` WRITE;
+INSERT INTO `monitors` VALUES (1,1,2,0,405,0,2,5,'',NULL,NULL,NULL,NULL,0),(2,1,2,0,405,0,2,7,'',NULL,NULL,NULL,NULL,0),(3,1,2,0,405,0,2,8,'',NULL,NULL,NULL,NULL,0),(4,1,1,NULL,NULL,0,2,9,'',NULL,NULL,NULL,NULL,0),(5,1,1,NULL,NULL,0,2,10,'',NULL,NULL,NULL,NULL,0),(6,1,1,NULL,NULL,0,2,11,'',NULL,NULL,NULL,NULL,0),(7,1,1,NULL,NULL,0,2,18,'',NULL,NULL,NULL,NULL,0),(8,1,1,NULL,NULL,0,2,3,'',NULL,NULL,NULL,NULL,0),(9,1,1,NULL,NULL,0,2,2,'',NULL,NULL,NULL,NULL,0),(10,1,1,NULL,NULL,0,2,13,'',NULL,NULL,NULL,NULL,0),(11,1,1,NULL,NULL,0,2,12,'',NULL,NULL,NULL,NULL,0),(12,2,2,0,10000000,0,2,39,'',NULL,NULL,NULL,NULL,0),(13,2,2,0,100000000,0,2,38,'',NULL,NULL,NULL,NULL,0),(14,2,2,0,100000000,0,2,40,'',NULL,NULL,NULL,NULL,0),(15,3,1,NULL,NULL,0,2,43,'',NULL,NULL,NULL,NULL,0),(16,3,1,NULL,NULL,0,2,44,'',NULL,NULL,NULL,NULL,0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `monitors` ENABLE KEYS */;
 
 --
 -- Table structure for table `notifications`
 --
 
-CREATE TABLE notifications (
-  id int(11) NOT NULL auto_increment,
-  name varchar(100) NOT NULL default '',
-  command varchar(250) NOT NULL default '',
-  disabled tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `notifications`;
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(100) NOT NULL default '',
+  `command` varchar(250) NOT NULL default '',
+  `disabled` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `notifications`
 --
 
 
-INSERT INTO notifications VALUES (1,'Broadcast message to linux users','wall \'%dev_name%: %event_name%\'',0);
+/*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
+LOCK TABLES `notifications` WRITE;
+INSERT INTO `notifications` VALUES (1,'Broadcast message to linux users','wall \'%dev_name%: %event_name%\'',0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 
 --
 -- Table structure for table `responses`
 --
 
-CREATE TABLE responses (
-  id int(11) NOT NULL auto_increment,
-  event_id int(11) NOT NULL default '0',
-  notification_id int(11) NOT NULL default '0',
-  parameters varchar(100) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `responses`;
+CREATE TABLE `responses` (
+  `id` int(11) NOT NULL auto_increment,
+  `event_id` int(11) NOT NULL default '0',
+  `notification_id` int(11) NOT NULL default '0',
+  `parameters` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `responses`
 --
 
 
+/*!40000 ALTER TABLE `responses` DISABLE KEYS */;
+LOCK TABLES `responses` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `responses` ENABLE KEYS */;
 
 --
 -- Table structure for table `snmp_disk_cache`
 --
 
-CREATE TABLE snmp_disk_cache (
-  dev_id int(11) NOT NULL default '0',
-  disk_index int(11) NOT NULL default '0',
-  disk_path varchar(255) default NULL,
-  disk_device varchar(255) default NULL,
-  KEY dev_id (dev_id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `snmp_disk_cache`;
+CREATE TABLE `snmp_disk_cache` (
+  `dev_id` int(11) NOT NULL default '0',
+  `disk_index` int(11) NOT NULL default '0',
+  `disk_path` varchar(255) default NULL,
+  `disk_device` varchar(255) default NULL,
+  KEY `dev_id` (`dev_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `snmp_disk_cache`
 --
 
 
+/*!40000 ALTER TABLE `snmp_disk_cache` DISABLE KEYS */;
+LOCK TABLES `snmp_disk_cache` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `snmp_disk_cache` ENABLE KEYS */;
 
 --
 -- Table structure for table `snmp_interface_cache`
 --
 
-CREATE TABLE snmp_interface_cache (
-  dev_id int(11) NOT NULL default '0',
-  ifIndex int(11) NOT NULL default '0',
-  ifName varchar(255) default NULL,
-  ifDescr varchar(255) default NULL,
-  ifAlias varchar(255) default NULL,
-  ifIP varchar(15) default NULL,
-  ifMAC varchar(30) default NULL,
-  ifType smallint(6) NOT NULL default '0',
-  ifAdminStatus smallint(6) NOT NULL default '0',
-  ifOperStatus smallint(6) NOT NULL default '0',
-  ifSpeed int(11) NOT NULL default '0',
-  KEY ifIndex (dev_id,ifIndex),
-  KEY ifName (dev_id,ifName),
-  KEY ifDescr (dev_id,ifDescr),
-  KEY ifAlias (dev_id,ifAlias),
-  KEY ifIP (dev_id,ifIP),
-  KEY ifMAC (dev_id,ifMAC),
-  KEY dev_id (dev_id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `snmp_interface_cache`;
+CREATE TABLE `snmp_interface_cache` (
+  `dev_id` int(11) NOT NULL default '0',
+  `ifIndex` int(11) NOT NULL default '0',
+  `ifName` varchar(255) default NULL,
+  `ifDescr` varchar(255) default NULL,
+  `ifAlias` varchar(255) default NULL,
+  `ifIP` varchar(15) default NULL,
+  `ifMAC` varchar(30) default NULL,
+  `ifType` smallint(6) NOT NULL default '0',
+  `ifAdminStatus` smallint(6) NOT NULL default '0',
+  `ifOperStatus` smallint(6) NOT NULL default '0',
+  `ifSpeed` int(11) NOT NULL default '0',
+  KEY `ifIndex` (`dev_id`,`ifIndex`),
+  KEY `ifName` (`dev_id`,`ifName`),
+  KEY `ifDescr` (`dev_id`,`ifDescr`),
+  KEY `ifAlias` (`dev_id`,`ifAlias`),
+  KEY `ifIP` (`dev_id`,`ifIP`),
+  KEY `ifMAC` (`dev_id`,`ifMAC`),
+  KEY `dev_id` (`dev_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `snmp_interface_cache`
 --
 
 
+/*!40000 ALTER TABLE `snmp_interface_cache` DISABLE KEYS */;
+LOCK TABLES `snmp_interface_cache` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `snmp_interface_cache` ENABLE KEYS */;
 
 --
 -- Table structure for table `sub_dev_variables`
 --
 
-CREATE TABLE sub_dev_variables (
-  sub_dev_id int(11) NOT NULL default '0',
-  name varchar(255) NOT NULL default '',
-  value varchar(255) NOT NULL default '',
-  type enum('static','dynamic') NOT NULL default 'static',
-  KEY id_type (sub_dev_id,type)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `sub_dev_variables`;
+CREATE TABLE `sub_dev_variables` (
+  `sub_dev_id` int(11) NOT NULL default '0',
+  `name` varchar(255) NOT NULL default '',
+  `value` varchar(255) NOT NULL default '',
+  `type` enum('static','dynamic') NOT NULL default 'static',
+  KEY `id_type` (`sub_dev_id`,`type`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sub_dev_variables`
 --
 
 
+/*!40000 ALTER TABLE `sub_dev_variables` DISABLE KEYS */;
+LOCK TABLES `sub_dev_variables` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `sub_dev_variables` ENABLE KEYS */;
 
 --
 -- Table structure for table `sub_devices`
 --
 
-CREATE TABLE sub_devices (
-  id int(11) NOT NULL auto_increment,
-  dev_id int(11) NOT NULL default '0',
-  type int(11) NOT NULL default '0',
-  name varchar(80) default NULL,
-  status smallint(6) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY id_2 (id,dev_id,type)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `sub_devices`;
+CREATE TABLE `sub_devices` (
+  `id` int(11) NOT NULL auto_increment,
+  `dev_id` int(11) NOT NULL default '0',
+  `type` int(11) NOT NULL default '0',
+  `name` varchar(80) default NULL,
+  `status` smallint(6) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `id_2` (`id`,`dev_id`,`type`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sub_devices`
 --
 
 
-INSERT INTO sub_devices VALUES (1,1,1,'System',0);
-INSERT INTO sub_devices VALUES (2,1,2,'Network Interface',0);
-INSERT INTO sub_devices VALUES (3,1,3,'Disk Drive',0);
+/*!40000 ALTER TABLE `sub_devices` DISABLE KEYS */;
+LOCK TABLES `sub_devices` WRITE;
+INSERT INTO `sub_devices` VALUES (1,1,1,'System',0),(2,1,2,'Network Interface',0),(3,1,3,'Disk Drive',0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `sub_devices` ENABLE KEYS */;
 
 --
 -- Table structure for table `tests_internal`
 --
 
-CREATE TABLE tests_internal (
-  id tinyint(4) NOT NULL auto_increment,
-  name varchar(200) NOT NULL default '',
-  PRIMARY KEY  (id),
-  UNIQUE KEY id (id),
-  KEY id_2 (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `tests_internal`;
+CREATE TABLE `tests_internal` (
+  `id` tinyint(4) NOT NULL auto_increment,
+  `name` varchar(200) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `id` (`id`),
+  KEY `id_2` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tests_internal`
 --
 
 
-INSERT INTO tests_internal VALUES (1,'Count Lines in File');
-INSERT INTO tests_internal VALUES (2,'Lucent TNT \"Good\" Modems (available modems minus suspect modems)');
-INSERT INTO tests_internal VALUES (3,'UCD CPU Load (user + system)');
-INSERT INTO tests_internal VALUES (4,'Windows Disk Usage (percent)');
-INSERT INTO tests_internal VALUES (5,'UCD Swap Usage (percent)');
-INSERT INTO tests_internal VALUES (6,'Read Value from File');
-INSERT INTO tests_internal VALUES (7,'SNMP Failure');
-INSERT INTO tests_internal VALUES (8,'Windows CPU Load');
+/*!40000 ALTER TABLE `tests_internal` DISABLE KEYS */;
+LOCK TABLES `tests_internal` WRITE;
+INSERT INTO `tests_internal` VALUES (1,'Count Lines in File'),(2,'Lucent TNT \"Good\" Modems (available modems minus suspect modems)'),(3,'UCD CPU Load (user + system)'),(4,'Windows Disk Usage (percent)'),(5,'UCD Swap Usage (percent)'),(6,'Read Value from File'),(7,'SNMP Failure'),(8,'Windows CPU Load');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `tests_internal` ENABLE KEYS */;
 
 --
 -- Table structure for table `tests_script`
 --
 
-CREATE TABLE tests_script (
-  id int(11) NOT NULL auto_increment,
-  name varchar(200) NOT NULL default '',
-  cmd varchar(200) NOT NULL default '',
-  data_type int(11) NOT NULL default '0',
-  dev_type int(11) NOT NULL default '0',
-  priority tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `tests_script`;
+CREATE TABLE `tests_script` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(200) NOT NULL default '',
+  `cmd` varchar(200) NOT NULL default '',
+  `data_type` int(11) NOT NULL default '0',
+  `dev_type` int(11) NOT NULL default '0',
+  `priority` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tests_script`
 --
 
 
-INSERT INTO tests_script VALUES (1,'Custom','',2,0,0);
-INSERT INTO tests_script VALUES (2,'Ping Latency','ping_time.pl %ip%',2,8,0);
-INSERT INTO tests_script VALUES (3,'SNMP Diff','snmpdiff.php',2,8,0);
-INSERT INTO tests_script VALUES (4,'Win2k SNMP CPU','win2kcpu.pl',2,8,0);
+/*!40000 ALTER TABLE `tests_script` DISABLE KEYS */;
+LOCK TABLES `tests_script` WRITE;
+INSERT INTO `tests_script` VALUES (1,'Custom','',2,0,0),(2,'Ping Latency','ping_time.pl %ip%',2,8,0),(3,'SNMP Diff','snmpdiff.php',2,8,0),(4,'Win2k SNMP CPU','win2kcpu.pl',2,8,0),(5,'Livingston Portmaster Active Modems','pmmodems.pl %snmp_read_community% %ip%',2,0,0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `tests_script` ENABLE KEYS */;
 
 --
 -- Table structure for table `tests_snmp`
 --
 
-CREATE TABLE tests_snmp (
-  id int(11) NOT NULL auto_increment,
-  name varchar(200) NOT NULL default '',
-  oid varchar(250) NOT NULL default '',
-  dev_type int(11) NOT NULL default '0',
-  type tinyint(4) NOT NULL default '0',
-  subitem int(11) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `tests_snmp`;
+CREATE TABLE `tests_snmp` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(200) NOT NULL default '',
+  `oid` varchar(250) NOT NULL default '',
+  `dev_type` int(11) NOT NULL default '0',
+  `type` tinyint(4) NOT NULL default '0',
+  `subitem` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tests_snmp`
 --
 
 
-INSERT INTO tests_snmp VALUES (1,'TNT - Modems Online','.1.3.6.1.4.1.529.10.6.0',8,0,0);
-INSERT INTO tests_snmp VALUES (2,'Host - System Processes','.1.3.6.1.2.1.25.1.6.0',8,0,0);
-INSERT INTO tests_snmp VALUES (3,'Host - Logged in Users','.1.3.6.1.2.1.25.1.5.0',8,0,0);
-INSERT INTO tests_snmp VALUES (4,'Cisco - CPU Utilization','.1.3.6.1.4.1.9.2.1.58.0',8,0,0);
-INSERT INTO tests_snmp VALUES (5,'UCD - CPU Percent User','enterprises.ucdavis.systemStats.ssCpuRawUser.0',8,0,0);
-INSERT INTO tests_snmp VALUES (6,'UCD - CPU Percent Idle','enterprises.ucdavis.systemStats.ssCpuRawIdle.0',8,0,0);
-INSERT INTO tests_snmp VALUES (7,'UCD - CPU Percent System','enterprises.ucdavis.systemStats.ssCpuRawSystem.0',8,0,0);
-INSERT INTO tests_snmp VALUES (8,'UCD - CPU Percent Nice','enterprises.ucdavis.systemStats.ssCpuRawNice.0',8,0,0);
-INSERT INTO tests_snmp VALUES (9,'UCD - Load Average - 1 min','laLoad.1',8,0,0);
-INSERT INTO tests_snmp VALUES (10,'UCD - Load Average - 5 min','laLoad.2',2,0,0);
-INSERT INTO tests_snmp VALUES (11,'UCD - Load Average - 15 min','laLoad.3',2,0,0);
-INSERT INTO tests_snmp VALUES (12,'UCD - Available Swap','memAvailSwap.0',2,0,0);
-INSERT INTO tests_snmp VALUES (13,'UCD - Available Physical RAM','memAvailReal.0',2,0,0);
-INSERT INTO tests_snmp VALUES (19,'C5k - % Bandwidth','.1.3.6.1.4.1.9.5.1.1.8.0',2,0,0);
-INSERT INTO tests_snmp VALUES (18,'Open TCP Connections','tcp.tcpCurrEstab.0',2,0,0);
-INSERT INTO tests_snmp VALUES (21,'C7k Free Memory (Processor)','.1.3.6.1.4.1.9.9.48.1.1.1.6.1',2,0,0);
-INSERT INTO tests_snmp VALUES (22,'C7k Free Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.6.5',2,0,0);
-INSERT INTO tests_snmp VALUES (23,'C7k Used Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.5.5',2,0,0);
-INSERT INTO tests_snmp VALUES (24,'UCD - Executable 1','enterprises.ucdavis.extTable.extEntry.extOutput.1',2,0,0);
-INSERT INTO tests_snmp VALUES (25,'DNS - A Records','enterprises.ucdavis.extTable.extEntry.extOutput.1',2,0,0);
-INSERT INTO tests_snmp VALUES (26,'DNS - PTR Records','enterprises.ucdavis.extTable.extEntry.extOutput.2',2,0,0);
-INSERT INTO tests_snmp VALUES (27,'DNS - MX Records','enterprises.ucdavis.extTable.extEntry.extOutput.3',2,0,0);
-INSERT INTO tests_snmp VALUES (28,'DNS - CNAME Records','enterprises.ucdavis.extTable.extEntry.extOutput.4',2,0,0);
-INSERT INTO tests_snmp VALUES (29,'DNS - ANY Records','enterprises.ucdavis.extTable.extEntry.extOutput.5',2,0,0);
-INSERT INTO tests_snmp VALUES (30,'Cisco - RSP - Inlet Temperature (C)','enterprises.9.9.13.1.3.1.3.1',5,0,0);
-INSERT INTO tests_snmp VALUES (31,'Cisco - RSP - Hotpoint Temperature (C)','enterprises.9.9.13.1.3.1.3.2',5,0,0);
-INSERT INTO tests_snmp VALUES (32,'Cisco - RSP - Exhaust Temperature (C)','enterprises.9.9.13.1.3.1.3.3',5,0,0);
-INSERT INTO tests_snmp VALUES (33,'TNT - Dead Modems','.1.3.6.1.4.1.529.15.7.0',4,0,0);
-INSERT INTO tests_snmp VALUES (34,'TNT - Disabled Modems','.1.3.6.1.4.1.529.15.5.0',4,0,0);
-INSERT INTO tests_snmp VALUES (35,'TNT - Suspect Modems','.1.3.6.1.4.1.529.15.3.0',4,0,0);
-INSERT INTO tests_snmp VALUES (36,'TNT - Available Modems','.1.3.6.1.4.1.529.15.1.0',4,0,0);
-INSERT INTO tests_snmp VALUES (37,'TNT - Busy Modems','.1.3.6.1.4.1.529.15.9.0',4,0,0);
-INSERT INTO tests_snmp VALUES (38,'Interfaces - Bytes Out','ifOutOctets.%ifIndex%',8,0,0);
-INSERT INTO tests_snmp VALUES (39,'Interfaces - Bytes In','ifInOctets.%ifIndex%',8,0,0);
-INSERT INTO tests_snmp VALUES (40,'Interfaces - Errors In','ifInErrors.%ifIndex%',8,0,0);
-INSERT INTO tests_snmp VALUES (41,'TNT - Connected DS0s','.1.3.6.1.4.1.529.4.21.1.7.%ifIndex%',8,0,0);
-INSERT INTO tests_snmp VALUES (42,'Disk - Size (kB)','dskTotal.%dskIndex%',8,0,0);
-INSERT INTO tests_snmp VALUES (43,'Disk - Available (kB)','dskAvail.%dskIndex%',8,0,0);
-INSERT INTO tests_snmp VALUES (44,'Disk - Used (kB)','dskUsed.%dskIndex%',8,0,0);
-INSERT INTO tests_snmp VALUES (45,'Disk - Percent Used','dskPercent.%dskIndex%',8,0,0);
-INSERT INTO tests_snmp VALUES (46,'Disk - Percent Node Usage','dskPercentNode.%dskIndex%',8,0,0);
+/*!40000 ALTER TABLE `tests_snmp` DISABLE KEYS */;
+LOCK TABLES `tests_snmp` WRITE;
+INSERT INTO `tests_snmp` VALUES (1,'TNT - Modems Online','.1.3.6.1.4.1.529.10.6.0',8,0,0),(2,'Host - System Processes','.1.3.6.1.2.1.25.1.6.0',8,0,0),(3,'Host - Logged in Users','.1.3.6.1.2.1.25.1.5.0',8,0,0),(4,'Cisco - CPU Utilization','.1.3.6.1.4.1.9.2.1.58.0',8,0,0),(5,'UCD - CPU Percent User','enterprises.ucdavis.systemStats.ssCpuRawUser.0',8,0,0),(6,'UCD - CPU Percent Idle','enterprises.ucdavis.systemStats.ssCpuRawIdle.0',8,0,0),(7,'UCD - CPU Percent System','enterprises.ucdavis.systemStats.ssCpuRawSystem.0',8,0,0),(8,'UCD - CPU Percent Nice','enterprises.ucdavis.systemStats.ssCpuRawNice.0',8,0,0),(9,'UCD - Load Average - 1 min','laLoad.1',8,0,0),(10,'UCD - Load Average - 5 min','laLoad.2',2,0,0),(11,'UCD - Load Average - 15 min','laLoad.3',2,0,0),(12,'UCD - Available Swap','memAvailSwap.0',2,0,0),(13,'UCD - Available Physical RAM','memAvailReal.0',2,0,0),(19,'C5k - % Bandwidth','.1.3.6.1.4.1.9.5.1.1.8.0',2,0,0),(18,'Open TCP Connections','tcp.tcpCurrEstab.0',2,0,0),(21,'C7k Free Memory (Processor)','.1.3.6.1.4.1.9.9.48.1.1.1.6.1',2,0,0),(22,'C7k Free Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.6.5',2,0,0),(23,'C7k Used Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.5.5',2,0,0),(24,'UCD - Executable 1','enterprises.ucdavis.extTable.extEntry.extOutput.1',2,0,0),(25,'DNS - A Records','enterprises.ucdavis.extTable.extEntry.extOutput.1',2,0,0),(26,'DNS - PTR Records','enterprises.ucdavis.extTable.extEntry.extOutput.2',2,0,0),(27,'DNS - MX Records','enterprises.ucdavis.extTable.extEntry.extOutput.3',2,0,0),(28,'DNS - CNAME Records','enterprises.ucdavis.extTable.extEntry.extOutput.4',2,0,0),(29,'DNS - ANY Records','enterprises.ucdavis.extTable.extEntry.extOutput.5',2,0,0),(30,'Cisco - RSP - Inlet Temperature (C)','enterprises.9.9.13.1.3.1.3.1',5,0,0),(31,'Cisco - RSP - Hotpoint Temperature (C)','enterprises.9.9.13.1.3.1.3.2',5,0,0),(32,'Cisco - RSP - Exhaust Temperature (C)','enterprises.9.9.13.1.3.1.3.3',5,0,0),(33,'TNT - Dead Modems','.1.3.6.1.4.1.529.15.7.0',4,0,0),(34,'TNT - Disabled Modems','.1.3.6.1.4.1.529.15.5.0',4,0,0),(35,'TNT - Suspect Modems','.1.3.6.1.4.1.529.15.3.0',4,0,0),(36,'TNT - Available Modems','.1.3.6.1.4.1.529.15.1.0',4,0,0),(37,'TNT - Busy Modems','.1.3.6.1.4.1.529.15.9.0',4,0,0),(38,'Interfaces - Bytes Out','ifOutOctets.%ifIndex%',8,0,0),(39,'Interfaces - Bytes In','ifInOctets.%ifIndex%',8,0,0),(40,'Interfaces - Errors In','ifInErrors.%ifIndex%',8,0,0),(41,'TNT - Connected DS0s','.1.3.6.1.4.1.529.4.21.1.7.%ifIndex%',8,0,0),(42,'Disk - Size (kB)','dskTotal.%dskIndex%',8,0,0),(43,'Disk - Available (kB)','dskAvail.%dskIndex%',8,0,0),(44,'Disk - Used (kB)','dskUsed.%dskIndex%',8,0,0),(45,'Disk - Percent Used','dskPercent.%dskIndex%',8,0,0),(46,'Disk - Percent Node Usage','dskPercentNode.%dskIndex%',8,0,0);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `tests_snmp` ENABLE KEYS */;
 
 --
 -- Table structure for table `tests_sql`
 --
 
-CREATE TABLE tests_sql (
-  id int(11) NOT NULL auto_increment,
-  name varchar(200) NOT NULL default '',
-  sub_dev_type int(11) NOT NULL default '0',
-  host varchar(50) NOT NULL default '',
-  user varchar(50) NOT NULL default '',
-  password varchar(50) NOT NULL default '',
-  query varchar(255) NOT NULL default '',
-  column_num tinyint(4) NOT NULL default '0',
-  timeout int(11) NOT NULL default '10',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `tests_sql`;
+CREATE TABLE `tests_sql` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(200) NOT NULL default '',
+  `sub_dev_type` int(11) NOT NULL default '0',
+  `host` varchar(50) NOT NULL default '',
+  `user` varchar(50) NOT NULL default '',
+  `password` varchar(50) NOT NULL default '',
+  `query` varchar(255) NOT NULL default '',
+  `column_num` tinyint(4) NOT NULL default '0',
+  `timeout` int(11) NOT NULL default '10',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tests_sql`
 --
 
 
-INSERT INTO tests_sql VALUES (1,'MySQL Questions',8,'localhost','root','sqlroot','show status like \"Questions\"',1,10);
-INSERT INTO tests_sql VALUES (3,'NetMRG - Active Script Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=1',0,10);
-INSERT INTO tests_sql VALUES (4,'NetMRG - Active SNMP Monitors',8,'localhost','netmrgread','netmrgread',' select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=2',0,10);
-INSERT INTO tests_sql VALUES (5,'NetMRG - Active SQL Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=3',0,10);
-INSERT INTO tests_sql VALUES (6,'NetMRG - Active Internal Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=4',0,10);
+/*!40000 ALTER TABLE `tests_sql` DISABLE KEYS */;
+LOCK TABLES `tests_sql` WRITE;
+INSERT INTO `tests_sql` VALUES (1,'MySQL Questions',8,'localhost','root','sqlroot','show status like \"Questions\"',1,10),(3,'NetMRG - Active Script Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=1',0,10),(4,'NetMRG - Active SNMP Monitors',8,'localhost','netmrgread','netmrgread',' select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=2',0,10),(5,'NetMRG - Active SQL Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=3',0,10),(6,'NetMRG - Active Internal Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=4',0,10);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `tests_sql` ENABLE KEYS */;
 
 --
 -- Table structure for table `updates`
 --
 
-CREATE TABLE updates (
-  update_version varchar(16) NOT NULL default '',
-  name varchar(160) NOT NULL default '',
-  version_applied_to varchar(16) NOT NULL default '',
-  dateapplied datetime NOT NULL default '0000-00-00 00:00:00'
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `updates`;
+CREATE TABLE `updates` (
+  `update_version` varchar(16) NOT NULL default '',
+  `name` varchar(160) NOT NULL default '',
+  `version_applied_to` varchar(16) NOT NULL default '',
+  `dateapplied` datetime NOT NULL default '0000-00-00 00:00:00'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `updates`
 --
 
 
-INSERT INTO updates VALUES ('0.10pre2','Graph Options','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.10pre2','Graph Options2','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.10pre2','Graph Item Times','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.10pre2','Graph Item Times2','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.10pre2','Graph Title','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.10pre2','Graph Item Muliplier','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.10pre2','SNMP ifSpeed','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.10pre2','Graph Title Fill-in','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.12','SNMP Version Support','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.12','SNMP Timeout','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.12','User Prefs','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.12','User Prefs Slideshow Default','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.14','SNMP Recache Method','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.14','SNMP Recache Method Default','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.14','SNMP Recache Method Default2','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.14','SNMP Recache Method Default3','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.14','SNMP Recache Drop','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.14','SNMP ifNumber Drop','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.14','Log Table','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.14','User Index Drop','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.14','User Unique Index','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.16','Device SNMP Uptime Check Option','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.16','SNMP Test Type','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.16','Graph Min/Max','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.17','Internal Test Name Lengthen','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.17','Script Test Name Lengthen','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.17','SQL Test Name Lengthen','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.17','New Internal Test - Lucent TNT Good Modems','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.17','New Internal Test - UCD CPU Load','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.17','New Internal Test - Windows Disk Usage','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.17','New Internal Test - UCD Swap Usage','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.17','New Internal Test - Read Value from File','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.17','User Disabled Support','pre-0.17','2004-10-25 20:59:06');
-INSERT INTO updates VALUES ('0.18','Graph Multiply Sum Support','0.17','2004-10-25 20:59:35');
-INSERT INTO updates VALUES ('0.18','New Internal Test - SNMP Failure','0.17','2004-10-25 20:59:35');
-INSERT INTO updates VALUES ('0.18','SQL Test Timeout','0.17','2004-10-25 20:59:35');
+/*!40000 ALTER TABLE `updates` DISABLE KEYS */;
+LOCK TABLES `updates` WRITE;
+INSERT INTO `updates` VALUES ('0.10pre2','Graph Options','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','Graph Options2','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','Graph Item Times','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','Graph Item Times2','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','Graph Title','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','Graph Item Muliplier','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','SNMP ifSpeed','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','Graph Title Fill-in','pre-0.17','2004-10-25 20:59:06'),('0.12','SNMP Version Support','pre-0.17','2004-10-25 20:59:06'),('0.12','SNMP Timeout','pre-0.17','2004-10-25 20:59:06'),('0.12','User Prefs','pre-0.17','2004-10-25 20:59:06'),('0.12','User Prefs Slideshow Default','pre-0.17','2004-10-25 20:59:06'),('0.14','SNMP Recache Method','pre-0.17','2004-10-25 20:59:06'),('0.14','SNMP Recache Method Default','pre-0.17','2004-10-25 20:59:06'),('0.14','SNMP Recache Method Default2','pre-0.17','2004-10-25 20:59:06'),('0.14','SNMP Recache Method Default3','pre-0.17','2004-10-25 20:59:06'),('0.14','SNMP Recache Drop','pre-0.17','2004-10-25 20:59:06'),('0.14','SNMP ifNumber Drop','pre-0.17','2004-10-25 20:59:06'),('0.14','Log Table','pre-0.17','2004-10-25 20:59:06'),('0.14','User Index Drop','pre-0.17','2004-10-25 20:59:06'),('0.14','User Unique Index','pre-0.17','2004-10-25 20:59:06'),('0.16','Device SNMP Uptime Check Option','pre-0.17','2004-10-25 20:59:06'),('0.16','SNMP Test Type','pre-0.17','2004-10-25 20:59:06'),('0.16','Graph Min/Max','pre-0.17','2004-10-25 20:59:06'),('0.17','Internal Test Name Lengthen','pre-0.17','2004-10-25 20:59:06'),('0.17','Script Test Name Lengthen','pre-0.17','2004-10-25 20:59:06'),('0.17','SQL Test Name Lengthen','pre-0.17','2004-10-25 20:59:06'),('0.17','New Internal Test - Lucent TNT Good Modems','pre-0.17','2004-10-25 20:59:06'),('0.17','New Internal Test - UCD CPU Load','pre-0.17','2004-10-25 20:59:06'),('0.17','New Internal Test - Windows Disk Usage','pre-0.17','2004-10-25 20:59:06'),('0.17','New Internal Test - UCD Swap Usage','pre-0.17','2004-10-25 20:59:06'),('0.17','New Internal Test - Read Value from File','pre-0.17','2004-10-25 20:59:06'),('0.17','User Disabled Support','pre-0.17','2004-10-25 20:59:06'),('0.18','Graph Multiply Sum Support','0.17','2004-10-25 20:59:35'),('0.18','New Internal Test - SNMP Failure','0.17','2004-10-25 20:59:35'),('0.18','SQL Test Timeout','0.17','2004-10-25 20:59:35'),('0.19','Increase size of monitors.type_id','0.19','2006-01-09 20:09:39'),('0.19','Increase size of view.pos','0.19','2006-01-09 20:09:42'),('0.19','Livingston Portmaster Modems Script Test','0.19','2006-01-09 20:09:54'),('0.19','Graph Min NULL Fix','0.19','2006-01-09 20:09:56'),('0.19','Graph Max NULL Fix','0.19','2006-01-09 20:09:59');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `updates` ENABLE KEYS */;
 
 --
 -- Table structure for table `user`
 --
 
-CREATE TABLE user (
-  id int(11) NOT NULL auto_increment,
-  user varchar(50) NOT NULL default '',
-  pass varchar(50) NOT NULL default '',
-  permit tinyint(4) NOT NULL default '0',
-  fullname varchar(200) default NULL,
-  group_id int(11) NOT NULL default '0',
-  disabled tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  UNIQUE KEY user (user)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL auto_increment,
+  `user` varchar(50) NOT NULL default '',
+  `pass` varchar(50) NOT NULL default '',
+  `permit` tinyint(4) NOT NULL default '0',
+  `fullname` varchar(200) default NULL,
+  `group_id` int(11) NOT NULL default '0',
+  `disabled` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `user` (`user`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
 
-INSERT INTO user VALUES (1,'admin','ee10c315eba2c75b403ea99136f5b48d',3,'Administrator',0,0);
-INSERT INTO user VALUES (2,'NETMRG_DEFAULT_MAP','d41d8cd98f00b204e9800998ecf8427e',0,'Administrator',0,1);
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+LOCK TABLES `user` WRITE;
+INSERT INTO `user` VALUES (1,'admin','ee10c315eba2c75b403ea99136f5b48d',3,'Administrator',0,0),(2,'NETMRG_DEFAULT_MAP','d41d8cd98f00b204e9800998ecf8427e',0,'Administrator',0,1);
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 --
 -- Table structure for table `user_prefs`
 --
 
-CREATE TABLE user_prefs (
-  id int(11) NOT NULL auto_increment,
-  uid int(11) NOT NULL default '0',
-  module varchar(64) NOT NULL default '',
-  pref varchar(64) NOT NULL default '',
-  value varchar(64) NOT NULL default '',
-  PRIMARY KEY  (id),
-  KEY uid (uid),
-  KEY uid_module_pref (uid,module,pref)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `user_prefs`;
+CREATE TABLE `user_prefs` (
+  `id` int(11) NOT NULL auto_increment,
+  `uid` int(11) NOT NULL default '0',
+  `module` varchar(64) NOT NULL default '',
+  `pref` varchar(64) NOT NULL default '',
+  `value` varchar(64) NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `uid` (`uid`),
+  KEY `uid_module_pref` (`uid`,`module`,`pref`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user_prefs`
 --
 
 
-INSERT INTO user_prefs VALUES (1,1,'SlideShow','AutoScroll','1');
-INSERT INTO user_prefs VALUES (2,2,'SlideShow','AutoScroll','1');
+/*!40000 ALTER TABLE `user_prefs` DISABLE KEYS */;
+LOCK TABLES `user_prefs` WRITE;
+INSERT INTO `user_prefs` VALUES (1,1,'SlideShow','AutoScroll','1'),(2,2,'SlideShow','AutoScroll','1');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `user_prefs` ENABLE KEYS */;
 
 --
 -- Table structure for table `versioninfo`
 --
 
-CREATE TABLE versioninfo (
-  module varchar(64) NOT NULL default '',
-  version varchar(16) NOT NULL default ''
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `versioninfo`;
+CREATE TABLE `versioninfo` (
+  `module` varchar(64) NOT NULL default '',
+  `version` varchar(16) NOT NULL default ''
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `versioninfo`
 --
 
 
-INSERT INTO versioninfo VALUES ('Main','0.19');
+/*!40000 ALTER TABLE `versioninfo` DISABLE KEYS */;
+LOCK TABLES `versioninfo` WRITE;
+INSERT INTO `versioninfo` VALUES ('Main','0.19');
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `versioninfo` ENABLE KEYS */;
 
 --
 -- Table structure for table `view`
 --
 
-CREATE TABLE view (
-  id int(11) NOT NULL auto_increment,
-  object_id int(11) NOT NULL default '0',
-  object_type enum('group','device','subdevice') NOT NULL default 'group',
-  graph_id int(11) NOT NULL default '0',
-  type enum('graph','template','separator') NOT NULL default 'separator',
-  pos int(4) NOT NULL default '0',
-  separator_text varchar(100) NOT NULL default '',
-  subdev_id int(11) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY VIEW_INDEX (object_id,object_type)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `view`;
+CREATE TABLE `view` (
+  `id` int(11) NOT NULL auto_increment,
+  `object_id` int(11) NOT NULL default '0',
+  `object_type` enum('group','device','subdevice') NOT NULL default 'group',
+  `graph_id` int(11) NOT NULL default '0',
+  `type` enum('graph','template','separator') NOT NULL default 'separator',
+  `pos` int(11) NOT NULL default '0',
+  `separator_text` varchar(100) NOT NULL default '',
+  `subdev_id` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `VIEW_INDEX` (`object_id`,`object_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `view`
 --
 
 
+/*!40000 ALTER TABLE `view` DISABLE KEYS */;
+LOCK TABLES `view` WRITE;
+UNLOCK TABLES;
+/*!40000 ALTER TABLE `view` ENABLE KEYS */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
