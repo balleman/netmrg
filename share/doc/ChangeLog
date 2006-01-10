@@ -1,3 +1,6 @@
+2006.01.10  v0.19cvs  keb
+  - bug#0000444: ReadAll users can edit sub-devices
+
 2006.01.08  v0.19cvs  silfreed
   - updated wiki.netmrg.net to mediawiki 1.5.5
 

@@ -20,6 +20,7 @@ if (!isset($_REQUEST['action']))
 switch ($_REQUEST["action"])
 {
 	case "doedit":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		doedit();
 		break;
 	
