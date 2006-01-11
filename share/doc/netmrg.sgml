@@ -61,6 +61,19 @@ any company, organization, product, or platform.
 	<title>Revision History</title>
 	<itemizedlist>
 		<listitem>
+			<para>0.19</para>
+			<para>2006.01.xx</para>
+			<para>
+Major Feature Enhancements and Bug Fixes;
+Major Web Interface redesign to give more room for graphs and ease overall use.
+Security enhancements behind the scenes to ensure correct permissions checking.
+Added a search interface that will search groups, devices, sub devies, and sub 
+device parameters. RRDtool 1.2 support (including graph smoothing); Depricated 
+use of netmrg_cron.sh in favor of using netmrg-gatherer; migrated bulk of docs 
+to wiki; numerous other bugfixes and enhancements.
+			</para>
+		</listitem>
+		<listitem>
 			<para>0.18.2</para>
 			<para>2004.11.09</para>
 			<para>
