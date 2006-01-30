@@ -78,6 +78,16 @@ Chapter 1. Introduction
 
 Chapter 2. Revision History
 
+     * 0.19
+       2006.01.xx
+       Major Feature Enhancements and Bug Fixes; Major Web Interface
+       redesign to give more room for graphs and ease overall use.
+       Security  enhancements behind the scenes to ensure correct
+       permissions checking. Added a search interface that will search
+       groups, devices, sub devies, and sub device parameters. RRDtool
+       1.2 support (including graph smoothing); Depricated use of
+       netmrg_cron.sh in favor of using netmrg-gatherer; migrated bulk
+       of docs to wiki; numerous other bugfixes and enhancements.
      * 0.18.2
        2004.11.09
        Minor Bug Fixes; Fixed some escaping problems on the interface
