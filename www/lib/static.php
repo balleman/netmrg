@@ -41,7 +41,7 @@ $MENU = array(
 	"Admin" => array(
 		array("name" => "Devices", "link" => "grpdev_list.php", "descr" => "", "authLevelRequired" => 1),
 //		array("name" => "Device Types", "link" => "dev_types.php", "descr" => "", "authLevelRequired" => 2),
-		array("name" => "Notifications", "link" => "notifications.php", "descr" => "", "authLevelRequired" => 2),
+		array("name" => "Notifications", "link" => "notifications.php", "descr" => "", "authLevelRequired" => 1),
 		array("name" => "Custom Graphs", "link" => "graphs.php?type=custom", "descr" => "", "authLevelRequired" => 1),
 		array("name" => "Template Graphs", "link" => "graphs.php?type=template", "descr" => "", "authLevelRequired" => 1),
 		array("name" => "Script", "link" => "tests_script.php", "descr" => "External Programs", "authLevelRequired" => 2),
@@ -56,7 +56,6 @@ $MENU = array(
 		array("name" => "Graph", "link" => "graphs.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
 		array("name" => "Graph Items", "link" => "graph_items.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
 		array("name" => "Monitors", "link" => "monitors.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
-		array("name" => "Notifications", "link" => "notifications.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
 		array("name" => "Recache", "link" => "recache.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
 		array("name" => "Responses", "link" => "responses.php", "descr" => "", "authLevelRequired" => 0, "display" => false),
 		array("name" => "SNMP Cache View", "link" => "snmp_cache_view.php", "descr" => "", "authLevelRequired" => 0, "display" => false),

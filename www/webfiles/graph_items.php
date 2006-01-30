@@ -41,9 +41,9 @@ switch ($_REQUEST['action'])
 		duplicate();
 		break;
 
-	case 'edit':
 	case 'add':
 		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+	case 'edit':
 		edit();
 		break;
 

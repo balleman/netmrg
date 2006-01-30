@@ -20,6 +20,7 @@ else
 switch ($action)
 {
 	case "add":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		$_REQUEST['id'] = 0;
 		display_edit();
 		break;

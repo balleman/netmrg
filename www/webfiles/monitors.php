@@ -56,8 +56,9 @@ switch($_REQUEST["action"])
 		redirect();
 		break;
 	
-	case "edit":
 	case "add":
+		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+	case "edit":
 		edit();
 		break;
 	

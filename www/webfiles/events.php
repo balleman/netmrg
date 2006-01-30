@@ -14,9 +14,9 @@ check_auth($GLOBALS['PERMIT']["ReadAll"]);
 
 switch ($_REQUEST['action'])
 {
-	case "edit":
 	case "add":
 		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+	case "edit":
 		display_edit();
 		break;
 

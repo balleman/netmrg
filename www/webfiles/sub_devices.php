@@ -32,8 +32,8 @@ switch ($_REQUEST["action"])
 		break;
 		
 	case "add":
-	case "edit":
 		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
+	case "edit":
 		displayedit();
 		break;
 	
