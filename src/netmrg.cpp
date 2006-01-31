@@ -10,7 +10,7 @@
 /*
 
    NetMRG Monitoring Procedure
-   Copyright 2001-2005 Brady Alleman.  All Rights Reserved.
+   Copyright 2001-2006 Brady Alleman.  All Rights Reserved.
 
    MySQL examples from http://mysql.turbolift.com/mysql/chapter4.php3
    pthreads examples from http://www.math.arizona.edu/swig/pthreads/threads.html

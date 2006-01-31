@@ -5,7 +5,7 @@ Name: netmrg
 Version: 0.19
 Release: 1
 #Epoch: 1
-License: MIT
+License: GPLv2
 Group: Application/System
 Source0: netmrg-%{version}.tar.gz
 #Source1: 
@@ -27,15 +27,18 @@ on RRDTOOL, the best of open source graphing systems, NetMRG is capable
 of creating graphs of any parameter of your network.
 
 %prep
+%define _wwwdir %{_localstatedir}/www/%{name}
 %setup -q
+%configure \
+	--with-wwwdir=%{_wwwdir}
 
 %build
-%configure
 make %{_smp_mflags}
 
 %install
 rm -rf %{buildroot}
-%makeinstall
+wwwdir=%{buildroot}/%{_wwwdir} %makeinstall
+
 install -d %{buildroot}/%{_sysconfdir}/cron.d
 install -m 644 etc/cron.d-netmrg %{buildroot}/%{_sysconfdir}/cron.d/netmrg
 install -d %{buildroot}/%{_sysconfdir}/rc.d/init.d

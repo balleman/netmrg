@@ -12,10 +12,14 @@ this="$progname-$version"
 pkgdir="/tmp"
 
 rm -rf $pkgdir/$this/
-rm -f $pkgdir/$this.tar.gz
-rm -f $pkgdir/$this.tar.bz2
+rm -f $pkgdir/$this.tar.*
 
-svn export -q http://svn.$progname.net/branches/$progname-$vcsver $pkgdir/$this
+#svn export -q http://svn.$progname.net/branches/$progname-$vcsver $pkgdir/$this
+svn export -q http://svn.$progname.net/trunk $pkgdir/$this
+cd $pkgdir/$this
+./bootstrap > /dev/null 2>&1
+rm -rf autom4te.cache/
+cd -
 
 tar -C $pkgdir -czf $pkgdir/$this.tar.gz  $this
 tar -C $pkgdir -cjf $pkgdir/$this.tar.bz2 $this

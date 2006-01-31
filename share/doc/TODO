@@ -100,13 +100,6 @@ announce on lists.netmrg.net
 announce on freshmeat.net
 notify other package maintainers
 
-== for committing autoconf changes ==
-# commit any changes to Makefile.am's
-# ./bootstrap
-svn commit aclocal.m4 Makefile.in etc/Makefile.in www/Makefile.in \
-  var/Makefile.in var/lib/Makefile.in var/lib/rrd/Makefile.in \
-  src/Makefile.in m4/Makefile.in src/include/config.h.in configure
-
 == branching svn ==
 svn copy trunk branches/netmrg-0_18_2
 
