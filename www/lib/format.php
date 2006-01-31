@@ -46,7 +46,7 @@ function begin_page($pagename = "", $prettyname = "", $refresh = false, $bodytag
 
 <div id="content">
 <?php
-	CheckInstallState();
+	CheckInstallState($prereqs_errors);
 } // end begin_page()
 
 
@@ -425,8 +425,10 @@ function GetLoginInfo()
 * checks things like whether the updater needs run and the 
 * prerequisites are met before allowing you to view the rest
 * of the webpage
+* 
+* @param array array of errors returned by prerequisite checks
 */
-function CheckInstallState()
+function CheckInstallState($prereqs_errors = array())
 {
 	global $PERMIT;
 	
