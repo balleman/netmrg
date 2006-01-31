@@ -37,7 +37,22 @@ make %{_smp_mflags}
 
 %install
 rm -rf %{buildroot}
-wwwdir=%{buildroot}/%{_wwwdir} %makeinstall
+make \
+	prefix=%{?buildroot:%{buildroot}}%{_prefix} \
+	exec_prefix=%{?buildroot:%{buildroot}}%{_exec_prefix} \
+	bindir=%{?buildroot:%{buildroot}}%{_bindir} \
+	sbindir=%{?buildroot:%{buildroot}}%{_sbindir} \
+	sysconfdir=%{?buildroot:%{buildroot}}%{_sysconfdir} \
+	datadir=%{?buildroot:%{buildroot}}%{_datadir} \
+	includedir=%{?buildroot:%{buildroot}}%{_includedir} \
+	libdir=%{?buildroot:%{buildroot}}%{_libdir} \
+	libexecdir=%{?buildroot:%{buildroot}}%{_libexecdir} \
+	localstatedir=%{?buildroot:%{buildroot}}%{_localstatedir} \
+	sharedstatedir=%{?buildroot:%{buildroot}}%{_sharedstatedir} \
+	mandir=%{?buildroot:%{buildroot}}%{_mandir} \
+	infodir=%{?buildroot:%{buildroot}}%{_infodir} \
+	netmrg_wwwdir=%{?buildroot:%{buildroot}}%{_wwwdir} \
+	install
 
 install -d %{buildroot}/%{_sysconfdir}/cron.d
 install -m 644 etc/cron.d-netmrg %{buildroot}/%{_sysconfdir}/cron.d/netmrg
