@@ -12,23 +12,37 @@
 require_once("../include/config.php");
 check_auth($GLOBALS['PERMIT']["Admin"]);
 
-if (!empty($_REQUEST["action"]))
+if (empty($_REQUEST["action"])) $_REQUEST["action"] = "";
+
+switch ($_REQUEST["action"])
 {
-	$action = $_REQUEST["action"];
+
+	case "edit":
+	case "add":
+		display_edit();
+		break;
+
+	case "doedit":
+	case "doadd":
+		do_edit();
+		break;
+
+	case "dodelete":
+		do_delete();
+		break;
+
+	case "deletemulti":
+		do_deletemulti();
+		break;
+
+	default:
+		display_page();
+
 }
-else
-{
-	$action = "";
-	unset($action);
-} // end if action set or not
 
 
-if ((!isset($action)) || ($action == "doedit") || ($action == "dodelete") || ($action == "doadd") || ($action == "deletemulti"))
+function do_edit()
 {
-
-if (!empty($action) && ($action == "doedit" || $action == "doadd"))
-{
-	// verify password change
 	if (!empty($_REQUEST["pass"]))
 	{
 		if ($_REQUEST["pass"] != $_REQUEST["vpass"])
@@ -72,18 +86,15 @@ if (!empty($action) && ($action == "doedit" || $action == "doadd"))
 		permit='{$_REQUEST['permit']}', group_id='{$_REQUEST['group_id']}', disabled='{$_REQUEST['disabled']}' $db_end");
 		
 	header("Location: {$_SERVER['PHP_SELF']}");
-	exit(0);
-} // done editing
+}
 
-if (!empty($action) && $action == "dodelete")
+function do_delete()
 {
 	db_update("DELETE FROM user WHERE id='{$_REQUEST['user_id']}'");
 	header("Location: {$_SERVER['PHP_SELF']}");
-	exit(0);
+}
 
-} // done deleting
-
-if (!empty($action) && $action == "deletemulti")
+function do_deletemulti()
 {
 	if (isset($_REQUEST["user"]))
 	{
@@ -93,64 +104,10 @@ if (!empty($action) && $action == "deletemulti")
 		}
 	}
 	header("Location: {$_SERVER['PHP_SELF']}");
-	exit(0);
+}
 
-} // done multi-deleting
-
-
-// Display a list
-
-begin_page("users.php", "User Management");
-js_checkbox_utils();
-?>
-<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
-<?php
-make_edit_hidden("action", "");
-make_display_table("Users", "", 
-	array("text" => checkbox_toolbar()),
-	array("text" => "User ID"),
-	array("text" => "Name"),
-	array("text" => "Permissions")
-); // end make_display_table();
-
-$user_results = db_query("SELECT * FROM user ORDER BY user.user");
-
-$user_total = db_num_rows($user_results);
-
-js_confirm_dialog("del", "Are you sure you want to delete user ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&user_id=");
-
-// For each user
-for ($user_count = 1; $user_count <= $user_total; ++$user_count)
+function display_edit()
 {
-	$user_row = db_fetch_array($user_results);
-	$user_id  = $user_row["id"];
-
-	make_display_item("editfield".(($user_count-1)%2),
-		array("checkboxname" => "user", "checkboxid" => $user_id),
-		array("text" => $user_row["user"]),
-		array("text" => $user_row["fullname"]),
-		array("text" => (get_permit($user_row["user"])==$PERMIT["Disabled"]) ? 'Disabled' : $GLOBALS['PERMIT_TYPES'][$user_row['permit']]),
-		array("text" => formatted_link("Prefs", "user_prefs.php?uid=$user_id") . "&nbsp;" .
-			formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&user_id=$user_id", "", "edit") . "&nbsp;" .
-			formatted_link("Delete", "javascript:del('".addslashes($user_row['user'])."', '{$user_row['id']}')", "", "delete")
-			)
-	); // end make_display_item();
-
-} // end users
-
-make_checkbox_command("", 5,
-	array("text" => "Delete", "action" => "deletemulti", "prompt" => "Are you sure you want to delete the checked users?")
-); // end make_checkbox_command
-make_status_line("user", $user_count - 1);
-?>
-</table>
-</form>
-<?php
-} // End if no action
-
-if (!empty($action) && ($action == "edit" || $action == "add"))
-{
-// Display editing screen
 
 	begin_page("users.php", "User Management", 0, 'onLoad="enableGroup(document.editform.permit.value)"');
 	echo '
@@ -195,9 +152,58 @@ document.editform.group_id.value=0; // Root Group
 	make_edit_hidden("user_id", $user_id);
 	make_edit_submit_button();
 	make_edit_end();
+	end_page();
+}
 
-} // End editing screen
+function display_page()
+{
+	begin_page("users.php", "User Management");
+	js_checkbox_utils();
+	?>
+	<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post" name="form">
+	<?php
+	make_edit_hidden("action", "");
+	make_display_table("Users", "", 
+		array("text" => checkbox_toolbar()),
+		array("text" => "User ID"),
+		array("text" => "Name"),
+		array("text" => "Permissions")
+	); // end make_display_table();
 
-end_page();
+	$user_results = db_query("SELECT * FROM user ORDER BY user.user");
+
+	$user_total = db_num_rows($user_results);
+
+	js_confirm_dialog("del", "Are you sure you want to delete user ", " ?", "{$_SERVER['PHP_SELF']}?action=dodelete&user_id=");
+
+	// For each user
+	for ($user_count = 1; $user_count <= $user_total; ++$user_count)
+	{
+		$user_row = db_fetch_array($user_results);
+		$user_id  = $user_row["id"];
+
+		make_display_item("editfield".(($user_count-1)%2),
+			array("checkboxname" => "user", "checkboxid" => $user_id),
+			array("text" => $user_row["user"]),
+			array("text" => $user_row["fullname"]),
+			array("text" => (get_permit($user_row["user"])==$GLOBALS['PERMIT']["Disabled"]) ? 'Disabled' : $GLOBALS['PERMIT_TYPES'][$user_row['permit']]),
+			array("text" => formatted_link("Prefs", "user_prefs.php?uid=$user_id") . "&nbsp;" .
+				formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&user_id=$user_id", "", "edit") . "&nbsp;" .
+				formatted_link("Delete", "javascript:del('".addslashes($user_row['user'])."', '{$user_row['id']}')", "", "delete")
+				)
+		); // end make_display_item();
+
+	} // end users
+
+	make_checkbox_command("", 5,
+		array("text" => "Delete", "action" => "deletemulti", "prompt" => "Are you sure you want to delete the checked users?")
+	); // end make_checkbox_command
+	make_status_line("user", $user_count - 1);
+	?>
+	</table>
+	</form>
+	<?php
+	end_page();
+}
 
 ?>
