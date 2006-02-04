@@ -1,3 +1,7 @@
+2006.02.03  v0.19cvs  silfreed
+  - bug#0000392: Release Checklist for 0.19
+    * final doc changes and branching before release
+
 2006.01.30  v0.19cvs  silfreed
   - bug#0000449: ReadAll Users should be able to goto Edit pages, but not save
   - bug#0000392: Release Checklist for 0.19 - updated docs
