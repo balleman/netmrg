@@ -319,7 +319,7 @@ void process_device(int dev_id)
 
 					cache_mysql_res = db_query(&mysql, &info, string("SELECT count(*) FROM snmp_interface_cache WHERE dev_id = ") + inttostr(info.device_id));
 					cache_mysql_row = mysql_fetch_row(cache_mysql_res);
-					int interface_cache_count = strtoint(cache_mysql_row[0]);
+					unsigned int interface_cache_count = strtoint(cache_mysql_row[0]);
 					mysql_free_result(cache_mysql_res);
 
 					if (info.snmp_ifnumber != interface_cache_count)
