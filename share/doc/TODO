@@ -101,5 +101,7 @@ announce on freshmeat.net
 notify other package maintainers
 
 == branching svn ==
-svn copy trunk branches/netmrg-0_18_2
+svn copy \
+  svn+ssh://argo.pyxos.net/home/svnroot/netmrg/trunk \
+  svn+ssh://argo.pyxos.net/home/svnroot/netmrg/branches/netmrg-0_19
 
