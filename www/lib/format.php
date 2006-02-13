@@ -149,6 +149,7 @@ function DisplayPageHeader($pagename = "", $prettyname = "", $refresh = false, $
 </div> <!-- end #header -->
 
 <?php
+	echo '<div style="clear: left; height: 0;">&nbsp;</div>'."\n";
 } // end DisplayPageHeader();
 
 

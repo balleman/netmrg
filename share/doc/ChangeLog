@@ -1,3 +1,8 @@
+2006.02.13  v0.20cvs  silfreed
+  - bug#0000452: Menu Rendering problems in IE
+    added <div /> between #header and #content to clear; fix recommended
+    by Scott Gonzalez (http://www.scottsplayground.com, scott.gonzalez@gmail.com)
+
 2006.02.03  v0.20cvs  keb
   - reordered users.php so the code is more readable
 
