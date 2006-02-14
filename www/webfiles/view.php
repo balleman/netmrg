@@ -63,12 +63,12 @@ switch ($_REQUEST["action"])
 		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_move("down");
 		break;
-
+	
 	case "move_top":
 		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_move("top");
 		break;
-
+	
 	case "move_bottom":
 		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
 		do_move("bottom");
@@ -96,37 +96,37 @@ function display_edit()
 	switch ($_REQUEST["action"])
 	{
 		case "add":
-		$row["type"] = "graph";
-		$row["graph_id"] = 0;
-		$row["separator_text"] = "";
-		if ($_REQUEST["object_type"] == "subdevice")
-		{
-			$row['subdev_id'] = $_REQUEST["object_id"];
-		}
-		elseif ($_REQUEST["object_type"] == "device")
-		{
-			$q1 = db_query("SELECT id FROM sub_devices WHERE dev_id = {$_REQUEST['object_id']}");
-			if ($r1 = db_fetch_array($q1))
+			$row["type"] = "graph";
+			$row["graph_id"] = 0;
+			$row["separator_text"] = "";
+			if ($_REQUEST["object_type"] == "subdevice")
 			{
-				$row['subdev_id'] = $r1['id'];
+				$row['subdev_id'] = $_REQUEST["object_id"];
+			}
+			else if ($_REQUEST["object_type"] == "device")
+			{
+				$q1 = db_query("SELECT id FROM sub_devices WHERE dev_id = {$_REQUEST['object_id']}");
+				if ($r1 = db_fetch_array($q1))
+				{
+					$row['subdev_id'] = $r1['id'];
+				}
+				else
+				{
+					$row['subdev_id'] = 0;
+				}
 			}
 			else
 			{
 				$row['subdev_id'] = 0;
 			}
-		}
-		else
-		{
-			$row['subdev_id'] = 0;
-		}
-		break;
-
+			break;
+		
 		case "edit":
-		$q = db_query("SELECT * FROM view WHERE id={$_REQUEST['id']}");
-		$row = db_fetch_array($q);
-		break;
+			$q = db_query("SELECT * FROM view WHERE id={$_REQUEST['id']}");
+			$row = db_fetch_array($q);
+			break;
 	}
-
+	
 	make_edit_table("Add Item");
 	make_edit_select_from_array("Item Type:", "type", $GLOBALS["VIEW_ITEM_TYPES"], $row["type"]);
 	make_edit_group("Custom Graph");
@@ -139,19 +139,19 @@ function display_edit()
 	switch ($_REQUEST["action"])
 	{
 		case "add":
-		make_edit_hidden("object_id", $_REQUEST["object_id"]);
-		make_edit_hidden("object_type", $_REQUEST["object_type"]);
-		make_edit_hidden("action", "doadd");
-		make_edit_hidden("pos", $_REQUEST['pos']);
-		break;
-
+			make_edit_hidden("object_id", $_REQUEST["object_id"]);
+			make_edit_hidden("object_type", $_REQUEST["object_type"]);
+			make_edit_hidden("action", "doadd");
+			make_edit_hidden("pos", $_REQUEST['pos']);
+			break;
+		
 		case "edit":
-		make_edit_hidden("action", "doedit");
-		make_edit_hidden("id", $_REQUEST['id']);
-		make_edit_hidden("object_id", $row["object_id"]);
-		make_edit_hidden("object_type", $row["object_type"]);
-		//print_r($row);
-		break;
+			make_edit_hidden("action", "doedit");
+			make_edit_hidden("id", $_REQUEST['id']);
+			make_edit_hidden("object_id", $row["object_id"]);
+			make_edit_hidden("object_type", $row["object_type"]);
+			//print_r($row);
+			break;
 	}
 	make_edit_submit_button();
 	make_edit_end();
@@ -166,7 +166,7 @@ function do_add()
 		$_REQUEST['graph_id'] = $_REQUEST['graph_id_custom'];
 	else if($_REQUEST["type"] == "template" && !empty($_REQUEST['graph_id_template']))
 		$_REQUEST['graph_id'] = $_REQUEST['graph_id_template'];
-		
+	
 	db_update("INSERT INTO view SET
 		object_id={$_REQUEST['object_id']},
 		object_type='{$_REQUEST['object_type']}',
@@ -190,7 +190,7 @@ function do_edit()
 		separator_text='{$_REQUEST['separator_text']}',
 		subdev_id={$_REQUEST['subdev_id'][0]}
 		WHERE id={$_REQUEST['id']}");
-
+	
 	header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&action=list");
 	exit(0);
 }
@@ -208,7 +208,7 @@ function do_delete()
 	{
 		delete_view_item($_REQUEST['id']);
 	}
-
+	
 	header("Location: {$_SERVER['PHP_SELF']}?object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&action=list");
 	exit(0);
 }
@@ -232,17 +232,17 @@ function do_move($direction)
 			case "down":
 				move_view_item($_REQUEST['object_id'], $_REQUEST['object_type'], $_REQUEST['id'], $direction);
 				break;
-
+			
 			case "top":
 				move_view_item_top($_REQUEST['object_id'], $_REQUEST['object_type'], $_REQUEST['id']);
 				break;
-
+			
 			case "bottom":
 				move_view_item_bottom($_REQUEST['object_id'], $_REQUEST['object_type'], $_REQUEST['id']);
 				break;
 		}
 	}
-
+	
 	header("Location: {$_SERVER['PHP_SELF']}?object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&action=list");
 	exit(0);
 }
@@ -265,7 +265,7 @@ function ss_descendants($group)
 	{
 		ss_descendants($r['id']);
 	}
-
+	
 	$q = db_query("	SELECT dev.id AS id, count(view.id) AS view_items
 					FROM dev_parents dp
 					LEFT JOIN devices dev ON dp.dev_id=dev.id
@@ -287,21 +287,21 @@ function do_slideshow()
 	if (isset($_REQUEST["type"]))
 	{
 		// we're just starting a slideshow, not in the middle of one.
-
+		
 		$_SESSION["netmrgsess"]["slideshow"]["views"] = array();
 		$_SESSION["netmrgsess"]["slideshow"]["current"] = 0;
 		$_SESSION["netmrgsess"]["slideshow"]["type"] = $_REQUEST['type'];
-
+		
 		switch ($_REQUEST['type'])
 		{
 			case 0:		ss_random_all();						break;
 			case 1:		ss_descendants($_REQUEST['group_id']);	break;
 		}
-
+		
 		header("Location: {$_SERVER['PHP_SELF']}?action=slideshow");
 		exit(0);
 	}
-
+	
 	if (count($_SESSION["netmrgsess"]["slideshow"]["views"]) == 0)
 	{
 		begin_page("view.php", "Slide Show");
@@ -309,12 +309,12 @@ function do_slideshow()
 		end_page();
 		exit(0);
 	}
-
+	
 	if (isset($_REQUEST['jump']))
 	{
 		$_SESSION["netmrgsess"]["slideshow"]["current"] = $_REQUEST['jump'];
 	}
-
+	
 	$GLOBALS["slideshow"] = true;
 	$_REQUEST['action'] = "view";
 	$view = $_SESSION["netmrgsess"]["slideshow"]["views"][$_SESSION["netmrgsess"]["slideshow"]["current"]];
@@ -322,7 +322,7 @@ function do_slideshow()
 	$_REQUEST['object_id'] = $view['object_id'];
 	$GLOBALS["slide_show_formatted_link"] = cond_formatted_link($_SESSION["netmrgsess"]["slideshow"]["current"] > 0, "Previous Slide", "{$_SERVER['PHP_SELF']}?action=slideshow&jump=" . ($_SESSION["netmrgsess"]["slideshow"]["current"] - 1));
 	$_SESSION["netmrgsess"]["slideshow"]["current"]++;
-
+	
 	if ( count($_SESSION["netmrgsess"]["slideshow"]["views"]) == $_SESSION["netmrgsess"]["slideshow"]["current"])
 	{
 		$_SESSION["netmrgsess"]["slideshow"]["current"] = 0;
@@ -332,7 +332,7 @@ function do_slideshow()
 	{
 		$GLOBALS["slide_show_formatted_link"] .= formatted_link("Next Slide", "{$_SERVER['PHP_SELF']}?action=slideshow");
 	}
-
+	
 	?>
 	<script language="javascript">
 	<!--
@@ -340,12 +340,12 @@ function do_slideshow()
 	{
 		return document.body.offsetHeight;
 	}
-
+	
 	function nextPage()
 	{
 		window.location = "<?php echo("{$_SERVER['PHP_SELF']}?action=slideshow"); ?>";
 	}
-
+	
 	function myScroll()
 	{
 		if (running)
@@ -357,32 +357,32 @@ function do_slideshow()
 		}
 		setTimeout('myScroll()',scrollInterval);
 	}
-
+	
 	function start()
 	{
 		documentLength = myHeight();
 		myScroll();
 	}
-
+	
 	function toggle()
 	{
 		running = !running;
 	}
-
-
+	
+	
 	var documentLength;
 	var scrollAmount = 100;
 	var scrollInterval = 1000;
 	var documentYposition = 0;
 	var running = true;
-
+	
 	-->
 	</script>
 	<?php
-
+	
 	do_view();
-
-}
+	
+} // end do_slideshow();
 
 function do_view()
 {
@@ -396,7 +396,7 @@ function do_view()
 	{
 		begin_page("view.php", "View", 1);
 	}
-		
+	
 	$view_select =
 		"SELECT		view.id, pos, graphs.name, graphs.title, graph_id, separator_text, subdev_id, pos, view.type AS type
 		FROM		view
@@ -404,36 +404,40 @@ function do_view()
 		WHERE 		object_type='{$_REQUEST['object_type']}'
 		AND 		object_id={$_REQUEST['object_id']}
 		ORDER BY 	pos";
-
+	
 	$view_result = db_query($view_select);
 	$num = db_num_rows($view_result);
-
+	
 	if ($_REQUEST["action"] == "view")
 	{
 		echo '<!-- graphs start -->'."\n";
-		echo "<div align=\"center\">";
+		echo '<div align="center">'."\n";
 		
 		if (isset($_REQUEST['hist']))
 			$hist = "&hist={$_REQUEST['hist']}";
-
+		
 		while ($row = db_fetch_array($view_result))
 		{
 			switch ($row['type'])
 			{
 				case "graph":
-					echo '<a href="enclose_graph.php?type=custom&id='.$row["graph_id"].'">'."\n";
-					echo '	<img src="get_graph.php?type=custom&id='.$row["graph_id"].$hist.'" border="0">'."\n";
-					echo "</a><br />\n";
+					echo '	<div class="viewgraph">'."\n";
+					echo '		<a href="enclose_graph.php?type=custom&id='.$row["graph_id"].'">'."\n";
+					echo '		<img src="get_graph.php?type=custom&id='.$row["graph_id"].$hist.'" border="0">'."\n";
+					echo "		</a><br />\n";
+					echo "	</div>\n";
 					break;
 				
 				case "template":
-					echo '<a href="enclose_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].'">'."\n";
-					echo '	<img src="get_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].$hist.'" border="0">'."\n";
-					echo "</a><br />\n";
+					echo '	<div class="viewgraph">'."\n";
+					echo '		<a href="enclose_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].'">'."\n";
+					echo '		<img src="get_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].$hist.'" border="0">'."\n";
+					echo "		</a><br />\n";
+					echo "	</div>\n";
 					break;
 				
 				case "separator":
-					echo '<div class="viewseparator">' . $row["separator_text"] . '</div>'."\n";
+					echo '	<div class="viewseparator">' . $row["separator_text"] . '</div>'."\n";
 					break;
 			} // end switch row type
 		} // end while each row
@@ -458,8 +462,8 @@ function do_view()
 		{
 			print($GLOBALS["slide_show_formatted_link"]);
 		}
-
-	}
+		
+	} // end if view page
 	else
 	{
 		js_confirm_dialog("del", "Do you want to remove ", " from this view?", "{$_SERVER['PHP_SELF']}?action=dodelete&object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}&id=");
@@ -479,7 +483,7 @@ function do_view()
 			array("text" => "Item"),
 			array("text" => "Type")
 		); // end make_display_table();
-
+		
 		for ($i = 0; $i < $num; $i++)
 		{
 			$row = db_fetch_array($view_result);
@@ -492,7 +496,7 @@ function do_view()
 			{
 				$move_up = image_link("arrow_limit-up", "Move Top", "{$_SERVER['PHP_SELF']}?action=move_top&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}") . image_link("arrow-up", "Move Up", "{$_SERVER['PHP_SELF']}?action=move_up&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}");
 			}
-
+			
 			if ($i == ($num - 1))
 			{
 				$move_down = image_link_disabled("arrow-down", "Move Down") . image_link_disabled("arrow_limit-down", "Move Bottom");
@@ -501,31 +505,32 @@ function do_view()
 			{
 				$move_down = image_link("arrow-down", "Move Down", "{$_SERVER['PHP_SELF']}?action=move_down&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}") . image_link("arrow_limit-down", "Move Bottom", "{$_SERVER['PHP_SELF']}?action=move_bottom&object_id={$_REQUEST['object_id']}&object_type={$_REQUEST['object_type']}&id={$row['id']}");
 			}
-
+			
 			switch ($row['type'])
 			{
 				case 'graph':
-				$name = $row['title'];
-				$extra_options = formatted_link("Edit Graph", "graph_items.php?graph_id={$row['graph_id']}");
-				$type = "Graph";
-				break;
-
+					$name = $row['title'];
+					$extra_options = formatted_link("Edit Graph", "graph_items.php?graph_id={$row['graph_id']}");
+					$type = "Graph";
+					break;
+				
 				case 'template':
-				$name = expand_parameters($row['title'], $row['subdev_id']);
-				$extra_options = formatted_link("Edit Template", "graph_items.php?graph_id={$row['graph_id']}");
-				$type = "Template <i>(" . $row['name'] . ")</i>";
-				break;
-
+					$name = expand_parameters($row['title'], $row['subdev_id']);
+					$extra_options = formatted_link("Edit Template", "graph_items.php?graph_id={$row['graph_id']}");
+					$type = "Template <i>(" . $row['name'] . ")</i>";
+					break;
+				
 				case 'separator':
-				$name = "<strong><u>" . $row['separator_text'] . "</u></strong>";
-				$extra_options = "";
-				$type = "Separator";
-				break;
-
+					$name = "<strong><u>" . $row['separator_text'] . "</u></strong>";
+					$extra_options = "";
+					$type = "Separator";
+					break;
+				
 				default:
-				$extra_options = "";
-			}
-
+					$extra_options = "";
+					break;
+			} // end switch ($row['type'])
+			
 			make_display_item("editfield".($i%2),
 				array("checkboxname" => "viewitem", "checkboxid" => $row['id']),
 				array("text" => $name),
@@ -536,7 +541,8 @@ function do_view()
 					formatted_link("Delete","javascript:del('".str_replace('%', '', addslashes($name))."', '{$row['id']}')", "", "delete") . "&nbsp;" .
 					$extra_options)
 			); // end make_display_item();
-		}
+		} // end for each row
+		
 		make_checkbox_command("", 5,
 			array("text" => "Delete", "action" => "multidodelete", "prompt" => "Are you sure you want to delete the checked items?"),
 			array("text" => "Move Up", "action" => "move_up"),
@@ -545,10 +551,9 @@ function do_view()
 		make_status_line("{$_REQUEST["type"]} item", $i);
 		print("</table></form>");
 		print(formatted_link("Done Editing", "{$_SERVER['PHP_SELF']}?action=view&object_type={$_REQUEST['object_type']}&object_id={$_REQUEST['object_id']}"));
-
-	}
-
+	} // end else edit view
+	
 	end_page();
-}
+} // end do_view();
 
 ?>
