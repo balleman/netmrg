@@ -433,7 +433,7 @@ function do_view()
 					break;
 
 				case "separator":
-					echo '<table width="100%" ><tr><td class="viewseparator">' . $row["separator_text"] . '</td></tr></table>'."\n";
+					echo '<div class="viewseparator">' . $row["separator_text"] . '</div>'."\n";
 					break;
 			} // end switch row type
 		} // end while each row

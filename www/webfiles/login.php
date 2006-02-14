@@ -82,7 +82,7 @@ if (!empty($_REQUEST["user_name"]))
 	} // end if the username & password is valid or not
 }// end if there was a username
 
-begin_page("login.php", "Login", 0, 'onLoad="focusme();"', array("login_focus.js"));
+begin_page("login.php", "Login", 0, '', array("login_focus.js"));
 ?>
 <br><br>
 <font color="#000080" size="3"><strong>User Login</strong></font>

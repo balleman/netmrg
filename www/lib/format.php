@@ -33,10 +33,11 @@ function begin_page($pagename = "", $prettyname = "", $refresh = false, $bodytag
 	$display_menu = false;
 	
 	// always include these javascripts
-	array_push($javascript_files, "inputdefault.js");
-	
-	// always load this item
-	$bodytags .= ' onload="set_defaults(\'search\');"';
+	$extra_jscript_files = $javascript_files;
+	$javascript_files = array();
+	$javascript_files[] = 'onload.js';
+	$javascript_files[] = 'inputdefault.js';
+	$javascript_files = array_merge($javascript_files, $extra_jscript_files);
 	
 	// determine if we should display the menu or not
 	$display_menu = (IsLoggedIn() && !UpdaterNeedsRun() && count($prereqs_errors) == 0);

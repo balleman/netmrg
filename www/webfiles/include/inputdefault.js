@@ -38,3 +38,10 @@ function remove_defaults()
 		this.style.backgroundColor = '';
 	}
 }
+
+function set_defaults_search()
+{
+	set_defaults('search');
+}
+
+addOnloadEvent(set_defaults_search);
