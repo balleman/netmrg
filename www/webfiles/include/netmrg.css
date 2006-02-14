@@ -348,13 +348,17 @@ A.editfield1, A:visited.editfield1
 
 .viewseparator
 {
-	background-color : #4040B0;
-	color : #F0F0F0;
+	background-color : #D0D0D0;
+	color : #505050;
 	font-family : sans-serif;
 	font-size : 12px;
 	font-weight : bold;
+	letter-spacing : 0.2em;
 	padding : 1px;
-	border : 2px solid white;
+	padding-left : 10px;
+	text-align : left;
+	border-top : 1px dashed #4040B0;
+	border-bottom : 1px dashed #4040B0;
 }
 
 .disabled

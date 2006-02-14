@@ -425,13 +425,13 @@ function do_view()
 					echo '	<img src="get_graph.php?type=custom&id='.$row["graph_id"].$hist.'" border="0">'."\n";
 					echo "</a><br />\n";
 					break;
-
+				
 				case "template":
 					echo '<a href="enclose_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].'">'."\n";
 					echo '	<img src="get_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].$hist.'" border="0">'."\n";
 					echo "</a><br />\n";
 					break;
-
+				
 				case "separator":
 					echo '<div class="viewseparator">' . $row["separator_text"] . '</div>'."\n";
 					break;

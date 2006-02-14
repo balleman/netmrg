@@ -4,6 +4,8 @@
     by Scott Gonzalez (http://www.scottsplayground.com, scott.gonzalez@gmail.com)
   - quit using onload="" to run javascript onload functions.  Use 
     addOnloadEvent() that does stuff through the window.onload element
+  - bug#0000457: Separator should be cleaned up a bit
+    changed the table to a div, and cleaned up the css
 
 2006.02.03  v0.20cvs  keb
   - reordered users.php so the code is more readable
