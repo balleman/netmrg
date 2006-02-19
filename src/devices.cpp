@@ -15,6 +15,46 @@
 #include "mappings.h"
 #include "settings.h"
 
+void do_properties_recache(DeviceInfo info, MYSQL *mysql)
+{
+	string query = string("SELECT id, test_type, test_id, test_params FROM dev_props WHERE dev_type_id = " + inttostr(info.device_type));
+
+	MYSQL_RES *mysql_res = db_query(mysql, &info, query);
+	MYSQL_ROW mysql_row;
+
+	for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
+	{
+		mysql_row = mysql_fetch_row(mysql_res);
+
+		string value;
+		info.test_type = strtoint(mysql_row[1]);
+		info.test_id   = strtoint(mysql_row[2]);
+		info.test_params = mysql_row[3];
+		info.parameters.push_front(ValuePair("parameters", info.test_params));
+
+		switch (info.test_type)
+		{
+			case  1:	value = process_script_monitor(info, mysql);
+						break;
+	
+			case  2:	value = process_snmp_monitor(info, mysql);
+						break;
+	
+			case  3:	value = process_sql_monitor(info, mysql);
+						break;
+	
+			case  4:	value = process_internal_monitor(info, mysql);
+						break;
+	
+			default:	debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown test type (" + inttostr(info.test_type) + ").");
+						value = "U";
+		} // end switch
+
+		db_update(mysql, &info, "REPLACE INTO dev_prop_vals SET dev_id=" + inttostr(info.device_id) + ", prop_id=" + mysql_row[0] + ", value='" + db_escape(value) + "'");
+	}
+
+} // end do_properties_recache
+
 uint process_sub_device(DeviceInfo info, MYSQL *mysql)
 {
 	MYSQL_RES	*mysql_res;
@@ -198,19 +238,20 @@ void process_device(int dev_id)
 	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, "MySQL connection established.");
 	info.mysql = (void *) &mysql;
 
-	string query = 	string("SELECT ") 		+
-			string("name, ")				+ // 0
-			string("ip, ")					+ // 1
-			string("snmp_version, ")		+ // 2
-			string("snmp_read_community, ")	+ // 3
-			string("snmp_recache_method, ")	+ // 4
-			string("snmp_uptime, ")			+ // 5
-			string("snmp_ifnumber, ")		+ // 6
-			string("snmp_port, ")			+ // 7
-			string("snmp_timeout, ")		+ // 8
-			string("snmp_retries, ")		+ // 9
-			string("no_snmp_uptime_check ")	+ // 10
-			string("FROM devices ")			+
+	string query = 	string("SELECT ") 			+
+			string("name, ")					+ // 0
+			string("ip, ")						+ // 1
+			string("snmp_version, ")			+ // 2
+			string("snmp_read_community, ")		+ // 3
+			string("snmp_recache_method, ")		+ // 4
+			string("snmp_uptime, ")				+ // 5
+			string("snmp_ifnumber, ")			+ // 6
+			string("snmp_port, ")				+ // 7
+			string("snmp_timeout, ")			+ // 8
+			string("snmp_retries, ")			+ // 9
+			string("no_snmp_uptime_check, ")	+ // 10
+			string("dev_type ")					+ // 11
+			string("FROM devices ")				+
 			string("WHERE id=") + inttostr(dev_id);
 
 	mysql_res = db_query(&mysql, &info, query);
@@ -219,6 +260,7 @@ void process_device(int dev_id)
 	info.name					= mysql_row[0];
 	info.ip						= mysql_row[1];
 	info.snmp_version			= strtoint(mysql_row[2]);
+	info.device_type			= strtoint(mysql_row[11]);
 
 	debuglogger(DEBUG_DEVICE, LEVEL_INFO, &info, info.name + " / {" + info.ip + "}");
 
@@ -355,6 +397,8 @@ void process_device(int dev_id)
 	}
 
 	mysql_free_result(mysql_res);
+
+	do_properties_recache(info, &mysql);
 
 	// process sub-devices
 	status = process_sub_devices(info, &mysql);

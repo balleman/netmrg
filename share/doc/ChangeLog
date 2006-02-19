@@ -1,3 +1,7 @@
+2006.02.19  v0.20cvs  balleman
+  - bug#0000462: Device Properties
+    Completed initial framework.
+
 2006.02.13  v0.20cvs  silfreed
   - bug#0000452: Menu Rendering problems in IE
     added <div /> between #header and #content to clear; fix recommended

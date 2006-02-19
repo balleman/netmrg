@@ -40,7 +40,8 @@ $MENU = array(
 	),
 	"Admin" => array(
 		array("name" => "Devices", "link" => "grpdev_list.php", "descr" => "", "authLevelRequired" => 1),
-//		array("name" => "Device Types", "link" => "dev_types.php", "descr" => "", "authLevelRequired" => 2),
+		array("name" => "Device Types", "link" => "dev_types.php", "descr" => "", "authLevelRequired" => 2),
+		array("name" => "Device Properties", "link" => "dev_props.php", "descr" => "", "authLevelRequired" => 2, "display" => false),
 		array("name" => "Notifications", "link" => "notifications.php", "descr" => "", "authLevelRequired" => 1),
 		array("name" => "Custom Graphs", "link" => "graphs.php?type=custom", "descr" => "", "authLevelRequired" => 1),
 		array("name" => "Template Graphs", "link" => "graphs.php?type=template", "descr" => "", "authLevelRequired" => 1),
@@ -263,7 +264,8 @@ $SEARCH_ITEMS = array(
 	'device' => array(
 		'name' => "Device",
 		'sql' => array("SELECT id, name FROM devices 
-			WHERE name LIKE '%|ARG|%' OR ip LIKE '%|ARG|%'")
+			WHERE name LIKE '%|ARG|%' OR ip LIKE '%|ARG|%'",
+			"SELECT dev_id AS id, name FROM dev_prop_vals val LEFT JOIN devices dev ON val.dev_id=dev.id WHERE value LIKE '%|ARG|%'")
 		),
 	'subdevice' => array(
 		'name' => "Sub Device",

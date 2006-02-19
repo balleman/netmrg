@@ -1,4 +1,4 @@
-<?php
+<?PHP
 /**
 * format.php
 *
@@ -564,23 +564,47 @@ function GetClassList($class_array = array())
 *                         and 'href' that the text points at.  this can be an
 *                         arbitrary number of array items, and they can be empty
 */
+
 function make_display_table($title, $addlink = "")
+{
+	$elements = array();
+	for ($item_num = 2; $item_num < func_num_args(); $item_num++)
+	{
+		$item = func_get_arg($item_num);
+		array_push($elements, $item);
+	}
+	make_display_table_array($title, $elements, $addlink);
+}
+
+/**
+* make_display_table_array()
+*
+* displays the beginnings of a table with a specific title
+*
+* @param string $title    the title of the table
+* @param array $elements  an array of arrays containing 'text' describing the link
+*                         and 'href' that the text points at.  this can be an
+*                         arbitrary number of array items, and they can be empty
+* @param string $addlink  the link to use to add something if it doesn't 
+*                         refer to this page
+*/
+
+function make_display_table_array($title, $elements, $addlink = "")
 {
 
 ?>
 	<table style="border-collapse: collapse;" width="100%" cellpadding="0" cellspacing="0" border="0">
 	<tr>
-		<td class="editmainheader" colspan="<?php echo ((func_num_args() - 2) + 1); ?>">
+		<td class="editmainheader" colspan="<?php echo (count($elements) + 1); ?>">
 			<?php echo "$title\n"; ?>
 		</td>
 	</tr>
 	<tr>
 <?php
-	for ($item_num = 2; $item_num < func_num_args(); $item_num++)
+	foreach ($elements as $curitem)
 	{
-		$curitem = func_get_arg($item_num);
 ?>
-		<td class="editheader" width="<?php echo (80 / (func_num_args() - 2)); ?>%">
+		<td class="editheader" width="<?php echo (80 / (count($elements) + 1)); ?>%">
 			<?php if (!empty($curitem["href"])) { ?>
 			<a class="editheaderlink" href="<?php echo $curitem["href"]; ?>">
 			<?php } // end if href ?>
@@ -622,7 +646,19 @@ function make_display_table($title, $addlink = "")
 *                        'checkboxid' : id to use in checkbox
 *                        'checkdisabled' : true if checkbox is disabled
 */
+
 function make_display_item($style = "editfield0")
+{
+	$elements = array();
+	for ($item_num = 1; $item_num < func_num_args(); $item_num++)
+	{
+		$item = func_get_arg($item_num);
+		array_push($elements, $item);
+	}
+	make_display_item_array($elements, $style);
+}
+
+function make_display_item_array($elements, $style = "editfield0")
 {
 	if (empty($style))
 	{
@@ -631,9 +667,8 @@ function make_display_item($style = "editfield0")
 ?>
 	<tr>
 <?php
-	for ($item_num = 1; $item_num < (func_num_args()); $item_num++)
+	foreach ($elements as $curitem)
 	{
-		$curitem = func_get_arg($item_num);
 ?>
 		<td class="<?php echo $style ?>" nowrap="nowrap">
 <?php
@@ -672,7 +707,7 @@ function make_display_item($style = "editfield0")
 ?>
 	</tr>
 <?php
-} // end make_display_item()
+} // end make_display_item_array()
 
 
 //   Makes a display table
@@ -767,9 +802,10 @@ function make_checkbox_command($prefix = "", $columns)
 // make_status_line
 // unit: the singular form of the thing we're counting
 // value: the quantity of the thing we're counting
-function make_status_line($unit, $value)
+function make_status_line($unit, $value, $units = "")
 {
-	if ($value != 1) $unit = $unit . "s";
+	if ($units == "") $units = $unit . "s";
+	if ($value != 1) $unit = $units;
 	make_display_item("statusline", array("text" => "$value $unit"));
 }
 
@@ -1208,6 +1244,96 @@ function make_edit_select_subdevice($subdev_id_cur, $prepended_array = array(), 
 
 
 } // end make_edit_select_subdevice
+
+/**
+* make_edit_select_test()
+*
+* draws forms for the selection of a test type, test, and parameters for the test
+*
+*/
+
+function make_edit_select_test($test_type, $test_id, $test_params)
+{
+	echo
+	"
+		<script type='text/javascript'>
+		
+		function redisplay(selectedIndex)
+		{
+			window.location = '{$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&dev_type={$_REQUEST['dev_type']}&tripid={$_REQUEST['tripid']}&action={$_REQUEST['action']}" . $dev_thingy . "&type=' + selectedIndex;
+		}
+
+		</script>
+	";
+
+	// if we've been passed a test type
+	if (!empty($_REQUEST["type"]))
+	{
+		$test_type = $_REQUEST["type"];
+	} // end if test type is set
+	// else default to test type 1 (script)
+	else if (empty($test_type))
+	{
+		$test_type = 1;
+	} // end if no test type
+	GLOBAL $TEST_TYPES;
+	make_edit_select_from_array("Monitoring Type:", "test_type", $TEST_TYPES, $test_type, "onChange='redisplay(form.test_type.options[selectedIndex].value);'");
+	
+	if ($test_type == 1)
+	{
+		make_edit_group("Script Options");
+		if ($_REQUEST["action"] == "add")
+		{
+			make_edit_select_from_table("Script Test:", "test_id", "tests_script", "dl4392l234");
+		} // end if adding
+		else
+		{
+			make_edit_select_from_table("Script Test:", "test_id", "tests_script", $test_id);
+		} // end if editing
+	}
+	
+	if ($test_type == 2)
+	{
+		make_edit_group("SNMP Options");
+		if ($_REQUEST["action"] == "add")
+		{
+			make_edit_select_from_table("SNMP Test:", "test_id", "tests_snmp", "dl4392l234");
+		} // end if adding
+		else
+		{
+			make_edit_select_from_table("SNMP Test:", "test_id", "tests_snmp", $test_id);
+		} // end if editing
+	}
+	
+	if ($test_type == 3)
+	{
+		make_edit_group("SQL Options");
+		if ($_REQUEST["action"] == "add")
+		{
+			make_edit_select_from_table("SQL Test:", "test_id", "tests_sql", "dl4392l234");
+		} // end if adding
+		else
+		{
+			make_edit_select_from_table("SQL Test:", "test_id", "tests_sql", $test_id);
+		} // end if editing
+	}
+	
+	if ($test_type == 4)
+	{
+		make_edit_group("Internal Test Options");
+		if ($_REQUEST["action"] == "add")
+		{
+			make_edit_select_from_table("Internal Test:", "test_id", "tests_internal", "dl4392l234");
+		} // end if adding
+		else
+		{
+			make_edit_select_from_table("Internal Test:", "test_id", "tests_internal", $test_id);
+		} // end if editing
+	}
+	
+	make_edit_text("Parameters:", "test_params", 50, 100, htmlspecialchars($test_params));
+
+} // end make_test_selection
 
 // Special Functions
 

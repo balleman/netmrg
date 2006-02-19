@@ -399,27 +399,43 @@ function get_group_status($grp_id)
 
 function get_short_monitor_name($mon_id)
 {
-	GLOBAL $TEST_TYPES;
-
 	$mon_query = db_query("
 		SELECT	test_id, test_params, test_type
 		FROM	monitors
 		WHERE	monitors.id = $mon_id");
 	$mon_row = db_fetch_array($mon_query);
 
-	switch($mon_row["test_type"])
+	return get_short_test_name($mon_row['test_type'], $mon_row['test_id'], $mon_row['test_params']);
+}
+
+function get_short_property_name($prop_id)
+{
+	$prop_query = db_query("
+		SELECT	test_id, test_params, test_type
+		FROM	dev_props
+		WHERE	dev_props.id = $prop_id");
+	$prop_row = db_fetch_array($prop_query);
+
+	return get_short_test_name($prop_row['test_type'], $prop_row['test_id'], $prop_row['test_params']);
+}
+
+function get_short_test_name($test_type, $test_id, $test_params)
+{
+	GLOBAL $TEST_TYPES;
+
+	switch($test_type)
 	{
 		case 1:
-			$test_query = "SELECT name FROM tests_script   WHERE id = " . $mon_row["test_id"];
+			$test_query = "SELECT name FROM tests_script   WHERE id = " . $test_id;
 			break;
 		case 2:
-			$test_query = "SELECT name FROM tests_snmp     WHERE id = " . $mon_row["test_id"];
+			$test_query = "SELECT name FROM tests_snmp     WHERE id = " . $test_id;
 			break;
 		case 3:
-			$test_query = "SELECT name FROM tests_sql      WHERE id = " . $mon_row["test_id"];
+			$test_query = "SELECT name FROM tests_sql      WHERE id = " . $test_id;
 			break;
 		case 4:
-			$test_query = "SELECT name FROM tests_internal WHERE id = " . $mon_row["test_id"];
+			$test_query = "SELECT name FROM tests_internal WHERE id = " . $test_id;
 			break;
 
 	} // end switch test type
@@ -428,13 +444,13 @@ function get_short_monitor_name($mon_id)
 
 	$res = $test_row["name"];
 
-	if ($mon_row["test_params"] != "")
+	if ($test_params != "")
 	{
-		$res .= " - " . $mon_row["test_params"];
+		$res .= " - " . $test_params;
 	}
 
 	return $res;
-} // end get_short_monitor_name()
+} // end get_short_test_name()
 
 
 function get_monitor_name($mon_id)

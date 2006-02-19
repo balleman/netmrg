@@ -213,7 +213,16 @@ $dbupdates = array(
 		array(
 			"name" => "Graph Max NULL Fix",
 			"query" => "UPDATE graphs SET max=NULL WHERE max=0")
-	) // end 0.19cvs
+	), // end 0.19
+
+	"0.20cvs" => array(
+		array(
+			"name" => "Device Properties Table",
+			"query" => "CREATE TABLE `dev_props` (`id` INT NOT NULL AUTO_INCREMENT, `dev_type_id` INT NOT NULL, `name` VARCHAR( 200 ) NOT NULL, `test_type` TINYINT NOT NULL, `test_id` INT NOT NULL, `test_params` VARCHAR( 150 ) NOT NULL, PRIMARY KEY ( `id` )) TYPE = MYISAM ;"),
+		array(
+			"name" => "Device Properties Values Table",
+			"query" => "CREATE TABLE `dev_prop_vals` ( `dev_id` INT NOT NULL, `prop_id` INT NOT NULL, `value` VARCHAR( 250 ) NOT NULL, PRIMARY KEY ( `dev_id` , `prop_id` )) ")
+	) // end 0.20cvs
 	
 ); // end $dbupdates;
 

@@ -106,7 +106,7 @@ function do_list()
 	$mons = array();
 	while ($arow = mysql_fetch_array($mon_results))
 	{
-		$arow['short_name'] = get_short_monitor_name($arow["id"]);
+		$arow['short_name'] = get_short_test_name($arow['test_type'], $arow['test_id'], $arow['test_params']);
 		array_push($mons, $arow);
 	}
 
@@ -272,11 +272,6 @@ function edit()
 	echo "
 		<script type='text/javascript'>
 		
-		function redisplay(selectedIndex)
-		{
-			window.location = '{$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&tripid={$_REQUEST['tripid']}&action={$_REQUEST['action']}" . $dev_thingy . "&type=' + selectedIndex;
-		}
-		
 		function validateform()
 		{
 			if (document.editform.min_val.value != 'U'
@@ -300,73 +295,8 @@ function edit()
 		}
 		</script>
 		";
-	
-	// if we've been passed a test type
-	if (!empty($_REQUEST["type"]))
-	{
-		$mon_row["test_type"] = $_REQUEST["type"];
-	} // end if test type is set
-	// else default to test type 1 (script)
-	else if (empty($mon_row["test_type"]))
-	{
-		$mon_row["test_type"] = 1;
-	} // end if no test type
-	GLOBAL $TEST_TYPES;
-	make_edit_select_from_array("Monitoring Type:", "test_type", $TEST_TYPES, $mon_row["test_type"], "onChange='redisplay(form.test_type.options[selectedIndex].value);'");
-	
-	if ($mon_row["test_type"] == 1)
-	{
-		make_edit_group("Script Options");
-		if ($_REQUEST["action"] == "add")
-		{
-			make_edit_select_from_table("Script Test:", "test_id", "tests_script", "dl4392l234");
-		} // end if adding
-		else
-		{
-			make_edit_select_from_table("Script Test:", "test_id", "tests_script", $mon_row["test_id"]);
-		} // end if editing
-	}
-	
-	if ($mon_row["test_type"] == 2)
-	{
-		make_edit_group("SNMP Options");
-		if ($_REQUEST["action"] == "add")
-		{
-			make_edit_select_from_table("SNMP Test:", "test_id", "tests_snmp", "dl4392l234");
-		} // end if adding
-		else
-		{
-			make_edit_select_from_table("SNMP Test:", "test_id", "tests_snmp", $mon_row["test_id"]);
-		} // end if editing
-	}
-	
-	if ($mon_row["test_type"] == 3)
-	{
-		make_edit_group("SQL Options");
-		if ($_REQUEST["action"] == "add")
-		{
-			make_edit_select_from_table("SQL Test:", "test_id", "tests_sql", "dl4392l234");
-		} // end if adding
-		else
-		{
-			make_edit_select_from_table("SQL Test:", "test_id", "tests_sql", $mon_row["test_id"]);
-		} // end if editing
-	}
-	
-	if ($mon_row["test_type"] == 4)
-	{
-		make_edit_group("Internal Test Options");
-		if ($_REQUEST["action"] == "add")
-		{
-			make_edit_select_from_table("Internal Test:", "test_id", "tests_internal", "dl4392l234");
-		} // end if adding
-		else
-		{
-			make_edit_select_from_table("Internal Test:", "test_id", "tests_internal", $mon_row["test_id"]);
-		} // end if editing
-	}
-	
-	make_edit_text("Parameters:", "test_params", 50, 100, htmlspecialchars($mon_row["test_params"]));
+
+	make_edit_select_test($mon_row['test_type'], $mon_row['test_id'], $mon_row['test_params']);	
 	make_edit_group("Graphing Options");
 	make_edit_select_from_table("Data Type:", "data_type", "data_types", $mon_row["data_type"]);
 	make_edit_text("Minimum Value:", "min_val", "10", "20", $mon_row["min_val"]);

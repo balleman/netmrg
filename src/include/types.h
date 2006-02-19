@@ -61,6 +61,7 @@ struct DeviceInfo
 	uint snmp_ifnumber;
 	long long int snmp_uptime;
 
+	uint device_type;
 	uint subdevice_type;
 
 	int test_type;

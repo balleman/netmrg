@@ -65,7 +65,7 @@ if ((!isset($_REQUEST["action"])) || ($_REQUEST["action"] == "doedit") || ($_REQ
 		$id  = $row["id"];
 
 		make_display_item("editfield".(($grp_count-1)%2),
-			array("text" => $row["name"]),
+			array("text" => $row["name"], "href" => "dev_props.php?dev_type=$id"),
 			array("text" => $row["comment"]),
 			array("text" => formatted_link("Edit", "{$_SERVER['PHP_SELF']}?action=edit&id=$id") . "&nbsp;" .
 				formatted_link("Delete", "javascript:del('" . addslashes($row["name"]) . "', '" . $row["id"] . "')"))

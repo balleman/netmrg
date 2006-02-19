@@ -108,22 +108,39 @@ function display()
 		WHERE grp_id = '{$_REQUEST['parent_id']}'
 		GROUP BY devices.id
 		ORDER BY name ASC");
+
+	$column_results = db_query("
+		SELECT DISTINCT dev_props.name AS name
+		FROM dev_parents
+		LEFT JOIN devices ON dev_parents.dev_id=devices.id
+		LEFT JOIN dev_props ON devices.dev_type=dev_props.dev_type_id
+		WHERE grp_id = '{$_REQUEST['parent_id']}'
+		ORDER BY dev_props.name ASC");
 	
 	echo '<form action="devices.php" method="post" name="devform">'."\n";
 	echo '<input type="hidden" name="tripid" value="'.$_REQUEST['tripid'].'">'."\n";
 	echo '<input type="hidden" name="grp_id" value="'.$_REQUEST['parent_id'].'">'."\n";
 	echo '<input type="hidden" name="action" value="">'."\n";
-	make_display_table($title, $addlink,
-		array("text" => checkbox_toolbar("dev")),
-		array("text" => "Name"),
-		array("text" => "Availability"),
-		array("text" => "SNMP Options")
-	);
+
+	$custom_columns = array();
+	$menu_items = array();
+	array_push($menu_items, array("text" => checkbox_toolbar("dev")));
+	array_push($menu_items, array("text" => "Name"));
+	array_push($menu_items, array("text" => "Availability"));
+	while ($row = mysql_fetch_array($column_results))
+	{
+		array_push($custom_columns, $row['name']);
+		array_push($menu_items, array("text" => $row['name']));
+	}
+	array_push($menu_items, array("text" => "SNMP Options"));
+	make_display_table_array($title, $menu_items, $addlink);
 	
 	$count = 0;
 	while($dev_row = db_fetch_array($dev_results))
 	{
 		$dev_id  = $dev_row["id"];
+
+		/* SNMP Options */
 		$links   =
 		cond_formatted_link($dev_row["interface_count"] > 0, "View&nbsp;Interface&nbsp;Cache",
 			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=interface&tripid={$_REQUEST['tripid']}", "", "viewinterface") . " " .
@@ -134,6 +151,7 @@ function display()
 		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Disks",
 			"recache.php?dev_id=$dev_id&type=disk&tripid={$_REQUEST['tripid']}", "", "recachedisk");
 			
+		/* Availability Display */
 		if ($dev_row['disabled'] == 1)
 		{
 			$availability = "Disabled";
@@ -154,20 +172,48 @@ function display()
 		{
 			$availability = "SNMP Uptime: " . format_time_elapsed($dev_row['snmp_uptime']/100);
 		}
+
+		$items = array();
+		array_push($items, array("checkboxname" => "dev_id", "checkboxid" => $dev_row['id']));
+		array_push($items, array("text" => $dev_row["name"], "href" => "sub_devices.php?dev_id=$dev_id&tripid={$_REQUEST['tripid']}"));
+		array_push($items, array("text" => $availability));
+
+		/* Device Properties */
+		$prop_res = db_query("
+		SELECT name, value
+		FROM dev_prop_vals vals
+		LEFT JOIN dev_props props ON vals.prop_id = props.id
+		WHERE dev_id = $dev_id");
 		
-		make_display_item("editfield".($count%2),
-			array("checkboxname" => "dev_id", "checkboxid" => $dev_row['id']),
-			array("text" => $dev_row["name"], "href" => "sub_devices.php?dev_id=$dev_id&tripid={$_REQUEST['tripid']}"),
-			array("text" => $availability),
-			array("text" => $links),
-			array("text" => formatted_link("View", "view.php?action=view&object_type=device&object_id=$dev_id", "", "view") . "&nbsp;" .
-				formatted_link("Duplicate", "devices.php?action=duplicate&dev_id=$dev_id&grp_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}", "", "duplicate") . "&nbsp;" .
-				formatted_link("Edit", "devices.php?action=edit&dev_id=$dev_id&grp_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}", "", "edit") . "&nbsp;" .
-				formatted_link("Delete", "javascript:del_dev('" . addslashes($dev_row["name"]) . "', '" . $dev_row["id"] . "')", "", "delete"))
-		); // end make_display_item();
+		$props = array();
+		while ($proprow = db_fetch_array($prop_res))
+		{
+			array_push($props, array("name" => $proprow['name'], "value" => $proprow['value']));
+		}
+
+		foreach ($custom_columns as $column)
+		{
+			$found = "";
+			foreach ($props as $prop)
+				if ($prop['name'] == $column)
+				{
+					$found = true;
+					array_push($items, array("text" => $prop['value']));
+				}
+			if (!$found)
+				array_push($items, array());
+		}
+
+		array_push($items, array("text" => $links));
+		array_push($items, array("text" => formatted_link("View", "view.php?action=view&object_type=device&object_id=$dev_id", "", "view") . "&nbsp;" .
+			formatted_link("Duplicate", "devices.php?action=duplicate&dev_id=$dev_id&grp_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}", "", "duplicate") . "&nbsp;" .
+			formatted_link("Edit", "devices.php?action=edit&dev_id=$dev_id&grp_id={$_REQUEST['parent_id']}&tripid={$_REQUEST['tripid']}", "", "edit") . "&nbsp;" .
+			formatted_link("Delete", "javascript:del_dev('" . addslashes($dev_row["name"]) . "', '" . $dev_row["id"] . "')", "", "delete")));
+
+		make_display_item_array($items, "editfield".($count%2));
 		$count++;
 	} // end while devices
-	make_checkbox_command("dev", 5,
+	make_checkbox_command("dev", 5 + count($custom_columns),
 		array("text" => "Delete", "action" => "deletemulti", "prompt" => "Are you sure you want to delete the checked devices?")
 	); // end make_checkbox_command
 	make_status_line("device", $count);
