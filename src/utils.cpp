@@ -306,10 +306,12 @@ string remove_braces(const string & message)
 //
 // component	- the sum of the components this message pertains to
 // level		- the sum of the levels this message pertains to
+// file, line,
+// function		- provided by the LEVEL_* macros
 // info			- the DeviceInfo struct, used to display the context of the message
 // message		- the message, sensitive information enclosed in braces will be censored when desired
 //
-void debuglogger(int component, int level, const DeviceInfo * info, const string & message)
+void __debuglogger(int component, int level, const char * file, int line, const char * function, const DeviceInfo * info, const string & message)
 {
 	// only proceed if this message is qualified for display
 	if ((debug_level & level) && (debug_components & component))
@@ -328,6 +330,11 @@ void debuglogger(int component, int level, const DeviceInfo * info, const string
 			if (info->device_id != -1)
 			{
 				tempmsg = tempmsg + string("[Dev: ") + inttopadstr(info->device_id, 4) + string("] ");
+			}
+
+			if (info->property_id != -1)
+			{
+				tempmsg = tempmsg + string("[Pro: ") + inttopadstr(info->property_id, 4) + string("] ");
 			}
 
 			if (info->subdevice_id != -1)
@@ -364,6 +371,18 @@ void debuglogger(int component, int level, const DeviceInfo * info, const string
 		{
 			content = remove_braces(message);
 		}
+
+		if ( (debug_components & DEBUG_FILELINE) || (debug_components & DEBUG_FUNCTION) )
+			context = context + "[";
+
+		if (debug_components & DEBUG_FILELINE)
+			context = context + file + "(" + inttostr(line) + ")";
+
+		if (debug_components & DEBUG_FUNCTION)
+			context = context + ":" + function;
+
+		if ( (debug_components & DEBUG_FILELINE) || (debug_components & DEBUG_FUNCTION) )
+			context = context + "] ";
 
 		fullmessage = context + content;
 

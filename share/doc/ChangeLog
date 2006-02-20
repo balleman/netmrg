@@ -1,6 +1,7 @@
 2006.02.19  v0.20cvs  balleman
   - bug#0000462: Device Properties
     Completed initial framework.
+  - bug#0000393: line number messages
 
 2006.02.13  v0.20cvs  silfreed
   - bug#0000452: Menu Rendering problems in IE

@@ -31,8 +31,11 @@ const int DEBUG_SNMP		= 256;
 const int DEBUG_GATHERER	= 512;
 const int DEBUG_MYSQL		= 1024;
 const int DEBUG_LOGGING		= 2048;
+const int DEBUG_FILELINE	= 4096;
+const int DEBUG_FUNCTION	= 8192;
+const int DEBUG_PROPERTY	= 16384;
 
-const int DEBUG_ALL			= 4095;
+const int DEBUG_ALL			= 32767;
 const int DEBUG_MOST		= DEBUG_ALL;
 const int DEBUG_DEFAULT		= DEBUG_ALL;
 
@@ -107,6 +110,7 @@ int				get_log_method();
 
 string			censor_message(const string & message);
 string			remove_braces(const string & message);
-void 			debuglogger(int component, int level, const DeviceInfo *, const string & message);
+#define debuglogger(a,b,c,d) __debuglogger(a, b, __FILE__, __LINE__, __FUNCTION__, c, d)
+void 			__debuglogger(int component, int level, const char * file, int line, const char * function, const DeviceInfo *, const string & message);
 
 #endif

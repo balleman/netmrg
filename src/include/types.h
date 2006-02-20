@@ -46,6 +46,7 @@ struct ValuePair
 struct DeviceInfo
 {
 	int device_id;
+	int property_id;
 	int subdevice_id;
 	int monitor_id;
 	int event_id;
@@ -89,6 +90,7 @@ struct DeviceInfo
 	DeviceInfo()
 	{
 		device_id 		= -1;
+		property_id		= -1;
 		subdevice_id	= -1;
 		monitor_id		= -1;
 		event_id		= -1;

@@ -17,7 +17,7 @@
 
 void do_properties_recache(DeviceInfo info, MYSQL *mysql)
 {
-	string query = string("SELECT id, test_type, test_id, test_params FROM dev_props WHERE dev_type_id = " + inttostr(info.device_type));
+	string query = string("SELECT id, test_type, test_id, test_params, name FROM dev_props WHERE dev_type_id = " + inttostr(info.device_type));
 
 	MYSQL_RES *mysql_res = db_query(mysql, &info, query);
 	MYSQL_ROW mysql_row;
@@ -27,9 +27,10 @@ void do_properties_recache(DeviceInfo info, MYSQL *mysql)
 		mysql_row = mysql_fetch_row(mysql_res);
 
 		string value;
-		info.test_type = strtoint(mysql_row[1]);
-		info.test_id   = strtoint(mysql_row[2]);
-		info.test_params = mysql_row[3];
+		info.property_id	= strtoint(mysql_row[0]);
+		info.test_type		= strtoint(mysql_row[1]);
+		info.test_id		= strtoint(mysql_row[2]);
+		info.test_params	= mysql_row[3];
 		info.parameters.push_front(ValuePair("parameters", info.test_params));
 
 		switch (info.test_type)
@@ -46,11 +47,19 @@ void do_properties_recache(DeviceInfo info, MYSQL *mysql)
 			case  4:	value = process_internal_monitor(info, mysql);
 						break;
 	
-			default:	debuglogger(DEBUG_MONITOR, LEVEL_WARNING, &info, "Unknown test type (" + inttostr(info.test_type) + ").");
+			default:	debuglogger(DEBUG_PROPERTY, LEVEL_WARNING, &info, "Unknown test type (" + inttostr(info.test_type) + ").");
 						value = "U";
 		} // end switch
 
-		db_update(mysql, &info, "REPLACE INTO dev_prop_vals SET dev_id=" + inttostr(info.device_id) + ", prop_id=" + mysql_row[0] + ", value='" + db_escape(value) + "'");
+		if (value != "U")
+		{
+			debuglogger(DEBUG_PROPERTY, LEVEL_INFO, &info, string("Device Property '") + mysql_row[4] + "' set to {'" + value + "'}");
+			db_update(mysql, &info, "REPLACE INTO dev_prop_vals SET dev_id=" + inttostr(info.device_id) + ", prop_id=" + mysql_row[0] + ", value='" + db_escape(value) + "'");
+		}
+		else
+		{
+			debuglogger(DEBUG_PROPERTY, LEVEL_INFO, &info, "Device Property test failed, skipping update.");
+		}
 	}
 
 } // end do_properties_recache
