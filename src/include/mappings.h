@@ -14,7 +14,7 @@
 #include "db.h"
 
 // types
-enum IfMIBType { imtStandard, imtCatOS, imtOldCiscoSwitch, imtOldCiscoRouter }; 
+enum IfMIBType { imtStandard, imtCatOS, imtOldCiscoSwitch, imtOldCiscoRouter, imtFSM726 }; 
 
 // caching functions
 void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql);

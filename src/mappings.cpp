@@ -31,6 +31,9 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 
 	IfMIBType mibtype = imtStandard;
 
+	if (sysdescr.find("FSM726 Managed Switch") != string::npos)
+		mibtype = imtFSM726;
+
 	if (sysdescr.find("WS-C") != string::npos)
 		mibtype = imtCatOS;
 
@@ -69,6 +72,12 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 				ifAlias.erase(0, 1);
 				ifAlias.erase(ifAlias.length() - 1, 1);
 			}
+		}
+		else if (mibtype == imtFSM726)
+		{
+			ifAlias = snmp_get(*info, ".1.3.6.1.4.1.4526.1.4.11.6.1.13." + ifIndex);
+			ifAlias = remove_surrounding_quotes(ifAlias);
+			ifName  = ifDescr;	
 		}
 		else if (mibtype == imtOldCiscoSwitch)
 		{
