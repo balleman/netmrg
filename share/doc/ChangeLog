@@ -1,5 +1,6 @@
 2006.02.21  v0.20cvs  silfreed
   - bug#0000461: Support for D-Link FSM726 Switch's ifAlias
+  - adding script to poll surfboard status information
 
 2006.02.19  v0.20cvs  balleman
   - bug#0000462: Device Properties
