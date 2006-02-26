@@ -411,7 +411,7 @@ function do_view()
 	if ($_REQUEST["action"] == "view")
 	{
 		echo '<!-- graphs start -->'."\n";
-		echo '<div align="center">'."\n";
+		echo '<div id="viewdisplay">'."\n";
 		
 		if (isset($_REQUEST['hist']))
 			$hist = "&hist={$_REQUEST['hist']}";
@@ -422,17 +422,19 @@ function do_view()
 			{
 				case "graph":
 					echo '	<div class="viewgraph">'."\n";
-					echo '		<a href="enclose_graph.php?type=custom&id='.$row["graph_id"].'">'."\n";
-					echo '		<img src="get_graph.php?type=custom&id='.$row["graph_id"].$hist.'" border="0">'."\n";
-					echo "		</a><br />\n";
+					echo '		'.$row['title']."<br />\n";
+					echo '		<a href="enclose_graph.php?type=custom&amp;id='.$row["graph_id"].'">'."\n";
+					echo '		<img src="get_graph.php?type=custom&amp;id='.$row["graph_id"].$hist.'" />'."\n";
+					echo "		</a>\n";
 					echo "	</div>\n";
 					break;
 				
 				case "template":
 					echo '	<div class="viewgraph">'."\n";
-					echo '		<a href="enclose_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].'">'."\n";
-					echo '		<img src="get_graph.php?type=template&id='.$row["graph_id"].'&subdev_id='.$row["subdev_id"].$hist.'" border="0">'."\n";
-					echo "		</a><br />\n";
+					echo '		'.expand_parameters($row['title'], $row['subdev_id'])."<br />\n";
+					echo '		<a href="enclose_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].'">'."\n";
+					echo '		<img src="get_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].$hist.'" />'."\n";
+					echo "		</a>\n";
 					echo "	</div>\n";
 					break;
 				

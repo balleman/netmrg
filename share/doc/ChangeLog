@@ -1,3 +1,7 @@
+2006.02.26  v0.20cvs  silfreed
+  - updated bugs.pa.net to mantis 1.0.1
+  - updated wiki.netmrg.net to mediawiki 1.5.6
+
 2006.02.21  v0.20cvs  silfreed
   - bug#0000461: Support for D-Link FSM726 Switch's ifAlias
   - adding script to poll surfboard status information
