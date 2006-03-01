@@ -1,12 +1,14 @@
 #!/usr/bin/php
 <?php
 /** CONFIG **/
+// 5100 is at 'http://192.168.100.1/signaldata.html'
 $signalpage = 'http://192.168.100.1/signaldata.htm';
-$ip = '192.168.100.1';
 $direction = '';
 $variable  = '';
 
 // output parameters
+$regex     = '';
+$outputval = 'U';
 $downstream = array();
 $upstream   = array();
 
@@ -17,7 +19,9 @@ $upstream   = array();
 if (!isset($_SERVER['argc']) || $_SERVER['argc'] < 4)
 {
 	echo "U: Not enough arguments\n";
-	echo "  Usage: <prog> ip direction variable\n";
+	echo "  Usage: <prog> url direction variable\n";
+	echo "    url: full path to the signal page (not the frame!)\n";
+	echo "      ex: $signalpage\n";
 	echo "    direction: downstream\n";
 	echo "      variable: frequency, snr, qam, power_level\n";
 	echo "    direction: upstream\n";
@@ -26,37 +30,72 @@ if (!isset($_SERVER['argc']) || $_SERVER['argc'] < 4)
 	exit(1);
 } // end if not proper arguments
 // assign variables
-$ip = $_SERVER['argv'][1];
-$direction = $_SERVER['argv'][2];
-$variable  = $_SERVER['argv'][3];
-
+$signalpage = $_SERVER['argv'][1];
+$direction  = $_SERVER['argv'][2];
+$variable   = $_SERVER['argv'][3];
 
 // grab page conents
 $signalpage_contents = file_get_contents($signalpage);
 
-// find downstream information
-if (preg_match('/Downstream.*?Frequency.*?(\d+)\s*Hz.*?Signal to Noise Ratio.*?(\d+)\s*dB.*?QAM.*?(\d+).*?Power Level.*?(\d+)\s*dBmV/s', $signalpage_contents, $matches))
+switch ($direction)
 {
-	$downstream['frequency'] = $matches[1];
-	$downstream['snr']       = $matches[2];
-	$downstream['qam']       = $matches[3];
-	$downstream['power_level'] = $matches[4];
-} // end if matched downstream info
+	case 'downstream':
+		switch ($variable)
+		{
+			case 'frequency':
+				$regex = '/Downstream.*?Frequency.*?(\d+)\s*Hz/s';
+				break;
+			
+			case 'snr':
+				$regex = '/Downstream.*?Signal to Noise Ratio.*?(\d+)\s*dB/s';
+				break;
+			
+			case 'qam':
+				$regex = '/Downstream.*?QAM.*?(\d+)/s';
+				break;
+			
+			case 'power_level':
+				$regex = '/Downstream.*?Power Level.*?(\d+)\s*dB(?:mV)?/s';
+				break;
+		} // end switch variable
+		break;
+	
+	case 'upstream':
+		switch ($variable)
+		{
+			case 'channel_id':
+				$regex = '/Upstream.*?Channel ID.*?(\d+).*?/s';
+				break;
+			
+			case 'frequency':
+				$regex = '/Upstream.*?Frequency.*?(\d+)\s*Hz/s';
+				break;
+			
+			case 'ranging_service_id':
+				$regex = '/Upstream.*?Ranging Service ID.*?(\d+)/s';
+				break;
+			
+			case 'symbol_rate':
+				$regex = '/Upstream.*?Symbol Rate.*?([\d\.]+)\s*Msym\/s/s';
+				break;
+			
+			case 'power_level':
+				$regex = '/Upstream.*?Power Level.*?(\d+)\s*dBmV/s';
+				break;
+		} // end switch variable
+		break;
+} // end switch direction
 
-// find upstream information
-if (preg_match('/Upstream.*?Channel ID.*?(\d+).*?Frequency.*?(\d+)\s*Hz.*?Ranging Service ID.*?(\d+).*?Symbol Rate.*?([\d\.]+)\s*Msym\/s.*?Power Level.*?(\d+)\s*dBmV/s', $signalpage_contents, $matches))
+// lookup appropriate value
+if (!empty($regex) && preg_match($regex, $signalpage_contents, $matches))
 {
-	$upstream['channel_id']  = $matches[1];
-	$upstream['frequency']   = $matches[2];
-	$upstream['ranging_service_id'] = $matches[3];
-	$upstream['symbol_rate'] = $matches[4];
-	$upstream['power_level'] = $matches[5];
-} // end if matched upstream info
+	$outputval = $matches[1];
+} // end if regex and regex match
 
-// check direction and variable to output
-if (isset(${$direction}) && isset(${$direction}[$variable]))
+// check output
+if (!empty($outputval))
 {
-	echo ${$direction}[$variable] . "\n";
-} // end if we passed a valid direction and variable
+	echo "$outputval\n";
+} // end if we had output to pass along
 
 ?>
