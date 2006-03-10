@@ -1,3 +1,6 @@
+2006.03.10  v0.20cvs  balleman
+  - bug#0000465: infinite loop on nanosleep() - fixed uninited param
+
 2006.02.27  v0.20cvs  silfreed
   - bug#0000456: Should be able to search within a view page on titles
     that last update contained patches to view page that weren't supposed 
