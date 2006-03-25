@@ -424,7 +424,7 @@ function do_view()
 					echo '	<div class="viewgraph">'."\n";
 					echo '		'.$row['title']."<br />\n";
 					echo '		<a href="enclose_graph.php?type=custom&amp;id='.$row["graph_id"].'">'."\n";
-					echo '		<img src="get_graph.php?type=custom&amp;id='.$row["graph_id"].$hist.'" />'."\n";
+					echo '		<img src="get_graph.php?type=custom&amp;id='.$row["graph_id"].$hist.'" alt="" />'."\n";
 					echo "		</a>\n";
 					echo "	</div>\n";
 					break;
@@ -433,7 +433,7 @@ function do_view()
 					echo '	<div class="viewgraph">'."\n";
 					echo '		'.expand_parameters($row['title'], $row['subdev_id'])."<br />\n";
 					echo '		<a href="enclose_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].'">'."\n";
-					echo '		<img src="get_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].$hist.'" />'."\n";
+					echo '		<img src="get_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].$hist.'" alt="" />'."\n";
 					echo "		</a>\n";
 					echo "	</div>\n";
 					break;

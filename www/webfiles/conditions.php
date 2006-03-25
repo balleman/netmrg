@@ -49,7 +49,7 @@ function do_display()
 	PrepGroupNavHistory("event", $_REQUEST["event_id"]);
 	DrawGroupNavHistory("event", $_REQUEST["event_id"]);
 
-	$query = db_query("SELECT * FROM conditions WHERE event_id = {$_REQUEST['event_id']} ORDER BY id");
+	$query = db_query("SELECT * FROM `conditions` WHERE event_id = {$_REQUEST['event_id']} ORDER BY id");
 	$rows = db_num_rows($query);
 	if ($rows == 0)
 	{
@@ -113,7 +113,7 @@ function display_edit()
 	}
 	else
 	{
-		$query = db_query("SELECT * FROM conditions WHERE id={$_REQUEST['id']}");
+		$query = db_query("SELECT * FROM `conditions` WHERE id={$_REQUEST['id']}");
 		$row   = db_fetch_array($query);
 	}
 
@@ -153,7 +153,7 @@ function do_edit()
 		$post = "WHERE id = {$_REQUEST['id']}";
 	}
 
-	db_update("$pre conditions SET logic_condition={$_REQUEST['logic_condition']}, value_type={$_REQUEST['value_type']}, condition={$_REQUEST['condition']}, value={$_REQUEST['value']} $post");
+	db_update("$pre `conditions` SET logic_condition={$_REQUEST['logic_condition']}, value_type={$_REQUEST['value_type']}, condition={$_REQUEST['condition']}, value={$_REQUEST['value']} $post");
 
 	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");
 } // end do_edit();
@@ -165,12 +165,12 @@ function do_delete()
 	{
 		while (list($key,$value) = each($_REQUEST["condition"]))
 		{
-			db_update("DELETE FROM conditions WHERE id = '$key'");
+			db_update("DELETE FROM `conditions` WHERE id = '$key'");
 		}
 	}
 	else if(isset($_REQUEST["id"]))
 	{
-		db_update("DELETE FROM conditions WHERE id = '{$_REQUEST['id']}'");
+		db_update("DELETE FROM `conditions` WHERE id = '{$_REQUEST['id']}'");
 	}
 	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");
 } // end do_delete();

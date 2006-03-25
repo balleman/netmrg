@@ -1,3 +1,6 @@
+2006.03.24  v0.20cvs  silfreed
+  - putting backticks around "conditions" for mysql 5.0 compatibility
+
 2006.03.10  v0.20cvs  balleman
   - bug#0000465: infinite loop on nanosleep() - fixed uninited param
 
