@@ -45,7 +45,7 @@ uint process_event(DeviceInfo info, MYSQL *mysql, int trigger_type, int last_sta
 	MYSQL_ROW	mysql_row;
 	uint		status = 0;
 
-	string query = "SELECT value, value_type, condition, logic_condition FROM `conditions` WHERE event_id=" + inttostr(info.event_id) + " ORDER BY id";
+	string query = "SELECT `value`, `value_type`, `condition`, `logic_condition` FROM `conditions` WHERE `event_id` = '" + inttostr(info.event_id) + "' ORDER BY `id`";
 	mysql_res = db_query(mysql, &info, query);
 
 	for (uint i = 0; i < mysql_num_rows(mysql_res); i++)
