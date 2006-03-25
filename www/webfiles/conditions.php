@@ -145,15 +145,15 @@ function do_edit()
 	if ($_REQUEST['id'] == 0)
 	{
 		$pre  = "INSERT INTO";
-		$post = ", event_id={$_REQUEST['event_id']}";
+		$post = ", `event_id`='{$_REQUEST['event_id']}'";
 	}
 	else
 	{
 		$pre  = "UPDATE";
-		$post = "WHERE id = {$_REQUEST['id']}";
+		$post = "WHERE `id` = '{$_REQUEST['id']}'";
 	}
 
-	db_update("$pre `conditions` SET logic_condition={$_REQUEST['logic_condition']}, value_type={$_REQUEST['value_type']}, condition={$_REQUEST['condition']}, value={$_REQUEST['value']} $post");
+	db_update("$pre `conditions` SET `logic_condition`='{$_REQUEST['logic_condition']}', `value_type`='{$_REQUEST['value_type']}', `condition`='{$_REQUEST['condition']}', `value`='{$_REQUEST['value']}' $post");
 
 	header("Location: {$_SERVER['PHP_SELF']}?event_id={$_REQUEST['event_id']}&tripid={$_REQUEST['tripid']}");
 } // end do_edit();
