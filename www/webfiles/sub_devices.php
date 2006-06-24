@@ -93,10 +93,26 @@ function dodisplay()
 	for ($i = 0; $i < db_num_rows($results); $i++)
 	{
 		$row = $rows[$i];
+		$type = "<b>" . $SUB_DEVICE_TYPES[$row["type"]] . "</b>";
+
+		/* next hop handling */
+		if ($row['type'] == 2)	// network interface sub-device
+		{
+			$nh_res = db_query("SELECT value FROM sub_dev_variables WHERE sub_dev_id={$row['id']} AND name='nexthop'");
+			if ($nh_row = db_fetch_array($nh_res)) // next hop located
+			{
+				$nhd_res = db_query("SELECT dev_id FROM sub_devices WHERE id = {$nh_row['value']}");
+				if ($nhd_row = db_fetch_array($nhd_res))
+				{
+					$type .= " [Next Hop: <a href=\"sub_devices.php?dev_id={$nhd_row['dev_id']}\">" . get_dev_sub_device_name($nh_row['value']) . "</a>]";
+				}
+			}
+		}
+
 		make_display_item("editfield".($i%2),
 			array("checkboxname" => "subdevice", "checkboxid" => $row['id']),
 			array("text" => $row["name"], "href" => "monitors.php?sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}"),
-			array("text" => $SUB_DEVICE_TYPES[$row["type"]]),
+			array("text" => $type),
 			array("text" =>
 				formatted_link("Add Templates", "graphs.php?action=applytemplates&sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}", "", "applytemplate") . "&nbsp;" .
 				formatted_link("Parameters", "sub_dev_param.php?dev_id={$_REQUEST['dev_id']}&sub_dev_id={$row['id']}&tripid={$_REQUEST['tripid']}", "", "parameters") . "&nbsp;" .

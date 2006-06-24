@@ -430,11 +430,22 @@ function do_view()
 					break;
 				
 				case "template":
+					$nh_res = db_query("SELECT value FROM sub_dev_variables WHERE sub_dev_id={$row['subdev_id']} AND name='nexthop'");
+					$link = "";
+					if ($nh_row = db_fetch_array($nh_res)) // next hop located
+					{
+						$nhd_res = db_query("SELECT dev_id FROM sub_devices WHERE id = {$nh_row['value']}");
+						if ($nhd_row = db_fetch_array($nhd_res))
+						{
+							$link = "Next Hop: <a href=\"view.php?action=view&object_type=device&object_id={$nhd_row['dev_id']}\">" . get_dev_sub_device_name($nh_row['value']) . "</a>";
+						}
+					}
 					echo '	<div class="viewgraph">'."\n";
 					echo '		'.expand_parameters($row['title'], $row['subdev_id'])."<br />\n";
 					echo '		<a href="enclose_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].'">'."\n";
 					echo '		<img src="get_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].$hist.'" alt="" />'."\n";
 					echo "		</a>\n";
+					echo $link;
 					echo "	</div>\n";
 					break;
 				

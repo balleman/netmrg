@@ -142,7 +142,7 @@ $PERMIT_TYPES = array(
 
 $SUB_DEVICE_TYPES = array(
 	1 => "Group",
-	2 => "Interface",
+	2 => "Network Interface",
 	3 => "Disk"
 ); // end SUB_DEVICE_TYPES
 

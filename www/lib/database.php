@@ -16,6 +16,7 @@
 */
 function db_connect()
 {
+	$GLOBALS['querycount'] = 0;
 	$dbhost = "";
 	if ($GLOBALS["netmrg"]["dbsock"] != "")
 	{
@@ -41,6 +42,7 @@ function db_connect()
 // Obtain data from a table
 function db_query($query_string, $unsafe = false)
 {
+	$GLOBALS['querycount']++;
 	$query_result = mysql_query($query_string, $GLOBALS["netmrg"]["dbconn"]);
 	// if there was an error, handle it
 	if (mysql_errno($GLOBALS["netmrg"]["dbconn"]) && !$unsafe)

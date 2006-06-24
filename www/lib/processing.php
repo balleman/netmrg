@@ -148,8 +148,8 @@ function rrd_legend_escape($string)
 
 function get_microtime()
 {
-    list($usec, $sec) = explode(" ", microtime());
-    return ((float)$usec + (float)$sec);
+	list($usec, $sec) = explode(" ", microtime());
+	return ((float)$usec + (float)$sec);
 }
 
 function isin($haystack, $needle)

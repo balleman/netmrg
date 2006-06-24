@@ -3,6 +3,7 @@
   - bug#0000462: Device Properties - fixed memory leak
   - bug#0000459: Cool AJAX stuff to investigate: xajax is the way to go
   - bug#0000415: new monitor/subdev selection method
+  - bug#0000256: Added support for special sub-dev-variable "nexthop" to link interfaces
 
 2006.06.16  v0.20cvs  keb
   - bug#0000469: Configure tweak for OS X compatibility
