@@ -61,6 +61,8 @@ void do_properties_recache(DeviceInfo info, MYSQL *mysql)
 			debuglogger(DEBUG_PROPERTY, LEVEL_INFO, &info, "Device Property test failed, skipping update.");
 		}
 	}
+	
+	mysql_free_result(mysql_res);
 
 } // end do_properties_recache
 
