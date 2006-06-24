@@ -1,6 +1,8 @@
 2006.06.24  v0.20cvs  balleman
   - bug#0000465: infinite loop on nanosleep() - fixed uninited param
   - bug#0000462: Device Properties - fixed memory leak
+  - bug#0000459: Cool AJAX stuff to investigate: xajax is the way to go
+  - bug#0000415: new monitor/subdev selection method
 
 2006.06.16  v0.20cvs  keb
   - bug#0000469: Configure tweak for OS X compatibility

@@ -37,6 +37,8 @@ function begin_page($pagename = "", $prettyname = "", $refresh = false, $bodytag
 	$javascript_files = array();
 	$javascript_files[] = 'onload.js';
 	$javascript_files[] = 'inputdefault.js';
+	$javascript_files[] = 'xajax.js';
+	$javascript_files[] = 'select.js';
 	$javascript_files = array_merge($javascript_files, $extra_jscript_files);
 	
 	// determine if we should display the menu or not
@@ -103,6 +105,7 @@ function DisplayPageHeader($pagename = "", $prettyname = "", $refresh = false, $
 	<link rel="stylesheet" type="text/css" href="<?php echo $GLOBALS["netmrg"]["webroot"]; ?>/include/netmrg.css" />
 	
 <?php
+	$GLOBALS['xajax']->printJavascript("", "xajax_js/xajax.js", "");
 	if (count($javascript_files) > 0)
 	{
 		foreach ($javascript_files as $jsfile)
@@ -1140,6 +1143,34 @@ function make_edit_checkbox($header, $name, $checked=false)
 
 function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 {
+?>
+	<tr><td class="editfield0">
+	<b>Monitor:</b><br />
+	<select name="device" id="device" onchange="xajax_redraw_subdevice('device', document.getElementById('device').options[document.getElementById('device').selectedIndex].value);">
+<?php
+	$q = db_query("SELECT devices.id AS devid, sub_devices.id AS subdevid FROM monitors LEFT JOIN sub_devices ON monitors.sub_dev_id=sub_devices.id LEFT JOIN devices ON sub_devices.dev_id=devices.id WHERE monitors.id = $mon_id_cur");
+	$info = db_fetch_array($q);
+
+	$q = db_query("SELECT id, name FROM devices ORDER BY name");
+	while ($r = db_fetch_array($q))
+	{
+		echo("<option value='{$r['id']}'>{$r['name']}</option>");
+	}
+?>
+	</select>
+	<select name="subdevice" id="subdevice" onchange="xajax_redraw_monitor('subdevice', document.getElementById('subdevice').options[document.getElementById('subdevice').selectedIndex].value);">
+	</select>
+	<select name="mon_id" id="monitor">
+	</select>
+	<script type="text/javascript">
+	pickSelect("device", <?php echo($info['devid']);?>);
+	xajax_redraw_monitor('monitor', <?php echo($mon_id_cur);?>);
+	</script>
+<?php
+}
+
+function make_edit_select_monitor_old($mon_id_cur, $prepended_array = array())
+{
 	// Creates an edit select box for the selection of "monitors"
 
 	make_edit_select("Monitor:", "mon_id");
@@ -1260,7 +1291,7 @@ function make_edit_select_test($test_type, $test_id, $test_params)
 		
 		function redisplay(selectedIndex)
 		{
-			window.location = '{$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&dev_type={$_REQUEST['dev_type']}&tripid={$_REQUEST['tripid']}&action={$_REQUEST['action']}" . $dev_thingy . "&type=' + selectedIndex;
+			window.location = '{$_SERVER['PHP_SELF']}?mon_id={$_REQUEST['mon_id']}&sub_dev_id={$_REQUEST['sub_dev_id']}&dev_type={$_REQUEST['dev_type']}&tripid={$_REQUEST['tripid']}&action={$_REQUEST['action']}" . $dev_thingy . "&type=' + selectedIndex;
 		}
 
 		</script>

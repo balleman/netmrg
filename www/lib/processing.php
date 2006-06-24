@@ -492,6 +492,8 @@ function get_device_name($dev_id)
 function get_sub_device_name($sub_dev_id)
 {
 	$dev_query = db_query("SELECT name FROM sub_devices WHERE id = $sub_dev_id");
+	if (db_num_rows($dev_query) == 0)
+		return "Not Set";
 	$row = db_fetch_array($dev_query);
 	return $row["name"];
 }
@@ -503,6 +505,8 @@ function get_dev_sub_device_name($sub_dev_id)
 		FROM sub_devices
 		LEFT JOIN devices   ON sub_devices.dev_id=devices.id
 		WHERE sub_devices.id = $sub_dev_id");
+	if (db_num_rows($dev_query) == 0)
+		return "Not Set";
 	$row = db_fetch_array($dev_query);
 	return $row["dev_name"] . " - " . $row["sub_name"];
 }
