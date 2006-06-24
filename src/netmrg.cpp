@@ -282,6 +282,7 @@ void run_netmrg()
 			{
 				timespec tosleep, unslept;
 				tosleep.tv_sec = start_time + get_setting_int(setPollInterval) - time(NULL);
+				tosleep.tv_nsec = 0;
 				while (nanosleep(&tosleep, &unslept))
 				{
 					if ((errno == EINTR) && (netmrg_terminated))

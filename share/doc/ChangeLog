@@ -1,3 +1,6 @@
+2006.06.24  v0.20cvs  balleman
+  - bug#0000465: infinite loop on nanosleep() - fixed uninited param
+
 2006.06.16  v0.20cvs  keb
   - bug#0000469: Configure tweak for OS X compatibility
 
