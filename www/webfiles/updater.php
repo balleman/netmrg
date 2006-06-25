@@ -221,7 +221,10 @@ $dbupdates = array(
 			"query" => "CREATE TABLE `dev_props` (`id` INT NOT NULL AUTO_INCREMENT, `dev_type_id` INT NOT NULL, `name` VARCHAR( 200 ) NOT NULL, `test_type` TINYINT NOT NULL, `test_id` INT NOT NULL, `test_params` VARCHAR( 150 ) NOT NULL, PRIMARY KEY ( `id` )) TYPE = MYISAM ;"),
 		array(
 			"name" => "Device Properties Values Table",
-			"query" => "CREATE TABLE `dev_prop_vals` ( `dev_id` INT NOT NULL, `prop_id` INT NOT NULL, `value` VARCHAR( 250 ) NOT NULL, PRIMARY KEY ( `dev_id` , `prop_id` )) ")
+			"query" => "CREATE TABLE `dev_prop_vals` ( `dev_id` INT NOT NULL, `prop_id` INT NOT NULL, `value` VARCHAR( 250 ) NOT NULL, PRIMARY KEY ( `dev_id` , `prop_id` )) "),
+		array(
+			"name" => "SNMP Interface Cache New Fields",
+			"query" => "ALTER TABLE `snmp_interface_cache` ADD `nexthop` VARCHAR( 20 ) , ADD `vlan` VARCHAR( 20 ) , ADD `mode` TINYINT")
 	) // end 0.20cvs
 	
 ); // end $dbupdates;

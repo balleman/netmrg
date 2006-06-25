@@ -21,6 +21,36 @@ string remove_surrounding_quotes(string input)
 	return input;
 }
 
+string hex_to_dec(const string & hex)
+{
+	unsigned int value;
+	sscanf(hex.c_str(), "%x", &value);
+	return inttostr(value);
+}
+
+string cdpaddress_to_ip(const string & cdpip)
+{
+	string temp = cdpip;
+	string ip   = "";
+	int pos;
+	while ((pos = temp.find(" ")) != string::npos)
+	{
+		ip += hex_to_dec(temp.substr(0,pos)) + ".";
+		temp.erase(0, pos+1);
+	}
+	ip += hex_to_dec(temp);
+	return ip;
+}
+
+string get_cdp_index(DeviceInfo *info, string portifindex)
+{
+	list<SNMPPair> cdpAddressType = snmp_walk(*info, ".1.3.6.1.4.1.9.9.23.1.2.1.1.3." + portifindex);
+	cdpAddressType = snmp_trim_rootoid(cdpAddressType, ".1.3.6.1.4.1.9.9.23.1.2.1.1.3.");
+	if (!cdpAddressType.empty())
+		return cdpAddressType.begin()->oid;
+	return "U";
+}
+
 void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 {
 	// clear cache for this device
@@ -39,6 +69,9 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 
 	if (sysdescr.find("Cisco Systems Catalyst 1900") != string::npos)
 		mibtype = imtOldCiscoSwitch;
+
+	// check for CDP capability
+	bool cdp_enabled = (snmp_get(*info, ".1.3.6.1.4.1.9.9.23.1.3.1.0") == "1");
 
 	list<SNMPPair> ifIndexList = snmp_walk(*info, "ifIndex");
 
@@ -104,6 +137,35 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 		string ifOperStatus		= snmp_get(*info, "ifOperStatus."  + ifIndex);
 		string ifAdminStatus	= snmp_get(*info, "ifAdminStatus." + ifIndex);
 		string ifSpeed			= snmp_get(*info, "ifSpeed." + ifIndex);
+		string vlan				= snmp_get(*info, ".1.3.6.1.4.1.9.9.68.1.2.2.1.2." + ifIndex);
+		U_to_NULL(vlan);
+
+		// CDP Next Hop
+		string nexthop = "U";
+		if (cdp_enabled)
+		{
+			string cdp_index = get_cdp_index(info, ifIndex);
+			if (cdp_index != "U")
+			{
+				string cdp_port = remove_surrounding_quotes(snmp_get(*info, ".1.3.6.1.4.1.9.9.23.1.2.1.1.7." + cdp_index));
+				string raw_cdp_ip = snmp_get(*info, ".1.3.6.1.4.1.9.9.23.1.2.1.1.4." + cdp_index);
+				string cdp_ip = cdpaddress_to_ip(raw_cdp_ip);
+	
+				MYSQL_RES 	*nh_mysql_res;
+				MYSQL_ROW 	nh_mysql_row;
+				nh_mysql_res = db_query(mysql, info, string(
+					"SELECT sd.id FROM devices d, sub_devices sd, sub_dev_variables sdv ") + 
+					"WHERE d.ip = '" + cdp_ip + "'" +
+					"AND sdv.name = 'ifDescr' AND sdv.value = '" + cdp_port + "'" +
+					"AND d.id = sd.dev_id AND sd.id = sdv.sub_dev_id");
+				if (nh_mysql_row = mysql_fetch_row(nh_mysql_res))
+				{
+					nexthop = string(nh_mysql_row[0]);
+				}
+				mysql_free_result(nh_mysql_res);
+			}
+		}
+		U_to_NULL(nexthop);
 
 		db_update(mysql, info, string("INSERT INTO snmp_interface_cache SET ")  +
 			"dev_id = " 		+ inttostr((*info).device_id)		+ ", "  +
@@ -114,9 +176,10 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 			"ifType = '"		+ ifType							+ "', " +
 			"ifMAC = "			+ ifMAC								+ ", "  +
 			"ifOperStatus = '" 	+ ifOperStatus						+ "', " +
-			"ifAdminStatus = '" + ifAdminStatus						+ "', "
-			"ifSpeed = '"		+ ifSpeed							+ "'");
-
+			"ifAdminStatus = '" + ifAdminStatus						+ "', " +
+			"ifSpeed = '"		+ ifSpeed							+ "', " +
+			"vlan = "			+ vlan								+ ", "  +
+			"nexthop = "		+ nexthop							+ "");
 	}
 
 	list<SNMPPair> ifIPList = snmp_walk(*info, "ipAdEntIfIndex");
@@ -124,8 +187,8 @@ void do_snmp_interface_recache(DeviceInfo *info, MYSQL *mysql)
 
 	for (list<SNMPPair>::iterator current = ifIPList.begin(); current != ifIPList.end(); current++)
 	{
-		string ip 	= (*current).oid;
-		string ifIndex	= (*current).value;
+		string ip 	= current->oid;
+		string ifIndex	= current->value;
 
 		db_update(mysql, info, string("UPDATE snmp_interface_cache SET ifIP = '") +
 			ip + "' WHERE dev_id=" + inttostr((*info).device_id) +
@@ -144,7 +207,7 @@ void do_snmp_disk_recache(DeviceInfo *info, MYSQL *mysql)
 
 	for (list<SNMPPair>::iterator current = dskIndexList.begin(); current != dskIndexList.end(); current++)
 	{
-		string dskIndex  = (*current).value;
+		string dskIndex  = current->value;
 		string dskPath   = snmp_get(*info, "dskPath."   + dskIndex);	U_to_NULL(dskPath);
 		string dskDevice = snmp_get(*info, "dskDevice." + dskIndex);	U_to_NULL(dskDevice);
 
@@ -163,7 +226,7 @@ void do_snmp_disk_recache(DeviceInfo *info, MYSQL *mysql)
 		dskIndexList = snmp_walk(*info, ".1.3.6.1.2.1.25.2.3.1.1");
 		for (list<SNMPPair>::iterator current = dskIndexList.begin(); current != dskIndexList.end(); current++)
 		{
-			dskIndex  = (*current).value;
+			dskIndex  = current->value;
 			dskPath   = snmp_get(*info, ".1.3.6.1.2.1.25.2.3.1.3." + dskIndex); U_to_NULL(dskPath);
 			if (dskPath[1] == '\\' && dskPath[2] == '"' &&
 			    dskPath[dskPath.size()-3] == '\\' && dskPath[dskPath.size()-2] == '"')
@@ -229,7 +292,7 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 	else
 	{
 		string query =
-			string("SELECT ifIndex, ifName, ifIP, ifDescr, ifAlias, ifMAC, ifSpeed FROM snmp_interface_cache WHERE dev_id=") +
+			string("SELECT ifIndex, ifName, ifIP, ifDescr, ifAlias, ifMAC, ifSpeed, nexthop FROM snmp_interface_cache WHERE dev_id=") +
 			inttostr(info->device_id) + string(" AND ") + index + "='" + db_escape(value) + "'";
 
 		mysql_res = db_query(mysql, info, query);
@@ -271,6 +334,9 @@ int setup_interface_parameters(DeviceInfo *info, MYSQL *mysql)
 
 			if (mysql_row[6] != NULL)
 				info->parameters.push_front(ValuePair("ifSpeed", mysql_row[6]));
+
+			if (mysql_row[7] != NULL)
+				info->parameters.push_front(ValuePair("nexthop", mysql_row[7]));
 		}
 		else
 		{

@@ -209,21 +209,20 @@ string snmp_get(DeviceInfo info, string oidstring)
 
 		if (status == STAT_SUCCESS && response->errstat == SNMP_ERR_NOERROR)
 		{
-
-		/*
-		* SUCCESS: Print the result variables
-		*/
-
-			if (status == STAT_SUCCESS)
-			{
-				vars = response->variables;
-				result = snmp_result(vars);
-				result = snmp_value(result);
-			}
-			else
+			vars = response->variables;
+			if (vars->type == SNMP_NOSUCHINSTANCE || vars->type == SNMP_NOSUCHOBJECT || vars->type == SNMP_ENDOFMIBVIEW)
 			{
 				result = string("U");
 			}
+			else
+			{
+				result = snmp_result(vars);
+				result = snmp_value(result);
+			}
+		}
+		else
+		{
+			result = string("U");
 		}
 
 		if (response) snmp_free_pdu(response);
