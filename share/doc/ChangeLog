@@ -1,3 +1,8 @@
+2006.06.30  v0.20cvs  silfreed
+  - updated lists.netmrg.net to phpBB 2.0.21
+  - updated wiki.netmrg.net to mediawiki 1.6.7
+  - updated bugs.pa.net to mantis 1.0.3
+
 2006.06.25  v0.20cvs  balleman
   - bug#0000473: basic CDP interface linkage support
 
