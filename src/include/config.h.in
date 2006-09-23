@@ -1,6 +1,5 @@
 /* src/include/config.h.in.  Generated from configure.ac by autoheader.  */
 
-
 /* Define to 1 if translation of program messages to the user's native
    language is requested. */
 #undef ENABLE_NLS
@@ -32,9 +31,6 @@
 
 /* Define to 1 if you have the `intl' library (-lintl). */
 #undef HAVE_LIBINTL
-
-/* Define to 1 if you have the `mysqlclient' library (-lmysqlclient). */
-#undef HAVE_LIBMYSQLCLIENT
 
 /* Define to 1 if you have the `snmp' library (-lsnmp). */
 #undef HAVE_LIBSNMP

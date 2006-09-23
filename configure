@@ -310,7 +310,7 @@ ac_includes_default="\
 # include <unistd.h>
 #endif"
 
-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar RRDTOOL WWWDIR CXX CXXFLAGS LDFLAGS CPPFLAGS ac_ct_CXX EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CC CFLAGS ac_ct_CC CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP CXXCPP EGREP LIBOBJS MKINSTALLDIRS USE_NLS MSGFMT GMSGFMT XGETTEXT MSGMERGE LIBICONV LTLIBICONV INTLLIBS LIBINTL LTLIBINTL POSUB LTLIBOBJS'
+ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar RRDTOOL MYSQL_CONFIG WWWDIR CXX CXXFLAGS LDFLAGS CPPFLAGS ac_ct_CXX EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CC CFLAGS ac_ct_CC CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP CXXCPP EGREP LIBOBJS MKINSTALLDIRS USE_NLS MSGFMT GMSGFMT XGETTEXT MSGMERGE LIBICONV LTLIBICONV INTLLIBS LIBINTL LTLIBINTL POSUB LTLIBOBJS'
 ac_subst_files=''
 
 # Initialize some variables set by options.
@@ -873,10 +873,7 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-rrdtool=PROGRAM  location of the rrdtool binary
-  --with-mysql-include-dir
-                          MySQL include directory [/usr/(local/)include]
-  --with-mysql-lib-dir    MySQL library directory [/usr/(local/)lib/mysql]
+  --with-rrdtool=PROGRAM  location of the rrdtool program
   --with-snmp-include-dir SNMP include base directory [/usr/(local/)include]
   --with-snmp-lib-dir     SNMP library directory [/usr/(local/)lib]
   --with-xml2-include-dir XML2 include directory
@@ -1953,18 +1950,67 @@ echo "$as_me: error: Couldn't find rrdtool. Please verify that it is installed."
 fi
 
 # mysql
+#AC_ARG_WITH(mysql-include-dir,
+#	AC_HELP_STRING(
+#		[--with-mysql-include-dir],
+#		[MySQL include directory]),
+#	[mysql_include_dir=$withval])
+#AC_ARG_WITH(mysql-lib-dir,
+#	AC_HELP_STRING(
+#		[--with-mysql-lib-dir],
+#		[MySQL library directory]),
+#	[mysql_lib_dir=$withval])
+#AC_ARG_WITH(mysql_config,
+#        AC_HELP_STRING(
+#                [--with-mysql_config=PROGRAM],
+#                [location of the mysql_config program]),
+#        [mysql_config_prog=$withval])
+# Extract the first word of "mysql_config", so it can be a program name with args.
+set dummy mysql_config; ac_word=$2
+echo "$as_me:$LINENO: checking for $ac_word" >&5
+echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
+if test "${ac_cv_path_MYSQL_CONFIG+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  case $MYSQL_CONFIG in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_MYSQL_CONFIG="$MYSQL_CONFIG" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+  for ac_exec_ext in '' $ac_executable_extensions; do
+  if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_MYSQL_CONFIG="$as_dir/$ac_word$ac_exec_ext"
+    echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+done
 
-# Check whether --with-mysql-include-dir or --without-mysql-include-dir was given.
-if test "${with_mysql_include_dir+set}" = set; then
-  withval="$with_mysql_include_dir"
-  mysql_include_dir=$withval
-fi;
+  test -z "$ac_cv_path_MYSQL_CONFIG" && ac_cv_path_MYSQL_CONFIG="$mysql_config_prog"
+  ;;
+esac
+fi
+MYSQL_CONFIG=$ac_cv_path_MYSQL_CONFIG
 
-# Check whether --with-mysql-lib-dir or --without-mysql-lib-dir was given.
-if test "${with_mysql_lib_dir+set}" = set; then
-  withval="$with_mysql_lib_dir"
-  mysql_lib_dir=$withval
-fi;
+if test -n "$MYSQL_CONFIG"; then
+  echo "$as_me:$LINENO: result: $MYSQL_CONFIG" >&5
+echo "${ECHO_T}$MYSQL_CONFIG" >&6
+else
+  echo "$as_me:$LINENO: result: no" >&5
+echo "${ECHO_T}no" >&6
+fi
+
+
+if test "x$MYSQL_CONFIG" = "x"; then
+	{ { echo "$as_me:$LINENO: error: Couldn't find mysql_config. Please verify that it is installed." >&5
+echo "$as_me: error: Couldn't find mysql_config. Please verify that it is installed." >&2;}
+   { (exit 1); exit 1; }; }
+fi
 
 # snmp
 
@@ -4543,251 +4589,46 @@ LIBS="-lxml2 $LIBS"
 
 ## Determine MySQL library path
 # try and find libs without any additional libraries
-echo "$as_me:$LINENO: checking for mysql_init in -lmysqlclient" >&5
-echo $ECHO_N "checking for mysql_init in -lmysqlclient... $ECHO_C" >&6
-if test "${ac_cv_lib_mysqlclient_mysql_init+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lmysqlclient  $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char mysql_init ();
-int
-main ()
-{
-mysql_init ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"
-			 || test ! -s conftest.err'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_mysqlclient_mysql_init=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_mysqlclient_mysql_init=no
-fi
-rm -f conftest.err conftest.$ac_objext \
-      conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_mysqlclient_mysql_init" >&5
-echo "${ECHO_T}$ac_cv_lib_mysqlclient_mysql_init" >&6
-if test $ac_cv_lib_mysqlclient_mysql_init = yes; then
-  MYSQL_LIBS=" "
-else
-  MYSQL_LIBS=
-
-fi
-
-
+#AC_CHECK_LIB(mysqlclient, mysql_init,
+#	MYSQL_LIBS=" ",
+#	MYSQL_LIBS=
+#)
+#
 # hunt through several directories trying to find the libraries
-if test "x$MYSQL_LIBS" = "x"; then
-	old_LDFLAGS="$LDFLAGS"
-	for try in $mysql_lib_dir /usr/lib /usr/lib/mysql /usr/local/lib /usr/local/mysql/lib /usr/local/lib/mysql /usr/sfw/lib; do
-		LDFLAGS="$old_LDFLAGS -L$try"
-		unset ac_cv_lib_mysqlclient_mysql_init
-		echo "$as_me:$LINENO: checking for mysql_init in -lmysqlclient" >&5
-echo $ECHO_N "checking for mysql_init in -lmysqlclient... $ECHO_C" >&6
-if test "${ac_cv_lib_mysqlclient_mysql_init+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lmysqlclient  $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char mysql_init ();
-int
-main ()
-{
-mysql_init ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"
-			 || test ! -s conftest.err'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_mysqlclient_mysql_init=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_mysqlclient_mysql_init=no
-fi
-rm -f conftest.err conftest.$ac_objext \
-      conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_mysqlclient_mysql_init" >&5
-echo "${ECHO_T}$ac_cv_lib_mysqlclient_mysql_init" >&6
-if test $ac_cv_lib_mysqlclient_mysql_init = yes; then
-  MYSQL_LIBS="-L$try"
-else
-  MYSQL_LIBS=
-
-fi
-
-		if test "x$MYSQL_LIBS" != "x"; then
-			break;
-		fi
-	done
-	LDFLAGS="$old_LDFLAGS $MYSQL_LIBS"
-fi
-
-if test "x$MYSQL_LIBS" = "x"; then
-	{ { echo "$as_me:$LINENO: error: MySQL libraries not found.  Use --with-mysql-lib-dir=<path>" >&5
-echo "$as_me: error: MySQL libraries not found.  Use --with-mysql-lib-dir=<path>" >&2;}
-   { (exit 1); exit 1; }; }
-fi
+#if test "x$MYSQL_LIBS" = "x"; then
+#	old_LDFLAGS="$LDFLAGS"
+#	for try in $mysql_lib_dir /usr/lib /usr/lib/mysql /usr/local/lib /usr/local/mysql/lib /usr/local/lib/mysql /usr/sfw/lib; do
+#		LDFLAGS="$old_LDFLAGS -L$try"
+#		unset ac_cv_lib_mysqlclient_mysql_init
+#		AC_CHECK_LIB(mysqlclient, mysql_init,
+#			MYSQL_LIBS="-L$try",
+#			MYSQL_LIBS=
+#		)
+#		if test "x$MYSQL_LIBS" != "x"; then
+#			break;
+#		fi
+#	done
+#	LDFLAGS="$old_LDFLAGS $MYSQL_LIBS"
+#fi
+#
+#if test "x$MYSQL_LIBS" = "x"; then
+#	AC_MSG_ERROR([MySQL libraries not found.  Use --with-mysql-lib-dir=<path>])
+#fi
 # don't forget to add mysqlclient to the list of libraries
-LIBS="-lmysqlclient $LIBS"
+#LIBS="-lmysqlclient $LIBS"
+MYSQL_LIBS=$($MYSQL_CONFIG --libs)
+LIBS="$LIBS $MYSQL_LIBS"
 
 # now that we've found the libraries, check for MySQL < 4.0
-
-echo "$as_me:$LINENO: checking for mysql_thread_init in -lmysqlclient" >&5
-echo $ECHO_N "checking for mysql_thread_init in -lmysqlclient... $ECHO_C" >&6
-if test "${ac_cv_lib_mysqlclient_mysql_thread_init+set}" = set; then
-  echo $ECHO_N "(cached) $ECHO_C" >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lmysqlclient  $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any gcc2 internal prototype to avoid an error.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-/* We use char because int might match the return type of a gcc2
-   builtin and then its argument prototype would still apply.  */
-char mysql_thread_init ();
-int
-main ()
-{
-mysql_thread_init ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (eval echo "$as_me:$LINENO: \"$ac_link\"") >&5
-  (eval $ac_link) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"
-			 || test ! -s conftest.err'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest$ac_exeext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  ac_cv_lib_mysqlclient_mysql_thread_init=yes
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-ac_cv_lib_mysqlclient_mysql_thread_init=no
-fi
-rm -f conftest.err conftest.$ac_objext \
-      conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-echo "$as_me:$LINENO: result: $ac_cv_lib_mysqlclient_mysql_thread_init" >&5
-echo "${ECHO_T}$ac_cv_lib_mysqlclient_mysql_thread_init" >&6
-if test $ac_cv_lib_mysqlclient_mysql_thread_init = yes; then
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBMYSQLCLIENT 1
-_ACEOF
-
-  LIBS="-lmysqlclient $LIBS"
-
-else
+# something with mysql_config --version
+MYSQL_VERSION=$($MYSQL_CONFIG --version)
+if test "x${MYSQL_VERSION//.*/}" = "x5"; then
 
 cat >>confdefs.h <<\_ACEOF
 #define OLD_MYSQL 1
 _ACEOF
 
 fi
-
 
 
 ### Checks for header files.
@@ -5699,120 +5540,34 @@ echo "$as_me:$LINENO: checking for mysql/mysql.h" >&5
 echo $ECHO_N "checking for mysql/mysql.h... $ECHO_C" >&6
 
 # Can we include headers using system include dirs?
-cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <mysql/mysql.h>
-int
-main ()
-{
-int a = 1;
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"
-			 || test ! -s conftest.err'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  MYSQL_INCLUDE=" "
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-MYSQL_INCLUDE=
-
-fi
-rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
-
+#AC_TRY_COMPILE([#include <mysql/mysql.h>], [int a = 1;],
+#	MYSQL_INCLUDE=" ",
+#	MYSQL_INCLUDE=
+#)
+#
 # hunt through several directories trying to find the includes
-if test "x$MYSQL_INCLUDE" = "x"; then
-	old_CPPFLAGS="$CPPFLAGS"
-	for i in $mysql_include_dir /usr/include /usr/local/include /usr/local/mysql/include /usr/local/include/mysql ; do
-		CPPFLAGS="$old_CPPFLAGS -I$i"
-		cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-#include <mysql/mysql.h>
-int
-main ()
-{
-int a = 1;
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext
-if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
-  (eval $ac_compile) 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } &&
-	 { ac_try='test -z "$ac_cxx_werror_flag"
-			 || test ! -s conftest.err'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; } &&
-	 { ac_try='test -s conftest.$ac_objext'
-  { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-  (eval $ac_try) 2>&5
-  ac_status=$?
-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); }; }; then
-  MYSQL_INCLUDE="-I$i"
-else
-  echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-MYSQL_INCLUDE=
-
-fi
-rm -f conftest.err conftest.$ac_objext conftest.$ac_ext
-		if test "x$MYSQL_INCLUDE" != "x"; then
-			break;
-		fi
-	done
-	CPPFLAGS="$old_CPPFLAGS $MYSQL_INCLUDE"
-fi
-
-if test "x$MYSQL_INCLUDE" = "x"; then
-	echo "$as_me:$LINENO: result: no" >&5
-echo "${ECHO_T}no" >&6
-	{ { echo "$as_me:$LINENO: error: MySQL headers not found.  Use --with-mysql-include-dir=<path>" >&5
-echo "$as_me: error: MySQL headers not found.  Use --with-mysql-include-dir=<path>" >&2;}
-   { (exit 1); exit 1; }; }
-fi
-echo "$as_me:$LINENO: result: yes" >&5
-echo "${ECHO_T}yes" >&6
+#if test "x$MYSQL_INCLUDE" = "x"; then
+#	old_CPPFLAGS="$CPPFLAGS"
+#	for i in $mysql_include_dir /usr/include /usr/local/include /usr/local/mysql/include /usr/local/include/mysql ; do
+#		CPPFLAGS="$old_CPPFLAGS -I$i"
+#		AC_TRY_COMPILE([#include <mysql/mysql.h>], [int a = 1;],
+#			MYSQL_INCLUDE="-I$i",
+#			MYSQL_INCLUDE=
+#		)
+#		if test "x$MYSQL_INCLUDE" != "x"; then
+#			break;
+#		fi
+#	done
+#	CPPFLAGS="$old_CPPFLAGS $MYSQL_INCLUDE"
+#fi
+#
+#if test "x$MYSQL_INCLUDE" = "x"; then
+#	AC_MSG_RESULT(no)
+#	AC_MSG_ERROR([MySQL headers not found.  Use --with-mysql-include-dir=<path>])
+#fi
+#AC_MSG_RESULT(yes)
+MYSQL_INCLUDE=$($MYSQL_CONFIG --cflags)
+CPPFLAGS="$CPPFLAGS $MYSQL_INCLUDE"
 
 
 ### Checks for typedefs, structures, and compiler characteristics.
@@ -9365,6 +9120,7 @@ s,@AMTAR@,$AMTAR,;t t
 s,@am__tar@,$am__tar,;t t
 s,@am__untar@,$am__untar,;t t
 s,@RRDTOOL@,$RRDTOOL,;t t
+s,@MYSQL_CONFIG@,$MYSQL_CONFIG,;t t
 s,@WWWDIR@,$WWWDIR,;t t
 s,@CXX@,$CXX,;t t
 s,@CXXFLAGS@,$CXXFLAGS,;t t
