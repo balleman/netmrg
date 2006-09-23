@@ -60,6 +60,11 @@ if test "x$RRDTOOL" = "x"; then
 fi
 
 # mysql
+AC_ARG_WITH(mysql_config,
+        AC_HELP_STRING(
+                [--with-mysql_config=PROGRAM],
+                [location of the mysql_config program]),
+        [mysql_config_prog=$withval])
 AC_PATH_PROG(MYSQL_CONFIG, mysql_config, $mysql_config_prog)
 
 if test "x$MYSQL_CONFIG" = "x"; then

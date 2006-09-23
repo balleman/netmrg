@@ -874,6 +874,8 @@ Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
   --with-rrdtool=PROGRAM  location of the rrdtool program
+  --with-mysql_config=PROGRAM
+                          location of the mysql_config program
   --with-snmp-include-dir SNMP include base directory [/usr/(local/)include]
   --with-snmp-lib-dir     SNMP library directory [/usr/(local/)lib]
   --with-xml2-include-dir XML2 include directory
@@ -1950,21 +1952,12 @@ echo "$as_me: error: Couldn't find rrdtool. Please verify that it is installed."
 fi
 
 # mysql
-#AC_ARG_WITH(mysql-include-dir,
-#	AC_HELP_STRING(
-#		[--with-mysql-include-dir],
-#		[MySQL include directory]),
-#	[mysql_include_dir=$withval])
-#AC_ARG_WITH(mysql-lib-dir,
-#	AC_HELP_STRING(
-#		[--with-mysql-lib-dir],
-#		[MySQL library directory]),
-#	[mysql_lib_dir=$withval])
-#AC_ARG_WITH(mysql_config,
-#        AC_HELP_STRING(
-#                [--with-mysql_config=PROGRAM],
-#                [location of the mysql_config program]),
-#        [mysql_config_prog=$withval])
+
+# Check whether --with-mysql_config or --without-mysql_config was given.
+if test "${with_mysql_config+set}" = set; then
+  withval="$with_mysql_config"
+  mysql_config_prog=$withval
+fi;
 # Extract the first word of "mysql_config", so it can be a program name with args.
 set dummy mysql_config; ac_word=$2
 echo "$as_me:$LINENO: checking for $ac_word" >&5
@@ -4588,41 +4581,12 @@ fi
 LIBS="-lxml2 $LIBS"
 
 ## Determine MySQL library path
-# try and find libs without any additional libraries
-#AC_CHECK_LIB(mysqlclient, mysql_init,
-#	MYSQL_LIBS=" ",
-#	MYSQL_LIBS=
-#)
-#
-# hunt through several directories trying to find the libraries
-#if test "x$MYSQL_LIBS" = "x"; then
-#	old_LDFLAGS="$LDFLAGS"
-#	for try in $mysql_lib_dir /usr/lib /usr/lib/mysql /usr/local/lib /usr/local/mysql/lib /usr/local/lib/mysql /usr/sfw/lib; do
-#		LDFLAGS="$old_LDFLAGS -L$try"
-#		unset ac_cv_lib_mysqlclient_mysql_init
-#		AC_CHECK_LIB(mysqlclient, mysql_init,
-#			MYSQL_LIBS="-L$try",
-#			MYSQL_LIBS=
-#		)
-#		if test "x$MYSQL_LIBS" != "x"; then
-#			break;
-#		fi
-#	done
-#	LDFLAGS="$old_LDFLAGS $MYSQL_LIBS"
-#fi
-#
-#if test "x$MYSQL_LIBS" = "x"; then
-#	AC_MSG_ERROR([MySQL libraries not found.  Use --with-mysql-lib-dir=<path>])
-#fi
-# don't forget to add mysqlclient to the list of libraries
-#LIBS="-lmysqlclient $LIBS"
 MYSQL_LIBS=$($MYSQL_CONFIG --libs)
 LIBS="$LIBS $MYSQL_LIBS"
 
 # now that we've found the libraries, check for MySQL < 4.0
-# something with mysql_config --version
 MYSQL_VERSION=$($MYSQL_CONFIG --version)
-if test "x${MYSQL_VERSION//.*/}" = "x5"; then
+if test "x${MYSQL_VERSION//.*/}" = "x3"; then
 
 cat >>confdefs.h <<\_ACEOF
 #define OLD_MYSQL 1
@@ -5536,36 +5500,6 @@ echo "$as_me:$LINENO: result: yes" >&5
 echo "${ECHO_T}yes" >&6
 
 ## Determine MySQL include path
-echo "$as_me:$LINENO: checking for mysql/mysql.h" >&5
-echo $ECHO_N "checking for mysql/mysql.h... $ECHO_C" >&6
-
-# Can we include headers using system include dirs?
-#AC_TRY_COMPILE([#include <mysql/mysql.h>], [int a = 1;],
-#	MYSQL_INCLUDE=" ",
-#	MYSQL_INCLUDE=
-#)
-#
-# hunt through several directories trying to find the includes
-#if test "x$MYSQL_INCLUDE" = "x"; then
-#	old_CPPFLAGS="$CPPFLAGS"
-#	for i in $mysql_include_dir /usr/include /usr/local/include /usr/local/mysql/include /usr/local/include/mysql ; do
-#		CPPFLAGS="$old_CPPFLAGS -I$i"
-#		AC_TRY_COMPILE([#include <mysql/mysql.h>], [int a = 1;],
-#			MYSQL_INCLUDE="-I$i",
-#			MYSQL_INCLUDE=
-#		)
-#		if test "x$MYSQL_INCLUDE" != "x"; then
-#			break;
-#		fi
-#	done
-#	CPPFLAGS="$old_CPPFLAGS $MYSQL_INCLUDE"
-#fi
-#
-#if test "x$MYSQL_INCLUDE" = "x"; then
-#	AC_MSG_RESULT(no)
-#	AC_MSG_ERROR([MySQL headers not found.  Use --with-mysql-include-dir=<path>])
-#fi
-#AC_MSG_RESULT(yes)
 MYSQL_INCLUDE=$($MYSQL_CONFIG --cflags)
 CPPFLAGS="$CPPFLAGS $MYSQL_INCLUDE"
 
