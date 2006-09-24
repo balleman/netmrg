@@ -1,3 +1,6 @@
+2006.09.24  v0.20cvs  balleman
+  - bug#0000479: fixed device properties multidelete
+
 2006.09.22  v0.20cvs  keb
   - bug#0000460: MySQL header and library detection cleanup
 

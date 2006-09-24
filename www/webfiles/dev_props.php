@@ -36,7 +36,7 @@ switch($_REQUEST["action"])
 	
 	case "multidodelete":
 		check_auth($GLOBALS['PERMIT']["ReadWrite"]);
-		while (list($key,$value) = each($_REQUEST["monitor"]))
+		while (list($key,$value) = each($_REQUEST["devprop"]))
 		{
 			$key *= 1;
 			db_update("DELETE FROM dev_props WHERE id = $key");
@@ -102,7 +102,7 @@ function do_list()
 
 	} // end for each monitor
 	make_checkbox_command("", 5,
-		array("text" => "Delete", "action" => "multidodelete", "prompt" => "Are you sure you want to delete the checked monitors?")
+		array("text" => "Delete", "action" => "multidodelete", "prompt" => "Are you sure you want to delete the checked properties?")
 	); // end make_checkbox_command
 	make_status_line("property", $prop_count, "properties");
 	?>
