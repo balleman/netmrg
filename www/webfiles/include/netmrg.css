@@ -383,6 +383,11 @@ A.editfield1, A:visited.editfield1
 	border-bottom : 1px dashed #4040B0;
 }
 
+.viewgraph-shortcut
+{
+	float: right;
+}
+
 .disabled
 {
 	color : #C0C0C0;
