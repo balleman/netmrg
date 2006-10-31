@@ -12,15 +12,6 @@
 #include "snmp.h"
 #include "db.h"
 
-string remove_surrounding_quotes(string input)
-{
-	if (input[0] == '"')
-		input.erase(0,1);
-	if (input[input.length() - 1] == '"')
-		input.erase(input.length() - 1, 1);
-	return input;
-}
-
 string hex_to_dec(const string & hex)
 {
 	unsigned int value;

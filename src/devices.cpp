@@ -39,6 +39,7 @@ void do_properties_recache(DeviceInfo info, MYSQL *mysql)
 						break;
 	
 			case  2:	value = process_snmp_monitor(info, mysql);
+						value = remove_surrounding_quotes(value);	
 						break;
 	
 			case  3:	value = process_sql_monitor(info, mysql);

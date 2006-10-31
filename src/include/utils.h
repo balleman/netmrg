@@ -82,6 +82,7 @@ bool			vt100_compatible();
 
 // general functions
 int 			file_exists(string filename);
+string			remove_surrounding_quotes(string input);
 string  		strstripnl(string input);
 string			token_replace(string &source, string token, string value);
 u_char			*u_string(string source, u_char *out);

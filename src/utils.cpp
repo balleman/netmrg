@@ -41,6 +41,16 @@ int file_exists(string filename)
 	return !(stat(filename.c_str(), &file_stat));
 }
 
+// remove_surrounding_quotes - removes leading and trailing quotes, if present
+string remove_surrounding_quotes(string input)
+{
+	if (input[0] == '"')
+		input.erase(0,1);
+	if (input[input.length() - 1] == '"')
+		input.erase(input.length() - 1, 1);
+	return input;
+}
+
 // strstripnl - given a string, return a string without new line at the end
 string strstripnl(string input)
 {
