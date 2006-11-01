@@ -322,6 +322,7 @@ void show_usage()
 	printf("\nMode of Operation:\n");
 	printf("-i <devid>  Recache the interfaces of device <devid>\n");
 	printf("-d <devid>  Recache the disks of device <devid>\n");
+	printf("-P <devid>  Recache the properties of device <devid>\n");
 	printf("-K <file>   Parse config file <file>, or default if omitted (for syntax checking)\n");
 	printf("If no mode is specified, the default is to gather data for all enabled devices.\n");
 
@@ -360,7 +361,7 @@ void external_snmp_recache(int device_id, int type)
 	info.device_id = device_id;
 
 	mysql_res = db_query(&mysql, &info, string("SELECT ip, snmp_read_community, snmp_version, snmp_port, ") +
-		"snmp_timeout, snmp_retries FROM devices WHERE id=" + inttostr(device_id));
+		"snmp_timeout, snmp_retries, dev_type FROM devices WHERE id=" + inttostr(device_id));
 	mysql_row = mysql_fetch_row(mysql_res);
 
 	if (mysql_row == NULL)
@@ -382,6 +383,7 @@ void external_snmp_recache(int device_id, int type)
 	info.snmp_port				= strtoint(mysql_row[3]);
 	info.snmp_timeout			= strtoint(mysql_row[4]);
 	info.snmp_retries			= strtoint(mysql_row[5]);
+	info.device_type			= strtoint(mysql_row[6]);
 
 	mysql_free_result(mysql_res);
 
@@ -391,6 +393,7 @@ void external_snmp_recache(int device_id, int type)
 	{
 		case 1: do_snmp_interface_recache(&info, &mysql);	break;
 		case 2: do_snmp_disk_recache(&info, &mysql); 		break;
+		case 3: do_properties_recache(info, &mysql);		break;
 	}
 	snmp_session_cleanup(info);
 	snmp_cleanup();
@@ -438,7 +441,7 @@ int main(int argc, char **argv)
 		set_log_method(LOG_METHOD_VT100);
 	}
 
-	while ((option_char = getopt(argc, argv, "hvXSqasmbM:i:d:c:l:H:D:u:p::t:C:K::")) != EOF)
+	while ((option_char = getopt(argc, argv, "hvXSqasmbM:i:d:P:c:l:H:D:u:p::t:C:K::")) != EOF)
 		switch (option_char)
 		{
 			case 'h': 	show_usage();
@@ -464,6 +467,9 @@ int main(int argc, char **argv)
 			case 'b':	set_log_method(LOG_METHOD_STDOUT);
 						break;
 			case 'd': 	external_snmp_recache(strtoint(optarg), 2);
+						exit(0);
+						break;
+			case 'P':	external_snmp_recache(strtoint(optarg), 3);
 						exit(0);
 						break;
 			case 'c':	set_debug_components(strtoint(optarg));

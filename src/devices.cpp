@@ -36,6 +36,7 @@ void do_properties_recache(DeviceInfo info, MYSQL *mysql)
 		switch (info.test_type)
 		{
 			case  1:	value = process_script_monitor(info, mysql);
+						value = strstripnl(value);
 						break;
 	
 			case  2:	value = process_snmp_monitor(info, mysql);
@@ -400,6 +401,7 @@ void process_device(int dev_id)
 			debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info, "Performing SNMP Recache.");
 			do_snmp_interface_recache(&info, &mysql);
 			do_snmp_disk_recache(&info, &mysql);
+			do_properties_recache(info, &mysql);
 		}
 	} // end snmp-enabled
 	else
@@ -409,8 +411,6 @@ void process_device(int dev_id)
 	}
 
 	mysql_free_result(mysql_res);
-
-	do_properties_recache(info, &mysql);
 
 	// process sub-devices
 	status = process_sub_devices(info, &mysql);

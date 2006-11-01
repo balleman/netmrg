@@ -149,7 +149,8 @@ function display()
 		cond_formatted_link($dev_row["disk_count"] > 0, "View&nbsp;Disk&nbsp;Cache",
 			"snmp_cache_view.php?dev_id=$dev_id&action=view&type=disk&tripid={$_REQUEST['tripid']}", "", "viewdisk") . " " .
 		cond_formatted_link($dev_row["snmp_version"] > 0, "Recache&nbsp;Disks",
-			"recache.php?dev_id=$dev_id&type=disk&tripid={$_REQUEST['tripid']}", "", "recachedisk");
+			"recache.php?dev_id=$dev_id&type=disk&tripid={$_REQUEST['tripid']}", "", "recachedisk") .
+		formatted_link("Recache&nbsp;Properties", "recache.php?dev_id=$dev_id&type=properties&tripid={$_REQUEST['tripid']}&parent_id={$_REQUEST['parent_id']}", "", "recacheproperties");
 			
 		/* Availability Display */
 		if ($dev_row['disabled'] == 1)

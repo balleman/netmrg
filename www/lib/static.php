@@ -401,6 +401,9 @@ function get_image_by_name($img_name)
 		case "recachedisk" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['recachedisk']}";
 			break;
+		case "recacheproperties" :
+			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['recacheproperties']}";
+			break;
 		case "viewdisk" :
 			$image = "{$GLOBALS['netmrg']['imagedir']}/{$GLOBALS['netmrg']['imagespec']['viewdisk']}";
 			break;

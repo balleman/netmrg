@@ -33,6 +33,7 @@ $GLOBALS["netmrg"]["imagespec"] = array(
 	"parameters" => "parameters.png",
 	"view" => "view.png",
 	"recachedisk" => "recachedisk.png",
+	"recacheproperties" => "recacheproperties.png",
 	"viewdisk" => "viewdisk.png",
 	"recacheinterface" => "recacheinterface.png",
 	"viewinterface" => "viewinterface.png",

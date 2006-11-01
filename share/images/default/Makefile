@@ -11,6 +11,7 @@ all : $(FILES)
 	@$(BATIK) -h 15 duplicate.svg
 	@$(BATIK) -h 15 recachedisk.svg
 	@$(BATIK) -h 15 recacheinterface.svg
+	@$(BATIK) -h 15 recacheproperties.svg
 	@$(BATIK) -h 15 parameters.svg
 	@$(BATIK) -h 15 slideshow.svg
 	@$(BATIK) -h 15 view.svg

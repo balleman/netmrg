@@ -15,6 +15,7 @@
 
 // Device processing
 void process_device(int dev_id);
+void do_properties_recache(DeviceInfo info, MYSQL *mysql);
 
 // Sub-device processing
 uint process_sub_devices(DeviceInfo info, MYSQL *mysql);

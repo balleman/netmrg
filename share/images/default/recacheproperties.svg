@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="500pt"
+   height="500pt"
+   id="svg730"
+   xml:space="preserve"
+   sodipodi:version="0.32"
+   inkscape:version="0.44.1"
+   sodipodi:docname="recacheproperties.svg"
+   sodipodi:docbase="/var/www/netmrg/trunk/share/images/default"><metadata
+   id="metadata23"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><sodipodi:namedview
+   inkscape:window-height="974"
+   inkscape:window-width="1280"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   guidetolerance="10.0"
+   gridtolerance="10.0"
+   objecttolerance="10.0"
+   borderopacity="1.0"
+   bordercolor="#666666"
+   pagecolor="#ffffff"
+   id="base"
+   inkscape:zoom="0.6512"
+   inkscape:cx="312.5"
+   inkscape:cy="311.73219"
+   inkscape:window-x="1280"
+   inkscape:window-y="0"
+   inkscape:current-layer="svg730" /><defs
+   id="defs732" /><text
+   x="206.97192"
+   y="479.21399"
+   transform="scale(1.01155,0.988582)"
+   style="font-size:339.2180481px;font-style:normal;font-weight:normal;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+   id="text1912"
+   xml:space="preserve"><tspan
+     x="206.97192"
+     y="479.21399"
+     id="tspan1914">P</tspan><tspan
+     x="206.97192"
+     y="903.23657"
+     id="tspan1916" /></text>
+
+
+<path
+   d="M 128.1802,536.6053 C 337.6374,537.0358 581.8991,555.2884 582.4686,366.106 C 582.9131,169.3565 384.706,176.4414 182.8348,176.408"
+   style="fill:none;fill-opacity:1;fill-rule:evenodd;stroke:black;stroke-width:62.5;stroke-linecap:square;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:0.75"
+   id="path678" /><path
+   d="M 40.39211,173.8304 L 152.656,281.7746 L 151.406,75.79739 L 40.39211,173.8304 z "
+   style="font-size:12px;fill:black;fill-opacity:0.75;fill-rule:evenodd"
+   id="path680" /></svg>
