@@ -384,6 +384,8 @@ void external_snmp_recache(int device_id, int type)
 	info.snmp_timeout			= strtoint(mysql_row[4]);
 	info.snmp_retries			= strtoint(mysql_row[5]);
 	info.device_type			= strtoint(mysql_row[6]);
+	info.parameters.push_front(ValuePair("ip", info.ip));
+	info.parameters.push_front(ValuePair("snmp_read_community", info.snmp_read_community));
 
 	mysql_free_result(mysql_res);
 

@@ -78,18 +78,17 @@ function doedit()
 			$db_cmd = "INSERT INTO";
 			$db_end = "";
 			$just_now_disabled = false;
+			$dev_type_changed = false;
 		}
 		else
 		{
 			$db_cmd = "UPDATE";
 			$db_end = "WHERE id={$_REQUEST['dev_id']}";
-			if ($_REQUEST['disabled'] == 1)
-			{
-				$q = db_query("SELECT disabled FROM devices WHERE id={$_REQUEST['dev_id']}");
-				$r = db_fetch_array($q);
-				$just_now_disabled = ($r['disable'] == 0);
-			}
-			else $just_now_disabled = false;
+			$q = db_query("SELECT disabled, dev_type FROM devices WHERE id={$_REQUEST['dev_id']}");
+			$r = db_fetch_array($q);
+			$just_now_disabled = (($r['disable'] == 0) && ($_REQUEST['disabled'] == 1));
+			$dev_type_changed = ($r['dev_type'] != $_REQUEST['dev_type']);
+			
 		} // end if dev_id = 0 or not
 
 		db_update("$db_cmd devices SET
@@ -116,16 +115,34 @@ function doedit()
 			db_update("UPDATE devices SET status=0 WHERE id = {$_REQUEST['dev_id']}");
 			db_update("UPDATE sub_devices SET status=0 WHERE dev_id = {$_REQUEST['dev_id']}");
 			$q = db_query("SELECT id FROM sub_devices WHERE dev_id = {$_REQUEST['dev_id']}");
-			while ($r = db_fetch_array($q))
+			while ($r2 = db_fetch_array($q))
 			{
-				db_update("UPDATE monitors SET status=0 WHERE sub_dev_id = {$r['id']}");
-				$q1 = db_query("SELECT id FROM monitors WHERE sub_dev_id = {$r['id']}");
+				db_update("UPDATE monitors SET status=0 WHERE sub_dev_id = {$r2['id']}");
+				$q1 = db_query("SELECT id FROM monitors WHERE sub_dev_id = {$r2['id']}");
 				while ($r1 = db_fetch_array($q1))
 				{
 					db_update("UPDATE events SET last_status=0 WHERE mon_id = {$r1['id']}");
 				}
 			}
 		}
+
+		if ($dev_type_changed)
+		{
+			// the device type changed, so we need to migrate and/or clean up device properties
+			
+			$old_props_query = db_query("SELECT * FROM dev_props LEFT JOIN dev_prop_vals ON dev_props.id=dev_prop_vals.prop_id WHERE dev_type_id = {$r['dev_type']} AND dev_id = {$_REQUEST['dev_id']}");
+			while ($old_prop_row = db_fetch_array($old_props_query))
+			{
+				$new_props_query = db_query("SELECT * FROM dev_props WHERE dev_type_id = {$_REQUEST['dev_type']} AND name = '{$old_prop_row['name']}'");
+				if ($new_prop_row = db_fetch_array($new_props_query))
+				{
+					db_update("INSERT INTO dev_prop_vals SET dev_id={$_REQUEST['dev_id']}, prop_id={$new_prop_row['id']}, value='{$old_prop_row['value']}'");
+				}
+				
+				db_update("DELETE FROM dev_prop_vals WHERE dev_id={$_REQUEST['dev_id']} AND prop_id={$old_prop_row['prop_id']}");
+			}
+		}
+
 	} // done editing
 
 	header("Location: grpdev_list.php?parent_id={$_REQUEST['grp_id']}&tripid={$_REQUEST['tripid']}");

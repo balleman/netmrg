@@ -1066,6 +1066,9 @@ function delete_device($device_id, $group_id = false)
 		// remove the disk cache for the device
 		db_update("DELETE FROM snmp_disk_cache WHERE dev_id = '$device_id'");
 
+		// remove the device properties
+		db_update("DELETE FROM dev_prop_vals WHERE dev_id = '$device_id'");
+
 		// remove associated graphs
 		db_update("DELETE FROM view WHERE object_type='device' AND object_id = '$device_id'");
 
