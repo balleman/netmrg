@@ -1010,13 +1010,13 @@ function make_edit_select_option($name, $value, $selected)
 	if ($selected)
 	{
 ?>
-		<option value="<?php print($value); ?>" SELECTED><?php print(htmlspecialchars($name)); ?></option>
+		<option value="<?php print($value); ?>" SELECTED><?php print($name); ?></option>
 <?php
 	}
 	else
 	{
 ?>
-		<option value="<?php print($value); ?>"><?php print(htmlspecialchars($name)); ?></option>
+		<option value="<?php print($value); ?>"><?php print($name); ?></option>
 <?php
 	} // end else
 } // end make_edit_select_option
