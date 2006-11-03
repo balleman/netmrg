@@ -60,6 +60,7 @@ struct DeviceInfo
 	uint snmp_avoid;
 	uint snmp_recache;
 	uint snmp_ifnumber;
+	uint counter_unknowns;
 	long long int snmp_uptime;
 
 	uint device_type;
@@ -104,6 +105,7 @@ struct DeviceInfo
 		snmp_recache	=  0;
 		snmp_ifnumber	=  0;
 		snmp_uptime		=  0;
+		counter_unknowns=  0;
 
 		subdevice_type	=  0;
 

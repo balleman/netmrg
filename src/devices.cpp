@@ -263,7 +263,8 @@ void process_device(int dev_id)
 			string("snmp_timeout, ")			+ // 8
 			string("snmp_retries, ")			+ // 9
 			string("no_snmp_uptime_check, ")	+ // 10
-			string("dev_type ")					+ // 11
+			string("dev_type, ")				+ // 11
+			string("unknowns_on_snmp_restart ") + // 12
 			string("FROM devices ")				+
 			string("WHERE id=") + inttostr(dev_id);
 
@@ -335,6 +336,13 @@ void process_device(int dev_id)
 						// device came back from the dead
 						info.snmp_recache = 1;
 						debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Device has returned from SNMP-death.");
+
+						// write unknowns to counters, if configured to
+						if (strtoint(mysql_row[12]) == 1)
+						{
+							info.counter_unknowns = 1;
+							debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Using unknowns for non-gauge values.");
+						}
 					}
 
 					if (info.snmp_uptime < strtoint(mysql_row[5]))
@@ -342,6 +350,14 @@ void process_device(int dev_id)
 						// uptime went backwards
 						info.snmp_recache = 1;
 						debuglogger(DEBUG_SNMP, LEVEL_NOTICE, &info, "SNMP Agent Restart.");
+
+						// write unknowns to counters, if configured to
+						if (strtoint(mysql_row[12]) == 1)
+						{
+							info.counter_unknowns = 1;
+							debuglogger(DEBUG_DEVICE, LEVEL_NOTICE, &info, "Using unknowns for non-gauge values.");
+						}
+
 					}
 				}
 			}

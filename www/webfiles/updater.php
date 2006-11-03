@@ -227,7 +227,10 @@ $dbupdates = array(
 			"query" => "ALTER TABLE `snmp_interface_cache` ADD `nexthop` VARCHAR( 20 ) , ADD `vlan` VARCHAR( 20 ) , ADD `mode` TINYINT"),
 		array(
 			"name" => "Graph Item Consolidation Function Field",
-			"query" => "ALTER TABLE `graph_ds` ADD `cf` TINYINT NOT NULL DEFAULT '1'")
+			"query" => "ALTER TABLE `graph_ds` ADD `cf` TINYINT NOT NULL DEFAULT '1'"),
+		array(
+			"name" => "Device Unknowns on SNMP Restart Field",
+			"query" => "ALTER TABLE `devices` ADD `unknowns_on_snmp_restart` TINYINT NOT NULL DEFAULT '1'")
 	) // end 0.20cvs
 	
 ); // end $dbupdates;

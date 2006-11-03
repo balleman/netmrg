@@ -133,7 +133,7 @@ void update_rrd(DeviceInfo info, RRDInfo rrd)
 // for a monitor:
 //	1. Create a RRD file if one doesn't exist.
 //	2. Tune the RRD file if necessary.
-//	3. Update the RRD file with current data.
+//	3. Update the RRD file with current data, or an unknown if we need to do that
 
 void update_monitor_rrd(DeviceInfo info, RRDInfo rrd)
 {
@@ -145,6 +145,12 @@ void update_monitor_rrd(DeviceInfo info, RRDInfo rrd)
 	if (rrd.tuned == 0)
 	{
 		tune_rrd(info, rrd);
+	}
+
+	if ( (rrd.data_type != "GAUGE") && (info.counter_unknowns == 1) )
+	{
+		debuglogger(DEBUG_MONITOR, LEVEL_INFO, &info, "Writing unknown to non-gauge RRD due to restart condition.");
+		info.curr_val = "U";
 	}
 
 	update_rrd(info, rrd);
