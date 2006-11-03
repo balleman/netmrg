@@ -224,7 +224,10 @@ $dbupdates = array(
 			"query" => "CREATE TABLE `dev_prop_vals` ( `dev_id` INT NOT NULL, `prop_id` INT NOT NULL, `value` VARCHAR( 250 ) NOT NULL, PRIMARY KEY ( `dev_id` , `prop_id` )) "),
 		array(
 			"name" => "SNMP Interface Cache New Fields",
-			"query" => "ALTER TABLE `snmp_interface_cache` ADD `nexthop` VARCHAR( 20 ) , ADD `vlan` VARCHAR( 20 ) , ADD `mode` TINYINT")
+			"query" => "ALTER TABLE `snmp_interface_cache` ADD `nexthop` VARCHAR( 20 ) , ADD `vlan` VARCHAR( 20 ) , ADD `mode` TINYINT"),
+		array(
+			"name" => "Graph Item Consolidation Function Field",
+			"query" => "ALTER TABLE `graph_ds` ADD `cf` TINYINT NOT NULL DEFAULT '1'")
 	) // end 0.20cvs
 	
 ); // end $dbupdates;

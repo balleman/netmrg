@@ -121,6 +121,11 @@ $RRDTOOL_ITEM_TYPES = array(
 	5 => "STACK"
 ); // end RRDTOOL_ITEM_TYPES
 
+$RRDTOOL_CFS = array(
+	1 => "AVERAGE",
+	2 => "MAX"
+); // end RRDTOOL_CFS
+
 $SPECIAL_MONITORS = array(
 	-1 => "-Fixed Value-",
 	-2 => "-Sum of all graph items-"
@@ -284,7 +289,8 @@ $TIMEFRAME_DAILY = array(
 	'end_time'   => "-360",
 	'break_time' => (time() - (date("s") + date("i") * 60 + date("H") * 3600)),
 	'sum_label'  => "24 Hour",
-	'sum_time'   => "86400"
+	'sum_time'   => "86400",
+	'show_max'   => false
 ); // end TIMEFRAME_DAILY
 
 $TIMEFRAME_WEEKLY = array(
@@ -293,7 +299,8 @@ $TIMEFRAME_WEEKLY = array(
 	'end_time'   => "-360",
 	'break_time' => (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("w") * 86400)),
 	'sum_label'  => "7 Day",
-	'sum_time'   => "604800"
+	'sum_time'   => "604800",
+	'show_max'   => true
 ); // end TIMEFRAME_WEEKLY
 
 $TIMEFRAME_MONTHLY = array(
@@ -302,7 +309,8 @@ $TIMEFRAME_MONTHLY = array(
 	'end_time'   => "-360",
 	'break_time' => (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("d") * 86400)),
 	'sum_label'  => "4 Week",
-	'sum_time'   => "2419200"
+	'sum_time'   => "2419200",
+	'show_max'   => true
 ); // end TIMEFRAME_MONTHLY
 
 $TIMEFRAME_YEARLY = array(
@@ -311,7 +319,8 @@ $TIMEFRAME_YEARLY = array(
 	'end_time'   => "-360",
 	'break_time' => (time() - (date("s") + date("i") * 60 + date("H") * 3600 + date("z") * 86400)),
 	'sum_label'  => "1 Year",
-	'sum_time'   => "31536000"
+	'sum_time'   => "31536000",
+	'show_max'   => true
 ); // end TIMEFRAME_YEARLY
 
 $TIMEFRAMES = array( $TIMEFRAME_DAILY, $TIMEFRAME_WEEKLY, $TIMEFRAME_MONTHLY, $TIMEFRAME_YEARLY );

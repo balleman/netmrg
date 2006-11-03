@@ -1,5 +1,6 @@
 2006.11.03  v0.20cvs  balleman
   - bug#0000480: AJAX monitor selection: if there is only one device, no monitors can be selected
+  - bug#0000303: add ability to have 'max' lines on the weekly, monthly, yearly graphs
 
 2006.11.01  v0.20cvs  balleman
   - bug#0000471: Device Properties should be gathered infrequently

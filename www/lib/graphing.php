@@ -230,10 +230,16 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 			$graph_row["width"] . " -h " . $graph_row["height"] . $options . "-b " . $graph_row["base"] . " -v " .
 			$graph_row["vert_label"] . " --imgformat PNG $options";
 
+	// setup condition to only display non-AVERAGE items on graphs 
+	$ew = "";
+	if ($timeframe['show_max'] == false)
+	{
+		$ew = "AND cf=1";
+	}
 
 	// *** Padded Length Calculation
 	$padded_length = 5;
-	$ds_results = db_query("SELECT max(length(graph_ds.label)) as maxlen FROM graph_ds WHERE graph_ds.graph_id=$id");
+	$ds_results = db_query("SELECT max(length(graph_ds.label)) as maxlen FROM graph_ds WHERE graph_ds.graph_id=$id $ew");
 	$ds_row = mysql_fetch_array($ds_results);
 	if (!empty($ds_row['maxlen']) && $padded_length < $ds_row['maxlen'])
 	{
@@ -247,7 +253,7 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 	}
 	else
 	{
-		$ds_where = "graph_id=$id ORDER BY position, id";
+		$ds_where = "graph_id=$id $ew ORDER BY position, id";
 	}
 
 	$ds_results = db_query("SELECT * FROM graph_ds WHERE $ds_where");

@@ -98,7 +98,7 @@ function doedit()
 		 type='{$_REQUEST['type']}', graph_id='{$_REQUEST['graph_id']}', 
 		 label='{$_REQUEST['label']}', alignment='{$_REQUEST['alignment']}', 
 		 stats='$stats', position='{$_REQUEST['position']}', multiplier='{$_REQUEST['multiplier']}', 
-		 start_time='{$_REQUEST['start_time']}', end_time='{$_REQUEST['end_time']}' 
+		 start_time='{$_REQUEST['start_time']}', end_time='{$_REQUEST['end_time']}', cf='{$_REQUEST['cf']}'
 		 $post";
 	db_update($graph_ds_query);
 
@@ -322,6 +322,7 @@ function edit()
 	{
 		$_REQUEST["id"] = 0;
 		$ds_row["type"] = 0;
+		$ds_row["cf"] = 0;
 		$ds_row["color"] = "#0000AA";
 		$ds_row["alignment"] = 0;
 		$ds_row["multiplier"] = 1;
@@ -350,6 +351,7 @@ function edit()
 	make_edit_table("Edit Graph Item");
 	make_edit_text("Item Label:","label","50","100",$ds_row["label"]);
 	make_edit_select_from_array("Item Type:", "type", $GLOBALS['RRDTOOL_ITEM_TYPES'], $ds_row["type"]);
+	make_edit_select_from_array("Data Consolidation:", "cf", $GLOBALS['RRDTOOL_CFS'], $ds_row["cf"]);
 	make_edit_color("Item Color:", "color", $ds_row["color"]);
 
 	make_edit_group("Data");
