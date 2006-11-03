@@ -388,7 +388,12 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 			$CDEF_M = "zero,UN,0,0,IF";
 		}
 
-		$command .= $ds_row["type"] . ":data" . $ds_count . $ds_row["color"] . rrd_legend_escape(do_align($ds_row["label"], $padded_length, $ds_row["alignment"])) . " ";
+		$suffix = "";
+		if ($ds_row['cf'] == 2)
+		{
+			$suffix = "m";
+		}
+		$command .= $ds_row["type"] . ":data" . $ds_count . $suffix . $ds_row["color"] . rrd_legend_escape(do_align($ds_row["label"], $padded_length, $ds_row["alignment"])) . " ";
 
 		// define the formatting string
 		if (isin($ds_row["stats"], "INTEGER"))
