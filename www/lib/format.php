@@ -1152,6 +1152,7 @@ function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 	$info = db_fetch_array($q);
 
 	$q = db_query("SELECT id, name FROM devices ORDER BY name");
+	echo("<option value='-1'>Select Device...</option>");
 	while ($r = db_fetch_array($q))
 	{
 		echo("<option value='{$r['id']}'>{$r['name']}</option>");
