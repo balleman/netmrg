@@ -1,3 +1,6 @@
+2006.11.10  v0.20cvs  balleman
+  - added watermarks in rrdtool 1.2 graphs
+
 2006.11.03  v0.20cvs  balleman
   - bug#0000480: AJAX monitor selection: if there is only one device, no monitors can be selected
   - bug#0000303: add ability to have 'max' lines on the weekly, monthly, yearly graphs
