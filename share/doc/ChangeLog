@@ -1,3 +1,8 @@
+2006.11.13  v0.20cvs  silfreed
+  - setup Auto Bot Questions for lists.netmrg.net to try to cut down 
+    on spam registrations
+    http://www.phpbb.com/phpBB/viewtopic.php?t=383305
+
 2006.11.10  v0.20cvs  balleman
   - added watermarks in rrdtool 1.2 graphs
 
