@@ -423,30 +423,38 @@ function do_view()
 				case "graph":
 					echo '	<div class="viewgraph">'."\n";
 					$local_graph_type = 'custom';
-					echo '<div class="viewgraph-shortcut">';
-					echo '<a href="enclose_graph.php?' . 
+					echo '		<div class="viewgraph-title">'.$row['title']."</div>\n";
+					echo '		<div class="viewgraph-controls">'."\n";
+					echo '		<div class="viewgraph-shortcut">'."\n";
+					echo '			<a href="enclose_graph.php?' . 
 							"type=$local_graph_type&id={$row['graph_id']}" . 
 							'&action=history">' . "\n" .
-						'<img src="'.get_image_by_name("slideshow").'" width="15" height="15" ' .
+						'			<img src="'.get_image_by_name("slideshow").'" width="15" height="15" ' .
 							'border="0" alt="History" title="History" />' . "\n" .
-						'</a><br />'."\n";
-					echo '<a href="enclose_graph.php?' . 
+						'			</a>'."\n";
+					echo "		</div>\n";
+					echo '		<div class="viewgraph-shortcut">'."\n";
+					echo '			<a href="enclose_graph.php?' . 
 							"type=$local_graph_type&id={$row['graph_id']}" . 
 							'&action=dissect">' . "\n" .
-						'<img src="'.get_image_by_name('disk').'" width="15" height="15" ' .
+						'			<img src="'.get_image_by_name('disk').'" width="15" height="15" ' .
 							'border="0" alt="Dissect" title="Dissect" />' . "\n" .
-						'</a><br />' . "\n";
-					echo '<a href="enclose_graph.php?' . 
+						'			</a>' . "\n";
+					echo "		</div>\n";
+					echo '		<div class="viewgraph-shortcut">'."\n";
+					echo '			<a href="enclose_graph.php?' . 
 							"type=$local_graph_type&id={$row['graph_id']}" . 
 							'&action=advanced">' . "\n" .
-						'<img src="'.get_image_by_name('duplicate').'" width="15" height="15" ' .
+						'			<img src="'.get_image_by_name('duplicate').'" width="15" height="15" ' .
 							'border="0" alt="Advanced" title="Advanced" />' . "\n" .
-						'</a><br />' . "\n";
-					echo '</div>' . "\n";
-					echo '		'.$row['title']."<br />\n";
-					echo '		<a href="enclose_graph.php?type=custom&amp;id='.$row["graph_id"].'">'."\n";
-					echo '		<img src="get_graph.php?type=custom&amp;id='.$row["graph_id"].$hist.'" alt="" />'."\n";
-					echo "		</a>\n";
+						'			</a>' . "\n";
+					echo "		</div>\n";
+					echo "		</div>\n";
+					echo '		<div class="viewgraph-image">' . "\n";
+					echo '			<a href="enclose_graph.php?type=custom&amp;id='.$row["graph_id"].'">'."\n";
+					echo '			<img src="get_graph.php?type=custom&amp;id='.$row["graph_id"].$hist.'" alt="" />'."\n";
+					echo "			</a>\n";
+					echo '		</div>' . "\n";
 					echo "	</div>\n";
 					break;
 				
@@ -463,34 +471,47 @@ function do_view()
 					}
 					echo '	<div class="viewgraph">'."\n";
 					$local_graph_type = 'template';
-					echo '<div class="viewgraph-shortcut">';
-					echo '<a href="enclose_graph.php?' . 
+					echo '		<div class="viewgraph-title">'.expand_parameters($row['title'], $row['subdev_id'])."</div>\n";
+					echo '		<div class="viewgraph-controls">'."\n";
+					echo '		<div class="viewgraph-shortcut">'."\n";
+					echo '			<a href="enclose_graph.php?' . 
 							"subdev_id={$row['subdev_id']}&" . 
 							"type=$local_graph_type&id={$row['graph_id']}" . 
 							'&action=history">' . "\n" .
-						'<img src="'.get_image_by_name("slideshow").'" width="15" height="15" ' .
+						'			<img src="'.get_image_by_name("slideshow").'" width="15" height="15" ' .
 							'border="0" alt="History" title="History" />' . "\n" .
-						'</a><br />'."\n";
-					echo '<a href="enclose_graph.php?' . 
+						'			</a>'."\n";
+					echo "		</div>\n";
+					echo '		<div class="viewgraph-shortcut">'."\n";
+					echo '			<a href="enclose_graph.php?' . 
 							"subdev_id={$row['subdev_id']}&" . 
 							"type=$local_graph_type&id={$row['graph_id']}" . 
 							'&action=dissect">' . "\n" .
-						'<img src="'.get_image_by_name('disk').'" width="15" height="15" ' .
+						'			<img src="'.get_image_by_name('disk').'" width="15" height="15" ' .
 							'border="0" alt="Dissect" title="Dissect" />' . "\n" .
-						'</a><br />' . "\n";
-					echo '<a href="enclose_graph.php?' . 
+						'			</a>' . "\n";
+					echo "		</div>\n";
+					echo '		<div class="viewgraph-shortcut">'."\n";
+					echo '			<a href="enclose_graph.php?' . 
 							"subdev_id={$row['subdev_id']}&" . 
 							"type=$local_graph_type&id={$row['graph_id']}" . 
 							'&action=advanced">' . "\n" .
-						'<img src="'.get_image_by_name('duplicate').'" width="15" height="15" ' .
+						'			<img src="'.get_image_by_name('duplicate').'" width="15" height="15" ' .
 							'border="0" alt="Advanced" title="Advanced" />' . "\n" .
-						'</a><br />' . "\n";
-					echo '</div>' . "\n";
-					echo '		'.expand_parameters($row['title'], $row['subdev_id'])."<br />\n";
-					echo '		<a href="enclose_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].'">'."\n";
-					echo '		<img src="get_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].$hist.'" alt="" />'."\n";
-					echo "		</a>\n";
-					echo $link;
+						'			</a>' . "\n";
+					echo "		</div>\n";
+					if (!empty($link))
+					{
+						echo '		<div class="viewgraph-shortcut">'."\n";
+						echo '			' . $link . "\n";
+						echo '		</div>' . "\n";
+					}
+					echo "		</div>\n";
+					echo '		<div class="viewgraph-image">' . "\n";
+					echo '			<a href="enclose_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].'">'."\n";
+					echo '			<img src="get_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].$hist.'" alt="" />'."\n";
+					echo "			</a>\n";
+					echo '		</div>' . "\n";
 					echo "	</div>\n";
 					break;
 				

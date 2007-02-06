@@ -1,3 +1,9 @@
+2006.11.13  v0.20cvs  silfreed
+  - bug#0000458: View page should have action items beside each graph
+    improved html structure of view page and improved CSS wrapping of graphs.
+    setup CSS hack for IE to allow the images to still center but throw the new
+      controls to the left.
+
 2007.01.30  v0.20cvs  balleman
   - bug#0000466: Release Checklist for 0.20 - version bumps
 
