@@ -91,7 +91,12 @@ function display_error()
 
 function display_edit()
 {
-	begin_page("view.php", "Edit View Item");
+	$object_name = get_view_name();
+	if (!empty($object_name))
+	{
+		$object_name .= ' - ';
+	} // end if object name
+	begin_page("view.php", $object_name."Edit View Item");
 	
 	switch ($_REQUEST["action"])
 	{
@@ -304,7 +309,12 @@ function do_slideshow()
 	
 	if (count($_SESSION["netmrgsess"]["slideshow"]["views"]) == 0)
 	{
-		begin_page("view.php", "Slide Show");
+		$object_name = get_view_name();
+		if (!empty($object_name))
+		{
+			$object_name .= ' - ';
+		} // end if object name
+		begin_page("view.php", $object_name."Slide Show");
 		echo("This slide show is empty.");
 		end_page();
 		exit(0);
@@ -386,15 +396,20 @@ function do_slideshow()
 
 function do_view()
 {
+	$object_name = get_view_name();
+	if (!empty($object_name))
+	{
+		$object_name .= ' - ';
+	} // end if object name
 	if ($GLOBALS["slideshow"]
 		&& GetUserPref(GetUserID(), "SlideShow", "AutoScroll") !== ""
 		&& GetUserPref(GetUserID(), "SlideShow", "AutoScroll"))
 	{
-		begin_page("view.php", "View", 1, "onLoad=start() onClick=toggle()");
+		begin_page("view.php", $object_name."View", 1, "onLoad=start() onClick=toggle()");
 	}
 	else
 	{
-		begin_page("view.php", "View", 1);
+		begin_page("view.php", $object_name."View", 1);
 	}
 	
 	$view_select =
@@ -634,5 +649,33 @@ function do_view()
 	
 	end_page();
 } // end do_view();
+
+function get_view_name()
+{
+	$return_val  = '';
+	
+	$object_id   = $_REQUEST["object_id"];
+	$object_type = $_REQUEST["object_type"];
+	
+	switch ($object_type)
+	{
+		case 'group':
+			$return_val .= db_fetch_cell('SELECT `name` FROM `groups` ' .
+				'WHERE id = ' . db_quote($object_id));
+			break;
+			
+		case 'device':
+			$return_val .= db_fetch_cell('SELECT `name` FROM `devices` ' .
+				'WHERE id = ' . db_quote($object_id));
+			break;
+			
+		case 'subdevice':
+			$return_val .= db_fetch_cell('SELECT `name` FROM `sub_devices` ' .
+				'WHERE id = ' . db_quote($object_id));
+			break;
+	} // end switch object type
+	
+	return $return_val;
+} // end function get_view_name()
 
 ?>

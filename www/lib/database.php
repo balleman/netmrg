@@ -93,6 +93,40 @@ function db_insert_id()
 
 
 /**
+ * Quotes a string for use in a query
+ * 
+ * @param string|array $value
+ * @return string
+ */
+function db_quote($value)
+{
+	$return_val = '';
+	
+	// strip slashes if magic quotes is on
+	if (get_magic_quotes_gpc())
+	{
+		$value = stripslashes($value);
+	} // end if magic quotes
+	
+	// quote if not a number or a numeric string
+	if (!is_array($value))
+	{
+		$return_val = '\'' . mysql_real_escape_string($value) . '\'';
+	} // end if value not an array
+	else
+	{
+		foreach ($value as $key => $local_value)
+		{
+			$value[$key] = '\'' . mysql_real_escape_string($local_value) . '\'';
+		} // end foreach array value
+		$return_val = implode(',', $value);
+	} // end if value is an array
+	
+	return $return_val;
+} // end function db_quote()
+
+
+/**
 * db_fetch_cell($sql)
 * 
 *  run a 'select' sql query and return the first column of the first row found
