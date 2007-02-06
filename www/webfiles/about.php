@@ -21,7 +21,7 @@ begin_page("about.php", "About");
 
 Version <b><?php echo $GLOBALS["netmrg"]["version"]; ?></b><br /><br />
 
-Copyright &copy;2001-2006 
+Copyright &copy;2001-2007 
   <a href="http://brady.thtech.net">Brady Alleman</a>, 
   <a href="http://www.silfreed.net/">Douglas E. Warner</a> and 
   <a href="http://www.nivek.ws/">Kevin Bonner</a>.<br />

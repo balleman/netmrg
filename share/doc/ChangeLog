@@ -3,6 +3,7 @@
     improved html structure of view page and improved CSS wrapping of graphs.
     setup CSS hack for IE to allow the images to still center but throw the new
       controls to the left.
+  - updated copyright to 2007
 
 2007.01.30  v0.20cvs  balleman
   - bug#0000466: Release Checklist for 0.20 - version bumps
