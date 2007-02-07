@@ -439,6 +439,11 @@ function do_view()
 					echo '	<div class="viewgraph">'."\n";
 					$local_graph_type = 'custom';
 					echo '		<div class="viewgraph-title">'.$row['title']."</div>\n";
+					echo '		<div class="viewgraph-image">' . "\n";
+					echo '			<a href="enclose_graph.php?type=custom&amp;id='.$row["graph_id"].'">'."\n";
+					echo '			<img src="get_graph.php?type=custom&amp;id='.$row["graph_id"].$hist.'" alt="" />'."\n";
+					echo "			</a>\n";
+					echo '		</div>' . "\n";
 					echo '		<div class="viewgraph-controls">'."\n";
 					echo '		<div class="viewgraph-shortcut">'."\n";
 					echo '			<a href="enclose_graph.php?' . 
@@ -465,11 +470,6 @@ function do_view()
 						'			</a>' . "\n";
 					echo "		</div>\n";
 					echo "		</div>\n";
-					echo '		<div class="viewgraph-image">' . "\n";
-					echo '			<a href="enclose_graph.php?type=custom&amp;id='.$row["graph_id"].'">'."\n";
-					echo '			<img src="get_graph.php?type=custom&amp;id='.$row["graph_id"].$hist.'" alt="" />'."\n";
-					echo "			</a>\n";
-					echo '		</div>' . "\n";
 					echo "	</div>\n";
 					break;
 				
@@ -487,6 +487,11 @@ function do_view()
 					echo '	<div class="viewgraph">'."\n";
 					$local_graph_type = 'template';
 					echo '		<div class="viewgraph-title">'.expand_parameters($row['title'], $row['subdev_id'])."</div>\n";
+					echo '		<div class="viewgraph-image">' . "\n";
+					echo '			<a href="enclose_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].'">'."\n";
+					echo '			<img src="get_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].$hist.'" alt="" />'."\n";
+					echo "			</a>\n";
+					echo '		</div>' . "\n";
 					echo '		<div class="viewgraph-controls">'."\n";
 					echo '		<div class="viewgraph-shortcut">'."\n";
 					echo '			<a href="enclose_graph.php?' . 
@@ -522,11 +527,6 @@ function do_view()
 						echo '		</div>' . "\n";
 					}
 					echo "		</div>\n";
-					echo '		<div class="viewgraph-image">' . "\n";
-					echo '			<a href="enclose_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].'">'."\n";
-					echo '			<img src="get_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].$hist.'" alt="" />'."\n";
-					echo "			</a>\n";
-					echo '		</div>' . "\n";
 					echo "	</div>\n";
 					break;
 				
@@ -537,6 +537,7 @@ function do_view()
 		} // end while each row
 
 		echo "</div>\n";
+		echo '<div style="clear: both; font-size: 0;">&nbsp;</div>'."\n";
 		echo '<!-- graphs end -->'."\n";
 	
 		$histnum = 0;

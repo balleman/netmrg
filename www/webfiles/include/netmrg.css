@@ -348,22 +348,6 @@ A.editfield1, A:visited.editfield1
 
 #viewdisplay
 {
-	text-align : center;
-}
-
-.viewgraph
-{
-	background-color : #F0F0F0;
-	color : #D0D0D0;
-	font-family : sans-serif;
-	font-size : 0.5em;
-	font-weight : bold;
-	letter-spacing : 0.2em;
-	margin: 0 auto; /* center for standards-compliant browsers */
-	padding : 5px;
-	text-align: left; /* undo the centering hack for IE */
-	display: table;
-	-display: inline;
 }
 
 .viewseparator
@@ -374,6 +358,19 @@ A.editfield1, A:visited.editfield1
 	text-align : left;
 	border-top : 1px dashed #4040B0;
 	border-bottom : 1px dashed #4040B0;
+	clear: both;
+}
+
+.viewgraph
+{
+	background-color : #F0F0F0;
+	color : #D0D0D0;
+	font-family : sans-serif;
+	font-size : 0.5em;
+	font-weight : bold;
+	letter-spacing : 0.2em;
+	padding : 5px;
+	float: left;
 }
 
 .viewgraph-title
@@ -382,20 +379,28 @@ A.editfield1, A:visited.editfield1
 	font-size : 12px;
 	font-weight : bold;
 	letter-spacing : 0.2em;
-}
-
-.viewgraph-controls
-{
-	float: right;
-}
-
-.viewgraph-shortcut
-{
+	float: left;
 }
 
 .viewgraph-image
 {
-	margin: 5px 27px 5px 5px;
+	margin: 5px;
+	display: table;
+	float: left;
+	clear: left;
+}
+
+.viewgraph-controls
+{
+	text-align: right;
+	display: table;
+	margin-top: 0.5em;
+	float: left;
+	-float: none;
+}
+
+.viewgraph-shortcut
+{
 }
 
 .disabled
