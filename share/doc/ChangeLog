@@ -1,3 +1,7 @@
+2007.04.05  v0.20cvs  balleman
+  - updated bugs.netmrg.net to mantis 1.0.7
+  - updated lists.netmrg.net to phpBB 2.0.22
+
 2006.11.13  v0.20cvs  silfreed
   - bug#0000458: View page should have action items beside each graph
     improved html structure of view page and improved CSS wrapping of graphs.
