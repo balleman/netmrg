@@ -119,7 +119,6 @@ function monitor_graph_command($id, $timeframe)
 			" --title=" . escapeshellarg(get_monitor_name($id) . " (#" . $id . ")") . " --imgformat PNG -g -w 575 -h 100 " .
 			"DEF:data1=" . $GLOBALS['netmrg']['rrdroot'] . "/mon_" . $id . ".rrd:mon_" . $id . ":AVERAGE " .
 			"AREA:data1#151590");
-
 }
 
 function tiny_monitor_graph_command($id, $timeframe)
@@ -234,9 +233,12 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 
 	// initial definition
 	$command = $GLOBALS['netmrg']['rrdtool'] . " graph - " . rrd_slope() . rrd_watermark() . " -s " . $timeframe['start_time'] . 
-			" -e " . $timeframe['end_time'] . $boundary . " --title " . $graph_row["title"] . " -w " .
-			$graph_row["width"] . " -h " . $graph_row["height"] . $options . "-b " . $graph_row["base"] . " -v " .
-			$graph_row["vert_label"] . " --imgformat PNG $options";
+			" -e " . $timeframe['end_time'] . $boundary .
+			" --title " . $graph_row["title"] .
+			" -w " . $graph_row["width"] . " -h " . $graph_row["height"] .
+			$options .
+			"-b " . $graph_row["base"] . " -v " . $graph_row["vert_label"] .
+			" --imgformat PNG $options";
 
 	// setup condition to only display non-AVERAGE items on graphs 
 	$ew = "";
@@ -484,6 +486,107 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 	}
 
 	return($command);
+}
+
+/**
+ * Gets the graph view
+ */
+function get_graph_view($graph_data)
+{
+	case "graph":
+		echo '	<div class="viewgraph">'."\n";
+		$local_graph_type = 'custom';
+		echo '		<div class="viewgraph-title">'.$row['title']."</div>\n";
+		echo '		<div class="viewgraph-image">' . "\n";
+		echo '			<a href="enclose_graph.php?type=custom&amp;id='.$row["graph_id"].'">'."\n";
+		echo '			<img src="get_graph.php?type=custom&amp;id='.$row["graph_id"].$hist.'" alt="" />'."\n";
+		echo "			</a>\n";
+		echo '		</div>' . "\n";
+		echo '		<div class="viewgraph-controls">'."\n";
+		echo '		<div class="viewgraph-shortcut">'."\n";
+		echo '			<a href="enclose_graph.php?' . 
+				"type=$local_graph_type&id={$row['graph_id']}" . 
+				'&action=history">' . "\n" .
+			'			<img src="'.get_image_by_name("slideshow").'" width="15" height="15" ' .
+				'border="0" alt="History" title="History" />' . "\n" .
+			'			</a>'."\n";
+		echo "		</div>\n";
+		echo '		<div class="viewgraph-shortcut">'."\n";
+		echo '			<a href="enclose_graph.php?' . 
+				"type=$local_graph_type&id={$row['graph_id']}" . 
+				'&action=dissect">' . "\n" .
+			'			<img src="'.get_image_by_name('disk').'" width="15" height="15" ' .
+				'border="0" alt="Dissect" title="Dissect" />' . "\n" .
+			'			</a>' . "\n";
+		echo "		</div>\n";
+		echo '		<div class="viewgraph-shortcut">'."\n";
+		echo '			<a href="enclose_graph.php?' . 
+				"type=$local_graph_type&id={$row['graph_id']}" . 
+				'&action=advanced">' . "\n" .
+			'			<img src="'.get_image_by_name('duplicate').'" width="15" height="15" ' .
+				'border="0" alt="Advanced" title="Advanced" />' . "\n" .
+			'			</a>' . "\n";
+		echo "		</div>\n";
+		echo "		</div>\n";
+		echo "	</div>\n";
+		break;
+	
+	case "template":
+		$nh_res = db_query("SELECT value FROM sub_dev_variables WHERE sub_dev_id={$row['subdev_id']} AND name='nexthop'");
+		$link = "";
+		if ($nh_row = db_fetch_array($nh_res)) // next hop located
+		{
+			$nhd_res = db_query("SELECT dev_id FROM sub_devices WHERE id = {$nh_row['value']}");
+			if ($nhd_row = db_fetch_array($nhd_res))
+			{
+				$link = "Next Hop: <a href=\"view.php?action=view&object_type=device&object_id={$nhd_row['dev_id']}\">" . get_dev_sub_device_name($nh_row['value']) . "</a>";
+			}
+		}
+		echo '	<div class="viewgraph">'."\n";
+		$local_graph_type = 'template';
+		echo '		<div class="viewgraph-title">'.expand_parameters($row['title'], $row['subdev_id'])."</div>\n";
+		echo '		<div class="viewgraph-image">' . "\n";
+		echo '			<a href="enclose_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].'">'."\n";
+		echo '			<img src="get_graph.php?type=template&amp;id='.$row["graph_id"].'&amp;subdev_id='.$row["subdev_id"].$hist.'" alt="" />'."\n";
+		echo "			</a>\n";
+		echo '		</div>' . "\n";
+		echo '		<div class="viewgraph-controls">'."\n";
+		echo '		<div class="viewgraph-shortcut">'."\n";
+		echo '			<a href="enclose_graph.php?' . 
+				"subdev_id={$row['subdev_id']}&" . 
+				"type=$local_graph_type&id={$row['graph_id']}" . 
+				'&action=history">' . "\n" .
+			'			<img src="'.get_image_by_name("slideshow").'" width="15" height="15" ' .
+				'border="0" alt="History" title="History" />' . "\n" .
+			'			</a>'."\n";
+		echo "		</div>\n";
+		echo '		<div class="viewgraph-shortcut">'."\n";
+		echo '			<a href="enclose_graph.php?' . 
+				"subdev_id={$row['subdev_id']}&" . 
+				"type=$local_graph_type&id={$row['graph_id']}" . 
+				'&action=dissect">' . "\n" .
+			'			<img src="'.get_image_by_name('disk').'" width="15" height="15" ' .
+				'border="0" alt="Dissect" title="Dissect" />' . "\n" .
+			'			</a>' . "\n";
+		echo "		</div>\n";
+		echo '		<div class="viewgraph-shortcut">'."\n";
+		echo '			<a href="enclose_graph.php?' . 
+				"subdev_id={$row['subdev_id']}&" . 
+				"type=$local_graph_type&id={$row['graph_id']}" . 
+				'&action=advanced">' . "\n" .
+			'			<img src="'.get_image_by_name('duplicate').'" width="15" height="15" ' .
+				'border="0" alt="Advanced" title="Advanced" />' . "\n" .
+			'			</a>' . "\n";
+		echo "		</div>\n";
+		if (!empty($link))
+		{
+			echo '		<div class="viewgraph-shortcut">'."\n";
+			echo '			' . $link . "\n";
+			echo '		</div>' . "\n";
+		}
+		echo "		</div>\n";
+		echo "	</div>\n";
+		break;
 }
 
 ?>

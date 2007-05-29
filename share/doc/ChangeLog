@@ -1,3 +1,10 @@
+2007.05.29  v0.20cvs  silfreed
+  - adding scripts contributed by Uwe Steinmann <uwe@steinmann.cx>
+    for monitoring linux load w/o SNMP and Apple systems battery status
+    with a PMU
+  - incorporating modifications to linux26diskaccess.pl
+    (http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=412549)
+
 2007.05.14  v0.20cvs  silfreed
   - updated wiki.netmrg.net to mediawiki 1.10.0
 
