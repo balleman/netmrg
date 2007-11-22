@@ -15,7 +15,7 @@ community="$2"
 shift
 shift
 
-snmpget="snmpget -v1 -c $community -Oqv $hostname"
+snmpget="snmpget -v1 -c $community -OqvU $hostname"
 val=`$snmpget $1`;
 shift
 
