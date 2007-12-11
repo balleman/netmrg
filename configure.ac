@@ -20,7 +20,7 @@
 
 AC_PREREQ(2.53)
 AC_INIT(NetMRG,0.20)
-AC_REVISION($Revision: 1.37 $)
+AC_REVISION($Revision:1281 $)
 AC_CONFIG_SRCDIR(src/netmrg.cpp)
 AC_CANONICAL_HOST
 AM_INIT_AUTOMAKE
@@ -292,7 +292,7 @@ if test "x$snmp_lib_dir" != "x"; then
   test -f $snmp_lib_dir/libsnmp.a -o -f $snmp_lib_dir/libsnmp.so -o -f $snmp_lib_dir/libsnmp.dylib && SNMP_LIBDIR=$snmp_lib_dir
   test -f $snmp_lib_dir/libnetsnmp.a -o -f $snmp_lib_dir/libnetsnmp.so -o -f $snmp_lib_dir/libnetsnmp.dylib && SNMP_LIBDIR=$snmp_lib_dir
 else
-  for i in /usr/local/lib /usr/lib /usr/sfw/lib; do
+  for i in /usr/local/lib /usr/lib64 /usr/lib /usr/sfw/lib; do
     test -f $i/libsnmp.a -o -f $i/libsnmp.so -o -f $i/libsnmp.dylib && SNMP_LIBDIR=$i
     test -f $i/libnetsnmp.a -o -f $i/libnetsnmp.so -o -f $i/libnetsnmp.dylib && SNMP_LIBDIR=$i
   done

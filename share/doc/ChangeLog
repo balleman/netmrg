@@ -1,3 +1,7 @@
+2007.12.19  v0.20cvs  silfreed
+  - bug#490 - fail to find net-snmp in x86_64
+    adding detection of /usr/lib64
+
 2007.05.29  v0.20cvs  silfreed
   - adding scripts contributed by Uwe Steinmann <uwe@steinmann.cx>
     for monitoring linux load w/o SNMP and Apple systems battery status
