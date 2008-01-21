@@ -1,3 +1,6 @@
+2008.01.21  v0.20cvs  silfreed
+  - updated bugs.netmrg.net to mantis 1.1.1
+
 2007.12.19  v0.20cvs  silfreed
   - bug#490 - fail to find net-snmp in x86_64
     adding detection of /usr/lib64
@@ -12,7 +15,7 @@
 2007.05.14  v0.20cvs  silfreed
   - updated wiki.netmrg.net to mediawiki 1.10.0
 
-2007.04.05  v0.20cvs  balleman
+2007.04.05  v0.20cvs  silfreed
   - updated bugs.netmrg.net to mantis 1.0.7
   - updated lists.netmrg.net to phpBB 2.0.22
 
