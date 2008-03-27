@@ -4,6 +4,7 @@ use strict;
 
 my ${prefix} = "@prefix@";
 my ${exec_prefix} = "@exec_prefix@";
+my ${datarootdir} = "@datarootdir@";
 
 while (my $f = shift @ARGV) {
 
@@ -25,6 +26,7 @@ while (my $f = shift @ARGV) {
 		s|\@libexecdir\@|@libexecdir@|g; # put all --with-vars before directories
 		s|\@localstatedir\@|@localstatedir@|g;
 		s|\@sysconfdir\@|@sysconfdir@|g;
+		s|\@datarootdir\@|@datarootdir@|g;
 		s|\@datadir\@|@datadir@|g;
 		s|\@sbindir\@|@sbindir@|g;
 		s|\@bindir\@|@bindir@|g;

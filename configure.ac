@@ -80,7 +80,7 @@ AC_ARG_WITH(snmp-include-dir,
 AC_ARG_WITH(snmp-lib-dir,
 	AC_HELP_STRING(
 		[--with-snmp-lib-dir],
-		[SNMP library directory [[/usr/(local/)lib]]]),
+		[SNMP library directory [[/usr/(local/)lib[64]]]]),
 	[snmp_lib_dir=$withval])
 
 # xml2
@@ -171,7 +171,7 @@ AC_CHECK_LIB(xml2, xmlParseFile,
 # hunt through several directories trying to find the libraries
 if test "x$XML2_LIBS" = "x"; then
 	old_LDFLAGS="$LDFLAGS"
-	for try in $xml2_lib_dir /usr/lib /usr/local/lib ; do
+	for try in $xml2_lib_dir /usr/lib64 /usr/lib /usr/local/lib ; do
 		LDFLAGS="$old_LDFLAGS -L$try"
 		unset ac_cv_lib_xml2_xmlParseFile
 		AC_CHECK_LIB(xml2, xmlParseFile,
@@ -292,7 +292,7 @@ if test "x$snmp_lib_dir" != "x"; then
   test -f $snmp_lib_dir/libsnmp.a -o -f $snmp_lib_dir/libsnmp.so -o -f $snmp_lib_dir/libsnmp.dylib && SNMP_LIBDIR=$snmp_lib_dir
   test -f $snmp_lib_dir/libnetsnmp.a -o -f $snmp_lib_dir/libnetsnmp.so -o -f $snmp_lib_dir/libnetsnmp.dylib && SNMP_LIBDIR=$snmp_lib_dir
 else
-  for i in /usr/local/lib /usr/lib64 /usr/lib /usr/sfw/lib; do
+  for i in /usr/local/lib /usr/sfw/lib /usr/lib /usr/lib64 ; do
     test -f $i/libsnmp.a -o -f $i/libsnmp.so -o -f $i/libsnmp.dylib && SNMP_LIBDIR=$i
     test -f $i/libnetsnmp.a -o -f $i/libnetsnmp.so -o -f $i/libnetsnmp.dylib && SNMP_LIBDIR=$i
   done

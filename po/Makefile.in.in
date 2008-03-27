@@ -22,14 +22,14 @@ VPATH = @srcdir@
 
 prefix = @prefix@
 exec_prefix = @exec_prefix@
+datarootdir = @datarootdir@
 datadir = @datadir@
 localedir = $(datadir)/locale
 gettextsrcdir = $(datadir)/gettext/po
 
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
-MKINSTALLDIRS = @MKINSTALLDIRS@
-mkinstalldirs = $(SHELL) $(MKINSTALLDIRS)
+mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 
 GMSGFMT = @GMSGFMT@
 MSGFMT = @MSGFMT@
@@ -277,7 +277,7 @@ mostlyclean:
 clean: mostlyclean
 
 distclean: clean
-	rm -f Makefile Makefile.in POTFILES *.mo
+	rm -f Makefile Makefile.in stamp-po POTFILES *.mo
 
 maintainer-clean: distclean
 	@echo "This command is intended for maintainers to use;"

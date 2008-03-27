@@ -28,7 +28,7 @@
 #define DEF_RRDTOOL         "@RRDTOOL@"
 #define DEF_RRDS            "@localstatedir@/lib/netmrg/rrd"
 #define DEF_LIBEXEC         "@libexecdir@/netmrg/"
-#define DEF_LOCALE          "@datadir@/netmrg/locale"
+#define DEF_LOCALE          "@datarootdir@/netmrg/locale"
 
 // Threading
 #define DEF_THREAD_COUNT    5						// number of simultaneous threads

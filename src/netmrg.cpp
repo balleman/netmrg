@@ -106,13 +106,14 @@ void run_netmrg()
 	
 	pid_t mypid = getpid();
 	FILE *lockfile;
+	int lockfile_res;
 	
 	// check for existing lockfile
 	if (file_exists(get_setting(setPathLockFile)))
 	{
 		lockfile = fopen(get_setting(setPathLockFile).c_str(), "r");
 		pid_t otherpid;
-		fscanf(lockfile, "%d", &otherpid);
+		lockfile_res = fscanf(lockfile, "%d", &otherpid);
 		fclose(lockfile);
 		
 		// if we could have sent the signal, or if the problem wasn't finding the PID, die.
@@ -406,6 +407,7 @@ void external_snmp_recache(int device_id, int type)
 void daemonize()
 {
 	pid_t pid;
+	int chdir_res;
 
 	pid = fork();
 	if (pid < 0)
@@ -424,7 +426,7 @@ void daemonize()
 	{
 		// we're the child, keep going
 		setsid();
-		chdir("/");
+		chdir_res = chdir("/");
 		umask(0);
 		return;
 	}

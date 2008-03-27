@@ -161,6 +161,7 @@ void process_responses(DeviceInfo info, MYSQL *mysql)
 {
 	MYSQL_RES	*mysql_res;
 	MYSQL_ROW	mysql_row;
+	int			notification_res;
 
 	string query = 	string("SELECT	notifications.command, responses.parameters, responses.id ") 	+
 			string("FROM	responses, notifications ")			+
@@ -178,7 +179,7 @@ void process_responses(DeviceInfo info, MYSQL *mysql)
 		if (command[0] != '/')
 			command = get_setting(setPathLibexec) + "/" + command;
 		debuglogger(DEBUG_RESPONSE, LEVEL_INFO, &info, "Running Response: " + command);
-		system(command.c_str());
+		notification_res = system(command.c_str());
 	}
 
 } // end process_responses()
