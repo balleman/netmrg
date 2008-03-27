@@ -1,5 +1,6 @@
 2008.03.26  v0.20cvs  silfreed
   - bug#482 : fixing configure/compilation issues
+  - bug#491 : fixing gcc 4.3 errors
 
 2008.01.21  v0.20cvs  silfreed
   - updated bugs.netmrg.net to mantis 1.1.1

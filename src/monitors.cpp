@@ -9,6 +9,7 @@
 
 #include <math.h>
 #include <errno.h>
+#include <cstring>
 
 #include "monitors.h"
 
