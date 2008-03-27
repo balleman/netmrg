@@ -215,6 +215,8 @@ $dbupdates = array(
 			"query" => "UPDATE graphs SET max=NULL WHERE max=0")
 	), // end 0.19
 
+	"0.19.1" => array(), // end 0.19
+
 	"0.20" => array(
 		array(
 			"name" => "Device Properties Table",
@@ -231,7 +233,7 @@ $dbupdates = array(
 		array(
 			"name" => "Device Unknowns on SNMP Restart Field",
 			"query" => "ALTER TABLE `devices` ADD `unknowns_on_snmp_restart` TINYINT NOT NULL DEFAULT '1'")
-	) // end 0.20
+	), // end 0.20
 	
 ); // end $dbupdates;
 

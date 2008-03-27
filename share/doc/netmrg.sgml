@@ -61,6 +61,14 @@ any company, organization, product, or platform.
 	<title>Revision History</title>
 	<itemizedlist>
 		<listitem>
+			<para>0.19.1</para>
+			<para>2008.03.28</para>
+			<para>
+Minor bug fixes;
+Fixing compilation on more distributions.
+			</para>
+		</listitem>
+		<listitem>
 			<para>0.19</para>
 			<para>2006.02.03</para>
 			<para>
