@@ -1148,11 +1148,22 @@ function make_edit_select_monitor($mon_id_cur, $prepended_array = array())
 	<b>Monitor:</b><br />
 	<select name="device" id="device" onchange="xajax_redraw_subdevice('device', document.getElementById('device').options[document.getElementById('device').selectedIndex].value);">
 <?php
-	$q = db_query("SELECT devices.id AS devid, sub_devices.id AS subdevid FROM monitors LEFT JOIN sub_devices ON monitors.sub_dev_id=sub_devices.id LEFT JOIN devices ON sub_devices.dev_id=devices.id WHERE monitors.id = $mon_id_cur");
-	$info = db_fetch_array($q);
+	if ($mon_id_cur > 0)
+	{
+
+		$q = db_query("SELECT devices.id AS devid, sub_devices.id AS subdevid FROM monitors LEFT JOIN sub_devices ON monitors.sub_dev_id=sub_devices.id LEFT JOIN devices ON sub_devices.dev_id=devices.id WHERE monitors.id = $mon_id_cur");
+		$info = db_fetch_array($q);
+	}
+	else
+	{
+		$info['devid'] = -1;
+	}
 
 	$q = db_query("SELECT id, name FROM devices ORDER BY name");
-	echo("<option value='-1'>Select Device...</option>");
+
+	// "Special Monitors"
+	make_edit_select_option("-Internal-", "-1", true);
+
 	while ($r = db_fetch_array($q))
 	{
 		echo("<option value='{$r['id']}'>{$r['name']}</option>");
