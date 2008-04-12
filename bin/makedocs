@@ -22,7 +22,7 @@ echo "Building MAN pages"
 rm -f share/doc/man/man1/*.1
 docbook2man -d share/doc/netmrg.dsl#print -o share/doc/man share/doc/netmrg.sgml
 mv share/doc/man/*.1 share/doc/man/man1
-find share/doc/man -type f -maxdepth 1 -exec rm -f {} \;
+find share/doc/man -maxdepth 1 -type f -exec rm -f {} \;
 echo
 
 #TXT

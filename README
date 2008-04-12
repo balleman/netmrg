@@ -1,4 +1,3 @@
-
 The NetMRG Reference
 
 Brady Alleman
@@ -9,31 +8,32 @@ Douglas E. Warner
 
    This project is licensed under the terms of the MIT License.
 
-   Permission  is  hereby  granted, free of charge, to any person
-   obtaining a copy of this software and associated documentation files
-   (the "Software"), to deal in the Software without restriction,
-   including without limitation the rights to use, copy, modify, merge,
-   publish, distribute, sublicense, and/or sell copies of the Software,
-   and to permit persons to whom the Software is furnished to do so,
-   subject to the following conditions:
+   Permission is hereby granted, free of charge, to any person
+   obtaining a copy of this software and associated documentation
+   files (the "Software"), to deal in the Software without
+   restriction, including without limitation the rights to use,
+   copy, modify, merge, publish, distribute, sublicense, and/or
+   sell copies of the Software, and to permit persons to whom the
+   Software is furnished to do so, subject to the following
+   conditions:
 
    The above copyright notice and this permission notice shall be
    included in all copies or substantial portions of the Software.
 
    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-   MERCHANTABILITY,   FITNESS   FOR   A  PARTICULAR  PURPOSE  AND
-   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-   BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-   ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-   CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-   SOFTWARE.
+   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+   OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+   NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+   HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+   OTHER DEALINGS IN THE SOFTWARE.
 
    All product names are property of their respective owners. Such
-   names  are  used  for identification purposes only and are not
-   indicative  of endorsement by or of any company, organization,
+   names are used for identification purposes only and are not
+   indicative of endorsement by or of any company, organization,
    product, or platform.
-     _________________________________________________________
+     __________________________________________________________
 
    Table of Contents
    I. Overview
@@ -61,117 +61,132 @@ I. Overview
    Table of Contents
    1. Introduction
    2. Revision History
-     _________________________________________________________
+     __________________________________________________________
 
 Chapter 1. Introduction
 
-   Welcome to NetMRG! NetMRG is a database-driven network monitoring
-   and graphing tool for use on Linux systems. It offers an intuitive
-   web-based configuration, customized monitoring capabilities for
-   unusual situations, a fast multi-threaded polling application, and
-   brilliant graphs rendered by RRDTOOL.
+   Welcome to NetMRG! NetMRG is a database-driven network
+   monitoring and graphing tool for use on Linux systems. It
+   offers an intuitive web-based configuration, customized
+   monitoring capabilities for unusual situations, a fast
+   multi-threaded polling application, and brilliant graphs
+   rendered by RRDTOOL.
 
-   This document aims to guide you swiftly through the installation and
-   configuration of NetMRG, as well as act as a reference for those
-   with existing installations.
-     _________________________________________________________
+   This document aims to guide you swiftly through the
+   installation and configuration of NetMRG, as well as act as a
+   reference for those with existing installations.
+     __________________________________________________________
 
 Chapter 2. Revision History
 
+     * 0.20
+       2008.04.11
+       Major feature enhancements and bug fixes; Fixed compilation
+       under GCC 4.3; restructuring of view pages to show graph
+       titles (for easier in-page searching) and icons for graph
+       actions; fixed mysql 5 compatibility; added device
+       properties (keeps track of things like model #, serial #,
+       etc); added ability to chain interfaces to travel between
+       them; added ajax monitor selection on graphs.
      * 0.19
        2006.02.03
-       Major Feature Enhancements and Bug Fixes; Major Web Interface
-       redesign to give more room for graphs and ease overall use.
-       Security  enhancements behind the scenes to ensure correct
-       permissions checking. Added a search interface that will search
-       groups, devices, sub devies, and sub device parameters. RRDtool
-       1.2 support (including graph smoothing); Depricated use of
-       netmrg_cron.sh in favor of using netmrg-gatherer; migrated bulk
-       of docs to wiki; numerous other bugfixes and enhancements.
+       Major Feature Enhancements and Bug Fixes; Major Web
+       Interface redesign to give more room for graphs and ease
+       overall use. Security enhancements behind the scenes to
+       ensure correct permissions checking. Added a search
+       interface that will search groups, devices, sub devies, and
+       sub device parameters. RRDtool 1.2 support (including graph
+       smoothing); Depricated use of netmrg_cron.sh in favor of
+       using netmrg-gatherer; migrated bulk of docs to wiki;
+       numerous other bugfixes and enhancements.
      * 0.18.2
        2004.11.09
-       Minor Bug Fixes; Fixed some escaping problems on the interface
-       cache page, disabled the 'quickprint' Net-SNMP option for better
-       compatibility, fixed the snmp-failure test, fixed an SVO-user
-       view issue, and added failover for duplicate ifNames when adding
-       interfaces.
+       Minor Bug Fixes; Fixed some escaping problems on the
+       interface cache page, disabled the 'quickprint' Net-SNMP
+       option for better compatibility, fixed the snmp-failure
+       test, fixed an SVO-user view issue, and added failover for
+       duplicate ifNames when adding interfaces.
      * 0.18.1
        2004.11.01
-       Minor Bug Fixes; Fixed a small bug where the gatherer would not
-       register negative values.
+       Minor Bug Fixes; Fixed a small bug where the gatherer would
+       not register negative values.
      * 0.18
        2004.10.25
-       Major Bug Fixes; Fixed an issue preventing form submissions on
-       some  browsers,  fixed PHP string escaping problems, fixed
-       inability to create inverted stacked graphs, and fixed parameter
-       substituion  and documentation regarding notifications and
-       responses. Added better support on FreeBSDs (4.8-5.2) and x86-64
-       architectures (Linux and FreeBSD), the ability to multiply
-       summed values, MySQL timeouts, simple value parsing (to get the
-       numeric content out of quoted numbers, etc), graphic icons for
-       most actions, support for a default external auth user (with
+       Major Bug Fixes; Fixed an issue preventing form submissions
+       on some browsers, fixed PHP string escaping problems, fixed
+       inability to create inverted stacked graphs, and fixed
+       parameter substituion and documentation regarding
+       notifications and responses. Added better support on
+       FreeBSDs (4.8-5.2) and x86-64 architectures (Linux and
+       FreeBSD), the ability to multiply summed values, MySQL
+       timeouts, simple value parsing (to get the numeric content
+       out of quoted numbers, etc), graphic icons for most
+       actions, support for a default external auth user (with
        regards to permissions), and cleaned up the gatherer build
        process output.
      * 0.17
        2004.09.13
-       Minor Feature Enhancements; Added colorized gatherer output,
-       checkbox support on multiple pages, the ability to disable
-       users, fixed a potential SQL-injection bug, updated navigation
-       on group pages, updated tutorials.
+       Minor Feature Enhancements; Added colorized gatherer
+       output, checkbox support on multiple pages, the ability to
+       disable users, fixed a potential SQL-injection bug, updated
+       navigation on group pages, updated tutorials.
      * 0.16
        2004.06.10
-       Minor Bugfixes and Feature Enhancements; fixed a user management
-       bug and several bugs related to 'single view only' users not
-       being able to see graphs, added the ability to ignore SNMP
-       uptime checks for devices (permitting the monitoring of broken
-       devices), added the ability to do an SNMP walk of an OID (useful
-       for the Windows SNMP agent), enhanced group/device management,
-       cleaned up autoconf (now supports FC2), and added experimental
-       syslog and daemon support in the gatherer.
+       Minor Bugfixes and Feature Enhancements; fixed a user
+       management bug and several bugs related to 'single view
+       only' users not being able to see graphs, added the ability
+       to ignore SNMP uptime checks for devices (permitting the
+       monitoring of broken devices), added the ability to do an
+       SNMP walk of an OID (useful for the Windows SNMP agent),
+       enhanced group/device management, cleaned up autoconf (now
+       supports FC2), and added experimental syslog and daemon
+       support in the gatherer.
      * 0.15
        2004.05.20
-       Minor Bugfixes and Feature Enhancements; fixes for various db
-       errors (including the infamous one on snmp_cache_view.php),
-       better  cross-platform compilation, select all/none/invert
-       checkbox support, support for choosing what graph to apply to an
-       interface, better support for php < 4.2.0, and some security
-       fixes for single-view-only users.
+       Minor Bugfixes and Feature Enhancements; fixes for various
+       db errors (including the infamous one on
+       snmp_cache_view.php), better cross-platform compilation,
+       select all/none/invert checkbox support, support for
+       choosing what graph to apply to an interface, better
+       support for php < 4.2.0, and some security fixes for
+       single-view-only users.
      * 0.14
        2004.03.10
        Minor Bugfixes and Feature Enhancements; escaping issues in
-       template dereferencing, broken links on various pages, security
-       issues regarding manual SNMP recaching, broken duplication on
-       non-cutting-edge MySQL, more parameter substitution in SQL
-       tests, better date parsing for advanced graph view, nav-bar and
-       group navigation enhancements, advanced view capability for
-       monitor-only graphs.
+       template dereferencing, broken links on various pages,
+       security issues regarding manual SNMP recaching, broken
+       duplication on non-cutting-edge MySQL, more parameter
+       substitution in SQL tests, better date parsing for advanced
+       graph view, nav-bar and group navigation enhancements,
+       advanced view capability for monitor-only graphs.
      * 0.13
        2003.12.19
-       Minor Bugfixes and Feature Enhancements; slide show ordering,
-       previous slide, resume slide show, better formatting of 'sums',
-       errors on view editing, fixes to permissions checking, and an
-       occassional segfault in the gatherer was fixed.
+       Minor Bugfixes and Feature Enhancements; slide show
+       ordering, previous slide, resume slide show, better
+       formatting of 'sums', errors on view editing, fixes to
+       permissions checking, and an occassional segfault in the
+       gatherer was fixed.
      * 0.12
        2003.12.15
-       Major Feature Enhancents and Bugfixes; added SNMPv2 support,
-       fixed a bug that would cause a device to be deleted from all
-       groups, fixed session timeout when using external auth, added
-       checkbox support to interface/disk cache pages, slide show
-       enhancements, fixed permission issue where unauthorized users
-       could view/edit test_* pages
+       Major Feature Enhancents and Bugfixes; added SNMPv2
+       support, fixed a bug that would cause a device to be
+       deleted from all groups, fixed session timeout when using
+       external auth, added checkbox support to interface/disk
+       cache pages, slide show enhancements, fixed permission
+       issue where unauthorized users could view/edit test_* pages
      * 0.10
        2003.10.05
-       Major bug fix; fixes a db error when trying to view monitors, a
-       bug that would always set the width and height to zero when
-       creating graphs, and makes conditions with 'rate of change'
-       work. Many documentation upgrades.
+       Major bug fix; fixes a db error when trying to view
+       monitors, a bug that would always set the width and height
+       to zero when creating graphs, and makes conditions with
+       'rate of change' work. Many documentation upgrades.
      * 0.10pre2
        2003.09.15
-       This release focuses on adding new features and sqaushing bugs.
-       In addition, there is now an 'updater.php' that is required to
-       be run between versions. A minor change needs to be made to
-       everyone's 'netmrg.xml' to add an 'externalauth' field inside
-       the 'website' section.
+       This release focuses on adding new features and sqaushing
+       bugs. In addition, there is now an 'updater.php' that is
+       required to be run between versions. A minor change needs
+       to be made to everyone's 'netmrg.xml' to add an
+       'externalauth' field inside the 'website' section.
      * 0.10pre1
        2003.07.28
        Initial publication
@@ -183,7 +198,7 @@ II. Installation
    4. Satisfying Requirements
    5. Installation Procedure
    6. Upgrade Procedure
-     _________________________________________________________
+     __________________________________________________________
 
 Chapter 3. Software Requirements
 
@@ -194,27 +209,27 @@ Chapter 3. Software Requirements
      * RRDTOOL, Version >= 1.0.28
      * Libxml2, Version >= 2.30
      * Libstdc++, Version >= 3.2
-       Versions  earlier than this may compile just fine, but may
-       experience runtime issues. Specifically, we experienced software
-       crashes  on  an SMP machine running version 2.96 that were
-       resolved by upgrading to 3.2.
+       Versions earlier than this may compile just fine, but may
+       experience runtime issues. Specifically, we experienced
+       software crashes on an SMP machine running version 2.96
+       that were resolved by upgrading to 3.2.
      * NET/UCD-SNMP, Version >= 4.2.2
-     _________________________________________________________
+     __________________________________________________________
 
 Chapter 4. Satisfying Requirements
 
-   Specific instructions to satisfy dependencies for certain platforms
-   are presented below. They should be used more as suggestions, not
-   necessarily step-by-step instructions. You may need to do more than
-   what is listed, or much less, depending on the options you selected
-   when installing your operating system.
+   Specific instructions to satisfy dependencies for certain
+   platforms are presented below. They should be used more as
+   suggestions, not necessarily step-by-step instructions. You may
+   need to do more than what is listed, or much less, depending on
+   the options you selected when installing your operating system.
 
      * Red Hat Linux
-          + In order to satisfy the libstdc++ requirement, Redhat 8.0
-            or above is required. NetMRG may not be stable on older
-            versions of libstdc++.
-          + Install the following RPMs from your Red Hat installation
-            media:
+          + In order to satisfy the libstdc++ requirement, Redhat
+            8.0 or above is required. NetMRG may not be stable on
+            older versions of libstdc++.
+          + Install the following RPMs from your Red Hat
+            installation media:
                o httpd
                o php
                o php-mysql
@@ -227,14 +242,16 @@ Chapter 4. Satisfying Requirements
                o net-snmp-devel
                o net-snmp-utils
           + Installing RRDTOOL
-               o Download an RRDTOOL RPM from http://www.freshrpms.net/
-               o OR    Download    the    RRDTOOL   source   from
+               o Download an RRDTOOL RPM from
+                 http://www.freshrpms.net/
+               o OR Download the RRDTOOL source from
                  http://www.rrdtool.org/ and compile it.
           + Installing precompiled NetMRG RPM
-            Download the latest NetMRG RPM and install it as follows:
+            Download the latest NetMRG RPM and install it as
+            follows:
 $ rpm -Uvh netmrg-0.10.rpm
-            You will still have to perform the following tasks listed
-            in the Install Instructions:
+            You will still have to perform the following tasks
+            listed in the Install Instructions:
                o Setup the Database
                o Configure Apache
                o Configure the Installation
@@ -250,11 +267,11 @@ $ rpm -Uvh netmrg-0.10.rpm
           + Run configure, specifying gcc32:
 ./configure 'LDFLAGS=-L/usr/local/gcc3/lib' 'CPPFLAGS=-I/usr/local/gcc3
 /include' 'CXX=g++32'
-     _________________________________________________________
+     __________________________________________________________
 
 Chapter 5. Installation Procedure
 
-    1. Untar  to  some directory like /tmp/ (it will untar into a
+    1. Untar to some directory like /tmp/ (it will untar into a
        'netmrg' directory)
 cd /tmp
 wget http://www.netmrg.net/download/release/netmrg.tar.gz
@@ -265,12 +282,12 @@ tar xzvf netmrg.tar.gz
 make
 make install
 
-     Note: If configure fails to locate the needed libraries they can
-     be manually specified. Run ./configure --help for details on the
-     necessary options.
+     Note: If configure fails to locate the needed libraries they
+     can be manually specified. Run ./configure --help for
+     details on the necessary options.
     3. Setup the database
-       Now we need to setup the database. Please change at least the
-       password (netmrgpass below).
+       Now we need to setup the database. Please change at least
+       the password (netmrgpass below).
 mysqladmin create netmrg
 mysql -u root -p netmrg < share/netmrg.mysql
 mysql -u root -p
@@ -279,70 +296,73 @@ ss';
     4. You need to modify your apache config in order to make your
        NetMRG installation live (commonly in
        /etc/httpd/conf/httpd.conf).
-       The first is to alias /netmrg to the installed web directory
-       (commonly /usr/local/var/www/netmrg/webfiles).
+       The first is to alias /netmrg to the installed web
+       directory (commonly /usr/local/var/www/netmrg/webfiles).
 Alias /netmrg "/usr/local/var/www/netmrg/webfiles"
        The easier way (if you're running Apache >= 1.3) is to just
-       Include the conf file we've created anywhere in your file (near
-       the bottom is fine).
+       Include the conf file we've created anywhere in your file
+       (near the bottom is fine).
 Include /usr/local/etc/netmrg.conf
-       You  will  need to restart your Apache after making config
-       changes. Telling it to reload its config should be good enough
+       You will need to restart your Apache after making config
+       changes. Telling it to reload its config should be good
+       enough
 killall -HUP httpd
     5. Configure the Installation
-       All of NetMRG's common configuration options are controlled by
-       an XML file, normally located at /usr/local/etc/netmrg.xml. You
-       should edit this file to make any necessary changes before
-       continuing with installation.
-       For  most  installations,  you  will at least need to edit
+       All of NetMRG's common configuration options are controlled
+       by an XML file, normally located at
+       /usr/local/etc/netmrg.xml. You should edit this file to
+       make any necessary changes before continuing with
+       installation.
+       For most installations, you will at least need to edit
        netmrg.xml to reflect your database username and password.
     6. Setup Permissions
-       NetMRG does not need superuser permissions to run, therefore we
-       will setup a user for it.
+       NetMRG does not need superuser permissions to run,
+       therefore we will setup a user for it.
 # useradd netmrg
 # chown netmrg:netmrg /usr/local/var/log/netmrg
 # chown netmrg:netmrg /usr/local/var/lib/netmrg/rrd
     7. Setup crontab
-       You can setup the crontab entries in two places: either edit
-       /etc/crontab, or run crontab -e as the netmrg user. For 'crontab
-       -e', use an entry similar to this:
+       You can setup the crontab entries in two places: either
+       edit /etc/crontab, or run crontab -e as the netmrg user.
+       For 'crontab -e', use an entry similar to this:
 */5 * * * * bash -c "if [ -f /usr/local/var/lock/subsys/netmrg ]; then
 /usr/local/bin/netmrg-gatherer; fi"
-       To edit the master crontab, edit /etc/crontab and add a line
-       similar to this:
+       To edit the master crontab, edit /etc/crontab and add a
+       line similar to this:
 */5 * * * * netmrg bash -c "if [ -f /usr/local/var/lock/subsys/netmrg ]
 ; then /usr/local/bin/netmrg-gatherer; fi"
     8. Point your web browser at your install, and start graphing
-       things! The default login is admin and the default password is
-       nimda. Point your web browser at the host you built this on
-       (something similar to http://yourhost.com/netmrg/) and please
-       change your password!
-     _________________________________________________________
+       things! The default login is admin and the default password
+       is nimda. Point your web browser at the host you built this
+       on (something similar to http://yourhost.com/netmrg/) and
+       please change your password!
+     __________________________________________________________
 
 Chapter 6. Upgrade Procedure
 
-   After  doing  a  'make install' as described in the chapter on
-   Installing NetMRG, the next step is to run the web-based updater.
-   This is accomplished by logging into NetMRG with administrator
-   privileges, and following the prompts. NetMRG's web interface will
-   not  operate  normally and the gatherer will not run until the
-   web-based upgrade is performed. Non-administrator users will only
-   receive  a  message  directing  them  to  contact their NetMRG
-   administrator.
+   After doing a 'make install' as described in the chapter on
+   Installing NetMRG, the next step is to run the web-based
+   updater. This is accomplished by logging into NetMRG with
+   administrator privileges, and following the prompts. NetMRG's
+   web interface will not operate normally and the gatherer will
+   not run until the web-based upgrade is performed.
+   Non-administrator users will only receive a message directing
+   them to contact their NetMRG administrator.
 
-   If you need to perform an upgrade, the updater will prompt you to
-   apply all updates. Clicking this link will perform all necessary
-   updates for this release.
+   If you need to perform an upgrade, the updater will prompt you
+   to apply all updates. Clicking this link will perform all
+   necessary updates for this release.
 
-   If for some reason an update fails, or you would like to re-apply an
-   update for any reason, you can goto the updater and goto View all
-   available updates. This will present you a list of the updates that
-   are available and their status (applied, not applied, or error). If
-   you have problems updating from one version to the next, you can
-   force  individual updates that fail so that they're considered
-   'applied'. Once all updates are applied for a particular version,
-   the database will be automatically updated to the latest version
-   that has all updates applied.
+   If for some reason an update fails, or you would like to
+   re-apply an update for any reason, you can goto the updater and
+   goto View all available updates. This will present you a list
+   of the updates that are available and their status (applied,
+   not applied, or error). If you have problems updating from one
+   version to the next, you can force individual updates that fail
+   so that they're considered 'applied'. Once all updates are
+   applied for a particular version, the database will be
+   automatically updated to the latest version that has all
+   updates applied.
 
 III. Reference
 
@@ -366,9 +386,9 @@ Synopsis
 
 Description
 
-   netmrg-gatherer performs tests on all enabled hosts in NetMRG. It
-   will store results in RRD files using RRDTOOL(1) and perform actions
-   in response to events.
+   netmrg-gatherer performs tests on all enabled hosts in NetMRG.
+   It will store results in RRD files using RRDTOOL(1) and perform
+   actions in response to events.
 
 Global Options
 
@@ -384,7 +404,7 @@ Operating Options
 
    -t num threads
 
-          Run  no  more  than  the  specified  number  of threads
+          Run no more than the specified number of threads
           simultaneously.
 
    -X
@@ -393,17 +413,18 @@ Operating Options
 
    -M mode
 
-          Mode of operation. This option controls the manner in which
-          the gatherer operates. The modes currently supported are
-          "once" (the default, best used manually or via cron) which
-          runs all tests once then exits, and "wait" (best used when
-          daemonized) which will run all tests, wait for the gatherer
-          interval to expire, and then repeat.
+          Mode of operation. This option controls the manner in
+          which the gatherer operates. The modes currently
+          supported are "once" (the default, best used manually or
+          via cron) which runs all tests once then exits, and
+          "wait" (best used when daemonized) which will run all
+          tests, wait for the gatherer interval to expire, and
+          then repeat.
 
-     Note: To run netmrg-gatherer daemonized, the recommended set of
-     options at this point is "-X -S -M wait" which will daemonize,
-     repeat the gather cycle on each interval, and write output to
-     syslog.
+     Note: To run netmrg-gatherer daemonized, the recommended set
+     of options at this point is "-X -S -M wait" which will
+     daemonize, repeat the gather cycle on each interval, and
+     write output to syslog.
 
 Logging, Debugging and Verbosity Options
 
@@ -413,12 +434,13 @@ Logging, Debugging and Verbosity Options
 
    -b
 
-          Bland. Disables color output. By default, netmrg-gatherer
-          will display color output when connected to a terminal, but
-          will use bland output when its output is written to a file.
-          This  option  should  only be needed when the detection
-          mechanism has failed, or the user doesn't want to see colors
-          when running the program by hand.
+          Bland. Disables color output. By default,
+          netmrg-gatherer will display color output when connected
+          to a terminal, but will use bland output when its output
+          is written to a file. This option should only be needed
+          when the detection mechanism has failed, or the user
+          doesn't want to see colors when running the program by
+          hand.
 
    -a
 
@@ -434,7 +456,8 @@ Logging, Debugging and Verbosity Options
 
    -l level mask
 
-          Only outputs messages that match the specified level mask.
+          Only outputs messages that match the specified level
+          mask.
 
    -c component mask
 
@@ -443,7 +466,7 @@ Logging, Debugging and Verbosity Options
 
    -s
 
-          Safe.  Tries  to  keep sensitive information out of the
+          Safe. Tries to keep sensitive information out of the
           displayed messages.
 
 Configuration File Options
@@ -460,7 +483,8 @@ Database Options
 
    -H host
 
-          Uses the specified host name for connecting to the database.
+          Uses the specified host name for connecting to the
+          database.
 
    -D database
 
@@ -468,13 +492,14 @@ Database Options
 
    -u user name
 
-          Uses the specified user name for connecting to the database.
+          Uses the specified user name for connecting to the
+          database.
 
    -p [password]
 
-          Uses the specified password for connecting to the database.
-          If no password is specified, the user is prompted to enter
-          one.
+          Uses the specified password for connecting to the
+          database. If no password is specified, the user is
+          prompted to enter one.
 
 Recaching Options
 
@@ -486,17 +511,19 @@ Recaching Options
 
           Performs a disk recache on the specified device.
 
-     Note: Recaching options are intended for use by the web interface.
-     These options should not be generally used by end users.
-     _________________________________________________________
+     Note: Recaching options are intended for use by the web
+     interface. These options should not be generally used by end
+     users.
+     __________________________________________________________
 
 Chapter 7. Contact Information
 
-   We have great aspirations for what NetMRG could become, but as with
-   all open-source software, such aspriations can only be achieved with
-   the active participation of the open-source community. Please do
-   your part and support software that you use by helping to answer
-   support questions on forums and report bugs to developers. Thanks!
+   We have great aspirations for what NetMRG could become, but as
+   with all open-source software, such aspriations can only be
+   achieved with the active participation of the open-source
+   community. Please do your part and support software that you
+   use by helping to answer support questions on forums and report
+   bugs to developers. Thanks!
 
      * Main Website - http://www.netmrg.net/
      * Online Docs- http://wiki.netmrg.net/

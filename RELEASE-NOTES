@@ -1,6 +1,17 @@
 
                           Chapter 2. Revision History
 
+     * 0.20
+
+       2008.04.11
+
+       Major feature enhancements and bug fixes; Fixed compilation under GCC
+       4.3; restructuring of view pages to show graph titles (for easier
+       in-page searching) and icons for graph actions; fixed mysql 5
+       compatibility; added device properties (keeps track of things like
+       model #, serial #, etc); added ability to chain interfaces to travel
+       between them; added ajax monitor selection on graphs.
+
      * 0.19
 
        2006.02.03
@@ -137,7 +148,7 @@
 References
 
    Visible links
-   . file:///home/silfreed/src/workspace/netmrg/share/doc/txt/index.html
-   . file:///home/silfreed/src/workspace/netmrg/share/doc/txt/overview.html
-   . file:///home/silfreed/src/workspace/netmrg/share/doc/txt/intro.html
-   . file:///home/silfreed/src/workspace/netmrg/share/doc/txt/installation.html
+   . file:///home/silfreed/src/netmrg/share/doc/txt/index.html
+   . file:///home/silfreed/src/netmrg/share/doc/txt/overview.html
+   . file:///home/silfreed/src/netmrg/share/doc/txt/intro.html
+   . file:///home/silfreed/src/netmrg/share/doc/txt/installation.html

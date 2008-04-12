@@ -61,11 +61,15 @@ any company, organization, product, or platform.
 	<title>Revision History</title>
 	<itemizedlist>
 		<listitem>
-			<para>0.19.1</para>
-			<para>2008.03.28</para>
+			<para>0.20</para>
+			<para>2008.04.11</para>
 			<para>
-Minor bug fixes;
-Fixing compilation on more distributions.
+Major feature enhancements and bug fixes;
+Fixed compilation under GCC 4.3; restructuring of view pages to show graph
+titles (for easier in-page searching) and icons for graph actions; fixed mysql
+5 compatibility; added device properties (keeps track of things like model #,
+serial #, etc); added ability to chain interfaces to travel between them;
+added ajax monitor selection on graphs.
 			</para>
 		</listitem>
 		<listitem>
