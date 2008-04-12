@@ -1,8 +1,8 @@
--- MySQL dump 10.10
+-- MySQL dump 10.11
 --
 -- Host: localhost    Database: netmrg
 -- ------------------------------------------------------
--- Server version	5.0.27
+-- Server version	5.0.45
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -58,7 +58,11 @@ CREATE TABLE `data_types` (
 
 LOCK TABLES `data_types` WRITE;
 /*!40000 ALTER TABLE `data_types` DISABLE KEYS */;
-INSERT INTO `data_types` VALUES (1,'GAUGE','Gauge'),(2,'COUNTER','Counter'),(3,'DERIVE','Derive (a counter without overflow protection)'),(4,'ABSOLUTE','Absolute (a counter reset when read)'),(-1,'','Not Graphed');
+INSERT INTO `data_types` (`id`, `rrd_type`, `name`) VALUES (1,'GAUGE','Gauge');
+INSERT INTO `data_types` (`id`, `rrd_type`, `name`) VALUES (2,'COUNTER','Counter');
+INSERT INTO `data_types` (`id`, `rrd_type`, `name`) VALUES (3,'DERIVE','Derive (a counter without overflow protection)');
+INSERT INTO `data_types` (`id`, `rrd_type`, `name`) VALUES (4,'ABSOLUTE','Absolute (a counter reset when read)');
+INSERT INTO `data_types` (`id`, `rrd_type`, `name`) VALUES (-1,'','Not Graphed');
 /*!40000 ALTER TABLE `data_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,7 +83,7 @@ CREATE TABLE `dev_parents` (
 
 LOCK TABLES `dev_parents` WRITE;
 /*!40000 ALTER TABLE `dev_parents` DISABLE KEYS */;
-INSERT INTO `dev_parents` VALUES (1,1);
+INSERT INTO `dev_parents` (`grp_id`, `dev_id`) VALUES (1,1);
 /*!40000 ALTER TABLE `dev_parents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -125,7 +129,30 @@ CREATE TABLE `dev_props` (
 
 LOCK TABLES `dev_props` WRITE;
 /*!40000 ALTER TABLE `dev_props` DISABLE KEYS */;
-INSERT INTO `dev_props` VALUES (1,9,'Chassis ID',2,47,'enterprises.9.3.6.3.0'),(5,10,'Model',2,47,'mib-2.47.1.1.1.1.13.1'),(3,9,'Firmware',1,1,'old-cisco-dev-props.php %ip% %snmp_read_community% version'),(4,9,'Model',1,1,'old-cisco-dev-props.php %ip% %snmp_read_community% model'),(6,10,'Serial',2,47,'mib-2.47.1.1.1.1.11.1'),(7,10,'Firmware',2,47,'mib-2.47.1.1.1.1.9.1'),(8,10,'Chassis ID',2,47,'enterprises.9.3.6.3.0'),(9,11,'Model',2,47,'enterprises.9.5.1.2.16.0'),(10,11,'Serial',2,47,'enterprises.9.5.1.2.19.0'),(11,11,'Firmware',2,47,'enterprises.9.5.1.3.1.1.19.1'),(12,11,'Chassis ID',2,47,'enterprises.9.3.6.3.0'),(13,12,'Model',2,47,'mib-2.47.1.1.1.1.13.1'),(14,12,'Radio',2,47,'iso.2.840.10036.3.1.2.1.3.1'),(15,12,'Radio Firmware',2,47,'iso.2.840.10036.3.1.2.1.4.1'),(16,12,'Serial',2,47,'mib-2.47.1.1.1.1.11.1'),(17,12,'Chassis ID',2,47,'enterprises.9.3.6.3.0'),(20,13,'Model',2,47,'enterprises.318.1.1.1.1.1.1.0'),(19,12,'Firmware',1,1,'old-cisco-dev-props.php %ip% %snmp_read_community% version'),(21,13,'Serial',2,47,'enterprises.318.1.1.1.1.2.3.0'),(22,13,'Chassis ID',2,47,'sysName.0'),(23,13,'Location',2,47,'sysLocation.0'),(24,13,'Firmware',2,47,'enterprises.318.1.4.2.4.1.4.1'),(25,13,'Card Serial',2,47,'enterprises.318.1.4.2.4.1.2.1'),(26,12,'Location',2,47,'sysLocation.0');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (1,9,'Chassis ID',2,47,'enterprises.9.3.6.3.0');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (5,10,'Model',2,47,'mib-2.47.1.1.1.1.13.1');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (3,9,'Firmware',1,1,'old-cisco-dev-props.php %ip% %snmp_read_community% version');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (4,9,'Model',1,1,'old-cisco-dev-props.php %ip% %snmp_read_community% model');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (6,10,'Serial',2,47,'mib-2.47.1.1.1.1.11.1');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (7,10,'Firmware',2,47,'mib-2.47.1.1.1.1.9.1');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (8,10,'Chassis ID',2,47,'enterprises.9.3.6.3.0');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (9,11,'Model',2,47,'enterprises.9.5.1.2.16.0');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (10,11,'Serial',2,47,'enterprises.9.5.1.2.19.0');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (11,11,'Firmware',2,47,'enterprises.9.5.1.3.1.1.19.1');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (12,11,'Chassis ID',2,47,'enterprises.9.3.6.3.0');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (13,12,'Model',2,47,'mib-2.47.1.1.1.1.13.1');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (14,12,'Radio',2,47,'iso.2.840.10036.3.1.2.1.3.1');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (15,12,'Radio Firmware',2,47,'iso.2.840.10036.3.1.2.1.4.1');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (16,12,'Serial',2,47,'mib-2.47.1.1.1.1.11.1');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (17,12,'Chassis ID',2,47,'enterprises.9.3.6.3.0');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (20,13,'Model',2,47,'enterprises.318.1.1.1.1.1.1.0');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (19,12,'Firmware',1,1,'old-cisco-dev-props.php %ip% %snmp_read_community% version');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (21,13,'Serial',2,47,'enterprises.318.1.1.1.1.2.3.0');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (22,13,'Chassis ID',2,47,'sysName.0');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (23,13,'Location',2,47,'sysLocation.0');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (24,13,'Firmware',2,47,'enterprises.318.1.4.2.4.1.4.1');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (25,13,'Card Serial',2,47,'enterprises.318.1.4.2.4.1.2.1');
+INSERT INTO `dev_props` (`id`, `dev_type_id`, `name`, `test_type`, `test_id`, `test_params`) VALUES (26,12,'Location',2,47,'sysLocation.0');
 /*!40000 ALTER TABLE `dev_props` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +174,12 @@ CREATE TABLE `dev_types` (
 
 LOCK TABLES `dev_types` WRITE;
 /*!40000 ALTER TABLE `dev_types` DISABLE KEYS */;
-INSERT INTO `dev_types` VALUES (8,'Linux Box',''),(9,'Cisco 2900XL and 3500XL (old IOS)',''),(10,'Cisco Catalyst 2900XL, 3500XL, 2950, 3550',''),(11,'Cisco Catalyst 3560, 3750',''),(12,'Cisco AP1200',''),(13,'SmartUPS','');
+INSERT INTO `dev_types` (`id`, `name`, `comment`) VALUES (8,'Linux Box','');
+INSERT INTO `dev_types` (`id`, `name`, `comment`) VALUES (9,'Cisco 2900XL and 3500XL (old IOS)','');
+INSERT INTO `dev_types` (`id`, `name`, `comment`) VALUES (10,'Cisco Catalyst 2900XL, 3500XL, 2950, 3550','');
+INSERT INTO `dev_types` (`id`, `name`, `comment`) VALUES (11,'Cisco Catalyst 3560, 3750','');
+INSERT INTO `dev_types` (`id`, `name`, `comment`) VALUES (12,'Cisco AP1200','');
+INSERT INTO `dev_types` (`id`, `name`, `comment`) VALUES (13,'SmartUPS','');
 /*!40000 ALTER TABLE `dev_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -184,7 +216,7 @@ CREATE TABLE `devices` (
 
 LOCK TABLES `devices` WRITE;
 /*!40000 ALTER TABLE `devices` DISABLE KEYS */;
-INSERT INTO `devices` VALUES (1,'Template Linux Box','127.0.0.1','',8,1,1,0,0,0,0,1000000,3,161,0,0,1);
+INSERT INTO `devices` (`id`, `name`, `ip`, `snmp_read_community`, `dev_type`, `snmp_recache_method`, `disabled`, `snmp_avoided`, `snmp_uptime`, `snmp_ifnumber`, `snmp_version`, `snmp_timeout`, `snmp_retries`, `snmp_port`, `status`, `no_snmp_uptime_check`, `unknowns_on_snmp_restart`) VALUES (1,'Template Linux Box','127.0.0.1','',8,1,1,0,0,0,0,1000000,3,161,0,0,1);
 /*!40000 ALTER TABLE `devices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -266,7 +298,24 @@ CREATE TABLE `graph_ds` (
 
 LOCK TABLES `graph_ds` WRITE;
 /*!40000 ALTER TABLE `graph_ds` DISABLE KEYS */;
-INSERT INTO `graph_ds` VALUES (1,2,'#FF6600',4,1,'System',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','',1),(2,1,'#3366FF',5,1,'User',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','',1),(3,3,'#00CC66',5,1,'Nice',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','',1),(4,-2,'#000000',1,1,'Total',1,'CURRENT,AVERAGE,MAXIMUM',4,'1','','',1),(5,4,'#FF9900',4,2,'1 Minute',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','',1),(6,5,'#330066',2,2,'5 Minute',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','',1),(7,6,'#990000',2,2,'15 Minute',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','',1),(8,7,'#330066',4,3,'TCP Connections',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','',1),(9,8,'#330066',4,4,'Users',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','',1),(10,9,'#330066',4,5,'Processes',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','',1),(11,11,'#CC3300',4,6,'Swap',1,'CURRENT,AVERAGE,MAXIMUM',1,'1024','','',1),(12,10,'#FF9933',5,6,'RAM',1,'CURRENT,AVERAGE,MAXIMUM',2,'1024','','',1),(13,-2,'#000000',1,6,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','',1),(14,12,'#00CC00',4,7,'Inbound',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','',1),(15,13,'#0000CC',2,7,'Outbound',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','',1),(16,16,'#333399',4,8,'Used',1,'CURRENT,AVERAGE,MAXIMUM',1,'1024','','',1),(17,15,'#3399FF',5,8,'Available',1,'CURRENT,AVERAGE,MAXIMUM',2,'1024','','',1),(18,-2,'#000000',1,8,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (1,2,'#FF6600',4,1,'System',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (2,1,'#3366FF',5,1,'User',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (3,3,'#00CC66',5,1,'Nice',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (4,-2,'#000000',1,1,'Total',1,'CURRENT,AVERAGE,MAXIMUM',4,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (5,4,'#FF9900',4,2,'1 Minute',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (6,5,'#330066',2,2,'5 Minute',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (7,6,'#990000',2,2,'15 Minute',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (8,7,'#330066',4,3,'TCP Connections',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (9,8,'#330066',4,4,'Users',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (10,9,'#330066',4,5,'Processes',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (11,11,'#CC3300',4,6,'Swap',1,'CURRENT,AVERAGE,MAXIMUM',1,'1024','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (12,10,'#FF9933',5,6,'RAM',1,'CURRENT,AVERAGE,MAXIMUM',2,'1024','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (13,-2,'#000000',1,6,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (14,12,'#00CC00',4,7,'Inbound',1,'CURRENT,AVERAGE,MAXIMUM',1,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (15,13,'#0000CC',2,7,'Outbound',1,'CURRENT,AVERAGE,MAXIMUM',2,'1','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (16,16,'#333399',4,8,'Used',1,'CURRENT,AVERAGE,MAXIMUM',1,'1024','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (17,15,'#3399FF',5,8,'Available',1,'CURRENT,AVERAGE,MAXIMUM',2,'1024','','',1);
+INSERT INTO `graph_ds` (`id`, `mon_id`, `color`, `type`, `graph_id`, `label`, `alignment`, `stats`, `position`, `multiplier`, `start_time`, `end_time`, `cf`) VALUES (18,-2,'#000000',1,8,'Total',1,'CURRENT,AVERAGE,MAXIMUM',3,'1','','',1);
 /*!40000 ALTER TABLE `graph_ds` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,7 +346,14 @@ CREATE TABLE `graphs` (
 
 LOCK TABLES `graphs` WRITE;
 /*!40000 ALTER TABLE `graphs` DISABLE KEYS */;
-INSERT INTO `graphs` VALUES (1,'Linux Box - CPU Utilization','%dev_name% - CPU Utilization','',575,100,'% Usage','template','',1000,NULL,NULL),(2,'Linux Box - Load Average','%dev_name% - Load Average','',575,100,'run queue size','template','',1000,NULL,NULL),(3,'Linux Box - TCP Connections','%dev_name% - TCP Connections','',575,100,'Connections','template','',1000,NULL,NULL),(4,'Linux Box - Logged In Users','%dev_name% - Logged In Users','',575,100,'Users','template','',1000,NULL,NULL),(5,'Linux Box - System Processes','%dev_name% - System Processes','',575,100,'Processes','template','',1000,NULL,NULL),(6,'Linux Box - Available Memory','%dev_name% - Available Memory','',575,100,'Bytes','template','',1024,NULL,NULL),(7,'Linux Box - LAN Traffic','%dev_name% - %ifDescr%','Interface: %ifDescr%%n       IP: %ifIP%',575,100,'bytes / sec','template','',1000,NULL,NULL),(8,'Linux Box - Disk Utilization','%dev_name% - %dskPath%','',575,100,'Bytes','template','',1024,NULL,NULL);
+INSERT INTO `graphs` (`id`, `name`, `title`, `comment`, `width`, `height`, `vert_label`, `type`, `options`, `base`, `max`, `min`) VALUES (1,'Linux Box - CPU Utilization','%dev_name% - CPU Utilization','',575,100,'% Usage','template','',1000,NULL,NULL);
+INSERT INTO `graphs` (`id`, `name`, `title`, `comment`, `width`, `height`, `vert_label`, `type`, `options`, `base`, `max`, `min`) VALUES (2,'Linux Box - Load Average','%dev_name% - Load Average','',575,100,'run queue size','template','',1000,NULL,NULL);
+INSERT INTO `graphs` (`id`, `name`, `title`, `comment`, `width`, `height`, `vert_label`, `type`, `options`, `base`, `max`, `min`) VALUES (3,'Linux Box - TCP Connections','%dev_name% - TCP Connections','',575,100,'Connections','template','',1000,NULL,NULL);
+INSERT INTO `graphs` (`id`, `name`, `title`, `comment`, `width`, `height`, `vert_label`, `type`, `options`, `base`, `max`, `min`) VALUES (4,'Linux Box - Logged In Users','%dev_name% - Logged In Users','',575,100,'Users','template','',1000,NULL,NULL);
+INSERT INTO `graphs` (`id`, `name`, `title`, `comment`, `width`, `height`, `vert_label`, `type`, `options`, `base`, `max`, `min`) VALUES (5,'Linux Box - System Processes','%dev_name% - System Processes','',575,100,'Processes','template','',1000,NULL,NULL);
+INSERT INTO `graphs` (`id`, `name`, `title`, `comment`, `width`, `height`, `vert_label`, `type`, `options`, `base`, `max`, `min`) VALUES (6,'Linux Box - Available Memory','%dev_name% - Available Memory','',575,100,'Bytes','template','',1024,NULL,NULL);
+INSERT INTO `graphs` (`id`, `name`, `title`, `comment`, `width`, `height`, `vert_label`, `type`, `options`, `base`, `max`, `min`) VALUES (7,'Linux Box - LAN Traffic','%dev_name% - %ifDescr%','Interface: %ifDescr%%n       IP: %ifIP%',575,100,'bytes / sec','template','',1000,NULL,NULL);
+INSERT INTO `graphs` (`id`, `name`, `title`, `comment`, `width`, `height`, `vert_label`, `type`, `options`, `base`, `max`, `min`) VALUES (8,'Linux Box - Disk Utilization','%dev_name% - %dskPath%','',575,100,'Bytes','template','',1024,NULL,NULL);
 /*!40000 ALTER TABLE `graphs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,7 +376,7 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (1,'Template Group','',0);
+INSERT INTO `groups` (`id`, `name`, `comment`, `parent_id`) VALUES (1,'Template Group','',0);
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -351,7 +407,12 @@ CREATE TABLE `log` (
 
 LOCK TABLES `log` WRITE;
 /*!40000 ALTER TABLE `log` DISABLE KEYS */;
-INSERT INTO `log` VALUES (1,'2007-03-21 21:08:42',2,NULL,NULL,32,4,'Device has returned from SNMP-death.'),(2,'2007-03-21 21:08:42',2,NULL,NULL,32,4,'Using unknowns for non-gauge values.'),(3,'2007-03-21 21:08:42',2,NULL,NULL,32,256,'Number of interfaces changed from 0 to 11'),(4,'2007-03-21 21:08:42',2,NULL,NULL,32,256,'Performing SNMP Recache.'),(5,'2007-03-21 21:08:59',2,NULL,NULL,32,16,'read() provided 0 bytes.'),(6,'2007-03-21 21:08:59',2,NULL,NULL,32,16,'read() provided 0 bytes.');
+INSERT INTO `log` (`id`, `date`, `dev_id`, `subdev_id`, `mon_id`, `level`, `component`, `message`) VALUES (1,'2007-03-21 21:08:42',2,NULL,NULL,32,4,'Device has returned from SNMP-death.');
+INSERT INTO `log` (`id`, `date`, `dev_id`, `subdev_id`, `mon_id`, `level`, `component`, `message`) VALUES (2,'2007-03-21 21:08:42',2,NULL,NULL,32,4,'Using unknowns for non-gauge values.');
+INSERT INTO `log` (`id`, `date`, `dev_id`, `subdev_id`, `mon_id`, `level`, `component`, `message`) VALUES (3,'2007-03-21 21:08:42',2,NULL,NULL,32,256,'Number of interfaces changed from 0 to 11');
+INSERT INTO `log` (`id`, `date`, `dev_id`, `subdev_id`, `mon_id`, `level`, `component`, `message`) VALUES (4,'2007-03-21 21:08:42',2,NULL,NULL,32,256,'Performing SNMP Recache.');
+INSERT INTO `log` (`id`, `date`, `dev_id`, `subdev_id`, `mon_id`, `level`, `component`, `message`) VALUES (5,'2007-03-21 21:08:59',2,NULL,NULL,32,16,'read() provided 0 bytes.');
+INSERT INTO `log` (`id`, `date`, `dev_id`, `subdev_id`, `mon_id`, `level`, `component`, `message`) VALUES (6,'2007-03-21 21:08:59',2,NULL,NULL,32,16,'read() provided 0 bytes.');
 /*!40000 ALTER TABLE `log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -386,7 +447,22 @@ CREATE TABLE `monitors` (
 
 LOCK TABLES `monitors` WRITE;
 /*!40000 ALTER TABLE `monitors` DISABLE KEYS */;
-INSERT INTO `monitors` VALUES (1,1,2,0,405,0,2,5,'',NULL,NULL,NULL,NULL,0),(2,1,2,0,405,0,2,7,'',NULL,NULL,NULL,NULL,0),(3,1,2,0,405,0,2,8,'',NULL,NULL,NULL,NULL,0),(4,1,1,NULL,NULL,0,2,9,'',NULL,NULL,NULL,NULL,0),(5,1,1,NULL,NULL,0,2,10,'',NULL,NULL,NULL,NULL,0),(6,1,1,NULL,NULL,0,2,11,'',NULL,NULL,NULL,NULL,0),(7,1,1,NULL,NULL,0,2,18,'',NULL,NULL,NULL,NULL,0),(8,1,1,NULL,NULL,0,2,3,'',NULL,NULL,NULL,NULL,0),(9,1,1,NULL,NULL,0,2,2,'',NULL,NULL,NULL,NULL,0),(10,1,1,NULL,NULL,0,2,13,'',NULL,NULL,NULL,NULL,0),(11,1,1,NULL,NULL,0,2,12,'',NULL,NULL,NULL,NULL,0),(12,2,2,0,10000000,0,2,39,'',NULL,NULL,NULL,NULL,0),(13,2,2,0,100000000,0,2,38,'',NULL,NULL,NULL,NULL,0),(14,2,2,0,100000000,0,2,40,'',NULL,NULL,NULL,NULL,0),(15,3,1,NULL,NULL,0,2,43,'',NULL,NULL,NULL,NULL,0),(16,3,1,NULL,NULL,0,2,44,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (1,1,2,0,405,0,2,5,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (2,1,2,0,405,0,2,7,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (3,1,2,0,405,0,2,8,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (4,1,1,NULL,NULL,0,2,9,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (5,1,1,NULL,NULL,0,2,10,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (6,1,1,NULL,NULL,0,2,11,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (7,1,1,NULL,NULL,0,2,18,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (8,1,1,NULL,NULL,0,2,3,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (9,1,1,NULL,NULL,0,2,2,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (10,1,1,NULL,NULL,0,2,13,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (11,1,1,NULL,NULL,0,2,12,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (12,2,2,0,10000000,0,2,39,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (13,2,2,0,100000000,0,2,38,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (14,2,2,0,100000000,0,2,40,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (15,3,1,NULL,NULL,0,2,43,'',NULL,NULL,NULL,NULL,0);
+INSERT INTO `monitors` (`id`, `sub_dev_id`, `data_type`, `min_val`, `max_val`, `tuned`, `test_type`, `test_id`, `test_params`, `last_val`, `delta_val`, `last_time`, `delta_time`, `status`) VALUES (16,3,1,NULL,NULL,0,2,44,'',NULL,NULL,NULL,NULL,0);
 /*!40000 ALTER TABLE `monitors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -409,7 +485,7 @@ CREATE TABLE `notifications` (
 
 LOCK TABLES `notifications` WRITE;
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
-INSERT INTO `notifications` VALUES (1,'Broadcast message to linux users','wall \'%dev_name%: %event_name%\'',0);
+INSERT INTO `notifications` (`id`, `name`, `command`, `disabled`) VALUES (1,'Broadcast message to linux users','wall \'%dev_name%: %event_name%\'',0);
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -538,7 +614,9 @@ CREATE TABLE `sub_devices` (
 
 LOCK TABLES `sub_devices` WRITE;
 /*!40000 ALTER TABLE `sub_devices` DISABLE KEYS */;
-INSERT INTO `sub_devices` VALUES (1,1,1,'System',0),(2,1,2,'Network Interface',0),(3,1,3,'Disk Drive',0);
+INSERT INTO `sub_devices` (`id`, `dev_id`, `type`, `name`, `status`) VALUES (1,1,1,'System',0);
+INSERT INTO `sub_devices` (`id`, `dev_id`, `type`, `name`, `status`) VALUES (2,1,2,'Network Interface',0);
+INSERT INTO `sub_devices` (`id`, `dev_id`, `type`, `name`, `status`) VALUES (3,1,3,'Disk Drive',0);
 /*!40000 ALTER TABLE `sub_devices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -561,7 +639,14 @@ CREATE TABLE `tests_internal` (
 
 LOCK TABLES `tests_internal` WRITE;
 /*!40000 ALTER TABLE `tests_internal` DISABLE KEYS */;
-INSERT INTO `tests_internal` VALUES (1,'Count Lines in File'),(2,'Lucent TNT \"Good\" Modems (available modems minus suspect modems)'),(3,'UCD CPU Load (user + system)'),(4,'Windows Disk Usage (percent)'),(5,'UCD Swap Usage (percent)'),(6,'Read Value from File'),(7,'SNMP Failure'),(8,'Windows CPU Load');
+INSERT INTO `tests_internal` (`id`, `name`) VALUES (1,'Count Lines in File');
+INSERT INTO `tests_internal` (`id`, `name`) VALUES (2,'Lucent TNT \"Good\" Modems (available modems minus suspect modems)');
+INSERT INTO `tests_internal` (`id`, `name`) VALUES (3,'UCD CPU Load (user + system)');
+INSERT INTO `tests_internal` (`id`, `name`) VALUES (4,'Windows Disk Usage (percent)');
+INSERT INTO `tests_internal` (`id`, `name`) VALUES (5,'UCD Swap Usage (percent)');
+INSERT INTO `tests_internal` (`id`, `name`) VALUES (6,'Read Value from File');
+INSERT INTO `tests_internal` (`id`, `name`) VALUES (7,'SNMP Failure');
+INSERT INTO `tests_internal` (`id`, `name`) VALUES (8,'Windows CPU Load');
 /*!40000 ALTER TABLE `tests_internal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -586,7 +671,11 @@ CREATE TABLE `tests_script` (
 
 LOCK TABLES `tests_script` WRITE;
 /*!40000 ALTER TABLE `tests_script` DISABLE KEYS */;
-INSERT INTO `tests_script` VALUES (1,'Custom','%parameters%',2,9,0),(2,'Ping Latency','ping_time.pl %ip%',2,8,0),(3,'SNMP Diff','snmpdiff.php',2,8,0),(4,'Win2k SNMP CPU','win2kcpu.pl',2,8,0),(5,'Livingston Portmaster Active Modems','pmmodems.pl %snmp_read_community% %ip%',2,0,0);
+INSERT INTO `tests_script` (`id`, `name`, `cmd`, `data_type`, `dev_type`, `priority`) VALUES (1,'Custom','%parameters%',2,9,0);
+INSERT INTO `tests_script` (`id`, `name`, `cmd`, `data_type`, `dev_type`, `priority`) VALUES (2,'Ping Latency','ping_time.pl %ip%',2,8,0);
+INSERT INTO `tests_script` (`id`, `name`, `cmd`, `data_type`, `dev_type`, `priority`) VALUES (3,'SNMP Diff','snmpdiff.php',2,8,0);
+INSERT INTO `tests_script` (`id`, `name`, `cmd`, `data_type`, `dev_type`, `priority`) VALUES (4,'Win2k SNMP CPU','win2kcpu.pl',2,8,0);
+INSERT INTO `tests_script` (`id`, `name`, `cmd`, `data_type`, `dev_type`, `priority`) VALUES (5,'Livingston Portmaster Active Modems','pmmodems.pl %snmp_read_community% %ip%',2,0,0);
 /*!40000 ALTER TABLE `tests_script` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -611,7 +700,48 @@ CREATE TABLE `tests_snmp` (
 
 LOCK TABLES `tests_snmp` WRITE;
 /*!40000 ALTER TABLE `tests_snmp` DISABLE KEYS */;
-INSERT INTO `tests_snmp` VALUES (1,'TNT - Modems Online','.1.3.6.1.4.1.529.10.6.0',8,0,0),(2,'Host - System Processes','.1.3.6.1.2.1.25.1.6.0',8,0,0),(3,'Host - Logged in Users','.1.3.6.1.2.1.25.1.5.0',8,0,0),(4,'Cisco - CPU Utilization','.1.3.6.1.4.1.9.2.1.58.0',8,0,0),(5,'UCD - CPU Percent User','enterprises.ucdavis.systemStats.ssCpuRawUser.0',8,0,0),(6,'UCD - CPU Percent Idle','enterprises.ucdavis.systemStats.ssCpuRawIdle.0',8,0,0),(7,'UCD - CPU Percent System','enterprises.ucdavis.systemStats.ssCpuRawSystem.0',8,0,0),(8,'UCD - CPU Percent Nice','enterprises.ucdavis.systemStats.ssCpuRawNice.0',8,0,0),(9,'UCD - Load Average - 1 min','laLoad.1',8,0,0),(10,'UCD - Load Average - 5 min','laLoad.2',2,0,0),(11,'UCD - Load Average - 15 min','laLoad.3',2,0,0),(12,'UCD - Available Swap','memAvailSwap.0',2,0,0),(13,'UCD - Available Physical RAM','memAvailReal.0',2,0,0),(19,'C5k - % Bandwidth','.1.3.6.1.4.1.9.5.1.1.8.0',2,0,0),(18,'Open TCP Connections','tcp.tcpCurrEstab.0',2,0,0),(21,'C7k Free Memory (Processor)','.1.3.6.1.4.1.9.9.48.1.1.1.6.1',2,0,0),(22,'C7k Free Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.6.5',2,0,0),(23,'C7k Used Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.5.5',2,0,0),(24,'UCD - Executable 1','enterprises.ucdavis.extTable.extEntry.extOutput.1',2,0,0),(25,'DNS - A Records','enterprises.ucdavis.extTable.extEntry.extOutput.1',2,0,0),(26,'DNS - PTR Records','enterprises.ucdavis.extTable.extEntry.extOutput.2',2,0,0),(27,'DNS - MX Records','enterprises.ucdavis.extTable.extEntry.extOutput.3',2,0,0),(28,'DNS - CNAME Records','enterprises.ucdavis.extTable.extEntry.extOutput.4',2,0,0),(29,'DNS - ANY Records','enterprises.ucdavis.extTable.extEntry.extOutput.5',2,0,0),(30,'Cisco - RSP - Inlet Temperature (C)','enterprises.9.9.13.1.3.1.3.1',5,0,0),(31,'Cisco - RSP - Hotpoint Temperature (C)','enterprises.9.9.13.1.3.1.3.2',5,0,0),(32,'Cisco - RSP - Exhaust Temperature (C)','enterprises.9.9.13.1.3.1.3.3',5,0,0),(33,'TNT - Dead Modems','.1.3.6.1.4.1.529.15.7.0',4,0,0),(34,'TNT - Disabled Modems','.1.3.6.1.4.1.529.15.5.0',4,0,0),(35,'TNT - Suspect Modems','.1.3.6.1.4.1.529.15.3.0',4,0,0),(36,'TNT - Available Modems','.1.3.6.1.4.1.529.15.1.0',4,0,0),(37,'TNT - Busy Modems','.1.3.6.1.4.1.529.15.9.0',4,0,0),(38,'Interfaces - Bytes Out','ifOutOctets.%ifIndex%',8,0,0),(39,'Interfaces - Bytes In','ifInOctets.%ifIndex%',8,0,0),(40,'Interfaces - Errors In','ifInErrors.%ifIndex%',8,0,0),(41,'TNT - Connected DS0s','.1.3.6.1.4.1.529.4.21.1.7.%ifIndex%',8,0,0),(42,'Disk - Size (kB)','dskTotal.%dskIndex%',8,0,0),(43,'Disk - Available (kB)','dskAvail.%dskIndex%',8,0,0),(44,'Disk - Used (kB)','dskUsed.%dskIndex%',8,0,0),(45,'Disk - Percent Used','dskPercent.%dskIndex%',8,0,0),(46,'Disk - Percent Node Usage','dskPercentNode.%dskIndex%',8,0,0),(47,'Custom','%parameters%',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (1,'TNT - Modems Online','.1.3.6.1.4.1.529.10.6.0',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (2,'Host - System Processes','.1.3.6.1.2.1.25.1.6.0',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (3,'Host - Logged in Users','.1.3.6.1.2.1.25.1.5.0',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (4,'Cisco - CPU Utilization','.1.3.6.1.4.1.9.2.1.58.0',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (5,'UCD - CPU Percent User','enterprises.ucdavis.systemStats.ssCpuRawUser.0',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (6,'UCD - CPU Percent Idle','enterprises.ucdavis.systemStats.ssCpuRawIdle.0',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (7,'UCD - CPU Percent System','enterprises.ucdavis.systemStats.ssCpuRawSystem.0',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (8,'UCD - CPU Percent Nice','enterprises.ucdavis.systemStats.ssCpuRawNice.0',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (9,'UCD - Load Average - 1 min','laLoad.1',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (10,'UCD - Load Average - 5 min','laLoad.2',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (11,'UCD - Load Average - 15 min','laLoad.3',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (12,'UCD - Available Swap','memAvailSwap.0',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (13,'UCD - Available Physical RAM','memAvailReal.0',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (19,'C5k - % Bandwidth','.1.3.6.1.4.1.9.5.1.1.8.0',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (18,'Open TCP Connections','tcp.tcpCurrEstab.0',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (21,'C7k Free Memory (Processor)','.1.3.6.1.4.1.9.9.48.1.1.1.6.1',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (22,'C7k Free Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.6.5',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (23,'C7k Used Memory (Fast)','.1.3.6.1.4.1.9.9.48.1.1.1.5.5',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (24,'UCD - Executable 1','enterprises.ucdavis.extTable.extEntry.extOutput.1',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (25,'DNS - A Records','enterprises.ucdavis.extTable.extEntry.extOutput.1',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (26,'DNS - PTR Records','enterprises.ucdavis.extTable.extEntry.extOutput.2',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (27,'DNS - MX Records','enterprises.ucdavis.extTable.extEntry.extOutput.3',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (28,'DNS - CNAME Records','enterprises.ucdavis.extTable.extEntry.extOutput.4',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (29,'DNS - ANY Records','enterprises.ucdavis.extTable.extEntry.extOutput.5',2,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (30,'Cisco - RSP - Inlet Temperature (C)','enterprises.9.9.13.1.3.1.3.1',5,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (31,'Cisco - RSP - Hotpoint Temperature (C)','enterprises.9.9.13.1.3.1.3.2',5,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (32,'Cisco - RSP - Exhaust Temperature (C)','enterprises.9.9.13.1.3.1.3.3',5,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (33,'TNT - Dead Modems','.1.3.6.1.4.1.529.15.7.0',4,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (34,'TNT - Disabled Modems','.1.3.6.1.4.1.529.15.5.0',4,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (35,'TNT - Suspect Modems','.1.3.6.1.4.1.529.15.3.0',4,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (36,'TNT - Available Modems','.1.3.6.1.4.1.529.15.1.0',4,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (37,'TNT - Busy Modems','.1.3.6.1.4.1.529.15.9.0',4,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (38,'Interfaces - Bytes Out','ifOutOctets.%ifIndex%',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (39,'Interfaces - Bytes In','ifInOctets.%ifIndex%',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (40,'Interfaces - Errors In','ifInErrors.%ifIndex%',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (41,'TNT - Connected DS0s','.1.3.6.1.4.1.529.4.21.1.7.%ifIndex%',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (42,'Disk - Size (kB)','dskTotal.%dskIndex%',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (43,'Disk - Available (kB)','dskAvail.%dskIndex%',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (44,'Disk - Used (kB)','dskUsed.%dskIndex%',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (45,'Disk - Percent Used','dskPercent.%dskIndex%',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (46,'Disk - Percent Node Usage','dskPercentNode.%dskIndex%',8,0,0);
+INSERT INTO `tests_snmp` (`id`, `name`, `oid`, `dev_type`, `type`, `subitem`) VALUES (47,'Custom','%parameters%',8,0,0);
 /*!40000 ALTER TABLE `tests_snmp` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -639,7 +769,11 @@ CREATE TABLE `tests_sql` (
 
 LOCK TABLES `tests_sql` WRITE;
 /*!40000 ALTER TABLE `tests_sql` DISABLE KEYS */;
-INSERT INTO `tests_sql` VALUES (1,'MySQL Questions',8,'localhost','root','sqlroot','show status like \"Questions\"',1,10),(3,'NetMRG - Active Script Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=1',0,10),(4,'NetMRG - Active SNMP Monitors',8,'localhost','netmrgread','netmrgread',' select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=2',0,10),(5,'NetMRG - Active SQL Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=3',0,10),(6,'NetMRG - Active Internal Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=4',0,10);
+INSERT INTO `tests_sql` (`id`, `name`, `sub_dev_type`, `host`, `user`, `password`, `query`, `column_num`, `timeout`) VALUES (1,'MySQL Questions',8,'localhost','root','sqlroot','show status like \"Questions\"',1,10);
+INSERT INTO `tests_sql` (`id`, `name`, `sub_dev_type`, `host`, `user`, `password`, `query`, `column_num`, `timeout`) VALUES (3,'NetMRG - Active Script Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=1',0,10);
+INSERT INTO `tests_sql` (`id`, `name`, `sub_dev_type`, `host`, `user`, `password`, `query`, `column_num`, `timeout`) VALUES (4,'NetMRG - Active SNMP Monitors',8,'localhost','netmrgread','netmrgread',' select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=2',0,10);
+INSERT INTO `tests_sql` (`id`, `name`, `sub_dev_type`, `host`, `user`, `password`, `query`, `column_num`, `timeout`) VALUES (5,'NetMRG - Active SQL Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=3',0,10);
+INSERT INTO `tests_sql` (`id`, `name`, `sub_dev_type`, `host`, `user`, `password`, `query`, `column_num`, `timeout`) VALUES (6,'NetMRG - Active Internal Monitors',8,'localhost','netmrgread','netmrgread','select count(*) from netmrg.monitors, netmrg.sub_devices, netmrg.devices where monitors.sub_dev_id=sub_devices.id and sub_devices.dev_id=devices.id and devices.disabled = 0 and monitors.test_type=4',0,10);
 /*!40000 ALTER TABLE `tests_sql` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -661,7 +795,52 @@ CREATE TABLE `updates` (
 
 LOCK TABLES `updates` WRITE;
 /*!40000 ALTER TABLE `updates` DISABLE KEYS */;
-INSERT INTO `updates` VALUES ('0.10pre2','Graph Options','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','Graph Options2','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','Graph Item Times','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','Graph Item Times2','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','Graph Title','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','Graph Item Muliplier','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','SNMP ifSpeed','pre-0.17','2004-10-25 20:59:06'),('0.10pre2','Graph Title Fill-in','pre-0.17','2004-10-25 20:59:06'),('0.12','SNMP Version Support','pre-0.17','2004-10-25 20:59:06'),('0.12','SNMP Timeout','pre-0.17','2004-10-25 20:59:06'),('0.12','User Prefs','pre-0.17','2004-10-25 20:59:06'),('0.12','User Prefs Slideshow Default','pre-0.17','2004-10-25 20:59:06'),('0.14','SNMP Recache Method','pre-0.17','2004-10-25 20:59:06'),('0.14','SNMP Recache Method Default','pre-0.17','2004-10-25 20:59:06'),('0.14','SNMP Recache Method Default2','pre-0.17','2004-10-25 20:59:06'),('0.14','SNMP Recache Method Default3','pre-0.17','2004-10-25 20:59:06'),('0.14','SNMP Recache Drop','pre-0.17','2004-10-25 20:59:06'),('0.14','SNMP ifNumber Drop','pre-0.17','2004-10-25 20:59:06'),('0.14','Log Table','pre-0.17','2004-10-25 20:59:06'),('0.14','User Index Drop','pre-0.17','2004-10-25 20:59:06'),('0.14','User Unique Index','pre-0.17','2004-10-25 20:59:06'),('0.16','Device SNMP Uptime Check Option','pre-0.17','2004-10-25 20:59:06'),('0.16','SNMP Test Type','pre-0.17','2004-10-25 20:59:06'),('0.16','Graph Min/Max','pre-0.17','2004-10-25 20:59:06'),('0.17','Internal Test Name Lengthen','pre-0.17','2004-10-25 20:59:06'),('0.17','Script Test Name Lengthen','pre-0.17','2004-10-25 20:59:06'),('0.17','SQL Test Name Lengthen','pre-0.17','2004-10-25 20:59:06'),('0.17','New Internal Test - Lucent TNT Good Modems','pre-0.17','2004-10-25 20:59:06'),('0.17','New Internal Test - UCD CPU Load','pre-0.17','2004-10-25 20:59:06'),('0.17','New Internal Test - Windows Disk Usage','pre-0.17','2004-10-25 20:59:06'),('0.17','New Internal Test - UCD Swap Usage','pre-0.17','2004-10-25 20:59:06'),('0.17','New Internal Test - Read Value from File','pre-0.17','2004-10-25 20:59:06'),('0.17','User Disabled Support','pre-0.17','2004-10-25 20:59:06'),('0.18','Graph Multiply Sum Support','0.17','2004-10-25 20:59:35'),('0.18','New Internal Test - SNMP Failure','0.17','2004-10-25 20:59:35'),('0.18','SQL Test Timeout','0.17','2004-10-25 20:59:35'),('0.19','Increase size of monitors.type_id','0.19','2006-01-09 20:09:39'),('0.19','Increase size of view.pos','0.19','2006-01-09 20:09:42'),('0.19','Livingston Portmaster Modems Script Test','0.19','2006-01-09 20:09:54'),('0.19','Graph Min NULL Fix','0.19','2006-01-09 20:09:56'),('0.19','Graph Max NULL Fix','0.19','2006-01-09 20:09:59'),('0.20','Device Properties Table','0.19','2007-03-21 20:56:44'),('0.20','Device Properties Values Table','0.19','2007-03-21 20:56:44'),('0.20','SNMP Interface Cache New Fields','0.19','2007-03-21 20:56:44'),('0.20','Graph Item Consolidation Function Field','0.19','2007-03-21 20:56:45'),('0.20','Device Unknowns on SNMP Restart Field','0.19','2007-03-21 20:56:45');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.10pre2','Graph Options','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.10pre2','Graph Options2','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.10pre2','Graph Item Times','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.10pre2','Graph Item Times2','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.10pre2','Graph Title','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.10pre2','Graph Item Muliplier','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.10pre2','SNMP ifSpeed','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.10pre2','Graph Title Fill-in','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.12','SNMP Version Support','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.12','SNMP Timeout','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.12','User Prefs','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.12','User Prefs Slideshow Default','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.14','SNMP Recache Method','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.14','SNMP Recache Method Default','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.14','SNMP Recache Method Default2','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.14','SNMP Recache Method Default3','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.14','SNMP Recache Drop','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.14','SNMP ifNumber Drop','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.14','Log Table','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.14','User Index Drop','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.14','User Unique Index','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.16','Device SNMP Uptime Check Option','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.16','SNMP Test Type','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.16','Graph Min/Max','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.17','Internal Test Name Lengthen','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.17','Script Test Name Lengthen','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.17','SQL Test Name Lengthen','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.17','New Internal Test - Lucent TNT Good Modems','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.17','New Internal Test - UCD CPU Load','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.17','New Internal Test - Windows Disk Usage','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.17','New Internal Test - UCD Swap Usage','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.17','New Internal Test - Read Value from File','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.17','User Disabled Support','pre-0.17','2004-10-25 20:59:06');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.18','Graph Multiply Sum Support','0.17','2004-10-25 20:59:35');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.18','New Internal Test - SNMP Failure','0.17','2004-10-25 20:59:35');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.18','SQL Test Timeout','0.17','2004-10-25 20:59:35');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.19','Increase size of monitors.type_id','0.19','2006-01-09 20:09:39');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.19','Increase size of view.pos','0.19','2006-01-09 20:09:42');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.19','Livingston Portmaster Modems Script Test','0.19','2006-01-09 20:09:54');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.19','Graph Min NULL Fix','0.19','2006-01-09 20:09:56');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.19','Graph Max NULL Fix','0.19','2006-01-09 20:09:59');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.20','Device Properties Table','0.19','2007-03-21 20:56:44');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.20','Device Properties Values Table','0.19','2007-03-21 20:56:44');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.20','SNMP Interface Cache New Fields','0.19','2007-03-21 20:56:44');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.20','Graph Item Consolidation Function Field','0.19','2007-03-21 20:56:45');
+INSERT INTO `updates` (`update_version`, `name`, `version_applied_to`, `dateapplied`) VALUES ('0.20','Device Unknowns on SNMP Restart Field','0.19','2007-03-21 20:56:45');
 /*!40000 ALTER TABLE `updates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -688,7 +867,8 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','ee10c315eba2c75b403ea99136f5b48d',3,'Administrator',0,0),(2,'NETMRG_DEFAULT_MAP','d41d8cd98f00b204e9800998ecf8427e',0,'Administrator',0,1);
+INSERT INTO `user` (`id`, `user`, `pass`, `permit`, `fullname`, `group_id`, `disabled`) VALUES (1,'admin','ee10c315eba2c75b403ea99136f5b48d',3,'Administrator',0,0);
+INSERT INTO `user` (`id`, `user`, `pass`, `permit`, `fullname`, `group_id`, `disabled`) VALUES (2,'NETMRG_DEFAULT_MAP','d41d8cd98f00b204e9800998ecf8427e',0,'Administrator',0,1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -714,7 +894,8 @@ CREATE TABLE `user_prefs` (
 
 LOCK TABLES `user_prefs` WRITE;
 /*!40000 ALTER TABLE `user_prefs` DISABLE KEYS */;
-INSERT INTO `user_prefs` VALUES (1,1,'SlideShow','AutoScroll','1'),(2,2,'SlideShow','AutoScroll','1');
+INSERT INTO `user_prefs` (`id`, `uid`, `module`, `pref`, `value`) VALUES (1,1,'SlideShow','AutoScroll','1');
+INSERT INTO `user_prefs` (`id`, `uid`, `module`, `pref`, `value`) VALUES (2,2,'SlideShow','AutoScroll','1');
 /*!40000 ALTER TABLE `user_prefs` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -734,7 +915,7 @@ CREATE TABLE `versioninfo` (
 
 LOCK TABLES `versioninfo` WRITE;
 /*!40000 ALTER TABLE `versioninfo` DISABLE KEYS */;
-INSERT INTO `versioninfo` VALUES ('Main','0.20');
+INSERT INTO `versioninfo` (`module`, `version`) VALUES ('Main','0.20');
 /*!40000 ALTER TABLE `versioninfo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -774,4 +955,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2007-03-22  1:17:31
+-- Dump completed on 2008-04-12  0:44:35
