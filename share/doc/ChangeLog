@@ -1,3 +1,7 @@
+2008.10.14  v0.21cvs  silfreed
+  - updated mediawiki to 0.13.2
+  - updated mantis to 1.1.3
+
 2008.07.08  v0.20  silfreed
   - fixing license; removing references to MIT
   - adding license info to all files
