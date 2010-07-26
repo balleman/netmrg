@@ -34,7 +34,7 @@ class netmrgXajaxResponse extends xajaxResponse
 {
 	function addCreateOption($sSelectId, $sOptionText, $sOptionValue)  
 	{
-		$this->addScript("addOption('".$sSelectId."','".$sOptionText."','".$sOptionValue."');");
+		$this->addScript("addOption('".addSlashes($sSelectId)."','".addSlashes($sOptionText)."','".addSlashes($sOptionValue)."');");
 	}
 
 	function addCreateOptions($sSelectId, $aOptions)

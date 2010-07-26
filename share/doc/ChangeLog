@@ -1,3 +1,6 @@
+2010.07.26  v0.21cvs  balleman
+  - bug#496 : ajax.php doesn't escape single quotes in addCreateOption() 
+
 2009.07.14  v0.21cvs  silfreed
   - updated mediawiki to 0.15.1
 
