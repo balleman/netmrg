@@ -381,7 +381,8 @@ void external_snmp_recache(int device_id, int type)
 	info.device_id = device_id;
 
 	mysql_res = db_query(&mysql, &info, string("SELECT ip, snmp_read_community, snmp_version, snmp_port, ") +
-		"snmp_timeout, snmp_retries, dev_type FROM devices WHERE id=" + inttostr(device_id));
+		string("snmp_timeout, snmp_retries, dev_type, snmp3_user, snmp3_seclev, snmp3_aprot, snmp3_apass, snmp3_pprot, ") +
+		"snmp3_ppass FROM devices WHERE id=" + inttostr(device_id));
 	mysql_row = mysql_fetch_row(mysql_res);
 
 	if (mysql_row == NULL)
@@ -400,6 +401,12 @@ void external_snmp_recache(int device_id, int type)
 
 	info.ip 					= mysql_row[0];
 	info.snmp_read_community	= mysql_row[1];
+	info.snmp3_user				= mysql_row[7];
+	info.snmp3_seclev			= strtoint(mysql_row[8]);
+	info.snmp3_aprot			= strtoint(mysql_row[9]);
+	info.snmp3_apass			= mysql_row[10];
+	info.snmp3_pprot			= strtoint(mysql_row[11]);
+	info.snmp3_ppass			= mysql_row[12];
 	info.snmp_port				= strtoint(mysql_row[3]);
 	info.snmp_timeout			= strtoint(mysql_row[4]);
 	info.snmp_retries			= strtoint(mysql_row[5]);

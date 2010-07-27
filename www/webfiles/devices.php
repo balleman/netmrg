@@ -114,6 +114,12 @@ function doedit()
 			name='{$_REQUEST['dev_name']}',
 			ip='{$_REQUEST['dev_ip']}',
 			snmp_read_community='{$_REQUEST['snmp_read_community']}',
+			snmp3_user='{$_REQUEST['snmp3_user']}',
+			snmp3_seclev='{$_REQUEST['snmp3_seclev']}',
+			snmp3_aprot='{$_REQUEST['snmp3_aprot']}',
+			snmp3_apass='{$_REQUEST['snmp3_apass']}',
+			snmp3_pprot='{$_REQUEST['snmp3_pprot']}',
+			snmp3_ppass='{$_REQUEST['snmp3_ppass']}',
 			dev_type='{$_REQUEST['dev_type']}',
 			snmp_recache_method='{$_REQUEST['snmp_recache_method']}',
 			disabled='{$_REQUEST['disabled']}',
@@ -242,6 +248,12 @@ function displayedit()
 		$dev_row["disabled"] = 0;
 		$dev_row["snmp_version"] = 0;
 		$dev_row["snmp_read_community"] = "";
+		$dev_row["snmp3_user"] = "";
+		$dev_row["snmp3_seclev"] = 0;
+		$dev_row["snmp3_aprot"] = 0;
+		$dev_row["snmp3_apass"] = "";
+		$dev_row["snmp3_pprot"] = 0;
+		$dev_row["snmp3_ppass"] = "";
 		$dev_row["snmp_recache_method"] = 3;
 		$dev_row["snmp_port"] = 161;
 		$dev_row["snmp_timeout"] = 1000000;
@@ -258,14 +270,22 @@ function displayedit()
 	make_edit_checkbox("Disabled (do not monitor this device)", "disabled", $dev_row["disabled"]);
 	make_edit_group("SNMP");
 	make_edit_select_from_array("SNMP Support:", "snmp_version", $GLOBALS["SNMP_VERSIONS"], $dev_row["snmp_version"]);
-	make_edit_text("SNMP Read Community:", "snmp_read_community", 50, 200, $dev_row["snmp_read_community"]);
-	make_edit_select_from_array("Recaching Method:", "snmp_recache_method", $GLOBALS["RECACHE_METHODS"], $dev_row["snmp_recache_method"]);
+	make_edit_group("SNMP v1/v2c");
+	make_edit_text("Read Community:", "snmp_read_community", 50, 200, $dev_row["snmp_read_community"]);
+	make_edit_group("SNMP v3");
+	make_edit_text("User:", "snmp3_user", "25", "100", $dev_row["snmp3_user"]);
+	make_edit_select_from_array("Security Level:", "snmp3_seclev", $GLOBALS['SNMP_SECLEVS'], $dev_row["snmp3_seclev"]);
+	make_edit_select_from_array("Authentication Protocol:", "snmp3_aprot", $GLOBALS['SNMP_APROTS'], $dev_row["snmp3_aprot"]);
+	make_edit_text("Authentication Password", "snmp3_apass", "25", "100", $dev_row["snmp3_apass"]);
+	make_edit_select_from_array("Privacy Protocol:", "snmp3_pprot", $GLOBALS['SNMP_PPROTS'], $dev_row["snmp3_pprot"]);
+	make_edit_text("Privacy Password", "snmp3_ppass", "25", "100", $dev_row['snmp3_ppass']);
 	make_edit_group("Advanaced SNMP Options");
-	make_edit_checkbox("Disable SNMP Uptime Check", "no_snmp_uptime_check", $dev_row["no_snmp_uptime_check"] == 1);
-	make_edit_checkbox("Unknowns on SNMP Restart", "unknowns_on_snmp_restart", $dev_row["unknowns_on_snmp_restart"] == 1);
-	make_edit_text("SNMP UDP Port", "snmp_port", 5, 5, $dev_row["snmp_port"]);
-	make_edit_text("SNMP Timeout (microseconds):", "snmp_timeout", 10, 20, $dev_row["snmp_timeout"]);
-	make_edit_text("SNMP Retries:", "snmp_retries", 3, 10, $dev_row["snmp_retries"]);
+	make_edit_select_from_array("Recaching Method:", "snmp_recache_method", $GLOBALS["RECACHE_METHODS"], $dev_row["snmp_recache_method"]);
+	make_edit_checkbox("Disable Uptime Check", "no_snmp_uptime_check", $dev_row["no_snmp_uptime_check"] == 1);
+	make_edit_checkbox("Unknowns on Agent Restart", "unknowns_on_snmp_restart", $dev_row["unknowns_on_snmp_restart"] == 1);
+	make_edit_text("UDP Port", "snmp_port", 5, 5, $dev_row["snmp_port"]);
+	make_edit_text("Timeout (microseconds):", "snmp_timeout", 10, 20, $dev_row["snmp_timeout"]);
+	make_edit_text("Retries:", "snmp_retries", 3, 10, $dev_row["snmp_retries"]);
 	make_edit_hidden("dev_id", $dev_id);
 	make_edit_hidden("action", "doedit");
 	make_edit_hidden("grp_id", $_REQUEST["grp_id"]);

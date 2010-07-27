@@ -260,9 +260,25 @@ $INTERFACE_TYPE = array(
 $SNMP_VERSIONS = array(
 	0 => "No SNMP Support",
 	1 => "SNMPv1",
-	2 => "SNMPv2c"/*,
-	3 => "SNMPv3"*/
+	2 => "SNMPv2c",
+	3 => "SNMPv3"
 ); // end SNMP_VERSIONS
+
+$SNMP_SECLEVS = array(
+	0 => "No Authentication, No Privacy",
+	1 => "Authentication, No Privacy",
+	2 => "Authentication, Privacy"
+); // end SNMP_SECLEVS
+
+$SNMP_APROTS = array(
+	0 => "MD5",
+	1 => "SHA"
+); // end SNMP_APROTS
+
+$SNMP_PPROTS = array(
+	0 => "DES",
+	1 => "AES"
+); // end SNMP_PPROTS
 
 $RECACHE_METHODS = array(
 	0 => "Never refresh cache",

@@ -100,6 +100,12 @@ struct DeviceInfo
 
 	unsigned short snmp_version;
 	string snmp_read_community;
+	string snmp3_user;
+	int snmp3_seclev;
+	int snmp3_aprot;
+	string snmp3_apass;
+	int snmp3_pprot;
+	string snmp3_ppass;
 	unsigned long snmp_timeout;
 	unsigned int snmp_retries;
 	unsigned short snmp_port;
@@ -142,6 +148,10 @@ struct DeviceInfo
 		snmp_timeout	= 1000000;
 		snmp_retries	= 4;
 		snmp_port		= 161;
+
+		snmp3_seclev		= 0;
+		snmp3_aprot		= 0;
+		snmp3_pprot		= 0;
 
 		snmp_sess_p		= NULL;
 	}

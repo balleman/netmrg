@@ -4,7 +4,7 @@
 * snmp.cpp
 * NetMRG Gatherer SNMP Library
 *
-* Copyright (C) 2001-2008
+* Copyright (C) 2001-2010
 *   Brady Alleman <brady@thtech.net>
 *   Douglas E. Warner <silfreed@silfreed.net>
 *   Kevin Bonner <keb@nivek.ws>
@@ -28,10 +28,6 @@
 /*
 
    NetMRG SNMP Functions
-   Copyright 2001-2003 Brady Alleman, All Rights Reserved.
-
-   Some of this code was originally part of net-snmp's application and
-   example code.
 
 */
 
@@ -119,8 +115,8 @@ string snmp_result(variable_list *vars)
 void snmp_session_init(DeviceInfo &info)
 {
 	struct	snmp_session session;
-	u_char	u_temp[250];
-	char	temp[250];
+	u_char	u_temp[250], u_temp1[250], u_temp2[250], u_temp3[250];
+	char	temp[250], temp1[250];
 	void    * sessp;
 
 	debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "Starting SNMP Session.");
@@ -136,13 +132,15 @@ void snmp_session_init(DeviceInfo &info)
 	switch (info.snmp_version)
 	{
 		case 1: session.version = SNMP_VERSION_1;
+				session.securityModel = SNMP_SEC_MODEL_SNMPv1;
 				debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "SNMPv1");
 				break;
 		case 2: session.version = SNMP_VERSION_2c;
+				session.securityModel = SNMP_SEC_MODEL_SNMPv2c;
 				debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "SNMPv2c");
 				break;
 		case 3: session.version = SNMP_VERSION_3;
-				debuglogger(DEBUG_SNMP, LEVEL_ERROR, &info, "SNMPv3 - not yet supported.");
+				debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "SNMPv3");
 				break;
 	}
 	
@@ -155,8 +153,80 @@ void snmp_session_init(DeviceInfo &info)
 	debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, log);
 		
 	// set the SNMPv1/2c community name used for authentication
-	session.community = u_string(info.snmp_read_community, u_temp);
-	session.community_len = info.snmp_read_community.length();
+	if ( (info.snmp_version == 1) || (info.snmp_version == 2) )
+	{
+		session.community = u_string(info.snmp_read_community, u_temp);
+		session.community_len = info.snmp_read_community.length();
+	}
+	else if (info.snmp_version == 3)
+	{
+		strncpy(temp1, info.snmp3_user.c_str(), 250);
+		temp1[249] = '\0';
+		session.securityName = temp1;
+		session.securityNameLen = strlen(temp1);
+
+		session.securityModel = SNMP_SEC_MODEL_USM;
+
+		switch (info.snmp3_seclev)
+		{
+			case 0:	session.securityLevel = SNMP_SEC_LEVEL_NOAUTH; break;
+			case 1: session.securityLevel = SNMP_SEC_LEVEL_AUTHNOPRIV; break;
+			case 2: session.securityLevel = SNMP_SEC_LEVEL_AUTHPRIV; break;
+		}
+
+		if ( (info.snmp3_seclev == 1) || (info.snmp3_seclev == 2) )
+		{
+			// We're using authentication
+			debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "Setting up SNMPv3 Authentication");
+			switch (info.snmp3_aprot)
+			{
+				case 0: 
+					session.securityAuthProto = usmHMACMD5AuthProtocol;
+					session.securityAuthProtoLen = sizeof(usmHMACMD5AuthProtocol)/sizeof(oid);
+					break;
+				case 1:
+					session.securityAuthProto = usmHMACSHA1AuthProtocol;
+					session.securityAuthProtoLen = sizeof(usmHMACSHA1AuthProtocol)/sizeof(oid);
+					break;
+			}
+
+			session.securityAuthKeyLen = USM_AUTH_KU_LEN;
+			    
+			if (generate_Ku(session.securityAuthProto, session.securityAuthProtoLen, u_string(info.snmp3_apass, u_temp2),
+				 info.snmp3_apass.length(), session.securityAuthKey, &session.securityAuthKeyLen) != SNMPERR_SUCCESS) 
+			{
+			       debuglogger(DEBUG_SNMP, LEVEL_ERROR, &info, 
+					string("Failed to generate Ku from authentication password: {") + info.snmp3_apass + "}");
+			}
+		}
+
+		if (info.snmp3_seclev == 2)
+		{
+			// We're using privacy
+			debuglogger(DEBUG_SNMP, LEVEL_DEBUG, &info, "Setting up SNMPv3 Privacy");
+			switch (info.snmp3_pprot)
+			{
+				case 0:
+					session.securityPrivProto = usmDESPrivProtocol;
+					session.securityPrivProtoLen = sizeof(usmDESPrivProtocol)/sizeof(oid);
+					break;
+				
+				case 1:
+					session.securityPrivProto = usmAESPrivProtocol;
+					session.securityPrivProtoLen = sizeof(usmAESPrivProtocol)/sizeof(oid);
+					break;
+			} 	
+			
+			session.securityPrivKeyLen = USM_PRIV_KU_LEN;
+			    
+			if (generate_Ku(session.securityAuthProto, session.securityAuthProtoLen, u_string(info.snmp3_ppass, u_temp3),
+				 info.snmp3_ppass.length(), session.securityPrivKey, &session.securityPrivKeyLen) != SNMPERR_SUCCESS) 
+			{
+			       debuglogger(DEBUG_SNMP, LEVEL_ERROR, &info, string("Failed to generate Ku from privacy password: {") + 
+					info.snmp3_ppass + "}");
+			}
+		}	
+	}
 
 	netmrg_mutex_lock(lkSNMP);
 	sessp = snmp_sess_open(&session);

@@ -282,7 +282,13 @@ void process_device(int dev_id)
 			string("snmp_retries, ")			+ // 9
 			string("no_snmp_uptime_check, ")	+ // 10
 			string("dev_type, ")				+ // 11
-			string("unknowns_on_snmp_restart ") + // 12
+			string("unknowns_on_snmp_restart,") + // 12
+			string("snmp3_user, ")				+ // 13
+			string("snmp3_seclev, ")			+ // 14
+			string("snmp3_aprot, ")				+ // 15
+			string("snmp3_apass, ")				+ // 16
+			string("snmp3_pprot, ")				+ // 17
+			string("snmp3_ppass ")				+ // 18
 			string("FROM devices ")				+
 			string("WHERE id=") + inttostr(dev_id);
 
@@ -305,6 +311,12 @@ void process_device(int dev_id)
 	{
 		// set SNMP parameters
 		info.snmp_read_community	= mysql_row[3];
+		info.snmp3_user				= mysql_row[13];
+		info.snmp3_seclev			= strtoint(mysql_row[14]);
+		info.snmp3_aprot			= strtoint(mysql_row[15]);
+		info.snmp3_apass			= mysql_row[16];
+		info.snmp3_pprot			= strtoint(mysql_row[17]);
+		info.snmp3_ppass			= mysql_row[18];
 		info.snmp_port				= strtoint(mysql_row[7]);
 		info.snmp_timeout			= strtoint(mysql_row[8]);
 		info.snmp_retries			= strtoint(mysql_row[9]);

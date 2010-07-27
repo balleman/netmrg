@@ -252,6 +252,12 @@ $dbupdates = array(
 			"name" => "Device Unknowns on SNMP Restart Field",
 			"query" => "ALTER TABLE `devices` ADD `unknowns_on_snmp_restart` TINYINT NOT NULL DEFAULT '1'")
 	), // end 0.20
+
+	"0.21" => array(
+		array(
+			"name" => "SNMPv3",
+			"query" => "ALTER TABLE `devices` ADD `snmp3_user` VARCHAR( 200 ) NOT NULL , ADD `snmp3_seclev` TINYINT NOT NULL , ADD `snmp3_aprot` TINYINT NOT NULL , ADD `snmp3_apass` VARCHAR( 200 ) NOT NULL , ADD `snmp3_pprot` TINYINT NOT NULL , ADD `snmp3_ppass` VARCHAR( 200 ) NOT NULL")
+	), // end 0.21
 	
 ); // end $dbupdates;
 
