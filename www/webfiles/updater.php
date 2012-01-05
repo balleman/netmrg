@@ -256,7 +256,10 @@ $dbupdates = array(
 	"0.21" => array(
 		array(
 			"name" => "SNMPv3",
-			"query" => "ALTER TABLE `devices` ADD `snmp3_user` VARCHAR( 200 ) NOT NULL , ADD `snmp3_seclev` TINYINT NOT NULL , ADD `snmp3_aprot` TINYINT NOT NULL , ADD `snmp3_apass` VARCHAR( 200 ) NOT NULL , ADD `snmp3_pprot` TINYINT NOT NULL , ADD `snmp3_ppass` VARCHAR( 200 ) NOT NULL")
+			"query" => "ALTER TABLE `devices` ADD `snmp3_user` VARCHAR( 200 ) NOT NULL , ADD `snmp3_seclev` TINYINT NOT NULL , ADD `snmp3_aprot` TINYINT NOT NULL , ADD `snmp3_apass` VARCHAR( 200 ) NOT NULL , ADD `snmp3_pprot` TINYINT NOT NULL , ADD `snmp3_ppass` VARCHAR( 200 ) NOT NULL"),
+		array(
+			"name" => "Minimum Graph Option",
+			"query" => "ALTER TABLE `graph_ds` MODIFY `stats` set('CURRENT','AVERAGE','MAXIMUM','SUMS','INTEGER','MULTSUM', 'MINIMUM') NOT NULL DEFAULT 'CURRENT,AVERAGE,MAXIMUM'"),
 	), // end 0.21
 	
 ); // end $dbupdates;

@@ -447,6 +447,11 @@ function custom_graph_command($id, $timeframe, $templated, $single_ds)
 			$command .= 'GPRINT:data' . $ds_count . 'm:MAX:"Maximum\\:' . $format . '" ';
 		}
 
+		if (isin($ds_row["stats"], "MINIMUM"))
+		{
+			$command .= 'GPRINT:data' . $ds_count . 'm:MIN:"Minimum\\:' . $format . '" ';
+		}
+
 		if (isin($ds_row["stats"], "SUMS"))
 		{
 			if ($ds_row['mon_id'] > 0)

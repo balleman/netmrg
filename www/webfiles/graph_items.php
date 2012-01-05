@@ -89,6 +89,9 @@ function doedit()
 	if (isset($_REQUEST["show_maximum"]))
 		$stats .= "MAXIMUM,";
 
+	if (isset($_REQUEST["show_minimum"]))
+		$stats .= "MINIMUM,";
+
 	if (isset($_REQUEST["show_integer"]))
 		$stats .= "INTEGER,";
 
@@ -399,6 +402,7 @@ function edit()
 	make_edit_checkbox("Show Current Value", "show_current", isin($ds_row["stats"], "CURRENT"));
 	make_edit_checkbox("Show Average Value", "show_average", isin($ds_row["stats"], "AVERAGE"));
 	make_edit_checkbox("Show Maximum Value", "show_maximum", isin($ds_row["stats"], "MAXIMUM"));
+	make_edit_checkbox("Show Minimum Value", "show_minimum", isin($ds_row["stats"], "MINIMUM"));
 	make_edit_checkbox("Show Only Integers", "show_integer", isin($ds_row["stats"], "INTEGER"));
 	make_edit_checkbox("Show Sums", "show_sums", isin($ds_row["stats"], "SUMS"));
 	make_edit_checkbox("Apply Multiplier to Sums", "multiply_sum", isin($ds_row['stats'], "MULTSUM"));
